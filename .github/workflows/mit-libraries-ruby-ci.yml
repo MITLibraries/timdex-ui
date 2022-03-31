@@ -7,4 +7,4 @@ on:
 
 jobs:
   call-workflow-ruby-ci:
-    uses: MITLibraries/actions-workflows/ruby/ruby-ci.yml@main
+    uses: MITLibraries/actions-workflows/.github/workflows/ruby-ci.yml@main
