@@ -1,0 +1,10 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  call-workflow-ruby-ci:
+    uses: mitlibraries/.github/workflows/ruby-ci.yml
