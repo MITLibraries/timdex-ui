@@ -6,5 +6,5 @@ on:
     branches: [ main ]
 
 jobs:
-  mitlibraries-ruby-ci:
-    uses: mitlibraries/actions-workflows/.github/workflows/ruby-ci.yml@main
+  shared:
+    uses: mitlibraries/.github/.github/workflows/ruby-shared-ci.yml@main
