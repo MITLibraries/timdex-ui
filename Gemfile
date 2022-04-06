@@ -70,5 +70,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "simplecov"
+  gem "simplecov-lcov"
   gem "webdrivers"
 end
