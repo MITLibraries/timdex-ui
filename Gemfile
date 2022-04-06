@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.1'
 
 gem 'bootsnap', require: false
+gem 'http'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'mitlibraries-theme', '~> 0.7.0'
@@ -24,6 +25,8 @@ group :development, :test do
 end
 
 group :development do
+  gem 'annotate'
+  gem 'dotenv-rails'
   gem 'rubocop'
   gem 'rubocop-rails'
   gem 'web-console'
@@ -34,5 +37,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'simplecov-lcov'
+  gem 'vcr'
   gem 'webdrivers'
+  gem 'webmock'
 end

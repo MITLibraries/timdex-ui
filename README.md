@@ -3,3 +3,8 @@
 # TIMDEX UI
 
 A discovery interface backed by [the TIMDEX API](https://github.com/MITLibraries/timdex).
+
+## Optional Environment Variables
+
+- `TIMDEX_BASE`: value to override the default url for the TIMDEX API.
+- `TIMDEX_TIMEOUT`: value to override the 6 second default for TIMDEX timeout.
