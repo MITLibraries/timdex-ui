@@ -91,6 +91,7 @@ GEM
     digest (3.1.0)
     docile (1.4.0)
     erubi (1.10.0)
+    ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.10.0)
@@ -115,6 +116,9 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.15.0)
+    mitlibraries-theme (0.7.0)
+      rails (>= 5, < 8)
+      sassc (~> 2)
     msgpack (1.4.5)
     net-imap (0.2.3)
       digest
@@ -196,6 +200,8 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
     ruby-progressbar (1.11.0)
     rubyzip (2.3.2)
+    sassc (2.4.0)
+      ffi (~> 1.9)
     selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -252,6 +258,7 @@ DEPENDENCIES
   debug
   importmap-rails
   jbuilder
+  mitlibraries-theme (~> 0.7.0)
   pg
   puma (~> 5.0)
   rails (~> 7.0.2, >= 7.0.2.3)
