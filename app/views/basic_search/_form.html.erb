@@ -1,0 +1,9 @@
+<form id="basic-search" class="form-horizontal basic-search" action="/results" method="get">
+    <div class="form-group">
+      <label for="basic-search-main" class="field-label">Search the MIT Libraries</label>
+        <input id="basic-search-main" type="search" class="field field-text basic-search-input required" name="q" placeholder="Enter your search" value="<%= params[:q] %>" required="required" aria-required="true">
+      <div class="basic-search-submit">
+        <button type="submit" class="btn button-primary">Search</button>
+      </div>
+    </div>
+  </form>

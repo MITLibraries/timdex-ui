@@ -1,0 +1,30 @@
+<%= content_for(:title, "Search Results | MIT Libraries") %>
+
+<div class="space-wrap">
+
+  <%= render partial: "form" %>
+
+  <div class="results-summary">
+    <p>
+      <span class="search-summary">Showing results for "<%= params[:q] %>"</span>
+    </p>
+  </div>
+
+  <div id="hint" class="box-content">  
+    <p>Hint/Info cards go here</p>
+  </div>
+  
+  <div class="layout-1q3q layout-band">
+    <div class="col3q box-content">
+      <div id="results">Individual records go here</div>
+    </div>
+
+    <aside class="col1q box-content">
+      <div id="facets">Facets go here</div>
+    </aside>
+  </div>
+
+  <div id="pagination" class="box-content">  
+    <p>Pagination goes here</p>
+  </div>
+</div>
