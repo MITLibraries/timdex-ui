@@ -1,0 +1,42 @@
+// ------------------------
+// #SEARCH BITS
+// ------------------------
+
+/* basic search bar */
+.basic-search {
+  margin-bottom: .5rem;
+
+  .field-label {
+    display: block;
+    margin-bottom: .5rem;
+    font-size: $fs-small;
+    font-weight: $fw-normal;
+    color: $gray;
+  }
+
+  .basic-search-input {
+    -webkit-appearance: none;
+    width: 100%;
+    margin-bottom: .5rem;
+    border: 1px solid $gray-l2;
+    border-radius: 2px;
+    padding: 6px 12px;
+
+    @media (min-width: $bp-screen-sm) {
+      display: inline-block;
+      width: 80%;
+      margin-bottom: 0;
+    }
+  }
+
+  .basic-search-submit {
+    @media (min-width: $bp-screen-sm) {
+      display: inline-block;
+      width: 18%;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+}
