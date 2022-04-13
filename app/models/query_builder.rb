@@ -1,4 +1,6 @@
 class QueryBuilder
+  attr_reader :query
+
   def initialize(term)
     @query = {}
     @query['q'] = clean_term(term)
