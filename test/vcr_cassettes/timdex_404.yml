@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://timdex.mit.edu/oops/v1/search?full=false&page=1&q=timdex%20is%20down
+    uri: https://timdex.mit.edu/oops/v1/search?full=false&page=1&q=popcorn
     body:
       encoding: UTF-8
       string: ''

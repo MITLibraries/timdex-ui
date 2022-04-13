@@ -23,6 +23,8 @@ class BasicSearchController < ApplicationController
     # for now no other analyzing, but at this phase we might later do additional analysis / reordering as we learn more
 
     # Display stuff
+    @results = response['results']
+    @facets = response['aggregations']
   end
 
   private

@@ -1,0 +1,26 @@
+#facets {
+  ul.category-terms {
+    border-collapse: separate;
+    border-spacing: 0px 4px;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+
+    li.term {
+      display: table-row;
+
+      span {
+        display: table-cell;
+
+          &.name {
+            width: 90%;
+          }
+
+          &.count {
+            min-width: 10%;
+            text-align: right;
+          }
+      }
+    }
+  }
+}

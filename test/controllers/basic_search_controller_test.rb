@@ -27,52 +27,89 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query displays the query' do
-    get '/results?q=hallo'
-    assert_response :success
-    assert_nil flash[:error]
+    VCR.use_cassette('timdex hallo',
+                     allow_playback_repeats: true) do
+      get '/results?q=hallo'
+      assert_response :success
+      assert_nil flash[:error]
 
-    assert_select '.search-summary', 'Showing results for "hallo"'
+      assert_select '.search-summary', 'Showing results for "hallo"'
+    end
   end
 
   test 'results with valid query shows search form' do
-    get '/results?q=hallo'
-    assert_response :success
+    VCR.use_cassette('timdex hallo',
+                     allow_playback_repeats: true) do
+      get '/results?q=hallo'
+      assert_response :success
 
-    assert_select '#basic-search label', 'Search the MIT Libraries'
+      assert_select '#basic-search label', 'Search the MIT Libraries'
+    end
   end
 
   test 'results with valid query populates search form with query' do
-    get '/results?q=hallo'
-    assert_response :success
+    VCR.use_cassette('timdex hallo',
+                     allow_playback_repeats: true) do
+      get '/results?q=hallo'
+      assert_response :success
 
-    assert_select '#basic-search-main[value=hallo]'
+      assert_select '#basic-search-main[value=hallo]'
+    end
   end
 
   test 'results with valid query has div for hints' do
-    get '/results?q=hallo'
-    assert_response :success
+    VCR.use_cassette('timdex hallo',
+                     allow_playback_repeats: true) do
+      get '/results?q=hallo'
+      assert_response :success
 
-    assert_select '#hint'
+      assert_select '#hint'
+    end
   end
 
-  test 'results with valid query has div for facets' do
-    get '/results?q=hallo'
-    assert_response :success
-
-    assert_select '#facets'
+  test 'results with valid query has div for facets which is populated' do
+    VCR.use_cassette('timdex hallo',
+                     allow_playback_repeats: true) do
+      get '/results?q=hallo'
+      assert_response :success
+      assert_select '#facets'
+      assert_select '#facets .category h4', { minimum: 1 }
+    end
   end
 
   test 'results with valid query has div for pagination' do
-    get '/results?q=hallo'
-    assert_response :success
+    VCR.use_cassette('timdex hallo',
+                     allow_playback_repeats: true) do
+      get '/results?q=hallo'
+      assert_response :success
 
-    assert_select '#pagination'
+      assert_select '#pagination'
+    end
   end
 
-  test 'results with valid query has div for results' do
-    get '/results?q=hallo'
-    assert_response :success
+  test 'results with valid query has div for results which is populated' do
+    VCR.use_cassette('timdex hallo',
+                     allow_playback_repeats: true) do
+      get '/results?q=hallo'
+      assert_response :success
+      assert_select '#results'
+      assert_select '#results ul li', { minimum: 1 }
+    end
+  end
 
-    assert_select '#results'
+  test 'searches with zero results are handled gracefully' do
+    VCR.use_cassette('timdex no results',
+                     allow_playback_repeats: true) do
+      get '/results?q=asdfiouwenlasd'
+      assert_response :success
+      # Result list contents state "no results"
+      assert_select '#results'
+      assert_select '#results ul li', { count: 1 }
+      assert_select '#results ul li', 'There are no results.'
+      # Facets are present, but empty
+      assert_select '#facets'
+      assert_select '#facets .category h4', { minimum: 1 }
+      assert_select '#facets .category ul.category-terms li.term', { count: 0 }
+    end
   end
 end
