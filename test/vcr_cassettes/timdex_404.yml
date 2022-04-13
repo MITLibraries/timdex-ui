@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://timdex.mit.edu/oops/v1/search?full=false&page=1&q=timdex%20is%20down
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br
+      Content-Type:
+      - application/json
+      Origin:
+      - https://lib.mit.edu
+      Connection:
+      - Keep-Alive
+      Host:
+      - timdex.mit.edu
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Fri, 08 Apr 2022 18:36:59 GMT
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Request-Id:
+      - e0bbbcb4-0c3f-44d1-a047-86e0c59dd46e
+      X-Runtime:
+      - '0.008150'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Content-Length:
+      - '34'
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"status":404,"error":"Not Found"}'
+  recorded_at: Fri, 08 Apr 2022 18:37:00 GMT
+recorded_with: VCR 6.1.0
