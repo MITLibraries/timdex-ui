@@ -11,6 +11,7 @@
 
 # dotenv
 .env
+.env.development
 
 ## Environment normalization:
 /.bundle
@@ -33,3 +34,4 @@ yarn-debug.log*
 /config/master.key
 
 .DS_Store
+.vscode/
