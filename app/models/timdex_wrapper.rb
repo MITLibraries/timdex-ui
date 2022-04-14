@@ -1,17 +1,19 @@
 class TimdexWrapper
+  attr_reader :results
+
   def initialize
-    @timdex_http = HTTP.headers(accept: 'application/json',
-                                'Accept-Encoding': 'gzip, deflate, br',
-                                'Content-Type': 'application/json',
-                                Origin: 'https://lib.mit.edu')
+    @timdex = HTTP.headers(accept: 'application/json',
+                           'Accept-Encoding': 'gzip, deflate, br',
+                           'Content-Type': 'application/json',
+                           Origin: 'https://lib.mit.edu')
   end
 
   # Run a search
-  # @param term [string] The string we are searching for
+  # @param query [Hash] The output of the QueryBuilder
   # @return [Hash] A Hash with search metadata and an Array of {Result}s
-  def search(term)
-    @results = @timdex_http.timeout(http_timeout)
-                           .get(search_url(term))
+  def search(query)
+    @results = @timdex.timeout(http_timeout)
+                      .get(search_url(query))
     JSON.parse(@results.to_s)
   rescue StandardError => e
     error = {}
@@ -30,8 +32,8 @@ class TimdexWrapper
     end
   end
 
-  def search_url(term)
-    timdex_url + "search?#{QueryBuilder.new(term).querystring}"
+  def search_url(query)
+    timdex_url + "search?#{query.to_query}"
   end
 
   def timdex_url

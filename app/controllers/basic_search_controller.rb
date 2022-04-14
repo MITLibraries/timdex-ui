@@ -4,11 +4,18 @@ class BasicSearchController < ApplicationController
   def index; end
 
   def results
+    timdex = TimdexWrapper.new
+
+    search_string = params[:q]
+
     # hand off to Enhancer chain
     # For this phase, the Enhancer will just pass the input through as output.
 
     # hand off enhanced query to builder
+    query = QueryBuilder.new(search_string).query
+
     # builder hands off to wrapper which returns raw results here
+    response = timdex.search(query)
 
     # Analyze results
     # handle errors
@@ -16,6 +23,8 @@ class BasicSearchController < ApplicationController
     # for now no other analyzing, but at this phase we might later do additional analysis / reordering as we learn more
 
     # Display stuff
+    @results = response['results']
+    @facets = response['aggregations']
   end
 
   private

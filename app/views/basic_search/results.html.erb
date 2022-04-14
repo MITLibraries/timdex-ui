@@ -15,12 +15,20 @@
   </div>
   
   <div class="layout-1q3q layout-band">
-    <div class="col3q box-content">
-      <div id="results">Individual records go here</div>
+    <div class="col3q">
+      <div id="results">
+        <h3>Search results</h3>
+        <ul class="list-unbulleted">
+          <%= render(partial: 'basic_search/result', collection: @results) || render('result_empty') %>
+        </ul>
+      </div>
     </div>
 
-    <aside class="col1q box-content">
-      <div id="facets">Facets go here</div>
+    <aside class="col1q">
+      <div id="facets">
+        <h3>Available filters</h3>
+        <%= render(partial: 'basic_search/facet', collection: @facets) || render('facet_empty') %>
+      </div>
     </aside>
   </div>
 

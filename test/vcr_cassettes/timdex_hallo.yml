@@ -1,0 +1,243 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://timdex.mit.edu/api/v1/search?full=false&page=1&q=hallo
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br
+      Content-Type:
+      - application/json
+      Origin:
+      - https://lib.mit.edu
+      Connection:
+      - close
+      Host:
+      - timdex.mit.edu
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Thu, 14 Apr 2022 14:13:27 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"1507d2da41e12714e9f78bac13476887"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - f8694db1-9145-49a7-997d-da4045676fb4
+      X-Runtime:
+      - '0.628623'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Vary:
+      - Origin
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"hits":51,"request_limit":500,"request_count":1,"limit_info":"Register
+        for a free account and provide your JWT token to remove all request limitations.","results":[{"id":"9935192226506761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935192226506761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935192226506761","content_type":"Text","realtime_holdings_link":"Not
+        Yet Implemented","publication_date":"uuuu","title":"Flyer for San Francisco''s
+        First Hallo-Rave at the Galleria.","subjects":["Social and Cultural Life","Gay
+        communities","Social events","Bars and saloons"],"imprint":["[Place of publication
+        not identified] : [publisher not identified], [date of publication not identified]."]},{"id":"990011570780106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990011570780106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990011570780106761","content_type":"Text","content_format":["Print
+        volume"],"realtime_holdings_link":"Not Yet Implemented","publication_date":"1910","title":"Die
+        Spaltpol-Umformer.","contributors":[{"kind":"author","value":"Hallo, H. S."}],"subjects":["Electric
+        transformers."],"summary_holdings":[{"location":"Library Storage Annex","collection":"Off
+        Campus Collection","call_number":"TK2551.H35x 1910","format":"Print volume"}],"oclcs":["36814098"],"imprint":["Berlin
+        Julius Springer, 1910."]},{"id":"9935064000606761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935064000606761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935064000606761","content_type":"Text","realtime_holdings_link":"Not
+        Yet Implemented","publication_date":"1624","title":"Columba Noæ oliuam adferens
+        iactatissimæ Christi arcæ. Concio synodica, ad clerum Anglicanum (prouinciæ
+        præsertim Cantuariensis) habita, in Æde Paulina Londinensi. Feb. 20. 1623.
+        A. Ios. Hallo, S.T.D. decano Wigorniensi.","contributors":[{"kind":"author","value":"Hall,
+        Joseph, 1574-1656."}],"subjects":["Church of England Early works to 1800.
+        Clergy","Church Early works to 1800. Unity"],"imprint":["Londini : Per Guil.
+        Stansby impensis Guillelmi Barret, 1624."]},{"id":"990008454140106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990008454140106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990008454140106761","content_type":"Sound
+        recording","content_format":["Compact disc"],"realtime_holdings_link":"Not
+        Yet Implemented","publication_date":"1987","title":"George Gershwin, Willem
+        Breuker, Ennio Morricone, Alex von Schlippenbach","contributors":[{"kind":"author","value":"Willem
+        Breuker Kollektief."},{"kind":"contributor","value":"Beths, Vera."},{"kind":"contributor","value":"Gershwin,
+        George, 1898-1937."},{"kind":"contributor","value":"Gershwin, George, 1898-1937."},{"kind":"contributor","value":"Breuker,
+        Willem, 1944-2010."},{"kind":"contributor","value":"Gershwin, George, 1898-1937."},{"kind":"contributor","value":"Morricone,
+        Ennio."},{"kind":"contributor","value":"Breuker, Willem, 1944-2010."},{"kind":"contributor","value":"Gershwin,
+        George, 1898-1937."},{"kind":"contributor","value":"Schlippenbach, Alexander
+        von."},{"kind":"contributor","value":"Mondriaan Strings."}],"subjects":["Jazz."],"summary_holdings":[{"location":"Library
+        Storage Annex","collection":"Off Campus Collection","call_number":"PhonCD
+        J W666 geo","summary":"MCM","format":"Compact disc"}],"oclcs":["34246643"],"imprint":["[Amsterdam]
+        : BVHAAST, [1987?]"]},{"id":"990026610500106761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990026610500106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990026610500106761","content_type":"Sound
+        recording","realtime_holdings_link":"Not Yet Implemented","publication_date":"1992","title":"Flöte
+        plus","links":[{"kind":"Naxos Music Library","url":"http://BLCMIT.NaxosMusicLibrary.com/catalogue/item.asp?cid=CTH2086"}],"contributors":[{"kind":"contributor","value":"Michael,
+        Frank."},{"kind":"contributor","value":"Krüerke, Daniel."},{"kind":"contributor","value":"Patzelt,
+        Hanna."},{"kind":"contributor","value":"Meier-Ehrat, Winfried."},{"kind":"contributor","value":"Grün,
+        Andreas."},{"kind":"contributor","value":"Müller-Hornbach, Susanne."},{"kind":"contributor","value":"Werder,
+        Felix."},{"kind":"contributor","value":"Stahmer, Klaus."},{"kind":"contributor","value":"Michael,
+        Frank."},{"kind":"contributor","value":"Hildemann, Wolfgang, 1925-1995."},{"kind":"contributor","value":"Stahmer,
+        Klaus."},{"kind":"contributor","value":"Jentzsch, Wilfried."}],"subjects":["Flute
+        with flute ensemble."],"oclcs":["811334155"],"imprint":["Germany : Thorofon
+        Record Co., 1992."]},{"id":"9935165677306761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935165677306761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935165677306761","content_type":"Text","realtime_holdings_link":"Not
+        Yet Implemented","publication_date":"2019","title":"Evolving Toolbox for Complex
+        Project Management /","contributors":[{"kind":"contributor","value":"Gorod,
+        Alex, editor."},{"kind":"contributor","value":"Hallo, Leonie, editor."},{"kind":"contributor","value":"Ireland,
+        Vernon, editor."},{"kind":"contributor","value":"Gunawan, Indra, editor."}],"subjects":["Project
+        management."],"oclcs":["1126570871","(OCoLC-P)1126570871"],"isbns":["0-429-59122-5","0-429-58928-X","0-429-19707-1"],"imprint":["New
+        York : Auerbach Publications, 2019."]},{"id":"9935108222106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935108222106761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935108222106761","content_type":"Sound
+        recording","realtime_holdings_link":"Not Yet Implemented","publication_date":"2008","title":"Rotten
+        in Rødby.","contributors":[{"kind":"contributor","value":"Mold (Musical group)"}],"subjects":["Jazz."],"oclcs":["785987736"],"imprint":["[S.l.]
+        : ILK Music, 2008."]},{"id":"990027379300106761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990027379300106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990027379300106761","content_type":"Sound
+        recording","realtime_holdings_link":"Not Yet Implemented","publication_date":"2014","title":"Ratatouille
+        /","links":[{"kind":"Naxos Music Library","url":"http://BLCMIT.NaxosMusicLibrary.com/catalogue/item.asp?cid=FRCD081"}],"contributors":[{"kind":"contributor","value":"Cissokho,
+        Adama, singer."},{"kind":"contributor","value":"Markatta Musikteater (Musical
+        group), performer."}],"subjects":["Popular music 2011-2020. Sweden"],"oclcs":["953416698"],"imprint":["[Sweden]
+        : Footprint Records, [2014]","℗2014"]},{"id":"990032866310106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990032866310106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990032866310106761","content_type":"Text","realtime_holdings_link":"Not
+        Yet Implemented","publication_date":"1996","title":"Origins : the ancient
+        Near Eastern background of some modern western institutions /","links":[{"kind":"unknown","url":"http://hdl.handle.net/2333.1/573n5w3j"}],"contributors":[{"kind":"author","value":"Hallo,
+        William W."}],"subjects":["Civilization, Western Middle Eastern influences.","Middle
+        East Civilization To 622."],"oclcs":["604637123","607910354"],"isbns":["(cloth)"],"imprint":["Leiden
+        ; New York : E.J. Brill, 1996."]},{"id":"990000180490106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990000180490106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990000180490106761","content_type":"Text","content_format":["Print
+        volume"],"realtime_holdings_link":"Not Yet Implemented","publication_date":"1971","title":"The
+        ancient Near East; a history","contributors":[{"kind":"author","value":"Hallo,
+        William W."},{"kind":"contributor","value":"Simpson, William Kelly."}],"subjects":["Middle
+        East History To 622."],"summary_holdings":[{"location":"Hayden Library","collection":"Stacks","call_number":"DS62.2.H3","summary":"MCM","format":"Print
+        volume"}],"lccn":"71155560","oclcs":["00197213"],"isbns":["0155027557"],"imprint":["New
+        York, Harcourt Brace Jovanovich [1971]"]},{"id":"990027139710106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990027139710106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990027139710106761","content_type":"Sound
+        recording","realtime_holdings_link":"Not Yet Implemented","publication_date":"20uu","title":"Legendák
+        /","links":[{"kind":"Naxos Music Library","url":"http://BLCMIT.NaxosMusicLibrary.com/catalogue/item.asp?cid=HCD37583"}],"contributors":[{"kind":"contributor","value":"Németh,
+        Lehel, singer."}],"subjects":["Popular music Hungary."],"oclcs":["953693173"],"imprint":["[Budapest]
+        : Hungaroton, [20--?]"]},{"id":"990005937830106761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990005937830106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990005937830106761","content_type":"Text","content_format":["Print
+        volume"],"realtime_holdings_link":"Not Yet Implemented","publication_date":"1992","title":"Before
+        writing /","contributors":[{"kind":"author","value":"Schmandt-Besserat, Denise."}],"subjects":["Tokens
+        Middle East.","Middle East Antiquities."],"summary_holdings":[{"location":"Hayden
+        Library","collection":"Stacks","call_number":"CJ4867.S36 1992","summary":"MCM","format":"Print
+        volume"}],"lccn":"90023615","oclcs":["22860675"],"isbns":["0292707835 (v.
+        1 : alk. paper)"],"imprint":["Austin : University of Texas Press, 1992-"]},{"id":"990026862080106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990026862080106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990026862080106761","content_type":"Sound
+        recording","realtime_holdings_link":"Not Yet Implemented","publication_date":"2011","title":"Sonqoy
+        /","links":[{"kind":"Naxos Music Library","url":"http://BLCMIT.NaxosMusicLibrary.com/catalogue/item.asp?cid=AQ291"}],"contributors":[{"kind":"contributor","value":"Díaz,
+        Mavi, composer, performer."},{"kind":"contributor","value":"Folkies (Musical
+        group), performer."}],"subjects":["Popular music 2011-2020. Argentina"],"oclcs":["900558770"],"imprint":["[Argentina]
+        : Acqua Records, [2011?]"]},{"id":"990000572150106761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990000572150106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990000572150106761","content_type":"Text","content_format":["Print
+        volume"],"realtime_holdings_link":"Not Yet Implemented","publication_date":"1976","title":"Sumerological
+        studies in honor of Thorkild Jacobsen on his seventieth birthday, June 7,
+        1974.","contributors":[{"kind":"contributor","value":"Jacobsen, Thorkild,
+        1904-1993."}],"subjects":["Jacobsen, Thorkild, 1904-1993.","Sumerian philology."],"summary_holdings":[{"location":"Library
+        Storage Annex","collection":"Off Campus Collection","call_number":"PJ4008.S8
+        1976","summary":"MCM","format":"Print volume"}],"lccn":"75042584","oclcs":["02807441"],"isbns":["0226622827"],"imprint":["Chicago
+        : University of Chicago Press, 1976, c1975."]},{"id":"9935078994406761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935078994406761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935078994406761","content_type":"Text","realtime_holdings_link":"Not
+        Yet Implemented","publication_date":"1612","title":"Polemices sacræ pars prior
+        Roma irreconciliabilis: quà docetur nullam sperari posse, nec debere quidem
+        (uti se nunc res habent) pontificiorum cum Euangelicis, in causa religionis,
+        conciliationem: cudendamque in solos pontificios hanc fabam. Auth. Iosepho
+        Hallo Britanno, S. Th Doct. \u0026 Henrico Principi a sacris.","contributors":[{"kind":"author","value":"Hall,
+        Joseph, 1574-1656."}],"subjects":["Catholic Church Controversial literature
+        Early works to 1800."],"imprint":["Londini : excudebat A. H[atfield]. impensis
+        Sa. Macham, 1612."]},{"id":"9935145301006761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935145301006761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935145301006761","content_type":"Sound
+        recording","realtime_holdings_link":"Not Yet Implemented","publication_date":"1998","title":"Prime
+        carezza live : le Gala Boulanger.","contributors":[{"kind":"contributor","value":"Prima
+        carezza (Musical group), performer."}],"subjects":["Salon orchestra music."],"oclcs":["1120078350"],"imprint":["[Switzerland]
+        : Claves Records, 1998."]},{"id":"990013800890106761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990013800890106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990013800890106761","content_type":"Sound
+        recording","content_format":["Compact disc"],"realtime_holdings_link":"Not
+        Yet Implemented","publication_date":"2000","title":"Y su heavy nopal en vivo
+        /","contributors":[{"kind":"author","value":"Hadad, Astrid."},{"kind":"contributor","value":"Tarzanes
+        (Musical group)"}],"subjects":["Popular music 1991-2000. Mexico","Songs, Spanish."],"summary_holdings":[{"location":"Lewis
+        Music Library","collection":"Media","call_number":"PhonCD F G4410.H339","format":"Compact
+        disc"}],"oclcs":["70845780"],"imprint":["Mexico : Mercurio, p2000."]},{"id":"990027362770106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990027362770106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990027362770106761","content_type":"Sound
+        recording","realtime_holdings_link":"Not Yet Implemented","publication_date":"2012","title":"Choral
+        works /","links":[{"kind":"Naxos Music Library","url":"http://BLCMIT.NaxosMusicLibrary.com/catalogue/item.asp?cid=HMU907576DI"}],"contributors":[{"kind":"contributor","value":"Ross,
+        Graham, conductor. 1985-"},{"kind":"contributor","value":"Holst, Imogen, arranger
+        of music, composer. 1907-1984,"},{"kind":"contributor","value":"Holst, Imogen,
+        1907-1984."},{"kind":"contributor","value":"Holst, Imogen, 1907-1984."},{"kind":"contributor","value":"Holst,
+        Imogen, 1907-1984."},{"kind":"contributor","value":"Holst, Imogen, 1907-1984."},{"kind":"contributor","value":"Holst,
+        Imogen, 1907-1984."},{"kind":"contributor","value":"Britten, Benjamin, 1913-1976."},{"kind":"contributor","value":"Clare
+        College (University of Cambridge). Choir, singer."},{"kind":"contributor","value":"Dmitri
+        Ensemble, performer."}],"subjects":["Masses.","Choruses, Sacred (Mixed voices),
+        Unaccompanied.","Choruses, Sacred (Mixed voices) with instrumental ensemble.","Psalms
+        (Music) 81st Psalm.","Psalms (Music) 56th Psalm.","Psalms (Music) 91st Psalm.","Choruses,
+        Secular (Mixed voices), Unaccompanied.","Cantatas, Sacred."],"oclcs":["1043924503"],"imprint":["Arles,
+        France : Harmonia Mundi, [2012]","℗2012"]},{"id":"990032316480106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990032316480106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990032316480106761","content_type":"Sound
+        recording","realtime_holdings_link":"Not Yet Implemented","publication_date":"1998","title":"International
+        Salon Music Festival Interlaken. le Gala Boulanger. Vol. II :","links":[{"kind":"Naxos
+        Music Library","url":"http://BLCMIT.NaxosMusicLibrary.com/catalogue/item.asp?cid=829410509763"}],"contributors":[{"kind":"contributor","value":"Rifkin,
+        Joshua, instrumentalist."},{"kind":"contributor","value":"Prima carezza (Musical
+        group), instrumentalist."},{"kind":"contributor","value":"Salonmusikfestival
+        Interlaken (1995)"},{"kind":"contributor","value":"Salonmusikfestival Interlaken
+        (1996)"}],"subjects":["Salon orchestra music.","Salon orchestra music, Arranged."],"oclcs":["1184658944"],"imprint":["Thun,
+        Switzerland : Claves Records, [1998]","℗1998"]},{"id":"990027273270106761","source":"MIT
+        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma990027273270106761","full_record_link":"https://timdex.mit.edu/api/v1/record/990027273270106761","content_type":"Sound
+        recording","realtime_holdings_link":"Not Yet Implemented","publication_date":"2012","title":"Choral
+        works /","links":[{"kind":"Naxos Music Library","url":"http://BLCMIT.NaxosMusicLibrary.com/catalogue/item.asp?cid=HMU907576"}],"contributors":[{"kind":"author","value":"Holst,
+        Imogen, 1907-1984."},{"kind":"contributor","value":"Ross, Graham, 1985-"},{"kind":"contributor","value":"Holst,
+        Imogen, 1907-1984."},{"kind":"contributor","value":"Holst, Imogen, 1907-1984."},{"kind":"contributor","value":"Holst,
+        Imogen, 1907-1984."},{"kind":"contributor","value":"Holst, Imogen, 1907-1984."},{"kind":"contributor","value":"Holst,
+        Imogen, 1907-1984."},{"kind":"contributor","value":"Britten, Benjamin, 1913-1976."},{"kind":"contributor","value":"Clare
+        College (University of Cambridge). Choir."},{"kind":"contributor","value":"Dmitri
+        Ensemble."}],"subjects":["Masses.","Choruses, Sacred (Mixed voices), Unaccompanied.","Choruses,
+        Sacred (Mixed voices) with instrumental ensemble.","Psalms (Music) 81st Psalm.","Psalms
+        (Music) 56th Psalm.","Psalms (Music) 91st Psalm.","Choruses, Secular (Mixed
+        voices), Unaccompanied.","Cantatas, Sacred."],"oclcs":["906569871"],"imprint":["Arles,
+        France : Harmonia Mundi ; Production USA, ℗2012."]}],"aggregations":{"source":[{"name":"mit
+        alma","count":51}],"content_format":[{"name":"print volume","count":9},{"name":"compact
+        disc","count":2}],"content_type":[{"name":"text","count":32},{"name":"sound
+        recording","count":18},{"name":"musical score","count":1}],"collection":[],"contributor":[{"name":"holst,
+        imogen, 1907-1984.","count":11},{"name":"gershwin, george, 1898-1937.","count":4},{"name":"hall,
+        joseph, 1574-1656.","count":4},{"name":"hallo, william w.","count":3},{"name":"breuker,
+        willem, 1944-2010.","count":2},{"name":"britten, benjamin, 1913-1976.","count":2},{"name":"hallo,
+        h. s.","count":2},{"name":"michael, frank.","count":2},{"name":"schumann,
+        hans-georg, author.","count":2},{"name":"stahmer, klaus.","count":2}],"subject":[{"name":"salon
+        orchestra music.","count":3},{"name":"cantatas, sacred.","count":2},{"name":"catholic
+        church controversial literature early works to 1800.","count":2},{"name":"choruses,
+        sacred (mixed voices) with instrumental ensemble.","count":2},{"name":"choruses,
+        sacred (mixed voices), unaccompanied.","count":2},{"name":"choruses, secular
+        (mixed voices), unaccompanied.","count":2},{"name":"jazz.","count":2},{"name":"masses.","count":2},{"name":"operas
+        excerpts.","count":2},{"name":"popular music.","count":2}],"language":[{"name":"english","count":19},{"name":"german","count":19},{"name":"latin","count":4},{"name":"no
+        linguistic content","count":4},{"name":"eng lat","count":2},{"name":"ger eng","count":2},{"name":"original
+        language in english.","count":2},{"name":"spanish","count":2},{"name":"sung
+        in german and english.","count":2},{"name":"sung in latin (1st work) or english.","count":2}],"literary_form":[{"name":"nonfiction","count":26},{"name":"fiction","count":25}]}}'
+  recorded_at: Thu, 14 Apr 2022 14:13:28 GMT
+recorded_with: VCR 6.1.0

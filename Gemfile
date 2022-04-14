@@ -34,6 +34,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'climate_control'
   gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'simplecov-lcov'

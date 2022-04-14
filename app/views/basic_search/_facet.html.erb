@@ -1,0 +1,11 @@
+<div class="category">
+  <h4><%= facet[0] %></h4>
+  <ul class="category-terms list-unbulleted">
+  <% facet[1].each do |term| %>
+    <li class="term">
+      <span class="name"><%= term['name'] %></span>
+      <span class="count"><%= term['count'] %></span>
+    </li>
+  <% end %>
+  </ul>
+</div>
