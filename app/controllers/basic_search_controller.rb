@@ -4,17 +4,14 @@ class BasicSearchController < ApplicationController
   def index; end
 
   def results
-    timdex = TimdexWrapper.new
-
-    search_string = params[:q]
-
     # hand off to Enhancer chain
-    # For this phase, the Enhancer will just pass the input through as output.
+    @enhanced_query = Enhancer.new(params).enhanced_query
 
     # hand off enhanced query to builder
-    query = QueryBuilder.new(search_string).query
+    query = QueryBuilder.new(@enhanced_query).query
 
     # builder hands off to wrapper which returns raw results here
+    timdex = TimdexWrapper.new
     response = timdex.search(query)
 
     # Analyze results

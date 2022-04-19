@@ -1,7 +1,8 @@
 class QueryBuilder
   attr_reader :query
 
-  def initialize(term)
+  def initialize(enhanced_query)
+    term = enhanced_query[:q]
     @query = {}
     @query['q'] = clean_term(term)
     @query['full'] = false

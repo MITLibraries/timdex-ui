@@ -1,0 +1,92 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://timdex.mit.edu/api/v1/search?full=false&page=1&q=9781509053278
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br
+      Content-Type:
+      - application/json
+      Origin:
+      - https://lib.mit.edu
+      Connection:
+      - close
+      Host:
+      - timdex.mit.edu
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Tue, 19 Apr 2022 19:59:12 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"24508633e2401a8944dc06184ae63121"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - a42e4f7d-b29f-4e91-82e0-cc970fff095a
+      X-Runtime:
+      - '0.111094'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Vary:
+      - Origin
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"hits":1,"request_limit":500,"request_count":2,"limit_info":"Register
+        for a free account and provide your JWT token to remove all request limitations.","results":[{"id":"oai:dspace.mit.edu:1721.1-113566","source":"DSpace@MIT","source_link":"https://hdl.handle.net/1721.1/113566","full_record_link":"https://timdex.mit.edu/api/v1/record/oai:dspace.mit.edu:1721.1-113566","content_type":"Article","realtime_holdings_link":"Not
+        Yet Implemented","publication_date":"2017-08","title":"Variable-Inverter-Rectifier-Transformer:
+        A Hybrid Electronic and Magnetic Structure Enabling Adjustable High Step-Down
+        Conversion Ratios","links":[{"kind":"Digital object URI","text":"Digital object
+        URI","url":"http://hdl.handle.net/1721.1/113566"}],"contributors":[{"kind":"author","value":"Moon,
+        Intae"},{"kind":"author","value":"Ranjram, Mike Kavian"},{"kind":"author","value":"Perreault,
+        David J"},{"kind":"department","value":"Massachusetts Institute of Technology.
+        Department of Electrical Engineering and Computer Science"},{"kind":"approver","value":"Perreault,
+        David J."},{"kind":"mitauthor","value":"Moon, Intae"},{"kind":"mitauthor","value":"Ranjram,
+        Mike Kavian"},{"kind":"mitauthor","value":"Perreault, David J"}],"isbns":["9781509053278"],"collections":["MIT
+        Open Access Articles"]}],"aggregations":{"source":[{"name":"dspace@mit","count":1}],"content_format":[],"content_type":[{"name":"article","count":1}],"collection":[{"name":"mit
+        open access articles","count":1}],"contributor":[{"name":"moon, intae","count":2},{"name":"perreault,
+        david j","count":2},{"name":"ranjram, mike kavian","count":2},{"name":"massachusetts
+        institute of technology. department of electrical engineering and computer
+        science","count":1},{"name":"perreault, david j.","count":1}],"subject":[],"language":[{"name":"en_us","count":1}],"literary_form":[]}}'
+  recorded_at: Tue, 19 Apr 2022 19:59:12 GMT
+recorded_with: VCR 6.1.0

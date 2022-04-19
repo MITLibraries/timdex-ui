@@ -10,8 +10,12 @@
     </p>
   </div>
 
-  <div id="hint" class="box-content">  
+  <div id="hint" class="box-content">
     <p>Hint/Info cards go here</p>
+
+    <%= render(partial: 'basic_search/issn') %>
+    <%= render(partial: 'basic_search/isbn') %>
+
   </div>
   
   <div class="layout-1q3q layout-band">
@@ -25,7 +29,7 @@
     </div>
 
     <aside class="col1q">
-      <div id="facets">
+      <div id="facets" class="box-content">
         <h3>Available filters</h3>
         <%= render(partial: 'basic_search/facet', collection: @facets) || render('facet_empty') %>
       </div>
