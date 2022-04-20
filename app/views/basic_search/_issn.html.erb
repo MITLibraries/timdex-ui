@@ -1,0 +1,19 @@
+<% return unless @enhanced_query[:issn].present? %>
+
+<div id="issn-fact" class="fact">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      ISSN Detected
+    </div>
+
+    <div class="panel-body">
+      <ul>
+        <li><%= @enhanced_query[:issn] %>
+      </ul>
+    </div>
+
+    <div class="panel-footer">
+      <a href="#">Yes this</a> -- <a href="#">Not relevant to my search</a>
+    </div>
+  </div>
+</div>

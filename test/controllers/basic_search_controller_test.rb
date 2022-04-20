@@ -112,4 +112,26 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       assert_select '#facets .category ul.category-terms li.term', { count: 0 }
     end
   end
+
+  test 'searches with ISSN display issn fact card' do
+    VCR.use_cassette('timdex 1234-5678',
+                     allow_playback_repeats: true) do
+      get '/results?q=1234-5678'
+      assert_response :success
+
+      assert_select '#issn-fact', { count: 1 }
+      assert_select '#isbn-fact', { count: 0 }
+    end
+  end
+
+  test 'searches with ISBN display isbn fact card' do
+    VCR.use_cassette('timdex 9781509053278',
+                     allow_playback_repeats: true) do
+      get '/results?q=9781509053278'
+      assert_response :success
+
+      assert_select '#issn-fact', { count: 0 }
+      assert_select '#isbn-fact', { count: 1 }
+    end
+  end
 end

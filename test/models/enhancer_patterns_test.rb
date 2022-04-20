@@ -46,6 +46,20 @@ class EnhancerPatternsTest < ActiveSupport::TestCase
     end
   end
 
+  test 'ISBNs need boundaries' do
+    enhanced_query = {}
+
+    samples = ['990026671500206761', '979-0-9752298-0-XYZ']
+    # note, there is a theoretical case of `asdf979-0-9752298-0-X` returning as an ISBN 10 even though it doesn't
+    # have a word boundary because the `-` is treated as a boundary so `0-9752298-0-X` would be an ISBN10. We can
+    # consider whether we care in the future as we look for incorrect real-world matches.
+
+    samples.each do |notisbn|
+      actual = EnhancerPatterns.new(enhanced_query, notisbn).enhanced_query
+      assert_nil(actual[:isbn])
+    end
+  end
+
   test 'ISSNs detected in a string' do
     enhanced_query = {}
 
@@ -73,5 +87,12 @@ class EnhancerPatternsTest < ActiveSupport::TestCase
       actual = EnhancerPatterns.new(enhanced_query, notissn).enhanced_query
       assert_nil(actual[:issn])
     end
+  end
+
+  test 'ISSNs need boundaries' do
+    enhanced_query = {}
+
+    actual = EnhancerPatterns.new(enhanced_query, '12345-5678 1234-56789').enhanced_query
+    assert_nil(actual[:issn])
   end
 end
