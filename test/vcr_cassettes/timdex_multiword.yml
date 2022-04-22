@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://timdex.mit.edu/api/v1/search?full=false&page=1&q=carbon%20nanotubes
+    uri: http://FAKE_TIMDEX_HOST/api/v2/search?full=false&page=1&q=persistent%20power
     body:
       encoding: UTF-8
       string: ''
@@ -14,11 +14,11 @@ http_interactions:
       Content-Type:
       - application/json
       Origin:
-      - https://lib.mit.edu
+      - http://localhost:3000
       Connection:
-      - Keep-Alive
+      - close
       Host:
-      - timdex.mit.edu
+      - FAKE_TIMDEX_HOST
       User-Agent:
       - http.rb/5.0.4
   response:
@@ -29,9 +29,9 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 08 Apr 2022 15:38:53 GMT
+      - Fri, 22 Apr 2022 20:24:26 GMT
       Connection:
-      - keep-alive
+      - close
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
@@ -55,13 +55,13 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"0138715a0cb4c878737a9722daa0868e"
+      - W/"4b62b6886943ae69246b6d1b659790d8"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 4507c5e4-f875-4208-a6fc-64b96cdd692a
+      - 2018347b-e78e-4b5b-9416-045ec83551a2
       X-Runtime:
-      - '0.740327'
+      - '0.056762'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -72,165 +72,26 @@ http_interactions:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: "{\"hits\":13571,\"request_limit\":500,\"request_count\":1,\"limit_info\":\"Register
-        for a free account and provide your JWT token to remove all request limitations.\",\"results\":[{\"id\":\"9935122021206761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935122021206761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935122021206761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2011\",\"title\":\"Carbon Nanotubes
-        - Polymer Nanocomposites\",\"isbns\":[\"953-51-4458-8\"],\"imprint\":[\"IntechOpen\"]},{\"id\":\"9935145691106761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935145691106761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935145691106761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2018\",\"title\":\"Carbon Nanotubes
-        - Recent Progress\",\"isbns\":[\"1-83881-343-8\",\"1-78923-053-5\"],\"imprint\":[\"IntechOpen\"]},{\"id\":\"990028249340106761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma990028249340106761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/990028249340106761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2011\",\"title\":\"Carbon Nanotubes
-        and Carbon Nanotubes /\",\"links\":[{\"kind\":\"unknown\",\"url\":\"https://www.intechopen.com/books/carbon-nanotubes-growth-and-applications\"}],\"contributors\":[{\"kind\":\"author\",\"value\":\"Yong
-        Hu, author.\"},{\"kind\":\"contributor\",\"value\":\"Changfa Guo, author.\"}],\"oclcs\":[\"884046976\",\"1111233648\"],\"isbns\":[\"9789533075662\",\"953307566X\"],\"imprint\":[\"INTECH
-        Open Access Publisher, 2011.\"]},{\"id\":\"9935123510206761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935123510206761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935123510206761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2008\",\"title\":\"Carbon nanotubes
-        advanced topics in the synthesis, structure, properties and applications /\",\"contributors\":[{\"kind\":\"contributor\",\"value\":\"Jorio,
-        A. (Ado)\"},{\"kind\":\"contributor\",\"value\":\"Dresselhaus, G.\"},{\"kind\":\"contributor\",\"value\":\"Dresselhaus,
-        M. S.\"}],\"subjects\":[\"Carbon.\",\"Nanotubes.\"],\"oclcs\":[\"233973272\"],\"isbns\":[\"1-281-18033-5\",\"9786611180331\",\"3-540-72865-1\"],\"imprint\":[\"New
-        York ; Berlin : Springer-Verlag, c2008.\"]},{\"id\":\"9935055804206761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935055804206761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935055804206761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2014\",\"title\":\"Carbon nanotubes
-        and graphene /\",\"contributors\":[{\"kind\":\"contributor\",\"value\":\"Tanaka,
-        K., editor.\"},{\"kind\":\"contributor\",\"value\":\"Iijima, S., editor.\"}],\"subjects\":[\"Carbon.\",\"Carbon
-        nanotubes.\",\"Graphene.\"],\"oclcs\":[\"884646408\"],\"isbns\":[\"0-08-098268-9\"],\"imprint\":[\"Amsterdam,
-        Netherlands : Elsevier, 2014.\",\"©2014\"]},{\"id\":\"9935122021506761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935122021506761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935122021506761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2010\",\"title\":\"Carbon nanotubes
-        /\",\"isbns\":[\"953-51-4554-1\"],\"imprint\":[\"IntechOpen, 2010.\"]},{\"id\":\"990028257300106761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma990028257300106761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/990028257300106761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2010\",\"title\":\"Carbon nanotubes
-        /\",\"links\":[{\"kind\":\"unknown\",\"url\":\"https://www.intechopen.com/books/carbon-nanotubes\"}],\"contributors\":[{\"kind\":\"contributor\",\"value\":\"Marulanda,
-        Jose Mauricio.\"}],\"subjects\":[\"Nanotubes.\"],\"oclcs\":[\"817251975\",\"1039339240\",\"1111233245\"],\"isbns\":[\"9789533070544\",\"9533070544\"],\"imprint\":[\"[Place
-        of publication not identified] : InTech, 2010.\"]},{\"id\":\"9935164680706761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935164680706761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935164680706761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2021\",\"title\":\"Carbon Nanotubes\",\"isbns\":[\"0-429-29958-3\"],\"imprint\":[\"CRC
-        Press\"]},{\"id\":\"990008378020106761\",\"source\":\"MIT Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma990008378020106761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/990008378020106761\",\"content_type\":\"Text\",\"content_format\":[\"Print
-        volume\"],\"realtime_holdings_link\":\"Not Yet Implemented\",\"publication_date\":\"1996\",\"title\":\"Carbon
-        nanotubes /\",\"contributors\":[{\"kind\":\"contributor\",\"value\":\"Endo,
-        Morinobu.\"},{\"kind\":\"contributor\",\"value\":\"Iijima, Sumio.\"},{\"kind\":\"contributor\",\"value\":\"Dresselhaus,
-        M. S.\"}],\"subjects\":[\"Carbon.\",\"Nanostructured materials.\",\"Tubes.\"],\"summary_holdings\":[{\"location\":\"Hayden
-        Library\",\"collection\":\"Stacks\",\"call_number\":\"TA455.C3.C36 1996\",\"summary\":\"MCM\",\"format\":\"Print
-        volume\"}],\"lccn\":\"97161615\",\"oclcs\":[\"37331799\",\"36462136\"],\"isbns\":[\"0080426824\"],\"imprint\":[\"Oxford
-        ; Tarrytown, N.Y. : Pergamon, 1996.\"]},{\"id\":\"9935129465606761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935129465606761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935129465606761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2016\",\"title\":\"Carbon Nanotubes
-        â\x80\x93 Current Progress of their Polymer Composites\",\"isbns\":[\"953-51-4196-1\",\"953-51-2470-6\"],\"imprint\":[\"IntechOpen\"]},{\"id\":\"9935156020306761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935156020306761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935156020306761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2019\",\"title\":\"Carbon Nanotubes
-        for Targeted Drug Delivery\",\"contributors\":[{\"kind\":\"author\",\"value\":\"Hasnain,
-        Md Saquib. author.\"},{\"kind\":\"contributor\",\"value\":\"Nayak, Amit Kumar.
-        author.\"}],\"subjects\":[\"Nanotechnology.\",\"Pharmaceutical technology.\",\"Pharmacy.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/Z14000
-        Nanotechnology.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/B21010
-        Pharmaceutical Sciences/Technology.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/T18000
-        Nanotechnology and Microengineering.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/H69010
-        Drug Safety and Pharmacovigilance.\"],\"isbns\":[\"981-15-0910-7\"],\"imprint\":[\"Singapore
-        : Springer Singapore : Imprint: Springer, 2019.\"]},{\"id\":\"9935055768506761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935055768506761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935055768506761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2001\",\"title\":\"Carbon Nanotubes
-        Synthesis, Structure, Properties, and Applications /\",\"contributors\":[{\"kind\":\"contributor\",\"value\":\"Dresselhaus,
-        Mildred S. editor.\"},{\"kind\":\"contributor\",\"value\":\"Dresselhaus, Gene.
-        editor.\"},{\"kind\":\"contributor\",\"value\":\"Avouris, Phaedon. editor.\"}],\"subjects\":[\"Nanotechnology.\",\"Materials
-        science.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/Z14000
-        Nanotechnology.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/Z17000
-        Characterization and Evaluation of Materials.\"],\"isbns\":[\"3-540-39947-X\"],\"imprint\":[\"Berlin,
-        Heidelberg : Springer Berlin Heidelberg : Imprint: Springer, 2001.\"]},{\"id\":\"990032742680106761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma990032742680106761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/990032742680106761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2016\",\"title\":\"Carbon Nanotubes
-        - Current Progress of their Polymer Composites.\",\"links\":[{\"kind\":\"unknown\",\"url\":\"https://www.intechopen.com/books/carbon-nanotubes-current-progress-of-their-polymer-composites\"}],\"contributors\":[{\"kind\":\"author\",\"value\":\"Inas
-        Hazzaa Hafez, VerfasserIn.\"},{\"kind\":\"contributor\",\"value\":\"Mohamed
-        Reda Berber, VerfasserIn.\"}],\"subjects\":[\"Physics.\"],\"oclcs\":[\"1193046320\"],\"isbns\":[\"9789535124696\",\"9535124692\",\"9789535124702\",\"9535124706\",\"9789535141969\",\"9535141961\"],\"imprint\":[\"[Erscheinungsort
-        nicht ermittelbar] IntechOpen 2016\"]},{\"id\":\"990028251290106761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma990028251290106761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/990028251290106761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"19uu\",\"title\":\"Carbon Nanotubes
-        - Polymer Nanocomposites.\",\"links\":[{\"kind\":\"unknown\",\"url\":\"https://www.intechopen.com/books/carbon-nanotubes-polymer-nanocomposites\"}],\"oclcs\":[\"1096640945\"],\"isbns\":[\"9533074981\",\"9789533074986\"],\"imprint\":[\"[S.l.]
-        : InTech.\"]},{\"id\":\"9935147868806761\",\"source\":\"MIT Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935147868806761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935147868806761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2017\",\"title\":\"Carbon Nanotubes
-        for Interconnects Process, Design and Applications /\",\"contributors\":[{\"kind\":\"contributor\",\"value\":\"Todri-Sanial,
-        Aida. editor.\"},{\"kind\":\"contributor\",\"value\":\"Dijon, Jean. editor.\"},{\"kind\":\"contributor\",\"value\":\"Maffucci,
-        Antonio. editor.\"}],\"subjects\":[\"Electronic circuits.\",\"Microprocessors.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/T24068
-        Circuits and Systems.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/I13014
-        Processor Architectures.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/P31010
-        Electronic Circuits and Devices.\"],\"isbns\":[\"3-319-29746-5\"],\"imprint\":[\"Cham
-        : Springer International Publishing : Imprint: Springer, 2017.\"]},{\"id\":\"9935155697306761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935155697306761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935155697306761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2006\",\"title\":\"Carbon Nanotubes:
-        From Basic Research to Nanotechnology\",\"contributors\":[{\"kind\":\"author\",\"value\":\"NATO
-        Advanced Study Institute on Carbon Nanotubes: From Basic Research to Nanotechnology
-        Corporate Author\"},{\"kind\":\"author\",\"value\":\"NATO Advanced Study Institute
-        on Carbon Nanotubes: From Basic Research to Nanotechnology Sozopol, Bulgaria)
-        (2005 :\"},{\"kind\":\"contributor\",\"value\":\"Popov, Valentin N. editor.\"},{\"kind\":\"contributor\",\"value\":\"Lambin,
-        Philippe. editor.\"},{\"kind\":\"contributor\",\"value\":\"North Atlantic
-        Treaty Organization.\"},{\"kind\":\"contributor\",\"value\":\"NATO Advanced
-        Study Institute on Carbon Nanotubes: From Basic Research to Nanotechnology\"}],\"subjects\":[\"Materials
-        science.\",\"Nanotechnology.\",\"Structural materials.\",\"Optical materials.\",\"Electronic
-        materials.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/Z00000
-        Materials Science, general.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/T18000
-        Nanotechnology and Microengineering.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/Z14000
-        Nanotechnology.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/Z11000
-        Structural Materials.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/Z12000
-        Optical and Electronic Materials.\"],\"oclcs\":[\"209936677\"],\"isbns\":[\"1-281-10753-0\",\"9786611107536\",\"1-4020-4574-3\"],\"imprint\":[\"Dordrecht
-        : Springer Netherlands : Imprint: Springer, 2006.\"]},{\"id\":\"9935155838706761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935155838706761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935155838706761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2018\",\"title\":\"Carbon Nanotubes
-        for Clean Water\",\"contributors\":[{\"kind\":\"contributor\",\"value\":\"Das,
-        Rasel. editor.\"}],\"subjects\":[\"Nanotechnology.\",\"Water quality.\",\"Water
-        pollution.\",\"Catalysis.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/Z14000
-        Nanotechnology.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/212000
-        Water Quality/Water Pollution.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/C29000
-        Catalysis.\",\"https://scigraph.springernature.com/ontologies/product-market-codes/U35040
-        Waste Water Technology / Water Pollution Control / Water Management / Aquatic
-        Pollution.\"],\"isbns\":[\"3-319-95603-5\"],\"imprint\":[\"Cham : Springer
-        International Publishing : Imprint: Springer, 2018.\"]},{\"id\":\"9935079958106761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935079958106761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935079958106761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2010\",\"title\":\"Carbon Nanotubes
-        Methods and Protocols /\",\"contributors\":[{\"kind\":\"contributor\",\"value\":\"Balasubramanian,
-        Kannan. editor.\"},{\"kind\":\"contributor\",\"value\":\"Burghard, Marko.
-        editor.\"}],\"subjects\":[\"Engineering.\",\"Biochemistry.\",\"Materials.\",\"Biomaterials.\",\"http://scigraph.springernature.com/things/product-market-codes/T18000
-        Nanotechnology and Microengineering.\",\"http://scigraph.springernature.com/things/product-market-codes/L14005
-        Biochemistry, general.\",\"http://scigraph.springernature.com/things/product-market-codes/Z00000
-        Materials Science, general.\",\"http://scigraph.springernature.com/things/product-market-codes/Z13000
-        Biomaterials.\"],\"isbns\":[\"1-60761-579-7\"],\"imprint\":[\"Totowa, NJ :
-        Humana Press : Imprint: Humana, 2010.\"]},{\"id\":\"990028252920106761\",\"source\":\"MIT
-        Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma990028252920106761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/990028252920106761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"19uu\",\"title\":\"Carbon Nanotubes
-        - Synthesis, Characterization, Applications.\",\"links\":[{\"kind\":\"unknown\",\"url\":\"https://www.intechopen.com/books/carbon-nanotubes-synthesis-characterization-applications\"}],\"oclcs\":[\"1096659570\"],\"isbns\":[\"9533074973\",\"9789533074979\"],\"imprint\":[\"[S.l.]
-        : InTech.\"]},{\"id\":\"9935122021306761\",\"source\":\"MIT Alma\",\"source_link\":\"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\\u0026docid=alma9935122021306761\",\"full_record_link\":\"https://timdex.mit.edu/api/v1/record/9935122021306761\",\"content_type\":\"Text\",\"realtime_holdings_link\":\"Not
-        Yet Implemented\",\"publication_date\":\"2011\",\"title\":\"Carbon Nanotubes
-        - Growth and Applications\",\"isbns\":[\"953-51-4462-6\"],\"imprint\":[\"IntechOpen\"]}],\"aggregations\":{\"source\":[{\"name\":\"mit
-        alma\",\"count\":11054},{\"name\":\"dspace@mit\",\"count\":2512},{\"name\":\"mit
-        archivesspace\",\"count\":5}],\"content_format\":[{\"name\":\"print volume\",\"count\":3146},{\"name\":\"cd-rom\",\"count\":29},{\"name\":\"microfiche\",\"count\":21},{\"name\":\"atlas\",\"count\":2},{\"name\":\"compact
-        disc\",\"count\":2}],\"content_type\":[{\"name\":\"text\",\"count\":10867},{\"name\":\"thesis\",\"count\":1158},{\"name\":\"article\",\"count\":1113},{\"name\":\"moving
-        image\",\"count\":164},{\"name\":\"technical report\",\"count\":91},{\"name\":\"working
-        paper\",\"count\":82},{\"name\":\"sound recording\",\"count\":19},{\"name\":\"archival
-        collection\",\"count\":5},{\"name\":\"other\",\"count\":5},{\"name\":\"computer
-        file\",\"count\":2}],\"collection\":[{\"name\":\"mit libraries\",\"count\":1153},{\"name\":\"mit
-        theses\",\"count\":1153},{\"name\":\"mit open access articles\",\"count\":1094},{\"name\":\"theses
-        - dept. of mechanical engineering\",\"count\":220},{\"name\":\"center for
-        global change science\",\"count\":129},{\"name\":\"theses - chemical engineering\",\"count\":120},{\"name\":\"theses
-        - dept. of chemical engineering\",\"count\":120},{\"name\":\"theses - dept.
-        of materials science and engineering\",\"count\":118},{\"name\":\"theses -
-        civil and environmental engineering\",\"count\":107},{\"name\":\"theses -
-        dept. of civil and environmental engineering\",\"count\":107}],\"contributor\":[{\"name\":\"massachusetts
-        institute of technology. department of mechanical engineering.\",\"count\":272},{\"name\":\"massachusetts
-        institute of technology. dept. of mechanical engineering.\",\"count\":210},{\"name\":\"massachusetts
-        institute of technology. department of earth, atmospheric, and planetary sciences\",\"count\":180},{\"name\":\"massachusetts
-        institute of technology. department of chemistry\",\"count\":167},{\"name\":\"massachusetts
-        institute of technology. department of mechanical engineering\",\"count\":165},{\"name\":\"woods
-        hole oceanographic institution.\",\"count\":163},{\"name\":\"massachusetts
-        institute of technology. department of chemical engineering\",\"count\":157},{\"name\":\"massachusetts
-        institute of technology. department of civil and environmental engineering\",\"count\":154},{\"name\":\"massachusetts
-        institute of technology. department of chemical engineering.\",\"count\":148},{\"name\":\"massachusetts
-        institute of technology. department of chemistry.\",\"count\":140}],\"subject\":[{\"name\":\"nanotechnology.\",\"count\":487},{\"name\":\"https://scigraph.springernature.com/ontologies/product-market-codes/z14000
-        nanotechnology.\",\"count\":313},{\"name\":\"climate change.\",\"count\":291},{\"name\":\"sustainable
-        development.\",\"count\":284},{\"name\":\"fossil fuels.\",\"count\":278},{\"name\":\"https://scigraph.springernature.com/ontologies/product-market-codes/114000
-        fossil fuels (incl. carbon capture).\",\"count\":275},{\"name\":\"materials
-        science.\",\"count\":272},{\"name\":\"https://scigraph.springernature.com/ontologies/product-market-codes/111000
-        renewable and green energy.\",\"count\":223},{\"name\":\"chemical engineering.\",\"count\":222},{\"name\":\"renewable
-        energy resources.\",\"count\":220}],\"language\":[{\"name\":\"english\",\"count\":10995},{\"name\":\"eng\",\"count\":1166},{\"name\":\"en_us\",\"count\":860},{\"name\":\"en\",\"count\":250},{\"name\":\"in
-        english.\",\"count\":165},{\"name\":\"original language in english.\",\"count\":54},{\"name\":\"german\",\"count\":45},{\"name\":\"english.\",\"count\":31},{\"name\":\"french\",\"count\":17},{\"name\":\"no
-        linguistic content\",\"count\":12}],\"literary_form\":[{\"name\":\"nonfiction\",\"count\":10254},{\"name\":\"fiction\",\"count\":800}]}}"
-  recorded_at: Fri, 08 Apr 2022 15:38:53 GMT
+      string: '{"hits":{"value":2,"relation":"eq"},"request_limit":50,"request_count":3,"limit_info":"Register
+        for a free account and provide your JWT token to remove all request limitations.","results":[{"id":"jpal:doi:10.7910-DVN-OXKJ92","identifiers":[{"kind":"DOI","value":"10.7910/DVN/OXKJ92"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"The Persistent Power of
+        Behavioral Change: Long-Run Impacts of Temporary Savings Subsidies for the
+        Poor","contributors":[{"affiliation":["University of Southern California"],"kind":"Creator","value":"Schaner,
+        Simone"},{"affiliation":["University of Southern California"],"kind":"ContactPerson","value":"Schaner,
+        Simone"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"mit:dspace:1721.1-113566","identifiers":[{"kind":"isbn","value":"9781509053278"},{"kind":"uri","value":"http://hdl.handle.net/1721.1/113566"}],"source":"","title":"Variable-Inverter-Rectifier-Transformer:
+        A Hybrid Electronic and Magnetic Structure Enabling Adjustable High Step-Down
+        Conversion Ratios","contributors":[{"affiliation":"MIT","kind":"author","mit_affiliated":true,"value":"Moon,
+        Intae"},{"affiliation":"MIT","kind":"author","mit_affiliated":true,"value":"Ranjram,
+        Mike Kavian"},{"affiliation":"MIT","kind":"author","identifier":"https://orcid.org/0000-0002-0746-6191","mit_affiliated":true,"value":"Perreault,
+        David J"},{"kind":"department","value":"Massachusetts Institute of Technology.
+        Department of Electrical Engineering and Computer Science"},{"kind":"approver","value":"Perreault,
+        David J."}],"dates":[{"kind":"Date accessioned","value":"2018-02-12T15:24:17Z"},{"kind":"Date
+        available","value":"2018-02-12T15:24:17Z"},{"kind":"Date of publication","value":"2017-08"}],"content_type":["Article","Conference
+        paper"]}],"aggregations":{"source":[],"content_format":[],"content_type":[],"collection":[],"contributor":[{"name":"schaner,
+        simone","count":2},{"name":"massachusetts institute of technology. department
+        of electrical engineering and computer science","count":1},{"name":"moon,
+        intae","count":1},{"name":"perreault, david j","count":1},{"name":"perreault,
+        david j.","count":1},{"name":"ranjram, mike kavian","count":1}],"subject":[],"language":[{"name":"english","count":1}],"literary_form":[]}}'
+  recorded_at: Fri, 22 Apr 2022 20:24:26 GMT
 recorded_with: VCR 6.1.0

@@ -1,4 +1,44 @@
-<li>
-  <%= result['id'] %><br>
-  <%= result['title'] %>
-</li>
+<h4 class="record-title">
+  <span class="sr">Title: </span><%= result['title'] %>
+</h4>
+
+<% result['content_type']&.each do |type| %>
+  <p>
+    <%= type %>
+  <p>
+<% end %>
+
+<% contributors = [] %>
+<% result['contributors']&.each do |contributor| %>
+  <% contributors << "#{contributor['value']} (#{contributor['kind']})" %>
+<% end %>
+
+<p class="result-authors">
+  <span class="sr">Authors: </span>
+  <%= contributors.join('; ') %>
+</p>
+
+<% result['publication_information']&.each do |pub| %>
+  <p>
+    <span class="sr">Publication Information: </span>
+    <%= pub %>
+  </p>
+<% end %>
+
+<% result['dates']&.each do |date| %>
+  <p>
+    <%= date['kind'] %>: <%= date['value'] %>
+  </p>
+<% end %>
+
+<% result['notes']&.each do |note| %>
+  <p>
+    <%= note['kind'] || 'Note' %>: <%= note['value'].join(' ') %>
+  </p>
+<% end %>
+
+<p>
+  Identifier: <%= result['id'] %>
+</p>
+
+<hr />

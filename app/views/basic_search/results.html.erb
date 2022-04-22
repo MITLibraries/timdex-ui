@@ -22,9 +22,7 @@
     <div class="col3q">
       <div id="results">
         <h3>Search results</h3>
-        <ul class="list-unbulleted">
-          <%= render(partial: 'basic_search/result', collection: @results) || render('result_empty') %>
-        </ul>
+        <%= render(partial: 'basic_search/result', collection: @results) || render('result_empty') %>
       </div>
     </div>
 

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://timdex.mit.edu/api/v1/search?full=false&page=1&q=9781509053278
+    uri: http://FAKE_TIMDEX_HOST/api/v2/search?full=false&page=1&q=9781509053278
     body:
       encoding: UTF-8
       string: ''
@@ -14,11 +14,11 @@ http_interactions:
       Content-Type:
       - application/json
       Origin:
-      - https://lib.mit.edu
+      - http://localhost:3000
       Connection:
       - close
       Host:
-      - timdex.mit.edu
+      - FAKE_TIMDEX_HOST
       User-Agent:
       - http.rb/5.0.4
   response:
@@ -29,7 +29,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Tue, 19 Apr 2022 19:59:12 GMT
+      - Fri, 22 Apr 2022 20:24:27 GMT
       Connection:
       - close
       Access-Control-Allow-Origin:
@@ -55,13 +55,13 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"24508633e2401a8944dc06184ae63121"
+      - W/"320ca2be373c4c4986b52a9b24e97acf"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - a42e4f7d-b29f-4e91-82e0-cc970fff095a
+      - 31fe547e-4397-47e7-b5f8-d14b28a9c39f
       X-Runtime:
-      - '0.111094'
+      - '0.044224'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -72,21 +72,7 @@ http_interactions:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"hits":1,"request_limit":500,"request_count":2,"limit_info":"Register
-        for a free account and provide your JWT token to remove all request limitations.","results":[{"id":"oai:dspace.mit.edu:1721.1-113566","source":"DSpace@MIT","source_link":"https://hdl.handle.net/1721.1/113566","full_record_link":"https://timdex.mit.edu/api/v1/record/oai:dspace.mit.edu:1721.1-113566","content_type":"Article","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"2017-08","title":"Variable-Inverter-Rectifier-Transformer:
-        A Hybrid Electronic and Magnetic Structure Enabling Adjustable High Step-Down
-        Conversion Ratios","links":[{"kind":"Digital object URI","text":"Digital object
-        URI","url":"http://hdl.handle.net/1721.1/113566"}],"contributors":[{"kind":"author","value":"Moon,
-        Intae"},{"kind":"author","value":"Ranjram, Mike Kavian"},{"kind":"author","value":"Perreault,
-        David J"},{"kind":"department","value":"Massachusetts Institute of Technology.
-        Department of Electrical Engineering and Computer Science"},{"kind":"approver","value":"Perreault,
-        David J."},{"kind":"mitauthor","value":"Moon, Intae"},{"kind":"mitauthor","value":"Ranjram,
-        Mike Kavian"},{"kind":"mitauthor","value":"Perreault, David J"}],"isbns":["9781509053278"],"collections":["MIT
-        Open Access Articles"]}],"aggregations":{"source":[{"name":"dspace@mit","count":1}],"content_format":[],"content_type":[{"name":"article","count":1}],"collection":[{"name":"mit
-        open access articles","count":1}],"contributor":[{"name":"moon, intae","count":2},{"name":"perreault,
-        david j","count":2},{"name":"ranjram, mike kavian","count":2},{"name":"massachusetts
-        institute of technology. department of electrical engineering and computer
-        science","count":1},{"name":"perreault, david j.","count":1}],"subject":[],"language":[{"name":"en_us","count":1}],"literary_form":[]}}'
-  recorded_at: Tue, 19 Apr 2022 19:59:12 GMT
+      string: '{"hits":{"value":0,"relation":"eq"},"request_limit":50,"request_count":5,"limit_info":"Register
+        for a free account and provide your JWT token to remove all request limitations.","results":[],"aggregations":{"source":[],"content_format":[],"content_type":[],"collection":[],"contributor":[],"subject":[],"language":[],"literary_form":[]}}'
+  recorded_at: Fri, 22 Apr 2022 20:24:27 GMT
 recorded_with: VCR 6.1.0

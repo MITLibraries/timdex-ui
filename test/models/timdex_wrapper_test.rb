@@ -3,7 +3,7 @@ require 'test_helper'
 class TimdexWrapperTest < ActiveSupport::TestCase
   def basic_query
     {
-      'q' => 'popcorn',
+      'q' => 'data',
       'page' => 1,
       'full' => false
     }
@@ -45,13 +45,13 @@ class TimdexWrapperTest < ActiveSupport::TestCase
   end
 
   test 'search method returns results' do
-    VCR.use_cassette('timdex popcorn',
+    VCR.use_cassette('data',
                      allow_playback_repeats: true) do
       query = basic_query
       wrapper = TimdexWrapper.new
       result = wrapper.search(query)
       refute(result.key?('error'))
-      assert_operator(0, :<, result['hits'].to_i)
+      assert_operator(0, :<, result['hits']['value'].to_i)
     end
   end
 
@@ -59,11 +59,11 @@ class TimdexWrapperTest < ActiveSupport::TestCase
     VCR.use_cassette('timdex quoted',
                      allow_playback_repeats: true) do
       query = basic_query
-      query['q'] = "'allegedly'"
+      query['q'] = "'Subsidies'"
       wrapper = TimdexWrapper.new
       result = wrapper.search(query)
       refute(result.key?('error'))
-      assert_operator(0, :<, result['hits'].to_i)
+      assert_operator(0, :<, result['hits']['value'].to_i)
     end
   end
 
@@ -71,17 +71,18 @@ class TimdexWrapperTest < ActiveSupport::TestCase
     VCR.use_cassette('timdex multiword',
                      allow_playback_repeats: true) do
       query = basic_query
-      query['q'] = 'carbon nanotubes'
+      query['q'] = 'persistent power'
       wrapper = TimdexWrapper.new
       result = wrapper.search(query)
       refute(result.key?('error'))
-      assert_operator(0, :<, result['hits'].to_i)
+      assert_operator(0, :<, result['hits']['value'].to_i)
     end
   end
 
   test 'error handling if timdex does not respond' do
+    skip 'this is not actually using a cassette so it is attempting a real http call. we need to fix before activating'
     ClimateControl.modify(
-      TIMDEX_BASE: 'https://tiimdex.mit.edu/api/v1/'
+      TIMDEX_BASE: 'http://localhost:9999/api/v1/'
     ) do
       VCR.use_cassette('timdex down',
                        allow_playback_repeats: true) do

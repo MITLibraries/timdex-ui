@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://timdex.mit.edu/api/v1/search?full=false&page=1&q=%27allegedly%27
+    uri: http://FAKE_TIMDEX_HOST/api/v2/search?full=false&page=1&q=%27Subsidies%27
     body:
       encoding: UTF-8
       string: ''
@@ -14,11 +14,11 @@ http_interactions:
       Content-Type:
       - application/json
       Origin:
-      - https://lib.mit.edu
+      - http://localhost:3000
       Connection:
-      - Keep-Alive
+      - close
       Host:
-      - timdex.mit.edu
+      - FAKE_TIMDEX_HOST
       User-Agent:
       - http.rb/5.0.4
   response:
@@ -29,9 +29,9 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 07 Apr 2022 20:06:06 GMT
+      - Fri, 22 Apr 2022 20:24:25 GMT
       Connection:
-      - keep-alive
+      - close
       Access-Control-Allow-Origin:
       - "*"
       Access-Control-Allow-Methods:
@@ -55,13 +55,13 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"38c0486670fdadf822ab1e5adc991c47"
+      - W/"ae6a438f1e167ba0aca94f7e030a8afb"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 7ad7d172-71a4-4fb7-b335-27202587a4b7
+      - d1256276-d35e-49f6-a544-16ecd004abcc
       X-Runtime:
-      - '0.151719'
+      - '0.109664'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -72,98 +72,26 @@ http_interactions:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"hits":209,"request_limit":500,"request_count":2,"limit_info":"Register
-        for a free account and provide your JWT token to remove all request limitations.","results":[{"id":"9935088272806761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935088272806761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935088272806761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1977","title":"Allegedly Nonresponsive
-        Bid"},{"id":"9935088273406761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935088273406761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935088273406761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1978","title":"Allegedly Ambiguous Specifications"},{"id":"9935088272606761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935088272606761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935088272606761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1977","title":"Allegedly Restrictive
-        Solicitation Specifications"},{"id":"9935132919206761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935132919206761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935132919206761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1983","title":"[Complaint of Allegedly
-        Improper Procurements]"},{"id":"9935150938206761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935150938206761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935150938206761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1977","title":"Objection to Allegedly
-        Arbitrary Solicitation Provision"},{"id":"9935062928506761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935062928506761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935062928506761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1973","title":"Use Of An Allegedly Restrictive
-        Specification"},{"id":"9935140847106761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935140847106761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935140847106761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1953","title":"Investigation of literature
-        allegedly containing objectionable material"},{"id":"9935088273206761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935088273206761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935088273206761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1977","title":"Allegedly Biased Technical
-        Evaluation of Proposals"},{"id":"9935079220206761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935079220206761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935079220206761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1978","title":"Request for Reconsideration
-        of Allegedly Defective Specifications"},{"id":"9935088273006761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935088273006761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935088273006761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1977","title":"Allegedly Improper Restrictive
-        Nature of Invitation for Bids"},{"id":"9935194331606761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935194331606761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935194331606761","content_type":"Text","content_format":["Print
-        volume"],"realtime_holdings_link":"Not Yet Implemented","publication_date":"2020","title":"Fly
-        by night physics : how physicists use the backs of envelopes /","contributors":[{"kind":"author","value":"Zee,
-        A., (author)"}],"subjects":["Physics Textbooks.","Physics Problems, exercises,
-        etc.","Reasoning.","Problem solving.","(OCoLC)fst01063025 Physics.","(OCoLC)fst01091282
-        Reasoning."],"summary_holdings":[{"location":"Hayden Library","collection":"Stacks","call_number":"QC21.3.Z44
-        2020","format":"Print volume"}],"lccn":"2020942704","oclcs":["1142961613","on1142961613"],"isbns":["9780691182544
-        (hardcover : alkaline paper)","069118254X (hardcover : alkaline paper)"],"imprint":["Princeton,
-        New Jersey : Princeton University Press, [2020]","©2020"]},{"id":"9935105221406761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935105221406761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935105221406761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1978","title":"Request for Backpay Based
-        on Allegedly Erroneous Classification"},{"id":"9935044978206761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935044978206761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935044978206761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1978","title":"Claim for Replacement
-        of an Allegedly Lost Check"},{"id":"oai:dspace.mit.edu:1721.1-114956","source":"DSpace@MIT","source_link":"https://hdl.handle.net/1721.1/114956","full_record_link":"https://timdex.mit.edu/api/v1/record/oai:dspace.mit.edu:1721.1-114956","content_type":"Article","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"2017-01","title":"Color Relationalism
-        and Relativism","links":[{"kind":"Digital object URI","text":"Digital object
-        URI","url":"http://hdl.handle.net/1721.1/114956"}],"contributors":[{"kind":"author","value":"Hilbert,
-        David R."},{"kind":"author","value":"Byrne, Alexander"},{"kind":"department","value":"Massachusetts
-        Institute of Technology. Department of Linguistics and Philosophy"},{"kind":"mitauthor","value":"Byrne,
-        Alexander"}],"issns":["1756-8757"],"collections":["MIT Open Access Articles"]},{"id":"9935131872006761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935131872006761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935131872006761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1976","title":"Claim for Prompt Payment
-        Discount Allegedly Computed Erroneously Is Disallowed"},{"id":"9935131872506761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935131872506761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935131872506761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1975","title":"Claim for Proceeds of
-        Allotment Checks Allegedly Never Received"},{"id":"9935133961106761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935133961106761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935133961106761","content_type":"Moving
-        image","realtime_holdings_link":"Not Yet Implemented","publication_date":"2013","title":"Why
-        Would Iranian Hackers Target U.S. Banks? /","subjects":["Strategic Management","Crime","Terrorism","Internet","Computers","Iran"],"oclcs":["890734022"],"imprint":["New
-        York, NY : Bloomberg, 2013."]},{"id":"9935051079806761","source":"MIT Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935051079806761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935051079806761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1976","title":"Claim for Wages Allegedly
-        Due From General Services Administration"},{"id":"9935051072906761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935051072906761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935051072906761","content_type":"Text","realtime_holdings_link":"Not
-        Yet Implemented","publication_date":"1987","title":"[Claims for Anticipated
-        Profits Allegedly Lost Under Navy Solicitation for Wrenches]"},{"id":"9935090902306761","source":"MIT
-        Alma","source_link":"https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?vid=01MIT_INST:MIT\u0026docid=alma9935090902306761","full_record_link":"https://timdex.mit.edu/api/v1/record/9935090902306761","content_type":"Moving
-        image","realtime_holdings_link":"Not Yet Implemented","publication_date":"2001","title":"They
-        Mean Business /","contributors":[{"kind":"contributor","value":"Marin, Carol."},{"kind":"contributor","value":"Moseley,
-        Don."},{"kind":"contributor","value":"Moseley, Don, producer"},{"kind":"contributor","value":"CBS
-        News."}],"subjects":["United States. Environmental Protection Agency. Criminal
-        Enforcement Program.","Environmental policy United States.","Offenses against
-        the environment United States.","2000s","Crime","Law enforcement","Environmental
-        law","Environmental policy"],"oclcs":["904558891"],"imprint":["New York, NY
-        : Columbia Broadcasting System, 2001."]}],"aggregations":{"source":[{"name":"mit
-        alma","count":202},{"name":"dspace@mit","count":7}],"content_format":[{"name":"print
-        volume","count":19}],"content_type":[{"name":"text","count":183},{"name":"moving
-        image","count":18},{"name":"thesis","count":5},{"name":"article","count":2},{"name":"sound
-        recording","count":1}],"collection":[{"name":"mit libraries","count":5},{"name":"mit
-        theses","count":5},{"name":"political science - ph.d. / sc.d.","count":2},{"name":"theses
-        - dept. of political science","count":2},{"name":"comparative media studies
-        - master''s degree","count":1},{"name":"comparative media studies/writing
-        (cms/w)","count":1},{"name":"management - master''s degree","count":1},{"name":"mit
-        open access articles","count":1},{"name":"mit sociotechnical systems research
-        center (ssrc)","count":1},{"name":"theses - comparative media studies/writing","count":1}],"contributor":[{"name":"(1909),
-        ed herlihy, narrator","count":2},{"name":"albuquerque, paula, author.","count":2},{"name":"benovsky,
-        jiri, author.","count":2},{"name":"bondeson, jan, author.","count":2},{"name":"byrne,
-        alexander","count":2},{"name":"cbs news.","count":2},{"name":"erlanger, olivia,
-        author.","count":2},{"name":"kearns, michael, author. 1971-","count":2},{"name":"massachusetts
-        institute of technology. department of political science.","count":2},{"name":"massachusetts
-        institute of technology. dept. of urban studies and planning.","count":2}],"subject":[{"name":"political
-        science.","count":3},{"name":"(ocolc)fst00862898 civilization.","count":2},{"name":"2000s","count":2},{"name":"architecture
-        and society history 20th century. united states","count":2},{"name":"computers.","count":2},{"name":"crime","count":2},{"name":"cultural
-        identity","count":2},{"name":"domestic space history 20th century. united
-        states","count":2},{"name":"domino''s pizza (firm)","count":2},{"name":"english
-        literature history and criticism. early modern, 1500-1700","count":2}],"language":[{"name":"english","count":199},{"name":"in
-        english.","count":32},{"name":"original language in english.","count":17},{"name":"eng","count":4},{"name":"latin","count":3},{"name":"en","count":1},{"name":"en_us","count":1},{"name":"eng
-        por","count":1},{"name":"eng spa","count":1},{"name":"french","count":1}],"literary_form":[{"name":"nonfiction","count":136},{"name":"fiction","count":66}]}}'
-  recorded_at: Thu, 07 Apr 2022 20:06:06 GMT
+      string: '{"hits":{"value":2,"relation":"eq"},"request_limit":50,"request_count":1,"limit_info":"Register
+        for a free account and provide your JWT token to remove all request limitations.","results":[{"id":"jpal:doi:10.7910-DVN-OXKJ92","identifiers":[{"kind":"DOI","value":"10.7910/DVN/OXKJ92"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"The Persistent Power of
+        Behavioral Change: Long-Run Impacts of Temporary Savings Subsidies for the
+        Poor","contributors":[{"affiliation":["University of Southern California"],"kind":"Creator","value":"Schaner,
+        Simone"},{"affiliation":["University of Southern California"],"kind":"ContactPerson","value":"Schaner,
+        Simone"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-2ELQNE","identifiers":[{"kind":"DOI","value":"10.7910/DVN/2ELQNE"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Governance and the effectiveness of public health subsidies: Evidence from
+        Ghana, Kenya and Uganda","contributors":[{"affiliation":["University of Chicago
+        Booth School of Business"],"kind":"Creator","value":"Dizon-Ross, Rebecca"},{"affiliation":["Stanford
+        University"],"kind":"Creator","identifier":["https://orcid.org/0000-0003-0140-9417"],"value":"Dupas,
+        Pascaline"},{"affiliation":["University of California at Santa Cruz"],"kind":"Creator","value":"Robinson,
+        Jonathan"},{"affiliation":["University of Chicago"],"kind":"ContactPerson","value":"Dizon-Ross,
+        Rebecca"},{"affiliation":["Stanford University"],"kind":"ContactPerson","value":"Dupas,
+        Pascaline"},{"affiliation":["University of California at Santa Cruz"],"kind":"ContactPerson","value":"Robinson,
+        Jonathan"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]}],"aggregations":{"source":[],"content_format":[],"content_type":[],"collection":[],"contributor":[{"name":"dizon-ross,
+        rebecca","count":2},{"name":"dupas, pascaline","count":2},{"name":"robinson,
+        jonathan","count":2},{"name":"schaner, simone","count":2}],"subject":[],"language":[],"literary_form":[]}}'
+  recorded_at: Fri, 22 Apr 2022 20:24:26 GMT
 recorded_with: VCR 6.1.0
