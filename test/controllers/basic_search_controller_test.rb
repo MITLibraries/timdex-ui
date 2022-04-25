@@ -48,19 +48,19 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query populates search form with query' do
-    VCR.use_cassette('timdex hallo',
+    VCR.use_cassette('data',
                      allow_playback_repeats: true) do
-      get '/results?q=hallo'
+      get '/results?q=data'
       assert_response :success
 
-      assert_select '#basic-search-main[value=hallo]'
+      assert_select '#basic-search-main[value=data]'
     end
   end
 
   test 'results with valid query has div for hints' do
-    VCR.use_cassette('timdex hallo',
+    VCR.use_cassette('data',
                      allow_playback_repeats: true) do
-      get '/results?q=hallo'
+      get '/results?q=data'
       assert_response :success
 
       assert_select '#hint'
@@ -68,9 +68,9 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query has div for facets which is populated' do
-    VCR.use_cassette('timdex hallo',
+    VCR.use_cassette('data',
                      allow_playback_repeats: true) do
-      get '/results?q=hallo'
+      get '/results?q=data'
       assert_response :success
       assert_select '#facets'
       assert_select '#facets .category h4', { minimum: 1 }
@@ -78,9 +78,9 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query has div for pagination' do
-    VCR.use_cassette('timdex hallo',
+    VCR.use_cassette('data',
                      allow_playback_repeats: true) do
-      get '/results?q=hallo'
+      get '/results?q=data'
       assert_response :success
 
       assert_select '#pagination'
@@ -88,12 +88,12 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query has div for results which is populated' do
-    VCR.use_cassette('timdex hallo',
+    VCR.use_cassette('data',
                      allow_playback_repeats: true) do
-      get '/results?q=hallo'
+      get '/results?q=data'
       assert_response :success
       assert_select '#results'
-      assert_select '#results ul li', { minimum: 1 }
+      assert_select '#results .record-title', { minimum: 1 }
     end
   end
 
@@ -104,8 +104,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       # Result list contents state "no results"
       assert_select '#results'
-      assert_select '#results ul li', { count: 1 }
-      assert_select '#results ul li', 'There are no results.'
+      assert_select '#results', { count: 1 }
+      assert_select '#results p', 'There are no results.'
       # Facets are present, but empty
       assert_select '#facets'
       assert_select '#facets .category h4', { minimum: 1 }

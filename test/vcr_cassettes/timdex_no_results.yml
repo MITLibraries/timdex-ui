@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://timdex.mit.edu/api/v1/search?full=false&page=1&q=asdfiouwenlasd
+    uri: http://FAKE_TIMDEX_HOST/api/v2/search?full=false&page=1&q=asdfiouwenlasd
     body:
       encoding: UTF-8
       string: ''
@@ -14,11 +14,11 @@ http_interactions:
       Content-Type:
       - application/json
       Origin:
-      - https://lib.mit.edu
+      - http://localhost:3000
       Connection:
       - close
       Host:
-      - timdex.mit.edu
+      - FAKE_TIMDEX_HOST
       User-Agent:
       - http.rb/5.0.4
   response:
@@ -29,7 +29,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Apr 2022 14:59:43 GMT
+      - Fri, 22 Apr 2022 20:24:26 GMT
       Connection:
       - close
       Access-Control-Allow-Origin:
@@ -55,13 +55,13 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"e1ab07852abf86f98de4a3c55ebc3446"
+      - W/"47cada93e32b881a0641ae6059ce20af"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 5d5cc9d2-7e28-4a9c-9507-0040b75310b2
+      - 0c91a9a8-da43-4ad4-8996-2eb1d083a083
       X-Runtime:
-      - '0.094441'
+      - '0.030284'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -72,7 +72,7 @@ http_interactions:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"hits":0,"request_limit":500,"request_count":1,"limit_info":"Register
+      string: '{"hits":{"value":0,"relation":"eq"},"request_limit":50,"request_count":4,"limit_info":"Register
         for a free account and provide your JWT token to remove all request limitations.","results":[],"aggregations":{"source":[],"content_format":[],"content_type":[],"collection":[],"contributor":[],"subject":[],"language":[],"literary_form":[]}}'
-  recorded_at: Thu, 14 Apr 2022 14:59:43 GMT
+  recorded_at: Fri, 22 Apr 2022 20:24:27 GMT
 recorded_with: VCR 6.1.0

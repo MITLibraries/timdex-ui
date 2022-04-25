@@ -21,6 +21,7 @@ end
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'dotenv-rails'
   gem 'sqlite3', '~> 1.4'
 end
 
@@ -28,7 +29,6 @@ group :development do
   gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'dotenv-rails'
   gem 'rubocop'
   gem 'rubocop-rails'
   gem 'web-console'

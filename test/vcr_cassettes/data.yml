@@ -1,0 +1,273 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://FAKE_TIMDEX_HOST/api/v2/search?full=false&page=1&q=data
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br
+      Content-Type:
+      - application/json
+      Origin:
+      - http://localhost:3000
+      Connection:
+      - close
+      Host:
+      - FAKE_TIMDEX_HOST
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Fri, 22 Apr 2022 20:24:25 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"cb66292d896779452788d5b75f28be32"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 6283b563-a63e-406f-ae7f-c762b6ee34ea
+      X-Runtime:
+      - '0.099409'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Vary:
+      - Origin
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"hits":{"value":23,"relation":"eq"},"request_limit":50,"request_count":2,"limit_info":"Register
+        for a free account and provide your JWT token to remove all request limitations.","results":[{"id":"jpal:doi:10.7910-DVN-TDFJ7X","identifiers":[{"kind":"DOI","value":"10.7910/DVN/TDFJ7X"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Data on Kenyan Youths","contributors":[{"affiliation":["Massachusetts
+        Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0001-6105-617X"],"value":"Duflo,
+        Esther"},{"affiliation":["Stanford University"],"kind":"Creator","identifier":["https://orcid.org/0000-0003-0140-9417"],"value":"Dupas,
+        Pascaline"},{"affiliation":["Harvard University"],"kind":"Creator","identifier":["https://orcid.org/0000-0001-7914-5269"],"value":"Kremer,
+        Michael"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"ContactPerson","value":"Duflo,
+        Esther"},{"affiliation":["Stanford University"],"kind":"ContactPerson","value":"Dupas,
+        Pascaline"},{"affiliation":["Harvard University"],"kind":"ContactPerson","value":"Kremer,
+        Michael"},{"kind":"Distributor","value":"Jameel Poverty Action Lab"}],"publication_information":["Harvard
+        Dataverse"],"dates":[{"kind":"Publication date","value":"2013"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-QWKNBI","identifiers":[{"kind":"DOI","value":"10.7910/DVN/QWKNBI"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Keeping It Simple: Financial Literacy and Rules of Thumb","contributors":[{"affiliation":["Federal
+        Reserve Bank of Chicago"],"kind":"Creator","value":"Drexler, Alejandro"},{"affiliation":["London
+        School of Economics and Political Science"],"kind":"Creator","value":"Fischer,
+        Greg"},{"affiliation":["MIT Sloan School of Management"],"kind":"Creator","value":"Schoar,
+        Antoinette"},{"affiliation":["Federal Reserve Bank of Chicago"],"kind":"ContactPerson","value":"Drexler,
+        Alejandro"},{"affiliation":["London School of Economics and Political Science"],"kind":"ContactPerson","value":"Fischer,
+        Greg"},{"affiliation":["MIT Sloan School of Management"],"kind":"ContactPerson","value":"Schoar,
+        Antoinette"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-SJG1ED","identifiers":[{"kind":"DOI","value":"10.7910/DVN/SJG1ED"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Oregon Health Insurance Experiment","contributors":[{"affiliation":["Massachusetts
+        Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0002-9941-6684"],"value":"Finkelstein,
+        Amy"},{"affiliation":["University of Chicago"],"kind":"Creator","identifier":["https://orcid.org/0000-0001-5960-3058"],"value":"Baicker,
+        Katherine"},{"affiliation":["National Bureau of Economic Research"],"kind":"Creator","value":"Taubman,
+        Sarah"},{"affiliation":["Center for Outcomes Research and Education"],"kind":"Creator","value":"Wright,
+        Bill"},{"affiliation":["National Bureau of Economic Research"],"kind":"Creator","value":"Bernstein,
+        Mira"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0002-9877-3065"],"value":"Gruber,
+        Jonathan"},{"affiliation":["Columbia University"],"kind":"Creator","value":"Allen,
+        Heidi"},{"affiliation":["Harvard University"],"kind":"Creator","identifier":["https://orcid.org/0000-0001-5837-3203"],"value":"Newhouse,
+        Joseph P"},{"affiliation":["Harvard University"],"kind":"Creator","value":"Schneider,
+        Eric"},{"affiliation":["Harvard University"],"kind":"Creator","identifier":["https://orcid.org/0000-0003-1072-6043"],"value":"Zaslavsky,
+        Alan"},{"affiliation":["J-PAL North America"],"kind":"ContactPerson","value":"Doyle,
+        Mary-Alice"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-STTNUF","identifiers":[{"kind":"DOI","value":"10.7910/DVN/STTNUF"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Price and Control Elasticities
+        of Demand for Savings","contributors":[{"affiliation":["Yale University"],"kind":"Creator","value":"Karlan,
+        Dean"},{"affiliation":["Dartmouth College"],"kind":"Creator","value":"Zinman,
+        Jonathan"},{"affiliation":["Innovations for Poverty Action"],"kind":"ContactPerson","value":"Research
+        Transparency, Data Ethics, and Governance"}],"publication_information":["Harvard
+        Dataverse"],"dates":[{"kind":"Publication date","value":"2017"}],"notes":[{"kind":"Datacite
+        resource type","value":["Survey data"]}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-2ELQNE","identifiers":[{"kind":"DOI","value":"10.7910/DVN/2ELQNE"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Governance and the effectiveness of public health subsidies: Evidence from
+        Ghana, Kenya and Uganda","contributors":[{"affiliation":["University of Chicago
+        Booth School of Business"],"kind":"Creator","value":"Dizon-Ross, Rebecca"},{"affiliation":["Stanford
+        University"],"kind":"Creator","identifier":["https://orcid.org/0000-0003-0140-9417"],"value":"Dupas,
+        Pascaline"},{"affiliation":["University of California at Santa Cruz"],"kind":"Creator","value":"Robinson,
+        Jonathan"},{"affiliation":["University of Chicago"],"kind":"ContactPerson","value":"Dizon-Ross,
+        Rebecca"},{"affiliation":["Stanford University"],"kind":"ContactPerson","value":"Dupas,
+        Pascaline"},{"affiliation":["University of California at Santa Cruz"],"kind":"ContactPerson","value":"Robinson,
+        Jonathan"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-WXMJCN","identifiers":[{"kind":"DOI","value":"10.7910/DVN/WXMJCN"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Why Do Skilled Immigrants Struggle in the Labor Market? A Field Experiment
+        with Thirteen Thousand Resumes","contributors":[{"affiliation":["University
+        of Toronto"],"kind":"Creator","value":"Oreopoulos, Philip"},{"affiliation":["University
+        of Toronto"],"kind":"ContactPerson","value":"Oreopoulos, Philip"}],"publication_information":["Harvard
+        Dataverse"],"dates":[{"kind":"Publication date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-CXDJM0","identifiers":[{"kind":"DOI","value":"10.7910/DVN/CXDJM0"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Social Networks and the Decision to Insure","contributors":[{"affiliation":["University
+        of Maryland"],"kind":"Creator","value":"Cai, Jing"},{"affiliation":["University
+        of California, Berkeley"],"kind":"Creator","value":"De Janvry, Alain"},{"affiliation":["University
+        of California, Berkeley"],"kind":"Creator","value":"Sadoulet, Elisabeth"},{"affiliation":["University
+        of Maryland"],"kind":"ContactPerson","value":"Cai, Jing"},{"affiliation":["University
+        of California, Berkeley"],"kind":"ContactPerson","value":"De Janvry, Alain"},{"affiliation":["University
+        of California, Berkeley"],"kind":"ContactPerson","value":"Sadoulet, Elisabeth"}],"publication_information":["Harvard
+        Dataverse"],"dates":[{"kind":"Publication date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-3LHKP0","identifiers":[{"kind":"DOI","value":"10.7910/DVN/3LHKP0"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        When Opportunity Knocks, Who Answers? New Evidence on College Achievement
+        Awards","contributors":[{"affiliation":["University of Toronto"],"kind":"Creator","value":"Oreopoulos,
+        Philip"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"Creator","value":"Angrist,
+        Josh"},{"affiliation":["Amazon.com, Inc."],"kind":"Creator","value":"Tyler
+        Williams"},{"affiliation":["University of Toronto"],"kind":"ContactPerson","value":"Oreopoulos,
+        Philip"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"ContactPerson","value":"Angrist,
+        Josh"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-JGRLOU","identifiers":[{"kind":"DOI","value":"10.7910/DVN/JGRLOU"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Getting beneath the Veil of Effective Schools: Evidence from New York City","contributors":[{"affiliation":["Princeton
+        University"],"kind":"Creator","value":"Dobbie, Will"},{"affiliation":["Harvard
+        University"],"kind":"Creator","value":"Fryer Jr., Roland G."},{"affiliation":["Princeton
+        University"],"kind":"ContactPerson","value":"Dobbie, Will"},{"affiliation":["Harvard
+        University"],"kind":"ContactPerson","value":"Fryer Jr., Roland G."}],"publication_information":["Harvard
+        Dataverse"],"dates":[{"kind":"Publication date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-T4APMN","identifiers":[{"kind":"DOI","value":"10.7910/DVN/T4APMN"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Up in Smoke: The Influence of Household Behavior on the Long-Run Impact of
+        Improved Cooking Stoves","contributors":[{"affiliation":["Harvard University"],"kind":"Creator","value":"Hanna,
+        Rema"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0001-6105-617X"],"value":"Duflo,
+        Esther"},{"affiliation":["University of Chicago"],"kind":"Creator","identifier":["https://orcid.org/0000-0002-2364-2810"],"value":"Greenstone,
+        Michael"},{"affiliation":["Harvard University"],"kind":"ContactPerson","value":"Hanna,
+        Rema"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"ContactPerson","value":"Duflo,
+        Esther"},{"affiliation":["University of Chicago"],"kind":"ContactPerson","value":"Greenstone,
+        Michael"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-VUUZJK","identifiers":[{"kind":"DOI","value":"10.7910/DVN/VUUZJK"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        ''The Morale Effects of Pay Inequality''","contributors":[{"affiliation":["Harvard
+        University"],"kind":"Creator","value":"Breza, Emily"},{"affiliation":["University
+        of California, Berkeley"],"kind":"Creator","value":"Kaur, Supreet"},{"affiliation":["University
+        of Pittsburgh"],"kind":"Creator","value":"Shamdasani, Yogita"},{"affiliation":["University
+        of California, Berkeley"],"kind":"ContactPerson","value":"Kaur, Supreet"}],"publication_information":["Harvard
+        Dataverse"],"dates":[{"kind":"Publication date","value":"2017"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-W97NZB","identifiers":[{"kind":"DOI","value":"10.7910/DVN/W97NZB"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Technological Innovations, Downside Risk, and the Modernization of Agriculture","contributors":[{"affiliation":["Tufts
+        University"],"kind":"Creator","value":"Emerick, Kyle"},{"affiliation":["University
+        of California, Berkeley"],"kind":"Creator","value":"de Janvry, Alain"},{"affiliation":["University
+        of California, Berkeley"],"kind":"Creator","value":"Sadoulet, Elisabeth"},{"affiliation":["International
+        Rice Research Institute"],"kind":"Creator","value":"Dar, Manzoor H."},{"affiliation":["Tufts
+        University"],"kind":"ContactPerson","value":"Emerick, Kyle"},{"affiliation":["University
+        of California, Berkeley"],"kind":"ContactPerson","value":"de Janvry, Alain"},{"affiliation":["University
+        of California, Berkeley"],"kind":"ContactPerson","value":"Sadoulet, Elisabeth"},{"affiliation":["International
+        Rice Research Institute"],"kind":"ContactPerson","value":"Dar, Manzoor H."}],"publication_information":["Harvard
+        Dataverse"],"dates":[{"kind":"Publication date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-MDHHQP","identifiers":[{"kind":"DOI","value":"10.7910/DVN/MDHHQP"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Tax Farming Redux: Experimental Evidence on Performance Pay for Tax Collectors","contributors":[{"affiliation":["London
+        School of Economics"],"kind":"Creator","value":"Khan, Adnan Q"},{"affiliation":["Harvard
+        University"],"kind":"Creator","value":"Khwaja, Asim I"},{"affiliation":["Massachusetts
+        Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0003-1918-4631"],"value":"Olken,
+        Benjamin"},{"affiliation":["London School of Economics"],"kind":"ContactPerson","value":"Khan,
+        Adnan Q"},{"affiliation":["Harvard University"],"kind":"ContactPerson","value":"Khwaja,
+        Asim I"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"ContactPerson","value":"Olken,
+        Ben"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2015"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-SYCXOS","identifiers":[{"kind":"DOI","value":"10.7910/DVN/SYCXOS"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        \"The Long term Impacts of a “Graduation” Program: Evidence from West Bengal\"","contributors":[{"affiliation":["Massachusetts
+        Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0001-9923-6088"],"value":"Banerjee,
+        Abhijit"},{"affiliation":["Indian Institute of Management (IIM) Calcutta"],"kind":"Creator","value":"Chattopadhyay,
+        Raghabendra"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0001-6105-617X"],"value":"Duflo,
+        Esther"},{"affiliation":["Busara Center for Behavioral Economics"],"kind":"Creator","value":"Shapiro,
+        Jeremy"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"ContactPerson","value":"Banerjee,
+        Abhijit"},{"affiliation":["Indian Institute of Management (IIM) Calcutta"],"kind":"ContactPerson","value":"Chattopadhyay,
+        Raghabendra"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"ContactPerson","value":"Duflo,
+        Esther"},{"affiliation":["Busara Center for Behavioral Economics"],"kind":"ContactPerson","value":"Shapiro,
+        Jeremy"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2017"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-XRGRK3","identifiers":[{"kind":"DOI","value":"10.7910/DVN/XRGRK3"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Spousal Control and Intra-household Decision Making: An Experimental Study
+        in the Philippines","contributors":[{"affiliation":["London School of Economics
+        and Political Science"],"kind":"Creator","value":"Ashraf, Nava"},{"affiliation":["London
+        School of Economics and Political Science"],"kind":"ContactPerson","value":"Ashraf,
+        Nava"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-KDWAIH","identifiers":[{"kind":"DOI","value":"10.7910/DVN/KDWAIH"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Unintended Effects of Anonymous Résumés","contributors":[{"affiliation":["Paris
+        School of Economics-Inra"],"kind":"Creator","value":"Behaghel, Luc"},{"affiliation":["Centre
+        de Recherche en Économie et Statistique"],"kind":"Creator","value":"Crépon,
+        Bruno"},{"affiliation":["Bocconi  University"],"kind":"Creator","value":"Le
+        Barbanchon, Thomas"},{"affiliation":["Paris School of Economics-Inra"],"kind":"ContactPerson","value":"Behaghel,
+        Luc"},{"affiliation":["Centre de Recherche en Économie et Statistique"],"kind":"ContactPerson","value":"Crépon,
+        Bruno"},{"affiliation":["Bocconi  University"],"kind":"ContactPerson","value":"Le
+        Barbanchon, Thomas"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-QOGMVI","identifiers":[{"kind":"DOI","value":"10.7910/DVN/QOGMVI"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Exporting and Firm Performance: Evidence from a Randomized Experiment","contributors":[{"affiliation":["Massachusetts
+        Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0001-9367-5688"],"value":"Atkin,
+        David"},{"affiliation":["Columbia University Business School"],"kind":"Creator","value":"Khandelwal,
+        Amit K."},{"affiliation":["University of Illinois"],"kind":"Creator","value":"Osman,
+        Adam"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"ContactPerson","value":"Atkin,
+        David"},{"affiliation":["Columbia University Business School"],"kind":"ContactPerson","value":"Khandelwal,
+        Amit K."},{"affiliation":["University of Illinois at Urbana Champaign"],"kind":"ContactPerson","value":"Osman,
+        Adam"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2019"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-VSTFIN","identifiers":[{"kind":"DOI","value":"10.7910/DVN/VSTFIN"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Investing Cash Transfers to Raise Long-Term Living Standards","contributors":[{"affiliation":["University
+        of California, Berkeley"],"kind":"Creator","identifier":["https://orcid.org/0000-0003-0280-7513"],"value":"Gertler,
+        Paul J."},{"affiliation":["Inter-American Development Bank"],"kind":"Creator","value":"Martinez,
+        Sebastian W."},{"affiliation":["Inter-American Development Bank"],"kind":"Creator","value":"Rubio-Codina,
+        Marta"},{"affiliation":["University of California, Berkeley"],"kind":"ContactPerson","value":"Gertler,
+        Paul J."},{"affiliation":["Inter-American Development Bank"],"kind":"ContactPerson","value":"Martinez,
+        Sebastian W."},{"affiliation":["Inter-American Development Bank"],"kind":"ContactPerson","value":"Rubio-Codina,
+        Marta"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-6MSJHK","identifiers":[{"kind":"DOI","value":"10.7910/DVN/6MSJHK"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Household Bargaining and Excess Fertility: An Experimental Study in Zambia","contributors":[{"affiliation":["London
+        School of Economics and Political Science"],"kind":"Creator","value":"Ashraf,
+        Nava"},{"affiliation":["Duke University"],"kind":"Creator","value":"Field,
+        Erica"},{"affiliation":["Millennium Challenge Corporation"],"kind":"Creator","value":"Lee,
+        Jean"},{"affiliation":["London School of Economics and Political Science"],"kind":"ContactPerson","value":"Ashraf,
+        Nava"},{"affiliation":["Duke University"],"kind":"ContactPerson","value":"Field,
+        Erica"},{"affiliation":["Millennium Challenge Corporation"],"kind":"ContactPerson","value":"Lee,
+        Jean"}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]},{"id":"jpal:doi:10.7910-DVN-JGE7FM","identifiers":[{"kind":"DOI","value":"10.7910/DVN/JGE7FM"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","title":"Replication Data for:
+        Can Social Information Affect What Job You Choose and Keep?","contributors":[{"affiliation":["Harvard
+        University"],"kind":"Creator","value":"Coffman, Lucas C."},{"affiliation":["The
+        Wharton School, University of Pennsylvania"],"kind":"Creator","value":"Featherstone,
+        Clayton R."},{"affiliation":["The Wharton School, University of Pennsylvania"],"kind":"Creator","value":"Kessler,
+        Judd B."},{"affiliation":["Harvard University"],"kind":"ContactPerson","value":"Coffman,
+        Lucas C."},{"affiliation":["The Wharton School, University of Pennsylvania"],"kind":"ContactPerson","value":"Featherstone,
+        Clayton R."},{"affiliation":["The Wharton School, University of Pennsylvania"],"kind":"ContactPerson","value":"Kessler,
+        Judd B."}],"publication_information":["Harvard Dataverse"],"dates":[{"kind":"Publication
+        date","value":"2018"}],"content_type":["Dataset"]}],"aggregations":{"source":[],"content_format":[],"content_type":[],"collection":[],"contributor":[{"name":"duflo,
+        esther","count":6},{"name":"ashraf, nava","count":4},{"name":"behaghel, luc","count":4},{"name":"de
+        janvry, alain","count":4},{"name":"dupas, pascaline","count":4},{"name":"field,
+        erica","count":4},{"name":"greenstone, michael","count":4},{"name":"oreopoulos,
+        philip","count":4},{"name":"sadoulet, elisabeth","count":4},{"name":"angrist,
+        josh","count":2}],"subject":[],"language":[],"literary_form":[]}}'
+  recorded_at: Fri, 22 Apr 2022 20:24:26 GMT
+recorded_with: VCR 6.1.0

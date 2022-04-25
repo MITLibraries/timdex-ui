@@ -5,7 +5,7 @@ class TimdexWrapper
     @timdex = HTTP.headers(accept: 'application/json',
                            'Accept-Encoding': 'gzip, deflate, br',
                            'Content-Type': 'application/json',
-                           Origin: 'https://lib.mit.edu')
+                           Origin: ENV.fetch('TIMDEX-UI-ORIGIN', 'http://localhost:3000'))
   end
 
   # Run a search

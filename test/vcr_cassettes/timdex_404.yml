@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://timdex.mit.edu/oops/v1/search?full=false&page=1&q=popcorn
+    uri: http://FAKE_TIMDEX_HOST/api/v2/search?full=false&page=1&q=data
     body:
       encoding: UTF-8
       string: ''
@@ -14,9 +14,9 @@ http_interactions:
       Content-Type:
       - application/json
       Origin:
-      - https://lib.mit.edu
+      - http://localhost:3000
       Connection:
-      - Keep-Alive
+      - close
       Host:
       - timdex.mit.edu
       User-Agent:
@@ -29,15 +29,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 08 Apr 2022 18:36:59 GMT
+      - Fri, 22 Apr 2022 20:24:26 GMT
       Connection:
-      - keep-alive
+      - close
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - e0bbbcb4-0c3f-44d1-a047-86e0c59dd46e
+      - ddf41efa-beef-4115-bf00-4bd2a37ef76d
       X-Runtime:
-      - '0.008150'
+      - '0.005052'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
@@ -47,5 +47,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":404,"error":"Not Found"}'
-  recorded_at: Fri, 08 Apr 2022 18:37:00 GMT
+  recorded_at: Fri, 22 Apr 2022 20:24:26 GMT
 recorded_with: VCR 6.1.0
