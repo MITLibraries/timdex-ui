@@ -19,7 +19,6 @@ VCR.configure do |config|
   config.filter_sensitive_data('http://FAKE_TIMDEX_HOST/api/v2/') { ENV.fetch('TIMDEX_BASE').to_s }
   config.filter_sensitive_data('FAKE_TIMDEX_HOST') { ENV.fetch('TIMDEX_HOST').to_s }
   config.filter_sensitive_data('http://FAKE_ORIGIN') { ENV.fetch('TIMDEX_UI_ORIGIN').to_s }
-
 end
 
 module ActiveSupport

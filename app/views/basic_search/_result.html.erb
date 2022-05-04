@@ -1,5 +1,5 @@
 <h4 class="record-title">
-  <span class="sr">Title: </span><%= result['title'] %>
+  <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['id'])) %>
 </h4>
 
 <% result['content_type']&.each do |type| %>

@@ -11,7 +11,7 @@ class TimdexWrapperTest < ActiveSupport::TestCase
 
   test 'timdex url is read from env' do
     # Default value
-    needle = 'https://timdex.mit.edu/api/v1/'
+    needle = 'https://timdex-stage.herokuapp.com/api/v2/'
     ClimateControl.modify(
       TIMDEX_BASE: nil
     ) do
@@ -44,6 +44,46 @@ class TimdexWrapperTest < ActiveSupport::TestCase
     end
   end
 
+  # Record method
+  test 'record method returns a record' do
+    VCR.use_cassette('timdex record sample',
+                     allow_playback_repeats: true) do
+      record_id = 'jpal:doi:10.7910-DVN-MNIBOL'
+      wrapper = TimdexWrapper.new
+      result = wrapper.record(record_id)
+      refute(result.key?('error'))
+      assert_equal record_id, result['id']
+    end
+  end
+
+  test 'record method receives error if record_id is not found' do
+    VCR.use_cassette('timdex record no record',
+                     allow_playback_repeats: true) do
+      record_id = 'there.is.no.record'
+      wrapper = TimdexWrapper.new
+      result = wrapper.record(record_id)
+      refute(result.key?('id'))
+      assert(result.key?('error'))
+    end
+  end
+
+  test 'error handling if timdex does not respond to record endpoint' do
+    skip 'this is not actually using a cassette so it is attempting a real http call. we need to fix before activating'
+    ClimateControl.modify(
+      TIMDEX_BASE: 'http://localhost:9999/api/v1/'
+    ) do
+      VCR.use_cassette('timdex down',
+                       allow_playback_repeats: true) do
+        query = 'FAKE_ID'
+        wrapper = TimdexWrapper.new
+        result = wrapper.record(query)
+        # Only test that an error is thrown - specifics of how the error is implemented are not relevant now.
+        assert(result.key?('error'))
+      end
+    end
+  end
+
+  # Search method
   test 'search method returns results' do
     VCR.use_cassette('data',
                      allow_playback_repeats: true) do
@@ -79,7 +119,7 @@ class TimdexWrapperTest < ActiveSupport::TestCase
     end
   end
 
-  test 'error handling if timdex does not respond' do
+  test 'error handling if timdex does not respond to search endpoint' do
     skip 'this is not actually using a cassette so it is attempting a real http call. we need to fix before activating'
     ClimateControl.modify(
       TIMDEX_BASE: 'http://localhost:9999/api/v1/'
