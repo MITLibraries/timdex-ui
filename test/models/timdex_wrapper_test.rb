@@ -11,7 +11,7 @@ class TimdexWrapperTest < ActiveSupport::TestCase
 
   test 'timdex url is read from env' do
     # Default value
-    needle = 'https://timdex-stage.herokuapp.com/api/v2/'
+    needle = 'http://localhost:3000/api/v2/'
     ClimateControl.modify(
       TIMDEX_BASE: nil
     ) do

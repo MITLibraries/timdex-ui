@@ -1,6 +1,6 @@
 module RecordHelper
-  # Display formatters
-  def render_field(string)
+  # Display the machine-format key in human-readable text.
+  def render_key(string)
     string.capitalize.gsub('_', ' ').gsub('Mit', 'MIT')
   end
 
@@ -10,7 +10,7 @@ module RecordHelper
 
     markupclass = 'field-list'
 
-    title = "<h2>#{render_field(element)}</h2>"
+    title = "<h2>#{render_key(element)}</h2>"
     values = if record[element].length == 1
                "<p class='#{markupclass}'>#{record[element][0]}</p>".html_safe
              else
@@ -24,7 +24,7 @@ module RecordHelper
 
     markupclass = 'field-object'
 
-    title = "<h2>#{render_field(element)}</h2>"
+    title = "<h2>#{render_key(element)}</h2>"
     values = "<ul class='#{markupclass}'>#{render_kind_value(record[element])}</ul>"
     (title + values).html_safe
   end
@@ -34,13 +34,13 @@ module RecordHelper
 
     markupclass = 'field-string'
 
-    "<h2>#{render_field(element)}</h2><p class='#{markupclass}'>#{record[element]}</p>".html_safe
+    "<h2>#{render_key(element)}</h2><p class='#{markupclass}'>#{record[element]}</p>".html_safe
   end
 
   def field_table(record, element, fields)
     return unless record[element].present?
 
-    title = "<h2>#{render_field(element)}</h2>"
+    title = "<h2>#{render_key(element)}</h2>"
     labels = "<table><thead><tr>#{render_table_header(fields)}</tr></thead>"
     values = "<tbody>#{render_table_row(record[element], fields)}</tbody></table>"
     (title + labels + values).html_safe
@@ -57,7 +57,7 @@ module RecordHelper
   end
 
   def render_table_header(list)
-    list.map { |item| "<th scope='col'>#{render_field(item)}</th>" }.join
+    list.map { |item| "<th scope='col'>#{render_key(item)}</th>" }.join
   end
 
   def render_table_row(object, order)

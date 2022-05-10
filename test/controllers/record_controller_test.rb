@@ -29,7 +29,7 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
     VCR.use_cassette('timdex record sample',
                      allow_playback_repeats: true) do
       get "/record/#{needle_id}"
-      assert_select 'p.id', /(.*)#{needle_id}(.*)/
+      assert_select '#content-main', /(.*)#{needle_id}(.*)/
     end
   end
 
@@ -39,18 +39,7 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
                      allow_playback_repeats: true) do
       get "/record/#{needle_id}"
       message = 'record not found'
-      assert_select 'div.record', /(.*)#{message}(.*)/
-    end
-  end
-
-  test 'full record display does not include housekeeping fields' do
-    needle_id = 'jpal:doi:10.7910-DVN-MNIBOL'
-    VCR.use_cassette('timdex record sample',
-                     allow_playback_repeats: true) do
-      get "/record/#{needle_id}"
-      assert_select 'div.record', { count: 0, text: /(.*)'request_limit'(.*)/ }
-      assert_select 'div.record', { count: 0, text: /(.*)'request_count'(.*)/ }
-      assert_select 'div.record', { count: 0, text: /(.*)'limit_info'(.*)/ }
+      assert_select '#content-main', /(.*)#{message}(.*)/
     end
   end
 end

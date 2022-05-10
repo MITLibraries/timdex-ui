@@ -1,8 +1,6 @@
 <%= content_for(:title, "Search Results | MIT Libraries") %>
 
-<p class="id">
-  You requested record: <%= @id %>
-</p>
+<%= field_string(@record, 'error') %>
 
 <h1><%= @record['title'] %></h1>
 
@@ -29,6 +27,8 @@
 <%= field_table(@record, 'funding_information', %w[award_number award_uri funder_identifier funder_identifier_type funder_name]) %>
 
 <%= field_table(@record, 'holdings', %w[call_number collection format location note]) %>
+
+<%= field_string(@record, 'id') %>
 
 <%= field_object(@record, 'identifiers') %>
 
@@ -61,12 +61,3 @@
 <%= field_object(@record, 'subjects') %>
 
 <%= field_list(@record, 'summary') %>
-
-<%= field_string(@record, 'timdex_record_id') %>
-
-<!-- Raw response - this should be removed before we go to production -->
-<div class="record" style="font-family: monospace; background-color: rgb(255,215,0); margin: -1em; margin-top: 0em; padding: 1em;">
-<% @record.sort.to_h.each do |field| %>
-<p><strong><%= field[0] %></strong>: <%= field[1] %></p>
-<% end %>
-</div>

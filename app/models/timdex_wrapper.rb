@@ -54,10 +54,6 @@ class TimdexWrapper
   end
 
   def timdex_url
-    if ENV['TIMDEX_BASE'].present?
-      ENV['TIMDEX_BASE'].to_s
-    else
-      'https://timdex-stage.herokuapp.com/api/v2/'
-    end
+    ENV.fetch('TIMDEX_BASE', 'http://localhost:3000/api/v2/')
   end
 end

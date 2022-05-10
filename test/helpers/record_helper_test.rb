@@ -4,10 +4,10 @@ class RecordHelperTest < ActionView::TestCase
   include RecordHelper
 
   # Display formatters
-  test 'render_field converts keys into human readable values' do
-    assert_equal 'Simple', render_field('Simple')
-    assert_equal 'Simple', render_field('simple')
-    assert_equal 'Two words', render_field('two_words')
+  test 'render_key converts keys into human readable values' do
+    assert_equal 'Simple', render_key('Simple')
+    assert_equal 'Simple', render_key('simple')
+    assert_equal 'Two words', render_key('two_words')
   end
 
   # Field type helpers
