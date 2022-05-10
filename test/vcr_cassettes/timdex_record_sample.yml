@@ -1,0 +1,106 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://FAKE_TIMDEX_HOST/api/v2/record/jpal:doi:10.7910-DVN-MNIBOL
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate, br
+      Content-Type:
+      - application/json
+      Origin:
+      - http://localhost:3000
+      Connection:
+      - close
+      Host:
+      - FAKE_TIMDEX_HOST
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Fri, 06 May 2022 22:41:03 GMT
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"7fe36683746387f2a5e8a7e4c054b3aa"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 737c30d4-98dc-41f0-aa1e-6ab51f6623cf
+      X-Runtime:
+      - '0.116760'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Vary:
+      - Origin
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"request_limit":50,"request_count":5,"limit_info":"Register for a
+        free account and provide your JWT token to remove all request limitations.","id":"jpal:doi:10.7910-DVN-MNIBOL","identifiers":[{"kind":"DOI","value":"10.7910/DVN/MNIBOL"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","source_link":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL","title":"Dams,
+        Poverty, Public Goods and Malaria Incidence in India","contributors":[{"affiliation":["Massachusetts
+        Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0003-0140-9417"],"value":"Duflo,
+        Esther"},{"affiliation":["Harvard University"],"kind":"Creator","identifier":["https://orcid.org/0000-0002-0090-0987"],"value":"Pande,
+        Rohini"},{"affiliation":["Harvard University"],"kind":"ContactPerson","value":"Pande,
+        Rohini"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"ContactPerson","value":"Duflo,
+        Esther"},{"kind":"Producer","value":"Esther Duflo"},{"kind":"Producer","value":"Rohini
+        Pande"},{"kind":"Distributor","value":"Jameel Poverty Action Lab"}],"publication_information":["Harvard
+        Dataverse"],"dates":[{"kind":"Publication date","value":"2007"},{"kind":"Issued","value":"2006"},{"kind":"Created","value":"2006"},{"kind":"Submitted","value":"2006"},{"kind":"Updated","value":"2020-03-31"}],"notes":[{"kind":"Datacite
+        resource type","value":["census data"]},{"kind":"Other","value":["Subject:
+        STANDARD DEPOSIT TERMS 1.0  Type: DATAPASS:TERMS:STANDARD:1.0  Notes: This
+        study was deposited under the of the Data-PASS standard deposit terms. A copy
+        of the usage agreement is included in the file section of this study.;"]}],"content_type":["Dataset"],"edition":"4.2","file_formats":["application/x-stata","text/tab-separated-values","application/pdf","application/pdf","application/x-stata","text/tab-separated-values","application/pdf","application/x-stata","text/tab-separated-values","application/pdf","application/x-stata","text/tab-separated-values","application/pdf","text/tab-separated-values","application/pdf"],"format":"electronic
+        resource","locations":[{"value":"MIT, Cambridge MA"}],"rights":[{"uri":"info:eu-repo/semantics/openAccess"},{"uri":"http://creativecommons.org/publicdomain/zero/1.0"}],"subjects":[{"value":["Social
+        Sciences"]},{"value":["dams and poverty"]},{"value":["The MacArthur Network
+        on Inequality"]},{"value":["JPAL"]},{"kind":"Economic theory and demography","value":["Economic
+        theory"]},{"kind":"Economic theory and demography","value":["Demography"]},{"kind":"Health","value":["Public
+        health"]}],"summary":["The data contains 5 different files, classified by
+        topic. The file india_pov_c81_revise.dta contains variables on the number
+        of dams in each district as well as information about the neighbouring districts.
+        The data set also includes data on local poverty, such as a povertygap measure,
+        the gini coefficient, mean per capita expenditure. The file india_ag_extend
+        contains in addition, data on agricultural produc\r\ntion ( value, yield)
+        for major crops and distinguishes between water-intensive and non-water-intensive
+        crops. The file census.dta contains data on the population size and occupation.
+        The file india_public_updown_doc.dta contains data on the availability of
+        public goods such as water access, power facilities and road. The file malaria_code81.dta
+        contains in addition a variable about malaria incidence."]}'
+  recorded_at: Fri, 06 May 2022 22:41:04 GMT
+recorded_with: VCR 6.1.0

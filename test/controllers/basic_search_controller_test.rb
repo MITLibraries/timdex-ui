@@ -97,6 +97,16 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'results with valid query include links' do
+    VCR.use_cassette('data',
+                     allow_playback_repeats: true) do
+      get '/results?q=data'
+      assert_select '#results .record-title a' do |value|
+        refute_nil(value.xpath('./@href').text)
+      end
+    end
+  end
+
   test 'searches with zero results are handled gracefully' do
     VCR.use_cassette('timdex no results',
                      allow_playback_repeats: true) do

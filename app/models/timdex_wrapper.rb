@@ -8,6 +8,19 @@ class TimdexWrapper
                            Origin: ENV.fetch('TIMDEX-UI-ORIGIN', 'http://localhost:3000'))
   end
 
+  # Look up the record associated with an identifier
+  # @param identifier [String]
+  # @return [Hash] A Hash containing a record
+  def record(identifier)
+    @record = @timdex.timeout(http_timeout)
+                     .get(record_url(identifier))
+    JSON.parse(@record.to_s)
+  rescue StandardError => e
+    error = {}
+    error['error'] = e.to_s
+    error
+  end
+
   # Run a search
   # @param query [Hash] The output of the QueryBuilder
   # @return [Hash] A Hash with search metadata and an Array of {Result}s
@@ -32,15 +45,15 @@ class TimdexWrapper
     end
   end
 
+  def record_url(identifier)
+    timdex_url + "record/#{identifier}"
+  end
+
   def search_url(query)
     timdex_url + "search?#{query.to_query}"
   end
 
   def timdex_url
-    if ENV['TIMDEX_BASE'].present?
-      ENV['TIMDEX_BASE'].to_s
-    else
-      'https://timdex.mit.edu/api/v1/'
-    end
+    ENV.fetch('TIMDEX_BASE', 'http://localhost:3000/api/v2/')
   end
 end

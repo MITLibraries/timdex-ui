@@ -52,6 +52,9 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
+  # Set a high threshhold for parallelizing tests.
+  config.active_support.test_parallelization_threshold = 999
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
