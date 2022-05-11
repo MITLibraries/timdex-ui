@@ -1,13 +1,7 @@
 <%
-# Conditional input label depends on whether a search has already happened.
-label = "Search the MIT Libraries"
-button = "Search"
-
-if params[:q]
-  label = "You searched for"
-end
+  label = "Search the MIT Libraries"
+  button = "Search"
 %>
-
 <form id="basic-search" class="form-horizontal basic-search" action="/results" method="get">
   <div class="form-group">
     <label for="basic-search-main" class="field-label"><%= label %></label>
@@ -17,3 +11,5 @@ end
     </div>
   </div>
 </form>
+
+<p class="box-content">The advanced search form has not been designed yet.</p>

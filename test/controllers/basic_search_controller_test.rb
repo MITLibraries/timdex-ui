@@ -5,7 +5,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
     get '/'
     assert_response :success
 
-    assert_select '#basic-search label', 'Search the MIT Libraries'
+    assert_select 'form#basic-search', { count: 1 }
   end
 
   test 'results with no query redirects with info' do
@@ -33,7 +33,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_nil flash[:error]
 
-      assert_select '.search-summary', 'Showing results for "hallo"'
+      assert_select '#content-main h1', 'Showing results for "hallo"'
     end
   end
 
@@ -43,7 +43,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       get '/results?q=hallo'
       assert_response :success
 
-      assert_select '#basic-search label', 'Search the MIT Libraries'
+      assert_select 'form#basic-search', { count: 1 }
     end
   end
 
@@ -73,7 +73,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       get '/results?q=data'
       assert_response :success
       assert_select '#facets'
-      assert_select '#facets .category h4', { minimum: 1 }
+      assert_select '#facets .category h3', { minimum: 1 }
     end
   end
 
@@ -115,10 +115,10 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       # Result list contents state "no results"
       assert_select '#results'
       assert_select '#results', { count: 1 }
-      assert_select '#results p', 'There are no results.'
+      assert_select '#results li', 'There are no results.'
       # Facets are present, but empty
       assert_select '#facets'
-      assert_select '#facets .category h4', { minimum: 1 }
+      assert_select '#facets .category h3', { minimum: 1 }
       assert_select '#facets .category ul.category-terms li.term', { count: 0 }
     end
   end

@@ -1,0 +1,40 @@
+.alert {
+  background: $blue-bright;
+  border-color: $blue-bright;
+  color: $black;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  i {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  div.message {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  &.error {
+    background: $red;
+    border-color: $red;
+    color: $black;
+    font-size: 24px;
+  }
+
+  &.success {
+    background: $green;
+    border-color: $green;
+    color: $black;
+  }
+
+  &.warning {
+    background: $yellow;
+    border-color: $yellow;
+    color: $black;
+
+  }
+}

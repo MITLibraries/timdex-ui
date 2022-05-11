@@ -6,4 +6,5 @@ Rails.application.routes.draw do
       as: 'record',
       :constraints => { :id => /[0-z\.\-\_~\(\)]+/ }
   get 'results', to: 'basic_search#results'
+  get 'style-guide', to: 'static#style_guide'
 end

@@ -1,0 +1,74 @@
+.panel {
+
+  background-color: $black;
+  border: 1px solid $black;
+  color: $white;
+
+  a {
+    color: $white;
+  }
+
+  .panel-heading {
+    font-weight: 700;
+  }
+  .panel-footer {
+    background: inherit;
+    border-top: inherit;
+  }
+
+  &.panel-danger {
+    background-color: $red;
+    border-color: $red;
+    color: $black;
+    font-size: 2.4rem;
+
+    a {
+      color: $black;
+    }
+
+    .panel-heading {
+      font-size: 3.2rem;
+    }
+    .panel-footer {
+      font-size: 2.4rem;
+    }
+  }
+  &.panel-info {
+    background-color: $blue-bright;
+    border-color: $blue-bright;
+    color: $black;
+
+    a {
+      color: $black;
+    }
+  }
+  &.panel-success {
+    background-color: $green;
+    border-color: $green;
+    color: $black;
+
+    a {
+      color: $black;
+    }
+  }
+  &.panel-warning {
+    background-color: $yellow;
+    border-color: $yellow;
+    color: $black;
+
+    a {
+      color: $black;
+    }
+  }
+}
+
+.fact {
+  .panel {
+    margin-top: 0;
+
+    .panel-heading {
+      margin-top: 0;
+      padding-top: 16.8px;
+    }
+  }
+}
