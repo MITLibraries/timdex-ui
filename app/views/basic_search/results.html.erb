@@ -2,39 +2,31 @@
 
 <div class="space-wrap">
 
+  <h1>Showing results for "<%= params[:q] %>"</h1>
+
   <%= render partial: "form" %>
 
-  <div class="results-summary">
-    <p>
-      <span class="search-summary">Showing results for "<%= params[:q] %>"</span>
-    </p>
-  </div>
-
-  <div id="hint" class="box-content">
-    <p>Hint/Info cards go here</p>
-
+  <div id="hint">
     <%= render(partial: 'basic_search/issn') %>
     <%= render(partial: 'basic_search/isbn') %>
-
   </div>
   
-  <div class="layout-1q3q layout-band">
+  <div class="layout-1q3q layout-band top-space">
     <div class="col3q">
-      <div id="results">
-        <h3>Search results</h3>
+      <ul id="results" class="list-unbulleted">
         <%= render(partial: 'basic_search/result', collection: @results) || render('result_empty') %>
-      </div>
+      </ul>
     </div>
 
     <aside class="col1q">
-      <div id="facets" class="box-content">
-        <h3>Available filters</h3>
+      <div id="facets">
+        <h2>Available filters</h2>
         <%= render(partial: 'basic_search/facet', collection: @facets) || render('facet_empty') %>
       </div>
     </aside>
   </div>
 
-  <div id="pagination" class="box-content">  
+  <div id="pagination">  
     <p>Pagination goes here</p>
   </div>
 </div>

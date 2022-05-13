@@ -1,0 +1,20 @@
+// ----------------------------
+// #TYPOGRAPHY
+// ----------------------------
+
+// Font stack
+$base-font: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// Font sizes, weights, and line heights
+// 1 rem is 10 px...
+$fs-base:      1.6rem; // Pentagram originally specified 1.4
+$fs-xlarge:    2.4rem;
+$fs-xxlarge:   3.2rem;
+$fs-xxxlarge:  4.2rem; // unused by default
+$fs-xxxxlarge: 5.2rem;
+
+$fw-normal: 400;
+$fw-bold:   700;
+
+$lh-xtight:  .92;
+$lh-base:   1.2;
