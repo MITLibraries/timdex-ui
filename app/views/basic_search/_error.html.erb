@@ -1,0 +1,6 @@
+<% return unless error['message'].present? %>
+
+<div class="alert alert-banner error">
+  <%= error['message'] %><br>
+  <%= error['extensions']['problems'].pluck("explanation").join %>
+</div>

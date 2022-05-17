@@ -29,15 +29,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 22 Apr 2022 20:24:26 GMT
+      - Wed, 18 May 2022 19:53:04 GMT
       Connection:
       - close
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - ddf41efa-beef-4115-bf00-4bd2a37ef76d
+      - 6e0445c7-5560-428d-b03d-7878d30e56e2
       X-Runtime:
-      - '0.005052'
+      - '0.002930'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
@@ -47,5 +47,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":404,"error":"Not Found"}'
-  recorded_at: Fri, 22 Apr 2022 20:24:26 GMT
+  recorded_at: Wed, 18 May 2022 19:53:04 GMT
 recorded_with: VCR 6.1.0

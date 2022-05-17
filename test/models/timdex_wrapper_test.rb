@@ -84,41 +84,6 @@ class TimdexWrapperTest < ActiveSupport::TestCase
   end
 
   # Search method
-  test 'search method returns results' do
-    VCR.use_cassette('data',
-                     allow_playback_repeats: true) do
-      query = basic_query
-      wrapper = TimdexWrapper.new
-      result = wrapper.search(query)
-      refute(result.key?('error'))
-      assert_operator(0, :<, result['hits']['value'].to_i)
-    end
-  end
-
-  test 'quoted searches do not error' do
-    VCR.use_cassette('timdex quoted',
-                     allow_playback_repeats: true) do
-      query = basic_query
-      query['q'] = "'Subsidies'"
-      wrapper = TimdexWrapper.new
-      result = wrapper.search(query)
-      refute(result.key?('error'))
-      assert_operator(0, :<, result['hits']['value'].to_i)
-    end
-  end
-
-  test 'multi-world searches do not error' do
-    VCR.use_cassette('timdex multiword',
-                     allow_playback_repeats: true) do
-      query = basic_query
-      query['q'] = 'persistent power'
-      wrapper = TimdexWrapper.new
-      result = wrapper.search(query)
-      refute(result.key?('error'))
-      assert_operator(0, :<, result['hits']['value'].to_i)
-    end
-  end
-
   test 'error handling if timdex does not respond to search endpoint' do
     skip 'this is not actually using a cassette so it is attempting a real http call. we need to fix before activating'
     ClimateControl.modify(

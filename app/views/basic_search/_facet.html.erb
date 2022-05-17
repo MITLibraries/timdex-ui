@@ -3,8 +3,8 @@
   <ul class="category-terms list-unbulleted">
   <% facet[1].each do |term| %>
     <li class="term">
-      <span class="name"><%= term['name'] %></span>
-      <span class="count"><%= term['count'] %></span>
+      <span class="name"><%= term['key'] %></span>
+      <span class="count"><%= term['docCount'] %></span>
     </li>
   <% end %>
   </ul>

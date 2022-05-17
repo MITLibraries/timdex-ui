@@ -1,26 +1,27 @@
 ---
 http_interactions:
 - request:
-    method: get
-    uri: http://FAKE_TIMDEX_HOST/api/v2/search?full=false&page=1&q=hallo
+    method: post
+    uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
-      string: ''
+      string: '{"query":"query Timdex__SearchQuery($q: String!) {\n  search(searchterm:
+        $q) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        {\n        kind\n        value\n      }\n      publicationInformation\n      dates
+        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
+        {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
+        {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
+        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"hallo","full":false,"page":1},"operationName":"Timdex__SearchQuery"}'
     headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - application/json
-      Accept-Encoding:
-      - gzip, deflate, br
+      User-Agent:
+      - MIT Libraries Client
       Content-Type:
       - application/json
-      Origin:
-      - http://localhost:3000
-      Connection:
-      - close
-      Host:
-      - FAKE_TIMDEX_HOST
-      User-Agent:
-      - http.rb/5.0.4
   response:
     status:
       code: 200
@@ -29,17 +30,9 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 22 Apr 2022 20:24:27 GMT
+      - Wed, 18 May 2022 20:39:54 GMT
       Connection:
-      - close
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - GET
-      Access-Control-Expose-Headers:
-      - ''
-      Access-Control-Max-Age:
-      - '7200'
+      - keep-alive
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
@@ -54,25 +47,24 @@ http_interactions:
       - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
       Etag:
-      - W/"71ba50710a992961463ce7f53e23c99b"
+      - W/"72fc228c019887fbcedeaa075231c735"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 33a292f9-53b8-423e-bce0-d2b616372d39
+      - e9d42538-1724-402d-94ed-8ff275040bfb
       X-Runtime:
-      - '0.049514'
+      - '0.035797'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Vary:
-      - Origin
       Transfer-Encoding:
       - chunked
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"hits":{"value":0,"relation":"eq"},"request_limit":50,"request_count":6,"limit_info":"Register
-        for a free account and provide your JWT token to remove all request limitations.","results":[],"aggregations":{"source":[],"content_format":[],"content_type":[],"collection":[],"contributor":[],"subject":[],"language":[],"literary_form":[]}}'
-  recorded_at: Fri, 22 Apr 2022 20:24:28 GMT
+      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
+  recorded_at: Wed, 18 May 2022 20:39:55 GMT
 recorded_with: VCR 6.1.0

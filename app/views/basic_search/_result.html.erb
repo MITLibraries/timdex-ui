@@ -1,9 +1,9 @@
 <li>
   <h2 class="record-title">
-    <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['id'])) %>
+    <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['timdexRecordId'])) %>
   </h2>
 
-  <% result['content_type']&.each do |type| %>
+  <% result['contentType']&.each do |type| %>
     <p>
       <%= type %>
     <p>
@@ -19,7 +19,7 @@
     <%= contributors.join('; ') %>
   </p>
 
-  <% result['publication_information']&.each do |pub| %>
+  <% result['publicationInformation']&.each do |pub| %>
     <p>
       <span class="sr">Publication Information: </span>
       <%= pub %>
@@ -39,7 +39,7 @@
   <% end %>
 
   <p>
-    Identifier: <%= result['id'] %>
+    Identifier: <%= result['timdexRecordId'] %>
   </p>
 
   <hr />
