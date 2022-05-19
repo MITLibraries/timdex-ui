@@ -11,7 +11,23 @@ class BasicSearchController < ApplicationController
     query = QueryBuilder.new(@enhanced_query).query
 
     # builder hands off to wrapper which returns raw results here
-    response = Timdex::Client.query(Timdex::SearchQuery, variables: query)
+    # BEGIN EDITORIALIZING
+    # The following works in a console:
+    #
+    # $ query = {'q' => 'data'}
+    # $ wrapper = TimdexCandy.new
+    # $ Parsed = wrapper.client.parse(TimdexCandy::SearchQueryText)
+    # $ Parsed.class # Debugging to make sure this worked
+    # => GraphQL::Client::OperationDefinition
+    # $ wrapper.search(Parsed, query)
+    # => #<GraphQL::Client::Response:0x00000001155c0dd0 ...
+    #
+    # However, this parsing of the search query text is not working here in the controller.
+    # The parsed query needs to be a constant, or the library fails with a 'expected definition to be assigned to a
+    # static constant' error - with the URL https://git.io/vXXSE as explanation.
+    #
+    wrapper = TimdexCandy.new
+    response = wrapper.search(wrapper.client.parse(TimdexCandy::SearchQueryText), query)
 
     # Analyze results
     # handle errors
