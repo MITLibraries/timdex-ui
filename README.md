@@ -62,3 +62,11 @@ change as part of the work.
 When generating new cassettes for timdex-ui, update `.env.test` to have appropriate values for your test for `TIMDEX_BASE`, `TIMDEX_GRAPHQL`, `TIMDEX_HOST`, and `TIMDEX_UI_ORIGIN`. This will allow the cassettes to be generated from any TIMDEX source with the data you need, but be sure to set them back to the original values after the cassette are generated. When the values are not set to the "fake" values we normally store, many tests will fail due to how the cassettes re-write values to normalize what we store.
 
 `.env.test` should be commited to the repository, but should not include real values for a TIMDEX source even though they are not secrets. We want to use fake values to allow us to normalize our cassettes without forcing us to always generate them from a single TIMDEX source.
+
+## Updating GraphQL Schema
+
+The schema for the GraphQL endpoint can be found at `/config/schema/schema.json`. This schema is used by the graphql-client gem, and so must be kept in sync with the Timdex GraphQL API. Updating the schema can be accomplished via the following command in the console:
+
+```ruby
+GraphQL::Client.dump_schema(Timdex::HTTP, 'config/schema/schema.json')
+```
