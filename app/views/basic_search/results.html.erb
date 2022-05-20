@@ -10,7 +10,9 @@
     <%= render(partial: 'basic_search/issn') %>
     <%= render(partial: 'basic_search/isbn') %>
   </div>
-  
+
+  <%= render(partial: 'basic_search/error', collection: @errors) %>
+
   <div class="layout-1q3q layout-band top-space">
     <div class="col3q">
       <ul id="results" class="list-unbulleted">

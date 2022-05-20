@@ -11,17 +11,18 @@ class BasicSearchController < ApplicationController
     query = QueryBuilder.new(@enhanced_query).query
 
     # builder hands off to wrapper which returns raw results here
-    timdex = TimdexWrapper.new
-    response = timdex.search(query)
+    response = Timdex::Client.query(Timdex::SearchQuery, variables: query)
 
     # Analyze results
     # handle errors
+    @errors = response&.errors&.details['data']
+
     # handle records
     # for now no other analyzing, but at this phase we might later do additional analysis / reordering as we learn more
 
     # Display stuff
-    @results = response['results']
-    @facets = response['aggregations']
+    @results = response&.data&.search&.to_h['records']
+    @facets = response&.data&.search&.to_h['aggregations']
   end
 
   private
