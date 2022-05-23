@@ -6,14 +6,15 @@ class RecordController < ApplicationController
   def view
     id = params[:id]
 
-    timdex = TimdexWrapper.new
-    response = timdex.record(id)
+    response = Timdex::Client.query(Timdex::RecordQuery, variables: { id: })
 
     # Detection of unexpected response from the API would go here...
 
+    @errors = response&.errors&.details&.to_h&.dig('data')
+
     # Manipulation of returned record would go here...
 
-    @record = response
+    @record = response&.data&.to_h&.dig('recordId')
   end
 
   private

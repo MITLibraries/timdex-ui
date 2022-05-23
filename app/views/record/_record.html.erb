@@ -1,0 +1,59 @@
+<h1><%= @record['title'] %></h1>
+
+<%= field_object(@record, 'alternateTitles' ) %>
+
+<%= field_list(@record, 'callNumbers' ) %>
+
+<%= field_string(@record, 'citation' ) %>
+
+<%= field_list(@record, 'contentType' ) %>
+
+<%= field_list(@record, 'contents' ) %>
+
+<%= field_table(@record, 'contributors', %w[value kind affiliation identifier mit_affiliated]) %>
+
+<%= field_table(@record, 'dates', %w[kind value range note]) %>
+
+<%= field_string(@record, 'edition') %>
+
+<%= field_list(@record, 'fileFormats') %>
+
+<%= field_string(@record, 'format') %>
+
+<%= field_table(@record, 'fundingInformation', %w[award_number award_uri funder_identifier funder_identifier_type funder_name]) %>
+
+<%= field_table(@record, 'holdings', %w[call_number collection format location note]) %>
+
+<%= field_object(@record, 'identifiers') %>
+
+<%= field_list(@record, 'languages') %>
+
+<%= field_table(@record, 'links', %w[kind text url restrictions]) %>
+
+<%= field_string(@record, 'literaryForm') %>
+
+<%= field_table(@record, 'locations', %w[kind value geopoint]) %>
+
+<%= field_object(@record, 'notes') %>
+
+<%= field_string(@record, 'numbering') %>
+
+<%= field_string(@record, 'physicalDescription') %>
+
+<%= field_list(@record, 'publicationFrequency') %>
+
+<%= field_list(@record, 'publicationInformation') %>
+
+<%= field_table(@record, 'relatedItems', %w[description item_type relationship uri]) %>
+
+<%= field_table(@record, 'rights', %w[description kind uri]) %>
+
+<%= field_string(@record, 'source') %>
+
+<%= field_string(@record, 'sourceLink') %>
+
+<%= field_object(@record, 'subjects') %>
+
+<%= field_list(@record, 'summary') %>
+
+<%= field_string(@record, 'timdexRecordId') %>
