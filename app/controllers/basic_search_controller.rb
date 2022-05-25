@@ -15,14 +15,14 @@ class BasicSearchController < ApplicationController
 
     # Analyze results
     # handle errors
-    @errors = response&.errors&.details['data']
+    @errors = response&.errors&.details&.to_h&.dig('data')
 
     # handle records
     # for now no other analyzing, but at this phase we might later do additional analysis / reordering as we learn more
 
     # Display stuff
-    @results = response&.data&.search&.to_h['records']
-    @facets = response&.data&.search&.to_h['aggregations']
+    @results = response&.data&.search&.to_h&.dig('records')
+    @facets = response&.data&.search&.to_h&.dig('aggregations')
   end
 
   private
