@@ -5,14 +5,14 @@ http_interactions:
     uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
-      string: '{"query":"query TimdexSearch__Query($q: String!, $from: String!) {\n  search(searchterm:
+      string: '{"query":"query Timdex__SearchQuery($q: String!, $from: String!) {\n  search(searchterm:
         $q, from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":null,"from":"0"},"operationName":"TimdexSearch__Query"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"data","from":"31415926537"},"operationName":"Timdex__SearchQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -24,49 +24,31 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 500
+      message: Internal Server Error
     headers:
       Server:
       - Cowboy
       Date:
-      - Thu, 02 Jun 2022 19:21:02 GMT
+      - Fri, 27 May 2022 18:54:12 GMT
       Connection:
       - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
       Content-Type:
-      - application/json; charset=utf-8
-      Vary:
-      - Accept, Origin
-      Etag:
-      - W/"082890621dfa28a3a5d51281c7cd9c30"
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - application/json; charset=UTF-8
       X-Request-Id:
-      - f889cfc6-7a4a-4b03-aa1b-6e8ac38c056a
+      - 27e17e3e-2256-4feb-bb59-94975f508d69
       X-Runtime:
-      - '0.006504'
+      - '0.269154'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Transfer-Encoding:
-      - chunked
+      Vary:
+      - Origin
+      Content-Length:
+      - '46'
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"errors":[{"message":"Variable $q of type String! was provided invalid
-        value","locations":[{"line":1,"column":27}],"extensions":{"value":null,"problems":[{"path":[],"explanation":"Expected
-        value to not be null"}]}}]}'
-  recorded_at: Thu, 02 Jun 2022 19:21:03 GMT
+      string: '{"status":500,"error":"Internal Server Error"}'
+  recorded_at: Fri, 27 May 2022 18:54:13 GMT
 recorded_with: VCR 6.1.0

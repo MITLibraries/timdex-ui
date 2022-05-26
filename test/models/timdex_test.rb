@@ -3,7 +3,8 @@ require 'test_helper'
 class TimdexTest < ActiveSupport::TestCase
   def basic_search
     {
-      'q' => 'data'
+      'q' => 'data',
+      'from' => '0'
     }
   end
 
@@ -65,7 +66,8 @@ class TimdexTest < ActiveSupport::TestCase
 
   test 'Timdex search query throws error with null search' do
     null_search = {
-      'q' => nil
+      'q' => nil,
+      'from' => '0'
     }
     VCR.use_cassette('timdex null search',
                      allow_playback_repeats: true,
@@ -78,9 +80,50 @@ class TimdexTest < ActiveSupport::TestCase
     end
   end
 
+  test 'Timdex search query throws error with ridiculous pagination values' do
+    big_page_search = {
+      'q' => 'data',
+      'from' => '31415926537'
+    }
+    VCR.use_cassette('data from ridiculous start',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      response = Timdex::Client.query(Timdex::SearchQuery, variables: big_page_search)
+      assert_equal response.class, GraphQL::Client::Response
+      assert response.data.nil?
+      refute response.errors.empty?
+      assert response.errors.messages.count, { minimum: 1 }
+    end
+  end
+
+  test 'Timdex search query accepts pagination values' do
+    # Load first page of results
+    VCR.use_cassette('data',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      first_response = Timdex::Client.query(Timdex::SearchQuery, variables: basic_search)
+      first_title = first_response.data.search.to_h['records'].first['title']
+
+      # Load next page of results
+      VCR.use_cassette('data page 2',
+                       allow_playback_repeats: true,
+                       match_requests_on: %i[method uri body]) do
+        next_search = {
+          'q' => 'data',
+          'from' => '20'
+        }
+        response = Timdex::Client.query(Timdex::SearchQuery, variables: next_search)
+        next_title = response.data.search.to_h['records'].first['title']
+
+        refute_equal first_title, next_title
+      end
+    end
+  end
+
   test 'Timdex search query returns lots of records with empty search' do
     empty_search = {
-      'q' => ''
+      'q' => '',
+      'from' => '0'
     }
     VCR.use_cassette('timdex empty search',
                      allow_playback_repeats: true,

@@ -1,0 +1,19 @@
+<% return if @pagination.nil? %>
+
+<div class="gridband layout-3c">
+  <div class="grid-item box-content">
+    <% if @pagination[:prev] %>
+      <%= link_to "Previous page (#{@pagination[:prev]})", "?q=#{params[:q]}&page=#{@pagination[:prev]}" %>
+    <% else %>
+      First page
+    <% end %>
+  </div>
+  <div class="grid-item box-content">Page <%= @pagination[:page] %> of <%= (@pagination[:hits] / 20) + 1 %></div>
+  <div class="grid-item box-content">
+    <% if @pagination[:next] %>
+      <%= link_to "Next page (#{@pagination[:next]})", "?q=#{params[:q]}&page=#{@pagination[:next]}" %>
+    <% else %>
+      Last page
+    <% end %>
+  </div>
+</div>

@@ -19,6 +19,7 @@ class BasicSearchController < ApplicationController
 
     # handle records
     # for now no other analyzing, but at this phase we might later do additional analysis / reordering as we learn more
+    @pagination = Analyzer.new(@enhanced_query, response).pagination if @errors.nil?
 
     # Display stuff
     @results = response&.data&.search&.to_h&.dig('records')
