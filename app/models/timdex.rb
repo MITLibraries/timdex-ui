@@ -6,7 +6,7 @@ class Timdex
     def headers(*)
       {
         'User-Agent': 'MIT Libraries Client',
-        'Origin': ENV.fetch('TIMDEX_UI_ORIGIN', 'http://localhost:3000')
+        Origin: ENV.fetch('TIMDEX_UI_ORIGIN', 'http://localhost:3000')
       }
     end
   end
