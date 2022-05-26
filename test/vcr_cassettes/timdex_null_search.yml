@@ -22,6 +22,8 @@ http_interactions:
       - MIT Libraries Client
       Content-Type:
       - application/json
+      Origin:
+      - http://FAKE_ORIGIN
   response:
     status:
       code: 200
@@ -30,9 +32,17 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 19 May 2022 19:07:46 GMT
+      - Thu, 26 May 2022 18:59:37 GMT
       Connection:
       - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
@@ -54,9 +64,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 6968a47d-4f80-41b4-b410-7246813797fd
+      - 58a5e45a-9c7b-4dd3-a2bf-f443415faf48
       X-Runtime:
-      - '0.033132'
+      - '0.007279'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -68,5 +78,5 @@ http_interactions:
       string: '{"errors":[{"message":"Variable $q of type String! was provided invalid
         value","locations":[{"line":1,"column":27}],"extensions":{"value":null,"problems":[{"path":[],"explanation":"Expected
         value to not be null"}]}}]}'
-  recorded_at: Thu, 19 May 2022 19:07:47 GMT
+  recorded_at: Thu, 26 May 2022 18:59:38 GMT
 recorded_with: VCR 6.1.0

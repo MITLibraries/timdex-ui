@@ -4,7 +4,10 @@ require 'graphql/client/http'
 class Timdex
   HTTP = GraphQL::Client::HTTP.new(ENV.fetch('TIMDEX_GRAPHQL', '')) do
     def headers(*)
-      { 'User-Agent': 'MIT Libraries Client' }
+      {
+        'User-Agent': 'MIT Libraries Client',
+        'Origin': ENV.fetch('TIMDEX_UI_ORIGIN', 'http://localhost:3000')
+      }
     end
   end
 

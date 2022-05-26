@@ -22,6 +22,8 @@ http_interactions:
       - MIT Libraries Client
       Content-Type:
       - application/json
+      Origin:
+      - http://FAKE_ORIGIN
   response:
     status:
       code: 200
@@ -30,9 +32,17 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Wed, 18 May 2022 20:39:54 GMT
+      - Thu, 26 May 2022 18:59:36 GMT
       Connection:
       - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
@@ -54,9 +64,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - e9d42538-1724-402d-94ed-8ff275040bfb
+      - 4f777a3a-ce3a-4ca5-826f-f718d5469877
       X-Runtime:
-      - '0.035797'
+      - '0.064215'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -66,5 +76,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Wed, 18 May 2022 20:39:55 GMT
+  recorded_at: Thu, 26 May 2022 18:59:37 GMT
 recorded_with: VCR 6.1.0

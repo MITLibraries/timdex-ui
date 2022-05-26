@@ -25,6 +25,8 @@ http_interactions:
       - MIT Libraries Client
       Content-Type:
       - application/json
+      Origin:
+      - http://FAKE_ORIGIN
   response:
     status:
       code: 500
@@ -33,15 +35,23 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Mon, 23 May 2022 20:32:43 GMT
+      - Thu, 26 May 2022 18:59:38 GMT
       Connection:
       - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - 3f402800-fd18-40ca-9be9-e52df9b7618d
+      - 609d98b5-4e5e-4616-8ddb-1a5c55b2ff30
       X-Runtime:
-      - '0.208997'
+      - '0.185748'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -53,5 +63,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Mon, 23 May 2022 20:32:43 GMT
+  recorded_at: Thu, 26 May 2022 18:59:38 GMT
 recorded_with: VCR 6.1.0

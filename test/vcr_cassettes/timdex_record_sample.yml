@@ -25,6 +25,8 @@ http_interactions:
       - MIT Libraries Client
       Content-Type:
       - application/json
+      Origin:
+      - http://FAKE_ORIGIN
   response:
     status:
       code: 200
@@ -33,9 +35,17 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Mon, 23 May 2022 20:32:42 GMT
+      - Thu, 26 May 2022 18:59:38 GMT
       Connection:
       - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST
+      Access-Control-Expose-Headers:
+      - ''
+      Access-Control-Max-Age:
+      - '7200'
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
@@ -57,9 +67,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 5bf351d9-3d44-49b3-871b-fd836b477e4e
+      - a76820c0-e613-4ac0-ad55-20b0925e1a1f
       X-Runtime:
-      - '0.089505'
+      - '0.049323'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -100,5 +110,5 @@ http_interactions:
         public goods such as water access, power facilities and road. The file malaria_code81.dta
         contains in addition a variable about malaria incidence."],"timdexRecordId":"jpal:doi:10.7910-DVN-MNIBOL","title":"Dams,
         Poverty, Public Goods and Malaria Incidence in India"}}}'
-  recorded_at: Mon, 23 May 2022 20:32:42 GMT
+  recorded_at: Thu, 26 May 2022 18:59:39 GMT
 recorded_with: VCR 6.1.0
