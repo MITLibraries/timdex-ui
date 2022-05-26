@@ -17,7 +17,6 @@ VCR.configure do |config|
   config.hook_into :webmock
   config.allow_http_connections_when_no_cassette = false
   config.filter_sensitive_data('FAKE_TIMDEX_HOST') { ENV.fetch('TIMDEX_HOST').to_s }
-  config.filter_sensitive_data('http://FAKE_ORIGIN') { ENV.fetch('TIMDEX_UI_ORIGIN').to_s }
   config.filter_sensitive_data('http://FAKE_TIMDEX_HOST/graphql/') { ENV.fetch('TIMDEX_GRAPHQL').to_s }
 end
 

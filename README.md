@@ -49,7 +49,7 @@ change as part of the work.
 
 ## Optional Environment Variables
 
-- `TIMDEX_UI_ORIGIN`: Set this to the site making the calls to TIMDEX. Defaults to `http://localhost:3000` which is useful for development but unlikely correct elsewhere.
+- TBD
 
 ### Test Environment-only Variables
 
@@ -57,7 +57,7 @@ change as part of the work.
 
 ## Generating VCR Cassettes
 
-When generating new cassettes for timdex-ui, update `.env.test` to have appropriate values for your test for `TIMDEX_GRAPHQL`, `TIMDEX_HOST`, and `TIMDEX_UI_ORIGIN`. This will allow the cassettes to be generated from any TIMDEX source with the data you need, but be sure to set them back to the original values after the cassette are generated. When the values are not set to the "fake" values we normally store, many tests will fail due to how the cassettes re-write values to normalize what we store.
+When generating new cassettes for timdex-ui, update `.env.test` to have appropriate values for your test for `TIMDEX_GRAPHQL` and `TIMDEX_HOST`. This will allow the cassettes to be generated from any TIMDEX source with the data you need, but be sure to set them back to the original values after the cassette are generated. When the values are not set to the "fake" values we normally store, many tests will fail due to how the cassettes re-write values to normalize what we store.
 
 `.env.test` should be commited to the repository, but should not include real values for a TIMDEX source even though they are not secrets. We want to use fake values to allow us to normalize our cassettes without forcing us to always generate them from a single TIMDEX source.
 

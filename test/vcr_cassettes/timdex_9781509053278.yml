@@ -22,8 +22,6 @@ http_interactions:
       - MIT Libraries Client
       Content-Type:
       - application/json
-      Origin:
-      - http://FAKE_ORIGIN
   response:
     status:
       code: 200
