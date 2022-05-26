@@ -33,23 +33,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 26 May 2022 18:59:38 GMT
+      - Thu, 26 May 2022 21:02:04 GMT
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - POST
-      Access-Control-Expose-Headers:
-      - ''
-      Access-Control-Max-Age:
-      - '7200'
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - 609d98b5-4e5e-4616-8ddb-1a5c55b2ff30
+      - 6c6c2c20-ae28-447c-bb36-773a1ee636e5
       X-Runtime:
-      - '0.185748'
+      - '0.178290'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -61,5 +53,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Thu, 26 May 2022 18:59:38 GMT
+  recorded_at: Thu, 26 May 2022 21:02:05 GMT
 recorded_with: VCR 6.1.0

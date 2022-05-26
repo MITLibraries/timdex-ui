@@ -3,9 +3,7 @@ require 'test_helper'
 class TimdexTest < ActiveSupport::TestCase
   def basic_search
     {
-      'q' => 'data',
-      'full' => false,
-      'page' => 1
+      'q' => 'data'
     }
   end
 

@@ -12,7 +12,7 @@ http_interactions:
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"hallo","full":false,"page":1},"operationName":"Timdex__SearchQuery"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"hallo"},"operationName":"Timdex__SearchQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -30,17 +30,9 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 26 May 2022 18:59:36 GMT
+      - Thu, 26 May 2022 21:02:05 GMT
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - POST
-      Access-Control-Expose-Headers:
-      - ''
-      Access-Control-Max-Age:
-      - '7200'
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
@@ -62,9 +54,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 4f777a3a-ce3a-4ca5-826f-f718d5469877
+      - c1ee32a1-6003-4e9e-ab5f-a80688e6ce0b
       X-Runtime:
-      - '0.064215'
+      - '0.037768'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -74,5 +66,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Thu, 26 May 2022 18:59:37 GMT
+  recorded_at: Thu, 26 May 2022 21:02:05 GMT
 recorded_with: VCR 6.1.0
