@@ -12,7 +12,7 @@ http_interactions:
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"asdfiouwenlasd","full":false,"page":1},"operationName":"Timdex__SearchQuery"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"asdfiouwenlasd"},"operationName":"Timdex__SearchQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -30,7 +30,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Wed, 18 May 2022 20:39:54 GMT
+      - Thu, 26 May 2022 21:02:05 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -54,9 +54,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 9e4a37d0-d831-4267-a3bf-2e67e2c1f0c5
+      - 9da041ff-8987-4fb5-88aa-86c166fde98f
       X-Runtime:
-      - '0.086292'
+      - '0.058473'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -66,5 +66,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Wed, 18 May 2022 20:39:54 GMT
+  recorded_at: Thu, 26 May 2022 21:02:06 GMT
 recorded_with: VCR 6.1.0

@@ -4,13 +4,108 @@ require 'graphql/client/http'
 class Timdex
   HTTP = GraphQL::Client::HTTP.new(ENV.fetch('TIMDEX_GRAPHQL', '')) do
     def headers(*)
-      { 'User-Agent': 'MIT Libraries Client' }
+      {
+        'User-Agent': 'MIT Libraries Client'
+      }
     end
   end
 
   Schema = GraphQL::Client.load_schema('config/schema/schema.json')
 
   Client = GraphQL::Client.new(schema: Schema, execute: HTTP)
+
+  RecordQuery = Timdex::Client.parse <<-'GRAPHQL'
+    query($id: String!) {
+      recordId(id: $id) {
+        alternateTitles {
+          kind
+          value
+        }
+        callNumbers
+        contentType
+        contents
+        contributors {
+          affiliation
+          identifier
+          kind
+          mitAffiliated
+          value
+        }
+        dates {
+          kind
+          note
+          range {
+            gte
+            lte
+          }
+          value
+        }
+        edition
+        # fileFormats
+        # format
+        fundingInformation {
+          funderName
+          funderIdentifier
+          funderIdentifierType
+          awardUri
+          awardNumber
+        }
+        holdings {
+          callnumber
+          collection
+          format
+          location
+          notes
+          summary
+        }
+        identifiers {
+          kind
+          value
+        }
+        languages
+        links {
+          kind
+          restrictions
+          text
+          url
+        }
+        literaryForm
+        locations {
+          geopoint
+          kind
+          value
+        }
+        notes {
+          kind
+          value
+        }
+        numbering
+        physicalDescription
+        publicationFrequency
+        publicationInformation
+        relatedItems {
+          description
+          itemType
+          relationship
+          uri
+        }
+        rights {
+          description
+          kind
+          uri
+        }
+        source
+        sourceLink
+        subjects {
+          kind
+          value
+        }
+        summary
+        timdexRecordId
+        title
+      }
+    }
+  GRAPHQL
 
   SearchQuery = Timdex::Client.parse <<-'GRAPHQL'
     query($q: String!) {

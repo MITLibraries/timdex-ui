@@ -15,7 +15,7 @@ http_interactions:
         {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    publicationFrequency\n    publicationInformation\n    relatedItems
         {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
         {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
-        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"there.is.no.record"},"operationName":"Timdex__RecordQuery"}'
+        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":null},"operationName":"Timdex__RecordQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -27,31 +27,49 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 500
-      message: Internal Server Error
+      code: 200
+      message: OK
     headers:
       Server:
       - Cowboy
       Date:
-      - Thu, 26 May 2022 21:02:04 GMT
+      - Thu, 26 May 2022 21:02:03 GMT
       Connection:
       - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
-      - application/json; charset=UTF-8
+      - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
+      Etag:
+      - W/"a71ab5f227ca549959eae31dde7f19dc"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 6c6c2c20-ae28-447c-bb36-773a1ee636e5
+      - '0603593c-fa6f-464f-abe8-c9d54fc8dedb'
       X-Runtime:
-      - '0.178290'
+      - '0.009497'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Vary:
-      - Origin
-      Content-Length:
-      - '46'
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Thu, 26 May 2022 21:02:05 GMT
+      string: '{"errors":[{"message":"Variable $id of type String! was provided invalid
+        value","locations":[{"line":1,"column":27}],"extensions":{"value":null,"problems":[{"path":[],"explanation":"Expected
+        value to not be null"}]}}]}'
+  recorded_at: Thu, 26 May 2022 21:02:03 GMT
 recorded_with: VCR 6.1.0

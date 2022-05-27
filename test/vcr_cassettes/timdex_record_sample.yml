@@ -1,26 +1,30 @@
 ---
 http_interactions:
 - request:
-    method: get
-    uri: http://FAKE_TIMDEX_HOST/api/v2/record/jpal:doi:10.7910-DVN-MNIBOL
+    method: post
+    uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
-      string: ''
+      string: '{"query":"query Timdex__RecordQuery($id: String!) {\n  recordId(id:
+        $id) {\n    alternateTitles {\n      kind\n      value\n    }\n    callNumbers\n    contentType\n    contents\n    contributors
+        {\n      affiliation\n      identifier\n      kind\n      mitAffiliated\n      value\n    }\n    dates
+        {\n      kind\n      note\n      range {\n        gte\n        lte\n      }\n      value\n    }\n    edition\n    fundingInformation
+        {\n      funderName\n      funderIdentifier\n      funderIdentifierType\n      awardUri\n      awardNumber\n    }\n    holdings
+        {\n      callnumber\n      collection\n      format\n      location\n      notes\n      summary\n    }\n    identifiers
+        {\n      kind\n      value\n    }\n    languages\n    links {\n      kind\n      restrictions\n      text\n      url\n    }\n    literaryForm\n    locations
+        {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    publicationFrequency\n    publicationInformation\n    relatedItems
+        {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
+        {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
+        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"jpal:doi:10.7910-DVN-MNIBOL"},"operationName":"Timdex__RecordQuery"}'
     headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - application/json
-      Accept-Encoding:
-      - gzip, deflate, br
+      User-Agent:
+      - MIT Libraries Client
       Content-Type:
       - application/json
-      Origin:
-      - http://localhost:3000
-      Connection:
-      - close
-      Host:
-      - FAKE_TIMDEX_HOST
-      User-Agent:
-      - http.rb/5.0.4
   response:
     status:
       code: 200
@@ -29,17 +33,9 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 06 May 2022 22:41:03 GMT
+      - Thu, 26 May 2022 21:02:04 GMT
       Connection:
-      - close
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Methods:
-      - GET
-      Access-Control-Expose-Headers:
-      - ''
-      Access-Control-Max-Age:
-      - '7200'
+      - keep-alive
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
@@ -54,43 +50,44 @@ http_interactions:
       - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
       Etag:
-      - W/"7fe36683746387f2a5e8a7e4c054b3aa"
+      - W/"a659e31f5baf6c9e4999d162abbba473"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 737c30d4-98dc-41f0-aa1e-6ab51f6623cf
+      - 6a7950ed-c88d-4d18-99b5-0c4c5eacc48e
       X-Runtime:
-      - '0.116760'
+      - '0.043391'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Vary:
-      - Origin
       Transfer-Encoding:
       - chunked
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"request_limit":50,"request_count":5,"limit_info":"Register for a
-        free account and provide your JWT token to remove all request limitations.","id":"jpal:doi:10.7910-DVN-MNIBOL","identifiers":[{"kind":"DOI","value":"10.7910/DVN/MNIBOL"}],"source":"Abdul
-        Latif Jameel Poverty Action Lab Dataverse","source_link":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL","title":"Dams,
-        Poverty, Public Goods and Malaria Incidence in India","contributors":[{"affiliation":["Massachusetts
-        Institute of Technology"],"kind":"Creator","identifier":["https://orcid.org/0000-0003-0140-9417"],"value":"Duflo,
-        Esther"},{"affiliation":["Harvard University"],"kind":"Creator","identifier":["https://orcid.org/0000-0002-0090-0987"],"value":"Pande,
-        Rohini"},{"affiliation":["Harvard University"],"kind":"ContactPerson","value":"Pande,
-        Rohini"},{"affiliation":["Massachusetts Institute of Technology"],"kind":"ContactPerson","value":"Duflo,
-        Esther"},{"kind":"Producer","value":"Esther Duflo"},{"kind":"Producer","value":"Rohini
-        Pande"},{"kind":"Distributor","value":"Jameel Poverty Action Lab"}],"publication_information":["Harvard
-        Dataverse"],"dates":[{"kind":"Publication date","value":"2007"},{"kind":"Issued","value":"2006"},{"kind":"Created","value":"2006"},{"kind":"Submitted","value":"2006"},{"kind":"Updated","value":"2020-03-31"}],"notes":[{"kind":"Datacite
-        resource type","value":["census data"]},{"kind":"Other","value":["Subject:
-        STANDARD DEPOSIT TERMS 1.0  Type: DATAPASS:TERMS:STANDARD:1.0  Notes: This
-        study was deposited under the of the Data-PASS standard deposit terms. A copy
-        of the usage agreement is included in the file section of this study.;"]}],"content_type":["Dataset"],"edition":"4.2","file_formats":["application/x-stata","text/tab-separated-values","application/pdf","application/pdf","application/x-stata","text/tab-separated-values","application/pdf","application/x-stata","text/tab-separated-values","application/pdf","application/x-stata","text/tab-separated-values","application/pdf","text/tab-separated-values","application/pdf"],"format":"electronic
-        resource","locations":[{"value":"MIT, Cambridge MA"}],"rights":[{"uri":"info:eu-repo/semantics/openAccess"},{"uri":"http://creativecommons.org/publicdomain/zero/1.0"}],"subjects":[{"value":["Social
-        Sciences"]},{"value":["dams and poverty"]},{"value":["The MacArthur Network
-        on Inequality"]},{"value":["JPAL"]},{"kind":"Economic theory and demography","value":["Economic
-        theory"]},{"kind":"Economic theory and demography","value":["Demography"]},{"kind":"Health","value":["Public
+      string: '{"data":{"recordId":{"alternateTitles":null,"callNumbers":null,"contentType":["Dataset"],"contents":null,"contributors":[{"affiliation":["Massachusetts
+        Institute of Technology"],"identifier":["https://orcid.org/0000-0003-0140-9417"],"kind":"Creator","mitAffiliated":null,"value":"Duflo,
+        Esther"},{"affiliation":["Harvard University"],"identifier":["https://orcid.org/0000-0002-0090-0987"],"kind":"Creator","mitAffiliated":null,"value":"Pande,
+        Rohini"},{"affiliation":["Harvard University"],"identifier":null,"kind":"ContactPerson","mitAffiliated":null,"value":"Pande,
+        Rohini"},{"affiliation":["Massachusetts Institute of Technology"],"identifier":null,"kind":"ContactPerson","mitAffiliated":null,"value":"Duflo,
+        Esther"},{"affiliation":null,"identifier":null,"kind":"Producer","mitAffiliated":null,"value":"Esther
+        Duflo"},{"affiliation":null,"identifier":null,"kind":"Producer","mitAffiliated":null,"value":"Rohini
+        Pande"},{"affiliation":null,"identifier":null,"kind":"Distributor","mitAffiliated":null,"value":"Jameel
+        Poverty Action Lab"}],"dates":[{"kind":"Publication date","note":null,"range":null,"value":"2007"},{"kind":"Issued","note":null,"range":null,"value":"2006"},{"kind":"Created","note":null,"range":null,"value":"2006"},{"kind":"Submitted","note":null,"range":null,"value":"2006"},{"kind":"Updated","note":null,"range":null,"value":"2020-03-31"}],"edition":"4.2","fundingInformation":null,"holdings":null,"identifiers":[{"kind":"DOI","value":"10.7910/DVN/MNIBOL"}],"languages":null,"links":null,"literaryForm":null,"locations":[{"geopoint":null,"kind":null,"value":"MIT,
+        Cambridge MA"}],"notes":[{"kind":"Datacite resource type","value":["census
+        data"]},{"kind":"Other","value":["Subject: STANDARD DEPOSIT TERMS 1.0  Type:
+        DATAPASS:TERMS:STANDARD:1.0  Notes: This study was deposited under the of
+        the Data-PASS standard deposit terms. A copy of the usage agreement is included
+        in the file section of this study.;"]}],"numbering":null,"physicalDescription":null,"publicationFrequency":null,"publicationInformation":["Harvard
+        Dataverse"],"relatedItems":null,"rights":[{"description":null,"kind":null,"uri":"info:eu-repo/semantics/openAccess"},{"description":null,"kind":null,"uri":"http://creativecommons.org/publicdomain/zero/1.0"}],"source":"Abdul
+        Latif Jameel Poverty Action Lab Dataverse","sourceLink":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL","subjects":[{"kind":null,"value":["Social
+        Sciences"]},{"kind":null,"value":["dams and poverty"]},{"kind":null,"value":["The
+        MacArthur Network on Inequality"]},{"kind":null,"value":["JPAL"]},{"kind":"Economic
+        theory and demography","value":["Economic theory"]},{"kind":"Economic theory
+        and demography","value":["Demography"]},{"kind":"Health","value":["Public
         health"]}],"summary":["The data contains 5 different files, classified by
         topic. The file india_pov_c81_revise.dta contains variables on the number
         of dams in each district as well as information about the neighbouring districts.
@@ -101,6 +98,7 @@ http_interactions:
         crops. The file census.dta contains data on the population size and occupation.
         The file india_public_updown_doc.dta contains data on the availability of
         public goods such as water access, power facilities and road. The file malaria_code81.dta
-        contains in addition a variable about malaria incidence."]}'
-  recorded_at: Fri, 06 May 2022 22:41:04 GMT
+        contains in addition a variable about malaria incidence."],"timdexRecordId":"jpal:doi:10.7910-DVN-MNIBOL","title":"Dams,
+        Poverty, Public Goods and Malaria Incidence in India"}}}'
+  recorded_at: Thu, 26 May 2022 21:02:04 GMT
 recorded_with: VCR 6.1.0

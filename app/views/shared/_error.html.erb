@@ -2,5 +2,5 @@
 
 <div class="alert alert-banner error">
   <%= error['message'] %><br>
-  <%= error['extensions']['problems'].pluck("explanation").join %>
+  <%= error&.dig('extensions')&.dig('problems')&.pluck("explanation")&.join %>
 </div>

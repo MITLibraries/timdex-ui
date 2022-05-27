@@ -5,8 +5,6 @@ class QueryBuilder
     term = enhanced_query[:q]
     @query = {}
     @query['q'] = clean_term(term)
-    @query['full'] = false
-    @query['page'] = 1
   end
 
   def querystring
