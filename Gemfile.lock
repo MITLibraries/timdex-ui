@@ -177,6 +177,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.13.6-x86_64-linux)
       racc (~> 1.4)
+    pagy (5.10.1)
+      activesupport
     parallel (1.22.1)
     parser (3.1.2.0)
       ast (~> 2.4.1)
@@ -312,6 +314,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   mitlibraries-theme (~> 0.7.0)
+  pagy
   pg
   puma (~> 5.0)
   rails (~> 7.0.2, >= 7.0.2.3)

@@ -19,9 +19,11 @@ class BasicSearchController < ApplicationController
 
     # handle records
     # for now no other analyzing, but at this phase we might later do additional analysis / reordering as we learn more
+    hits = response&.data&.search&.to_h&.dig('hits')
+    @results = response&.data&.search&.to_h&.dig('records')
 
     # Display stuff
-    @results = response&.data&.search&.to_h&.dig('records')
+    @pagy, = pagy_array(@results, count: hits)
     @facets = response&.data&.search&.to_h&.dig('aggregations')
   end
 

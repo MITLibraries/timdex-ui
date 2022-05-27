@@ -12,7 +12,7 @@ http_interactions:
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":null,"from":"0"},"operationName":"Timdex__SearchQuery"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"data","from":"31415926537"},"operationName":"Timdex__SearchQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -24,49 +24,31 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 500
+      message: Internal Server Error
     headers:
       Server:
       - Cowboy
       Date:
-      - Tue, 31 May 2022 20:20:58 GMT
+      - Tue, 31 May 2022 20:28:35 GMT
       Connection:
       - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
       Content-Type:
-      - application/json; charset=utf-8
-      Vary:
-      - Accept, Origin
-      Etag:
-      - W/"082890621dfa28a3a5d51281c7cd9c30"
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - application/json; charset=UTF-8
       X-Request-Id:
-      - 570e8a56-aa42-4ff2-a6c1-e591d1277e63
+      - a322bfef-69bc-4fdc-b5a9-c117f6df5402
       X-Runtime:
-      - '0.009272'
+      - '0.209030'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Transfer-Encoding:
-      - chunked
+      Vary:
+      - Origin
+      Content-Length:
+      - '46'
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"errors":[{"message":"Variable $q of type String! was provided invalid
-        value","locations":[{"line":1,"column":27}],"extensions":{"value":null,"problems":[{"path":[],"explanation":"Expected
-        value to not be null"}]}}]}'
-  recorded_at: Tue, 31 May 2022 20:20:59 GMT
+      string: '{"status":500,"error":"Internal Server Error"}'
+  recorded_at: Tue, 31 May 2022 20:28:35 GMT
 recorded_with: VCR 6.1.0
