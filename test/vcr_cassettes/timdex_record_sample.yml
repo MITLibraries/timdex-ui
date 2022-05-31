@@ -5,7 +5,7 @@ http_interactions:
     uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
-      string: '{"query":"query Timdex__RecordQuery($id: String!) {\n  recordId(id:
+      string: '{"query":"query TimdexRecord__Query($id: String!) {\n  recordId(id:
         $id) {\n    alternateTitles {\n      kind\n      value\n    }\n    callNumbers\n    contentType\n    contents\n    contributors
         {\n      affiliation\n      identifier\n      kind\n      mitAffiliated\n      value\n    }\n    dates
         {\n      kind\n      note\n      range {\n        gte\n        lte\n      }\n      value\n    }\n    edition\n    fundingInformation
@@ -15,7 +15,7 @@ http_interactions:
         {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    publicationFrequency\n    publicationInformation\n    relatedItems
         {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
         {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
-        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"jpal:doi:10.7910-DVN-MNIBOL"},"operationName":"Timdex__RecordQuery"}'
+        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"jpal:doi:10.7910-DVN-MNIBOL"},"operationName":"TimdexRecord__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
