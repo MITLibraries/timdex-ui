@@ -18,7 +18,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('timdex record sample',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = Timdex::Client.query(Timdex::RecordQuery, variables: basic_record)
+      response = TimdexBase::Client.query(TimdexRecord::Query, variables: basic_record)
       assert response.errors.empty?
       assert_equal 1, response.data.to_h.count
       assert_equal 'Dams, Poverty, Public Goods and Malaria Incidence in India', response.data.to_h['recordId']['title']
@@ -32,7 +32,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('timdex record no record',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = Timdex::Client.query(Timdex::RecordQuery, variables: no_record)
+      response = TimdexBase::Client.query(TimdexRecord::Query, variables: no_record)
       refute response.errors.empty?
       assert response.data.nil?
     end
@@ -45,7 +45,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('timdex record null record',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = Timdex::Client.query(Timdex::RecordQuery, variables: null_record)
+      response = TimdexBase::Client.query(TimdexRecord::Query, variables: null_record)
       refute response.errors.empty?
       assert response.data.nil?
     end
@@ -56,7 +56,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('data',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = Timdex::Client.query(Timdex::SearchQuery, variables: basic_search)
+      response = TimdexBase::Client.query(TimdexSearch::Query, variables: basic_search)
       assert_equal response.class, GraphQL::Client::Response
       refute response.data.search.nil?
       assert response.errors.empty?
@@ -70,7 +70,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('timdex null search',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = Timdex::Client.query(Timdex::SearchQuery, variables: null_search)
+      response = TimdexBase::Client.query(TimdexSearch::Query, variables: null_search)
       assert_equal response.class, GraphQL::Client::Response
       assert response.data.nil?
       refute response.errors.empty?
@@ -85,7 +85,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('timdex empty search',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = Timdex::Client.query(Timdex::SearchQuery, variables: empty_search)
+      response = TimdexBase::Client.query(TimdexSearch::Query, variables: empty_search)
       assert_equal response.class, GraphQL::Client::Response
       refute response.data.search.nil?
       assert response.errors.empty?

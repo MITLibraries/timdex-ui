@@ -28,7 +28,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results with valid query displays the query' do
     VCR.use_cassette('timdex hallo',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=hallo'
       assert_response :success
       assert_nil flash[:error]
@@ -39,7 +40,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results with valid query shows search form' do
     VCR.use_cassette('timdex hallo',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=hallo'
       assert_response :success
 
@@ -49,7 +51,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results with valid query populates search form with query' do
     VCR.use_cassette('data',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=data'
       assert_response :success
 
@@ -59,7 +62,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results with valid query has div for hints' do
     VCR.use_cassette('data',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=data'
       assert_response :success
 
@@ -69,7 +73,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results with valid query has div for facets which is populated' do
     VCR.use_cassette('data',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=data'
       assert_response :success
       assert_select '#facets'
@@ -79,7 +84,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results with valid query has div for pagination' do
     VCR.use_cassette('data',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=data'
       assert_response :success
 
@@ -89,7 +95,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results with valid query has div for results which is populated' do
     VCR.use_cassette('data',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=data'
       assert_response :success
       assert_select '#results'
@@ -99,7 +106,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results with valid query include links' do
     VCR.use_cassette('data',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=data'
       assert_select '#results .record-title a' do |value|
         refute_nil(value.xpath('./@href').text)
@@ -109,7 +117,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'searches with zero results are handled gracefully' do
     VCR.use_cassette('timdex no results',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=asdfiouwenlasd'
       assert_response :success
       # Result list contents state "no results"
@@ -125,7 +134,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'searches with ISSN display issn fact card' do
     VCR.use_cassette('timdex 1234-5678',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=1234-5678'
       assert_response :success
 
@@ -136,7 +146,8 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'searches with ISBN display isbn fact card' do
     VCR.use_cassette('timdex 9781509053278',
-                     allow_playback_repeats: true) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       get '/results?q=9781509053278'
       assert_response :success
 

@@ -11,7 +11,7 @@ class BasicSearchController < ApplicationController
     query = QueryBuilder.new(@enhanced_query).query
 
     # builder hands off to wrapper which returns raw results here
-    response = Timdex::Client.query(Timdex::SearchQuery, variables: query)
+    response = TimdexBase::Client.query(TimdexSearch::Query, variables: query)
 
     # Analyze results
     # handle errors
