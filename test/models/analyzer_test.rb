@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class AnalyzerTest < ActiveSupport::TestCase
-  test 'analyzer pagination includes three values at start of results' do
+  test 'analyzer pagination does not include previous page value on first page of results' do
     VCR.use_cassette('data',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -21,7 +21,7 @@ class AnalyzerTest < ActiveSupport::TestCase
     end
   end
 
-  test 'analyzer pagination includes four values in middle page of results' do
+  test 'analyzer pagination includes all values when not on first or last page of results' do
     VCR.use_cassette('data page 2',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -40,7 +40,7 @@ class AnalyzerTest < ActiveSupport::TestCase
     end
   end
 
-  test 'analyzer pagination includes three values at end of results' do
+  test 'analyzer pagination does not include last page value on last page of results' do
     VCR.use_cassette('data last page',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do

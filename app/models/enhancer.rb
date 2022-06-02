@@ -12,7 +12,6 @@ class Enhancer
   private
 
   def calculate_page(value = 0)
-    # This needs to return a positive integer.
     value < 1 ? 1 : value
   end
 
