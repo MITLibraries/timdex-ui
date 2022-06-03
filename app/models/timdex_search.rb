@@ -3,8 +3,14 @@ require 'graphql/client/http'
 
 class TimdexSearch < TimdexBase
   Query = TimdexBase::Client.parse <<-'GRAPHQL'
-    query($q: String!) {
-      search(searchterm: $q) {
+    query(
+      $q: String!
+      $from: String!
+    ) {
+      search(
+        searchterm: $q
+        from: $from
+      ) {
         hits
         records {
           timdexRecordId

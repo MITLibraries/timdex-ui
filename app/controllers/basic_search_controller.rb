@@ -13,12 +13,12 @@ class BasicSearchController < ApplicationController
     # builder hands off to wrapper which returns raw results here
     response = TimdexBase::Client.query(TimdexSearch::Query, variables: query)
 
-    # Analyze results
-    # handle errors
+    # Handle errors
     @errors = response&.errors&.details&.to_h&.dig('data')
 
-    # handle records
-    # for now no other analyzing, but at this phase we might later do additional analysis / reordering as we learn more
+    # Analayze results
+    # The @pagination instance variable includes info about next/previous pages (where they exist) to assist the UI.
+    @pagination = Analyzer.new(@enhanced_query, response).pagination if @errors.nil?
 
     # Display stuff
     @results = response&.data&.search&.to_h&.dig('records')
