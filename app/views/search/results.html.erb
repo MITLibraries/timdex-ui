@@ -1,0 +1,68 @@
+<%= content_for(:title, "Search Results | MIT Libraries") %>
+
+<div class="space-wrap">
+
+  <p>Showing results for:
+      <ul>
+        <% if params[:q].present? %>
+          <li>Keyword anywhere: <%= params[:q] %></li>
+        <% end %>
+        <% if params[:citation].present? %>
+          <li>Citation: <%= params[:citation] %></li>
+        <% end %>
+        <% if params[:contributors].present? %>
+          <li>Contributors: <%= params[:contributors] %></li>
+        <% end %>
+        <% if params[:fundingInformation].present? %>
+          <li>Funders: <%= params[:fundingInformation] %></li>
+        <% end %>
+        <% if params[:identifiers].present? %>
+          <li>Identifiers: <%= params[:identifiers] %></li>
+        <% end %>
+        <% if params[:locations].present? %>
+          <li>Locations: <%= params[:locations] %></li>
+        <% end %>
+        <% if params[:subjects].present? %>
+          <li>Subjects: <%= params[:subjects] %></li>
+        <% end %>
+        <% if params[:title].present? %>
+          <li>Title: <%= params[:title] %></li>
+        <% end %>
+        <% if params[:source].present? %>
+          <li>Source: <%= params[:source] %></li>
+        <% end %>
+      </ul>
+  </p>
+
+  <% if params[:advanced].present? %>
+    <%= render partial: "advanced_search/form" %>
+  <% else %>
+    <%= render partial: "basic_search/form" %>
+  <% end %>
+
+  <div id="hint">
+    <%= render(partial: 'search/issn') %>
+    <%= render(partial: 'search/isbn') %>
+  </div>
+
+  <%= render(partial: 'shared/error', collection: @errors) %>
+
+  <div class="layout-1q3q layout-band top-space">
+    <div class="col3q">
+      <ul id="results" class="list-unbulleted">
+        <%= render(partial: 'search/result', collection: @results) || render('result_empty') %>
+      </ul>
+    </div>
+
+    <aside class="col1q">
+      <div id="facets">
+        <h2>Available filters</h2>
+        <%= render(partial: 'search/facet', collection: @facets) || render('facet_empty') %>
+      </div>
+    </aside>
+  </div>
+
+  <div id="pagination">  
+    <%= render partial: "pagination" %>
+  </div>
+</div>

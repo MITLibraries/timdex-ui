@@ -34,7 +34,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_nil flash[:error]
 
-      assert_select '#content-main h1', 'Showing results for "hallo"'
+      assert_select 'li', 'Keyword anywhere: hallo'
     end
   end
 
@@ -50,7 +50,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query populates search form with query' do
-    VCR.use_cassette('data',
+    VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get '/results?q=data'
@@ -61,7 +61,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query has div for hints' do
-    VCR.use_cassette('data',
+    VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get '/results?q=data'
@@ -72,7 +72,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query has div for facets which is populated' do
-    VCR.use_cassette('data',
+    VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get '/results?q=data'
@@ -83,7 +83,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query has div for pagination' do
-    VCR.use_cassette('data',
+    VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get '/results?q=data'
@@ -94,7 +94,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query has div for results which is populated' do
-    VCR.use_cassette('data',
+    VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get '/results?q=data'
@@ -105,7 +105,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results with valid query include links' do
-    VCR.use_cassette('data',
+    VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get '/results?q=data'

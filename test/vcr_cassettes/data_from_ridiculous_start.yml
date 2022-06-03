@@ -5,8 +5,13 @@ http_interactions:
     uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
-      string: '{"query":"query TimdexSearch__Query($q: String!, $from: String!) {\n  search(searchterm:
-        $q, from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+      string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
+        $contributors: String, $fundingInformation: String, $identifiers: String,
+        $locations: String, $subjects: String, $title: String, $sourceFacet: String,
+        $from: String) {\n  search(searchterm: $q, citation: $citation, contributors:
+        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
+        locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
+        from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
@@ -30,15 +35,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 03 Jun 2022 14:09:03 GMT
+      - Fri, 03 Jun 2022 16:13:02 GMT
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - d5375755-da22-4dee-880b-a2e652fa7bed
+      - 6d997f4c-32e9-4cb7-9116-ece76abbac4d
       X-Runtime:
-      - '0.247723'
+      - '0.244222'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -50,5 +55,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Fri, 03 Jun 2022 14:09:04 GMT
+  recorded_at: Fri, 03 Jun 2022 16:13:02 GMT
 recorded_with: VCR 6.1.0

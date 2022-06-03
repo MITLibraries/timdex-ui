@@ -32,12 +32,6 @@
     </p>
   <% end %>
 
-  <% result['notes']&.each do |note| %>
-    <p>
-      <%= note['kind'] || 'Note' %>: <%= note['value'].join(' ') %>
-    </p>
-  <% end %>
-
   <p>
     Identifier: <%= result['timdexRecordId'] %>
   </p>
