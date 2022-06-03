@@ -5,14 +5,14 @@ http_interactions:
     uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
-      string: '{"query":"query Timdex__SearchQuery($q: String!, $from: String!) {\n  search(searchterm:
+      string: '{"query":"query TimdexSearch__Query($q: String!, $from: String!) {\n  search(searchterm:
         $q, from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"data","from":"320"},"operationName":"Timdex__SearchQuery"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"data","from":"320"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -30,7 +30,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 27 May 2022 17:48:26 GMT
+      - Fri, 03 Jun 2022 14:09:03 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -54,9 +54,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 8f05bbdc-0235-4e42-ad83-ce0b8bfc1fa9
+      - 7026f3d0-15d1-45c4-a0ea-7e54f147b38f
       X-Runtime:
-      - '0.060142'
+      - '0.069182'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -67,5 +67,5 @@ http_interactions:
       encoding: ASCII-8BIT
       string: !binary |-
         eyJkYXRhIjp7InNlYXJjaCI6eyJoaXRzIjozMjQsInJlY29yZHMiOlt7InRpbWRleFJlY29yZElkIjoianBhbDpkb2k6MTAuNzkxMC1EVk4tT0MzNVlDIiwidGl0bGUiOiJSYWphc3RoYW4gUG9saWNlIFBlcmZvcm1hbmNlIiwiY29udGVudFR5cGUiOlsiRGF0YXNldCJdLCJjb250cmlidXRvcnMiOlt7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJCYW5lcmplZSwgQWJoaWppdCJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkNoYXR0b3BhZGh5YXksIFJhZ2hhYmVuZHJhIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiRHVmbG8sIEVzdGhlciJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IktlbmlzdG9uLCBEYW5pZWwifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJTaW5naCwgTmluYSJ9LHsia2luZCI6IkNvbnRhY3RQZXJzb24iLCJ2YWx1ZSI6IkJhbmVyamVlLCBBYmhpaml0In0seyJraW5kIjoiQ29udGFjdFBlcnNvbiIsInZhbHVlIjoiQ2hhdHRvcGFkaHlheSwgUmFnaGFiZW5kcmEifSx7ImtpbmQiOiJDb250YWN0UGVyc29uIiwidmFsdWUiOiJEdWZsbywgRXN0aGVyIn0seyJraW5kIjoiQ29udGFjdFBlcnNvbiIsInZhbHVlIjoiS2VuaXN0b24sIERhbmllbCJ9LHsia2luZCI6IlByb2R1Y2VyIiwidmFsdWUiOiJBYmR1bCBMYXRpZiBKYW1lZWwgUG92ZXJ0eSBBY3Rpb24gTGFiIn0seyJraW5kIjoiRGlzdHJpYnV0b3IiLCJ2YWx1ZSI6IkphbWVlbCBQb3ZlcnR5IEFjdGlvbiBMYWIifV0sInB1YmxpY2F0aW9uSW5mb3JtYXRpb24iOlsiSGFydmFyZCBEYXRhdmVyc2UiXSwiZGF0ZXMiOlt7ImtpbmQiOiJQdWJsaWNhdGlvbiBkYXRlIiwidmFsdWUiOiIyMDExIn0seyJraW5kIjoiSXNzdWVkIiwidmFsdWUiOiIyMDExLTExLTAyIn0seyJraW5kIjoiQ3JlYXRlZCIsInZhbHVlIjoiMjAxMS0wOSJ9LHsia2luZCI6IlN1Ym1pdHRlZCIsInZhbHVlIjoiMjAxMS0xMS0wMiJ9LHsia2luZCI6IlVwZGF0ZWQiLCJ2YWx1ZSI6IjIwMTktMDUtMDMifSx7ImtpbmQiOiJDb2xsZWN0ZWQiLCJ2YWx1ZSI6bnVsbH1dLCJub3RlcyI6W3sia2luZCI6IkRhdGFjaXRlIHJlc291cmNlIHR5cGUiLCJ2YWx1ZSI6WyJTdXJ2ZXkgZGF0YS4iXX1dfSx7InRpbWRleFJlY29yZElkIjoiemVub2RvOjM4NzU5NzQiLCJ0aXRsZSI6IlByZWNpc2UgZGlzdGFuY2VzLCBtYXNzZXMsIGFnZXMgYW5kIDNEIHZlbG9jaXRpZXMgb2YgfjE0MDAwMCByZWQgY2x1bXAgc3RhcnMiLCJjb250ZW50VHlwZSI6WyJEYXRhc2V0Il0sImNvbnRyaWJ1dG9ycyI6W3sia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IllhbmcgSHVhbmcifV0sInB1YmxpY2F0aW9uSW5mb3JtYXRpb24iOlsiWmVub2RvIl0sImRhdGVzIjpbeyJraW5kIjoiUHVibGljYXRpb24gZGF0ZSIsInZhbHVlIjoiMjAyMCJ9LHsia2luZCI6Iklzc3VlZCIsInZhbHVlIjoiMjAyMC0wNi0wMyJ9XSwibm90ZXMiOm51bGx9LHsidGltZGV4UmVjb3JkSWQiOiJ6ZW5vZG86NTQ5NjAyOSIsInRpdGxlIjoiU3BlY3Ryb3Njb3BpYyBhbmQgcGh5c2ljYWwgY2hhcmFjdGVyaXphdGlvbiBvZiB0aGUgR2FsYWN0aWMgTy10eXBlIHN0YXJzIHRhcmdldGVkIGJ5IHRoZSBJQUNPQiBcdTAwMjYgT1dOIHN1cnZleXMiLCJjb250ZW50VHlwZSI6WyJUZXh0Il0sImNvbnRyaWJ1dG9ycyI6W3sia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkhvbGdhZG8sIEdvbnphbG8ifSx7ImtpbmQiOiJTdXBlcnZpc29yIiwidmFsdWUiOiJTaW3Ds24tRMOtYXosIFNlcmdpbyJ9LHsia2luZCI6IlN1cGVydmlzb3IiLCJ2YWx1ZSI6IkhlcnJlcm8sIEFydGVtaW8ifV0sInB1YmxpY2F0aW9uSW5mb3JtYXRpb24iOlsiWmVub2RvIl0sImRhdGVzIjpbeyJraW5kIjoiUHVibGljYXRpb24gZGF0ZSIsInZhbHVlIjoiMjAxOSJ9LHsia2luZCI6Iklzc3VlZCIsInZhbHVlIjoiMjAxOS0wMS0xNyJ9XSwibm90ZXMiOlt7ImtpbmQiOiJEYXRhY2l0ZSByZXNvdXJjZSB0eXBlIiwidmFsdWUiOlsiVGhlc2lzIl19XX0seyJ0aW1kZXhSZWNvcmRJZCI6Inplbm9kbzo1ODI3NjEiLCJ0aXRsZSI6IlVsdHJhLWhpZ2ggcmVzb2x1dGlvbiBvYnNlcnZhdGlvbnMgb2Ygc2VsZWN0ZWQgYmxhemFycyIsImNvbnRlbnRUeXBlIjpbIlRleHQiXSwiY29udHJpYnV0b3JzIjpbeyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiSmVmZnJleSBBLiBIb2Rnc29uIn1dLCJwdWJsaWNhdGlvbkluZm9ybWF0aW9uIjpbIlplbm9kbyJdLCJkYXRlcyI6W3sia2luZCI6IlB1YmxpY2F0aW9uIGRhdGUiLCJ2YWx1ZSI6IjIwMTUifSx7ImtpbmQiOiJJc3N1ZWQiLCJ2YWx1ZSI6IjIwMTUtMDEtMjgifV0sIm5vdGVzIjpbeyJraW5kIjoiRGF0YWNpdGUgcmVzb3VyY2UgdHlwZSIsInZhbHVlIjpbIlRoZXNpcyJdfV19XSwiYWdncmVnYXRpb25zIjp7ImNvbnRlbnRGb3JtYXQiOlt7ImtleSI6ImVsZWN0cm9uaWMgcmVzb3VyY2UiLCJkb2NDb3VudCI6MzI0fV0sImNvbnRlbnRUeXBlIjpbeyJrZXkiOiJkYXRhc2V0IiwiZG9jQ291bnQiOjIwN30seyJrZXkiOiJzb2Z0d2FyZSIsImRvY0NvdW50Ijo1NH0seyJrZXkiOiJ0ZXh0IiwiZG9jQ291bnQiOjM2fSx7ImtleSI6ImpvdXJuYWxhcnRpY2xlIiwiZG9jQ291bnQiOjh9LHsia2V5IjoiY29uZmVyZW5jZXBhcGVyIiwiZG9jQ291bnQiOjZ9LHsia2V5Ijoib3RoZXIiLCJkb2NDb3VudCI6NX0seyJrZXkiOiJpbWFnZSIsImRvY0NvdW50IjozfSx7ImtleSI6InByZXByaW50IiwiZG9jQ291bnQiOjJ9LHsia2V5IjoicmVwb3J0IiwiZG9jQ291bnQiOjJ9LHsia2V5IjoiYXVkaW92aXN1YWwiLCJkb2NDb3VudCI6MX1dLCJjb250cmlidXRvcnMiOlt7ImtleSI6ImR1ZmxvLCBlc3RoZXIiLCJkb2NDb3VudCI6NDd9LHsia2V5IjoiYmFuZXJqZWUsIGFiaGlqaXQiLCJkb2NDb3VudCI6MjJ9LHsia2V5IjoiZGFuZWhrYXIsIGFzaGtiaXoiLCJkb2NDb3VudCI6MTd9LHsia2V5IjoiZ2xlbm5lcnN0ZXIsIHJhY2hlbCIsImRvY0NvdW50IjoxNH0seyJrZXkiOiJkdXBhcywgcGFzY2FsaW5lIiwiZG9jQ291bnQiOjl9LHsia2V5Ijoia2FybGFuLCBkZWFuIiwiZG9jQ291bnQiOjl9LHsia2V5IjoiZ3JlZW5zdG9uZSwgbWljaGFlbCIsImRvY0NvdW50Ijo4fSx7ImtleSI6ImphbWVlbCBwb3ZlcnR5IGFjdGlvbiBsYWIiLCJkb2NDb3VudCI6OH0seyJrZXkiOiJhbmd1cyBjb21yaWUiLCJkb2NDb3VudCI6N30seyJrZXkiOiJoYW5uYSwgcmVtYSIsImRvY0NvdW50Ijo3fV0sImxhbmd1YWdlcyI6W3sia2V5IjoiZW4iLCJkb2NDb3VudCI6Nzh9LHsia2V5IjoiZWwiLCJkb2NDb3VudCI6MX0seyJrZXkiOiJmciIsImRvY0NvdW50IjoxfV0sImxpdGVyYXJ5Rm9ybSI6W10sInNvdXJjZSI6W3sia2V5IjoiemVub2RvIiwiZG9jQ291bnQiOjIyOH0seyJrZXkiOiJhYmR1bCBsYXRpZiBqYW1lZWwgcG92ZXJ0eSBhY3Rpb24gbGFiIGRhdGF2ZXJzZSIsImRvY0NvdW50Ijo5Nn1dLCJzdWJqZWN0cyI6W3sia2V5Ijoic29jaWFsIHNjaWVuY2VzIiwiZG9jQ291bnQiOjk2fSx7ImtleSI6ImFzdHJvbm9teSIsImRvY0NvdW50Ijo0NX0seyJrZXkiOiJyYWRpbyBhc3Ryb25vbXkiLCJkb2NDb3VudCI6MTN9LHsia2V5IjoibWVkaWNpbmUsIGhlYWx0aCBhbmQgbGlmZSBzY2llbmNlcyIsImRvY0NvdW50IjoxMH0seyJrZXkiOiJhc3Ryb3BoeXNpY3MiLCJkb2NDb3VudCI6OX0seyJrZXkiOiJpZGwiLCJkb2NDb3VudCI6OX0seyJrZXkiOiJqcGFsIiwiZG9jQ291bnQiOjd9LHsia2V5IjoiYWxtYSIsImRvY0NvdW50Ijo2fSx7ImtleSI6ImNvc21vbG9neSIsImRvY0NvdW50Ijo2fSx7ImtleSI6ImRhdGEgdmlzdWFsaXNhdGlvbiIsImRvY0NvdW50Ijo2fV19fX19
-  recorded_at: Fri, 27 May 2022 17:48:26 GMT
+  recorded_at: Fri, 03 Jun 2022 14:09:04 GMT
 recorded_with: VCR 6.1.0

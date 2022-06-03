@@ -5,14 +5,14 @@ http_interactions:
     uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
-      string: '{"query":"query Timdex__SearchQuery($q: String!, $from: String!) {\n  search(searchterm:
+      string: '{"query":"query TimdexSearch__Query($q: String!, $from: String!) {\n  search(searchterm:
         $q, from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"data","from":"31415926537"},"operationName":"Timdex__SearchQuery"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"data","from":"31415926537"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -30,15 +30,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 27 May 2022 18:54:12 GMT
+      - Fri, 03 Jun 2022 14:09:03 GMT
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - 27e17e3e-2256-4feb-bb59-94975f508d69
+      - d5375755-da22-4dee-880b-a2e652fa7bed
       X-Runtime:
-      - '0.269154'
+      - '0.247723'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -50,5 +50,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Fri, 27 May 2022 18:54:13 GMT
+  recorded_at: Fri, 03 Jun 2022 14:09:04 GMT
 recorded_with: VCR 6.1.0
