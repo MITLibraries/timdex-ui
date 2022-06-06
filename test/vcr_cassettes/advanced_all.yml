@@ -17,7 +17,7 @@ http_interactions:
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"9781509053278"},"operationName":"TimdexSearch__Query"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"data","citation":"citation","contributors":"contribs","fundingInformation":"fund","identifiers":"ids","locations":"locs","subjects":"subs","title":"title","sourceFacet":"sauce"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 03 Jun 2022 16:11:31 GMT
+      - Fri, 03 Jun 2022 16:12:09 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -59,9 +59,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - a2667c8c-9573-440b-b42d-aac28945a919
+      - a7d53eee-2b85-4ffc-9a55-8043a6d17e8c
       X-Runtime:
-      - '0.077229'
+      - '0.099001'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -71,5 +71,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Fri, 03 Jun 2022 16:11:32 GMT
+  recorded_at: Fri, 03 Jun 2022 16:12:09 GMT
 recorded_with: VCR 6.1.0

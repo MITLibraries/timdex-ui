@@ -5,14 +5,19 @@ http_interactions:
     uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
-      string: '{"query":"query TimdexSearch__Query($q: String!, $from: String!) {\n  search(searchterm:
-        $q, from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+      string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
+        $contributors: String, $fundingInformation: String, $identifiers: String,
+        $locations: String, $subjects: String, $title: String, $sourceFacet: String,
+        $from: String) {\n  search(searchterm: $q, citation: $citation, contributors:
+        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
+        locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
+        from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"hallo","from":"0"},"operationName":"TimdexSearch__Query"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"hallo"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -30,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 03 Jun 2022 14:08:04 GMT
+      - Fri, 03 Jun 2022 16:11:31 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -54,9 +59,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 6fcd0763-abb0-4817-9fad-283f2ed0bfee
+      - fd13e9da-d2a5-4070-8c72-37853de7680d
       X-Runtime:
-      - '0.074460'
+      - '0.150537'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -66,5 +71,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Fri, 03 Jun 2022 14:08:04 GMT
+  recorded_at: Fri, 03 Jun 2022 16:11:31 GMT
 recorded_with: VCR 6.1.0

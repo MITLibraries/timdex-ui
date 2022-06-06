@@ -66,5 +66,5 @@ When generating new cassettes for timdex-ui, update `.env.test` to have appropri
 The schema for the GraphQL endpoint can be found at `/config/schema/schema.json`. This schema is used by the graphql-client gem, and so must be kept in sync with the Timdex GraphQL API. Updating the schema can be accomplished via the following command in the console:
 
 ```ruby
-GraphQL::Client.dump_schema(Timdex::HTTP, 'config/schema/schema.json')
+GraphQL::Client.dump_schema(TimdexBase::HTTP, 'config/schema/schema.json')
 ```

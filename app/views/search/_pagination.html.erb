@@ -3,7 +3,7 @@
 <div class="gridband layout-3c">
   <div class="grid-item box-content">
     <% if @pagination[:prev] %>
-      <%= link_to "Previous page (#{@pagination[:prev]})", "?q=#{params[:q]}&page=#{@pagination[:prev]}" %>
+      <%= prev_url(@enhanced_query) %>
     <% else %>
       First page
     <% end %>
@@ -11,7 +11,7 @@
   <div class="grid-item box-content">Page <%= @pagination[:page] %> of <%= (@pagination[:hits] / 20) + 1 %></div>
   <div class="grid-item box-content">
     <% if @pagination[:next] %>
-      <%= link_to "Next page (#{@pagination[:next]})", "?q=#{params[:q]}&page=#{@pagination[:next]}" %>
+      <%= next_url(@enhanced_query) %>
     <% else %>
       Last page
     <% end %>

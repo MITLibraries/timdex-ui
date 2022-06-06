@@ -1067,6 +1067,66 @@
                   "defaultValue": "null"
                 },
                 {
+                  "name": "citation",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
+                },
+                {
+                  "name": "contributors",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
+                },
+                {
+                  "name": "fundingInformation",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
+                },
+                {
+                  "name": "identifiers",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
+                },
+                {
+                  "name": "locations",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
+                },
+                {
+                  "name": "subjects",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
+                },
+                {
                   "name": "title",
                   "description": null,
                   "type": {
@@ -1087,7 +1147,25 @@
                   "defaultValue": "\"0\""
                 },
                 {
-                  "name": "contentType",
+                  "name": "collectionFacet",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": "null"
+                },
+                {
+                  "name": "contentTypeFacet",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1097,7 +1175,7 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "contributors",
+                  "name": "contributorsFacet",
                   "description": null,
                   "type": {
                     "kind": "LIST",
@@ -1115,7 +1193,7 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "format",
+                  "name": "formatFacet",
                   "description": null,
                   "type": {
                     "kind": "LIST",
@@ -1133,7 +1211,7 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "languages",
+                  "name": "languagesFacet",
                   "description": null,
                   "type": {
                     "kind": "LIST",
@@ -1151,7 +1229,7 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "literaryForm",
+                  "name": "literaryFormFacet",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1161,7 +1239,7 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "source",
+                  "name": "sourceFacet",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1171,7 +1249,7 @@
                   "defaultValue": "\"All\""
                 },
                 {
-                  "name": "subjects",
+                  "name": "subjectsFacet",
                   "description": null,
                   "type": {
                     "kind": "LIST",
@@ -1254,6 +1332,20 @@
                     "ofType": null
                   }
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "citation",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

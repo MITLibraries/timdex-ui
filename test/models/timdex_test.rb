@@ -64,7 +64,11 @@ class TimdexTest < ActiveSupport::TestCase
     end
   end
 
-  test 'Timdex search query throws error with null search' do
+  test 'Timdex search returns all records with null search' do
+    # note, this behavior is prevented in basic search controller by ensuring q is a valid search
+    # however, to allow for complex advanced searches including potentially just browsing all records from a single
+    # source, we are not preventing this functionality at the timdex query level and controllers should do the
+    # appropriate checking to prevent undesired results.
     null_search = {
       'q' => nil,
       'from' => '0'
@@ -74,9 +78,9 @@ class TimdexTest < ActiveSupport::TestCase
                      match_requests_on: %i[method uri body]) do
       response = TimdexBase::Client.query(TimdexSearch::Query, variables: null_search)
       assert_equal response.class, GraphQL::Client::Response
-      assert response.data.nil?
-      refute response.errors.empty?
-      assert response.errors.messages.count, { minimum: 1 }
+      refute response.data.nil?
+      assert response.errors.empty?
+      assert_equal response.errors.messages.count, 0
     end
   end
 
