@@ -95,4 +95,65 @@ class EnhancerPatternsTest < ActiveSupport::TestCase
     actual = EnhancerPatterns.new(enhanced_query, '12345-5678 1234-56789').enhanced_query
     assert_nil(actual[:issn])
   end
+
+  test 'doi detected in string' do
+    enhanced_query = {}
+
+    actual = EnhancerPatterns.new(enhanced_query,
+                                  '"Quantum tomography: Measured measurement", Markus Aspelmeyer, nature physics "\
+                                  "January 2009, Volume 5, No 1, pp11-12; [ doi:10.1038/nphys1170 ]').enhanced_query
+    assert_equal('10.1038/nphys1170', actual[:doi])
+  end
+
+  test 'doi examples' do
+    enhanced_query = {}
+
+    samples = %w[10.1038/nphys1170 10.1002/0470841559.ch1 10.1594/PANGAEA.726855 10.1594/GFZ.GEOFON.gfz2009kciu
+                 10.1594/PANGAEA.667386 10.3207/2959859860 10.3866/PKU.WHXB201112303 10.1430/8105 10.1392/BC1.0]
+
+    samples.each do |doi|
+      actual = EnhancerPatterns.new(enhanced_query, doi).enhanced_query
+      assert_equal(doi, actual[:doi])
+    end
+  end
+
+  test 'not doi examples' do
+    enhanced_query = {}
+
+    samples = ['orange cats like popcorn', '10.1234 almost doi', 'another doi not found here', '99921-58-10-7']
+
+    samples.each do |notdoi|
+      actual = EnhancerPatterns.new(enhanced_query, notdoi).enhanced_query
+      assert_nil(actual[:notdoi])
+    end
+  end
+
+  test 'pmid detected in string' do
+    enhanced_query = {}
+
+    actual = EnhancerPatterns.new(enhanced_query, 'Citation and stuff PMID: 35648703 more stuff.').enhanced_query
+    assert_equal('PMID: 35648703', actual[:pmid])
+  end
+
+  test 'pmid examples' do
+    enhanced_query = {}
+
+    samples = ['PMID: 35648703', 'pmid: 1234567']
+
+    samples.each do |pmid|
+      actual = EnhancerPatterns.new(enhanced_query, pmid).enhanced_query
+      assert_equal(pmid, actual[:pmid])
+    end
+  end
+
+  test 'not pmid examples' do
+    enhanced_query = {}
+
+    samples = ['orange cats like popcorn', 'pmid:almost', 'PMID: asdf', '99921-58-10-7']
+
+    samples.each do |notpmid|
+      actual = EnhancerPatterns.new(enhanced_query, notpmid).enhanced_query
+      assert_nil(actual[:pmid])
+    end
+  end
 end

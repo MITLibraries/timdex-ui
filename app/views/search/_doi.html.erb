@@ -1,17 +1,16 @@
-<% return unless @enhanced_query[:issn].present? %>
+<% return unless @enhanced_query[:doi].present? %>
 
-<% json = FactIssn.new.info(@enhanced_query[:issn]) %>
+<% json = FactDoi.new.info(@enhanced_query[:doi]) %>
 <% return unless json.present? %>
 
-<div id="issn-fact" class="fact">
-  <div class="panel panel-info">
+<div id="doi-fact" class="fact">
+  <div class="panel panel-success">
     <div class="panel-heading">
       <%= json[:title] %>
     </div>
 
     <div class="panel-body">
       <ul>
-        <li><%= @enhanced_query[:issn] %></li>
         <li><%= json[:publisher] %></li>
       </ul>
     </div>
