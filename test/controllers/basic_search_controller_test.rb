@@ -144,7 +144,31 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'searches with ISSN that does not return data do not display card' do
+    VCR.use_cassette('timdex 1546-170X',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=1546-170X'
+      assert_response :success
+
+      assert_select '#issn-fact', { count: 0 }
+      assert_select '#isbn-fact', { count: 0 }
+    end
+  end
+
   test 'searches with ISBN display isbn fact card' do
+    VCR.use_cassette('timdex 9781857988536',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=9781857988536'
+      assert_response :success
+
+      assert_select '#issn-fact', { count: 0 }
+      assert_select '#isbn-fact', { count: 1 }
+    end
+  end
+
+  test 'searches with ISBN that does not return data do not display card' do
     VCR.use_cassette('timdex 9781509053278',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -152,7 +176,55 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
 
       assert_select '#issn-fact', { count: 0 }
-      assert_select '#isbn-fact', { count: 1 }
+      assert_select '#isbn-fact', { count: 0 }
+    end
+  end
+
+  test 'searches with DOI display doi fact card' do
+    VCR.use_cassette('timdex 10.1038.nphys1170 ',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=10.1038/nphys1170 '
+      assert_response :success
+
+      assert_select '#issn-fact', { count: 0 }
+      assert_select '#doi-fact', { count: 1 }
+    end
+  end
+
+  test 'searches with DOI that does not return data do not display card' do
+    VCR.use_cassette('timdex 10.3207.2959859860 ',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=10.3207/2959859860'
+      assert_response :success
+
+      assert_select '#issn-fact', { count: 0 }
+      assert_select '#doi-fact', { count: 0 }
+    end
+  end
+
+  test 'searches with pmid display pmid fact card' do
+    VCR.use_cassette('timdex PMID 35649707',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=PMID: 35649707'
+      assert_response :success
+
+      assert_select '#issn-fact', { count: 0 }
+      assert_select '#pmid-fact', { count: 1 }
+    end
+  end
+
+  test 'searches with pmid that does not return data do not display card' do
+    VCR.use_cassette('timdex PMID 99999999',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=PMID: 99999999 '
+      assert_response :success
+
+      assert_select '#issn-fact', { count: 0 }
+      assert_select '#pmid-fact', { count: 0 }
     end
   end
 end

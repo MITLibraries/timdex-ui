@@ -1,14 +1,18 @@
 <% return unless @enhanced_query[:isbn].present? %>
 
+<% json = FactIsbn.new.info(@enhanced_query[:isbn]) %>
+<% return unless json.present? %>
+
 <div id="isbn-fact" class="fact">
   <div class="panel panel-info">
     <div class="panel-heading">
-      ISBN Detected
+      <%= json[:title] %>
     </div>
 
     <div class="panel-body">
       <ul>
-        <li><%= @enhanced_query[:isbn] %></li>
+        <li><%= json[:publish_date] %></li>
+        <li><%= json[:publishers] %></li>
       </ul>
     </div>
 
