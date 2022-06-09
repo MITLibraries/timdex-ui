@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Wed, 08 Jun 2022 15:45:25 GMT
+      - Thu, 09 Jun 2022 17:51:51 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -59,9 +59,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 4c164f9f-1a1b-40d1-9429-35091d159116
+      - a78f49e8-be4b-470b-9fbf-5acd96d16e6d
       X-Runtime:
-      - '0.053134'
+      - '0.044155'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -71,60 +71,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Wed, 08 Jun 2022 15:45:25 GMT
-- request:
-    method: get
-    uri: https://api.crossref.org/journals/1234-5678
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      Connection:
-      - close
-      Host:
-      - api.crossref.org
-      User-Agent:
-      - http.rb/5.0.4
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Wed, 08 Jun 2022 15:45:25 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Access-Control-Expose-Headers:
-      - Link
-      Access-Control-Allow-Headers:
-      - X-Requested-With, Accept, Accept-Encoding, Accept-Charset, Accept-Language,
-        Accept-Ranges, Cache-Control
-      Access-Control-Allow-Origin:
-      - "*"
-      Server:
-      - Jetty(9.4.40.v20210413)
-      X-Ratelimit-Limit:
-      - '50'
-      X-Ratelimit-Interval:
-      - 1s
-      X-Api-Pool:
-      - public
-      X-Rate-Limit-Limit:
-      - '50'
-      X-Rate-Limit-Interval:
-      - 1s
-      Permissions-Policy:
-      - interest-cohort=()
-      Connection:
-      - close
-    body:
-      encoding: ASCII-8BIT
-      string: '{"status":"ok","message-type":"journal","message-version":"1.0.0","message":{"last-status-check-time":1654651795560,"counts":{"current-dois":0,"backfile-dois":36,"total-dois":36},"breakdowns":{"dois-by-issued-year":[[1999,8],[2002,7],[2006,6],[2005,5],[2000,3],[2001,2],[1985,2],[2007,1],[2004,1],[1988,1]]},"publisher":"Crossref
-        Test","coverage":{"affiliations-current":0.0,"similarity-checking-current":0.0,"descriptions-current":0.0,"ror-ids-current":0.0,"funders-backfile":0.0,"licenses-backfile":0.0,"funders-current":0.0,"affiliations-backfile":0.0,"resource-links-backfile":0.0,"orcids-backfile":0.0,"update-policies-current":0.0,"open-references-backfile":0.0,"ror-ids-backfile":0.0,"orcids-current":0.0,"similarity-checking-backfile":0.0,"references-backfile":0.08333333333333333,"descriptions-backfile":0.0,"award-numbers-backfile":0.0,"update-policies-backfile":0.0,"licenses-current":0.0,"award-numbers-current":0.0,"abstracts-backfile":0.0,"resource-links-current":0.0,"abstracts-current":0.0,"open-references-current":0.0,"references-current":0.0},"title":"Test
-        s Publication","subjects":[],"coverage-type":{"all":{"last-status-check-time":1654651795560,"affiliations":0.0,"abstracts":0.0,"orcids":0.0,"licenses":0.0,"references":0.08108108108108109,"funders":0.0,"similarity-checking":0.0,"award-numbers":0.0,"ror-ids":0.0,"update-policies":0.0,"resource-links":0.0,"descriptions":0.0,"open-references":0.0},"backfile":{"last-status-check-time":1654651795560,"affiliations":0.0,"abstracts":0.0,"orcids":0.0,"licenses":0.0,"references":0.08333333333333333,"funders":0.0,"similarity-checking":0.0,"award-numbers":0.0,"ror-ids":0.0,"update-policies":0.0,"resource-links":0.0,"descriptions":0.0,"open-references":0.0},"current":{"last-status-check-time":1654651795560,"affiliations":0.0,"abstracts":0.0,"orcids":0.0,"licenses":0.0,"references":0.0,"funders":0.0,"similarity-checking":0.0,"award-numbers":0.0,"ror-ids":0.0,"update-policies":0.0,"resource-links":0.0,"descriptions":0.0,"open-references":0.0}},"flags":{"deposits-abstracts-current":false,"deposits-orcids-current":false,"deposits":true,"deposits-affiliations-backfile":false,"deposits-update-policies-backfile":false,"deposits-similarity-checking-backfile":false,"deposits-award-numbers-current":false,"deposits-resource-links-current":false,"deposits-ror-ids-current":false,"deposits-articles":true,"deposits-affiliations-current":false,"deposits-funders-current":false,"deposits-references-backfile":true,"deposits-ror-ids-backfile":false,"deposits-abstracts-backfile":false,"deposits-licenses-backfile":false,"deposits-award-numbers-backfile":false,"deposits-open-references-backfile":false,"deposits-open-references-current":false,"deposits-descriptions-current":false,"deposits-references-current":false,"deposits-resource-links-backfile":false,"deposits-descriptions-backfile":false,"deposits-orcids-backfile":false,"deposits-funders-backfile":false,"deposits-update-policies-current":false,"deposits-similarity-checking-current":false,"deposits-licenses-current":false},"ISSN":["1234-5678"],"issn-type":[{"value":"1234-5678","type":"print"}]}}'
-  recorded_at: Wed, 08 Jun 2022 15:45:25 GMT
+  recorded_at: Thu, 09 Jun 2022 17:51:52 GMT
 recorded_with: VCR 6.1.0

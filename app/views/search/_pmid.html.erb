@@ -1,26 +1,9 @@
 <% return unless @enhanced_query[:pmid].present? %>
 
-<% json = FactPmid.new.info(@enhanced_query[:pmid].split(' ').last) %>
-<% return unless json.present? %>
+<% data_url = "/pmid?pmid=#{URI.encode_www_form_component(@enhanced_query[:pmid])}" %>
 
-<div id="pmid-fact" class="fact">
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <%= json[:article_title] %>
-    </div>
-
-    <div class="panel-body">
-      <ul>
-        <li>Journal: <%= json[:journal_title] %></li>
-        <li>Volume: <%= json[:journal_volume] %></li>
-        <li>Year: <%= json[:journal_year] %></li>
-        <li>Pages: <%= json[:pages] %></li>
-        <li>Publication Status: <%= json[:status] %></li>
-      </ul>
-    </div>
-
-    <div class="panel-footer">
-      <a href="#">Yes this</a> -- <a href="#">Not relevant to my search</a>
-    </div>
-  </div>
+<div id="hint-fact"
+     class="fact"
+     data-controller="content-loader"
+     data-content-loader-url-value=<%= data_url %>>
 </div>

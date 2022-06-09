@@ -3,6 +3,11 @@ Rails.application.routes.draw do
 
   get 'advanced-search', to: 'advanced_search#index'
 
+  get 'doi', to: 'fact#doi'
+  get 'isbn', to: 'fact#isbn'
+  get 'issn', to: 'fact#issn'
+  get 'pmid', to: 'fact#pmid'
+
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',

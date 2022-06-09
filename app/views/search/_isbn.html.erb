@@ -1,23 +1,9 @@
 <% return unless @enhanced_query[:isbn].present? %>
 
-<% json = FactIsbn.new.info(@enhanced_query[:isbn]) %>
-<% return unless json.present? %>
+<% data_url = "/isbn?isbn=#{URI.encode_www_form_component(@enhanced_query[:isbn])}" %>
 
-<div id="isbn-fact" class="fact">
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <%= json[:title] %>
-    </div>
-
-    <div class="panel-body">
-      <ul>
-        <li><%= json[:publish_date] %></li>
-        <li><%= json[:publishers] %></li>
-      </ul>
-    </div>
-
-    <div class="panel-footer">
-      <a href="#">Yes this</a> -- <a href="#">Not relevant to my search</a>
-    </div>
-  </div>
+<div id="isbn-fact"
+     class="fact"
+     data-controller="content-loader"
+     data-content-loader-url-value=<%= data_url %>>
 </div>

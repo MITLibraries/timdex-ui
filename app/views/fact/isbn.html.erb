@@ -1,0 +1,20 @@
+<% return unless @json.present? %>
+
+<div id="isbn-fact" class="fact">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <%= @json[:title] %>
+    </div>
+
+    <div class="panel-body">
+      <ul>
+        <li><%= @json[:publish_date] %></li>
+        <li><%= @json[:publishers] %></li>
+      </ul>
+    </div>
+
+    <div class="panel-footer">
+      <a href="#">Yes this</a> -- <a href="#">Not relevant to my search</a>
+    </div>
+  </div>
+</div>
