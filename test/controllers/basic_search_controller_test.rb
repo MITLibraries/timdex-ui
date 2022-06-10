@@ -125,10 +125,9 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       assert_select '#results'
       assert_select '#results', { count: 1 }
       assert_select '#results li', 'There are no results.'
-      # Facets are present, but empty
+      # Facets are not shown
       assert_select '#facets'
-      assert_select '#facets .category h3', { minimum: 1 }
-      assert_select '#facets .category ul.category-terms li.term', { count: 0 }
+      assert_select '#facets .category h3', { count: 0 }
     end
   end
 
@@ -142,7 +141,6 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       actual_div = assert_select('div[data-content-loader-url-value]')
       assert_equal '/issn?issn=1234-5678',
                    actual_div.attribute('data-content-loader-url-value').value
-
     end
   end
 
