@@ -1,22 +1,8 @@
 <% return unless @enhanced_query[:doi].present? %>
 
-<% json = FactDoi.new.info(@enhanced_query[:doi]) %>
-<% return unless json.present? %>
+<% data_url = "/doi?doi=#{URI.encode_www_form_component(@enhanced_query[:doi])}" %>
 
-<div id="doi-fact" class="fact">
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <%= json[:title] %>
-    </div>
-
-    <div class="panel-body">
-      <ul>
-        <li><%= json[:publisher] %></li>
-      </ul>
-    </div>
-
-    <div class="panel-footer">
-      <a href="#">Yes this</a> -- <a href="#">Not relevant to my search</a>
-    </div>
-  </div>
+<div class="fact-container"
+     data-controller="content-loader"
+     data-content-loader-url-value=<%= data_url %>>
 </div>

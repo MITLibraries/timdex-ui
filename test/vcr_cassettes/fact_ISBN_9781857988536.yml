@@ -1,0 +1,107 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://openlibrary.org/isbn/9781857988536.json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Connection:
+      - close
+      Host:
+      - openlibrary.org
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Date:
+      - Thu, 09 Jun 2022 19:15:09 GMT
+      Content-Type:
+      - text/html
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Method:
+      - GET, OPTIONS
+      Access-Control-Max-Age:
+      - '86400'
+      Location:
+      - https://openlibrary.org/books/OL9002759M.json
+      X-Ol-Stats:
+      - '"IB 1 0.027 MC 1 0.000 TT 0 0.028"'
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+  recorded_at: Thu, 09 Jun 2022 19:15:09 GMT
+- request:
+    method: get
+    uri: https://openlibrary.org/books/OL9002759M.json
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - close
+      User-Agent:
+      - http.rb/5.0.4
+      Host:
+      - openlibrary.org
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Date:
+      - Thu, 09 Jun 2022 19:15:09 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Method:
+      - GET, OPTIONS
+      Access-Control-Max-Age:
+      - '86400'
+      X-Ol-Stats:
+      - '"MC 2 0.001 TT 0 0.005"'
+      Referrer-Policy:
+      - no-referrer-when-downgrade
+    body:
+      encoding: ASCII-8BIT
+      string: '{"publishers": ["Gollancz"], "number_of_pages": 224, "weight": "6.4
+        ounces", "series": ["Sf Masterworks 26"], "covers": [911137], "physical_format":
+        "Paperback", "key": "/books/OL9002759M", "authors": [{"key": "/authors/OL274606A"}],
+        "subjects": ["Science Fiction"], "edition_name": "New Ed edition", "languages":
+        [{"key": "/languages/eng"}], "classifications": {}, "title": "Ubik", "identifiers":
+        {"librarything": ["16572"], "goodreads": ["315939"]}, "isbn_13": ["9781857988536"],
+        "isbn_10": ["1857988531"], "publish_date": "February 10, 2000", "works": [{"key":
+        "/works/OL2172454W"}], "type": {"key": "/type/edition"}, "physical_dimensions":
+        "7.7 x 5 x 0.8 inches", "source_records": ["bwb:9781857988536", "ia:ubik0000dick_s6n7"],
+        "ocaid": "ubik0000dick_s6n7", "lc_classifications": ["PS3554.I3 U2 2004"],
+        "latest_revision": 11, "revision": 11, "created": {"type": "/type/datetime",
+        "value": "2008-04-30T09:38:13.731961"}, "last_modified": {"type": "/type/datetime",
+        "value": "2022-02-09T05:27:30.807210"}}'
+  recorded_at: Thu, 09 Jun 2022 19:15:09 GMT
+recorded_with: VCR 6.1.0

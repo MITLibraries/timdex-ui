@@ -1,0 +1,21 @@
+<% return unless @json.present? %>
+
+<div id="pmid-fact" class="panel panel-info fact">
+  <div class="panel-heading">
+    <%= @json[:article_title] %>
+  </div>
+
+  <div class="panel-body">
+    <ul>
+      <li>Journal: <%= @json[:journal_title] %></li>
+      <li>Volume: <%= @json[:journal_volume] %></li>
+      <li>Year: <%= @json[:journal_year] %></li>
+      <li>Pages: <%= @json[:pages] %></li>
+      <li>Publication Status: <%= @json[:status] %></li>
+    </ul>
+  </div>
+
+  <div class="panel-footer">
+    <a href="#">Yes this</a> -- <a href="#">Not relevant to my search</a>
+  </div>
+</div>

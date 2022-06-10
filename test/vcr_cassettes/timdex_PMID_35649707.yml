@@ -36,7 +36,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Wed, 08 Jun 2022 15:57:54 GMT
+      - Thu, 09 Jun 2022 14:55:14 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -60,9 +60,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 95e3d75d-81a9-4b66-bf48-e928cf478b3c
+      - 9dc5e2ab-66f7-40c3-940f-7858880f6eb3
       X-Runtime:
-      - '0.044743'
+      - '0.179596'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -72,73 +72,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Wed, 08 Jun 2022 15:57:54 GMT
-- request:
-    method: get
-    uri: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=35649707&retmode=xml
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Connection:
-      - close
-      Host:
-      - eutils.ncbi.nlm.nih.gov
-      User-Agent:
-      - http.rb/5.0.4
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Wed, 08 Jun 2022 15:57:54 GMT
-      Server:
-      - Finatra
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
-      Content-Security-Policy:
-      - upgrade-insecure-requests
-      Referrer-Policy:
-      - origin-when-cross-origin
-      X-Test-Test:
-      - test42
-      Ncbi-Sid:
-      - 6E2596C3D78656D5_3FEESID
-      Ncbi-Phid:
-      - 939B721D294CFCD50000287D0C983A8F.1.1.m_3
-      Content-Type:
-      - text/xml; charset=UTF-8
-      Cache-Control:
-      - private
-      X-Ratelimit-Limit:
-      - '3'
-      X-Ratelimit-Remaining:
-      - '1'
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Expose-Headers:
-      - X-RateLimit-Limit,X-RateLimit-Remaining
-      Set-Cookie:
-      - ncbi_sid=6E2596C3D78656D5_3FEESID; domain=.nih.gov; path=/; expires=Thu, 08
-        Jun 2023 15:57:55 GMT
-      Vary:
-      - Accept-Encoding
-      X-Ua-Compatible:
-      - IE=Edge
-      X-Xss-Protection:
-      - 1; mode=block
-      Connection:
-      - close
-      Transfer-Encoding:
-      - chunked
-    body:
-      encoding: UTF-8
-      string: |-
-        <?xml version="1.0" ?>
-        <!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2019//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd">
-        <PubmedArticleSet><PubmedArticle><MedlineCitation Status="Publisher" Owner="NLM"><PMID Version="1">35649707</PMID><DateRevised><Year>2022</Year><Month>06</Month><Day>01</Day></DateRevised><Article PubModel="Print-Electronic"><Journal><ISSN IssnType="Electronic">1473-0480</ISSN><JournalIssue CitedMedium="Internet"><PubDate><Year>2022</Year><Month>Jun</Month><Day>01</Day></PubDate></JournalIssue><Title>British journal of sports medicine</Title><ISOAbbreviation>Br J Sports Med</ISOAbbreviation></Journal><ArticleTitle>Short-term effectiveness of high-load compared with low-load strengthening exercise on self-reported function in patients with hypermobile shoulders: a randomised controlled trial.</ArticleTitle><ELocationID EIdType="pii" ValidYN="Y">bjsports-2021-105223</ELocationID><ELocationID EIdType="doi" ValidYN="Y">10.1136/bjsports-2021-105223</ELocationID><Abstract><AbstractText Label="OBJECTIVES" NlmCategory="OBJECTIVE">To investigate the short-term effectiveness of high-load versus low-load strengthening exercise on self-reported function in patients with hypermobility spectrum disorder (HSD) and shoulder symptoms.</AbstractText><AbstractText Label="METHODS" NlmCategory="METHODS">A superiority, parallel-group, randomised trial (balanced block randomisation, electronic concealment) including adult patients (n=100) from primary care with HSD and shoulder pain and/or shoulder instability ≥3 months. Patients received 16 weeks of shoulder exercises (three sessions/week): HEAVY (n=50, full-range, high-load, supervised twice/week) or LIGHT (n=50, neutral/mid-range, low-load, supervised three times). The primary outcome was the 16-week between-group difference in self-reported function measured with the Western Ontario Shoulder Instability Index (WOSI, scale 0-2100, 0=best, minimal important difference 252 points). Secondary outcomes were self-reported measures including quality of life and clinical tests including shoulder muscle strength and range of motion. An intention-to-treat analysis with multiple imputation was conducted by a blinded biostatistician using linear regression.</AbstractText><AbstractText Label="RESULTS" NlmCategory="RESULTS">93 of 100 patients (93%) completed the 16-week evaluation. The mean WOSI score between-group difference significantly favoured HEAVY (-174.5 points, 95% CI -341.4 to -7.7, adjusted for age, sex, baseline score, clustering around clinic). The secondary outcomes were inconclusive, but patients in HEAVY were less likely to have a positive shoulder rotation test &gt;180°, and more likely to rate an important improvement in physical symptoms. There were no serious adverse events, but HEAVY was associated with more transient muscle soreness (56% vs 37%) and headaches (40% vs 20%).</AbstractText><AbstractText Label="CONCLUSION" NlmCategory="CONCLUSIONS">High-load shoulder strengthening exercise was statistically superior to low-load strengthening exercise for self-reported function at 16 weeks and may be used in primary care to treat patients with HSD and shoulder pain and/or instability to improve shoulder function in the short term. Further studies are needed to confirm the clinical relevance, and patients should be supported to manage associated minor adverse events.</AbstractText><AbstractText Label="TRIAL REGISTRATION NUMBER" NlmCategory="BACKGROUND">NCT03869307.</AbstractText><CopyrightInformation>© Author(s) (or their employer(s)) 2022. Re-use permitted under CC BY-NC. No commercial re-use. See rights and permissions. Published by BMJ.</CopyrightInformation></Abstract><AuthorList CompleteYN="Y"><Author ValidYN="Y"><LastName>Liaghat</LastName><ForeName>Behnam</ForeName><Initials>B</Initials><Identifier Source="ORCID">http://orcid.org/0000-0002-3050-0028</Identifier><AffiliationInfo><Affiliation>Department of Sports Science and Clinical Biomechanics, University of Southern Denmark, Odense, Denmark bliaghat@health.sdu.dk.</Affiliation></AffiliationInfo></Author><Author ValidYN="Y"><LastName>Skou</LastName><ForeName>Søren T</ForeName><Initials>ST</Initials><Identifier Source="ORCID">http://orcid.org/0000-0003-4336-7059</Identifier><AffiliationInfo><Affiliation>Department of Sports Science and Clinical Biomechanics, University of Southern Denmark, Odense, Denmark.</Affiliation></AffiliationInfo><AffiliationInfo><Affiliation>Department of Physiotherapy and Occupational Therapy, Næstved-Slagelse-Ringsted Hospitals, Slagelse, Denmark.</Affiliation></AffiliationInfo></Author><Author ValidYN="Y"><LastName>Søndergaard</LastName><ForeName>Jens</ForeName><Initials>J</Initials><Identifier Source="ORCID">http://orcid.org/0000-0002-1629-1864</Identifier><AffiliationInfo><Affiliation>Department of Public Health, University of Southern Denmark, Odense, Denmark.</Affiliation></AffiliationInfo></Author><Author ValidYN="Y"><LastName>Boyle</LastName><ForeName>Eleanor</ForeName><Initials>E</Initials><Identifier Source="ORCID">http://orcid.org/0000-0002-9012-9128</Identifier><AffiliationInfo><Affiliation>Department of Sports Science and Clinical Biomechanics, University of Southern Denmark, Odense, Denmark.</Affiliation></AffiliationInfo></Author><Author ValidYN="Y"><LastName>Søgaard</LastName><ForeName>Karen</ForeName><Initials>K</Initials><Identifier Source="ORCID">http://orcid.org/0000-0003-3968-6364</Identifier><AffiliationInfo><Affiliation>Department of Sports Science and Clinical Biomechanics, University of Southern Denmark, Odense, Denmark.</Affiliation></AffiliationInfo><AffiliationInfo><Affiliation>Department of Clinical Research, University of Southern Denmark, Odense, Denmark.</Affiliation></AffiliationInfo></Author><Author ValidYN="Y"><LastName>Juul-Kristensen</LastName><ForeName>Birgit</ForeName><Initials>B</Initials><Identifier Source="ORCID">http://orcid.org/0000-0002-4973-8415</Identifier><AffiliationInfo><Affiliation>Department of Sports Science and Clinical Biomechanics, University of Southern Denmark, Odense, Denmark.</Affiliation></AffiliationInfo></Author></AuthorList><Language>eng</Language><DataBankList CompleteYN="Y"><DataBank><DataBankName>ClinicalTrials.gov</DataBankName><AccessionNumberList><AccessionNumber>NCT03869307</AccessionNumber></AccessionNumberList></DataBank></DataBankList><PublicationTypeList><PublicationType UI="D016428">Journal Article</PublicationType></PublicationTypeList><ArticleDate DateType="Electronic"><Year>2022</Year><Month>06</Month><Day>01</Day></ArticleDate></Article><MedlineJournalInfo><Country>England</Country><MedlineTA>Br J Sports Med</MedlineTA><NlmUniqueID>0432520</NlmUniqueID><ISSNLinking>0306-3674</ISSNLinking></MedlineJournalInfo><CitationSubset>IM</CitationSubset><KeywordList Owner="NOTNLM"><Keyword MajorTopicYN="N">exercise therapy</Keyword><Keyword MajorTopicYN="N">general practice</Keyword><Keyword MajorTopicYN="N">randomized controlled trial</Keyword><Keyword MajorTopicYN="N">rehabilitation</Keyword><Keyword MajorTopicYN="N">shoulder</Keyword></KeywordList><CoiStatement>Competing interests: STS reports personal fees from the Journal of Orthopaedic &amp; Sports Physical Therapy, grants from The Lundbeck Foundation, and personal fees from Munksgaard, outside the submitted work, and being a co-founder of Good Life with osteoArthritis in Denmark (GLA:D®). GLA:D is a non-profit initiative hosted at the University of Southern Denmark aimed at implementing clinical guidelines for osteoarthritis in clinical practice. JS reports receiving grants from Astra-Zeneca, outside the submitted work.</CoiStatement></MedlineCitation><PubmedData><History><PubMedPubDate PubStatus="accepted"><Year>2022</Year><Month>05</Month><Day>17</Day></PubMedPubDate><PubMedPubDate PubStatus="entrez"><Year>2022</Year><Month>6</Month><Day>1</Day><Hour>21</Hour><Minute>41</Minute></PubMedPubDate><PubMedPubDate PubStatus="pubmed"><Year>2022</Year><Month>6</Month><Day>2</Day><Hour>6</Hour><Minute>0</Minute></PubMedPubDate><PubMedPubDate PubStatus="medline"><Year>2022</Year><Month>6</Month><Day>2</Day><Hour>6</Hour><Minute>0</Minute></PubMedPubDate></History><PublicationStatus>aheadofprint</PublicationStatus><ArticleIdList><ArticleId IdType="pubmed">35649707</ArticleId><ArticleId IdType="pii">bjsports-2021-105223</ArticleId><ArticleId IdType="doi">10.1136/bjsports-2021-105223</ArticleId></ArticleIdList></PubmedData></PubmedArticle></PubmedArticleSet>
-  recorded_at: Wed, 08 Jun 2022 15:57:55 GMT
+  recorded_at: Thu, 09 Jun 2022 14:55:15 GMT
 recorded_with: VCR 6.1.0
