@@ -1,40 +1,28 @@
-<li>
+<li class="result">
   <h2 class="record-title">
     <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['timdexRecordId'])) %>
   </h2>
 
-  <% result['contentType']&.each do |type| %>
-    <p>
-      <%= type %>
-    <p>
-  <% end %>
+  <p class="pub-info">
+    <span><%= result['contentType']&.each { |type| type['value'] }.join(' ; ') %></span>
+    <span>
+      <% result['dates']&.each do |date| %>
+        <%= date['value'] if date['kind'] == 'Publication date' %>
+      <% end %>
+    </span>
+  </p>
 
   <% contributors = [] %>
   <% result['contributors']&.each do |contributor| %>
-    <% contributors << "#{contributor['value']} (#{contributor['kind']})" %>
+    <% contributors << contributor['value'] %>
   <% end %>
 
   <p class="result-authors">
     <span class="sr">Authors: </span>
-    <%= contributors.join('; ') %>
+    <%= contributors.uniq.map { |contrib| link_to contrib, results_path({ advanced: true, contributors: contrib }) }.join(' ; ').html_safe %>
   </p>
 
-  <% result['publicationInformation']&.each do |pub| %>
-    <p>
-      <span class="sr">Publication Information: </span>
-      <%= pub %>
-    </p>
-  <% end %>
-
-  <% result['dates']&.each do |date| %>
-    <p>
-      <%= date['kind'] %>: <%= date['value'] %>
-    </p>
-  <% end %>
-
-  <p>
-    Identifier: <%= result['timdexRecordId'] %>
-  </p>
-
-  <hr />
+  <div class="result-get">
+    <%= link_to 'View online', "##{Random.rand(100000)}", class: 'button button-primary green' %>
+  </div>
 </li>

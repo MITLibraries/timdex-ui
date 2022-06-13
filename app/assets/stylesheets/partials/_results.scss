@@ -1,0 +1,38 @@
+.wrap-results {
+  margin-bottom: 3rem;
+  background-color: $white-t;
+  padding: 15px;
+}
+
+.result {
+  padding: 2rem;
+  border-top: 1px solid $brand-primary;
+
+  &:hover,
+  &:focus {
+    border-right: 1px solid $gray-l3;
+    border-left: 1px solid $gray-l3;
+    background-color: $gray-l4;
+  }
+
+  a:visited {
+    color: $brand-secondary;
+  }
+
+  .pub-info {
+    font-size: $fs-small;
+    color:  $gray-d1;
+    span:first-child:after {
+      content:  " | ";
+    }
+  }
+
+  .result-get {
+    padding-top: 5px;
+    font-size: 1.4rem;
+    a:visited {
+      color: $white;
+      background-color:  green;
+    }
+  }
+}
