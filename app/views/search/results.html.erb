@@ -50,7 +50,7 @@
   <%= render(partial: 'shared/error', collection: @errors) %>
 
   <div class="layout-1q3q layout-band top-space">
-    <div class="col3q">
+    <div class="col3q wrap-results">
       <ul id="results" class="list-unbulleted">
         <%= render(partial: 'search/result', collection: @results) || render('result_empty') %>
       </ul>
