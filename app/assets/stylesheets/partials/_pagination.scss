@@ -1,0 +1,15 @@
+.pagination-container {
+  margin-top: 3em;
+
+  .previous {
+    text-align: left;
+  }
+
+  .current {
+    text-align: center;
+  }
+
+  .next {
+    text-align: right;
+  }
+}

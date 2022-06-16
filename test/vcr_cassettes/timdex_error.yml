@@ -1,0 +1,59 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://FAKE_TIMDEX_HOST/graphql
+    body:
+      encoding: UTF-8
+      string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
+        $contributors: String, $fundingInformation: String, $identifiers: String,
+        $locations: String, $subjects: String, $title: String, $sourceFacet: String,
+        $from: String) {\n  search(searchterm: $q, citation: $citation, contributors:
+        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
+        locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
+        from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        {\n        kind\n        value\n      }\n      publicationInformation\n      dates
+        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
+        {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
+        {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
+        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"poverty"},"operationName":"TimdexSearch__Query"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - MIT Libraries Client
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 500
+      message: Internal Server Error
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Thu, 16 Jun 2022 14:33:16 GMT
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Request-Id:
+      - 1000b015-8b6e-41d0-8194-229063058866
+      X-Runtime:
+      - '0.248670'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Vary:
+      - Origin
+      Content-Length:
+      - '46'
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"status":500,"error":"Internal Server Error"}'
+  recorded_at: Thu, 16 Jun 2022 14:33:16 GMT
+recorded_with: VCR 6.1.0

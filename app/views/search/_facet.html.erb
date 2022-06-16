@@ -1,10 +1,14 @@
+<% return if facet.values[0].empty? %>
+
 <div class="category">
-  <h3><%= facet[0] %></h3>
+  <h3><%= facet.keys[0] %></h3>
   <ul class="category-terms list-unbulleted">
-  <% facet[1].each do |term| %>
+  <% facet.values[0].each do |term| %>
     <li class="term">
-      <span class="name"><%= term['key'] %></span>
-      <span class="count"><%= term['docCount'] %></span>
+      <a href="#">
+        <span class="name"><%= term['key'] %></span>
+        <span class="count"><%= term['docCount'] %> <span class="sr">records</span></span>
+      </a>
     </li>
   <% end %>
   </ul>

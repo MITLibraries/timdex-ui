@@ -1,15 +1,15 @@
 <% return if @pagination.nil? %>
 
-<div class="gridband layout-3c">
-  <div class="grid-item box-content">
+<div class="gridband layout-3c pagination-container">
+  <div class="grid-item previous">
     <% if @pagination[:prev] %>
       <%= prev_url(@enhanced_query) %>
     <% else %>
       First page
     <% end %>
   </div>
-  <div class="grid-item box-content">Page <%= @pagination[:page] %> of <%= (@pagination[:hits] / 20) + 1 %></div>
-  <div class="grid-item box-content">
+  <div class="grid-item current">Page <%= @pagination[:page] %> of <%= (@pagination[:hits] / 20) + 1 %></div>
+  <div class="grid-item next">
     <% if @pagination[:next] %>
       <%= next_url(@enhanced_query) %>
     <% else %>
