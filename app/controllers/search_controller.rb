@@ -32,7 +32,7 @@ class SearchController < ApplicationController
   def extract_facets(response)
     facets = response&.data&.search&.to_h&.dig('aggregations')
 
-    facets.map { |k, v| { facet_labels[k] => v } }
+    facets&.map { |k, v| { facet_labels[k] => v } }
   end
 
   def extract_results(response)
