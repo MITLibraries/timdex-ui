@@ -8,15 +8,24 @@
   margin-bottom: 1rem;
   padding: 1.6rem 2rem;
 
+  details {
+    margin-top: 1rem;
+
+    .field-container {
+      margin-top: 1rem;
+    }
+  }
+
   .field-label {
     color: $black;
     display: block;
-    margin-bottom: .8rem;
+    margin-bottom: .25rem;
     font-size: $fs-small;
     font-weight: $fw-normal;
   }
 
-  .basic-search-input {
+  .basic-search-input,
+  summary {
     -webkit-appearance: none;
     border: none;
     border-radius: 0;
@@ -29,6 +38,29 @@
       display: inline-block;
       width: 80%;
       margin-bottom: 0;
+    }
+  }
+
+  summary {
+    pointer: arrow;
+
+    #advanced-search-label {
+      &::before {
+        font-family: FontAwesome;
+        margin-right: 1rem;
+      }
+
+      &.closed:before {
+        content: '\f054';
+      }
+
+      &.open:before {
+        content: '\f078';
+      }
+    }
+
+    &::-webkit-details-marker {
+      display: none;
     }
   }
 
