@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class BasicSearchControllerTest < ActionDispatch::IntegrationTest
-  test 'index shows search form' do
+class SearchControllerTest < ActionDispatch::IntegrationTest
+  test 'index shows basic search form by default' do
     get '/'
     assert_response :success
 
@@ -11,13 +11,13 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
     assert_nil details_div.attribute('open')
   end
 
-  test 'advanced search form appears on index with URL parameter' do
+  test 'index shows advanced search form with URL parameter' do
     get '/?advanced=true'
 
     assert_response :success
 
     details_div = assert_select('details#advanced-search-panel')
-    refute_nil details_div.attribute('open')
+    assert details_div.attribute('open')
   end
 
   test 'advanced search form appears on results page with URL parameter' do
@@ -29,7 +29,7 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
 
       details_div = assert_select('details#advanced-search-panel')
-      refute_nil details_div.attribute('open')
+      assert details_div.attribute('open')
     end
   end
 
