@@ -1,11 +1,53 @@
 require 'test_helper'
 
-class BasicSearchControllerTest < ActionDispatch::IntegrationTest
-  test 'index shows search form' do
+class SearchControllerTest < ActionDispatch::IntegrationTest
+  test 'index shows basic search form by default' do
     get '/'
     assert_response :success
 
     assert_select 'form#basic-search', { count: 1 }
+
+    details_div = assert_select('details#advanced-search-panel')
+    assert_nil details_div.attribute('open')
+  end
+
+  test 'index shows advanced search form with URL parameter' do
+    get '/?advanced=true'
+
+    assert_response :success
+
+    details_div = assert_select('details#advanced-search-panel')
+    assert details_div.attribute('open')
+  end
+
+  test 'advanced search form appears on results page with URL parameter' do
+    VCR.use_cassette('advanced',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?advanced=true'
+
+      assert_response :success
+
+      details_div = assert_select('details#advanced-search-panel')
+      assert details_div.attribute('open')
+    end
+  end
+
+  test 'search form includes a number of fields' do
+    get '/'
+
+    # Please note that this test confirms fields in the DOM - but not whether
+    # they are visible. Fields in a hidden details panel are still in the DOM,
+    # but not visible or reachable via keyboard interaction.
+    assert_select 'input#basic-search-main', { count: 1 }
+    assert_select 'input#advanced-citation', { count: 1 }
+    assert_select 'input#advanced-contributors', { count: 1 }
+    assert_select 'input#advanced-fundingInformation', { count: 1 }
+    assert_select 'input#advanced-identifiers', { count: 1 }
+    assert_select 'input#advanced-locations', { count: 1 }
+    assert_select 'input#advanced-subjects', { count: 1 }
+    assert_select 'input#advanced-title', { count: 1 }
+    assert_select 'select#advanced-source', { count: 1 }
   end
 
   test 'results with no query redirects with info' do
@@ -180,6 +222,64 @@ class BasicSearchControllerTest < ActionDispatch::IntegrationTest
       actual_div = assert_select('div[data-content-loader-url-value]')
       assert_equal '/pmid?pmid=PMID%3A+35649707',
                    actual_div.attribute('data-content-loader-url-value').value
+    end
+  end
+
+  # Advanced search behavior
+  test 'advanced search by keyword' do
+    VCR.use_cassette('advanced keyword asdf',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=asdf&advanced=true'
+      assert_response :success
+      assert_nil flash[:error]
+
+      assert_select 'li', 'Keyword anywhere: asdf'
+    end
+  end
+
+  test 'can search an advanced field without a keyword search' do
+    # note, this confirms we only validate param[:q] is present for basic searches
+    VCR.use_cassette('advanced citation asdf',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?citation=asdf&advanced=true'
+      assert_response :success
+      assert_nil flash[:error]
+
+      assert_select 'li', 'Citation: asdf'
+    end
+  end
+
+  test 'advanced search can accept values from all fields' do
+    VCR.use_cassette('advanced all',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      query = {
+        q: 'data',
+        citation: 'citation',
+        contributors: 'contribs',
+        fundingInformation: 'fund',
+        identifiers: 'ids',
+        locations: 'locs',
+        subjects: 'subs',
+        title: 'title',
+        source: 'sauce',
+        advanced: 'true'
+      }.to_query
+      get "/results?#{query}"
+      assert_response :success
+      assert_nil flash[:error]
+
+      assert_select 'li', 'Keyword anywhere: data'
+      assert_select 'li', 'Citation: citation'
+      assert_select 'li', 'Contributors: contribs'
+      assert_select 'li', 'Funders: fund'
+      assert_select 'li', 'Identifiers: ids'
+      assert_select 'li', 'Locations: locs'
+      assert_select 'li', 'Subjects: subs'
+      assert_select 'li', 'Title: title'
+      assert_select 'li', 'Source: sauce'
     end
   end
 end

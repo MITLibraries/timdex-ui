@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   root "basic_search#index"
 
-  get 'advanced-search', to: 'advanced_search#index'
-
   get 'doi', to: 'fact#doi'
   get 'isbn', to: 'fact#isbn'
   get 'issn', to: 'fact#issn'

@@ -52,7 +52,7 @@ class SearchController < ApplicationController
   end
 
   def validate_q!
-    return if params[:advanced].present?
+    return if params[:advanced]&.strip.present?
     return if params[:q]&.strip.present?
 
     flash[:error] = 'A search term is required.'

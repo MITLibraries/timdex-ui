@@ -34,11 +34,7 @@
       </ul>
   </p>
 
-  <% if params[:advanced].present? %>
-    <%= render partial: "advanced_search/form" %>
-  <% else %>
-    <%= render partial: "basic_search/form" %>
-  <% end %>
+  <%= render partial: "form" %>
 
   <div id="hint" aria-live="polite">
     <%= render(partial: 'search/issn') %>

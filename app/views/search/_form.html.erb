@@ -1,0 +1,83 @@
+<%
+# Conditional input label depends on whether a search has already happened.
+label = "Search the MIT Libraries"
+if params[:q]
+  label = "You searched for"
+end
+
+# Initial form setup is determined by the advanced parameter. Thereafter it is altered by javascript.
+advanced_label = "Show advanced search fields"
+advanced_label_class = "closed"
+search_required = true
+if params[:advanced] == "true"
+  advanced_label = "Clear advanced search fields"
+  advanced_label_class = "open"
+  search_required = false
+end
+
+%>
+
+<form id="basic-search" class="form-horizontal basic-search" action="<%= results_path %>" method="get">
+  <div class="form-group">
+    <label for="basic-search-main" class="field-label"><%= label %></label>
+    <input id="basic-search-main" type="search" class="field field-text basic-search-input <%= "required" if search_required %>" name="q" placeholder="Enter your search" value="<%= params[:q] %>" <%= 'required="required" aria-required="true"' if search_required %>>
+    <div class="basic-search-submit">
+      <button type="submit" class="btn button-primary">Search</button>
+    </div>
+    <details id="advanced-search-panel" <%= "open" if params[:advanced] == "true" %>>
+      <summary class="btn button-secondary"><span id="advanced-search-label" class="<%= advanced_label_class %>"><%= advanced_label %></span></summary>
+      <input id="advanced-search-field" type="hidden" name="advanced" value="<%= params[:advanced] %>">
+      <div class="field-container">
+        <div class="field-wrap">
+          <label for="advanced-citation" class="field-label">Citation</label>
+          <input type="text" class="field field-text wide" id="advanced-citation" name="citation" placeholder="Citation" value=<%= params[:citation] %>>
+        </div>
+
+        <div class="field-wrap">
+          <label for="advanced-contributors" class="field-label">Contributors</label>
+          <input type="text" class="field field-text wide" id="advanced-contributors" name="contributors" placeholder="Contributors" value=<%= params[:contributors] %>>
+        </div>
+
+        <div class="field-wrap">
+          <label for="advanced-fundingInformation" class="field-label">Funding information</label>
+          <input type="text" class="field field-text wide" id="advanced-fundingInformation" name="Funding Information" placeholder="fundingInformation" value=<%= params[:fundingInformation] %>>
+        </div>
+
+        <div class="field-wrap">
+          <label for="advanced-identifiers" class="field-label">Identifiers</label>
+          <input type="text" class="field field-text wide" id="advanced-identifiers" name="identifiers" placeholder="Identifiers" value=<%= params[:identifiers] %>>
+        </div>
+
+        <div class="field-wrap">
+          <label for="advanced-locations" class="field-label">Locations</label>
+          <input type="text" class="field field-text wide" id="advanced-locations" name="locations" placeholder="Locations" value=<%= params[:locations] %>>
+        </div>
+
+        <div class="field-wrap">
+          <label for="advanced-subjects" class="field-label">Subjects</label>
+          <input type="text" class="field field-text wide" id="advanced-subjects" name="subjects" placeholder="Subjects" value=<%= params[:subjects] %>>
+        </div>
+
+        <div class="field-wrap">
+          <label for="advanced-title" class="field-label">Title</label>
+          <input type="text" class="field field-text wide" id="advanced-title" name="title" placeholder="Title" value=<%= params[:title] %>>
+        </div>
+
+        <div class="field-wrap">
+          <label for="advanced-source" class="field-label">Source</label>
+          <select id="advanced-source" class="field field-select" name="source">
+            <option></option>
+            <option <%= "selected" if params[:source] == "Abdul Latif Jameel Poverty Action Lab Dataverse"%>>Abdul Latif Jameel Poverty Action Lab Dataverse</option>
+            <option <%= "selected" if params[:source] == "Zenodo"%>>Zenodo</option>
+            <option>ArchivesSpace@MIT (no data yet)</option>
+            <option>DSpace@MIT (no data yet)</option>
+          </select>
+          NOTE: to allow selecting multiple sources we need to change the way we handle this in TIMDEX to treat source as an
+          "OR" search not "AND"
+        </div>
+      </div>
+    </details>
+  </div>
+</form>
+
+<%= javascript_include_tag "search_form" %>
