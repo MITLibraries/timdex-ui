@@ -8,7 +8,7 @@ class FactControllerTest < ActionDispatch::IntegrationTest
     refute @response.body.present?
   end
 
-  test 'doi with valid doi' do
+  test 'doi with valid doi and no oa copy available' do
     VCR.use_cassette('fact doi 10.1038.nphys1170',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -21,6 +21,28 @@ class FactControllerTest < ActionDispatch::IntegrationTest
       assert_select '#isbn-fact', { count: 0 }
       assert_select '#issn-fact', { count: 0 }
       assert_select '#pmid-fact', { count: 0 }
+
+      assert_select 'a', text: 'Check MIT Subscription Access', count: 1
+      assert_select 'a', text: 'Open Access Link', count: 0
+    end
+  end
+
+  test 'doi with valid doi and oa copy available' do
+    VCR.use_cassette('fact doi 10.1126 sciadv.abj1076',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/doi?doi=10.1126%2Fsciadv.abj1076'
+      assert_response :success
+
+      assert @response.body.present?
+
+      assert_select '#doi-fact', { count: 1 }
+      assert_select '#isbn-fact', { count: 0 }
+      assert_select '#issn-fact', { count: 0 }
+      assert_select '#pmid-fact', { count: 0 }
+
+      assert_select 'a', text: 'Check MIT Subscription Access', count: 1
+      assert_select 'a', text: 'Open Access Link', count: 1
     end
   end
 

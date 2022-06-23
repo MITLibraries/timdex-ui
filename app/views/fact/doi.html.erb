@@ -2,16 +2,28 @@
 
 <div id="doi-fact" class="panel panel-info fact">
   <div class="panel-heading">
-    <%= @json[:title] %>
+    <%= @json[:title] %> <br />
   </div>
 
   <div class="panel-body">
-    <ul>
-      <li><%= @json[:publisher] %></li>
-    </ul>
-  </div>
+    In: <%= @json[:journal_name] %>, <%= @json[:year] %>
 
-  <div class="panel-footer">
-    <a href="#">Yes this</a> -- <a href="#">Not relevant to my search</a>
+    <ul>
+      <li>
+        Open Access: 
+        <% if @json[:oa] %>
+          <%= @json[:oa_status] %>
+        <% else %>
+          unknown
+        <% end %>
+      </li>
+      <li>Publisher: <%= @json[:publisher] %></li>
+
+      <% if @json[:oa] %>
+        <li><%= link_to('Open Access Link', @json[:best_oa_location]["url"]) %>
+      <% end %>
+
+      <li><%= link_to('Check MIT Subscription Access', @json[:link_resolver_url]) %>
+    </ul>
   </div>
 </div>
