@@ -2,17 +2,20 @@
 
 <div id="isbn-fact" class="panel panel-info fact">
   <div class="panel-heading">
-    <%= @json[:title] %>
+    <%= link_to @json[:title], @json[:openurl] %>
   </div>
 
   <div class="panel-body">
     <ul>
-      <li><%= @json[:publish_date] %></li>
-      <li><%= @json[:publishers] %></li>
+      <% if @json[:author_names].present? %>
+        <li><%= @json[:author_names] %></li>
+      <% end %>
+      <li><%= @json[:publish_date] %> (<%= @json[:publishers].join('; ') %>)</li>
     </ul>
   </div>
 
   <div class="panel-footer">
-    <a href="#">Yes this</a> -- <a href="#">Not relevant to my search</a>
+    <span>Is this relevant to your search? </span>
+    <a href="#">Yes</a> | <a href="#">No</a>
   </div>
 </div>

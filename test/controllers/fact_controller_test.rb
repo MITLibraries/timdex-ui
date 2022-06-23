@@ -43,10 +43,10 @@ class FactControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'isbn with valid isbn' do
-    VCR.use_cassette('fact ISBN 9781857988536',
+    VCR.use_cassette('fact ISBN 9780399563423',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      get '/isbn?isbn=9781857988536'
+      get '/isbn?isbn=9780399563423'
       assert_response :success
 
       assert @response.body.present?
@@ -55,6 +55,9 @@ class FactControllerTest < ActionDispatch::IntegrationTest
       assert_select '#isbn-fact', { count: 1 }
       assert_select '#issn-fact', { count: 0 }
       assert_select '#pmid-fact', { count: 0 }
+
+      assert_select 'a', text: 'The Morning Star', href: 'https://mit.primo.exlibrisgroup.com/discovery/openurl?institution=01MIT_INST&vid=01MIT_INST:MIT&rft.isbn=9780399563423'
+      assert_select 'li', text: 'Karl Ove Knausgaard ; Martin Aitken'
     end
   end
 
