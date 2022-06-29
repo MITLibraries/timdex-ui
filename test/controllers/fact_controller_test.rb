@@ -101,22 +101,6 @@ class FactControllerTest < ActionDispatch::IntegrationTest
     refute @response.body.present?
   end
 
-  test 'issn with valid issn' do
-    VCR.use_cassette('fact ISSN 1234-5678',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      get '/issn?issn=1234-5678'
-      assert_response :success
-
-      assert @response.body.present?
-
-      assert_select '#doi-fact', { count: 0 }
-      assert_select '#isbn-fact', { count: 0 }
-      assert_select '#issn-fact', { count: 1 }
-      assert_select '#pmid-fact', { count: 0 }
-    end
-  end
-
   test 'issn with no data returned' do
     VCR.use_cassette('fact ISSN asdf',
                      allow_playback_repeats: true,
@@ -125,6 +109,46 @@ class FactControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
 
       refute @response.body.present?
+    end
+  end
+
+  test 'issn with invalid issn' do
+    # This is invalid because the check digit, 8, is not correct
+    VCR.use_cassette('fact ISSN 1234-5678',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/issn?issn=1234-5678'
+      assert_response :success
+
+      refute @response.body.present?
+    end
+  end
+
+  test 'issn with valid but unused issn' do
+    # This ISSN is internally valid, but currently unassigned
+    VCR.use_cassette('fact ISSN 2015-223x',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/issn?issn=2015-223x'
+      assert_response :success
+
+      refute @response.body.present?
+    end
+  end
+
+  test 'issn with real issn' do
+    VCR.use_cassette('fact ISSN 1087-5549',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/issn?issn=1087-5549'
+      assert_response :success
+
+      assert @response.body.present?
+
+      assert_select '#doi-fact', { count: 0 }
+      assert_select '#isbn-fact', { count: 0 }
+      assert_select '#issn-fact', { count: 1 }
+      assert_select '#pmid-fact', { count: 0 }
     end
   end
 
