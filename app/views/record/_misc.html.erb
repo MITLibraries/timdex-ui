@@ -1,0 +1,33 @@
+<hr />
+
+<div class="alert alert-banner warning">
+  <p>Much of the data past this point we don't have good examples of yet. Please share in #rdi slack if you have good examples for anything that appears below. Thanks!</p>
+</div>
+    
+<%= field_table(@record, 'fundingInformation', %w[awardNumber awardUri funderIdentifier funderIdentifierType funderName], 'Funding Information') %>
+
+<%= field_object(@record, 'alternateTitles' ) %>
+
+<%= field_list(@record, 'callNumbers' ) %>
+
+<%= field_string(@record, 'collection') %>
+
+<%= field_list(@record, 'contents' ) %>
+
+<%= field_list(@record, 'fileFormats') %>
+
+<%= field_string(@record, 'format') %>
+
+<%= field_table(@record, 'holdings', %w[call_number collection format location note]) %>
+
+<%= field_string(@record, 'literaryForm') %>
+
+<%= field_table(@record, 'locations', %w[kind value geopoint]) %>
+
+<%= field_string(@record, 'numbering') %>
+
+<%= field_string(@record, 'physicalDescription') %>
+
+<%= field_list(@record, 'publicationFrequency') %>
+
+<%= field_table(@record, 'relatedItems', %w[description item_type relationship uri]) %>

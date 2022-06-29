@@ -26,16 +26,6 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'full record display includes the record id itself' do
-    needle_id = 'jpal:doi:10.7910-DVN-MNIBOL'
-    VCR.use_cassette('timdex record sample',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      get "/record/#{needle_id}"
-      assert_select '#content-main', /(.*)#{needle_id}(.*)/
-    end
-  end
-
   test 'full record display where no record exists displays an error' do
     needle_id = 'there.is.no.record'
     VCR.use_cassette('timdex record no record',

@@ -68,9 +68,10 @@ end
           <select id="advanced-source" class="field field-select" name="source">
             <option></option>
             <option <%= "selected" if params[:source] == "Abdul Latif Jameel Poverty Action Lab Dataverse"%>>Abdul Latif Jameel Poverty Action Lab Dataverse</option>
+            <option <%= "selected" if params[:source] == "DSpace@MIT"%>>DSpace@MIT</option>
+            <option <%= "selected" if params[:source] == "Woods Hole Open Access Server"%>>Woods Hole Open Access Server</option>
             <option <%= "selected" if params[:source] == "Zenodo"%>>Zenodo</option>
             <option>ArchivesSpace@MIT (no data yet)</option>
-            <option>DSpace@MIT (no data yet)</option>
           </select>
           NOTE: to allow selecting multiple sources we need to change the way we handle this in TIMDEX to treat source as an
           "OR" search not "AND"

@@ -1,59 +1,183 @@
-<h1><%= @record['title'] %></h1>
+<div class="gridband layout-3q1q wrap-full-record">
+  <div class="col3q box-content region full-record" data-region="Full record">
 
-<%= field_object(@record, 'alternateTitles' ) %>
+    <h2 class="record-title">
+      <span class="sr">Title: </span>
+      <% if @record['title'].present? %>
+        <%= @record['title'] %>
+      <% else %>
+        No title provided for this item.
+      <% end %>
+    </h2>
 
-<%= field_list(@record, 'callNumbers' ) %>
+    <p>
+      <span class="record-type">
+        <% # we need to create separate displays for different types of content types, see https://github.com/MITLibraries/bento/pull/908/files#diff-6718f9b88f6f93e59d8c2509512dc40a62088430ff3cce1165ab414565949415L22-L57 for starting point but we should anticipate wanting to expand to many more unique content types %>
+        <span class="sr">Type</span> <%= @record['contentType'].join %>
+      </span>
 
-<%= field_string(@record, 'citation' ) %>
+      <% if @record['citation'].present? %>
 
-<%= field_list(@record, 'contentType' ) %>
+        <span class="record-citation">
+          <%= @record['citation'] %>
+        </span>
 
-<%= field_list(@record, 'contents' ) %>
+      <% else %>
 
-<%= field_table(@record, 'contributors', %w[value kind affiliation identifier mit_affiliated]) %>
+        <% if @record['dates'].map{|date| date if date['kind'] == 'Publication date'}.compact.present? %>
+          <span class="record-year">
+            : Published <%= date_parse(publication_date(@record)) %>
+          </span>
+        <% end %>
+        <% if @record['edition'].present? %>
+          <span class="record-edition">
+            : Edition <%= @record['edition'] %>
+          </span>
+        <% end %>
+      <% end %>
+    </p>
 
-<%= field_table(@record, 'dates', %w[kind value range note]) %>
+    <% # we should helper this up to handle insanely large lists of authors %>
+    <% if @record['contributors'].present? %>
+      <p class="record-authors">
+        <span class="sr"><%= "Author".pluralize(@record['contributors'].count) %>: </span>
+          <% @record['contributors'].each do |author| %>
+            <span class="record-author">
+              <%= author['value'] %> 
+              <% if author['affiliation'].present? %>
+                (<%= author['affiliation'].join %>)
+              <% end %>;
+            </span>
+          <% end %>
+        </span>
+      </p>
+    <% end %>
 
-<%= field_string(@record, 'edition') %>
+    <% # NOTE: link resolver links are not very useful to most of the content in timdex currently. For dspace and all RDI sources, the source link is better than a link resolver link %>
+    <h3 class="section-title">Links</h3>
+    <ul class="list-links">
+      <li>
+        <span class="label">Source:</span> <%= link_to(@record['source'], @record['sourceLink']) %>
+      </li>
 
-<%= field_list(@record, 'fileFormats') %>
+      <% if @record['links'].present? %>
+        <% @record['links'].each do |link| %>
+          <li>
+            <%= link_to(link['text'] || 'unknown', link['url']) %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
 
-<%= field_string(@record, 'format') %>
+    <% if @record['summary'].present? %>
+      <h3 class="section-title">Summary</h3>
+      <% @record['summary'].each do |paragraph| %>
+        <p>
+          <%= sanitize paragraph, tags: %w(p strong em a), attributes: %w(href) %>
+        </p>
+      <% end %>
+    <% end %>
 
-<%= field_table(@record, 'fundingInformation', %w[award_number award_uri funder_identifier funder_identifier_type funder_name]) %>
+    <h3 class="section-title">More information</h3>
 
-<%= field_table(@record, 'holdings', %w[call_number collection format location note]) %>
+    <ul class="list-moreinfo">
+      <%# pub type%>
 
-<%= field_object(@record, 'identifiers') %>
+      <%# pub info%>
+      <% if @record['publicationInformation'] %>
+        <li>Publication Information: <%= @record['publicationInformation'].join('; ') %></li>
+      <% end %>
 
-<%= field_list(@record, 'languages') %>
+      <%# identifiers %>
+      <% if @record['identifiers'].present? %>
 
-<%= field_table(@record, 'links', %w[kind text url restrictions]) %>
+        <% @record['identifiers'].each do |id| %>
+          <li>
+            <span class="label"><%= id['kind'].upcase %>:</span> 
+            <span class="<%= id['kind']%>"><%= id['value'] %></span>
+          </li>
+        <% end%>
+      <% end %>
 
-<%= field_string(@record, 'literaryForm') %>
+      <%# language %>
+      <% if @record['languages'].present? %>
+        <li>
+          <span class="label"><%= "Language".pluralize(@record['languages'].count) %>:</span> <%= @record['languages'].join(',') %>
+        </li>
+      <% end %>
+    </ul>
 
-<%= field_table(@record, 'locations', %w[kind value geopoint]) %>
+    <%# subjects%>
+    <% if @record['subjects'].present? %>
+      <h3 class="section-title">Subjects</h3>
+        <ul class="list-subjects">
+          <% @record['subjects'].each do |subject| %>
+            <li>
+              <%= "#{subject['kind']}: " if subject['kind'] != "Subject scheme not provided" %>
+              <%= subject['value'].join(', ') %>
+            </li>
+          <% end %>
+        </ul>
+    <% end %>
 
-<%= field_object(@record, 'notes') %>
+    <%# dates%>
+    <% if @record['dates'].present? %>
+      <h3 class="section-title">Dates</h3>
+        <ul class="list-dates">
+          <% @record['dates'].each do |date| %>
+            <li>
+              <%= date['kind'] %>: <%= date_parse(date['value']) %><%= date_range(date['range']) %>
+              <%= " Note: #{date['note']}" if date['note'].present? %>
+            </li>
+          <% end %>
+        </ul>
+    <% end %>
 
-<%= field_string(@record, 'numbering') %>
+    <% if @record['notes'].present? %>
+      <h3 class="section-title">Notes</h3>
+      <% @record['notes'].each do |note| %>
+        <% if note['kind'].present? %>
+          <%= note['kind'] %>:
+        <% end %>
+        <% note['value'].each do |paragraph| %>
+          <%= sanitize paragraph, tags: %w(p strong em a), attributes: %w(href) %>
+        <% end %>
+      <% end %>
+    <% end %>
 
-<%= field_string(@record, 'physicalDescription') %>
+    <% if @record['rights'].present? %>
+      <h3 class="section-title">Rights</h3>
+      <ul>
+      <% @record['rights'].each do |right| %>
+        <li>
+          <% if right['kind'].present? %>
+            <%= right['kind'] %>:
+          <% end %>
+          <% if right['uri'].present? %>
 
-<%= field_list(@record, 'publicationFrequency') %>
+            <% # note: not all URIs are URLs. Only treat URL-like URIs as links. %>
+            <% if right['uri'].start_with?('http')%>
+              <%= link_to(right['uri'], right['uri']) %>
+            <% else %>
+              <%= right['uri'] %>
+            <% end %>
 
-<%= field_list(@record, 'publicationInformation') %>
+          <% end %>
+          <% if right['description'].present? %>
+            <%= right['description'] %>
+          <% end %>
+        </li>
+      <% end %>
+      </ul>
+    <% end %>
 
-<%= field_table(@record, 'relatedItems', %w[description item_type relationship uri]) %>
+    <%= render('misc') %>
+  </div>
 
-<%= field_table(@record, 'rights', %w[description kind uri]) %>
+  <%= render('sidebar') %>
 
-<%= field_string(@record, 'source') %>
+</div>
 
-<%= field_string(@record, 'sourceLink') %>
-
-<%= field_object(@record, 'subjects') %>
-
-<%= field_list(@record, 'summary') %>
-
-<%= field_string(@record, 'timdexRecordId') %>
+<% if params[:debug].present? %>
+  <%= debug(@record) %>
+<% end %>
