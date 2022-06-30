@@ -2,6 +2,8 @@
 
 <%= render(partial: 'shared/error', collection: @errors) %>
 
+<%= render(partial: 'search/form')%>
+
 <% if @record.nil? %>
   <%= render('record_empty') %>
 <% else %>

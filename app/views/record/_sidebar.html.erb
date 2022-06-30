@@ -1,0 +1,18 @@
+<div class="col1q-r sidebar">
+  <% if doi(@record) %>
+    <% data_url = "/doi?doi=#{URI.encode_www_form_component(doi(@record))}&slim=true" %>
+
+    <div class="fact-container"
+        data-controller="content-loader"
+        data-content-loader-url-value=<%= data_url %>>
+    </div>
+  <% end %>
+
+  <div class="bit askus">
+    <h3 class="title">Ask Us</h3>
+    <p>Not finding what you're looking for?  We're here to help with anything from quick questions to in-depth research.</p>
+    <p>
+      <a class="btn button-secondary" href="https://libraries.mit.edu/ask/">Ask Us</a>
+    </p>
+  </div>
+</div>
