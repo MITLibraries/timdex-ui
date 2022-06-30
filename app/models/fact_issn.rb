@@ -48,15 +48,15 @@ class FactIssn
     # https://datatracker.ietf.org/doc/html/rfc3044#section-2.2
     # An example calculation is shared at
     # https://en.wikipedia.org/wiki/International_Standard_Serial_Number#Code_format
-    sequence = candidate.gsub('-', '').chars[..6]
+    digits = candidate.gsub('-', '').chars[..6]
     check_digit = candidate.last.downcase
     sum = 0
-    sequence.each_with_index do |digit, idx|
+    digits.each_with_index do |digit, idx|
       sum += digit.to_i * (8 - idx.to_i)
     end
-    check = 11 - sum.modulo(11)
-    check = 'x' if check == 10
-    return true if check.to_s == check_digit.to_s
+    actual_digit = 11 - sum.modulo(11)
+    actual_digit = 'x' if actual_digit == 10
+    return true if actual_digit.to_s == check_digit.to_s
 
     false
   end
