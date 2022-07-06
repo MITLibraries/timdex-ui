@@ -13,7 +13,8 @@ http_interactions:
         locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
         from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
-        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
+        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
+        {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
@@ -35,7 +36,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 03 Jun 2022 16:12:09 GMT
+      - Wed, 06 Jul 2022 19:32:10 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -59,9 +60,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - d8f866a2-1f79-447a-88d0-a5342c8acee0
+      - e7f69405-198d-4904-b179-883b5321a532
       X-Runtime:
-      - '0.086581'
+      - '0.053041'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -71,5 +72,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Fri, 03 Jun 2022 16:12:10 GMT
+  recorded_at: Wed, 06 Jul 2022 19:32:11 GMT
 recorded_with: VCR 6.1.0

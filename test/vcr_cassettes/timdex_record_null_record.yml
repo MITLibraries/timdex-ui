@@ -33,7 +33,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 26 May 2022 21:02:03 GMT
+      - Wed, 06 Jul 2022 19:32:14 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -57,9 +57,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - '0603593c-fa6f-464f-abe8-c9d54fc8dedb'
+      - 3a5dad8a-819e-4bf3-8eeb-89227a0f60c0
       X-Runtime:
-      - '0.009497'
+      - '0.010204'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -71,5 +71,5 @@ http_interactions:
       string: '{"errors":[{"message":"Variable $id of type String! was provided invalid
         value","locations":[{"line":1,"column":27}],"extensions":{"value":null,"problems":[{"path":[],"explanation":"Expected
         value to not be null"}]}}]}'
-  recorded_at: Thu, 26 May 2022 21:02:03 GMT
+  recorded_at: Wed, 06 Jul 2022 19:32:14 GMT
 recorded_with: VCR 6.1.0

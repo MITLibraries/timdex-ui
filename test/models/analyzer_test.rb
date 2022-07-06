@@ -40,13 +40,15 @@ class AnalyzerTest < ActiveSupport::TestCase
     end
   end
 
+  # When regenerating cassettes, the page param of the eq hash in this test must be updated to match the current last
+  # page returned by the API.
   test 'analyzer pagination does not include last page value on last page of results' do
     VCR.use_cassette('data last page',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       eq = {
         q: 'data',
-        page: 17
+        page: 28
       }
       query = { 'q' => 'data', 'from' => '320' }
       response = TimdexBase::Client.query(TimdexSearch::Query, variables: query)

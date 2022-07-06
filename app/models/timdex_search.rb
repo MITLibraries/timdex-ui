@@ -45,6 +45,10 @@ class TimdexSearch < TimdexBase
             kind
             value
           }
+          highlight {
+            matchedField
+            matchedPhrases
+          }
         }
         aggregations {
           contentFormat {

@@ -157,6 +157,29 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'results with valid query have query highlights' do
+    VCR.use_cassette('data basic controller',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=data'
+      assert_response :success
+      assert_select '#results .result-highlights ul li', { minimum: 1 }
+    end
+  end
+
+  test 'highlights partial is not rendered for results with no relevant highlights' do
+    VCR.use_cassette('advanced title data',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?title=data&advanced=true'
+      assert_response :success
+
+      # We shouldn't see any highlighted terms because all of the matches will be on title, which is included in
+      # SearchHelper#displayed_fields
+      assert_select '#results .result-highlights ul li', { count: 0 }
+    end
+  end
+
   test 'searches with zero results are handled gracefully' do
     VCR.use_cassette('timdex no results',
                      allow_playback_repeats: true,

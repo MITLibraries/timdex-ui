@@ -13,7 +13,8 @@ http_interactions:
         locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
         from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
-        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
+        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
+        {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
@@ -35,15 +36,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 03 Jun 2022 16:13:02 GMT
+      - Wed, 06 Jul 2022 19:32:13 GMT
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - 6d997f4c-32e9-4cb7-9116-ece76abbac4d
+      - e086461b-cc27-4185-a1ef-92327de398f3
       X-Runtime:
-      - '0.244222'
+      - '0.172693'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -55,5 +56,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Fri, 03 Jun 2022 16:13:02 GMT
+  recorded_at: Wed, 06 Jul 2022 19:32:14 GMT
 recorded_with: VCR 6.1.0

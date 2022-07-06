@@ -33,7 +33,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 26 May 2022 21:02:04 GMT
+      - Wed, 06 Jul 2022 19:32:13 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -53,13 +53,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"a659e31f5baf6c9e4999d162abbba473"
+      - W/"3b393acf8b4f44c4c621f3303ceb5200"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 6a7950ed-c88d-4d18-99b5-0c4c5eacc48e
+      - d139dab6-6e0c-40ef-ad20-68ae26b49a7b
       X-Runtime:
-      - '0.043391'
+      - '0.065529'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -83,9 +83,10 @@ http_interactions:
         the Data-PASS standard deposit terms. A copy of the usage agreement is included
         in the file section of this study.;"]}],"numbering":null,"physicalDescription":null,"publicationFrequency":null,"publicationInformation":["Harvard
         Dataverse"],"relatedItems":null,"rights":[{"description":null,"kind":null,"uri":"info:eu-repo/semantics/openAccess"},{"description":null,"kind":null,"uri":"http://creativecommons.org/publicdomain/zero/1.0"}],"source":"Abdul
-        Latif Jameel Poverty Action Lab Dataverse","sourceLink":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL","subjects":[{"kind":null,"value":["Social
-        Sciences"]},{"kind":null,"value":["dams and poverty"]},{"kind":null,"value":["The
-        MacArthur Network on Inequality"]},{"kind":null,"value":["JPAL"]},{"kind":"Economic
+        Latif Jameel Poverty Action Lab Dataverse","sourceLink":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL","subjects":[{"kind":"Subject
+        scheme not provided","value":["Social Sciences"]},{"kind":"Subject scheme
+        not provided","value":["dams and poverty"]},{"kind":"Subject scheme not provided","value":["The
+        MacArthur Network on Inequality"]},{"kind":"Subject scheme not provided","value":["JPAL"]},{"kind":"Economic
         theory and demography","value":["Economic theory"]},{"kind":"Economic theory
         and demography","value":["Demography"]},{"kind":"Health","value":["Public
         health"]}],"summary":["The data contains 5 different files, classified by
@@ -100,5 +101,5 @@ http_interactions:
         public goods such as water access, power facilities and road. The file malaria_code81.dta
         contains in addition a variable about malaria incidence."],"timdexRecordId":"jpal:doi:10.7910-DVN-MNIBOL","title":"Dams,
         Poverty, Public Goods and Malaria Incidence in India"}}}'
-  recorded_at: Thu, 26 May 2022 21:02:04 GMT
+  recorded_at: Wed, 06 Jul 2022 19:32:13 GMT
 recorded_with: VCR 6.1.0
