@@ -12,7 +12,7 @@ class TimdexSearch < TimdexBase
       $locations: String
       $subjects: String
       $title: String
-      $sourceFacet: String
+      $sourceFacet: [String!]
       $from: String
     ) {
       search(

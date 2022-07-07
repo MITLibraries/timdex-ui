@@ -16,7 +16,7 @@ http_interactions:
       Host:
       - openlibrary.org
       User-Agent:
-      - http.rb/5.0.4
+      - http.rb/5.1.0
   response:
     status:
       code: 404
@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - nginx/1.18.0 (Ubuntu)
       Date:
-      - Thu, 09 Jun 2022 19:15:08 GMT
+      - Thu, 07 Jul 2022 19:10:10 GMT
       Transfer-Encoding:
       - chunked
       Connection:
@@ -37,9 +37,9 @@ http_interactions:
       Access-Control-Max-Age:
       - '86400'
       X-Ol-Stats:
-      - '"IB 1 0.003 MC 1 0.000 TT 0 0.003"'
+      - '"IB 1 0.002 MC 1 0.000 TT 0 0.002"'
     body:
       encoding: ASCII-8BIT
       string: '{"error": "notfound", "key": "/isbn/asdf"}'
-  recorded_at: Thu, 09 Jun 2022 19:15:08 GMT
+  recorded_at: Thu, 07 Jul 2022 19:10:10 GMT
 recorded_with: VCR 6.1.0

@@ -33,7 +33,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Wed, 06 Jul 2022 19:32:13 GMT
+      - Thu, 07 Jul 2022 19:10:11 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -57,9 +57,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - d139dab6-6e0c-40ef-ad20-68ae26b49a7b
+      - cc1c4dc8-3318-4b47-99ff-307789b42592
       X-Runtime:
-      - '0.065529'
+      - '0.037903'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -101,5 +101,5 @@ http_interactions:
         public goods such as water access, power facilities and road. The file malaria_code81.dta
         contains in addition a variable about malaria incidence."],"timdexRecordId":"jpal:doi:10.7910-DVN-MNIBOL","title":"Dams,
         Poverty, Public Goods and Malaria Incidence in India"}}}'
-  recorded_at: Wed, 06 Jul 2022 19:32:13 GMT
+  recorded_at: Thu, 07 Jul 2022 19:10:11 GMT
 recorded_with: VCR 6.1.0

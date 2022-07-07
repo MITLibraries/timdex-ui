@@ -14,7 +14,7 @@ http_interactions:
       Host:
       - api.unpaywall.org
       User-Agent:
-      - http.rb/5.0.4
+      - http.rb/5.1.0
   response:
     status:
       code: 404
@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - gunicorn
       Date:
-      - Tue, 21 Jun 2022 20:07:08 GMT
+      - Thu, 07 Jul 2022 19:10:10 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -39,12 +39,12 @@ http_interactions:
       Via:
       - 1.1 vegur
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: |-
         {
             "HTTP_status_code": 404,
             "error": true,
             "message": "'10.3207/2959859860' isn't in Unpaywall. See https://support.unpaywall.org/a/solutions/articles/44001900286"
         }
-  recorded_at: Tue, 21 Jun 2022 20:07:07 GMT
+  recorded_at: Thu, 07 Jul 2022 19:10:09 GMT
 recorded_with: VCR 6.1.0
