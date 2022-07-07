@@ -30,25 +30,11 @@ class SearchController < ApplicationController
   end
 
   def extract_facets(response)
-    facets = response&.data&.search&.to_h&.dig('aggregations')
-
-    facets&.map { |k, v| { facet_labels[k] => v } }
+    response&.data&.search&.to_h&.dig('aggregations')
   end
 
   def extract_results(response)
     response&.data&.search&.to_h&.dig('records')
-  end
-
-  def facet_labels
-    {
-      'contentFormat' => 'Formats',
-      'contentType' => 'Content types',
-      'contributors' => 'Contributors',
-      'languages' => 'Languages',
-      'literaryForm' => 'Literary forms',
-      'source' => 'Sources',
-      'subjects' => 'Subjects'
-    }
   end
 
   def validate_q!

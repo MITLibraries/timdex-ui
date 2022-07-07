@@ -4,32 +4,35 @@
 
   <p>Showing results for:
       <ul>
-        <% if params[:q].present? %>
-          <li>Keyword anywhere: <%= params[:q] %></li>
+        <% if @enhanced_query[:q].present? %>
+          <li>Keyword anywhere: <%= @enhanced_query[:q] %></li>
         <% end %>
-        <% if params[:citation].present? %>
-          <li>Citation: <%= params[:citation] %></li>
+        <% if @enhanced_query[:citation].present? %>
+          <li>Citation: <%= @enhanced_query[:citation] %></li>
         <% end %>
-        <% if params[:contributors].present? %>
-          <li>Contributors: <%= params[:contributors] %></li>
+        <% if @enhanced_query[:contentType].present? %>
+          <li>Content type: <%= @enhanced_query[:contentType] %></li>
         <% end %>
-        <% if params[:fundingInformation].present? %>
-          <li>Funders: <%= params[:fundingInformation] %></li>
+        <% if @enhanced_query[:contributors].present? %>
+          <li>Contributors: <%= @enhanced_query[:contributors] %></li>
         <% end %>
-        <% if params[:identifiers].present? %>
-          <li>Identifiers: <%= params[:identifiers] %></li>
+        <% if @enhanced_query[:fundingInformation].present? %>
+          <li>Funders: <%= @enhanced_query[:fundingInformation] %></li>
         <% end %>
-        <% if params[:locations].present? %>
-          <li>Locations: <%= params[:locations] %></li>
+        <% if @enhanced_query[:identifiers].present? %>
+          <li>Identifiers: <%= @enhanced_query[:identifiers] %></li>
         <% end %>
-        <% if params[:subjects].present? %>
-          <li>Subjects: <%= params[:subjects] %></li>
+        <% if @enhanced_query[:locations].present? %>
+          <li>Locations: <%= @enhanced_query[:locations] %></li>
         <% end %>
-        <% if params[:title].present? %>
-          <li>Title: <%= params[:title] %></li>
+        <% if @enhanced_query[:subjects].present? %>
+          <li>Subjects: <%= @enhanced_query[:subjects] %></li>
         <% end %>
-        <% if params[:source].present? %>
-          <li>Source: <%= params[:source] %></li>
+        <% if @enhanced_query[:title].present? %>
+          <li>Title: <%= @enhanced_query[:title] %></li>
+        <% end %>
+        <% if @enhanced_query[:source].present? %>
+          <li>Source: <%= @enhanced_query[:source] %></li>
         <% end %>
       </ul>
   </p>
@@ -55,7 +58,9 @@
     <aside class="col1q facet-container">
       <div id="facets">
         <h2>Available filters</h2>
-        <%= render(partial: 'search/facet', collection: @facets) || render('facet_empty') %>
+        <% @facets&.each do |category, values| %>
+          <%= render(partial: 'search/facet', locals: {category: category, values: values}) %>
+        <% end %>
       </div>
     </aside>
   </div>

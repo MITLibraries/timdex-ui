@@ -1,15 +1,19 @@
-<% return if facet.values[0].empty? %>
+<% return if values.empty? %>
 
 <div class="category">
-  <h3><%= facet.keys[0] %></h3>
+  <h3><%= nice_labels[category] || category %></h3>
   <ul class="category-terms list-unbulleted">
-  <% facet.values[0].each do |term| %>
+  <% values.each do |term| %>
     <li class="term">
-      <a href="#">
+      <a href="<%= results_path(add_facet(@enhanced_query, category, term['key'])) %>" class="<%= "applied" if @enhanced_query[category.to_sym] == term['key'] %>">
         <span class="name"><%= term['key'] %></span>
         <span class="count"><%= term['docCount'] %> <span class="sr">records</span></span>
       </a>
     </li>
   <% end %>
   </ul>
+  <% if @enhanced_query[category.to_sym].present? %>
+    <div><%= link_to "Show all #{nice_labels[category]&.downcase || category}", results_path(remove_facet(@enhanced_query, category)) %>
+    </div>
+  <% end %>
 </div>

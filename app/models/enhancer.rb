@@ -1,7 +1,7 @@
 class Enhancer
   attr_accessor :enhanced_query
 
-  QUERY_PARAMS = %i[q citation contributors fundingInformation identifiers locations subjects title].freeze
+  QUERY_PARAMS = %i[q citation contentType contributors fundingInformation identifiers locations subjects title].freeze
   FILTER_PARAMS = [:source].freeze
   # accepts all params as each enhancer may require different data
   def initialize(params)
