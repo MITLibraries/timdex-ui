@@ -14,7 +14,7 @@ http_interactions:
       Host:
       - api.unpaywall.org
       User-Agent:
-      - http.rb/5.0.4
+      - http.rb/5.1.0
   response:
     status:
       code: 200
@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - gunicorn
       Date:
-      - Tue, 21 Jun 2022 20:07:07 GMT
+      - Thu, 07 Jul 2022 19:10:11 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -39,7 +39,7 @@ http_interactions:
       Via:
       - 1.1 vegur
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"doi": "10.1038/nphys1170", "doi_url": "https://doi.org/10.1038/nphys1170",
         "title": "Measured measurement", "genre": "journal-article", "is_paratext":
         false, "published_date": "2009-01-01", "year": 2009, "journal_name": "Nature
@@ -50,5 +50,5 @@ http_interactions:
         [], "oa_locations_embargoed": [], "updated": "2021-04-01T04:17:18.585258",
         "data_standard": 2, "z_authors": [{"given": "Markus", "family": "Aspelmeyer",
         "sequence": "first"}]}'
-  recorded_at: Tue, 21 Jun 2022 20:07:07 GMT
+  recorded_at: Thu, 07 Jul 2022 19:10:11 GMT
 recorded_with: VCR 6.1.0

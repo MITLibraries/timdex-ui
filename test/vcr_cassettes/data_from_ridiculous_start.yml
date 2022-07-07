@@ -7,7 +7,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
-        $locations: String, $subjects: String, $title: String, $sourceFacet: String,
+        $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
         $from: String) {\n  search(searchterm: $q, citation: $citation, contributors:
         $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
         locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
@@ -36,15 +36,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Wed, 06 Jul 2022 19:32:13 GMT
+      - Thu, 07 Jul 2022 19:10:11 GMT
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - e086461b-cc27-4185-a1ef-92327de398f3
+      - 5b978172-e9be-4884-8e84-e2dfb57e0f7c
       X-Runtime:
-      - '0.172693'
+      - '0.197479'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -56,5 +56,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Wed, 06 Jul 2022 19:32:14 GMT
+  recorded_at: Thu, 07 Jul 2022 19:10:12 GMT
 recorded_with: VCR 6.1.0

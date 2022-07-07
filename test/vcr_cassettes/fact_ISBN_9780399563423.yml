@@ -16,7 +16,7 @@ http_interactions:
       Host:
       - openlibrary.org
       User-Agent:
-      - http.rb/5.0.4
+      - http.rb/5.1.0
   response:
     status:
       code: 302
@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - nginx/1.18.0 (Ubuntu)
       Date:
-      - Thu, 23 Jun 2022 15:57:02 GMT
+      - Thu, 07 Jul 2022 19:10:08 GMT
       Content-Type:
       - text/html
       Transfer-Encoding:
@@ -41,13 +41,13 @@ http_interactions:
       Location:
       - https://openlibrary.org/books/OL33871061M.json
       X-Ol-Stats:
-      - '"IB 1 0.027 MC 1 0.000 TT 0 0.028"'
+      - '"IB 1 0.031 MC 1 0.000 TT 0 0.032"'
       Referrer-Policy:
       - no-referrer-when-downgrade
     body:
       encoding: ASCII-8BIT
       string: ''
-  recorded_at: Thu, 23 Jun 2022 15:57:02 GMT
+  recorded_at: Thu, 07 Jul 2022 19:10:08 GMT
 - request:
     method: get
     uri: https://openlibrary.org/books/OL33871061M.json
@@ -60,7 +60,7 @@ http_interactions:
       Connection:
       - close
       User-Agent:
-      - http.rb/5.0.4
+      - http.rb/5.1.0
       Host:
       - openlibrary.org
   response:
@@ -71,7 +71,7 @@ http_interactions:
       Server:
       - nginx/1.18.0 (Ubuntu)
       Date:
-      - Thu, 23 Jun 2022 15:57:02 GMT
+      - Thu, 07 Jul 2022 19:10:08 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -85,11 +85,11 @@ http_interactions:
       Access-Control-Max-Age:
       - '86400'
       X-Ol-Stats:
-      - '"MC 2 0.001 TT 0 0.004"'
+      - '"MC 2 0.001 TT 0 0.003"'
       Referrer-Policy:
       - no-referrer-when-downgrade
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"type": {"key": "/type/edition"}, "title": "The Morning Star", "authors":
         [{"key": "/authors/OL7890928A"}, {"key": "/authors/OL5677432A"}], "publish_date":
         "Sep 28, 2021", "source_records": ["amazon:0399563423", "bwb:9780399563423"],
@@ -100,7 +100,7 @@ http_interactions:
         "works": [{"key": "/works/OL25282920W"}], "key": "/books/OL33871061M", "latest_revision":
         2, "revision": 2, "created": {"type": "/type/datetime", "value": "2021-09-22T15:39:22.535196"},
         "last_modified": {"type": "/type/datetime", "value": "2021-09-30T15:41:43.251630"}}'
-  recorded_at: Thu, 23 Jun 2022 15:57:02 GMT
+  recorded_at: Thu, 07 Jul 2022 19:10:08 GMT
 - request:
     method: get
     uri: https://openlibrary.org/authors/OL7890928A.json
@@ -117,7 +117,7 @@ http_interactions:
       Host:
       - openlibrary.org
       User-Agent:
-      - http.rb/5.0.4
+      - http.rb/5.1.0
   response:
     status:
       code: 200
@@ -126,7 +126,7 @@ http_interactions:
       Server:
       - nginx/1.18.0 (Ubuntu)
       Date:
-      - Thu, 23 Jun 2022 15:57:03 GMT
+      - Thu, 07 Jul 2022 19:10:09 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -140,16 +140,16 @@ http_interactions:
       Access-Control-Max-Age:
       - '86400'
       X-Ol-Stats:
-      - '"MC 2 0.001 TT 0 0.003"'
+      - '"MC 2 0.001 TT 0 0.002"'
       Referrer-Policy:
       - no-referrer-when-downgrade
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"name": "Karl Ove Knausgaard", "created": {"type": "/type/datetime",
         "value": "2020-05-14T23:00:03.230088"}, "last_modified": {"type": "/type/datetime",
         "value": "2020-05-14T23:00:03.230088"}, "latest_revision": 1, "key": "/authors/OL7890928A",
         "type": {"key": "/type/author"}, "revision": 1}'
-  recorded_at: Thu, 23 Jun 2022 15:57:03 GMT
+  recorded_at: Thu, 07 Jul 2022 19:10:09 GMT
 - request:
     method: get
     uri: https://openlibrary.org/authors/OL5677432A.json
@@ -166,7 +166,7 @@ http_interactions:
       Host:
       - openlibrary.org
       User-Agent:
-      - http.rb/5.0.4
+      - http.rb/5.1.0
   response:
     status:
       code: 200
@@ -175,7 +175,7 @@ http_interactions:
       Server:
       - nginx/1.18.0 (Ubuntu)
       Date:
-      - Thu, 23 Jun 2022 15:57:03 GMT
+      - Thu, 07 Jul 2022 19:10:09 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -193,11 +193,11 @@ http_interactions:
       Referrer-Policy:
       - no-referrer-when-downgrade
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"name": "Martin Aitken", "created": {"type": "/type/datetime", "value":
         "2008-10-21T10:38:45.493963"}, "personal_name": "Martin Aitken", "last_modified":
         {"type": "/type/datetime", "value": "2008-10-21T10:38:45.493963"}, "key":
         "/authors/OL5677432A", "type": {"key": "/type/author"}, "id": 29006126, "revision":
         1}'
-  recorded_at: Thu, 23 Jun 2022 15:57:03 GMT
+  recorded_at: Thu, 07 Jul 2022 19:10:09 GMT
 recorded_with: VCR 6.1.0
