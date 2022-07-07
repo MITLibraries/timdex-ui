@@ -8,17 +8,16 @@ http_interactions:
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
-        $from: String) {\n  search(searchterm: $q, citation: $citation, contributors:
-        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
-        locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
-        from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $from: String, $contentType: String) {\n  search(searchterm: $q, citation:
+        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
+        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
+        $title, sourceFacet: $sourceFacet, from: $from, contentTypeFacet: $contentType)
+        {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
-        {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
-        {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
-        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"PMID:
+        {\n      contentType {\n        key\n        docCount\n      }\n      source
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"PMID:
         35649707"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
@@ -37,7 +36,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 07 Jul 2022 19:10:15 GMT
+      - Fri, 08 Jul 2022 18:52:02 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -57,13 +56,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"72fc228c019887fbcedeaa075231c735"
+      - W/"88f19da89e3e632cd9bf69fa32cb1045"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 74953701-7ebc-4c4c-9a6c-471dab9b28d5
+      - 59763485-11db-41e9-a85d-033316e396d7
       X-Runtime:
-      - '0.098186'
+      - '0.376706'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -72,6 +71,6 @@ http_interactions:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Thu, 07 Jul 2022 19:10:15 GMT
+      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
+  recorded_at: Fri, 08 Jul 2022 18:52:02 GMT
 recorded_with: VCR 6.1.0
