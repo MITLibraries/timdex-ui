@@ -47,7 +47,22 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select 'input#advanced-locations', { count: 1 }
     assert_select 'input#advanced-subjects', { count: 1 }
     assert_select 'input#advanced-title', { count: 1 }
-    assert_select 'select#advanced-source', { count: 1 }
+    assert_select 'input.source', { minimum: 3 }
+  end
+
+  test 'advanced search source checkboxes can be controlled by env' do
+    get '/'
+    assert_select 'input.source', { minimum: 3 }
+
+    ClimateControl.modify TIMDEX_SOURCES: 'HIGHLANDER' do
+      get '/'
+      assert_select 'input.source', { count: 1 }
+    end
+
+    ClimateControl.modify TIMDEX_SOURCES: 'SITH,LORDS' do
+      get '/'
+      assert_select 'input.source', { count: 2 }
+    end
   end
 
   test 'results with no query redirects with info' do
@@ -303,6 +318,65 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_select 'li', 'Subjects: subs'
       assert_select 'li', 'Title: title'
       assert_select 'li', 'Source: sauce'
+    end
+  end
+
+  def source_facet_count(controller)
+    controller.view_context.assigns['facets']['source'].count
+  end
+
+  test 'advanced search can limit to a single source' do
+    VCR.use_cassette('advanced source limit to one source',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      query = {
+        q: 'data',
+        advanced: 'true',
+        source: ['dspace@mit']
+      }.to_query
+      get "/results?#{query}"
+      assert_response :success
+      assert_nil flash[:error]
+
+      assert(source_facet_count(@controller) == 1)
+    end
+  end
+
+  test 'advanced search defaults to all sources' do
+    VCR.use_cassette('advanced source defaults to all',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      query = {
+        q: 'data',
+        advanced: 'true'
+      }.to_query
+      get "/results?#{query}"
+      assert_response :success
+      assert_nil flash[:error]
+
+      # Assumption is we'll always have at least 3 default sources
+      # DSpace, Aspace, Aleph (RDI sources are in now, but may not be default later)
+      assert(source_facet_count(@controller) > 3)
+    end
+  end
+
+  test 'advanced search can limit to multiple sources' do
+    VCR.use_cassette('advanced source limit to two sources',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      # NOTE: when regenerating cassettes, if the source data does not have these
+      # sources you may need to change the source array below to two sources that are
+      # valid in the current available data.
+      query = {
+        q: 'data',
+        advanced: 'true',
+        source: ['dspace@mit', 'Woods Hole Open Access Server']
+      }.to_query
+      get "/results?#{query}"
+      assert_response :success
+      assert_nil flash[:error]
+
+      assert(source_facet_count(@controller) == 2)
     end
   end
 end
