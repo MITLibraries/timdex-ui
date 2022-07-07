@@ -27,6 +27,13 @@
     }
   }
 
+  .result-highlights {
+    font-size: $fs-small;
+    ul {
+      list-style: none;
+    }
+  }
+
   .result-get {
     padding-top: 5px;
     font-size: 1.4rem;

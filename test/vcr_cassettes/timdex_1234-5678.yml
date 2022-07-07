@@ -13,7 +13,8 @@ http_interactions:
         locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
         from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
-        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
+        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
+        {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
@@ -35,7 +36,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 09 Jun 2022 17:51:51 GMT
+      - Wed, 06 Jul 2022 19:32:10 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -55,13 +56,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"72fc228c019887fbcedeaa075231c735"
+      - W/"3beb31fce9fe0966a9ec05e6b5d0918c"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - a78f49e8-be4b-470b-9fbf-5acd96d16e6d
+      - 2f11927d-a187-45f5-8da2-5ef439d4e005
       X-Runtime:
-      - '0.044155'
+      - '0.062280'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -69,7 +70,8 @@ http_interactions:
       Via:
       - 1.1 vegur
     body:
-      encoding: UTF-8
-      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentFormat":[],"contentType":[],"contributors":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Thu, 09 Jun 2022 17:51:52 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJkYXRhIjp7InNlYXJjaCI6eyJoaXRzIjoxLCJyZWNvcmRzIjpbeyJ0aW1kZXhSZWNvcmRJZCI6Indob2FzOjE5MTItMTA0MDIiLCJ0aXRsZSI6IkNvaGVzaXZlIGFuZCBtaXhlZCBzZWRpbWVudCBpbiB0aGUgUmVnaW9uYWwgT2NlYW4gTW9kZWxpbmcgU3lzdGVtIChST01TIHYzLjYpIGltcGxlbWVudGVkIGluIHRoZSBDb3VwbGVkIE9jZWFu4oCTQXRtb3NwaGVyZeKAk1dhdmXigJNTZWRpbWVudCBUcmFuc3BvcnQgTW9kZWxpbmcgU3lzdGVtIChDT0FXU1QgcjEyMzQpIiwiY29udGVudFR5cGUiOlsiQXJ0aWNsZSJdLCJjb250cmlidXRvcnMiOlt7ImtpbmQiOiJhdXRob3IiLCJ2YWx1ZSI6IlNoZXJ3b29kLCBDaHJpc3RvcGhlciBSLiJ9LHsia2luZCI6ImF1dGhvciIsInZhbHVlIjoiQXJldHhhYmFsZXRhLCBBbGZyZWRvIEwuIn0seyJraW5kIjoiYXV0aG9yIiwidmFsdWUiOiJIYXJyaXMsIENvdXJ0bmV5IEsuIn0seyJraW5kIjoiYXV0aG9yIiwidmFsdWUiOiJSaW5laGltZXIsIEouIFBhdWwifSx7ImtpbmQiOiJhdXRob3IiLCJ2YWx1ZSI6IlZlcm5leSwgUm9tYXJpYyJ9LHsia2luZCI6ImF1dGhvciIsInZhbHVlIjoiRmVycsOpLCBCw6luw6lkaWN0ZSJ9XSwicHVibGljYXRpb25JbmZvcm1hdGlvbiI6WyJDb3Blcm5pY3VzIFB1YmxpY2F0aW9ucyBvbiBiZWhhbGYgb2YgdGhlIEV1cm9wZWFuIEdlb3NjaWVuY2VzIFVuaW9uIl0sImRhdGVzIjpbeyJraW5kIjoiYWNjZXNzaW9uZWQiLCJ2YWx1ZSI6IjIwMTgtMDUtMzFUMTQ6NDE6MDdaIn0seyJraW5kIjoiYXZhaWxhYmxlIiwidmFsdWUiOiIyMDE4LTA1LTMxVDE0OjQxOjA3WiJ9LHsia2luZCI6IlB1YmxpY2F0aW9uIGRhdGUiLCJ2YWx1ZSI6IjIwMTgtMDUtMTQifV0sIm5vdGVzIjpbeyJraW5kIjpudWxsLCJ2YWx1ZSI6WyLCqSBUaGUgQXV0aG9yKHMpLCAyMDE4LiBUaGlzIGFydGljbGUgaXMgZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBDcmVhdGl2ZSBDb21tb25zIEF0dHJpYnV0aW9uIExpY2Vuc2UuIFRoZSBkZWZpbml0aXZlIHZlcnNpb24gd2FzIHB1Ymxpc2hlZCBpbiBHZW9zY2llbnRpZmljIE1vZGVsIERldmVsb3BtZW50IDExICgyMDE4KTogMTg0OS0xODcxLCBkb2k6MTAuNTE5NC9nbWQtMTEtMTg0OS0yMDE4LiJdfV0sImhpZ2hsaWdodCI6W3sibWF0Y2hlZEZpZWxkIjoic3VtbWFyeSIsIm1hdGNoZWRQaHJhc2VzIjpbIkNvdXBsZWQgT2NlYW7igJNBdG1vc3BoZXJl4oCTV2F2ZeKAk1NlZGltZW50IFRyYW5zcG9ydCBNb2RlbGluZyBTeXN0ZW0gKENPQVdTVCBTdWJ2ZXJzaW9uIHJlcG9zaXRvcnkgcmV2aXNpb24gXHUwMDNjc3BhbiBjbGFzcz1cImhpZ2hsaWdodFwiXHUwMDNlMTIzNFx1MDAzYy9zcGFuXHUwMDNlIl19XX1dLCJhZ2dyZWdhdGlvbnMiOnsiY29udGVudEZvcm1hdCI6W3sia2V5IjoiZWxlY3Ryb25pYyByZXNvdXJjZSIsImRvY0NvdW50IjoxfV0sImNvbnRlbnRUeXBlIjpbeyJrZXkiOiJhcnRpY2xlIiwiZG9jQ291bnQiOjF9XSwiY29udHJpYnV0b3JzIjpbeyJrZXkiOiJhcmV0eGFiYWxldGEsIGFsZnJlZG8gbC4iLCJkb2NDb3VudCI6MX0seyJrZXkiOiJmZXJyw6ksIGLDqW7DqWRpY3RlIiwiZG9jQ291bnQiOjF9LHsia2V5IjoiaGFycmlzLCBjb3VydG5leSBrLiIsImRvY0NvdW50IjoxfSx7ImtleSI6InJpbmVoaW1lciwgai4gcGF1bCIsImRvY0NvdW50IjoxfSx7ImtleSI6InNoZXJ3b29kLCBjaHJpc3RvcGhlciByLiIsImRvY0NvdW50IjoxfSx7ImtleSI6InZlcm5leSwgcm9tYXJpYyIsImRvY0NvdW50IjoxfV0sImxhbmd1YWdlcyI6W3sia2V5IjoiZW5fdXMiLCJkb2NDb3VudCI6MX1dLCJsaXRlcmFyeUZvcm0iOltdLCJzb3VyY2UiOlt7ImtleSI6Indvb2RzIGhvbGUgb3BlbiBhY2Nlc3Mgc2VydmVyIiwiZG9jQ291bnQiOjF9XSwic3ViamVjdHMiOltdfX19fQ==
+  recorded_at: Wed, 06 Jul 2022 19:32:11 GMT
 recorded_with: VCR 6.1.0

@@ -22,6 +22,10 @@
     <%= contributors.uniq.map { |contrib| link_to contrib, results_path({ advanced: true, contributors: contrib }) }.join(' ; ').html_safe %>
   </p>
 
+  <div class="result-highlights">
+    <%= render partial: 'search/highlights', locals: { result: result } %>
+  </div>
+
   <div class="result-get">
     <%= link_to 'View online', "##{Random.rand(100000)}", class: 'button button-primary green' %>
   </div>

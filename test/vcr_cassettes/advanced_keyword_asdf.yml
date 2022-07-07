@@ -13,7 +13,8 @@ http_interactions:
         locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
         from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
-        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n    }\n    aggregations
+        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
+        {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
         {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
@@ -35,7 +36,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 03 Jun 2022 16:12:10 GMT
+      - Wed, 06 Jul 2022 19:32:10 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -55,13 +56,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"666029c07bf379a9d3f11fc53a561f94"
+      - W/"c8fd99c900f15f429aab0a6d476ed37d"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 0dd5bb5f-a74b-4142-a936-523a45f264a2
+      - 9df6a907-670b-4e0b-a6df-4b7cd0060598
       X-Runtime:
-      - '0.225984'
+      - '0.065913'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -76,15 +77,19 @@ http_interactions:
         Stijn N.B."},{"kind":"Creator","value":"Schaye, Joop"},{"kind":"Creator","value":"Hoekstra,
         Henk"}],"publicationInformation":["Zenodo"],"dates":[{"kind":"Publication
         date","value":"2021"},{"kind":"Issued","value":"2021-01-26"}],"notes":[{"kind":"Other","value":["{\"references\":
-        [\"Debackere, SNB et al. (2021), data related to arXiv:2101.07800\"]}"]}]},{"timdexRecordId":"zenodo:4721394","title":"\"How
-        baryons can significantly bias cluster count cosmology\" by Debackere et al.
-        dataset","contentType":["Dataset"],"contributors":[{"kind":"Creator","value":"Debackere,
+        [\"Debackere, SNB et al. (2021), data related to arXiv:2101.07800\"]}"]}],"highlight":[{"matchedField":"summary","matchedPhrases":["The
+        datasets are saved as \u003ca href=\"https://asdf.readthedocs.io/en/stable/\"\u003e\u003cspan
+        class=\"highlight\"\u003easdf\u003c/span\u003e\u003c/a\u003e files ending
+        in _"]}]},{"timdexRecordId":"zenodo:4721394","title":"\"How baryons can significantly
+        bias cluster count cosmology\" by Debackere et al. dataset","contentType":["Dataset"],"contributors":[{"kind":"Creator","value":"Debackere,
         Stijn N.B."},{"kind":"Creator","value":"Schaye, Joop"},{"kind":"Creator","value":"Hoekstra,
         Henk"}],"publicationInformation":["Zenodo"],"dates":[{"kind":"Publication
         date","value":"2021"},{"kind":"Issued","value":"2021-01-26"}],"notes":[{"kind":"Other","value":["{\"references\":
-        [\"Debackere, SNB et al. (2021), data related to arXiv:2101.07800\"]}"]}]}],"aggregations":{"contentFormat":[{"key":"electronic
-        resource","docCount":2}],"contentType":[{"key":"dataset","docCount":2}],"contributors":[{"key":"debackere,
+        [\"Debackere, SNB et al. (2021), data related to arXiv:2101.07800\"]}"]}],"highlight":[{"matchedField":"summary","matchedPhrases":["The
+        datasets are saved as \u003ca href=\"https://asdf.readthedocs.io/en/stable/\"\u003e\u003cspan
+        class=\"highlight\"\u003easdf\u003c/span\u003e\u003c/a\u003e files ending
+        in _"]}]}],"aggregations":{"contentFormat":[{"key":"electronic resource","docCount":2}],"contentType":[{"key":"dataset","docCount":2}],"contributors":[{"key":"debackere,
         stijn n.b.","docCount":2},{"key":"hoekstra, henk","docCount":2},{"key":"schaye,
         joop","docCount":2}],"languages":[],"literaryForm":[],"source":[{"key":"zenodo","docCount":2}],"subjects":[]}}}}'
-  recorded_at: Fri, 03 Jun 2022 16:12:10 GMT
+  recorded_at: Wed, 06 Jul 2022 19:32:11 GMT
 recorded_with: VCR 6.1.0
