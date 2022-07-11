@@ -14,6 +14,7 @@ class TimdexSearch < TimdexBase
       $title: String
       $sourceFacet: [String!]
       $from: String
+      $contentType: String
     ) {
       search(
         searchterm: $q
@@ -26,6 +27,7 @@ class TimdexSearch < TimdexBase
         title: $title
         sourceFacet: $sourceFacet
         from: $from
+        contentTypeFacet: $contentType
       ) {
         hits
         records {
@@ -51,31 +53,11 @@ class TimdexSearch < TimdexBase
           }
         }
         aggregations {
-          contentFormat {
-            key
-            docCount
-          }
           contentType {
             key
             docCount
           }
-          contributors {
-            key
-            docCount
-          }
-          languages {
-            key
-            docCount
-          }
-          literaryForm {
-            key
-            docCount
-          }
           source {
-            key
-            docCount
-          }
-          subjects {
             key
             docCount
           }

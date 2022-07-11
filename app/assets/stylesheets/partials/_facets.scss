@@ -3,10 +3,15 @@
     margin-bottom: 0;
   }
 
+  .category {
+    margin-bottom: 1em;
+  }
+
   ul.category-terms {
     border-collapse: separate;
     border-spacing: 0px 4px;
     display: table;
+    margin-bottom: 0;
     table-layout: fixed;
     width: 100%;
 
@@ -18,7 +23,8 @@
         text-decoration: none;
 
         &:hover,
-        &:focus {
+        &:focus,
+        &.applied {
           background: #000;
           color: #fff;
         }

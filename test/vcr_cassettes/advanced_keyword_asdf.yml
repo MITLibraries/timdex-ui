@@ -8,17 +8,16 @@ http_interactions:
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
-        $from: String) {\n  search(searchterm: $q, citation: $citation, contributors:
-        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
-        locations: $locations, subjects: $subjects, title: $title, sourceFacet: $sourceFacet,
-        from: $from) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $from: String, $contentType: String) {\n  search(searchterm: $q, citation:
+        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
+        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
+        $title, sourceFacet: $sourceFacet, from: $from, contentTypeFacet: $contentType)
+        {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
-        {\n      contentFormat {\n        key\n        docCount\n      }\n      contentType
-        {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      languages
-        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"asdf"},"operationName":"TimdexSearch__Query"}'
+        {\n      contentType {\n        key\n        docCount\n      }\n      source
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"asdf"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -36,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 07 Jul 2022 19:10:14 GMT
+      - Fri, 08 Jul 2022 18:52:04 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -56,13 +55,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"c8fd99c900f15f429aab0a6d476ed37d"
+      - W/"010894b1de5c1e638355ae46e10c846b"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - b6fa383f-f064-48af-be48-93a1a5637cf8
+      - 3067f454-dd54-4ece-a825-8300e8b2fc5e
       X-Runtime:
-      - '0.062238'
+      - '0.088909'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -88,8 +87,6 @@ http_interactions:
         [\"Debackere, SNB et al. (2021), data related to arXiv:2101.07800\"]}"]}],"highlight":[{"matchedField":"summary","matchedPhrases":["The
         datasets are saved as \u003ca href=\"https://asdf.readthedocs.io/en/stable/\"\u003e\u003cspan
         class=\"highlight\"\u003easdf\u003c/span\u003e\u003c/a\u003e files ending
-        in _"]}]}],"aggregations":{"contentFormat":[{"key":"electronic resource","docCount":2}],"contentType":[{"key":"dataset","docCount":2}],"contributors":[{"key":"debackere,
-        stijn n.b.","docCount":2},{"key":"hoekstra, henk","docCount":2},{"key":"schaye,
-        joop","docCount":2}],"languages":[],"literaryForm":[],"source":[{"key":"zenodo","docCount":2}],"subjects":[]}}}}'
-  recorded_at: Thu, 07 Jul 2022 19:10:15 GMT
+        in _"]}]}],"aggregations":{"contentType":[{"key":"dataset","docCount":2}],"source":[{"key":"zenodo","docCount":2}]}}}}'
+  recorded_at: Fri, 08 Jul 2022 18:52:05 GMT
 recorded_with: VCR 6.1.0

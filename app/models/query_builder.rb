@@ -2,7 +2,7 @@ class QueryBuilder
   attr_reader :query
 
   RESULTS_PER_PAGE = 20
-  QUERY_PARAMS = %w[q citation contributors fundingInformation identifiers locations subjects title].freeze
+  QUERY_PARAMS = %w[q citation contentType contributors fundingInformation identifiers locations subjects title].freeze
   FILTER_PARAMS = [:source].freeze
 
   def initialize(enhanced_query)
