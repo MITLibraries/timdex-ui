@@ -40,7 +40,7 @@ end
 
         <div class="field-wrap">
           <label for="advanced-fundingInformation" class="field-label">Funding information</label>
-          <input type="text" class="field field-text wide" id="advanced-fundingInformation" name="Funding Information" placeholder="fundingInformation" value=<%= params[:fundingInformation] %>>
+          <input type="text" class="field field-text wide" id="advanced-fundingInformation" name="Funding Information" placeholder="Funding information" value=<%= params[:fundingInformation] %>>
         </div>
 
         <div class="field-wrap">
@@ -63,18 +63,15 @@ end
           <input type="text" class="field field-text wide" id="advanced-title" name="title" placeholder="Title" value=<%= params[:title] %>>
         </div>
 
-        <div class="field-wrap">
-          <label for="advanced-source" class="field-label">Source</label>
-          <select id="advanced-source" class="field field-select" name="source">
-            <option></option>
-            <option <%= "selected" if params[:source] == "Abdul Latif Jameel Poverty Action Lab Dataverse"%>>Abdul Latif Jameel Poverty Action Lab Dataverse</option>
-            <option <%= "selected" if params[:source] == "DSpace@MIT"%>>DSpace@MIT</option>
-            <option <%= "selected" if params[:source] == "Woods Hole Open Access Server"%>>Woods Hole Open Access Server</option>
-            <option <%= "selected" if params[:source] == "Zenodo"%>>Zenodo</option>
-            <option>ArchivesSpace@MIT (no data yet)</option>
-          </select>
-          NOTE: to allow selecting multiple sources we need to change the way we handle this in TIMDEX to treat source as an
-          "OR" search not "AND"
+        <div class="field-wrap list-checkboxes">
+          <%# https://www.w3.org/WAI/tutorials/forms/grouping/ %>
+          <fieldset>
+            <legend>Limit search to checked sources.</legend>
+
+            <% timdex_sources.each do |source| %>
+              <%= source_checkbox(source, params) %>
+            <% end %>
+          </fieldset>
         </div>
       </div>
     </details>

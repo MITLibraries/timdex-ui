@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 08 Jul 2022 18:52:03 GMT
+      - Fri, 08 Jul 2022 20:05:10 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -59,9 +59,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 5e341a95-9d7d-4b07-84af-cea0c8480cae
+      - 1e3b04d1-39c5-49ea-b882-f8aaa2be40b8
       X-Runtime:
-      - '0.118670'
+      - '0.087257'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -71,5 +71,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
-  recorded_at: Fri, 08 Jul 2022 18:52:03 GMT
+  recorded_at: Fri, 08 Jul 2022 20:05:11 GMT
 recorded_with: VCR 6.1.0

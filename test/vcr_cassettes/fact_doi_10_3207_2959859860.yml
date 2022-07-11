@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - gunicorn
       Date:
-      - Thu, 07 Jul 2022 19:10:10 GMT
+      - Fri, 08 Jul 2022 20:05:14 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -46,5 +46,5 @@ http_interactions:
             "error": true,
             "message": "'10.3207/2959859860' isn't in Unpaywall. See https://support.unpaywall.org/a/solutions/articles/44001900286"
         }
-  recorded_at: Thu, 07 Jul 2022 19:10:09 GMT
+  recorded_at: Fri, 08 Jul 2022 20:05:14 GMT
 recorded_with: VCR 6.1.0
