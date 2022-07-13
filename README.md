@@ -49,7 +49,10 @@ change as part of the work.
 
 ## Optional Environment Variables
 
-- TBD
+- `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
+  safe html above the main header of the site.
+- `TIMDEX_SOURCES`: Comma-separated list of sources to display in the advanced-search source selection element. This
+  overrides the default which is set in ApplicationHelper.
 
 ### Test Environment-only Variables
 
