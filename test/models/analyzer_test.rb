@@ -2,63 +2,57 @@ require 'test_helper'
 
 class AnalyzerTest < ActiveSupport::TestCase
   test 'analyzer pagination does not include previous page value on first page of results' do
-    VCR.use_cassette('data',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      eq = {
-        q: 'data',
-        page: 1
-      }
-      query = { 'q' => 'data', 'from' => '0' }
-      response = TimdexBase::Client.query(TimdexSearch::Query, variables: query)
-      pagination = Analyzer.new(eq, response).pagination
+    Analyzer.any_instance.stubs(:hits).returns(100)
+    mocking_hits_so_this_is_empty = {}
 
-      assert pagination.key?(:hits)
-      assert pagination.key?(:next)
-      assert pagination.key?(:page)
+    eq = {
+      q: 'data',
+      page: 1
+    }
+    query = { 'q' => 'data', 'from' => '0' }
 
-      refute pagination.key?(:prev)
-    end
+    pagination = Analyzer.new(eq, mocking_hits_so_this_is_empty).pagination
+
+    assert pagination.key?(:hits)
+    assert pagination.key?(:next)
+    assert pagination.key?(:page)
+
+    refute pagination.key?(:prev)
   end
 
   test 'analyzer pagination includes all values when not on first or last page of results' do
-    VCR.use_cassette('data page 2',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      eq = {
-        q: 'data',
-        page: 2
-      }
-      query = { 'q' => 'data', 'from' => '20' }
-      response = TimdexBase::Client.query(TimdexSearch::Query, variables: query)
-      pagination = Analyzer.new(eq, response).pagination
+    Analyzer.any_instance.stubs(:hits).returns(100)
+    mocking_hits_so_this_is_empty = {}
 
-      assert pagination.key?(:hits)
-      assert pagination.key?(:next)
-      assert pagination.key?(:prev)
-      assert pagination.key?(:page)
-    end
+    eq = {
+      q: 'data',
+      page: 2
+    }
+    query = { 'q' => 'data', 'from' => '20' }
+
+    pagination = Analyzer.new(eq, mocking_hits_so_this_is_empty).pagination
+
+    assert pagination.key?(:hits)
+    assert pagination.key?(:next)
+    assert pagination.key?(:prev)
+    assert pagination.key?(:page)
   end
 
-  # When regenerating cassettes, the page param of the eq hash in this test must be updated to match the current last
-  # page returned by the API.
   test 'analyzer pagination does not include last page value on last page of results' do
-    VCR.use_cassette('data last page',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      eq = {
-        q: 'data',
-        page: 28
-      }
-      query = { 'q' => 'data', 'from' => '320' }
-      response = TimdexBase::Client.query(TimdexSearch::Query, variables: query)
-      pagination = Analyzer.new(eq, response).pagination
+    Analyzer.any_instance.stubs(:hits).returns(100)
 
-      assert pagination.key?(:hits)
-      assert pagination.key?(:prev)
-      assert pagination.key?(:page)
+    mocking_hits_so_this_is_empty = {}
+    eq = {
+      q: 'data',
+      page: 28
+    }
 
-      assert_nil pagination[:next]
-    end
+    pagination = Analyzer.new(eq, mocking_hits_so_this_is_empty).pagination
+
+    assert pagination.key?(:hits)
+    assert pagination.key?(:prev)
+    assert pagination.key?(:page)
+
+    assert_nil pagination[:next]
   end
 end

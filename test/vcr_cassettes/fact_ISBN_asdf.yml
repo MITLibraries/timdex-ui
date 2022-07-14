@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - nginx/1.18.0 (Ubuntu)
       Date:
-      - Fri, 08 Jul 2022 20:05:17 GMT
+      - Thu, 14 Jul 2022 21:10:46 GMT
       Transfer-Encoding:
       - chunked
       Connection:
@@ -37,9 +37,9 @@ http_interactions:
       Access-Control-Max-Age:
       - '86400'
       X-Ol-Stats:
-      - '"IB 1 0.003 MC 1 0.000 TT 0 0.003"'
+      - '"IB 1 0.001 MC 1 0.000 TT 0 0.002"'
     body:
       encoding: ASCII-8BIT
       string: '{"error": "notfound", "key": "/isbn/asdf"}'
-  recorded_at: Fri, 08 Jul 2022 20:05:17 GMT
+  recorded_at: Thu, 14 Jul 2022 21:10:46 GMT
 recorded_with: VCR 6.1.0

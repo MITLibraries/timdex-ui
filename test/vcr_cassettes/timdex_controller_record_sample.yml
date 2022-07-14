@@ -15,7 +15,7 @@ http_interactions:
         {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    publicationFrequency\n    publicationInformation\n    relatedItems
         {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
         {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
-        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"jpal:doi:10.7910-DVN-MNIBOL"},"operationName":"TimdexRecord__Query"}'
+        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"jpal:doi:10.7910-DVN-MNIBOL","index":null},"operationName":"TimdexRecord__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -33,7 +33,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Jul 2022 21:10:49 GMT
+      - Thu, 14 Jul 2022 21:21:06 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -57,9 +57,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - b23cc8c6-081e-4717-9b1b-49bac7ff6bbe
+      - 36d0d229-81c6-424f-a49d-872e58506c9a
       X-Runtime:
-      - '0.033329'
+      - '0.050316'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -101,5 +101,5 @@ http_interactions:
         public goods such as water access, power facilities and road. The file malaria_code81.dta
         contains in addition a variable about malaria incidence."],"timdexRecordId":"jpal:doi:10.7910-DVN-MNIBOL","title":"Dams,
         Poverty, Public Goods and Malaria Incidence in India"}}}'
-  recorded_at: Thu, 14 Jul 2022 21:10:49 GMT
+  recorded_at: Thu, 14 Jul 2022 21:21:06 GMT
 recorded_with: VCR 6.1.0

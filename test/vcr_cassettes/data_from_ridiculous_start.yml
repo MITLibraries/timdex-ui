@@ -8,11 +8,11 @@ http_interactions:
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
-        $from: String, $contentType: String) {\n  search(searchterm: $q, citation:
-        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
-        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
-        $title, sourceFacet: $sourceFacet, from: $from, contentTypeFacet: $contentType)
-        {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $index: String, $from: String, $contentType: String) {\n  search(searchterm:
+        $q, citation: $citation, contributors: $contributors, fundingInformation:
+        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
+        $subjects, title: $title, sourceFacet: $sourceFacet, index: $index, from:
+        $from, contentTypeFacet: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
@@ -35,15 +35,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 08 Jul 2022 20:05:13 GMT
+      - Thu, 14 Jul 2022 21:10:49 GMT
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - a16ed27b-bed2-41f9-9296-7c580d09a183
+      - 9e6b97d0-a49a-494e-bb0f-5deff00e09bd
       X-Runtime:
-      - '0.176436'
+      - '0.185515'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -55,5 +55,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Fri, 08 Jul 2022 20:05:13 GMT
+  recorded_at: Thu, 14 Jul 2022 21:10:49 GMT
 recorded_with: VCR 6.1.0

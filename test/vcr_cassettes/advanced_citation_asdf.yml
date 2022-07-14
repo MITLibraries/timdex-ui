@@ -8,11 +8,11 @@ http_interactions:
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
-        $from: String, $contentType: String) {\n  search(searchterm: $q, citation:
-        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
-        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
-        $title, sourceFacet: $sourceFacet, from: $from, contentTypeFacet: $contentType)
-        {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $index: String, $from: String, $contentType: String) {\n  search(searchterm:
+        $q, citation: $citation, contributors: $contributors, fundingInformation:
+        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
+        $subjects, title: $title, sourceFacet: $sourceFacet, index: $index, from:
+        $from, contentTypeFacet: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 08 Jul 2022 20:05:10 GMT
+      - Thu, 14 Jul 2022 21:10:40 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -55,13 +55,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"88f19da89e3e632cd9bf69fa32cb1045"
+      - W/"74dea90d74af7c2d2a26de95a97d1c03"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 65741dba-c0fd-4ecb-b0bb-1ef35972046d
+      - f4b588b9-8097-46cc-98c4-bc3ed7ec3caa
       X-Runtime:
-      - '0.061208'
+      - '0.043296'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -69,7 +69,8 @@ http_interactions:
       Via:
       - 1.1 vegur
     body:
-      encoding: UTF-8
-      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
-  recorded_at: Fri, 08 Jul 2022 20:05:10 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJkYXRhIjp7InNlYXJjaCI6eyJoaXRzIjoxLCJyZWNvcmRzIjpbeyJ0aW1kZXhSZWNvcmRJZCI6Inplbm9kbzo2NjE3NTU3IiwidGl0bGUiOiJhc2RmLWZvcm1hdC9hc2RmOiAyLjEyLjAiLCJjb250ZW50VHlwZSI6WyJOb3Qgc3BlY2lmaWVkIl0sImNvbnRyaWJ1dG9ycyI6W3sia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkRhbiBEJ0F2ZWxsYSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6Ik1pY2hhZWwgRHJvZXR0Ym9vbSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkVkd2FyZCBTbGF2aWNoIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiV2lsbGlhbSBKYW1pZXNvbiJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IlRob21hcyBSb2JpdGFpbGxlIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiTmFkaWEgRGVuY2hldmEifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJwZXJyeWdyZWVuZmllbGQifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJCZXJuaWUgU2ltb24ifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJLZW4gTWFjRG9uYWxkIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiRS4gTS4gQnJheSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkphbWVzIERhdmllcyJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IlZhZGltIE1hcmtvdnRzZXYifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJFcmlrIFRvbGxlcnVkIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiU3R1YXJ0IE11bWZvcmQifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJCcmlnaXR0YSBTaXDFkWN6In0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiTGFycnkgQnJhZGxleSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkNhZ3RheSBGYWJyeSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6Ik1pZ3VlbCBkZSBWYWwtQm9ycm8ifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJMZWhtYW4gR2Fycmlzb24ifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJCZW4gR3JlaW5lciJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkNocmlzdG9waCBEZWlsIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiTWF0dCBDcmFpZyJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6Ikt5bGUgQmFyYmFyeSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6Ik9sZSBTdHJlaWNoZXIifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJBZGFtIEdpbnNidXJnIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiUC4gTC4gTGltIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiSnVzdGluIEVseSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IldvbGZnYW5nIEtlcnplbmRvcmYifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJDaHJpcyBMYW1iIn1dLCJwdWJsaWNhdGlvbkluZm9ybWF0aW9uIjpbIlplbm9kbyJdLCJkYXRlcyI6W3sia2luZCI6IlB1YmxpY2F0aW9uIGRhdGUiLCJ2YWx1ZSI6IjIwMjIifSx7ImtpbmQiOiJJc3N1ZWQiLCJ2YWx1ZSI6IjIwMjItMDYtMDYifV0sIm5vdGVzIjpudWxsLCJoaWdobGlnaHQiOlt7Im1hdGNoZWRGaWVsZCI6ImNpdGF0aW9uIiwibWF0Y2hlZFBocmFzZXMiOlsiTGltLCBKdXN0aW4gRWx5LCBXb2xmZ2FuZyBLZXJ6ZW5kb3JmLCBDaHJpcyBMYW1iICgyMDIyKTogXHUwMDNjc3BhbiBjbGFzcz1cImhpZ2hsaWdodFwiXHUwMDNlYXNkZlx1MDAzYy9zcGFuXHUwMDNlLWZvcm1hdC9cdTAwM2NzcGFuIGNsYXNzPVwiaGlnaGxpZ2h0XCJcdTAwM2Vhc2RmXHUwMDNjL3NwYW5cdTAwM2U6IDIuMTIuMC4gWmVub2RvLiJdfV19XSwiYWdncmVnYXRpb25zIjp7ImNvbnRlbnRUeXBlIjpbeyJrZXkiOiJub3Qgc3BlY2lmaWVkIiwiZG9jQ291bnQiOjF9XSwic291cmNlIjpbeyJrZXkiOiJ6ZW5vZG8iLCJkb2NDb3VudCI6MX1dfX19fQ==
+  recorded_at: Thu, 14 Jul 2022 21:10:40 GMT
 recorded_with: VCR 6.1.0

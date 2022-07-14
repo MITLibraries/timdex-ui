@@ -3,8 +3,8 @@ require 'graphql/client/http'
 
 class TimdexRecord < TimdexBase
   Query = TimdexBase::Client.parse <<-'GRAPHQL'
-    query($id: String!) {
-      recordId(id: $id) {
+    query($id: String!, $index: String) {
+      recordId(id: $id, index: $index) {
         alternateTitles {
           kind
           value
