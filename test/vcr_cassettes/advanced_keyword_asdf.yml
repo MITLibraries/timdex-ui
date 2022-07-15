@@ -8,11 +8,11 @@ http_interactions:
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
-        $from: String, $contentType: String) {\n  search(searchterm: $q, citation:
-        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
-        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
-        $title, sourceFacet: $sourceFacet, from: $from, contentTypeFacet: $contentType)
-        {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $index: String, $from: String, $contentType: String) {\n  search(searchterm:
+        $q, citation: $citation, contributors: $contributors, fundingInformation:
+        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
+        $subjects, title: $title, sourceFacet: $sourceFacet, index: $index, from:
+        $from, contentTypeFacet: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 08 Jul 2022 20:05:09 GMT
+      - Thu, 14 Jul 2022 21:10:40 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -55,13 +55,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"010894b1de5c1e638355ae46e10c846b"
+      - W/"045bfcb86d35f8c9c74002f478033db1"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - f61437d8-102f-4d19-afdb-1c09c3a70c9f
+      - e13e6aa8-3e09-4026-b1e2-0e28cec81bb7
       X-Runtime:
-      - '0.069508'
+      - '0.110676'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -69,24 +69,8 @@ http_interactions:
       Via:
       - 1.1 vegur
     body:
-      encoding: UTF-8
-      string: '{"data":{"search":{"hits":2,"records":[{"timdexRecordId":"zenodo:4469437","title":"\"How
-        baryons can significantly bias cluster count cosmology\" by Debackere et al.
-        dataset","contentType":["Dataset"],"contributors":[{"kind":"Creator","value":"Debackere,
-        Stijn N.B."},{"kind":"Creator","value":"Schaye, Joop"},{"kind":"Creator","value":"Hoekstra,
-        Henk"}],"publicationInformation":["Zenodo"],"dates":[{"kind":"Publication
-        date","value":"2021"},{"kind":"Issued","value":"2021-01-26"}],"notes":[{"kind":"Other","value":["{\"references\":
-        [\"Debackere, SNB et al. (2021), data related to arXiv:2101.07800\"]}"]}],"highlight":[{"matchedField":"summary","matchedPhrases":["The
-        datasets are saved as \u003ca href=\"https://asdf.readthedocs.io/en/stable/\"\u003e\u003cspan
-        class=\"highlight\"\u003easdf\u003c/span\u003e\u003c/a\u003e files ending
-        in _"]}]},{"timdexRecordId":"zenodo:4721394","title":"\"How baryons can significantly
-        bias cluster count cosmology\" by Debackere et al. dataset","contentType":["Dataset"],"contributors":[{"kind":"Creator","value":"Debackere,
-        Stijn N.B."},{"kind":"Creator","value":"Schaye, Joop"},{"kind":"Creator","value":"Hoekstra,
-        Henk"}],"publicationInformation":["Zenodo"],"dates":[{"kind":"Publication
-        date","value":"2021"},{"kind":"Issued","value":"2021-01-26"}],"notes":[{"kind":"Other","value":["{\"references\":
-        [\"Debackere, SNB et al. (2021), data related to arXiv:2101.07800\"]}"]}],"highlight":[{"matchedField":"summary","matchedPhrases":["The
-        datasets are saved as \u003ca href=\"https://asdf.readthedocs.io/en/stable/\"\u003e\u003cspan
-        class=\"highlight\"\u003easdf\u003c/span\u003e\u003c/a\u003e files ending
-        in _"]}]}],"aggregations":{"contentType":[{"key":"dataset","docCount":2}],"source":[{"key":"zenodo","docCount":2}]}}}}'
-  recorded_at: Fri, 08 Jul 2022 20:05:10 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJkYXRhIjp7InNlYXJjaCI6eyJoaXRzIjoxLCJyZWNvcmRzIjpbeyJ0aW1kZXhSZWNvcmRJZCI6Inplbm9kbzo2NjE3NTU3IiwidGl0bGUiOiJhc2RmLWZvcm1hdC9hc2RmOiAyLjEyLjAiLCJjb250ZW50VHlwZSI6WyJOb3Qgc3BlY2lmaWVkIl0sImNvbnRyaWJ1dG9ycyI6W3sia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkRhbiBEJ0F2ZWxsYSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6Ik1pY2hhZWwgRHJvZXR0Ym9vbSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkVkd2FyZCBTbGF2aWNoIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiV2lsbGlhbSBKYW1pZXNvbiJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IlRob21hcyBSb2JpdGFpbGxlIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiTmFkaWEgRGVuY2hldmEifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJwZXJyeWdyZWVuZmllbGQifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJCZXJuaWUgU2ltb24ifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJLZW4gTWFjRG9uYWxkIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiRS4gTS4gQnJheSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkphbWVzIERhdmllcyJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IlZhZGltIE1hcmtvdnRzZXYifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJFcmlrIFRvbGxlcnVkIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiU3R1YXJ0IE11bWZvcmQifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJCcmlnaXR0YSBTaXDFkWN6In0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiTGFycnkgQnJhZGxleSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkNhZ3RheSBGYWJyeSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6Ik1pZ3VlbCBkZSBWYWwtQm9ycm8ifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJMZWhtYW4gR2Fycmlzb24ifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJCZW4gR3JlaW5lciJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkNocmlzdG9waCBEZWlsIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiTWF0dCBDcmFpZyJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6Ikt5bGUgQmFyYmFyeSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6Ik9sZSBTdHJlaWNoZXIifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJBZGFtIEdpbnNidXJnIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiUC4gTC4gTGltIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiSnVzdGluIEVseSJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IldvbGZnYW5nIEtlcnplbmRvcmYifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJDaHJpcyBMYW1iIn1dLCJwdWJsaWNhdGlvbkluZm9ybWF0aW9uIjpbIlplbm9kbyJdLCJkYXRlcyI6W3sia2luZCI6IlB1YmxpY2F0aW9uIGRhdGUiLCJ2YWx1ZSI6IjIwMjIifSx7ImtpbmQiOiJJc3N1ZWQiLCJ2YWx1ZSI6IjIwMjItMDYtMDYifV0sIm5vdGVzIjpudWxsLCJoaWdobGlnaHQiOlt7Im1hdGNoZWRGaWVsZCI6InN1bW1hcnkiLCJtYXRjaGVkUGhyYXNlcyI6WyJcdTAwM2MvbGlcdTAwM2Vcblx1MDAzY2xpXHUwMDNlQWRkIGFiaWxpdHkgdG8gc2V0IFx1MDAzY3NwYW4gY2xhc3M9XCJoaWdobGlnaHRcIlx1MDAzZWFzZGZcdTAwM2Mvc3Bhblx1MDAzZS1zdGFuZGFyZCB2ZXJzaW9uIGZvciBzY2hlbWEgZXhhbXBsZSBpdGVtcy5cdTAwM2MvbGlcdTAwM2Vcblx1MDAzYy91bFx1MDAzZSJdfSx7Im1hdGNoZWRGaWVsZCI6ImNpdGF0aW9uIiwibWF0Y2hlZFBocmFzZXMiOlsiTGltLCBKdXN0aW4gRWx5LCBXb2xmZ2FuZyBLZXJ6ZW5kb3JmLCBDaHJpcyBMYW1iICgyMDIyKTogXHUwMDNjc3BhbiBjbGFzcz1cImhpZ2hsaWdodFwiXHUwMDNlYXNkZlx1MDAzYy9zcGFuXHUwMDNlLWZvcm1hdC9cdTAwM2NzcGFuIGNsYXNzPVwiaGlnaGxpZ2h0XCJcdTAwM2Vhc2RmXHUwMDNjL3NwYW5cdTAwM2U6IDIuMTIuMC4gWmVub2RvLiJdfSx7Im1hdGNoZWRGaWVsZCI6InRpdGxlLmV4YWN0X3ZhbHVlIiwibWF0Y2hlZFBocmFzZXMiOlsiXHUwMDNjc3BhbiBjbGFzcz1cImhpZ2hsaWdodFwiXHUwMDNlYXNkZi1mb3JtYXQvYXNkZjogMi4xMi4wXHUwMDNjL3NwYW5cdTAwM2UiXX0seyJtYXRjaGVkRmllbGQiOiJyZWxhdGVkX2l0ZW1zLnVyaSIsIm1hdGNoZWRQaHJhc2VzIjpbImh0dHBzOi8vZ2l0aHViLmNvbS9cdTAwM2NzcGFuIGNsYXNzPVwiaGlnaGxpZ2h0XCJcdTAwM2Vhc2RmXHUwMDNjL3NwYW5cdTAwM2UtZm9ybWF0L1x1MDAzY3NwYW4gY2xhc3M9XCJoaWdobGlnaHRcIlx1MDAzZWFzZGZcdTAwM2Mvc3Bhblx1MDAzZS90cmVlLzIuMTIuMCJdfSx7Im1hdGNoZWRGaWVsZCI6InRpdGxlIiwibWF0Y2hlZFBocmFzZXMiOlsiXHUwMDNjc3BhbiBjbGFzcz1cImhpZ2hsaWdodFwiXHUwMDNlYXNkZlx1MDAzYy9zcGFuXHUwMDNlLWZvcm1hdC9cdTAwM2NzcGFuIGNsYXNzPVwiaGlnaGxpZ2h0XCJcdTAwM2Vhc2RmXHUwMDNjL3NwYW5cdTAwM2U6IDIuMTIuMCJdfV19XSwiYWdncmVnYXRpb25zIjp7ImNvbnRlbnRUeXBlIjpbeyJrZXkiOiJub3Qgc3BlY2lmaWVkIiwiZG9jQ291bnQiOjF9XSwic291cmNlIjpbeyJrZXkiOiJ6ZW5vZG8iLCJkb2NDb3VudCI6MX1dfX19fQ==
+  recorded_at: Thu, 14 Jul 2022 21:10:41 GMT
 recorded_with: VCR 6.1.0

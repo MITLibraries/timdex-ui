@@ -8,11 +8,11 @@ http_interactions:
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
-        $from: String, $contentType: String) {\n  search(searchterm: $q, citation:
-        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
-        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
-        $title, sourceFacet: $sourceFacet, from: $from, contentTypeFacet: $contentType)
-        {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $index: String, $from: String, $contentType: String) {\n  search(searchterm:
+        $q, citation: $citation, contributors: $contributors, fundingInformation:
+        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
+        $subjects, title: $title, sourceFacet: $sourceFacet, index: $index, from:
+        $from, contentTypeFacet: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 08 Jul 2022 20:05:07 GMT
+      - Thu, 14 Jul 2022 21:10:44 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -59,9 +59,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 5bc04ea0-b65c-4300-8ea2-b5178d81e3e0
+      - 97ef64ed-4261-4c9f-ad94-8ba72bb75ab7
       X-Runtime:
-      - '0.046891'
+      - '0.102105'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -71,5 +71,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
-  recorded_at: Fri, 08 Jul 2022 20:05:07 GMT
+  recorded_at: Thu, 14 Jul 2022 21:10:44 GMT
 recorded_with: VCR 6.1.0

@@ -158,6 +158,7 @@ GEM
     mitlibraries-theme (0.7.0)
       rails (>= 5, < 8)
       sassc (~> 2)
+    mocha (1.14.0)
     msgpack (1.5.2)
     net-imap (0.2.3)
       digest
@@ -317,6 +318,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   mitlibraries-theme (~> 0.7.0)
+  mocha
   pg
   puma (~> 5.0)
   rails (~> 7.0.2, >= 7.0.2.3)

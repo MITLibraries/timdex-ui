@@ -56,4 +56,16 @@ class QueryBuilderTest < ActiveSupport::TestCase
     }
     assert_equal(expected, QueryBuilder.new(search).query)
   end
+
+  test 'query builder can read TIMDEX_INDEX from env' do
+    ClimateControl.modify TIMDEX_INDEX: 'rdi*' do
+      search = { q: 'blah' }
+      assert_equal('rdi*', QueryBuilder.new(search).query['index'])
+    end
+  end
+
+  test 'query builder index is nil if TIMDEX_INDEX not provided in env' do
+    search = { q: 'blah' }
+    assert_nil(QueryBuilder.new(search).query['index'])
+  end
 end

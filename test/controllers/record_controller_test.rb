@@ -8,7 +8,7 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'full record path with an id does not return an error' do
-    VCR.use_cassette('timdex record sample',
+    VCR.use_cassette('timdex controller record sample',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get '/record/jpal:doi:10.7910-DVN-MNIBOL'
@@ -18,7 +18,7 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
 
   test 'record ids can include multiple periods' do
     needle_id = 'there.is.no.record'
-    VCR.use_cassette('timdex record no record',
+    VCR.use_cassette('timdex controller record no record',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get "/record/#{needle_id}"
@@ -28,7 +28,7 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
 
   test 'full record display where no record exists displays an error' do
     needle_id = 'there.is.no.record'
-    VCR.use_cassette('timdex record no record',
+    VCR.use_cassette('timdex controller record no record',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get "/record/#{needle_id}"

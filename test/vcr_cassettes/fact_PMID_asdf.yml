@@ -21,7 +21,7 @@ http_interactions:
       message: Bad Request
     headers:
       Date:
-      - Fri, 08 Jul 2022 20:05:13 GMT
+      - Thu, 14 Jul 2022 21:10:47 GMT
       Server:
       - Finatra
       Strict-Transport-Security:
@@ -33,9 +33,9 @@ http_interactions:
       X-Test-Test:
       - test42
       Ncbi-Sid:
-      - 294C8D49FF83E27B_C60ESID
+      - BA55843A78C4E870_EC03SID
       Ncbi-Phid:
-      - 939B30D84ED723A500005FD59792929D.1.1.m_1
+      - 939B7F45FC6A1355000043FE2FD4139C.1.1.m_1
       Content-Type:
       - text/xml; charset=UTF-8
       Cache-Control:
@@ -49,8 +49,8 @@ http_interactions:
       Access-Control-Expose-Headers:
       - X-RateLimit-Limit,X-RateLimit-Remaining
       Set-Cookie:
-      - ncbi_sid=294C8D49FF83E27B_C60ESID; domain=.nih.gov; path=/; expires=Sat, 08
-        Jul 2023 20:05:14 GMT
+      - ncbi_sid=BA55843A78C4E870_EC03SID; domain=.nih.gov; path=/; expires=Fri, 14
+        Jul 2023 21:10:48 GMT
       Vary:
       - Accept-Encoding
       X-Ua-Compatible:
@@ -66,5 +66,5 @@ http_interactions:
       string: "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!DOCTYPE eEfetchResult
         PUBLIC \"-//NLM//DTD efetch 20131226//EN\" \"https://eutils.ncbi.nlm.nih.gov/eutils/dtd/20131226/efetch.dtd\">\n<eFetchResult>\n\t<ERROR>ID
         list is empty! Possibly it has no correct IDs.</ERROR>\n</eFetchResult>\n"
-  recorded_at: Fri, 08 Jul 2022 20:05:14 GMT
+  recorded_at: Thu, 14 Jul 2022 21:10:48 GMT
 recorded_with: VCR 6.1.0

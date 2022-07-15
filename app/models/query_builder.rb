@@ -10,6 +10,7 @@ class QueryBuilder
     @query['from'] = calculate_from(enhanced_query[:page])
     extract_query(enhanced_query)
     extract_filters(enhanced_query)
+    @query['index'] = ENV.fetch('TIMDEX_INDEX', nil)
     @query.compact!
   end
 

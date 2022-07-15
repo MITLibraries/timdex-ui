@@ -5,8 +5,9 @@ class RecordController < ApplicationController
 
   def view
     id = params[:id]
+    index = ENV.fetch('TIMDEX_INDEX', nil)
 
-    response = TimdexBase::Client.query(TimdexRecord::Query, variables: { id: })
+    response = TimdexBase::Client.query(TimdexRecord::Query, variables: { id:, index: })
 
     # Detection of unexpected response from the API would go here...
 

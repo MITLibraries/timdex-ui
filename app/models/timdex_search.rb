@@ -13,6 +13,7 @@ class TimdexSearch < TimdexBase
       $subjects: String
       $title: String
       $sourceFacet: [String!]
+      $index: String
       $from: String
       $contentType: String
     ) {
@@ -26,6 +27,7 @@ class TimdexSearch < TimdexBase
         subjects: $subjects
         title: $title
         sourceFacet: $sourceFacet
+        index: $index
         from: $from
         contentTypeFacet: $contentType
       ) {

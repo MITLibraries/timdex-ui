@@ -1087,6 +1087,16 @@
                     }
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "index",
+                  "description": "It is not recommended to provide an index value unless we have provided you with one for your specific use case",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
                 }
               ],
               "type": {
@@ -1194,6 +1204,16 @@
                     "ofType": null
                   },
                   "defaultValue": "\"0\""
+                },
+                {
+                  "name": "index",
+                  "description": "It is not recommended to provide an index value unless we have provided you with one for your specific use case",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
                 },
                 {
                   "name": "collectionFacet",
