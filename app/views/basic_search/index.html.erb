@@ -1,7 +1,6 @@
 <%= content_for(:title, "Search | MIT Libraries") %>
 
 <div class="space-wrap">
-  <p>Herzliche Glückwunsch!</p>
-
   <%= render partial: "search/form" %>
+  <%= render partial: "static/about" if ENV.fetch('ABOUT_APP', nil) %>
 </div>
