@@ -2,37 +2,37 @@
 
 <div class="space-wrap">
 
-  <p>Showing results for:
+  <p><%= t('.results_for') %>
       <ul>
         <% if @enhanced_query[:q].present? %>
-          <li>Keyword anywhere: <%= @enhanced_query[:q] %></li>
+          <li><%= t('.q') %> <%= @enhanced_query[:q] %></li>
         <% end %>
         <% if @enhanced_query[:citation].present? %>
-          <li>Citation: <%= @enhanced_query[:citation] %></li>
+          <li><%= t('.citation') %> <%= @enhanced_query[:citation] %></li>
         <% end %>
         <% if @enhanced_query[:contentType].present? %>
-          <li>Content type: <%= @enhanced_query[:contentType] %></li>
+          <li><%= t('.content_type') %> <%= @enhanced_query[:contentType] %></li>
         <% end %>
         <% if @enhanced_query[:contributors].present? %>
-          <li>Contributors: <%= @enhanced_query[:contributors] %></li>
+          <li><%= t('.contributors') %> <%= @enhanced_query[:contributors] %></li>
         <% end %>
         <% if @enhanced_query[:fundingInformation].present? %>
-          <li>Funders: <%= @enhanced_query[:fundingInformation] %></li>
+          <li><%= t('.funding_information') %> <%= @enhanced_query[:fundingInformation] %></li>
         <% end %>
         <% if @enhanced_query[:identifiers].present? %>
-          <li>Identifiers: <%= @enhanced_query[:identifiers] %></li>
+          <li><%= t('.identifiers') %> <%= @enhanced_query[:identifiers] %></li>
         <% end %>
         <% if @enhanced_query[:locations].present? %>
-          <li>Locations: <%= @enhanced_query[:locations] %></li>
+          <li><%= t('.locations') %> <%= @enhanced_query[:locations] %></li>
         <% end %>
         <% if @enhanced_query[:subjects].present? %>
-          <li>Subjects: <%= @enhanced_query[:subjects] %></li>
+          <li><%= t('.subjects') %> <%= @enhanced_query[:subjects] %></li>
         <% end %>
         <% if @enhanced_query[:title].present? %>
-          <li>Title: <%= @enhanced_query[:title] %></li>
+          <li><%= t('.title') %> <%= @enhanced_query[:title] %></li>
         <% end %>
         <% if @enhanced_query[:source].present? %>
-          <li>Source: <%= @enhanced_query[:source] %></li>
+          <li><%= t('.source') %> <%= @enhanced_query[:source] %></li>
         <% end %>
       </ul>
   </p>
@@ -57,7 +57,7 @@
 
     <aside class="col1q facet-container">
       <div id="facets">
-        <h2>Available filters</h2>
+        <h2><%= t('.available_filters') %></h2>
         <% @facets&.each do |category, values| %>
           <%= render(partial: 'search/facet', locals: {category: category, values: values}) %>
         <% end %>

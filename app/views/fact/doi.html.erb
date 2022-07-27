@@ -8,24 +8,24 @@
   <% end %>
 
   <div class="panel-body">
-    In: <%= @json[:journal_name] %>, <%= @json[:year] %>
+    <%= t('.in') %> <%= @json[:journal_name] %>, <%= @json[:year] %>
 
     <ul>
       <li>
-        Open Access: 
+        <%= t('.open_access') %>
         <% if @json[:oa] %>
           <%= @json[:oa_status] %>
         <% else %>
-          unknown
+          <%= t('.unknown_oa') %>
         <% end %>
       </li>
-      <li>Publisher: <%= @json[:publisher] %></li>
+      <li><%= t('.publisher') %> <%= @json[:publisher] %></li>
 
       <% if @json[:oa] %>
-        <li><%= link_to('Open Access Link', @json[:best_oa_location]["url"]) %>
+        <li><%= link_to(t('.oa_link'), @json[:best_oa_location]["url"]) %>
       <% end %>
 
-      <li><%= link_to('Check MIT Subscription Access', @json[:link_resolver_url]) %>
+      <li><%= link_to(t('.check_mit_access'), @json[:link_resolver_url]) %>
     </ul>
   </div>
 </div>

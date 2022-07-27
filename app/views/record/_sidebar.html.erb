@@ -9,10 +9,10 @@
   <% end %>
 
   <div class="bit askus">
-    <h3 class="title">Ask Us</h3>
-    <p>Not finding what you're looking for?  We're here to help with anything from quick questions to in-depth research.</p>
+    <h3 class="title"><%= t('.ask_us') %></h3>
+    <p><%= t('.ask_us_description') %></p>
     <p>
-      <a class="btn button-secondary" href="https://libraries.mit.edu/ask/">Ask Us</a>
+      <%= link_to t('.ask_us'), 'https://libraries.mit.edu/ask/', class: 'btn button-secondary' %>
     </p>
   </div>
 </div>

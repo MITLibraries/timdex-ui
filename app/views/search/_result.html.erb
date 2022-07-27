@@ -1,6 +1,6 @@
 <li class="result">
   <h2 class="record-title">
-    <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['timdexRecordId'])) %>
+    <span class="sr"><%= t('.title') %> </span><%= link_to(result['title'], record_path(id: result['timdexRecordId'])) %>
   </h2>
 
   <p class="pub-info">
@@ -18,7 +18,7 @@
   <% end %>
 
   <p class="result-authors">
-    <span class="sr">Authors: </span>
+    <span class="sr"><%= t('.authors') %> </span>
     <%= contributors.uniq.map { |contrib| link_to contrib, results_path({ advanced: true, contributors: contrib }) }.join(' ; ').html_safe %>
   </p>
 
@@ -27,6 +27,6 @@
   </div>
 
   <div class="result-get">
-    <%= link_to 'View online', "##{Random.rand(100000)}", class: 'button button-primary green' %>
+    <%= link_to t('.view_online'), "##{Random.rand(100000)}", class: 'button button-primary green' %>
   </div>
 </li>

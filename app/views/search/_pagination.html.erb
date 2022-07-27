@@ -5,15 +5,15 @@
     <% if @pagination[:prev] %>
       <%= prev_url(@enhanced_query) %>
     <% else %>
-      First page
+      <%= t('.first_page') %>
     <% end %>
   </div>
-  <div class="grid-item current">Page <%= @pagination[:page] %> of <%= (@pagination[:hits] / 20) + 1 %></div>
+  <div class="grid-item current"><%= t('.page') %> <%= @pagination[:page] %> <%= t('.of') %> <%= (@pagination[:hits] / 20) + 1 %></div>
   <div class="grid-item next">
     <% if @pagination[:next] %>
       <%= next_url(@enhanced_query) %>
     <% else %>
-      Last page
+      <%= t('.last_page') %>
     <% end %>
   </div>
 </div>

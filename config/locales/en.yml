@@ -1,33 +1,122 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   "true": "foo"
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  basic_search:
+    index:
+      title: 'Search | MIT Libraries'
+  fact:
+    doi:
+      check_mit_access: 'Check MIT Subscription Access'
+      in: 'In:'
+      oa_link: 'Open Access Link'
+      open_access: 'Open Access:'
+      publisher: 'Publisher:'
+      unknown_oa: 'unknown'
+    issn:
+      is_relevant: 'Is this relevant to your search?'
+      no: 'No'
+      publisher: 'Publisher:'
+      yes: 'Yes'
+    isbn:
+      is_relevant: 'Is this relevant to your search?'
+      no: 'No'
+      yes: 'Yes'
+    pmid:
+      is_relevant: 'Is this relevant to your search?'
+      journal: 'Journal:'
+      no: 'No'
+      pages: 'Pages:'
+      pub_status: 'Publication status:'
+      volume: 'Volume:'
+      year: 'Year:'
+      yes: 'Yes'
+  layouts:
+    site_nav:
+      app_name: 'TIMDEX UI'
+      home: 'Home'
+  record:
+    record:
+      author: 'Author'
+      date_note: ' Note:'
+      dates: 'Dates'
+      edition: ': Edition '
+      language: 'Language'
+      links: 'Links'
+      more_info: 'More information'
+      no_title: 'No title provided for this item.'
+      notes: 'Notes'
+      pub_info: 'Publication Information:'
+      published: ': Published '
+      rights: 'Rights'
+      source: 'Source:'
+      subjects: 'Subjects'
+      summary: 'Summary'
+      title: 'Title: '
+      type: 'Type'
+      unknown: 'unknown'
+    record_empty:
+      no_record: 'No record was returned by our systems.'
+      not_found: 'Record not found'
+    sidebar:
+      ask_us: 'Ask Us'
+      ask_us_description: "Not finding what you're looking for? We're here to help with anything from quick questions to in-depth research."
+    view:
+      no_record_id: 'A record identifier is required.'
+  search:
+    facet:
+      content_types: 'Content types'
+      show_all: 'Show all'
+      sources: 'Sources'
+    facet_empty:
+      no_facets: 'There are no facets.'
+    form:
+      advanced_label_clear: 'Clear advanced search fields'
+      advanced_label_closed: 'closed'
+      advanced_label_show: 'Show advanced search fields'
+      advanced_label_open: 'open'
+      citation: 'Citation'
+      contributors: 'Contributors'
+      enter_search: 'Enter your search'
+      funding_information: 'Funding information'
+      identifiers: 'Identifiers'
+      locations: 'Locations'
+      subjects: 'Subjects'
+      search: 'Search'
+      search_mit_libraries: 'Search the MIT Libraries'
+      searched_for: 'You searched for'
+      sources: 'Limit search to checked sources.'
+      subjects: 'Subjects'
+      title: 'Title'
+    highlights:
+      other_fields: 'Other fields matching your search terms:'
+    pagination:
+      first_page: 'First page'
+      last_page: 'Last page'
+      next_page: 'Next page '
+      of: 'of'
+      page: 'Page'
+      prev_page: ' Previous page'
+    result:
+      authors: 'Authors:'
+      title: 'Title:'
+      view_online: 'View online'
+    result_empty:
+      no_results: 'There are no results.'
+    results:
+      available_filters: 'Available filters'
+      citation: 'Citation:'
+      content_type: 'Content type:'
+      contributors: 'Contributors:'
+      funding_information: 'Funders:'
+      identifiers: 'Identifiers:'
+      locations: 'Locations:'
+      no_search_term: 'A search term is required.'
+      q: 'Keyword anywhere:'
+      results_for: 'Showing results for:'
+      subjects: 'Subjects:'
+      title: 'Title:'
+      source: 'Source:'
+  static:
+    about:
+      description: "<p>This search application can be used to find datasets in MIT Libraries' Research Data Index.</p><p>Not finding what you need? <a href=\"https://libraries.mit.edu/ask/\">Ask us</a></p>"
+      heading: 'About'
+    i18n_test:
+      hello: 'Hello world'

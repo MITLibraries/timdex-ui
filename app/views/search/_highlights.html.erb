@@ -1,7 +1,7 @@
 <% highlights = trim_highlights(result) %>
 <% return unless highlights&.any? %>
 
-<h3 class="hd-6">Other fields matching your search terms:</h3>
+<h3 class="hd-6"><%= t('.other_fields') %></h3>
 <ul>
   <% highlights.each do |h| %>
     <% h['matchedPhrases'].each do |phrase| %>

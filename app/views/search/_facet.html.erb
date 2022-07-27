@@ -13,7 +13,8 @@
   <% end %>
   </ul>
   <% if @enhanced_query[category.to_sym].present? %>
-    <div><%= link_to "Show all #{nice_labels[category]&.downcase || category}", results_path(remove_facet(@enhanced_query, category)) %>
+    <!-- TODO: abstract out 'show all' -->
+    <div><%= link_to t('.show_all') + " #{nice_labels[category]&.downcase}", results_path(remove_facet(@enhanced_query, category)) %>
     </div>
   <% end %>
 </div>

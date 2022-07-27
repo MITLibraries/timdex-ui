@@ -23,7 +23,7 @@ class RecordController < ApplicationController
   def validate_id!
     return if params[:id]&.strip.present?
 
-    flash[:error] = 'A record identifier is required.'
+    flash[:error] = t('.no_record_id')
     redirect_to root_url
   end
 end

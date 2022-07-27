@@ -2,11 +2,11 @@
   <div class="col3q box-content region full-record" data-region="Full record">
 
     <h2 class="record-title">
-      <span class="sr">Title: </span>
+      <span class="sr"><%= t('.title') %></span>
       <% if @record['title'].present? %>
         <%= @record['title'] %>
       <% else %>
-        No title provided for this item.
+        <%= t('.no_title') %>
       <% end %>
     </h2>
 
@@ -14,7 +14,7 @@
       <% if @record['contentType'].present? %>
         <span class="record-type">
           <% # we need to create separate displays for different types of content types, see https://github.com/MITLibraries/bento/pull/908/files#diff-6718f9b88f6f93e59d8c2509512dc40a62088430ff3cce1165ab414565949415L22-L57 for starting point but we should anticipate wanting to expand to many more unique content types %>
-          <span class="sr">Type</span> <%= @record['contentType'].join %>
+          <span class="sr"><%= t('.type') %></span> <%= @record['contentType'].join %>
         </span>
       <% end %>
 
@@ -28,12 +28,12 @@
 
         <% if @record['dates'].map{|date| date if date['kind'] == 'Publication date'}.compact.present? %>
           <span class="record-year">
-            : Published <%= date_parse(publication_date(@record)) %>
+            <%= t('.published') %><%= date_parse(publication_date(@record)) %>
           </span>
         <% end %>
         <% if @record['edition'].present? %>
           <span class="record-edition">
-            : Edition <%= @record['edition'] %>
+            <%= t('.edition') %><%= @record['edition'] %>
           </span>
         <% end %>
       <% end %>
@@ -42,7 +42,7 @@
     <% # we should helper this up to handle insanely large lists of authors %>
     <% if @record['contributors'].present? %>
       <p class="record-authors">
-        <span class="sr"><%= "Author".pluralize(@record['contributors'].count) %>: </span>
+        <span class="sr"><%= t('.author').pluralize(@record['contributors'].count) %>: </span>
           <% @record['contributors'].each do |author| %>
             <span class="record-author">
               <%= author['value'] %> 
@@ -56,23 +56,23 @@
     <% end %>
 
     <% # NOTE: link resolver links are not very useful to most of the content in timdex currently. For dspace and all RDI sources, the source link is better than a link resolver link %>
-    <h3 class="section-title">Links</h3>
+    <h3 class="section-title"><%= t('.links') %></h3>
     <ul class="list-links">
       <li>
-        <span class="label">Source:</span> <%= link_to(@record['source'], @record['sourceLink']) %>
+        <span class="label"><%= t('.source') %></span> <%= link_to(@record['source'], @record['sourceLink']) %>
       </li>
 
       <% if @record['links'].present? %>
         <% @record['links'].each do |link| %>
           <li>
-            <%= link_to(link['text'] || 'unknown', link['url']) %>
+            <%= link_to(link['text'] || t('.unknown'), link['url']) %>
           </li>
         <% end %>
       <% end %>
     </ul>
 
     <% if @record['summary'].present? %>
-      <h3 class="section-title">Summary</h3>
+      <h3 class="section-title"><%= t('summary') %></h3>
       <% @record['summary'].each do |paragraph| %>
         <p>
           <%= sanitize paragraph, tags: %w(p strong em a), attributes: %w(href) %>
@@ -80,14 +80,14 @@
       <% end %>
     <% end %>
 
-    <h3 class="section-title">More information</h3>
+    <h3 class="section-title"><%= t('.more_info') %></h3>
 
     <ul class="list-moreinfo">
       <%# pub type%>
 
       <%# pub info%>
       <% if @record['publicationInformation'] %>
-        <li>Publication Information: <%= @record['publicationInformation'].join('; ') %></li>
+        <li><%= t('.pub_info') %> <%= @record['publicationInformation'].join('; ') %></li>
       <% end %>
 
       <%# identifiers %>
@@ -104,14 +104,14 @@
       <%# language %>
       <% if @record['languages'].present? %>
         <li>
-          <span class="label"><%= "Language".pluralize(@record['languages'].count) %>:</span> <%= @record['languages'].join(',') %>
+          <span class="label"><%= t('.language').pluralize(@record['languages'].count) %>:</span> <%= @record['languages'].join(',') %>
         </li>
       <% end %>
     </ul>
 
     <%# subjects%>
     <% if @record['subjects'].present? %>
-      <h3 class="section-title">Subjects</h3>
+      <h3 class="section-title"><%= t('.subjects') %></h3>
         <ul class="list-subjects">
           <% @record['subjects'].each do |subject| %>
             <li>
@@ -124,19 +124,19 @@
 
     <%# dates%>
     <% if @record['dates'].present? %>
-      <h3 class="section-title">Dates</h3>
+      <h3 class="section-title"><%= t('.dates') %></h3>
         <ul class="list-dates">
           <% @record['dates'].each do |date| %>
             <li>
               <%= date['kind'] %>: <%= date_parse(date['value']) %><%= date_range(date['range']) %>
-              <%= " Note: #{date['note']}" if date['note'].present? %>
+              <%= t('date_note') + " #{date['note']}" if date['note'].present? %>
             </li>
           <% end %>
         </ul>
     <% end %>
 
     <% if @record['notes'].present? %>
-      <h3 class="section-title">Notes</h3>
+      <h3 class="section-title"><%= t('.notes') %></h3>
       <% @record['notes'].each do |note| %>
         <% if note['kind'].present? %>
           <%= note['kind'] %>:
@@ -148,7 +148,7 @@
     <% end %>
 
     <% if @record['rights'].present? %>
-      <h3 class="section-title">Rights</h3>
+      <h3 class="section-title"><%= t('rights') %></h3>
       <ul>
       <% @record['rights'].each do |right| %>
         <li>

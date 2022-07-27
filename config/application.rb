@@ -15,5 +15,9 @@ module TimdexUi
     # Enable asset pipeline
     config.assets.enabled = true
     config.assets.version = '1.0'
+
+    # Load locales and set default
+    config.i18n.load_path += Dir[Rails.root.join('locales', '*.yml')]
+    I18n.default_locale = :en
   end
 end

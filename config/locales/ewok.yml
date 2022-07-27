@@ -1,0 +1,4 @@
+ewok:
+  static:
+    i18n_test:
+      hello: "Yub nub"

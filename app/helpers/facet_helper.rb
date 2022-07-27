@@ -8,8 +8,13 @@ module FacetHelper
 
   def nice_labels
     {
-      'contentType' => 'Content types',
-      'source' => 'Sources'
+      'contentFormat' => t('search.facet.content_formats'),
+      'contentType' => t('search.facet.content_types'),
+      'contributors' => t('search.facet.contributors'),
+      'languages' => t('search.facet.languages'),
+      'literaryForm' => t('search.facet.literary_forms'),
+      'source' => t('search.facet.sources'),
+      'subjects' => t('search.facet.subjects')
     }
   end
 
