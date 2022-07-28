@@ -2,16 +2,17 @@ require 'test_helper'
 
 class QueryBuilderTest < ActiveSupport::TestCase
   test 'query builder trims spaces' do
-    expected = { 'from' => '0', 'q' => 'blah' }
+    expected = { 'from' => '0', 'q' => 'blah', 'index' => 'FAKE_TIMDEX_INDEX' }
     search = { q: ' blah ' }
     assert_equal(expected, QueryBuilder.new(search).query)
   end
 
   test 'query builder handles supported fields' do
-    expected = { 'from' => '0', 'q' => 'blah', 'citation' => 'Citations are cool. Journal of cool citations. Vol 3, page 123.',
+    expected = { 'from' => '0', 'q' => 'blah',
+                 'citation' => 'Citations are cool. Journal of cool citations. Vol 3, page 123.',
                  'contributors' => 'Vonnegut, Kurt', 'fundingInformation' => 'National Science Foundation',
                  'identifiers' => 'doi://1234.123/123.123', 'locations' => 'Cambridge, MA',
-                 'subjects' => 'Subjects are the worst', 'title' => 'Hi I like titles' }
+                 'subjects' => 'Subjects are the worst', 'title' => 'Hi I like titles', 'index' => 'FAKE_TIMDEX_INDEX' }
     search = {
       q: ' blah ',
       citation: 'Citations are cool. Journal of cool citations. Vol 3, page 123.',
@@ -26,10 +27,11 @@ class QueryBuilderTest < ActiveSupport::TestCase
   end
 
   test 'query builder ignores unsupported fields' do
-    expected = { 'from' => '0', 'q' => 'blah', 'citation' => 'Citations are cool. Journal of cool citations. Vol 3, page 123.',
+    expected = { 'from' => '0', 'q' => 'blah',
+                 'citation' => 'Citations are cool. Journal of cool citations. Vol 3, page 123.',
                  'contributors' => 'Vonnegut, Kurt', 'fundingInformation' => 'National Science Foundation',
                  'identifiers' => 'doi://1234.123/123.123', 'locations' => 'Cambridge, MA',
-                 'subjects' => 'Subjects are the worst', 'title' => 'Hi I like titles' }
+                 'subjects' => 'Subjects are the worst', 'title' => 'Hi I like titles', 'index' => 'FAKE_TIMDEX_INDEX' }
     search = {
       q: ' blah ',
       citation: 'Citations are cool. Journal of cool citations. Vol 3, page 123.',
@@ -47,7 +49,7 @@ class QueryBuilderTest < ActiveSupport::TestCase
   test 'query builder ignores supported fields that were not included' do
     expected = { 'from' => '0', 'q' => 'blah', 'contributors' => 'Vonnegut, Kurt',
                  'fundingInformation' => 'National Science Foundation',
-                 'identifiers' => 'doi://1234.123/123.123' }
+                 'identifiers' => 'doi://1234.123/123.123', 'index' => 'FAKE_TIMDEX_INDEX' }
     search = {
       q: ' blah ',
       contributors: 'Vonnegut, Kurt',
@@ -65,7 +67,9 @@ class QueryBuilderTest < ActiveSupport::TestCase
   end
 
   test 'query builder index is nil if TIMDEX_INDEX not provided in env' do
-    search = { q: 'blah' }
-    assert_nil(QueryBuilder.new(search).query['index'])
+    ClimateControl.modify TIMDEX_INDEX: nil do
+      search = { q: 'blah' }
+      assert_nil(QueryBuilder.new(search).query['index'])
+    end
   end
 end

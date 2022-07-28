@@ -362,7 +362,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       query = {
         q: 'data',
         advanced: 'true',
-        source: ['dspace@mit']
+        source: ['Woods Hole Open Access Server']
       }.to_query
       get "/results?#{query}"
       assert_response :success
@@ -384,9 +384,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_nil flash[:error]
 
-      # Assumption is we'll always have at least 3 default sources
-      # DSpace, Aspace, Aleph (RDI sources are in now, but may not be default later)
-      assert(source_facet_count(@controller) > 3)
+      # Assumption is we'll have at least 2 RDI sources for the time being
+      assert(source_facet_count(@controller) > 2)
     end
   end
 
@@ -400,7 +399,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       query = {
         q: 'data',
         advanced: 'true',
-        source: ['dspace@mit', 'Woods Hole Open Access Server']
+        source: ['Abdul Latif Jameel Poverty Action Lab Dataverse', 'Woods Hole Open Access Server']
       }.to_query
       get "/results?#{query}"
       assert_response :success

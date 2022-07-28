@@ -15,7 +15,7 @@ http_interactions:
         $from, contentTypeFacet: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
-        {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
+        {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
         {\n      contentType {\n        key\n        docCount\n      }\n      source
         {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"data","from":"31415926537"},"operationName":"TimdexSearch__Query"}'
     headers:
@@ -35,15 +35,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Jul 2022 21:10:49 GMT
+      - Fri, 29 Jul 2022 14:39:08 GMT
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - 9e6b97d0-a49a-494e-bb0f-5deff00e09bd
+      - 661a22b9-4cb8-462f-9df9-48933eadec49
       X-Runtime:
-      - '0.185515'
+      - '0.181938'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -55,5 +55,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Thu, 14 Jul 2022 21:10:49 GMT
+  recorded_at: Fri, 29 Jul 2022 14:39:09 GMT
 recorded_with: VCR 6.1.0

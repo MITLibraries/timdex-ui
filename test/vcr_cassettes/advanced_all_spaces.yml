@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://FAKE_TIMDEX_HOST/graphql/
+    uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
@@ -15,12 +15,12 @@ http_interactions:
         $from, contentTypeFacet: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
-        {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
+        {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
         {\n      contentType {\n        key\n        docCount\n      }\n      source
         {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"some
         data","citation":"a citation","contributors":"some contribs","fundingInformation":"a
         fund","identifiers":"some ids","locations":"some locs","subjects":"some subs","title":"a
-        title"},"operationName":"TimdexSearch__Query"}'
+        title","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -38,7 +38,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 28 Jul 2022 17:41:40 GMT
+      - Fri, 29 Jul 2022 14:39:04 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -62,9 +62,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 77e3a210-a774-4cbf-aa48-53a705a725ba
+      - b9081815-2703-4082-8a43-37fd3c211066
       X-Runtime:
-      - '0.231628'
+      - '0.058769'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -74,5 +74,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
-  recorded_at: Thu, 28 Jul 2022 17:41:40 GMT
+  recorded_at: Fri, 29 Jul 2022 14:39:04 GMT
 recorded_with: VCR 6.1.0

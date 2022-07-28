@@ -19,6 +19,7 @@ VCR.configure do |config|
   config.allow_http_connections_when_no_cassette = false
   config.filter_sensitive_data('FAKE_TIMDEX_HOST') { ENV.fetch('TIMDEX_HOST').to_s }
   config.filter_sensitive_data('http://FAKE_TIMDEX_HOST/graphql/') { ENV.fetch('TIMDEX_GRAPHQL').to_s }
+  config.filter_sensitive_data('FAKE_TIMDEX_INDEX') { ENV.fetch('TIMDEX_INDEX').to_s }
 end
 
 module ActiveSupport

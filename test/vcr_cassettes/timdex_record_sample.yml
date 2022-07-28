@@ -15,7 +15,7 @@ http_interactions:
         {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    publicationFrequency\n    publicationInformation\n    relatedItems
         {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
         {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
-        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"jpal:doi:10.7910-DVN-MNIBOL"},"operationName":"TimdexRecord__Query"}'
+        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"jpal:doi:10.7910-DVN-MNIBOL","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexRecord__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -33,7 +33,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Jul 2022 21:10:49 GMT
+      - Fri, 29 Jul 2022 14:39:07 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -53,13 +53,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"3b393acf8b4f44c4c621f3303ceb5200"
+      - W/"5c8e61a0b0d75c72f0fa79a3cd84d5a2"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - b23cc8c6-081e-4717-9b1b-49bac7ff6bbe
+      - 162a7272-4b76-4479-addb-11997e230167
       X-Runtime:
-      - '0.033329'
+      - '0.053072'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -76,7 +76,8 @@ http_interactions:
         Esther"},{"affiliation":null,"identifier":null,"kind":"Producer","mitAffiliated":null,"value":"Esther
         Duflo"},{"affiliation":null,"identifier":null,"kind":"Producer","mitAffiliated":null,"value":"Rohini
         Pande"},{"affiliation":null,"identifier":null,"kind":"Distributor","mitAffiliated":null,"value":"Jameel
-        Poverty Action Lab"}],"dates":[{"kind":"Publication date","note":null,"range":null,"value":"2007"},{"kind":"Issued","note":null,"range":null,"value":"2006"},{"kind":"Created","note":null,"range":null,"value":"2006"},{"kind":"Submitted","note":null,"range":null,"value":"2006"},{"kind":"Updated","note":null,"range":null,"value":"2020-03-31"}],"edition":"4.2","fundingInformation":null,"holdings":null,"identifiers":[{"kind":"DOI","value":"10.7910/DVN/MNIBOL"}],"languages":null,"links":null,"literaryForm":null,"locations":[{"geopoint":null,"kind":null,"value":"MIT,
+        Poverty Action Lab"}],"dates":[{"kind":"Publication date","note":null,"range":null,"value":"2007"},{"kind":"Issued","note":null,"range":null,"value":"2006"},{"kind":"Created","note":null,"range":null,"value":"2006"},{"kind":"Submitted","note":null,"range":null,"value":"2006"},{"kind":"Updated","note":null,"range":null,"value":"2020-03-31"}],"edition":"4.2","fundingInformation":null,"holdings":null,"identifiers":[{"kind":"DOI","value":"10.7910/DVN/MNIBOL"}],"languages":null,"links":[{"kind":"Digital
+        object URL","restrictions":null,"text":"Digital object URL","url":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL"}],"literaryForm":null,"locations":[{"geopoint":null,"kind":null,"value":"MIT,
         Cambridge MA"}],"notes":[{"kind":"Datacite resource type","value":["census
         data"]},{"kind":"Other","value":["Subject: STANDARD DEPOSIT TERMS 1.0  Type:
         DATAPASS:TERMS:STANDARD:1.0  Notes: This study was deposited under the of
@@ -84,22 +85,20 @@ http_interactions:
         in the file section of this study.;"]}],"numbering":null,"physicalDescription":null,"publicationFrequency":null,"publicationInformation":["Harvard
         Dataverse"],"relatedItems":null,"rights":[{"description":null,"kind":null,"uri":"info:eu-repo/semantics/openAccess"},{"description":null,"kind":null,"uri":"http://creativecommons.org/publicdomain/zero/1.0"}],"source":"Abdul
         Latif Jameel Poverty Action Lab Dataverse","sourceLink":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL","subjects":[{"kind":"Subject
-        scheme not provided","value":["Social Sciences"]},{"kind":"Subject scheme
-        not provided","value":["dams and poverty"]},{"kind":"Subject scheme not provided","value":["The
-        MacArthur Network on Inequality"]},{"kind":"Subject scheme not provided","value":["JPAL"]},{"kind":"Economic
-        theory and demography","value":["Economic theory"]},{"kind":"Economic theory
-        and demography","value":["Demography"]},{"kind":"Health","value":["Public
-        health"]}],"summary":["The data contains 5 different files, classified by
-        topic. The file india_pov_c81_revise.dta contains variables on the number
-        of dams in each district as well as information about the neighbouring districts.
-        The data set also includes data on local poverty, such as a povertygap measure,
-        the gini coefficient, mean per capita expenditure. The file india_ag_extend
-        contains in addition, data on agricultural produc\r\ntion ( value, yield)
-        for major crops and distinguishes between water-intensive and non-water-intensive
-        crops. The file census.dta contains data on the population size and occupation.
-        The file india_public_updown_doc.dta contains data on the availability of
-        public goods such as water access, power facilities and road. The file malaria_code81.dta
-        contains in addition a variable about malaria incidence."],"timdexRecordId":"jpal:doi:10.7910-DVN-MNIBOL","title":"Dams,
+        scheme not provided","value":["Social Sciences","dams and poverty","The MacArthur
+        Network on Inequality","JPAL"]},{"kind":"Economic theory and demography","value":["Economic
+        theory","Demography"]},{"kind":"Health","value":["Public health"]}],"summary":["The
+        data contains 5 different files, classified by topic. The file india_pov_c81_revise.dta
+        contains variables on the number of dams in each district as well as information
+        about the neighbouring districts. The data set also includes data on local
+        poverty, such as a povertygap measure, the gini coefficient, mean per capita
+        expenditure. The file india_ag_extend contains in addition, data on agricultural
+        produc\r\ntion ( value, yield) for major crops and distinguishes between water-intensive
+        and non-water-intensive crops. The file census.dta contains data on the population
+        size and occupation. The file india_public_updown_doc.dta contains data on
+        the availability of public goods such as water access, power facilities and
+        road. The file malaria_code81.dta contains in addition a variable about malaria
+        incidence."],"timdexRecordId":"jpal:doi:10.7910-DVN-MNIBOL","title":"Dams,
         Poverty, Public Goods and Malaria Incidence in India"}}}'
-  recorded_at: Thu, 14 Jul 2022 21:10:49 GMT
+  recorded_at: Fri, 29 Jul 2022 14:39:08 GMT
 recorded_with: VCR 6.1.0

@@ -21,7 +21,7 @@ http_interactions:
       message: Not Found
     headers:
       Date:
-      - Thu, 14 Jul 2022 21:10:48 GMT
+      - Fri, 29 Jul 2022 14:39:14 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -52,5 +52,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: Resource not found.
-  recorded_at: Thu, 14 Jul 2022 21:10:48 GMT
+  recorded_at: Fri, 29 Jul 2022 14:39:14 GMT
 recorded_with: VCR 6.1.0

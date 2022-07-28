@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - gunicorn
       Date:
-      - Thu, 14 Jul 2022 21:10:45 GMT
+      - Fri, 29 Jul 2022 14:39:15 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -50,5 +50,5 @@ http_interactions:
         [], "oa_locations_embargoed": [], "updated": "2021-04-01T04:17:18.585258",
         "data_standard": 2, "z_authors": [{"given": "Markus", "family": "Aspelmeyer",
         "sequence": "first"}]}'
-  recorded_at: Thu, 14 Jul 2022 21:10:45 GMT
+  recorded_at: Fri, 29 Jul 2022 14:39:15 GMT
 recorded_with: VCR 6.1.0

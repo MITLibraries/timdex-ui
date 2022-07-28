@@ -53,6 +53,7 @@ class TimdexSearch < TimdexBase
             matchedField
             matchedPhrases
           }
+          sourceLink
         }
         aggregations {
           contentType {
