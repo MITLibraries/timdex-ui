@@ -59,7 +59,7 @@
     <h3 class="section-title">Links</h3>
     <ul class="list-links">
       <li>
-        <span class="label">Source:</span> <%= link_to(@record['source'], @record['sourceLink']) %>
+        <%= link_to("Item record", @record['sourceLink']) %> in <%= @record['source'] %>
       </li>
 
       <% if @record['links'].present? %>
