@@ -321,6 +321,36 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'advanced search form retains values with spaces' do
+    VCR.use_cassette('advanced all spaces',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      query = {
+        q: 'some data',
+        citation: 'a citation',
+        contributors: 'some contribs',
+        fundingInformation: 'a fund',
+        identifiers: 'some ids',
+        locations: 'some locs',
+        subjects: 'some subs',
+        title: 'a title',
+        advanced: 'true'
+      }.to_query
+      get "/results?#{query}"
+      assert_response :success
+      assert_nil flash[:error]
+
+      assert_select 'input#basic-search-main', value: 'some data'
+      assert_select 'input#advanced-citation', value: 'a citation'
+      assert_select 'input#advanced-contributors', value:'some contribs'
+      assert_select 'input#advanced-fundingInformation', value: 'a fund'
+      assert_select 'input#advanced-identifiers', value: 'some ids'
+      assert_select 'input#advanced-locations', value: 'some locs'
+      assert_select 'input#advanced-subjects', value: 'some subs'
+      assert_select 'input#advanced-title', value: 'a title'
+    end
+  end
+
   def source_facet_count(controller)
     controller.view_context.assigns['facets']['source'].count
   end
