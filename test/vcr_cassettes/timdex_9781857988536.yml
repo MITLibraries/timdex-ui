@@ -15,9 +15,9 @@ http_interactions:
         $from, contentTypeFacet: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
-        {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
+        {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
         {\n      contentType {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"9781857988536"},"operationName":"TimdexSearch__Query"}'
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"9781857988536","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Jul 2022 21:10:39 GMT
+      - Fri, 29 Jul 2022 14:39:05 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -59,9 +59,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - f93cdc11-a811-4aa8-be8a-722b3c3477ad
+      - e6277d89-c02a-47a8-9ee5-28dee42766be
       X-Runtime:
-      - '0.147637'
+      - '0.050498'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -71,5 +71,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
-  recorded_at: Thu, 14 Jul 2022 21:10:40 GMT
+  recorded_at: Fri, 29 Jul 2022 14:39:05 GMT
 recorded_with: VCR 6.1.0

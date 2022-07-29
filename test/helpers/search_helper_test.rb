@@ -19,10 +19,21 @@ class SearchHelperTest < ActionView::TestCase
 
   test 'returns correct set of highlights when result includes displayed and undisplayed fields' do
     result = { 'highlight' => [{ 'matchedField' => 'title', 'matchedPhrases' => 'Very important data' },
-                           { 'matchedField' => 'content_type', 'matchedPhrases' => 'Dataset' },
-                           { 'matchedField' => 'summary', 'matchedPhrases' => '2022' },
-                           { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }] }
+                               { 'matchedField' => 'content_type', 'matchedPhrases' => 'Dataset' },
+                               { 'matchedField' => 'summary', 'matchedPhrases' => '2022' },
+                               { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }] }
     assert_equal [{ 'matchedField' => 'summary', 'matchedPhrases' => '2022' },
-                 { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }], trim_highlights(result)
+                  { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }], trim_highlights(result)
+  end
+
+  test 'renders view_online link if sourceLink is present' do
+    result = { 'title' => 'A record', 'sourceLink' => 'https://example.org' }
+    assert_equal '<a class="button button-primary green" href="https://example.org">View online</a>',
+                 view_online(result)
+  end
+
+  test 'does not render view_online link if sourceLink is absent' do
+    result = { 'title' => 'A record' }
+    assert_nil view_online(result)
   end
 end

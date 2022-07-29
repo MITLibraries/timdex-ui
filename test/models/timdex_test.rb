@@ -10,7 +10,7 @@ class TimdexTest < ActiveSupport::TestCase
 
   def basic_record
     {
-      'id' => 'jpal:doi:10.7910-DVN-MNIBOL'
+      'id' => 'jpal:doi:10.7910-DVN-MNIBOL', 'index' => ENV.fetch('TIMDEX_INDEX', nil).to_s
     }
   end
 

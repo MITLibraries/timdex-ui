@@ -15,7 +15,7 @@ http_interactions:
         {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    publicationFrequency\n    publicationInformation\n    relatedItems
         {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
         {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
-        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"there.is.no.record","index":null},"operationName":"TimdexRecord__Query"}'
+        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"there.is.no.record","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexRecord__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -33,15 +33,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Jul 2022 21:16:35 GMT
+      - Fri, 29 Jul 2022 14:39:01 GMT
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - bc420392-8308-43bb-959e-20be04c1cd39
+      - 3986f2fc-2313-4a8a-8813-874d5d84a07e
       X-Runtime:
-      - '0.255060'
+      - '0.191153'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -53,5 +53,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Thu, 14 Jul 2022 21:16:35 GMT
+  recorded_at: Fri, 29 Jul 2022 14:39:01 GMT
 recorded_with: VCR 6.1.0

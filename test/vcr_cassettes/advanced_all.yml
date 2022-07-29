@@ -15,9 +15,9 @@ http_interactions:
         $from, contentTypeFacet: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
-        {\n        matchedField\n        matchedPhrases\n      }\n    }\n    aggregations
+        {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
         {\n      contentType {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"data","citation":"citation","contributors":"contribs","fundingInformation":"fund","identifiers":"ids","locations":"locs","subjects":"subs","title":"title","sourceFacet":"sauce"},"operationName":"TimdexSearch__Query"}'
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"data","citation":"citation","contributors":"contribs","fundingInformation":"fund","identifiers":"ids","locations":"locs","subjects":"subs","title":"title","sourceFacet":"sauce","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Jul 2022 21:10:41 GMT
+      - Fri, 29 Jul 2022 14:39:06 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -59,9 +59,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 5846e3e1-5b2c-4faf-a699-f2bc231f0cf2
+      - '01966f16-8d5a-4c22-b081-896b3efd362c'
       X-Runtime:
-      - '0.139048'
+      - '0.103762'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -71,5 +71,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
-  recorded_at: Thu, 14 Jul 2022 21:10:41 GMT
+  recorded_at: Fri, 29 Jul 2022 14:39:07 GMT
 recorded_with: VCR 6.1.0
