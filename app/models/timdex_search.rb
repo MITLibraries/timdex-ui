@@ -15,7 +15,7 @@ class TimdexSearch < TimdexBase
       $sourceFacet: [String!]
       $index: String
       $from: String
-      $contentType: String
+      $contentType: [String!]
     ) {
       search(
         searchterm: $q
