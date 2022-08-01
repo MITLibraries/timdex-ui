@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - gunicorn
       Date:
-      - Fri, 29 Jul 2022 14:39:11 GMT
+      - Mon, 01 Aug 2022 19:32:42 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -68,7 +68,7 @@ http_interactions:
         "host_type": "repository", "is_best": true, "pmh_id": "oai:dspace.mit.edu:1721.1/141955",
         "endpoint_id": "a996c19dace9d4ac72d", "repository_institution": "Massachusetts
         Institute of Technology - DSpace@MIT", "oa_date": "2022-04-20"}, {"updated":
-        "2022-07-29T14:39:11.935861", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8759752",
+        "2022-08-01T19:32:42.603112", "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8759752",
         "url_for_pdf": null, "url_for_landing_page": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8759752",
         "evidence": "oa repository (via pmcid lookup)", "license": null, "version":
         "publishedVersion", "host_type": "repository", "is_best": false, "pmh_id":
@@ -109,5 +109,5 @@ http_interactions:
         "given": "B. J.", "family": "Ramshaw", "sequence": "additional", "affiliation":
         [{"name": "Laboratory of Atomic and Solid State Physics, Cornell University,
         Ithaca, NY 14853, USA."}], "authenticated-orcid": true}]}'
-  recorded_at: Fri, 29 Jul 2022 14:39:11 GMT
+  recorded_at: Mon, 01 Aug 2022 19:32:42 GMT
 recorded_with: VCR 6.1.0

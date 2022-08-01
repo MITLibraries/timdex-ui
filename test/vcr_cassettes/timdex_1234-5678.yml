@@ -8,7 +8,7 @@ http_interactions:
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
-        $index: String, $from: String, $contentType: String) {\n  search(searchterm:
+        $index: String, $from: String, $contentType: [String!]) {\n  search(searchterm:
         $q, citation: $citation, contributors: $contributors, fundingInformation:
         $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
         $subjects, title: $title, sourceFacet: $sourceFacet, index: $index, from:
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 29 Jul 2022 14:39:04 GMT
+      - Mon, 01 Aug 2022 19:31:23 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -55,13 +55,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"90c4a87515c41d4163a5cbb7be1416e2"
+      - W/"ac4401f80d4cb3e716fe0141a1d523c8"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 21be1a2f-faba-4917-a208-418fa7d0fc8d
+      - aedf855c-7178-4dfb-9e56-30d5a02a9751
       X-Runtime:
-      - '0.066473'
+      - '0.118193'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -69,8 +69,20 @@ http_interactions:
       Via:
       - 1.1 vegur
     body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        eyJkYXRhIjp7InNlYXJjaCI6eyJoaXRzIjozLCJyZWNvcmRzIjpbeyJ0aW1kZXhSZWNvcmRJZCI6Inplbm9kbzo4NTY5IiwidGl0bGUiOiJUaGUgZS1ib29rIHBoZW5vbWVub246IGEgZGlzcnVwdGl2ZSB0ZWNobm9sb2d5IiwiY29udGVudFR5cGUiOlsiSm91cm5hbEFydGljbGUiXSwiY29udHJpYnV0b3JzIjpbeyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiVG9tIEQuIFdpbHNvbiJ9XSwicHVibGljYXRpb25JbmZvcm1hdGlvbiI6WyJaZW5vZG8iXSwiZGF0ZXMiOlt7ImtpbmQiOiJQdWJsaWNhdGlvbiBkYXRlIiwidmFsdWUiOiIyMDE0In0seyJraW5kIjoiSXNzdWVkIiwidmFsdWUiOiIyMDE0LTA0LTAxIn1dLCJub3RlcyI6bnVsbCwiaGlnaGxpZ2h0IjpbeyJtYXRjaGVkRmllbGQiOiJzdW1tYXJ5IiwibWF0Y2hlZFBocmFzZXMiOlsiZm9sbG93aW5nIGl0cyBvcmlnaW5hbCBpbnZlbnRpb24gaW4gQ2hpbmEgaW4gdGhlIDl0aCBjZW50dXJ5LCBhbmQgdGhlIHVzZSBvZiBtZXRhbGxpYyB0eXBlIGluIEtvcmVhIGluIFx1MDAzY3NwYW4gY2xhc3M9XCJoaWdobGlnaHRcIlx1MDAzZTEyMzRcdTAwM2Mvc3Bhblx1MDAzZSJdfV0sInNvdXJjZUxpbmsiOiJodHRwczovL3plbm9kby5vcmcvcmVjb3JkLzg1NjkifSx7InRpbWRleFJlY29yZElkIjoid2hvYXM6MTkxMi0xNjAyNyIsInRpdGxlIjoiTGV1Y2thcnQgQ2hhcnQsIFNlcmllcyBJLCBDaGFydCA3NDogQ29lbGVudGVyYXRhOyBDdGVub3Bob3JhZTsgU3Rlbm8gKyBFdXJ5c3RvbWF0YTsgSG9ybWlwaG9yYSwgQm9saW5hLCBDZXN0dXMsIGV0YyIsImNvbnRlbnRUeXBlIjpbIlN0aWxsIEltYWdlIl0sImNvbnRyaWJ1dG9ycyI6W3sia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IkxldWNrYXJ0LCBLYXJsIEdlb3JnIEZyaWVkcmljaCBSdWRvbGYgKDE4MjItMTg5OCkifV0sInB1YmxpY2F0aW9uSW5mb3JtYXRpb24iOlsiVGhlb2RvciBGaXNjaGVyIiwiTWFyaW5lIEJpb2xvZ2ljYWwgTGFib3JhdG9yeSBBcmNoaXZlcyJdLCJkYXRlcyI6W3sia2luZCI6ImFjY2Vzc2lvbmVkIiwidmFsdWUiOiIyMDExLTExLTMwVDE0OjExOjQ2WiJ9LHsia2luZCI6ImF2YWlsYWJsZSIsInZhbHVlIjoiMjAxMS0xMS0zMFQxNDoxMTo0NloifSx7ImtpbmQiOiJjcmVhdGVkIiwidmFsdWUiOiIxODkyIn0seyJraW5kIjoiUHVibGljYXRpb24gZGF0ZSIsInZhbHVlIjoiMjAxMS0xMS0zMCJ9XSwibm90ZXMiOlt7ImtpbmQiOm51bGwsInZhbHVlIjpbIlR5cHVzOiBDb2VsZW50ZXJhdGEiXX0seyJraW5kIjpudWxsLCJ2YWx1ZSI6WyJDbGFzc2U6IEN0ZW5vcGhvcmFlIl19LHsia2luZCI6bnVsbCwidmFsdWUiOlsiT3JkZXI6IFN0ZW5vICsgRXVyeXN0b21hdGEiXX0seyJraW5kIjpudWxsLCJ2YWx1ZSI6WyJIb3JtaXBob3JhLCBCb2xpbmEsIENlc3R1cywgZXRjIl19LHsia2luZCI6bnVsbCwidmFsdWUiOlsiQXZhaWxhYmxlIGZpbGVzOiB4eHgudGlmIGlzIGFjdHVhbCBzaXplIGluY2x1ZGluZyBwb3J0aW9ucyB0aGF0IHdlcmUgd3JhcHBlZCBhcm91bmQgdGhlIGRvd2VsczsgeHh4X2Nyb3BwZWQudGlmIHNob3dzIGp1c3QgdGhlIHByaW50ZWQgc2VjdGlvbiBvZiB0aGUgY2hhcnQ7IHh4eF9kb3dubG9hZC5qcGcgaXMgYSBzbWFsbGVyIHNpemUgZm9yIHNsb3dlciBjb25uZWN0aW9uczsgYW5kIHh4eF9odG1sX3ZpZXcuanBnIGlzIGFwcHJvcHJpYXRlIGZvciB3ZWIgYnJvd3NpbmcuIl19XSwiaGlnaGxpZ2h0IjpbeyJtYXRjaGVkRmllbGQiOiJpZGVudGlmaWVycy52YWx1ZSIsIm1hdGNoZWRQaHJhc2VzIjpbImh0dHA6Ly9oZGwuaGFuZGxlLm5ldC8xMDc3Ni9cdTAwM2NzcGFuIGNsYXNzPVwiaGlnaGxpZ2h0XCJcdTAwM2UxMjM0XHUwMDNjL3NwYW5cdTAwM2UiXX1dLCJzb3VyY2VMaW5rIjoiaHR0cHM6Ly9kYXJjaGl2ZS5tYmx3aG9pbGlicmFyeS5vcmcvaGFuZGxlLzE5MTIvMTYwMjcifSx7InRpbWRleFJlY29yZElkIjoiemVub2RvOjExMTQ2IiwidGl0bGUiOiJMaW5lIFBvc2l0aW9ucyBhbmQgSW50ZW5zaXRpZXMgb2YgIMK5wrNDwrnCskNI4oKGIGluIHRoZSAxMi4yIMK1bSBSZWdpb24iLCJjb250ZW50VHlwZSI6WyJUZXh0Il0sImNvbnRyaWJ1dG9ycyI6W3sia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IlNtaXRoLCBNLkEuSC4ifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJEZXZpLCBWLiBNYWxhdGh5In0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiQmVubmVyLCBELiBDaHJpcyJ9LHsia2luZCI6IkNyZWF0b3IiLCJ2YWx1ZSI6IlN1bmcsIEsuIn0seyJraW5kIjoiQ3JlYXRvciIsInZhbHVlIjoiQ3Jhd2ZvcmQsIFQuSi4ifSx7ImtpbmQiOiJDcmVhdG9yIiwidmFsdWUiOiJNYW50eiwgQS5XLiJ9XSwicHVibGljYXRpb25JbmZvcm1hdGlvbiI6WyJaZW5vZG8iXSwiZGF0ZXMiOlt7ImtpbmQiOiJQdWJsaWNhdGlvbiBkYXRlIiwidmFsdWUiOiIyMDE0In0seyJraW5kIjoiSXNzdWVkIiwidmFsdWUiOiIyMDE0LTA4LTA0In1dLCJub3RlcyI6W3sia2luZCI6IkRhdGFjaXRlIHJlc291cmNlIHR5cGUiLCJ2YWx1ZSI6WyJQcmVzZW50YXRpb24iXX0seyJraW5kIjoiT3RoZXIiLCJ2YWx1ZSI6WyJTZXNzaW9uIElJOiBEYXRhYmFzZXMtSS4gSnVuZSAyMywgMjAxNC4iXX0seyJraW5kIjoiT3RoZXIiLCJ2YWx1ZSI6WyJ7XCJyZWZlcmVuY2VzXCI6IFtcIksuIFN1bmcsIEEuIFcuIE1hbnR6LCBMLiBSLiBCcm93biwgZXQgYWwuLCBKLiBNb2wuIFNwZWN0cm9zYy4gMTYyICgyMDEwKSAxMjQtMTM0LlwiLCBcIkQuIEMuIEJlbm5lciwgQy4gUC4gUmluc2xhbmQsIFYuIE1hbGF0aHkgRGV2aSwgTS4gQS4gSC4gU21pdGggYW5kIEQuIEF0a2lucywgSlFTUlQgNTMgKDE5OTUpIDcwNS03MjEuXCIsIFwiVi4gTWFsYXRoeSBEZXZpLCBDLiBQLiBSaW5zbGFuZCwgRC4gQ2hyaXMgQmVubmVyLCBldCBhbC4sIEpRU1JUIDExMSAoMjAxMCkgMTIzNC0xMjUxOyBWLiBNYWxhdGh5IERldmksIEQuIENocmlzIEJlbm5lciwgQy4gUC4gUmluc2xhbmQsIGV0IGFsLiwgSlFTUlQgMTExICgyMDEwKSAyNDgxLTI1MDQuXCIsIFwiUmVzZWFyY2ggZGVzY3JpYmVkIGluIHRoaXMgcGFwZXIgd2FzIHBlcmZvcm1lZCBhdCBDb25uZWN0aWN1dCBDb2xsZWdlLCB0aGUgQ29sbGVnZSBvZiBXaWxsaWFtIGFuZCBNYXJ5LCBOQVNBIExhbmdsZXkgUmVzZWFyY2ggQ2VudGVyIGFuZCB0aGUgSmV0IFByb3B1bHNpb24gTGFib3JhdG9yeSwgQ2FsaWZvcm5pYSBJbnN0aXR1dGUgb2YgVGVjaG5vbG9neSwgdW5kZXIgY29udHJhY3RzIGFuZCBjb29wZXJhdGl2ZSBhZ3JlZW1lbnRzIHdpdGggdGhlIE5hdGlvbmFsIEFlcm9uYXV0aWNzIGFuZCBTcGFjZSBBZG1pbmlzdHJhdGlvblwiXX0iXX1dLCJoaWdobGlnaHQiOlt7Im1hdGNoZWRGaWVsZCI6Im5vdGVzLnZhbHVlIiwibWF0Y2hlZFBocmFzZXMiOlsiLiwgSlFTUlQgMTExICgyMDEwKSBcdTAwM2NzcGFuIGNsYXNzPVwiaGlnaGxpZ2h0XCJcdTAwM2UxMjM0XHUwMDNjL3NwYW5cdTAwM2UtMTI1MTsgVi4gTWFsYXRoeSBEZXZpLCBELiBDaHJpcyBCZW5uZXIsIEMuIFAuIl19XSwic291cmNlTGluayI6Imh0dHBzOi8vemVub2RvLm9yZy9yZWNvcmQvMTExNDYifV0sImFnZ3JlZ2F0aW9ucyI6eyJjb250ZW50VHlwZSI6W3sia2V5Ijoiam91cm5hbGFydGljbGUiLCJkb2NDb3VudCI6MX0seyJrZXkiOiJzdGlsbCBpbWFnZSIsImRvY0NvdW50IjoxfSx7ImtleSI6InRleHQiLCJkb2NDb3VudCI6MX1dLCJzb3VyY2UiOlt7ImtleSI6Inplbm9kbyIsImRvY0NvdW50IjoyfSx7ImtleSI6Indvb2RzIGhvbGUgb3BlbiBhY2Nlc3Mgc2VydmVyIiwiZG9jQ291bnQiOjF9XX19fX0=
-  recorded_at: Fri, 29 Jul 2022 14:39:04 GMT
+      encoding: UTF-8
+      string: '{"data":{"search":{"hits":1,"records":[{"timdexRecordId":"whoas:1912-16027","title":"Leuckart
+        Chart, Series I, Chart 74: Coelenterata; Ctenophorae; Steno + Eurystomata;
+        Hormiphora, Bolina, Cestus, etc","contentType":["Still Image"],"contributors":[{"kind":"Creator","value":"Leuckart,
+        Karl Georg Friedrich Rudolf (1822-1898)"}],"publicationInformation":["Theodor
+        Fischer","Marine Biological Laboratory Archives"],"dates":[{"kind":"accessioned","value":"2011-11-30T14:11:46Z"},{"kind":"available","value":"2011-11-30T14:11:46Z"},{"kind":"created","value":"1892"},{"kind":"Publication
+        date","value":"2011-11-30"}],"notes":[{"kind":null,"value":["Typus: Coelenterata"]},{"kind":null,"value":["Classe:
+        Ctenophorae"]},{"kind":null,"value":["Order: Steno + Eurystomata"]},{"kind":null,"value":["Hormiphora,
+        Bolina, Cestus, etc"]},{"kind":null,"value":["Available files: xxx.tif is
+        actual size including portions that were wrapped around the dowels; xxx_cropped.tif
+        shows just the printed section of the chart; xxx_download.jpg is a smaller
+        size for slower connections; and xxx_html_view.jpg is appropriate for web
+        browsing."]}],"highlight":[{"matchedField":"identifiers.value","matchedPhrases":["http://hdl.handle.net/10776/\u003cspan
+        class=\"highlight\"\u003e1234\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/16027"}],"aggregations":{"contentType":[{"key":"still
+        image","docCount":1}],"source":[{"key":"woods hole open access server","docCount":1}]}}}}'
+  recorded_at: Mon, 01 Aug 2022 19:31:23 GMT
 recorded_with: VCR 6.1.0

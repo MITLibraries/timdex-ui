@@ -8,7 +8,7 @@ http_interactions:
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
-        $index: String, $from: String, $contentType: String) {\n  search(searchterm:
+        $index: String, $from: String, $contentType: [String!]) {\n  search(searchterm:
         $q, citation: $citation, contributors: $contributors, fundingInformation:
         $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
         $subjects, title: $title, sourceFacet: $sourceFacet, index: $index, from:
@@ -35,7 +35,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 29 Jul 2022 14:39:05 GMT
+      - Mon, 01 Aug 2022 19:31:21 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -59,9 +59,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - e6277d89-c02a-47a8-9ee5-28dee42766be
+      - 6b565c01-b368-4c8e-b269-c1cd8850ce26
       X-Runtime:
-      - '0.050498'
+      - '0.098138'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -71,5 +71,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
-  recorded_at: Fri, 29 Jul 2022 14:39:05 GMT
+  recorded_at: Mon, 01 Aug 2022 19:31:22 GMT
 recorded_with: VCR 6.1.0
