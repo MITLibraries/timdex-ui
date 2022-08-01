@@ -14,7 +14,7 @@
       <% if @record['contentType'].present? %>
         <span class="record-type">
           <% # we need to create separate displays for different types of content types, see https://github.com/MITLibraries/bento/pull/908/files#diff-6718f9b88f6f93e59d8c2509512dc40a62088430ff3cce1165ab414565949415L22-L57 for starting point but we should anticipate wanting to expand to many more unique content types %>
-          <span class="sr">Type</span> <%= @record['contentType'].join %>
+          <span class="sr">Type</span> <%= @record['contentType'].join(' ; ') %>
         </span>
       <% end %>
 
