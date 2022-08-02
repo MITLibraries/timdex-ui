@@ -2,8 +2,8 @@ class QueryBuilder
   attr_reader :query
 
   RESULTS_PER_PAGE = 20
-  QUERY_PARAMS = %w[q citation contentType contributors fundingInformation identifiers locations subjects title].freeze
-  FILTER_PARAMS = [:source].freeze
+  QUERY_PARAMS = %w[q citation contributors fundingInformation identifiers locations subjects title].freeze
+  FILTER_PARAMS = %i[source contentType].freeze
 
   def initialize(enhanced_query)
     @query = {}
@@ -31,5 +31,6 @@ class QueryBuilder
   def extract_filters(enhanced_query)
     # NOTE: ui and backend naming are not aligned so we can't loop here. we should fix in UI
     @query['sourceFacet'] = enhanced_query[:source]
+    @query['contentType'] = enhanced_query[:contentType]
   end
 end

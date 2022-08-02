@@ -11,7 +11,7 @@ class FacetHelperTest < ActionView::TestCase
     expected_query = {
       page: 1,
       q: 'data',
-      contentType: 'dataset'
+      'contentType' => ['dataset']
     }
     assert_equal expected_query, add_facet(original_query, 'contentType', 'dataset')
   end
@@ -24,9 +24,37 @@ class FacetHelperTest < ActionView::TestCase
     expected_query = {
       page: 1,
       q: 'data',
-      contentType: 'dataset'
+      'contentType' => ['dataset']
     }
     assert_equal expected_query, add_facet(original_query, 'contentType', 'dataset')
+  end
+
+  test 'add_facet can apply multiple values for each facet group' do
+    original_query = {
+      page: 3,
+      q: 'data',
+      'contentType' => ['still image']
+    }
+    expected_query = {
+      page: 1,
+      q: 'data',
+      'contentType' => ['still image', 'dataset']
+    }
+    assert_equal expected_query, add_facet(original_query, 'contentType', 'dataset')
+  end
+
+  test 'add_facet with source value overwrites existing sources' do
+    original_query = {
+      page: 3,
+      q: 'data',
+      'source' => ['source the first', 'source the second']
+    }
+    expected_query = {
+      page: 1,
+      q: 'data',
+      'source' => ['source the only']
+    }
+    assert_equal expected_query, add_facet(original_query, 'source', 'source the only')
   end
 
   test 'nice_labels allows translation of machine categories to human readable headings' do
