@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/matt-bernhardt/tesseract.git
+  revision: 3554f275290f565b98ad1306db8c24fabbc04f30
+  tag: 0.5.0
+  specs:
+    tesseract (0.5.0)
+      debug (~> 1)
+      rails (>= 6, < 8)
+      sassc-rails (~> 2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -155,9 +165,6 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.16.1)
-    mitlibraries-theme (0.7.0)
-      rails (>= 5, < 8)
-      sassc (~> 2)
     mocha (1.14.0)
     msgpack (1.5.2)
     net-imap (0.2.3)
@@ -242,6 +249,12 @@ GEM
     rubyzip (2.3.2)
     sassc (2.4.0)
       ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     selenium-webdriver (4.3.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -271,6 +284,7 @@ GEM
       railties (>= 6.0.0)
     strscan (3.0.3)
     thor (1.2.1)
+    tilt (2.0.11)
     timeout (0.3.0)
     turbo-rails (1.1.1)
       actionpack (>= 6.0.0)
@@ -323,7 +337,6 @@ DEPENDENCIES
   http
   importmap-rails
   jbuilder
-  mitlibraries-theme (~> 0.7.0)
   mocha
   pg
   puma (~> 5.0)
@@ -338,6 +351,7 @@ DEPENDENCIES
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
+  tesseract!
   turbo-rails
   tzinfo-data
   vcr
