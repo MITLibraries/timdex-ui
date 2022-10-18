@@ -1,6 +1,6 @@
 module RecordHelper
   def doi(metadata)
-    dois = metadata['identifiers'].select { |id| id['kind'].downcase == 'doi' }
+    dois = metadata['identifiers']&.select { |id| id['kind'].downcase == 'doi' }
     return unless dois.present?
 
     dois.first['value']

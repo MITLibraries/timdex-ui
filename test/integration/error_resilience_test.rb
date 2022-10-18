@@ -15,4 +15,15 @@ class ErrorResilienceTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  # https://mitlibraries.atlassian.net/browse/TIMX-108
+  # https://timdex-ui-pipeline-dev.herokuapp.com/record/alma:9935254980806761
+  test 'records without publication dates display without errors' do
+    VCR.use_cassette('alma record with no publication date',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/record/alma:9935254980806761'
+      assert_response :success
+    end
+  end
 end

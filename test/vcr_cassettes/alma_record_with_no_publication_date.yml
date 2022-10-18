@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://FAKE_TIMDEX_HOST/graphql
+    body:
+      encoding: UTF-8
+      string: '{"query":"query TimdexRecord__Query($id: String!, $index: String) {\n  recordId(id:
+        $id, index: $index) {\n    alternateTitles {\n      kind\n      value\n    }\n    callNumbers\n    contentType\n    contents\n    contributors
+        {\n      affiliation\n      identifier\n      kind\n      mitAffiliated\n      value\n    }\n    dates
+        {\n      kind\n      note\n      range {\n        gte\n        lte\n      }\n      value\n    }\n    edition\n    fundingInformation
+        {\n      funderName\n      funderIdentifier\n      funderIdentifierType\n      awardUri\n      awardNumber\n    }\n    holdings
+        {\n      callnumber\n      collection\n      format\n      location\n      notes\n      summary\n    }\n    identifiers
+        {\n      kind\n      value\n    }\n    languages\n    links {\n      kind\n      restrictions\n      text\n      url\n    }\n    literaryForm\n    locations
+        {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    publicationFrequency\n    publicationInformation\n    relatedItems
+        {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
+        {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
+        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"alma:9935254980806761","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexRecord__Query"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - MIT Libraries Client
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Tue, 18 Oct 2022 13:36:29 GMT
+      Connection:
+      - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
+      Etag:
+      - W/"171fd3c2accb1e070d5774672e8abf54"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 8e0cbe82-a523-4d9d-ba85-2fc9c0a2d341
+      X-Runtime:
+      - '0.064076'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJkYXRhIjp7InJlY29yZElkIjp7ImFsdGVybmF0ZVRpdGxlcyI6bnVsbCwiY2FsbE51bWJlcnMiOm51bGwsImNvbnRlbnRUeXBlIjpbIk5vdCBzcGVjaWZpZWQiXSwiY29udGVudHMiOm51bGwsImNvbnRyaWJ1dG9ycyI6bnVsbCwiZGF0ZXMiOm51bGwsImVkaXRpb24iOm51bGwsImZ1bmRpbmdJbmZvcm1hdGlvbiI6bnVsbCwiaG9sZGluZ3MiOm51bGwsImlkZW50aWZpZXJzIjpudWxsLCJsYW5ndWFnZXMiOm51bGwsImxpbmtzIjpudWxsLCJsaXRlcmFyeUZvcm0iOm51bGwsImxvY2F0aW9ucyI6bnVsbCwibm90ZXMiOm51bGwsIm51bWJlcmluZyI6bnVsbCwicGh5c2ljYWxEZXNjcmlwdGlvbiI6bnVsbCwicHVibGljYXRpb25GcmVxdWVuY3kiOm51bGwsInB1YmxpY2F0aW9uSW5mb3JtYXRpb24iOm51bGwsInJlbGF0ZWRJdGVtcyI6bnVsbCwicmlnaHRzIjpudWxsLCJzb3VyY2UiOiJNSVQgQWxtYSIsInNvdXJjZUxpbmsiOiJodHRwczovL21pdC5wcmltby5leGxpYnJpc2dyb3VwLmNvbS9kaXNjb3ZlcnkvZnVsbGRpc3BsYXk/dmlkPTAxTUlUX0lOU1Q6TUlUXHUwMDI2ZG9jaWQ9YWxtYTk5MzUyNTQ5ODA4MDY3NjEiLCJzdWJqZWN0cyI6bnVsbCwic3VtbWFyeSI6bnVsbCwidGltZGV4UmVjb3JkSWQiOiJhbG1hOjk5MzUyNTQ5ODA4MDY3NjEiLCJ0aXRsZSI6IkEgbGEgZnJhbmPMp2Fpc2UifX19
+  recorded_at: Tue, 18 Oct 2022 13:36:30 GMT
+recorded_with: VCR 6.1.0
