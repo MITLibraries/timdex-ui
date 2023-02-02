@@ -7,12 +7,12 @@ http_interactions:
       encoding: UTF-8
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
-        $locations: String, $subjects: String, $title: String, $sourceFacet: [String!],
+        $locations: String, $subjects: String, $title: String, $sourceFilter: [String!],
         $index: String, $from: String, $contentType: [String!]) {\n  search(searchterm:
         $q, citation: $citation, contributors: $contributors, fundingInformation:
         $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
-        $subjects, title: $title, sourceFacet: $sourceFacet, index: $index, from:
-        $from, contentTypeFacet: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $subjects, title: $title, sourceFilter: $sourceFilter, index: $index, from:
+        $from, contentTypeFilter: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
@@ -35,13 +35,13 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Mon, 01 Aug 2022 19:31:16 GMT
+      - Mon, 06 Feb 2023 22:02:18 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -55,22 +55,25 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"448367f85aabfb1b7da9bef3e540eb32"
+      - W/"43af041c5c36a022a3ad8173c5a82fb6"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 8d9292c3-12c4-4084-8a05-969ecfb534c5
+      - 6851ceb8-3a1c-4da1-930b-7ef5dc8378e9
       X-Runtime:
-      - '0.193704'
+      - '0.078002'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '14666'
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"data":{"search":{"hits":1442,"records":[{"timdexRecordId":"whoas:1912-8928","title":"DeZoZoo
+      string: '{"data":{"search":{"hits":1494,"records":[{"timdexRecordId":"whoas:1912-22467","title":"Affiliations
+        data","contentType":["Dataset","Affiliations"],"contributors":null,"publicationInformation":null,"dates":[{"kind":"accessioned","value":"2013-03-22T02:50:05Z"},{"kind":"available","value":"2013-03-22T02:50:05Z"},{"kind":"Publication
+        date","value":"3/21/2013"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["Affiliations
+        \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/22467"},{"timdexRecordId":"whoas:1912-8928","title":"DeZoZoo
         Cruise Data","contentType":["Dataset"],"contributors":[{"kind":"author","value":"Pierson,
         James J."},{"kind":"author","value":"Decker, Mary Beth"}],"publicationInformation":["Biological
         and Chemical Oceanography Data Management Office (BCO-DMO). Contact: bco-dmo-data@whoi.edu"],"dates":[{"kind":"accessioned","value":"2017-04-20T18:02:50Z"},{"kind":"available","value":"2017-04-20T17:29:52Z"},{"kind":"available","value":"2017-04-20T17:35:02Z"},{"kind":"available","value":"2017-04-20T18:02:50Z"},{"kind":"created","value":"2014-08-07"},{"kind":"Publication
@@ -107,27 +110,7 @@ http_interactions:
         Lidar summary data","contentType":["Dataset"],"contributors":[{"kind":"author","value":"Kirincich,
         Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-06-10T18:44:38Z"},{"kind":"available","value":"2021-06-10T18:44:38Z"},{"kind":"Publication
         date","value":"2020"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["2020
-        Lidar summary \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27206"},{"timdexRecordId":"whoas:1912-27129","title":"January-March
-        2018 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
-        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-18T20:05:23Z"},{"kind":"available","value":"2021-05-18T20:05:23Z"},{"kind":"Publication
-        date","value":"2018"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["January-March
-        2018 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27129"},{"timdexRecordId":"whoas:1912-27115","title":"January-March
-        2017 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
-        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-14T15:52:12Z"},{"kind":"available","value":"2021-05-14T15:52:12Z"},{"kind":"Publication
-        date","value":"2017"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["January-March
-        2017 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27115"},{"timdexRecordId":"whoas:1912-27128","title":"October-December
-        2017 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
-        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-18T19:29:11Z"},{"kind":"available","value":"2021-05-18T19:29:11Z"},{"kind":"Publication
-        date","value":"2017"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["October-December
-        2017 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27128"},{"timdexRecordId":"whoas:1912-27130","title":"April-June
-        2018 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
-        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-18T20:32:15Z"},{"kind":"available","value":"2021-05-18T20:32:15Z"},{"kind":"Publication
-        date","value":"2018"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["April-June
-        2018 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27130"},{"timdexRecordId":"whoas:1912-27138","title":"October-December
-        2018 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
-        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-19T20:51:16Z"},{"kind":"available","value":"2021-05-19T20:51:16Z"},{"kind":"Publication
-        date","value":"2018"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["October-December
-        2018 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27138"},{"timdexRecordId":"whoas:1912-27204","title":"2018
+        Lidar summary \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27206"},{"timdexRecordId":"whoas:1912-27204","title":"2018
         Lidar summary data","contentType":["Dataset"],"contributors":[{"kind":"author","value":"Kirincich,
         Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-06-10T18:39:41Z"},{"kind":"available","value":"2021-06-10T18:39:41Z"},{"kind":"Publication
         date","value":"2018"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["2018
@@ -136,7 +119,27 @@ http_interactions:
         Anthony R."},{"kind":"author","value":"Cinquino, Eve"}],"publicationInformation":["Woods
         Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-06-10T18:48:19Z"},{"kind":"available","value":"2021-06-10T18:48:19Z"},{"kind":"Publication
         date","value":"2021"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["2021
-        Lidar summary \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27207"},{"timdexRecordId":"whoas:1912-6281","title":"Collaborative
+        Lidar summary \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27207"},{"timdexRecordId":"whoas:1912-27115","title":"January-March
+        2017 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
+        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-14T15:52:12Z"},{"kind":"available","value":"2021-05-14T15:52:12Z"},{"kind":"Publication
+        date","value":"2017"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["January-March
+        2017 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27115"},{"timdexRecordId":"whoas:1912-27128","title":"October-December
+        2017 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
+        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-18T19:29:11Z"},{"kind":"available","value":"2021-05-18T19:29:11Z"},{"kind":"Publication
+        date","value":"2017"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["October-December
+        2017 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27128"},{"timdexRecordId":"whoas:1912-27129","title":"January-March
+        2018 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
+        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-18T20:05:23Z"},{"kind":"available","value":"2021-05-18T20:05:23Z"},{"kind":"Publication
+        date","value":"2018"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["January-March
+        2018 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27129"},{"timdexRecordId":"whoas:1912-27130","title":"April-June
+        2018 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
+        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-18T20:32:15Z"},{"kind":"available","value":"2021-05-18T20:32:15Z"},{"kind":"Publication
+        date","value":"2018"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["April-June
+        2018 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27130"},{"timdexRecordId":"whoas:1912-27138","title":"October-December
+        2018 Lidar raw data","contentType":["Image, 3-D"],"contributors":[{"kind":"author","value":"Kirincich,
+        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-05-19T20:51:16Z"},{"kind":"available","value":"2021-05-19T20:51:16Z"},{"kind":"Publication
+        date","value":"2018"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["October-December
+        2018 Lidar raw \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27138"},{"timdexRecordId":"whoas:1912-6281","title":"Collaborative
         research : EarthCube building blocks, leveraging semantics and linked data
         for geoscience data sharing and discovery, OceanLink","contentType":["Moving
         Image"],"contributors":[{"kind":"author","value":"Wiebe, Peter H."},{"kind":"author","value":"Chandler,
@@ -158,31 +161,18 @@ http_interactions:
         date","value":"2018"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["Meteorological
         tower daily \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e 2018"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27241"},{"timdexRecordId":"zenodo:10497","title":"Data","contentType":["Dataset"],"contributors":[{"kind":"Creator","value":"Hassan"}],"publicationInformation":["Zenodo"],"dates":[{"kind":"Publication
         date","value":"2014"},{"kind":"Issued","value":"2014-06-15"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["\u003cspan
-        class=\"highlight\"\u003eData\u003c/span\u003e"]}],"sourceLink":"https://zenodo.org/record/10497"},{"timdexRecordId":"zenodo:7640","title":"Spectral
-        Data","contentType":["Dataset"],"contributors":[{"kind":"Creator","value":"Sanders,
-        Kevin"}],"publicationInformation":["Zenodo"],"dates":[{"kind":"Publication
-        date","value":"2014"},{"kind":"Issued","value":"2014-01-05"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["Spectral
-        \u003cspan class=\"highlight\"\u003eData\u003c/span\u003e"]}],"sourceLink":"https://zenodo.org/record/7640"},{"timdexRecordId":"whoas:1912-26899","title":"Temperature/light
-        data collected using Onset HOBO Pendant data loggers at two sites in Massachusetts,
-        USA in 2019","contentType":["Dataset"],"contributors":[{"kind":"author","value":"Hughes,
-        A. Randall"}],"publicationInformation":["Biological and Chemical Oceanography
-        Data Management Office (BCO-DMO). Contact: bco-dmo-data@whoi.edu"],"dates":[{"kind":"accessioned","value":"2021-04-01T20:20:20Z"},{"kind":"available","value":"2021-04-01T20:20:20Z"},{"kind":"created","value":"2021-04-01"},{"kind":"Publication
-        date","value":"2021-04-01"},{"kind":"coverage","value":null}],"notes":[{"kind":null,"value":["Dataset:
-        Temperature and Light"]}],"highlight":[{"matchedField":"title","matchedPhrases":["Temperature/light
-        \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e collected using
-        Onset HOBO Pendant \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e
-        loggers at two sites in Massachusetts,"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/26899"},{"timdexRecordId":"whoas:1912-7101","title":"GRIPseq
-        data for S. Purpuratus 24 hpf","contentType":["Dataset"],"contributors":[{"kind":"author","value":"Tulin,
-        Sarah"},{"kind":"author","value":"Barsi, Julius C."},{"kind":"author","value":"Bocconcelli,
-        Carlo"},{"kind":"author","value":"Smith, Joel"}],"publicationInformation":null,"dates":[{"kind":"accessioned","value":"2015-01-19T22:13:35Z"},{"kind":"available","value":"2015-08-01T08:37:20Z"},{"kind":"Publication
-        date","value":"2015-01-19"}],"notes":[{"kind":null,"value":["This database
-        contains the sequencing reads and mapped reads for GRIPseq 24hpf for S. Purpurats.
-        README.txt is a guide to using the files in the database."]},{"kind":"embargo","value":["2015-08-01"]}],"highlight":[{"matchedField":"title","matchedPhrases":["GRIPseq
-        \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e for S. Purpuratus
-        24 hpf"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/7101"}],"aggregations":{"contentType":[{"key":"dataset","docCount":1245},{"key":"software","docCount":169},{"key":"image,
+        class=\"highlight\"\u003eData\u003c/span\u003e"]}],"sourceLink":"https://zenodo.org/record/10497"},{"timdexRecordId":"whoas:1912-27202","title":"2016
+        Lidar summary data","contentType":["Dataset"],"contributors":[{"kind":"author","value":"Kirincich,
+        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-06-10T18:35:47Z"},{"kind":"available","value":"2021-06-10T18:35:47Z"},{"kind":"Publication
+        date","value":"2016"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["2016
+        Lidar summary \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27202"},{"timdexRecordId":"whoas:1912-27203","title":"2017
+        Lidar summary data","contentType":["Dataset"],"contributors":[{"kind":"author","value":"Kirincich,
+        Anthony R."}],"publicationInformation":["Woods Hole Oceanographic Institution"],"dates":[{"kind":"accessioned","value":"2021-06-10T18:37:51Z"},{"kind":"available","value":"2021-06-10T18:37:51Z"},{"kind":"Publication
+        date","value":"2017"}],"notes":null,"highlight":[{"matchedField":"title","matchedPhrases":["2017
+        Lidar summary \u003cspan class=\"highlight\"\u003edata\u003c/span\u003e"]}],"sourceLink":"https://darchive.mblwhoilibrary.org/handle/1912/27203"}],"aggregations":{"contentType":[{"key":"dataset","docCount":1294},{"key":"software","docCount":172},{"key":"image,
         3-d","docCount":18},{"key":"image","docCount":5},{"key":"other","docCount":2},{"key":"still
-        image","docCount":2},{"key":"moving image","docCount":1}],"source":[{"key":"woods
-        hole open access server","docCount":744},{"key":"zenodo","docCount":638},{"key":"abdul
+        image","docCount":2},{"key":"affiliations","docCount":1},{"key":"moving image","docCount":1}],"source":[{"key":"woods
+        hole open access server","docCount":789},{"key":"zenodo","docCount":645},{"key":"abdul
         latif jameel poverty action lab dataverse","docCount":60}]}}}}'
-  recorded_at: Mon, 01 Aug 2022 19:31:16 GMT
+  recorded_at: Mon, 06 Feb 2023 22:02:18 GMT
 recorded_with: VCR 6.1.0

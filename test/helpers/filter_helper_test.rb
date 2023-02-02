@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class FacetHelperTest < ActionView::TestCase
-  include FacetHelper
+class FilterHelperTest < ActionView::TestCase
+  include FilterHelper
 
-  test 'add_facet will support adding a facet parameter to a search URL' do
+  test 'add_filter will support adding a filter parameter to a search URL' do
     original_query = {
       page: 1,
       q: 'data'
@@ -13,10 +13,10 @@ class FacetHelperTest < ActionView::TestCase
       q: 'data',
       'contentType' => ['dataset']
     }
-    assert_equal expected_query, add_facet(original_query, 'contentType', 'dataset')
+    assert_equal expected_query, add_filter(original_query, 'contentType', 'dataset')
   end
 
-  test 'add_facet will reset a page count when called' do
+  test 'add_filter will reset a page count when called' do
     original_query = {
       page: 3,
       q: 'data'
@@ -26,10 +26,10 @@ class FacetHelperTest < ActionView::TestCase
       q: 'data',
       'contentType' => ['dataset']
     }
-    assert_equal expected_query, add_facet(original_query, 'contentType', 'dataset')
+    assert_equal expected_query, add_filter(original_query, 'contentType', 'dataset')
   end
 
-  test 'add_facet can apply multiple values for each facet group' do
+  test 'add_filter can apply multiple values for each filter group' do
     original_query = {
       page: 3,
       q: 'data',
@@ -40,10 +40,10 @@ class FacetHelperTest < ActionView::TestCase
       q: 'data',
       'contentType' => ['still image', 'dataset']
     }
-    assert_equal expected_query, add_facet(original_query, 'contentType', 'dataset')
+    assert_equal expected_query, add_filter(original_query, 'contentType', 'dataset')
   end
 
-  test 'add_facet with source value overwrites existing sources' do
+  test 'add_filter with source value overwrites existing sources' do
     original_query = {
       page: 3,
       q: 'data',
@@ -54,7 +54,7 @@ class FacetHelperTest < ActionView::TestCase
       q: 'data',
       'source' => ['source the only']
     }
-    assert_equal expected_query, add_facet(original_query, 'source', 'source the only')
+    assert_equal expected_query, add_filter(original_query, 'source', 'source the only')
   end
 
   test 'nice_labels allows translation of machine categories to human readable headings' do
@@ -67,7 +67,7 @@ class FacetHelperTest < ActionView::TestCase
     assert_nil nice_labels[needle]
   end
 
-  test 'remove_facet will remove a specific facet parameter from a search URL' do
+  test 'remove_filter will remove a specific filter parameter from a search URL' do
     original_query = {
       page: 1,
       q: 'data',
@@ -77,10 +77,10 @@ class FacetHelperTest < ActionView::TestCase
       page: 1,
       q: 'data'
     }
-    assert_equal expected_query, remove_facet(original_query, 'contentType')
+    assert_equal expected_query, remove_filter(original_query, 'contentType')
   end
 
-  test 'remove_facet will reset a page count when called' do
+  test 'remove_filter will reset a page count when called' do
     original_query = {
       page: 3,
       q: 'data',
@@ -90,6 +90,6 @@ class FacetHelperTest < ActionView::TestCase
       page: 1,
       q: 'data'
     }
-    assert_equal expected_query, remove_facet(original_query, 'contentType')
+    assert_equal expected_query, remove_filter(original_query, 'contentType')
   end
 end

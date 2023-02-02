@@ -14,7 +14,7 @@
           "fields": [
             {
               "name": "docCount",
-              "description": null,
+              "description": "Result count for a given aggregation",
               "args": [
 
               ],
@@ -28,7 +28,7 @@
             },
             {
               "name": "key",
-              "description": null,
+              "description": "Aggregation value matched in search",
               "args": [
 
               ],
@@ -55,7 +55,7 @@
           "fields": [
             {
               "name": "contentType",
-              "description": null,
+              "description": "Total search results by content type",
               "args": [
 
               ],
@@ -77,7 +77,7 @@
             },
             {
               "name": "contributors",
-              "description": null,
+              "description": "Total search results by contributor name; e.g., author, editor, etc.",
               "args": [
 
               ],
@@ -99,7 +99,7 @@
             },
             {
               "name": "format",
-              "description": null,
+              "description": "Total search results by format",
               "args": [
 
               ],
@@ -121,7 +121,7 @@
             },
             {
               "name": "languages",
-              "description": null,
+              "description": "Total search results by language",
               "args": [
 
               ],
@@ -143,7 +143,7 @@
             },
             {
               "name": "literaryForm",
-              "description": null,
+              "description": "Total search results by fiction or nonfiction",
               "args": [
 
               ],
@@ -165,7 +165,7 @@
             },
             {
               "name": "source",
-              "description": null,
+              "description": "Total search results by source record system",
               "args": [
 
               ],
@@ -187,7 +187,7 @@
             },
             {
               "name": "subjects",
-              "description": null,
+              "description": "Total search results by subject term",
               "args": [
 
               ],
@@ -222,7 +222,7 @@
           "fields": [
             {
               "name": "kind",
-              "description": null,
+              "description": "Type of alternate title",
               "args": [
 
               ],
@@ -236,7 +236,7 @@
             },
             {
               "name": "value",
-              "description": null,
+              "description": "Value of alternate title",
               "args": [
 
               ],
@@ -273,7 +273,7 @@
           "fields": [
             {
               "name": "affiliation",
-              "description": null,
+              "description": "Institutional affiliation(s) of a contributor",
               "args": [
 
               ],
@@ -295,7 +295,7 @@
             },
             {
               "name": "identifier",
-              "description": null,
+              "description": "Unique identifier(s) of a contributor",
               "args": [
 
               ],
@@ -317,7 +317,7 @@
             },
             {
               "name": "kind",
-              "description": null,
+              "description": "Type of contributor; e.g., editor, author, etc.",
               "args": [
 
               ],
@@ -331,7 +331,7 @@
             },
             {
               "name": "mitAffiliated",
-              "description": null,
+              "description": "Identifies whether a contributor is affiliated with MIT",
               "args": [
 
               ],
@@ -345,7 +345,7 @@
             },
             {
               "name": "value",
-              "description": null,
+              "description": "Name of contributor",
               "args": [
 
               ],
@@ -376,7 +376,7 @@
           "fields": [
             {
               "name": "kind",
-              "description": null,
+              "description": "Type of date; e.g., \"creation\", \"accessioned\", etc.",
               "args": [
 
               ],
@@ -394,7 +394,7 @@
             },
             {
               "name": "note",
-              "description": null,
+              "description": "Notes about the date, if applicable",
               "args": [
 
               ],
@@ -408,7 +408,7 @@
             },
             {
               "name": "range",
-              "description": null,
+              "description": "Range of dates",
               "args": [
 
               ],
@@ -422,7 +422,7 @@
             },
             {
               "name": "value",
-              "description": null,
+              "description": "Value of date. Note that date ranges will be returned in the `range` subfield",
               "args": [
 
               ],
@@ -449,7 +449,7 @@
           "fields": [
             {
               "name": "gte",
-              "description": null,
+              "description": "Beginning of date range",
               "args": [
 
               ],
@@ -463,7 +463,7 @@
             },
             {
               "name": "lte",
-              "description": null,
+              "description": "End of date range",
               "args": [
 
               ],
@@ -490,7 +490,7 @@
           "fields": [
             {
               "name": "awardNumber",
-              "description": null,
+              "description": "Grant award number",
               "args": [
 
               ],
@@ -504,7 +504,7 @@
             },
             {
               "name": "awardUri",
-              "description": null,
+              "description": "Grant award URI",
               "args": [
 
               ],
@@ -518,7 +518,7 @@
             },
             {
               "name": "funderIdentifier",
-              "description": null,
+              "description": "Unique identifier for funding source",
               "args": [
 
               ],
@@ -532,7 +532,7 @@
             },
             {
               "name": "funderIdentifierType",
-              "description": null,
+              "description": "Type of unique indentifier for funding source",
               "args": [
 
               ],
@@ -546,7 +546,7 @@
             },
             {
               "name": "funderName",
-              "description": null,
+              "description": "Name of funding source",
               "args": [
 
               ],
@@ -573,7 +573,7 @@
           "fields": [
             {
               "name": "matchedField",
-              "description": null,
+              "description": "The field that was matched by search terms",
               "args": [
 
               ],
@@ -587,7 +587,7 @@
             },
             {
               "name": "matchedPhrases",
-              "description": null,
+              "description": "The phrases within a field that were matched",
               "args": [
 
               ],
@@ -622,7 +622,7 @@
           "fields": [
             {
               "name": "callnumber",
-              "description": null,
+              "description": "Call number of the holding",
               "args": [
 
               ],
@@ -636,7 +636,7 @@
             },
             {
               "name": "collection",
-              "description": null,
+              "description": "Collection in which the item is held",
               "args": [
 
               ],
@@ -650,7 +650,7 @@
             },
             {
               "name": "format",
-              "description": null,
+              "description": "Format of the holding",
               "args": [
 
               ],
@@ -664,7 +664,7 @@
             },
             {
               "name": "location",
-              "description": null,
+              "description": "Physical location of the holding",
               "args": [
 
               ],
@@ -682,7 +682,7 @@
             },
             {
               "name": "notes",
-              "description": null,
+              "description": "Cataloging notes about the holding",
               "args": [
 
               ],
@@ -696,7 +696,7 @@
             },
             {
               "name": "summary",
-              "description": null,
+              "description": "Summary holdings information",
               "args": [
 
               ],
@@ -733,7 +733,7 @@
           "fields": [
             {
               "name": "kind",
-              "description": null,
+              "description": "Type of identifier",
               "args": [
 
               ],
@@ -751,7 +751,7 @@
             },
             {
               "name": "value",
-              "description": null,
+              "description": "Value of identifier",
               "args": [
 
               ],
@@ -859,7 +859,7 @@
           "fields": [
             {
               "name": "kind",
-              "description": null,
+              "description": "Type of link",
               "args": [
 
               ],
@@ -873,7 +873,7 @@
             },
             {
               "name": "restrictions",
-              "description": null,
+              "description": "Restrictions on a link, if available",
               "args": [
 
               ],
@@ -887,7 +887,7 @@
             },
             {
               "name": "text",
-              "description": null,
+              "description": "Additional description of a link, if applicable",
               "args": [
 
               ],
@@ -901,7 +901,7 @@
             },
             {
               "name": "url",
-              "description": null,
+              "description": "URL of a link",
               "args": [
 
               ],
@@ -932,7 +932,7 @@
           "fields": [
             {
               "name": "geopoint",
-              "description": null,
+              "description": "GeoPoint data for the location, if applicable",
               "args": [
 
               ],
@@ -946,7 +946,7 @@
             },
             {
               "name": "kind",
-              "description": null,
+              "description": "Type of location",
               "args": [
 
               ],
@@ -960,7 +960,7 @@
             },
             {
               "name": "value",
-              "description": null,
+              "description": "Name of location",
               "args": [
 
               ],
@@ -987,7 +987,7 @@
           "fields": [
             {
               "name": "kind",
-              "description": null,
+              "description": "Type of note",
               "args": [
 
               ],
@@ -1001,7 +1001,7 @@
             },
             {
               "name": "value",
-              "description": null,
+              "description": "Value of note",
               "args": [
 
               ],
@@ -1117,7 +1117,7 @@
               "args": [
                 {
                   "name": "searchterm",
-                  "description": null,
+                  "description": "Query all searchable fields",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1127,7 +1127,7 @@
                 },
                 {
                   "name": "citation",
-                  "description": null,
+                  "description": "Search by citation information",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1137,7 +1137,7 @@
                 },
                 {
                   "name": "contributors",
-                  "description": null,
+                  "description": "Search by contributor name; e.g., author, editor, etc.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1147,7 +1147,7 @@
                 },
                 {
                   "name": "fundingInformation",
-                  "description": null,
+                  "description": "Search by funding information; e.g., funding source, award name, etc.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1157,7 +1157,7 @@
                 },
                 {
                   "name": "identifiers",
-                  "description": null,
+                  "description": "Search by unique indentifier; e.g., ISBN, DOI, etc.",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1167,7 +1167,7 @@
                 },
                 {
                   "name": "locations",
-                  "description": null,
+                  "description": "Search by locations",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1177,7 +1177,7 @@
                 },
                 {
                   "name": "subjects",
-                  "description": null,
+                  "description": "Search by subject terms",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1187,7 +1187,7 @@
                 },
                 {
                   "name": "title",
-                  "description": null,
+                  "description": "Search by title",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1197,7 +1197,7 @@
                 },
                 {
                   "name": "from",
-                  "description": null,
+                  "description": "Search result number to begin with (the first result is 0)",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1216,8 +1216,8 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "contentTypeFacet",
-                  "description": null,
+                  "name": "contentTypeFilter",
+                  "description": "Filter results by content type. Use the `contentType` aggregation for a list of possible values",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1234,8 +1234,8 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "contributorsFacet",
-                  "description": null,
+                  "name": "contributorsFilter",
+                  "description": "Filter results by contributor. Use the `contributors` aggregation for a list of possible values",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1252,8 +1252,8 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "formatFacet",
-                  "description": null,
+                  "name": "formatFilter",
+                  "description": "Filter results by format. Use the `format` aggregation for a list of possible values",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1270,8 +1270,8 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "languagesFacet",
-                  "description": null,
+                  "name": "languagesFilter",
+                  "description": "Filter results by language. Use the `languages` aggregation for a list of possible values",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1288,8 +1288,8 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "literaryFormFacet",
-                  "description": null,
+                  "name": "literaryFormFilter",
+                  "description": "Filter results by fiction or nonfiction",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1298,8 +1298,8 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "sourceFacet",
-                  "description": null,
+                  "name": "sourceFilter",
+                  "description": "Filter by source record system. Use the `sources` aggregation for a list of possible values",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1316,8 +1316,8 @@
                   "defaultValue": "null"
                 },
                 {
-                  "name": "subjectsFacet",
-                  "description": null,
+                  "name": "subjectsFilter",
+                  "description": "Filter by subject terms. Use the `contentType` aggregation for a list of possible values",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1361,7 +1361,7 @@
           "fields": [
             {
               "name": "alternateTitles",
-              "description": null,
+              "description": "Alternate titles for the item",
               "args": [
 
               ],
@@ -1383,7 +1383,7 @@
             },
             {
               "name": "callNumbers",
-              "description": null,
+              "description": "Identification number used to classify and locate item",
               "args": [
 
               ],
@@ -1405,7 +1405,7 @@
             },
             {
               "name": "citation",
-              "description": null,
+              "description": "Citation for item",
               "args": [
 
               ],
@@ -1419,7 +1419,7 @@
             },
             {
               "name": "contentType",
-              "description": null,
+              "description": "Type of content of item; e.g., \"still image\", \"text\", etc.",
               "args": [
 
               ],
@@ -1441,7 +1441,7 @@
             },
             {
               "name": "contents",
-              "description": null,
+              "description": "Table of contents for item",
               "args": [
 
               ],
@@ -1463,7 +1463,7 @@
             },
             {
               "name": "contributors",
-              "description": null,
+              "description": "Contributors to the item; e.g., authors, editors, etc.",
               "args": [
 
               ],
@@ -1485,7 +1485,7 @@
             },
             {
               "name": "dates",
-              "description": null,
+              "description": "Dates associated with item, including publication date",
               "args": [
 
               ],
@@ -1529,7 +1529,7 @@
             },
             {
               "name": "edition",
-              "description": null,
+              "description": "Edition information for item",
               "args": [
 
               ],
@@ -1543,7 +1543,7 @@
             },
             {
               "name": "fileFormats",
-              "description": null,
+              "description": "Available file formats for the item",
               "args": [
 
               ],
@@ -1565,7 +1565,7 @@
             },
             {
               "name": "format",
-              "description": null,
+              "description": "Format of item e.g. \"Print Volume\", \"DVD\", etc.",
               "args": [
 
               ],
@@ -1587,7 +1587,7 @@
             },
             {
               "name": "fundingInformation",
-              "description": null,
+              "description": "Funding information for the item",
               "args": [
 
               ],
@@ -1609,7 +1609,7 @@
             },
             {
               "name": "highlight",
-              "description": null,
+              "description": "Search term matches in item metadata",
               "args": [
 
               ],
@@ -1631,7 +1631,7 @@
             },
             {
               "name": "holdings",
-              "description": null,
+              "description": "Local holdings of the item",
               "args": [
 
               ],
@@ -1662,7 +1662,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "ID",
                   "ofType": null
                 }
               },
@@ -1671,7 +1671,7 @@
             },
             {
               "name": "identifiers",
-              "description": null,
+              "description": "Unique identifiers associated with the item; e.g., ISBN, DOI, etc.",
               "args": [
 
               ],
@@ -1781,7 +1781,7 @@
             },
             {
               "name": "languages",
-              "description": null,
+              "description": "Language(s) of item",
               "args": [
 
               ],
@@ -1817,7 +1817,7 @@
             },
             {
               "name": "links",
-              "description": null,
+              "description": "Link(s) to item",
               "args": [
 
               ],
@@ -1839,7 +1839,7 @@
             },
             {
               "name": "literaryForm",
-              "description": null,
+              "description": "Identifies the item as fiction or nonfiction",
               "args": [
 
               ],
@@ -1853,7 +1853,7 @@
             },
             {
               "name": "locations",
-              "description": null,
+              "description": "Places associated with item, including location of publication",
               "args": [
 
               ],
@@ -1875,7 +1875,7 @@
             },
             {
               "name": "notes",
-              "description": null,
+              "description": "Notes about item from source record",
               "args": [
 
               ],
@@ -1933,7 +1933,7 @@
             },
             {
               "name": "physicalDescription",
-              "description": null,
+              "description": "Physical description of item",
               "args": [
 
               ],
@@ -1975,7 +1975,7 @@
             },
             {
               "name": "publicationFrequency",
-              "description": null,
+              "description": "Publication frequency of item (used for serials)",
               "args": [
 
               ],
@@ -1997,7 +1997,7 @@
             },
             {
               "name": "publicationInformation",
-              "description": null,
+              "description": "Imprint information for item",
               "args": [
 
               ],
@@ -2019,7 +2019,7 @@
             },
             {
               "name": "relatedItems",
-              "description": null,
+              "description": "Items that are related to the item in some way",
               "args": [
 
               ],
@@ -2063,7 +2063,7 @@
             },
             {
               "name": "rights",
-              "description": null,
+              "description": "Rights information for the item",
               "args": [
 
               ],
@@ -2085,7 +2085,7 @@
             },
             {
               "name": "score",
-              "description": null,
+              "description": "Search relevance",
               "args": [
 
               ],
@@ -2099,7 +2099,7 @@
             },
             {
               "name": "source",
-              "description": null,
+              "description": "Name of source record system",
               "args": [
 
               ],
@@ -2117,7 +2117,7 @@
             },
             {
               "name": "sourceLink",
-              "description": null,
+              "description": "URL for source record in source system",
               "args": [
 
               ],
@@ -2135,7 +2135,7 @@
             },
             {
               "name": "subjects",
-              "description": null,
+              "description": "Subject terms for item",
               "args": [
 
               ],
@@ -2157,7 +2157,7 @@
             },
             {
               "name": "summary",
-              "description": null,
+              "description": "Summary of contents of item (also where abstract goes if applicable)",
               "args": [
 
               ],
@@ -2179,7 +2179,7 @@
             },
             {
               "name": "timdexRecordId",
-              "description": null,
+              "description": "TIMDEX unique identifier for the item",
               "args": [
 
               ],
@@ -2197,7 +2197,7 @@
             },
             {
               "name": "title",
-              "description": null,
+              "description": "Title of item",
               "args": [
 
               ],
@@ -2228,7 +2228,7 @@
           "fields": [
             {
               "name": "description",
-              "description": null,
+              "description": "Description of the related item",
               "args": [
 
               ],
@@ -2242,7 +2242,7 @@
             },
             {
               "name": "itemType",
-              "description": null,
+              "description": "Type of related item",
               "args": [
 
               ],
@@ -2270,7 +2270,7 @@
             },
             {
               "name": "relationship",
-              "description": null,
+              "description": "How the item is related",
               "args": [
 
               ],
@@ -2284,7 +2284,7 @@
             },
             {
               "name": "uri",
-              "description": null,
+              "description": "URI for the related item, if applicable",
               "args": [
 
               ],
@@ -2333,7 +2333,7 @@
           "fields": [
             {
               "name": "description",
-              "description": null,
+              "description": "Description of rights statement",
               "args": [
 
               ],
@@ -2347,7 +2347,7 @@
             },
             {
               "name": "kind",
-              "description": null,
+              "description": "Type of rights statement",
               "args": [
 
               ],
@@ -2361,7 +2361,7 @@
             },
             {
               "name": "uri",
-              "description": null,
+              "description": "Link to additional information about rights statement",
               "args": [
 
               ],
@@ -2465,7 +2465,7 @@
           "fields": [
             {
               "name": "kind",
-              "description": null,
+              "description": "Type of subject term",
               "args": [
 
               ],
@@ -2479,7 +2479,7 @@
             },
             {
               "name": "value",
-              "description": null,
+              "description": "Value of subject term",
               "args": [
 
               ],
@@ -3449,6 +3449,24 @@
               "deprecationReason": null
             },
             {
+              "name": "isOneOf",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "kind",
               "description": null,
               "args": [
@@ -3669,6 +3687,16 @@
               },
               "defaultValue": "\"No longer supported\""
             }
+          ]
+        },
+        {
+          "name": "oneOf",
+          "description": "Requires that exactly one field must be supplied and that field must not be `null`.",
+          "locations": [
+            "INPUT_OBJECT"
+          ],
+          "args": [
+
           ]
         }
       ]

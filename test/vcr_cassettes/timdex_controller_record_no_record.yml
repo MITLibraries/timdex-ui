@@ -33,15 +33,15 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Mon, 01 Aug 2022 19:32:22 GMT
+      - Mon, 06 Feb 2023 22:02:21 GMT
       Connection:
       - keep-alive
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - 869e51ac-ee61-46da-a2e9-1f0a1921baff
+      - 19072a4e-bf57-43a2-a38c-772bd477dab1
       X-Runtime:
-      - '0.184352'
+      - '0.045513'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -53,5 +53,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Mon, 01 Aug 2022 19:32:22 GMT
+  recorded_at: Mon, 06 Feb 2023 22:02:21 GMT
 recorded_with: VCR 6.1.0

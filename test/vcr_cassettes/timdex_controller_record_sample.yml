@@ -33,13 +33,13 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Mon, 01 Aug 2022 19:32:22 GMT
+      - Mon, 06 Feb 2023 22:02:21 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -53,17 +53,17 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"5c8e61a0b0d75c72f0fa79a3cd84d5a2"
+      - W/"536b054b75ee7ffc59fe032435084a77"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 69b7a7c3-c5c2-4363-9370-a7fe15540631
+      - 4f791d48-fda8-439d-a74d-015771010b3f
       X-Runtime:
-      - '0.042693'
+      - '0.126267'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '3792'
       Via:
       - 1.1 vegur
     body:
@@ -83,7 +83,8 @@ http_interactions:
         DATAPASS:TERMS:STANDARD:1.0  Notes: This study was deposited under the of
         the Data-PASS standard deposit terms. A copy of the usage agreement is included
         in the file section of this study.;"]}],"numbering":null,"physicalDescription":null,"publicationFrequency":null,"publicationInformation":["Harvard
-        Dataverse"],"relatedItems":null,"rights":[{"description":null,"kind":null,"uri":"info:eu-repo/semantics/openAccess"},{"description":null,"kind":null,"uri":"http://creativecommons.org/publicdomain/zero/1.0"}],"source":"Abdul
+        Dataverse"],"relatedItems":null,"rights":[{"description":null,"kind":null,"uri":"info:eu-repo/semantics/openAccess"},{"description":"CC0
+        1.0","kind":null,"uri":"http://creativecommons.org/publicdomain/zero/1.0"}],"source":"Abdul
         Latif Jameel Poverty Action Lab Dataverse","sourceLink":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL","subjects":[{"kind":"Subject
         scheme not provided","value":["Social Sciences","dams and poverty","The MacArthur
         Network on Inequality","JPAL"]},{"kind":"Economic theory and demography","value":["Economic
@@ -100,5 +101,5 @@ http_interactions:
         road. The file malaria_code81.dta contains in addition a variable about malaria
         incidence."],"timdexRecordId":"jpal:doi:10.7910-DVN-MNIBOL","title":"Dams,
         Poverty, Public Goods and Malaria Incidence in India"}}}'
-  recorded_at: Mon, 01 Aug 2022 19:32:23 GMT
+  recorded_at: Mon, 06 Feb 2023 22:02:21 GMT
 recorded_with: VCR 6.1.0

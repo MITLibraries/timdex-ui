@@ -20,7 +20,7 @@ class SearchController < ApplicationController
 
     # Display stuff
     @results = extract_results(response)
-    @facets = extract_facets(response)
+    @filters = extract_filters(response)
   end
 
   private
@@ -29,7 +29,7 @@ class SearchController < ApplicationController
     response&.errors&.details&.to_h&.dig('data')
   end
 
-  def extract_facets(response)
+  def extract_filters(response)
     response&.data&.search&.to_h&.dig('aggregations')
   end
 

@@ -55,11 +55,11 @@
       </ul>
     </div>
 
-    <aside class="col1q facet-container">
-      <div id="facets">
+    <aside class="col1q filter-container">
+      <div id="filters">
         <h2>Available filters</h2>
-        <% @facets&.each do |category, values| %>
-          <%= render(partial: 'search/facet', locals: {category: category, values: values}) %>
+        <% @filters&.each do |category, values| %>
+          <%= render(partial: 'search/filter', locals: {category: category, values: values}) %>
         <% end %>
       </div>
     </aside>
