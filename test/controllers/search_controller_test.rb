@@ -128,14 +128,14 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'results with valid query has div for facets which is populated' do
+  test 'results with valid query has div for filters which is populated' do
     VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
       get '/results?q=data'
       assert_response :success
-      assert_select '#facets'
-      assert_select '#facets .category h3', { minimum: 1 }
+      assert_select '#filters'
+      assert_select '#filters .category h3', { minimum: 1 }
     end
   end
 
@@ -205,9 +205,9 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_select '#results'
       assert_select '#results', { count: 1 }
       assert_select '#results li', 'There are no results.'
-      # Facets are not shown
-      assert_select '#facets'
-      assert_select '#facets .category h3', { count: 0 }
+      # Filters are not shown
+      assert_select '#filters'
+      assert_select '#filters .category h3', { count: 0 }
     end
   end
 
@@ -351,8 +351,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  def source_facet_count(controller)
-    controller.view_context.assigns['facets']['source'].count
+  def source_filter_count(controller)
+    controller.view_context.assigns['filters']['source'].count
   end
 
   test 'advanced search can limit to a single source' do
@@ -368,7 +368,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_nil flash[:error]
 
-      assert(source_facet_count(@controller) == 1)
+      assert(source_filter_count(@controller) == 1)
     end
   end
 
@@ -385,7 +385,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_nil flash[:error]
 
       # Assumption is we'll have at least 2 RDI sources for the time being
-      assert(source_facet_count(@controller) > 2)
+      assert(source_filter_count(@controller) > 2)
     end
   end
 
@@ -405,7 +405,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_nil flash[:error]
 
-      assert(source_facet_count(@controller) == 2)
+      assert(source_filter_count(@controller) == 2)
     end
   end
 end

@@ -12,7 +12,7 @@ class TimdexSearch < TimdexBase
       $locations: String
       $subjects: String
       $title: String
-      $sourceFacet: [String!]
+      $sourceFilter: [String!]
       $index: String
       $from: String
       $contentType: [String!]
@@ -26,10 +26,10 @@ class TimdexSearch < TimdexBase
         locations: $locations
         subjects: $subjects
         title: $title
-        sourceFacet: $sourceFacet
+        sourceFilter: $sourceFilter
         index: $index
         from: $from
-        contentTypeFacet: $contentType
+        contentTypeFilter: $contentType
       ) {
         hits
         records {

@@ -33,13 +33,13 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Mon, 01 Aug 2022 19:32:39 GMT
+      - Mon, 06 Feb 2023 22:02:35 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -57,13 +57,13 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - ffddfcc4-35f9-4fe2-9e23-b64158533e07
+      - 98a244a9-b2ca-4db2-b273-baf758f08173
       X-Runtime:
-      - '0.009071'
+      - '0.011790'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '218'
       Via:
       - 1.1 vegur
     body:
@@ -71,5 +71,5 @@ http_interactions:
       string: '{"errors":[{"message":"Variable $id of type String! was provided invalid
         value","locations":[{"line":1,"column":27}],"extensions":{"value":null,"problems":[{"path":[],"explanation":"Expected
         value to not be null"}]}}]}'
-  recorded_at: Mon, 01 Aug 2022 19:32:39 GMT
+  recorded_at: Mon, 06 Feb 2023 22:02:35 GMT
 recorded_with: VCR 6.1.0

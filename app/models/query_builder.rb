@@ -30,7 +30,7 @@ class QueryBuilder
 
   def extract_filters(enhanced_query)
     # NOTE: ui and backend naming are not aligned so we can't loop here. we should fix in UI
-    @query['sourceFacet'] = enhanced_query[:source]
+    @query['sourceFilter'] = enhanced_query[:source]
     @query['contentType'] = enhanced_query[:contentType]
   end
 end

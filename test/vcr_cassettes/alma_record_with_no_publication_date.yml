@@ -27,48 +27,31 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 500
+      message: Internal Server Error
     headers:
       Server:
       - Cowboy
       Date:
-      - Tue, 18 Oct 2022 13:36:29 GMT
+      - Mon, 06 Feb 2023 22:02:22 GMT
       Connection:
       - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - '0'
-      X-Content-Type-Options:
-      - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
       Content-Type:
-      - application/json; charset=utf-8
-      Vary:
-      - Accept, Origin
-      Etag:
-      - W/"171fd3c2accb1e070d5774672e8abf54"
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - application/json; charset=UTF-8
       X-Request-Id:
-      - 8e0cbe82-a523-4d9d-ba85-2fc9c0a2d341
+      - c3ec51a1-ca3f-4380-b14b-02786982c74b
       X-Runtime:
-      - '0.064076'
+      - '0.056158'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Transfer-Encoding:
-      - chunked
+      Vary:
+      - Origin
+      Content-Length:
+      - '46'
       Via:
       - 1.1 vegur
     body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        eyJkYXRhIjp7InJlY29yZElkIjp7ImFsdGVybmF0ZVRpdGxlcyI6bnVsbCwiY2FsbE51bWJlcnMiOm51bGwsImNvbnRlbnRUeXBlIjpbIk5vdCBzcGVjaWZpZWQiXSwiY29udGVudHMiOm51bGwsImNvbnRyaWJ1dG9ycyI6bnVsbCwiZGF0ZXMiOm51bGwsImVkaXRpb24iOm51bGwsImZ1bmRpbmdJbmZvcm1hdGlvbiI6bnVsbCwiaG9sZGluZ3MiOm51bGwsImlkZW50aWZpZXJzIjpudWxsLCJsYW5ndWFnZXMiOm51bGwsImxpbmtzIjpudWxsLCJsaXRlcmFyeUZvcm0iOm51bGwsImxvY2F0aW9ucyI6bnVsbCwibm90ZXMiOm51bGwsIm51bWJlcmluZyI6bnVsbCwicGh5c2ljYWxEZXNjcmlwdGlvbiI6bnVsbCwicHVibGljYXRpb25GcmVxdWVuY3kiOm51bGwsInB1YmxpY2F0aW9uSW5mb3JtYXRpb24iOm51bGwsInJlbGF0ZWRJdGVtcyI6bnVsbCwicmlnaHRzIjpudWxsLCJzb3VyY2UiOiJNSVQgQWxtYSIsInNvdXJjZUxpbmsiOiJodHRwczovL21pdC5wcmltby5leGxpYnJpc2dyb3VwLmNvbS9kaXNjb3ZlcnkvZnVsbGRpc3BsYXk/dmlkPTAxTUlUX0lOU1Q6TUlUXHUwMDI2ZG9jaWQ9YWxtYTk5MzUyNTQ5ODA4MDY3NjEiLCJzdWJqZWN0cyI6bnVsbCwic3VtbWFyeSI6bnVsbCwidGltZGV4UmVjb3JkSWQiOiJhbG1hOjk5MzUyNTQ5ODA4MDY3NjEiLCJ0aXRsZSI6IkEgbGEgZnJhbmPMp2Fpc2UifX19
-  recorded_at: Tue, 18 Oct 2022 13:36:30 GMT
+      encoding: UTF-8
+      string: '{"status":500,"error":"Internal Server Error"}'
+  recorded_at: Mon, 06 Feb 2023 22:02:22 GMT
 recorded_with: VCR 6.1.0
