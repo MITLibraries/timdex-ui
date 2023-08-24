@@ -45,6 +45,5 @@ group :test do
   gem 'simplecov'
   gem 'simplecov-lcov'
   gem 'vcr'
-  gem 'webdrivers'
   gem 'webmock'
 end
