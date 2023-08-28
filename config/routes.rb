@@ -14,5 +14,7 @@ Rails.application.routes.draw do
 
   get 'boolpref', to: 'static#boolpref'
 
+  mount Split::Dashboard, at: 'split'
+
   get 'robots.txt', to: 'robots#robots'
 end
