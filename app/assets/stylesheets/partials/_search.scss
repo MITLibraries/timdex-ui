@@ -89,9 +89,21 @@
 
 }
 
+/* hypothetical UI experiment */
+#search-form {
+
+  &.alt {
+    margin: -1rem;
+    padding: 1rem;
+    padding-bottom: 1.6rem;
+    border: 2px solid black;
+    border-color: yellow;
+    background-color: rgba(255, 255, 0, 0.25);
+  }
+}
+
 /* basic search bar */
 .search-form {
-  background-color: #989898;
   margin-bottom: 0rem;
   padding: 2.4rem 2rem 1.6rem 2rem;
 
