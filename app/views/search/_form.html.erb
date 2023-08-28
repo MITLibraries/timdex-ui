@@ -25,7 +25,7 @@ if params[:geodistance] == "true"
 end
 %>
 
-<form id="basic-search" class="form-horizontal basic-search" action="<%= results_path %>" method="get" role="search">
+<form id="basic-search" class="form-horizontal basic-search <%= ab_test(:ui_colors, "standard", "alt") %>" action="<%= results_path %>" method="get" role="search">
   <div class="form-group">
     <input id="basic-search-main" type="search"
            class="field field-text basic-search-input <%= "required" if search_required %>" name="q"
