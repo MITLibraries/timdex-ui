@@ -5,6 +5,7 @@ ruby '3.4.10'
 
 gem 'addressable'
 gem 'bootsnap', require: false
+gem 'cancancan'
 gem 'crawler_detect'
 gem 'graphql'
 gem 'graphql-client'
