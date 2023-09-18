@@ -1,9 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.2'
+ruby '3.2.2'
 
 gem 'bootsnap', require: false
+gem 'graphql', '~> 2.0.27'
 gem 'graphql-client'
 gem 'http'
 gem 'importmap-rails'
