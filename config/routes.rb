@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   get 'lookup', to: 'libkey#lookup'
 
+  get 'out/(:url)', to: 'record#out'
+  
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
