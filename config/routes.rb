@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'issn', to: 'fact#issn'
   get 'pmid', to: 'fact#pmid'
 
+  get 'out/(:url)', to: 'record#out'
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
