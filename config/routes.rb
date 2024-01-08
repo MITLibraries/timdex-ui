@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get 'analyze', to: 'tacos#analyze'
 
+  get 'out/(:url)', to: 'record#out'
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
