@@ -19,6 +19,7 @@ module SearchHelper
 
   def link_to_result(result)
     if result[:source_link].present?
+      Rails.logger.debug(outbound_path(url: result[:source_link]))
       link_to(result[:title], result[:source_link], data: { content_piece: 'Result Title' })
     else
       result[:title]

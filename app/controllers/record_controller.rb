@@ -3,6 +3,19 @@ class RecordController < ApplicationController
 
   include RecordHelper
 
+  # The out method is used for concluding A/B testing experiments that rely on the user following outbound links.
+  #
+  # @param url String a URL where the URL will be redirected
+  def out
+    if params[:url].present?
+      ab_finished(:result_format)
+
+      redirect_to params[:url], allow_other_host: true
+    else
+      redirect_to '/'
+    end
+  end
+
   def view
     id = params[:id]
     index = ENV.fetch('TIMDEX_INDEX', nil)

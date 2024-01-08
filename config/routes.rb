@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get 'libkey', to: 'thirdiron#libkey'
   get 'oa_work', to: 'openalex#work'
 
+  get 'out', to: 'record#out', as: "outbound"
+  
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
