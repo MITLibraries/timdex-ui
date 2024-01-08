@@ -6,6 +6,7 @@
     <h3 class="record-title">
       <span class="sr">Title: </span>
       <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
+        <% Rails.logger.debug(outbound_path(url: result[:links].find { |link| link['kind'] == 'full record' }['url'])) %>
         <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
       <% else %>
         <%= result[:title] %>

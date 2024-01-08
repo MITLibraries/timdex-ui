@@ -36,4 +36,19 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
       assert_select 'main', /(.*)#{message}(.*)/
     end
   end
+
+  test 'outbound route redirects to home without a URL parameter' do
+    get '/out'
+
+    assert_response :redirect
+    assert_redirected_to root_url
+  end
+
+  test 'outbound route redirects to a URL if provided' do
+    target = 'https://example.org'
+    get "/out?url=#{target}"
+
+    assert_response :redirect
+    assert_redirected_to target
+  end
 end
