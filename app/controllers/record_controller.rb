@@ -3,6 +3,10 @@ class RecordController < ApplicationController
 
   include RecordHelper
 
+  def out
+    url = params[:url]
+  end
+
   def view
     id = params[:id]
     index = ENV.fetch('TIMDEX_INDEX', nil)
