@@ -4,14 +4,14 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.2'
 
 gem 'bootsnap', require: false
-gem 'graphql', '~> 2.0.27'
+gem 'graphql', '~> 2.0.27' # Locked due to https://github.com/github/graphql-client/issues/310
 gem 'graphql-client'
 gem 'http'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'mitlibraries-theme', git: 'https://github.com/mitlibraries/mitlibraries-theme', tag: 'v1.1'
 gem 'puma'
-gem 'rails', '~> 7.0.2', '>= 7.0.2.3'
+gem 'rails', '~> 7.0'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'sprockets-rails'
