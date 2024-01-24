@@ -6,7 +6,7 @@ function disableAdvanced() {
   );
   keyword_field.setAttribute('placeholder', 'Enter your search');
   advanced_label.classList = 'closed';
-  advanced_label.innerText = 'Show advanced search fields';
+  advanced_label.innerText = 'Advanced search';
 };
 
 function enableAdvanced() {
@@ -14,7 +14,7 @@ function enableAdvanced() {
   keyword_field.setAttribute('aria-required', false);
   keyword_field.setAttribute('placeholder', 'Keyword anywhere');
   advanced_label.classList = 'open';
-  advanced_label.innerText = 'Clear advanced search fields';
+  advanced_label.innerText = 'Close advanced search';
 };
 
 var advanced_field = document.getElementById('advanced-search-field');
