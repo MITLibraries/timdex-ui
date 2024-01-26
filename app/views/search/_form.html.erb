@@ -6,11 +6,11 @@ if params[:q]
 end
 
 # Initial form setup is determined by the advanced parameter. Thereafter it is altered by javascript.
-advanced_label = "Show advanced search fields"
+advanced_label = "Advanced search"
 advanced_label_class = "closed"
 search_required = true
 if params[:advanced] == "true"
-  advanced_label = "Clear advanced search fields"
+  advanced_label = "Close advanced search"
   advanced_label_class = "open"
   search_required = false
 end
