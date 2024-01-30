@@ -48,3 +48,5 @@ group :test do
   gem 'vcr'
   gem 'webmock'
 end
+
+gem 'flipflop', '~> 2.7'
