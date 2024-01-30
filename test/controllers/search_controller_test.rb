@@ -201,13 +201,20 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
                      match_requests_on: %i[method uri body]) do
       get '/results?q=asdfiouwenlasd'
       assert_response :success
+
       # Result list contents state "no results"
       assert_select '#results'
       assert_select '#results', { count: 1 }
-      assert_select '#results li', 'There are no results.'
+      assert_select '#results p', 'No results found for your search'
+
+      # Filter sidebar is not shown
+      assert_select '#filters', { count: 0 }
+
       # Filters are not shown
-      assert_select '#filters'
       assert_select '#filters .category h3', { count: 0 }
+
+      # Pagination is not shown
+      assert_select '#pagination', { count: 0 }
     end
   end
 
