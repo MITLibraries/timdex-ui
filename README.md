@@ -51,6 +51,9 @@ change as part of the work.
 
 - `ABOUT_APP`: If populated, an 'about' partial containing the contents of this variable will render on 
 `basic_search#index`.
+- `GDT`: Enables features related to geospatial data discovery. Setting this variable with any value will trigger GDT
+mode (e.g., `GDT=false` will still enable GDT features). Note that this is currently intended _only_ for the GDT app and
+may have unexpected consequences if applied to other TIMDEX UI apps.
 - `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
   safe html above the main header of the site.
 - `SENTRY_DSN`: Client key for Sentry exception logging.
