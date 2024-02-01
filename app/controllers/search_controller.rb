@@ -18,7 +18,7 @@ class SearchController < ApplicationController
     # The @pagination instance variable includes info about next/previous pages (where they exist) to assist the UI.
     @pagination = Analyzer.new(@enhanced_query, response).pagination if @errors.nil?
 
-    # Display stuff
+    # Display results
     @results = extract_results(response)
     @filters = extract_filters(response)
   end
@@ -30,7 +30,10 @@ class SearchController < ApplicationController
   end
 
   def extract_filters(response)
-    response&.data&.search&.to_h&.dig('aggregations')
+    aggs = response&.data&.search&.to_h&.dig('aggregations')
+    return if aggs.blank?
+
+    aggs.select { |_, agg_values| agg_values.present? }
   end
 
   def extract_results(response)
