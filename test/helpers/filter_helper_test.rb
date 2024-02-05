@@ -71,25 +71,66 @@ class FilterHelperTest < ActionView::TestCase
     original_query = {
       page: 1,
       q: 'data',
-      contentType: 'dataset'
+      contentType: ['dataset']
     }
     expected_query = {
       page: 1,
       q: 'data'
     }
-    assert_equal expected_query, remove_filter(original_query, 'contentType')
+    assert_equal expected_query, remove_filter(original_query, :contentType, 'dataset')
   end
 
   test 'remove_filter will reset a page count when called' do
     original_query = {
       page: 3,
       q: 'data',
-      contentType: 'dataset'
+      contentType: ['dataset']
     }
     expected_query = {
       page: 1,
       q: 'data'
     }
-    assert_equal expected_query, remove_filter(original_query, 'contentType')
+    assert_equal expected_query, remove_filter(original_query, :contentType, 'dataset')
+  end
+
+  test 'remove_filter removes only one filter parameter if multiple are applied' do
+    original_query = {
+      page: 3,
+      q: 'data',
+      contentType: ['dataset', 'microfiche', 'vinyl record']
+    }
+    expected_query = {
+      page: 1,
+      q: 'data',
+      contentType: ['dataset', 'vinyl record']
+    }
+    assert_equal expected_query, remove_filter(original_query, :contentType, 'microfiche')
+  end
+
+  test 'filter_applied? returns true if a filter is applied' do
+    query = {
+      page: 3,
+      q: 'data',
+      contentType: ['dataset']
+    }
+    assert filter_applied?(query[:contentType], 'dataset')
+  end
+
+  test 'filter_applied? returns false if the filter does not include the target term' do
+    query = {
+      page: 3,
+      q: 'data',
+      contentType: ['dataset']
+    }
+    assert_not filter_applied?(query[:contentType], 'microfiche')
+  end
+
+  # This is an unlikely state to reach, but better safe than sorry
+  test 'filter_applied? returns false if no filter is supplied in the query' do
+    query = {
+      page: 3,
+      q: 'data',
+    }
+    assert_not filter_applied?(query[:contentType], 'dataset')
   end
 end
