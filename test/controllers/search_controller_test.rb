@@ -135,7 +135,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       get '/results?q=data'
       assert_response :success
       assert_select '#filters'
-      assert_select '#filters .category h3', { minimum: 1 }
+      assert_select '#filters .category .filter-label', { minimum: 1 }
     end
   end
 

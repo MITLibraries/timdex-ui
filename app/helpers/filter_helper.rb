@@ -26,10 +26,22 @@ module FilterHelper
     }
   end
 
-  def remove_filter(query, filter)
+  def remove_filter(query, filter, term)
     new_query = query.deep_dup
     new_query[:page] = 1
-    new_query.delete filter.to_sym
+
+    if new_query[filter].length > 1
+      new_query[filter].delete(term) # If more than one term is filtered, we only delete the selected term
+    else
+      new_query.delete(filter) # If only one term is filtered, delete the entire filter from the query
+    end
+
     new_query
+  end
+
+  def filter_applied?(terms, term)
+    return if terms.blank?
+
+    terms.include?(term)
   end
 end
