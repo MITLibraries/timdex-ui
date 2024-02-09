@@ -56,6 +56,7 @@ mode (e.g., `GDT=false` will still enable GDT features). Note that this is curre
 may have unexpected consequences if applied to other TIMDEX UI apps.
 - `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
   safe html above the main header of the site.
+- `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
 - `SENTRY_DSN`: Client key for Sentry exception logging.
 - `SENTRY_ENV`: Sentry environment for the application. Defaults to 'unknown' if unset.
 - `TIMDEX_INDEX`: Name of the index, or alias, to provide to the GraphQL endpoint. Defaults to `nil` which will let TIMDEX determine the best index to use. Wildcard values can be set, for example `rdi*` would search any indexes that begin with `rdi` in the underlying OpenSearch instance behind TIMDEX.
