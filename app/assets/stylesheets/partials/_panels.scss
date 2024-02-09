@@ -76,3 +76,26 @@
 #advanced-search-panel legend {
   color: #000
 }
+
+.ask-us {
+  margin-top: 3rem;
+  a {
+    margin-top: 0.5rem;
+    &:after {
+      padding-left: 1rem;
+      font-family: FontAwesome;
+      content: '\f075';
+    }
+  }
+  &.view-md {
+    @media (min-width: $bp-screen-md) {
+      display: none;
+    }
+  }
+  &.view-lg {
+    display: none;
+    @media (min-width: $bp-screen-md) {
+      display: block;
+    }
+  }
+}

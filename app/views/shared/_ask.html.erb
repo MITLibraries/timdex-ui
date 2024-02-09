@@ -1,0 +1,14 @@
+<% if display == 'view-aside' %>
+<div class="col1qr-sidebar">
+<% end %>
+  <div class="bit ask-us <%= display %>">
+    <h3 class="title">Need help?</h3>
+    <% if Flipflop.enabled?(:gdt) %>
+      <a class="btn button-secondary" href="https://libraries.mit.edu/ask-gis">Ask GIS</a>
+    <% else %>
+      <a class="btn button-secondary" href="https://libraries.mit.edu/ask/">Ask Us</a>
+    <% end %>
+  </div>
+<% if display == 'view-aside' %>
+</div>
+<% end %>
