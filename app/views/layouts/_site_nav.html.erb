@@ -1,14 +1,21 @@
 <div class="wrap-outer-header-local layout-band">
   <div class="wrap-header-local">
-    <div class="local-identity">
-      <h2 class="title title-site"><a href="/">TIMDEX UI</a></h2>
-    </div>
-    <div class="wrap-local-nav">
-      <div class="wrap-bar">
-        <nav class="local-nav" aria-label="Main menu">
-          <%= nav_link_to("Home", root_path) %>
-        </nav>
+    <% unless ENV['PLATFORM_NAME'] %>
+      <div class="local-identity">
+        <h2 class="title title-site"><a href="/">TIMDEX UI</a></h2>
       </div>
+    <% end %>
+    <div class="wrap-local-nav">
+      <nav class="local-nav" aria-label="Main menu">
+        <%= nav_link_to("Home", root_path) %>
+        <% if Flipflop.enabled?(:gdt) %>
+          <div class="wrap-gis-links">
+            <%= nav_link_to("GIS at MIT", "https://libraries.mit.edu/gis") %>
+            <span class="nav-divider" aria-hidden="true">|</span>
+            <%= nav_link_to("Ask GIS", "https://libraries.mit.edu/ask-gis") %>
+          </div>
+        <% end %>
+      </nav>
     </div>
   </div>
 </div>

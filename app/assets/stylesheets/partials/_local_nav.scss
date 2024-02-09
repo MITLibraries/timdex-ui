@@ -1,0 +1,42 @@
+.wrap-outer-header-local {
+  .local-identity {
+    padding: 1rem 0;
+  }
+
+  .wrap-header-local {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    .wrap-local-nav {
+      margin: 0;
+
+      .local-nav {
+        display: flex;
+        font-weight: $fw-bold;
+
+        .wrap-gis-links {
+          text-align: right;
+          margin-left: auto;
+
+          :first-child:after {
+            margin: 0 5px;
+          }
+
+          .nav-item {
+            padding-left: 5px;
+            padding-right: 5px;
+            margin: 0;
+            text-decoration: underline;
+            &:hover,
+            &:active,
+            &:focus {
+              transition: all .25s ease-in-out 0s;
+              color: $brand-primary-accent;
+              background-color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
