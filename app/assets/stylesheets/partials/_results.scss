@@ -1,7 +1,19 @@
+.top-space {
+  margin-top: 2.4rem;
+}
+
 .wrap-results {
   margin-bottom: 3rem;
   background-color: $white-t;
   padding: 15px;
+
+  .no-results {
+    margin-left: -15px;
+  }
+
+  .no-results + .ask-us {
+    margin-top: 0rem;
+  }
 }
 
 .result {

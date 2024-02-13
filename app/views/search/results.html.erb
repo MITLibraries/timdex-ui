@@ -48,7 +48,7 @@
 
   <%= render(partial: 'shared/error', collection: @errors) %>
 
-  <div class="<%= 'layout-1q3q' if @filters.present? %> layout-band top-space">
+  <div class="<%= @filters.present? ? 'layout-1q3q' : 'layout-3q1q' %> layout-band top-space">
     <% if @filters.present? %>
       <aside class="col1q filter-container">
         <div id="filters">
@@ -56,12 +56,13 @@
           <h3 class="hd-4"><em><%= results_summary(@pagination[:hits]) %></em></h3>
           <% @filters&.each_with_index do |(category, values), index| %>
             <% if index == 0 %>
-              <%= render(partial: 'search/filter', locals: {category: category, values: values, first: true}) %>
+              <%= render(partial: 'search/filter', locals: {category: category, values: values, first: true }) %>
             <% else %>
               <%= render(partial: 'search/filter', locals: {category: category, values: values, first: false }) %>
             <% end %>
           <% end %>
         </div>
+        <%= render partial: 'shared/ask', locals: { display: 'view-lg' } %>
       </aside>
     <% end %>
 
@@ -71,15 +72,17 @@
           <%= render(partial: 'search/result', collection: @results) %>
         </ul>
       <% else %>
-        <div id="results">
+        <div id="results" class="no-results">
           <p class="hd-2">No results found for your search</p>
         </div>
       <% end %>
     </div>
+    <%= render partial: 'shared/ask', locals: { display: 'aside' } if @results.blank? %>
 
   <% if @results.present? %>
     <div id="pagination">  
       <%= render partial: "pagination" %>
     </div>
+    <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
   <% end %>
 </div>
