@@ -27,31 +27,54 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 500
-      message: Internal Server Error
+      code: 200
+      message: OK
     headers:
       Server:
       - Cowboy
       Date:
-      - Mon, 06 Feb 2023 22:02:22 GMT
+      - Fri, 16 Feb 2024 18:44:48 GMT
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1708109089&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=C0mLpYn2oLmjjyU92xdbeMrm%2FhGmUfGWbvLeW5j2UDU%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1708109089&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=C0mLpYn2oLmjjyU92xdbeMrm%2FhGmUfGWbvLeW5j2UDU%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
       - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
-      - application/json; charset=UTF-8
+      - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
+      Etag:
+      - W/"3d23d7ba72482e6e2646123a889e28e6"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
       X-Request-Id:
-      - c3ec51a1-ca3f-4380-b14b-02786982c74b
+      - cf69dcc8-c669-4f9a-9de1-a09a52b44b50
       X-Runtime:
-      - '0.056158'
+      - '0.050460'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Vary:
-      - Origin
       Content-Length:
-      - '46'
+      - '4137'
       Via:
       - 1.1 vegur
     body:
-      encoding: UTF-8
-      string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Mon, 06 Feb 2023 22:02:22 GMT
-recorded_with: VCR 6.1.0
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJkYXRhIjp7InJlY29yZElkIjp7ImFsdGVybmF0ZVRpdGxlcyI6W3sia2luZCI6IlZhcnlpbmcgRm9ybSBvZiBUaXRsZSIsInZhbHVlIjoiU2Now4PCtm5lcyBhbGx0w4PCpGdsaWNoIGVybGViZW4ifV0sImNhbGxOdW1iZXJzIjpbIkJIMzAxLlA3OCIsIjExMS44NSJdLCJjb250ZW50VHlwZSI6WyJMYW5ndWFnZSBtYXRlcmlhbCJdLCJjb250ZW50cyI6bnVsbCwiY29udHJpYnV0b3JzIjpbeyJhZmZpbGlhdGlvbiI6bnVsbCwiaWRlbnRpZmllciI6bnVsbCwia2luZCI6ImF1dGhvciIsIm1pdEFmZmlsaWF0ZWQiOm51bGwsInZhbHVlIjoiTWFhc2UsIEthc3BhciJ9XSwiZGF0ZXMiOlt7ImtpbmQiOiJQdWJsaWNhdGlvbiBkYXRlIiwibm90ZSI6bnVsbCwicmFuZ2UiOm51bGwsInZhbHVlIjoiMjAyMiJ9XSwiZWRpdGlvbiI6bnVsbCwiZnVuZGluZ0luZm9ybWF0aW9uIjpudWxsLCJob2xkaW5ncyI6W3siY2FsbG51bWJlciI6bnVsbCwiY29sbGVjdGlvbiI6IkRPQUIgRGlyZWN0b3J5IG9mIE9wZW4gQWNjZXNzIEJvb2tzIiwiZm9ybWF0IjoiZWxlY3Ryb25pYyByZXNvdXJjZSIsImxvY2F0aW9uIjoiaHR0cHM6Ly9uYTA2LmFsbWEuZXhsaWJyaXNncm91cC5jb20vdmlldy91cmVzb2x2ZXIvMDFNSVRfSU5TVC9vcGVudXJsP3UuaWdub3JlX2RhdGVfY292ZXJhZ2U9dHJ1ZVx1MDAyNnBvcnRmb2xpb19waWQ9NTM2NTE3NTUyNTAwMDY3NjFcdTAwMjZGb3JjZV9kaXJlY3Q9dHJ1ZSIsIm5vdGVzIjpudWxsLCJzdW1tYXJ5IjpudWxsfSx7ImNhbGxudW1iZXIiOm51bGwsImNvbGxlY3Rpb24iOiJXYWx0ZXIgRGUgR3J1eXRlcjogT3BlbiBBY2Nlc3MgZUJvb2tzIiwiZm9ybWF0IjoiZWxlY3Ryb25pYyByZXNvdXJjZSIsImxvY2F0aW9uIjoiaHR0cHM6Ly9uYTA2LmFsbWEuZXhsaWJyaXNncm91cC5jb20vdmlldy91cmVzb2x2ZXIvMDFNSVRfSU5TVC9vcGVudXJsP3UuaWdub3JlX2RhdGVfY292ZXJhZ2U9dHJ1ZVx1MDAyNnBvcnRmb2xpb19waWQ9NTM2NDkzNzY2NTAwMDY3NjFcdTAwMjZGb3JjZV9kaXJlY3Q9dHJ1ZSIsIm5vdGVzIjpudWxsLCJzdW1tYXJ5IjpudWxsfSx7ImNhbGxudW1iZXIiOm51bGwsImNvbGxlY3Rpb24iOiJPQVBFTiBGcmVlIiwiZm9ybWF0IjoiZWxlY3Ryb25pYyByZXNvdXJjZSIsImxvY2F0aW9uIjoiaHR0cHM6Ly9uYTA2LmFsbWEuZXhsaWJyaXNncm91cC5jb20vdmlldy91cmVzb2x2ZXIvMDFNSVRfSU5TVC9vcGVudXJsP3UuaWdub3JlX2RhdGVfY292ZXJhZ2U9dHJ1ZVx1MDAyNnBvcnRmb2xpb19waWQ9NTM2NTE3NTQwOTAwMDY3NjFcdTAwMjZGb3JjZV9kaXJlY3Q9dHJ1ZSIsIm5vdGVzIjpudWxsLCJzdW1tYXJ5IjpudWxsfV0sImlkZW50aWZpZXJzIjpbeyJraW5kIjoiSVNCTiIsInZhbHVlIjoiMy04Mzk0LTYxMTctMCJ9LHsia2luZCI6Ik9DTEMgTnVtYmVyIiwidmFsdWUiOiIoQ0tCKTU2ODAwMDAwMDAwNjg5NzkifSx7ImtpbmQiOiJPQ0xDIE51bWJlciIsInZhbHVlIjoiKE5qSGFjSSk5OTU2ODAwMDAwMDAwNjg5NzkifSx7ImtpbmQiOiJPQ0xDIE51bWJlciIsInZhbHVlIjoiKG9hcGVuKWh0dHBzOi8vZGlyZWN0b3J5LmRvYWJvb2tzLm9yZy9oYW5kbGUvMjAuNTAwLjEyODU0LzkxNzA0In0seyJraW5kIjoiT0NMQyBOdW1iZXIiLCJ2YWx1ZSI6IihFWExDWik5OTU2ODAwMDAwMDAwNjg5NzkifV0sImxhbmd1YWdlcyI6WyJHZXJtYW4iXSwibGlua3MiOlt7ImtpbmQiOiJEaWdpdGFsIG9iamVjdCBVUkwiLCJyZXN0cmljdGlvbnMiOm51bGwsInRleHQiOiJET0FCIERpcmVjdG9yeSBvZiBPcGVuIEFjY2VzcyBCb29rcyIsInVybCI6Imh0dHBzOi8vbmEwNi5hbG1hLmV4bGlicmlzZ3JvdXAuY29tL3ZpZXcvdXJlc29sdmVyLzAxTUlUX0lOU1Qvb3BlbnVybD91Lmlnbm9yZV9kYXRlX2NvdmVyYWdlPXRydWVcdTAwMjZwb3J0Zm9saW9fcGlkPTUzNjUxNzU1MjUwMDA2NzYxXHUwMDI2Rm9yY2VfZGlyZWN0PXRydWUifSx7ImtpbmQiOiJEaWdpdGFsIG9iamVjdCBVUkwiLCJyZXN0cmljdGlvbnMiOm51bGwsInRleHQiOiJXYWx0ZXIgRGUgR3J1eXRlcjogT3BlbiBBY2Nlc3MgZUJvb2tzIiwidXJsIjoiaHR0cHM6Ly9uYTA2LmFsbWEuZXhsaWJyaXNncm91cC5jb20vdmlldy91cmVzb2x2ZXIvMDFNSVRfSU5TVC9vcGVudXJsP3UuaWdub3JlX2RhdGVfY292ZXJhZ2U9dHJ1ZVx1MDAyNnBvcnRmb2xpb19waWQ9NTM2NDkzNzY2NTAwMDY3NjFcdTAwMjZGb3JjZV9kaXJlY3Q9dHJ1ZSJ9LHsia2luZCI6IkRpZ2l0YWwgb2JqZWN0IFVSTCIsInJlc3RyaWN0aW9ucyI6bnVsbCwidGV4dCI6Ik9BUEVOIEZyZWUiLCJ1cmwiOiJodHRwczovL25hMDYuYWxtYS5leGxpYnJpc2dyb3VwLmNvbS92aWV3L3VyZXNvbHZlci8wMU1JVF9JTlNUL29wZW51cmw/dS5pZ25vcmVfZGF0ZV9jb3ZlcmFnZT10cnVlXHUwMDI2cG9ydGZvbGlvX3BpZD01MzY1MTc1NDA5MDAwNjc2MVx1MDAyNkZvcmNlX2RpcmVjdD10cnVlIn1dLCJsaXRlcmFyeUZvcm0iOiJOb25maWN0aW9uIiwibG9jYXRpb25zIjpbeyJnZW9wb2ludCI6bnVsbCwia2luZCI6IlBsYWNlIG9mIFB1YmxpY2F0aW9uIiwidmFsdWUiOiJHZXJtYW55In1dLCJub3RlcyI6W3sia2luZCI6IlRpdGxlIFN0YXRlbWVudCBvZiBSZXNwb25zaWJpbGl0eSIsInZhbHVlIjpbIkthc3BhciBNYWFzZSJdfSx7ImtpbmQiOiJTb3VyY2Ugb2YgRGVzY3JpcHRpb24gTm90ZSIsInZhbHVlIjpbIkRlc2NyaXB0aW9uIGJhc2VkIG9uOiBvbmxpbmUgcmVzb3VyY2U7IHRpdGxlIGZyb20gUERGIGluZm9ybWF0aW9uIHNjcmVlbiAoRGUgR3J1eXRlciwgdmlld2VkIE5vdmVtYmVyIDE1LCAyMDIyKSJdfV0sIm51bWJlcmluZyI6bnVsbCwicGh5c2ljYWxEZXNjcmlwdGlvbiI6IjEgb25saW5lIHJlc291cmNlICgxOTIgcGFnZXMpIiwicHVibGljYXRpb25GcmVxdWVuY3kiOm51bGwsInB1YmxpY2F0aW9uSW5mb3JtYXRpb24iOlsiQmllbGVmZWxkIHRyYW5zY3JpcHQgVmVybGFnIDIwMjIiLCJCaWVsZWZlbGQgOiB0cmFuc2NyaXB0IFZlcmxhZywgWzIwMjJdIiwiwqkyMDIyIl0sInJlbGF0ZWRJdGVtcyI6bnVsbCwicmlnaHRzIjpudWxsLCJzb3VyY2UiOiJNSVQgQWxtYSIsInNvdXJjZUxpbmsiOiJodHRwczovL21pdC5wcmltby5leGxpYnJpc2dyb3VwLmNvbS9kaXNjb3ZlcnkvZnVsbGRpc3BsYXk/dmlkPTAxTUlUX0lOU1Q6TUlUXHUwMDI2ZG9jaWQ9YWxtYTk5MzUyNTQ5ODA4MDY3NjEiLCJzdWJqZWN0cyI6W3sia2luZCI6IlRvcGljYWwgVGVybSIsInZhbHVlIjpbIkFlc3RoZXRpY3MgLSBQc3ljaG9sb2dpY2FsIGFzcGVjdHMiXX1dLCJzdW1tYXJ5IjpbIsOEc3RoZXRpc2llcnVuZyBhbHMgZGFzIFN0cmViZW4sIFNjaMO2bmVzIHp1IGVybGViZW4sIGhhdCBkaWUgRW50d2lja2x1bmcgZGVyIE1lbnNjaGhlaXQgdm9yYW5nZXRyaWViZW4gLSBoZXV0ZSBiZXN0aW1tdCBzaWUgYWxzIE1lZ2F0cmVuZCBkZW4gQWxsdGFnLiBJbiBBdXNlaW5hbmRlcnNldHp1bmcgbWl0IGRlbSDDhHN0aGV0aXNpZXJ1bmdzbW9kZWxsIHZvbiBBbmRyZWFzIFJlY2t3aXR6IHplaWNobmV0IEthc3BhciBNYWFzZSBkaWVzZSBFbnR3aWNrbHVuZyBiaXMgaW4gZGllIEdlZ2Vud2FydCBuYWNoLiBXZWxjaGUgUm9sbGUgc3BpZWx0IGRhYmVpIEt1bnN0LCB3ZWxjaGUgUm9sbGUgc2lubmxpY2ggYW5yZWdlbmRlIFVtd2VsdD8gV2FzIG1hY2h0IGRpZSBBbGx0w6RnbGljaGtlaXQgw6RzdGhldGlzY2hlbiBFcmxlYmVucyBhdXMsIGJlaSBkZXIgWmVyc3RyZXV1bmcgYWxzIFByYXhpcyB2ZXJ0ZWlsdGVyIEF1Zm1lcmtzYW1rZWl0IGRvbWluaWVydD8gVW5kIHdpZSB2ZXJiaW5kZW4gc2ljaCBWZXJnbsO8Z2VuIHVuZCBzaW5ubGljaGUgRXJrZW5udG5pcywgRsO8aGxlbiB1bmQgV2lzc2VuLCBFbXBmaW5kZW4gdW5kIERhcsO8YmVyLVJlZGVuPyBQb3RlbnppYWxlIHVuZCBHcmVuemVuIGhldXRpZ2VyIMOEc3RoZXRpc2llcnVuZyB3ZXJkZW4gYXVzIGRlciBQZXJzcGVrdGl2ZSBnZXfDtmhubGljaGVyIEFsbHRhZ3Nha3RldXIqaW5uZW4gZXLDtnJ0ZXJ0LiJdLCJ0aW1kZXhSZWNvcmRJZCI6ImFsbWE6OTkzNTI1NDk4MDgwNjc2MSIsInRpdGxlIjoiU2Nob8yIbmVzIGFsbHRhzIhnbGljaCBlcmxlYmVuIDogVcyIYmVyIGRpZSBBzIhzdGhldGlzaWVydW5nIGRlciBLdWx0dXIifX19
+  recorded_at: Fri, 16 Feb 2024 18:44:49 GMT
+recorded_with: VCR 6.2.0

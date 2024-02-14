@@ -9,7 +9,7 @@ module FilterHelper
     # seems like the best solution as each record only has a single source
     # in the data so there will never be a case to apply multiple in an AND
     # which is all we support in filter application.
-    if new_query[filter].present? && filter != 'source'
+    if new_query[filter].present? && filter != :sourceFilter
       new_query[filter] << term
       new_query[filter].uniq!
     else
@@ -21,8 +21,8 @@ module FilterHelper
 
   def nice_labels
     {
-      'contentType' => 'Content types',
-      'source' => 'Sources'
+      contentTypeFilter: 'Content type',
+      sourceFilter: 'Source'
     }
   end
 
@@ -43,5 +43,15 @@ module FilterHelper
     return if terms.blank?
 
     terms.include?(term)
+  end
+
+  def applied_filters
+    filters = []
+    @enhanced_query.map do |param, values|
+      next unless param.to_s.include? 'Filter'
+
+      values.each { |value| filters << { param => value } }
+    end
+    filters
   end
 end

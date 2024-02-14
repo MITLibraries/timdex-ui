@@ -3,7 +3,7 @@ class QueryBuilder
 
   RESULTS_PER_PAGE = 20
   QUERY_PARAMS = %w[q citation contributors fundingInformation identifiers locations subjects title].freeze
-  FILTER_PARAMS = %i[source contentType].freeze
+  FILTER_PARAMS = %i[sourceFilter contentTypeFilter].freeze
 
   def initialize(enhanced_query)
     @query = {}
@@ -29,8 +29,8 @@ class QueryBuilder
   end
 
   def extract_filters(enhanced_query)
-    # NOTE: ui and backend naming are not aligned so we can't loop here. we should fix in UI
-    @query['sourceFilter'] = enhanced_query[:source]
-    @query['contentType'] = enhanced_query[:contentType]
+    FILTER_PARAMS.each do |qp|
+      @query[qp] = enhanced_query[qp]
+    end
   end
 end

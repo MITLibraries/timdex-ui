@@ -8,11 +8,11 @@ http_interactions:
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $sourceFilter: [String!],
-        $index: String, $from: String, $contentType: [String!]) {\n  search(searchterm:
+        $index: String, $from: String, $contentTypeFilter: [String!]) {\n  search(searchterm:
         $q, citation: $citation, contributors: $contributors, fundingInformation:
         $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
         $subjects, title: $title, sourceFilter: $sourceFilter, index: $index, from:
-        $from, contentTypeFilter: $contentType) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $from, contentTypeFilter: $contentTypeFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
@@ -35,7 +35,13 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Mon, 06 Feb 2023 22:02:14 GMT
+      - Fri, 16 Feb 2024 18:44:31 GMT
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1708109071&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=JzjrVhU0Hs%2F82iT7kw96NFju2i%2FXaWVtgEb0yWq2PeM%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1708109071&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=JzjrVhU0Hs%2F82iT7kw96NFju2i%2FXaWVtgEb0yWq2PeM%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -55,21 +61,22 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"88f19da89e3e632cd9bf69fa32cb1045"
+      - W/"36b392e9689dd503d621706e76922900"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 6940f7cc-e6bb-4f67-afd4-477be2145c45
+      - fd976de5-3309-4e90-8fd0-e2f9839c1d2d
       X-Runtime:
-      - '1.197045'
+      - '0.069602'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
-      - '89'
+      - '1214'
       Via:
       - 1.1 vegur
     body:
-      encoding: UTF-8
-      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
-  recorded_at: Mon, 06 Feb 2023 22:02:15 GMT
-recorded_with: VCR 6.1.0
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJkYXRhIjp7InNlYXJjaCI6eyJoaXRzIjoxLCJyZWNvcmRzIjpbeyJ0aW1kZXhSZWNvcmRJZCI6ImFsbWE6OTkzNTAyMDYwMzIwNjc2MSIsInRpdGxlIjoiQXJjaGl0ZWN0aW5nIERlcGVuZGFibGUgU3lzdGVtcyBWSUkiLCJjb250ZW50VHlwZSI6WyJMYW5ndWFnZSBtYXRlcmlhbCJdLCJjb250cmlidXRvcnMiOlt7ImtpbmQiOiJlZGl0b3IiLCJ2YWx1ZSI6IkNhc2ltaXJvLCBBbnRvbmlvIn0seyJraW5kIjoiZWRpdG9yIiwidmFsdWUiOiJkZSBMZW1vcywgUm9nw6lyaW8ifSx7ImtpbmQiOiJlZGl0b3IiLCJ2YWx1ZSI6IkdhY2VrLCBDcmlzdGluYSJ9XSwicHVibGljYXRpb25JbmZvcm1hdGlvbiI6WyJCZXJsaW4sIEhlaWRlbGJlcmcgOiBTcHJpbmdlciBCZXJsaW4gSGVpZGVsYmVyZyA6IEltcHJpbnQ6IFNwcmluZ2VyLCAyMDEwIl0sImRhdGVzIjpbeyJraW5kIjoiUHVibGljYXRpb24gZGF0ZSIsInZhbHVlIjoiMjAxMCJ9XSwibm90ZXMiOlt7ImtpbmQiOiJUaXRsZSBTdGF0ZW1lbnQgb2YgUmVzcG9uc2liaWxpdHkiLCJ2YWx1ZSI6WyJlZGl0ZWQgYnkgQW50b25pbyBDYXNpbWlybywgUm9nw6lyaW8gZGUgTGVtb3MsIENyaXN0aW5hIEdhY2VrIl19LHsia2luZCI6IkdlbmVyYWwgTm90ZSIsInZhbHVlIjpbIkJpYmxpb2dyYXBoaWMgTGV2ZWwgTW9kZSBvZiBJc3N1YW5jZTogTW9ub2dyYXBoIl19LHsia2luZCI6IkJpYmxpb2dyYXBoeSBOb3RlIiwidmFsdWUiOlsiSW5jbHVkZXMgYmlibGlvZ3JhcGhpY2FsIHJlZmVyZW5jZXMgYW5kIGF1dGhvciBpbmRleCJdfV0sImhpZ2hsaWdodCI6W3sibWF0Y2hlZEZpZWxkIjoiY29udGVudHMiLCJtYXRjaGVkUGhyYXNlcyI6WyJcdTAwM2NzcGFuIGNsYXNzPVwiaGlnaGxpZ2h0XCJcdTAwM2VBU0RGXHUwMDNjL3NwYW5cdTAwM2U6IEFuIEF1dG9tYXRlZCwgT25saW5lIEZyYW1ld29yayBmb3IgRGlhZ25vc2luZyBQZXJmb3JtYW5jZSBQcm9ibGVtcyJdfV0sInNvdXJjZUxpbmsiOiJodHRwczovL21pdC5wcmltby5leGxpYnJpc2dyb3VwLmNvbS9kaXNjb3ZlcnkvZnVsbGRpc3BsYXk/dmlkPTAxTUlUX0lOU1Q6TUlUXHUwMDI2ZG9jaWQ9YWxtYTk5MzUwMjA2MDMyMDY3NjEifV0sImFnZ3JlZ2F0aW9ucyI6eyJjb250ZW50VHlwZSI6W3sia2V5IjoibGFuZ3VhZ2UgbWF0ZXJpYWwiLCJkb2NDb3VudCI6MX1dLCJzb3VyY2UiOlt7ImtleSI6Im1pdCBhbG1hIiwiZG9jQ291bnQiOjF9XX19fX0=
+  recorded_at: Fri, 16 Feb 2024 18:44:31 GMT
+recorded_with: VCR 6.2.0
