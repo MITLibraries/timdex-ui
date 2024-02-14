@@ -1,0 +1,19 @@
+<% return if @filters.empty? %>
+
+<div class="search-summary">
+  <h2 class="hd-search-summary hd-5">You searched for: </h2>
+  <ul class="list-search-summary list-inline">
+  <% @filters.each do |category, values| %>
+    <% values.each do |term| %>
+      <li>
+        <% if filter_applied?(@enhanced_query[category.to_sym], term['key']) %>
+          <a href="<%= results_path(remove_filter(@enhanced_query, category.to_sym, term['key'])) %>">
+            <%= "#{category}: #{term['key']}" %>
+            <span class="sr">Remove applied filter?</span>
+          </a>
+        <% end %>
+      </li>
+    <% end %>
+  <% end %>
+  </ul>
+</div>
