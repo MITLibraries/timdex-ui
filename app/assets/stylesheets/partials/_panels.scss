@@ -99,3 +99,36 @@
     }
   }
 }
+
+.filter-summary {
+  color: $black;
+  background-color: $gray-l3;
+  margin-top: 0;
+  border: 0;
+  padding: 2rem;
+  padding-top: 1.5rem;
+  display: flex;
+  .hd-filter-summary {
+    margin-right: 2rem;
+    padding-top: 0.3rem;
+  }
+  a {
+    font-size: $fs-small;
+    text-decoration: none;
+    padding: .5rem;
+    &::before {
+      font-family: FontAwesome;
+      content: '\f00d';
+      padding-right: .25rem;
+    }
+    &:hover,
+    &:focus {
+      color: $white;
+      background-color: $black;
+    }
+    margin-right: 2rem;
+  }
+  @media (max-width: $bp-screen-md) {
+    display: block;
+  }
+}

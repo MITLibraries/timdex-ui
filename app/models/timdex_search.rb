@@ -15,7 +15,7 @@ class TimdexSearch < TimdexBase
       $sourceFilter: [String!]
       $index: String
       $from: String
-      $contentType: [String!]
+      $contentTypeFilter: [String!]
     ) {
       search(
         searchterm: $q
@@ -29,7 +29,7 @@ class TimdexSearch < TimdexBase
         sourceFilter: $sourceFilter
         index: $index
         from: $from
-        contentTypeFilter: $contentType
+        contentTypeFilter: $contentTypeFilter
       ) {
         hits
         records {

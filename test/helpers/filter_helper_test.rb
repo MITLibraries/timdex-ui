@@ -11,9 +11,9 @@ class FilterHelperTest < ActionView::TestCase
     expected_query = {
       page: 1,
       q: 'data',
-      'contentType' => ['dataset']
+      contentTypeFilter: ['dataset']
     }
-    assert_equal expected_query, add_filter(original_query, 'contentType', 'dataset')
+    assert_equal expected_query, add_filter(original_query, :contentTypeFilter, 'dataset')
   end
 
   test 'add_filter will reset a page count when called' do
@@ -24,46 +24,46 @@ class FilterHelperTest < ActionView::TestCase
     expected_query = {
       page: 1,
       q: 'data',
-      'contentType' => ['dataset']
+      contentTypeFilter: ['dataset']
     }
-    assert_equal expected_query, add_filter(original_query, 'contentType', 'dataset')
+    assert_equal expected_query, add_filter(original_query, :contentTypeFilter, 'dataset')
   end
 
   test 'add_filter can apply multiple values for each filter group' do
     original_query = {
       page: 3,
       q: 'data',
-      'contentType' => ['still image']
+      contentTypeFilter: ['still image']
     }
     expected_query = {
       page: 1,
       q: 'data',
-      'contentType' => ['still image', 'dataset']
+      contentTypeFilter: ['still image', 'dataset']
     }
-    assert_equal expected_query, add_filter(original_query, 'contentType', 'dataset')
+    assert_equal expected_query, add_filter(original_query, :contentTypeFilter, 'dataset')
   end
 
   test 'add_filter with source value overwrites existing sources' do
     original_query = {
       page: 3,
       q: 'data',
-      'source' => ['source the first', 'source the second']
+      sourceFilter: ['source the first', 'source the second']
     }
     expected_query = {
       page: 1,
       q: 'data',
-      'source' => ['source the only']
+      sourceFilter: ['source the only']
     }
-    assert_equal expected_query, add_filter(original_query, 'source', 'source the only')
+    assert_equal expected_query, add_filter(original_query, :sourceFilter, 'source the only')
   end
 
   test 'nice_labels allows translation of machine categories to human readable headings' do
-    needle = 'contentType'
-    assert_equal 'Content types', nice_labels[needle]
+    needle = :contentTypeFilter
+    assert_equal 'Content type', nice_labels[needle]
   end
 
   test 'nice_labels returns nil if a category is not mapped yet' do
-    needle = 'foo'
+    needle = :foo
     assert_nil nice_labels[needle]
   end
 
@@ -71,58 +71,58 @@ class FilterHelperTest < ActionView::TestCase
     original_query = {
       page: 1,
       q: 'data',
-      contentType: ['dataset']
+      contentTypeFilter: ['dataset']
     }
     expected_query = {
       page: 1,
       q: 'data'
     }
-    assert_equal expected_query, remove_filter(original_query, :contentType, 'dataset')
+    assert_equal expected_query, remove_filter(original_query, :contentTypeFilter, 'dataset')
   end
 
   test 'remove_filter will reset a page count when called' do
     original_query = {
       page: 3,
       q: 'data',
-      contentType: ['dataset']
+      contentTypeFilter: ['dataset']
     }
     expected_query = {
       page: 1,
       q: 'data'
     }
-    assert_equal expected_query, remove_filter(original_query, :contentType, 'dataset')
+    assert_equal expected_query, remove_filter(original_query, :contentTypeFilter, 'dataset')
   end
 
   test 'remove_filter removes only one filter parameter if multiple are applied' do
     original_query = {
       page: 3,
       q: 'data',
-      contentType: ['dataset', 'microfiche', 'vinyl record']
+      contentTypeFilter: ['dataset', 'microfiche', 'vinyl record']
     }
     expected_query = {
       page: 1,
       q: 'data',
-      contentType: ['dataset', 'vinyl record']
+      contentTypeFilter: ['dataset', 'vinyl record']
     }
-    assert_equal expected_query, remove_filter(original_query, :contentType, 'microfiche')
+    assert_equal expected_query, remove_filter(original_query, :contentTypeFilter, 'microfiche')
   end
 
   test 'filter_applied? returns true if a filter is applied' do
     query = {
       page: 3,
       q: 'data',
-      contentType: ['dataset']
+      contentTypeFilter: ['dataset']
     }
-    assert filter_applied?(query[:contentType], 'dataset')
+    assert filter_applied?(query[:contentTypeFilter], 'dataset')
   end
 
   test 'filter_applied? returns false if the filter does not include the target term' do
     query = {
       page: 3,
       q: 'data',
-      contentType: ['dataset']
+      contentTypeFilter: ['dataset']
     }
-    assert_not filter_applied?(query[:contentType], 'microfiche')
+    assert_not filter_applied?(query[:contentTypeFilter], 'microfiche')
   end
 
   # This is an unlikely state to reach, but better safe than sorry
@@ -131,6 +131,42 @@ class FilterHelperTest < ActionView::TestCase
       page: 3,
       q: 'data',
     }
-    assert_not filter_applied?(query[:contentType], 'dataset')
+    assert_not filter_applied?(query[:contentTypeFilter], 'dataset')
+  end
+
+  test 'applied_filters returns all currently applied filters' do
+    @enhanced_query = {
+      contentTypeFilter: ['dataset'],
+      sourceFilter: ['my imagination']
+    }
+    assert_equal [{ contentTypeFilter: 'dataset' }, { sourceFilter: 'my imagination' }], applied_filters
+  end
+
+  test 'applied_filters collects separately terms in the same filter category' do
+    @enhanced_query = {
+      contentTypeFilter: ['dataset'],
+      sourceFilter: ['my imagination']
+    }
+    assert_equal [{ contentTypeFilter: 'dataset' }, { sourceFilter: 'my imagination' }], applied_filters
+  end
+
+  test 'applied_filters does not return search term params' do
+    @enhanced_query = {
+      q: 'jazz',
+      advanced: true,
+      title: 'undercurrent',
+      contributors: ['evans, bill', 'hall, jim'],
+      contentTypeFilter: ['lp']
+    }
+    assert_equal [{ contentTypeFilter: 'lp' }], applied_filters
+  end
+
+  test 'applied_filters does not return other unwanted parts of the enhanced query' do
+    @enhanced_query = {
+      page: 2,
+      advanced: true,
+      contentTypeFilter: ['dataset']
+    }
+    assert_equal [{ contentTypeFilter: 'dataset' }], applied_filters
   end
 end

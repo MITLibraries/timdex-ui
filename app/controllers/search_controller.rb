@@ -33,7 +33,11 @@ class SearchController < ApplicationController
     aggs = response&.data&.search&.to_h&.dig('aggregations')
     return if aggs.blank?
 
-    aggs.select { |_, agg_values| agg_values.present? }
+    # We use aggregations to determine which terms can be filtered. However, agg names do not include 'filter', whereas
+    # our filter fields do (e.g., 'source' vs 'sourceFilter'). Because of this mismatch, we need to modify the
+    # aggregation key names before collecting them as filters, so that when a filter is applied, it searches the
+    # correct field name.
+    aggs.select { |_, agg_values| agg_values.present? }.transform_keys { |key| (key.dup << 'Filter').to_sym }
   end
 
   def extract_results(response)

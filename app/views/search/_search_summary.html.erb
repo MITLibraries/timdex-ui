@@ -1,0 +1,15 @@
+<% return unless applied_filters.any? %>
+
+<div class="filter-summary">
+  <h2 class="hd-filter-summary hd-5">Applied filters: </h2>
+  <ul class="list-filter-summary list-inline">
+  <% applied_filters.each do |filter| %>
+    <li>
+      <a href="<%= results_path(remove_filter(@enhanced_query, filter.keys[0], filter.values[0])) %>">
+        <%= "#{nice_labels[filter.keys[0]] || filter.keys[0]}: #{filter.values[0]}" %>
+        <span class="sr">Remove applied filter?</span>
+      </a>
+    </li>
+  <% end %>
+  </ul>
+</div>

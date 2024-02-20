@@ -5,10 +5,11 @@ class FormHelperTest < ActionView::TestCase
 
   test 'checkbox is checked if source is only source in params' do
     source = 'hallo'
-    params = { source: ['hallo'] }
+    params = { sourceFilter: ['hallo'] }
     expected = "<div class='field-subitem'>
       <label class='field-checkbox'>
-        <input type='checkbox' value='hallo' name='source[]' class='source' checked>
+        <input type='checkbox' value='hallo' name='sourceFilter[]'
+               class='source' checked>
         hallo
       </label>
     </div>"
@@ -19,10 +20,11 @@ class FormHelperTest < ActionView::TestCase
 
   test 'checkbox is checked if source is one source in params' do
     source = 'hallo'
-    params = { source: ['popcorn', 'hallo', 'dspace@mit'] }
+    params = { sourceFilter: ['popcorn', 'hallo', 'dspace@mit'] }
     expected = "<div class='field-subitem'>
       <label class='field-checkbox'>
-        <input type='checkbox' value='hallo' name='source[]' class='source' checked>
+        <input type='checkbox' value='hallo' name='sourceFilter[]'
+               class='source' checked>
         hallo
       </label>
     </div>"
@@ -36,7 +38,8 @@ class FormHelperTest < ActionView::TestCase
     params = {}
     expected = "<div class='field-subitem'>
       <label class='field-checkbox'>
-        <input type='checkbox' value='hallo' name='source[]' class='source'>
+        <input type='checkbox' value='hallo' name='sourceFilter[]'
+               class='source'>
         hallo
       </label>
     </div>"
@@ -50,7 +53,8 @@ class FormHelperTest < ActionView::TestCase
     params = { source: ['popcorn', 'nothallo', 'dspace@mit'] }
     expected = "<div class='field-subitem'>
       <label class='field-checkbox'>
-        <input type='checkbox' value='hallo' name='source[]' class='source'>
+        <input type='checkbox' value='hallo' name='sourceFilter[]'
+               class='source'>
         hallo
       </label>
     </div>"

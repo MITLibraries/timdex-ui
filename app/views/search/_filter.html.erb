@@ -1,4 +1,4 @@
-<% return if values.empty? %>
+<% return if values.blank? %>
 
 <div class="category">
   <button class="filter-label <%= 'expanded' if @enhanced_query[category.to_sym].present? || first == true %>"

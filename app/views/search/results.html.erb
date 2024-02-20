@@ -1,43 +1,8 @@
 <%= content_for(:title, "Search Results | MIT Libraries") %>
 
 <div class="space-wrap">
-
-  <p>Showing results for:
-      <ul>
-        <% if @enhanced_query[:q].present? %>
-          <li>Keyword anywhere: <%= @enhanced_query[:q] %></li>
-        <% end %>
-        <% if @enhanced_query[:citation].present? %>
-          <li>Citation: <%= @enhanced_query[:citation] %></li>
-        <% end %>
-        <% if @enhanced_query[:contentType].present? %>
-          <li>Content type: <%= @enhanced_query[:contentType] %></li>
-        <% end %>
-        <% if @enhanced_query[:contributors].present? %>
-          <li>Contributors: <%= @enhanced_query[:contributors] %></li>
-        <% end %>
-        <% if @enhanced_query[:fundingInformation].present? %>
-          <li>Funders: <%= @enhanced_query[:fundingInformation] %></li>
-        <% end %>
-        <% if @enhanced_query[:identifiers].present? %>
-          <li>Identifiers: <%= @enhanced_query[:identifiers] %></li>
-        <% end %>
-        <% if @enhanced_query[:locations].present? %>
-          <li>Locations: <%= @enhanced_query[:locations] %></li>
-        <% end %>
-        <% if @enhanced_query[:subjects].present? %>
-          <li>Subjects: <%= @enhanced_query[:subjects] %></li>
-        <% end %>
-        <% if @enhanced_query[:title].present? %>
-          <li>Title: <%= @enhanced_query[:title] %></li>
-        <% end %>
-        <% if @enhanced_query[:source].present? %>
-          <li>Source: <%= @enhanced_query[:source] %></li>
-        <% end %>
-      </ul>
-  </p>
-
   <%= render partial: "form" %>
+  <%= render partial: "search_summary" %>
 
   <div id="hint" aria-live="polite">
     <%= render(partial: 'search/issn') %>
@@ -56,9 +21,9 @@
           <h3 class="hd-4"><em><%= results_summary(@pagination[:hits]) %></em></h3>
           <% @filters&.each_with_index do |(category, values), index| %>
             <% if index == 0 %>
-              <%= render(partial: 'search/filter', locals: {category: category, values: values, first: true }) %>
+              <%= render(partial: 'search/filter', locals: { category: category, values: values, first: true }) %>
             <% else %>
-              <%= render(partial: 'search/filter', locals: {category: category, values: values, first: false }) %>
+              <%= render(partial: 'search/filter', locals: { category: category, values: values, first: false }) %>
             <% end %>
           <% end %>
         </div>

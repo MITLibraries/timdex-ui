@@ -91,7 +91,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_nil flash[:error]
 
-      assert_select 'li', 'Keyword anywhere: hallo'
+      assert_select 'input[value=?]', 'hallo'
     end
   end
 
@@ -272,6 +272,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   # Advanced search behavior
   test 'advanced search by keyword' do
+    skip("We no longer display a list of search terms in the UI; leaving this in in case we decide to reintroduce" \
+         "that feature soon.")
     VCR.use_cassette('advanced keyword asdf',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -291,12 +293,12 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       get '/results?citation=asdf&advanced=true'
       assert_response :success
       assert_nil flash[:error]
-
-      assert_select 'li', 'Citation: asdf'
     end
   end
 
   test 'advanced search can accept values from all fields' do
+    skip("We no longer display a list of search terms in the UI; leaving this in in case we decide to reintroduce" \
+         "that feature soon.")
     VCR.use_cassette('advanced all',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -359,7 +361,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   def source_filter_count(controller)
-    controller.view_context.assigns['filters']['source'].count
+    controller.view_context.assigns['filters'][:sourceFilter].count
   end
 
   test 'advanced search can limit to a single source' do
@@ -369,7 +371,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       query = {
         q: 'data',
         advanced: 'true',
-        source: ['Woods Hole Open Access Server']
+        sourceFilter: ['Woods Hole Open Access Server']
       }.to_query
       get "/results?#{query}"
       assert_response :success
@@ -406,7 +408,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       query = {
         q: 'data',
         advanced: 'true',
-        source: ['Abdul Latif Jameel Poverty Action Lab Dataverse', 'Woods Hole Open Access Server']
+        sourceFilter: ['Abdul Latif Jameel Poverty Action Lab Dataverse', 'Woods Hole Open Access Server']
       }.to_query
       get "/results?#{query}"
       assert_response :success
