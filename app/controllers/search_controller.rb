@@ -1,6 +1,8 @@
 class SearchController < ApplicationController
   before_action :validate_q!, only: %i[results]
 
+  layout false
+
   def results
     # hand off to Enhancer chain
     @enhanced_query = Enhancer.new(params).enhanced_query

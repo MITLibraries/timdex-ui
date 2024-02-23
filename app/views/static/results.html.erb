@@ -1,0 +1,17 @@
+<%= content_for(:title, "Search Results | MIT Libraries") %>
+
+<% data_url = "/internal?#{@internal.to_query}" %>
+
+<div class="space-wrap">
+
+  <%= render partial: "shared/site_title" %>
+  <%= render partial: "search/form" %>
+
+  <div class="result-container top-space"
+    id="result-container"
+    data-controller="content-loader"
+    data-content-loader-url-value=<%= data_url %>>
+    <p>Your search is being completed...</p>
+  </div>
+
+</div>

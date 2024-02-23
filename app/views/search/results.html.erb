@@ -1,55 +1,48 @@
-<%= content_for(:title, "Search Results | MIT Libraries") %>
+<%= render partial: "search_summary" %>
 
-<div class="space-wrap">
-
-  <%= render partial: "shared/site_title" %>
-  <%= render partial: "form" %>
-  <%= render partial: "search_summary" %>
-
-  <div id="hint" aria-live="polite">
-    <%= render(partial: 'search/issn') %>
-    <%= render(partial: 'search/isbn') %>
-    <%= render(partial: 'search/pmid') %>
-    <%= render(partial: 'search/doi') %>
-  </div>
-
-  <%= render(partial: 'shared/error', collection: @errors) %>
-
-  <div class="<%= @filters.present? ? 'layout-1q3q' : 'layout-3q1q' %> layout-band top-space">
-    <% if @filters.present? %>
-      <aside class="col1q filter-container">
-        <div id="filters">
-          <h2 class="hd-3">Filter your results</h2>
-          <h3 class="hd-4"><em><%= results_summary(@pagination[:hits]) %></em></h3>
-          <% @filters&.each_with_index do |(category, values), index| %>
-            <% if index == 0 %>
-              <%= render(partial: 'search/filter', locals: { category: category, values: values, first: true }) %>
-            <% else %>
-              <%= render(partial: 'search/filter', locals: { category: category, values: values, first: false }) %>
-            <% end %>
-          <% end %>
-        </div>
-        <%= render partial: 'shared/ask', locals: { display: 'view-lg' } %>
-      </aside>
-    <% end %>
-
-    <div class="col3q wrap-results">
-      <% if @results.present? %>
-        <ul id="results" class="list-unbulleted">
-          <%= render(partial: 'search/result', collection: @results) %>
-        </ul>
-      <% else %>
-        <div id="results" class="no-results">
-          <p class="hd-2">No results found for your search</p>
-        </div>
-      <% end %>
-    </div>
-    <%= render partial: 'shared/ask', locals: { display: 'aside' } if @results.blank? %>
-
-  <% if @results.present? %>
-    <div id="pagination">  
-      <%= render partial: "pagination" %>
-    </div>
-    <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
-  <% end %>
+<div id="hint" aria-live="polite">
+  <%= render(partial: 'search/issn') %>
+  <%= render(partial: 'search/isbn') %>
+  <%= render(partial: 'search/pmid') %>
+  <%= render(partial: 'search/doi') %>
 </div>
+
+<%= render(partial: 'shared/error', collection: @errors) %>
+
+<div class="<%= @filters.present? ? 'layout-1q3q' : 'layout-3q1q' %> layout-band top-space">
+  <% if @filters.present? %>
+    <aside class="col1q filter-container">
+      <div id="filters">
+        <h2 class="hd-3">Filter your results</h2>
+        <h3 class="hd-4"><em><%= results_summary(@pagination[:hits]) %></em></h3>
+        <% @filters&.each_with_index do |(category, values), index| %>
+          <% if index == 0 %>
+            <%= render(partial: 'search/filter', locals: { category: category, values: values, first: true }) %>
+          <% else %>
+            <%= render(partial: 'search/filter', locals: { category: category, values: values, first: false }) %>
+          <% end %>
+        <% end %>
+      </div>
+      <%= render partial: 'shared/ask', locals: { display: 'view-lg' } %>
+    </aside>
+  <% end %>
+
+  <div class="col3q wrap-results">
+    <% if @results.present? %>
+      <ul id="results" class="list-unbulleted">
+        <%= render(partial: 'search/result', collection: @results) %>
+      </ul>
+    <% else %>
+      <div id="results" class="no-results">
+        <p class="hd-2">No results found for your search</p>
+      </div>
+    <% end %>
+  </div>
+  <%= render partial: 'shared/ask', locals: { display: 'aside' } if @results.blank? %>
+
+<% if @results.present? %>
+  <div id="pagination">
+    <%= render partial: "pagination" %>
+  </div>
+  <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
+<% end %>

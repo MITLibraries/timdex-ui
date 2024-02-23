@@ -7,10 +7,12 @@ Rails.application.routes.draw do
   get 'issn', to: 'fact#issn'
   get 'pmid', to: 'fact#pmid'
 
+  get 'internal', to: 'search#results', as: 'internal'
+
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
       :constraints => { :id => /[0-z\.\-\_~\(\)]+/ }
-  get 'results', to: 'search#results'
   get 'style-guide', to: 'static#style_guide'
+  get 'results', to: 'static#results'
 end
