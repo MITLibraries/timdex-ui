@@ -50,3 +50,6 @@ group :test do
 end
 
 gem 'flipflop', '~> 2.7'
+
+# Use Redis for Action Cable
+gem 'redis', '~> 4.0'
