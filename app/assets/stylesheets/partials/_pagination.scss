@@ -1,15 +1,19 @@
 .pagination-container {
+  clear: both;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
   margin-top: 3em;
 
   .previous {
-    text-align: left;
-  }
-
-  .current {
-    text-align: center;
+    border-right: 1px solid black;
+    margin-right: 0.5em;
+    padding-right: 0.5em;
   }
 
   .next {
-    text-align: right;
+    border-left: 1px solid black;
+    margin-left: 0.5em;
+    padding-left: 0.5em;
   }
 }

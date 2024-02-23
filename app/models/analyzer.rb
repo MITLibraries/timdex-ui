@@ -6,7 +6,8 @@ class Analyzer
   def initialize(enhanced_query, response)
     @pagination = {}
     @pagination[:hits] = hits(response)
-    @pagination[:page] = enhanced_query[:page]
+    @pagination[:start] = ((enhanced_query[:page] - 1) * RESULTS_PER_PAGE) + 1
+    @pagination[:end] = [enhanced_query[:page] * RESULTS_PER_PAGE, hits(response)].min
     @pagination[:prev] = enhanced_query[:page] - 1 if enhanced_query[:page] > 1
     @pagination[:next] = next_page(enhanced_query[:page], @pagination[:hits])
   end
