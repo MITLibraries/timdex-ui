@@ -3,5 +3,16 @@
 <div class="space-wrap">
   <%= render partial: "shared/site_title" %>
   <%= render partial: "search/form" %>
-  <%= render partial: "static/about" if ENV.fetch('ABOUT_APP', nil) %>
+
+  <turbo-frame id="summary_panel"></turbo-frame>
+
+  <turbo-frame id="hint_panel"></turbo-frame>
+
+  <turbo-frame id="error_panel">
+    <%= render(partial: 'shared/error', collection: @errors) %>
+  </turbo-frame>
+
+  <turbo-frame id="content_panel">
+    <%= render partial: "static/about" if ENV.fetch('ABOUT_APP', nil) %>
+  </turbo-frame>
 </div>

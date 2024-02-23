@@ -1,12 +1,22 @@
 <%= content_for(:title, "Search Results | MIT Libraries") %>
 
-<%= render(partial: 'shared/error', collection: @errors) %>
+<div class="space-wrap">
+  <%= render(partial: 'shared/site_title') %>
+  <%= render(partial: 'search/form')%>
 
-<%= render(partial: 'shared/site_title') %>
-<%= render(partial: 'search/form')%>
+  <turbo-frame id="summary_panel"></turbo-frame>
 
-<% if @record.nil? %>
-  <%= render('record_empty') %>
-<% else %>
-  <%= render('record') %>
-<% end %>
+  <turbo-frame id="hint_panel"></turbo-frame>
+
+  <turbo-frame id="error_panel">
+    <%= render(partial: 'shared/error', collection: @errors) %>
+  </turbo-frame>
+
+  <turbo-frame id="content_panel">
+    <% if @record.nil? %>
+      <%= render('record_empty') %>
+    <% else %>
+      <%= render('record') %>
+    <% end %>
+  </turbo-frame>
+</div>
