@@ -1,0 +1,20 @@
+<%= content_for(:title, "Start here | MIT Libraries") %>
+
+<div class="space-wrap">
+  <p>This "start" page has some custom markup and arranges panels in a different order.</p>
+  <%= render partial: "shared/site_title" %>
+  <%= render partial: "search/form" %>
+
+  <turbo-frame id="error_panel"><p>Errors first</p></turbo-frame>
+
+  <turbo-frame id="hint_panel"><p>Hints second</p></turbo-frame>
+
+  <turbo-frame id="summary_panel"><p>Summary third</p></turbo-frame>
+
+  <turbo-frame id="content_panel">
+    <div class="top-space">
+      <p>Finally, the content.</p>
+      <p>Hold on, please...</p>
+    </div>
+  </turbo-frame>
+</div>
