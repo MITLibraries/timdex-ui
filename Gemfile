@@ -41,6 +41,7 @@ end
 group :test do
   gem 'capybara'
   gem 'climate_control'
+  gem 'minitest-reporters'
   gem 'mocha'
   gem 'selenium-webdriver'
   gem 'simplecov'

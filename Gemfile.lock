@@ -89,6 +89,7 @@ GEM
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
+    ansi (1.5.0)
     ast (2.4.2)
     base64 (0.2.0)
     better_errors (2.10.1)
@@ -183,6 +184,11 @@ GEM
     matrix (0.4.2)
     mini_mime (1.1.5)
     minitest (5.22.2)
+    minitest-reporters (1.6.1)
+      ansi
+      builder
+      minitest (>= 5.0)
+      ruby-progressbar
     mocha (2.1.0)
       ruby2_keywords (>= 0.0.5)
     msgpack (1.7.2)
@@ -372,6 +378,7 @@ DEPENDENCIES
   http
   importmap-rails
   jbuilder
+  minitest-reporters
   mitlibraries-theme!
   mocha
   pg
