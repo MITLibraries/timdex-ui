@@ -12,6 +12,11 @@ require_relative '../config/environment'
 require 'rails/test_help'
 require 'mocha/minitest'
 
+if ENV.fetch('SPEC_REPORTER', false)
+  require 'minitest/reporters'
+  Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+end
+
 VCR.configure do |config|
   config.ignore_localhost = true
   config.cassette_library_dir = 'test/vcr_cassettes'

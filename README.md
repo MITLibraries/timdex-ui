@@ -65,6 +65,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 
 ### Test Environment-only Variables
 
+- `SPEC_REPORTER`: Optional variable. If set, enables spec reporter style output from tests rather than minimal output.
 - `TIMDEX_HOST`: Test Env only. Used to ensure the VCR cassettes can properly scrub specific host data to make sure we get the same cassettes regardless of which host was used to generate the cassettes. This should be set to the host name that matches `TIMDEX_GRAPHQL`. Ex: If `TIMDEX_GRAPHQL` is `https://www.example.com/graphql` then `TIMDEX_HOST` should be `www.example.com`.
 
 ## Generating VCR Cassettes
