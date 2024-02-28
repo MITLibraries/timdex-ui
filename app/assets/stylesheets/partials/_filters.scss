@@ -32,6 +32,10 @@
         overflow-y: scroll;
         scrollbar-gutter: auto;
         scroll-behavior: auto;
+
+        @media (max-width: $bp-screen-sm) {
+          max-height: inherit;
+        }
       }
     }
     &.expanded:after {
@@ -107,3 +111,49 @@
     }
   }
 }
+
+button#filter-toggle {
+  align-items: center;
+  background: none;
+  border: none;
+  color: blue;
+  display: flex;
+  justify-content: start;
+  margin-bottom: 0.5em;
+  width: 100%;
+  text-align: left;
+
+  @media (min-width: $bp-screen-sm) {
+    display: none;
+  }
+
+  &::before {
+    content: '\f0b0';
+    font-family: FontAwesome;
+    font-size: 150%;
+    margin-right: 0.5em;
+  }
+
+  &:hover,
+  &:focus {
+    background: blue;
+    color: white;
+  }
+
+  .filter-toggle-name {
+    display: block;
+  }
+  .filter-toggle-hide {
+    display: none;
+  }
+
+  &.expanded {
+    .filter-toggle-name {
+      display: none;
+    }
+    .filter-toggle-hide {
+      display: block;
+    }
+  }
+}
+

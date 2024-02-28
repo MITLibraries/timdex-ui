@@ -18,9 +18,12 @@
   <div class="<%= @filters.present? ? 'layout-1q3q' : 'layout-3q1q' %> layout-band top-space">
     <% if @filters.present? %>
       <aside class="col1q filter-container">
-        <div id="filters">
-          <h2 class="hd-3">Filter your results</h2>
-          <h3 class="hd-4"><em><%= results_summary(@pagination[:hits]) %></em></h3>
+        <button id="filter-toggle"><span class="filter-toggle-name">Filter your results: <%= results_summary(@pagination[:hits]) %></span><span class="filter-toggle-hide">Hide filters</span></button>
+        <div id="filters" class="hidden-sm">
+          <div class="hidden-sm">
+            <h2 class="hd-3">Filter your results</h2>
+            <h3 class="hd-4"><em><%= results_summary(@pagination[:hits]) %></em></h3>
+          </div>
           <% @filters&.each_with_index do |(category, values), index| %>
             <% if index == 0 %>
               <%= render(partial: 'search/filter', locals: { category: category, values: values, first: true }) %>
@@ -53,3 +56,5 @@
     <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
   <% end %>
 </div>
+
+<%= javascript_include_tag "filters" %>
