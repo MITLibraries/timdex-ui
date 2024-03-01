@@ -164,6 +164,28 @@
               "deprecationReason": null
             },
             {
+              "name": "places",
+              "description": "Total search results by Place (which is a subject with type `Dublin Core; Spatial`)",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "AggregationCount",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "source",
               "description": "Total search results by source record system",
               "args": [
@@ -484,6 +506,16 @@
           "possibleTypes": null
         },
         {
+          "kind": "SCALAR",
+          "name": "Float",
+          "description": "Represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "OBJECT",
           "name": "Funding",
           "description": null,
@@ -563,6 +595,126 @@
           "interfaces": [
 
           ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "Geobox",
+          "description": "Search within a box specified by pairs of latitudes and longitudes. Their order should be left, bottom, right, top",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "minLongitude",
+              "description": "A decimal between -180.0 and 180.0 (Western hemisphere is negative)",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "minLatitude",
+              "description": "A decimal between -90.0 and 90.0 (Southern hemisphere is negative)",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "maxLongitude",
+              "description": "A decimal between -180.0 and 180.0 (Western hemisphere is negative)",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "maxLatitude",
+              "description": "A decimal between -90.0 and 90.0 (Southern hemisphere is negative)",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "Geodistance",
+          "description": "Search within a certain distance of a given latitude and longitude",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "distance",
+              "description": "Search distance to the location? (include units; i.e. \"100km\" or \"50mi\")",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "latitude",
+              "description": "A decimal between -90.0 and 90.0 (Southern hemisphere is negative)",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "longitude",
+              "description": "A decimal between -180.0 and 180.0 (Western hemisphere is negative)",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -669,13 +821,9 @@
 
               ],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -932,7 +1080,21 @@
           "fields": [
             {
               "name": "geopoint",
-              "description": "GeoPoint data for the location, if applicable",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": true,
+              "deprecationReason": "Use `geoshape`"
+            },
+            {
+              "name": "geoshape",
+              "description": "GeoShape data for the location, if applicable",
               "args": [
 
               ],
@@ -1156,6 +1318,26 @@
                   "defaultValue": "null"
                 },
                 {
+                  "name": "geodistance",
+                  "description": "Search within a certain distance of a specific location",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "Geodistance",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
+                },
+                {
+                  "name": "geobox",
+                  "description": "Search within a specified box",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "Geobox",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
+                },
+                {
                   "name": "identifiers",
                   "description": "Search by unique indentifier; e.g., ISBN, DOI, etc.",
                   "type": {
@@ -1217,7 +1399,7 @@
                 },
                 {
                   "name": "contentTypeFilter",
-                  "description": "Filter results by content type. Use the `contentType` aggregation for a list of possible values",
+                  "description": "Filter results by content type. Use the `contentType` aggregation for a list of possible values. Multiple values are ANDed.",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1235,7 +1417,7 @@
                 },
                 {
                   "name": "contributorsFilter",
-                  "description": "Filter results by contributor. Use the `contributors` aggregation for a list of possible values",
+                  "description": "Filter results by contributor. Use the `contributors` aggregation for a list of possible values. Multiple values are ANDed.",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1253,7 +1435,7 @@
                 },
                 {
                   "name": "formatFilter",
-                  "description": "Filter results by format. Use the `format` aggregation for a list of possible values",
+                  "description": "Filter results by format. Use the `format` aggregation for a list of possible values. Multiple values are ANDed.",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1271,7 +1453,7 @@
                 },
                 {
                   "name": "languagesFilter",
-                  "description": "Filter results by language. Use the `languages` aggregation for a list of possible values",
+                  "description": "Filter results by language. Use the `languages` aggregation for a list of possible values. Multiple values are ANDed.",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1298,8 +1480,26 @@
                   "defaultValue": "null"
                 },
                 {
+                  "name": "placesFilter",
+                  "description": "Filter by places. Use the `places` aggregation for a list of possible values. Multiple values are ANDed.",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": "null"
+                },
+                {
                   "name": "sourceFilter",
-                  "description": "Filter by source record system. Use the `sources` aggregation for a list of possible values",
+                  "description": "Filter by source record system. Use the `sources` aggregation for a list of possible values. Multiple values are ORed.",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1317,7 +1517,7 @@
                 },
                 {
                   "name": "subjectsFilter",
-                  "description": "Filter by subject terms. Use the `contentType` aggregation for a list of possible values",
+                  "description": "Filter by subject terms. Use the `contentType` aggregation for a list of possible values. Multiple values are ANDed.",
                   "type": {
                     "kind": "LIST",
                     "name": null,
@@ -1570,17 +1770,9 @@
 
               ],
               "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3697,6 +3889,29 @@
           ],
           "args": [
 
+          ]
+        },
+        {
+          "name": "specifiedBy",
+          "description": "Exposes a URL that specifies the behavior of this scalar.",
+          "locations": [
+            "SCALAR"
+          ],
+          "args": [
+            {
+              "name": "url",
+              "description": "The URL that specifies the behavior of this scalar.",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
           ]
         }
       ]
