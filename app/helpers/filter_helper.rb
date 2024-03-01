@@ -22,7 +22,12 @@ module FilterHelper
   def nice_labels
     {
       contentTypeFilter: 'Content type',
-      sourceFilter: 'Source'
+      contributorsFilter: 'Contributor',
+      formatFilter: 'Format',
+      languagesFilter: 'Language',
+      literaryFormFilter: 'Literary form',
+      sourceFilter: 'Source',
+      subjectsFilter: 'Subject'
     }
   end
 
