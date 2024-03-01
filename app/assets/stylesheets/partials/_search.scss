@@ -44,7 +44,9 @@
   summary {
     pointer: arrow;
 
-    #advanced-search-label {
+    #advanced-search-label,
+    #geobox-search-label,
+    #geodistance-search-label {
       &::before {
         font-family: FontAwesome;
         margin-right: 1rem;
@@ -61,6 +63,44 @@
 
     &::-webkit-details-marker {
       display: none;
+    }
+  }
+
+  #advanced-search-panel,
+  #geobox-search-panel,
+  #geodistance-search-panel {
+    fieldset {
+      legend {
+        color: $black;
+      }
+    }
+  }
+
+  #geobox-search-panel,
+  #geodistance-search-panel {
+    label::after {
+      color: $red-muted;
+      content: '*';
+    }
+    .geo-label,
+    .geo-desc {
+      display: block;
+    }
+    .geo-desc {
+      font-size: $fs-xsmall;
+      margin-bottom: 2rem;
+    }
+    #maxLat-desc,
+    #maxLong-desc,
+    #distance-desc {
+        margin-bottom: 0rem;
+    }
+    @media (max-width: $bp-screen-md) {
+      #maxLat-desc,
+      #maxLong-desc,
+      #distance-desc {
+        margin-bottom: 2rem;
+      }
     }
   }
 

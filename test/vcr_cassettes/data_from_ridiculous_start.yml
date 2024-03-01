@@ -5,7 +5,7 @@ http_interactions:
     uri: https://FAKE_TIMDEX_HOST/graphql
     body:
       encoding: UTF-8
-      string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
+      string: '{"query":"query TimdexSearch__BaseQuery($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $index: String, $from:
         String, $contentTypeFilter: [String!], $contributorsFilter: [String!], $formatFilter:
@@ -25,7 +25,7 @@ http_interactions:
         {\n        key\n        docCount\n      }\n      format {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      places
         {\n        key\n        docCount\n      }\n      source {\n        key\n        docCount\n      }\n      subjects
-        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"data","from":"31415926537"},"operationName":"TimdexSearch__Query"}'
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"q":"data","from":"31415926537"},"operationName":"TimdexSearch__BaseQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -43,11 +43,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Mon, 11 Mar 2024 21:57:43 GMT
+      - Tue, 12 Mar 2024 19:01:47 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710194264&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=kX%2FQClsPQQHtNB%2B7fB4aCpgr%2BXv0FMDGfwXKwk0rsnc%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710270108&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=gVLXjxUv7PUHnLS7wVd2yIuLnWI5HkmMEN%2FT2y3vTm0%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1710194264&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=kX%2FQClsPQQHtNB%2B7fB4aCpgr%2BXv0FMDGfwXKwk0rsnc%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1710270108&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=gVLXjxUv7PUHnLS7wVd2yIuLnWI5HkmMEN%2FT2y3vTm0%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -55,9 +55,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       X-Request-Id:
-      - 837eb3ac-1869-4e1a-88a2-2f9f8943f98a
+      - 40053144-dd6e-4602-b69c-7ad0683a8705
       X-Runtime:
-      - '0.027373'
+      - '0.022014'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Vary:
@@ -69,5 +69,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Mon, 11 Mar 2024 21:57:43 GMT
+  recorded_at: Tue, 12 Mar 2024 19:01:48 GMT
 recorded_with: VCR 6.2.0
