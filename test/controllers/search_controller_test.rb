@@ -417,4 +417,42 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert(source_filter_count(@controller) == 2)
     end
   end
+
+  test 'applications can customize the displayed filters via ENV' do
+    VCR.use_cassette('data basic controller',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      # Our standard test ENV does not define ACTIVE_FILTERS, but this confirms
+      # the behavior when it is not defined.
+      ClimateControl.modify ACTIVE_FILTERS: '' do
+        get '/results?q=data'
+        assert_response :success
+        assert_select '#filters .category .filter-label', { minimum: 1 }
+      end
+
+      # Ask for a single filter, get that filter.
+      ClimateControl.modify ACTIVE_FILTERS: 'subjects' do
+        get '/results?q=data'
+        assert_response :success
+        assert_select '#filters .category .filter-label', { count: 1 }
+        assert_select '#filters .category:first-of-type .filter-label', 'Subject'
+      end
+
+      # The order of the terms matter, so now Format should be first.
+      ClimateControl.modify ACTIVE_FILTERS: 'format, contentType, source' do
+        get '/results?q=data'
+        assert_response :success
+        assert_select '#filters .category .filter-label', { count: 3 }
+        assert_select '#filters .category:first-of-type .filter-label', 'Format'
+      end
+
+      # Including extra values does not affect anything - "nonsense" is extraneous.
+      ClimateControl.modify ACTIVE_FILTERS: 'contentType, nonsense, source' do
+        get '/results?q=data'
+        assert_response :success
+        assert_select '#filters .category .filter-label', { count: 2 }
+        assert_select '#filters .category:first-of-type .filter-label', 'Content type'
+      end
+    end
+  end
 end
