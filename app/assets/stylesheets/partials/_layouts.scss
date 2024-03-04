@@ -1,0 +1,5 @@
+.hidden-md {
+  @media (max-width: $bp-screen-md) {
+    display: none;
+  }
+}
