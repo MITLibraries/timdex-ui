@@ -52,6 +52,13 @@ change as part of the work.
 - `ABOUT_APP`: If populated, an 'about' partial containing the contents of this variable will render on 
 `basic_search#index`.
 - `ACTIVE_FILTERS`: If populated, this list of strings defines which filters are shown to the user, and the order in which they appear. Values are case sensitive, and must match those used in the TIMDEX GraphQL query. Extraneous values will be ignored. If not populated, all filters will be shown.
+- `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.
+- `FILTER_CONTRIBUTOR`: The name to use instead of "Contributor" for that filter / aggregation.
+- `FILTER_FORMAT`: The name to use instead of "Format" for that filter / aggregation.
+- `FILTER_LANGUAGE`: The name to use instead of "Language" for that filter / aggregation.
+- `FILTER_LITERARY_FORM`: The name to use instead of "Literary form" for that filter / aggregation.
+- `FILTER_SOURCE`: The name to use instead of "Source" for that filter / aggregation.
+- `FILTER_SUBJECT`: The name to use instead of "Subject" for that filter / aggregation.
 - `GDT`: Enables features related to geospatial data discovery. Setting this variable with any value will trigger GDT
 mode (e.g., `GDT=false` will still enable GDT features). Note that this is currently intended _only_ for the GDT app and
 may have unexpected consequences if applied to other TIMDEX UI apps.
