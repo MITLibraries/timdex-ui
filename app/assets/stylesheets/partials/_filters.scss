@@ -33,7 +33,7 @@
         scrollbar-gutter: auto;
         scroll-behavior: auto;
 
-        @media (max-width: $bp-screen-sm) {
+        @media (max-width: $bp-screen-md) {
           max-height: inherit;
         }
       }
@@ -123,7 +123,7 @@ button#filter-toggle {
   width: 100%;
   text-align: left;
 
-  @media (min-width: $bp-screen-sm) {
+  @media (min-width: $bp-screen-md) {
     display: none;
   }
 

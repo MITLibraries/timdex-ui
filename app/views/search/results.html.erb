@@ -19,8 +19,8 @@
     <% if @filters.present? %>
       <aside class="col1q filter-container">
         <button id="filter-toggle"><span class="filter-toggle-name">Filter your results: <%= results_summary(@pagination[:hits]) %></span><span class="filter-toggle-hide">Hide filters</span></button>
-        <div id="filters" class="hidden-sm">
-          <div class="hidden-sm">
+        <div id="filters" class="hidden-md">
+          <div class="hidden-md">
             <h2 class="hd-3">Filter your results</h2>
             <h3 class="hd-4"><em><%= results_summary(@pagination[:hits]) %></em></h3>
           </div>

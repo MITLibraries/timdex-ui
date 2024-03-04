@@ -1,5 +1,5 @@
-.hidden-sm {
-  @media (max-width: $bp-screen-sm) {
+.hidden-md {
+  @media (max-width: $bp-screen-md) {
     display: none;
   }
 }
