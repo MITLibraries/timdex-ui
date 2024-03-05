@@ -67,6 +67,19 @@ class FilterHelperTest < ActionView::TestCase
     assert_nil nice_labels[needle]
   end
 
+  test 'nice_labels will use a value from ENV instead of the default if provided' do
+    label = 'Content type'
+    ClimateControl.modify FILTER_CONTENT_TYPE: nil do
+      needle = :contentTypeFilter
+      assert_equal label, nice_labels[needle]
+    end
+    label = 'Custom label'
+    ClimateControl.modify FILTER_CONTENT_TYPE: label do
+      needle = :contentTypeFilter
+      assert_equal label, nice_labels[needle]
+    end
+  end
+
   test 'remove_filter will remove a specific filter parameter from a search URL' do
     original_query = {
       page: 1,

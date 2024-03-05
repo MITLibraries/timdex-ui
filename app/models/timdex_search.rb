@@ -60,7 +60,27 @@ class TimdexSearch < TimdexBase
             key
             docCount
           }
+          contributors {
+            key
+            docCount
+          }
+          format {
+            key
+            docCount
+          }
+          languages {
+            key
+            docCount
+          }
+          literaryForm {
+            key
+            docCount
+          }
           source {
+            key
+            docCount
+          }
+          subjects {
             key
             docCount
           }
