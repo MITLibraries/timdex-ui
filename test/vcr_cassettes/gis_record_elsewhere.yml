@@ -1,0 +1,103 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://FAKE_TIMDEX_HOST/graphql
+    body:
+      encoding: UTF-8
+      string: '{"query":"query TimdexRecord__Query($id: String!, $index: String) {\n  recordId(id:
+        $id, index: $index) {\n    alternateTitles {\n      kind\n      value\n    }\n    callNumbers\n    contentType\n    contents\n    contributors
+        {\n      affiliation\n      identifier\n      kind\n      mitAffiliated\n      value\n    }\n    dates
+        {\n      kind\n      note\n      range {\n        gte\n        lte\n      }\n      value\n    }\n    edition\n    fundingInformation
+        {\n      funderName\n      funderIdentifier\n      funderIdentifierType\n      awardUri\n      awardNumber\n    }\n    holdings
+        {\n      callnumber\n      collection\n      format\n      location\n      notes\n      summary\n    }\n    identifiers
+        {\n      kind\n      value\n    }\n    languages\n    links {\n      kind\n      restrictions\n      text\n      url\n    }\n    literaryForm\n    locations
+        {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    provider\n    publicationFrequency\n    publicationInformation\n    relatedItems
+        {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
+        {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
+        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"gisogm:edu.stanford.purl:be6ef8cd8ac5","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexRecord__Query"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - MIT Libraries Client
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Wed, 06 Mar 2024 21:39:42 GMT
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709761183&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=m1%2FI3kowg6ugcOrvp%2BELINGEqFzS5BCpQGtD%2FOS54uA%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709761183&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=m1%2FI3kowg6ugcOrvp%2BELINGEqFzS5BCpQGtD%2FOS54uA%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Connection:
+      - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
+      Etag:
+      - W/"1ed3b709209df652d08709c9503349ba"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 4f0a3032-3112-4562-b360-ebba928c6f06
+      X-Runtime:
+      - '0.024494'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Content-Length:
+      - '3034'
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":{"recordId":{"alternateTitles":null,"callNumbers":null,"contentType":["Point
+        data"],"contents":null,"contributors":[{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"International
+        Heat Flow Commission"},{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"International
+        Association of Seismology and Physics of the Earth''s Interior"},{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"dates":[{"kind":"Issued","note":null,"range":null,"value":"2016"},{"kind":"Coverage","note":null,"range":null,"value":"9999"}],"edition":null,"fundingInformation":null,"holdings":null,"identifiers":[{"kind":"Not
+        specified","value":"https://purl.stanford.edu/kv971cf1984"}],"languages":["English"],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:kv971cf1984/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/kv971cf1984"}],"literaryForm":null,"locations":[{"geopoint":"BBOX
+        (68.2333, 74.25, 40.6333, 37.3)","kind":"Bounding Box","value":null},{"geopoint":"BBOX
+        (68.2333, 74.25, 40.6333, 37.3)","kind":"Geometry","value":null}],"notes":null,"numbering":null,"physicalDescription":null,"provider":"Stanford","publicationFrequency":null,"publicationInformation":["International
+        Heat Flow Commission"],"relatedItems":null,"rights":[{"description":"Public","kind":"Access
+        rights","uri":null},{"description":"Not owned by MIT","kind":"Access to files","uri":null}],"source":"OpenGeoMetadata
+        GIS Resources","sourceLink":"https://purl.stanford.edu/kv971cf1984","subjects":[{"kind":"Dublin
+        Core; Spatial","value":["Tajikistan"]},{"kind":"Dublin Core; Subject","value":["Terrestrial
+        heat flow"]},{"kind":"Dublin Core; Subject","value":["Climatology, Meteorology
+        and Atmosphere"]},{"kind":"Subject scheme not provided","value":["Datasets"]}],"summary":["This
+        point shapefile contains heat flow data for Tajikistan compiled from sources
+        with an unknown date. Heat flow is a measure of heat loss across the surface
+        of the Earth and is useful for modeling recent tectonic activity, transport
+        of heat by groundwater, variations in concentrations of the radiogenic elements
+        U, Th and K, glacial dynamics, and recent changes in climate. See attibute
+        table and supplemental documentation for more detail. Global heat flow data
+        are maintained by the International Heat Flow Commission (IHFC) of the International
+        Association of Seismology and Physics of the Earth''s Interior (IASPEI). Heat
+        Flow, Tajikistan (2016) .Global Heatflow database from the International Heat
+        Flow Commission 2011. http://purl.stanford.edu/kv971cf1984 This layer is presented
+        in the WGS84 coordinate system for web display purposes. Downloadable data
+        are provided in native coordinate system or projection."],"timdexRecordId":"gisogm:edu.stanford.purl:be6ef8cd8ac5","title":"Heat
+        Flow, Tajikistan"}}}'
+  recorded_at: Wed, 06 Mar 2024 21:39:43 GMT
+recorded_with: VCR 6.2.0

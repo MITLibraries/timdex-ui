@@ -1,0 +1,22 @@
+.wrap-full-record {
+  .access-button-container {
+    margin-top: 2.6rem;
+    .access-button {
+      font-weight: $fw-bold;
+      text-align: center;
+      width: 100%;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      .auth-notice {
+        &::before {
+          font-family: FontAwesome;
+          content: '\f023';
+          margin-right: .8rem;
+        }
+        font-size: $fs-small;
+        margin-top: 1rem;
+        display: block;
+      }
+    }
+  }
+}

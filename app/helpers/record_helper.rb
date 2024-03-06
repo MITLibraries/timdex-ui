@@ -75,6 +75,29 @@ module RecordHelper
     (title + labels + values).html_safe
   end
 
+  def gis_access_link(metadata)
+    return unless access_type(metadata)
+
+    links = metadata['links']
+    return if links.blank?
+
+    # At this point, we don't show download links for non-MIT records. For MIT records, the download link is stored
+    # consistently as a download link. We are confirming that the link text is 'Data' for added confirmation.
+    if access_type(metadata) == 'Not owned by MIT'
+      links.select { |link| link['kind'] == 'Website' }.first['url']
+    else
+      links.select { |link| link['kind'] == 'Download' && link['text'] == 'Data' }.first['url']
+    end
+  end
+
+  def access_type(metadata)
+    access_right = metadata['rights']&.select { |right| right['kind'] == 'Access to files' }
+    return if access_right.blank?
+
+    # A record will only have one 'access to files' right
+    access_right.first['description']
+  end
+
   private
 
   def render_kind_value(list)

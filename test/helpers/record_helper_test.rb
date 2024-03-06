@@ -101,4 +101,149 @@ class RecordHelperTest < ActionView::TestCase
     assert_equal "<h3>Hello I am a label</h3><table><thead><tr><th scope='col'>Bar</th><th scope='col'>Foo</th><th scope='col'>Baz</th></tr></thead><tbody><tr><td>custom</td><td>column</td><td>order</td></tr></tbody></table>",
                  field_table(sample, 'construct', %w[bar foo baz], 'Hello I am a label')
   end
+
+  test 'access_type returns nil if corresponding right is blank' do
+    rights = { 
+               'rights' => [
+                 {
+                   'description' => 'foo',
+                   'kind' => 'bar'
+                 }
+               ]
+             }
+    assert_nil access_type(rights)
+  end
+
+  test 'access_type returns the description of the corresponding right' do
+    rights = {
+               'rights' => [
+                 {
+                   'description' => 'foo',
+                   'kind' => 'bar'
+                 },
+                 {
+                   'description' => 'Free/open to all',
+                   'kind' => 'Access to files'
+                 }
+               ]
+             }
+    assert_equal 'Free/open to all', access_type(rights)
+  end
+
+  test 'gis_access_link returns nil if access type is blank' do
+    links_no_rights = {
+                        'links' => [
+                          {
+                            'kind' => 'Download',
+                            'text' => 'Data',
+                            'url' => 'https://example.org/dz_f7regions_2016.zip'
+                          },
+                          {
+                            'kind' => 'Website',
+                            'text' => 'Website',
+                            'url' => 'https://example.org/gismit:dz_f7regions_2016'
+                          }
+                        ]
+                      }
+    assert_nil access_type(links_no_rights)
+    assert_nil gis_access_link(links_no_rights)
+  end
+
+  test 'gis_access_link returns nil if links are blank' do
+    rights_no_links = {
+                        'rights' => [
+                          {
+                            'description' => 'foo',
+                            'kind' => 'bar'
+                          },
+                          {
+                            'description' => 'Free/open to all',
+                            'kind' => 'Access to files'
+                          }
+                        ]
+                      }
+    assert_nil gis_access_link(rights_no_links)
+  end
+
+  test 'gis_access_link is website URL for non-MIT records' do
+    access_elsewhere = {
+                         'rights' => [
+                           {
+                             'description' => 'foo',
+                             'kind' => 'bar'
+                           },
+                           {
+                             'description' => 'Not owned by MIT',
+                             'kind' => 'Access to files'
+                           }
+                         ],
+                         'links' => [
+                           {
+                             'kind' => 'Download',
+                             'text' => 'Data',
+                             'url' => 'https://example.org/dz_f7regions_2016.zip'
+                           },
+                           {
+                             'kind' => 'Website',
+                             'text' => 'Website',
+                             'url' => 'https://example.org/gismit:dz_f7regions_2016'
+                           }
+                         ],
+                         'provider' => 'Spelman'
+                       }
+    assert_equal 'https://example.org/gismit:dz_f7regions_2016', gis_access_link(access_elsewhere)
+  end
+
+  test 'gis_access_link is data download URL for MIT records' do
+    access_free = {
+                    'rights' => [
+                      {
+                        'description' => 'foo',
+                        'kind' => 'bar'
+                      },
+                      {
+                        'description' => 'Free/open to all',
+                        'kind' => 'Access to files'
+                      }
+                    ],
+                    'links' => [
+                      {
+                        'kind' => 'Download',
+                        'text' => 'Data',
+                        'url' => 'https://example.org/dz_f7regions_2016.zip'
+                      },
+                      {
+                        'kind' => 'Website',
+                        'text' => 'Website',
+                        'url' => 'https://example.org/gismit:dz_f7regions_2016'
+                      }
+                    ]
+                  }
+    access_auth = {
+                    'rights' => [
+                      {
+                        'description' => 'foo',
+                        'kind' => 'bar'
+                      },
+                      {
+                        'description' => 'MIT authenticated',
+                        'kind' => 'Access to files'
+                      }
+                    ],
+                    'links' => [
+                      {
+                        'kind' => 'Download',
+                        'text' => 'Data',
+                        'url' => 'https://example.org/dz_f7regions_2016.zip'
+                      },
+                      {
+                        'kind' => 'Website',
+                        'text' => 'Website',
+                        'url' => 'https://example.org/gismit:dz_f7regions_2016'
+                      }
+                    ]
+                  }
+    assert_equal 'https://example.org/dz_f7regions_2016.zip', gis_access_link(access_free)
+    assert_equal 'https://example.org/dz_f7regions_2016.zip', gis_access_link(access_auth)
+  end
 end

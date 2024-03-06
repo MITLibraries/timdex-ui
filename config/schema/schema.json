@@ -54,6 +54,28 @@
           "description": null,
           "fields": [
             {
+              "name": "accessToFiles",
+              "description": "Total seach results by access type (which is a Right with description `Access to files`). This is only applicable to geospatial records at this time.",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "AggregationCount",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "contentType",
               "description": "Total search results by content type",
               "args": [
@@ -1398,6 +1420,24 @@
                   "defaultValue": "null"
                 },
                 {
+                  "name": "accessToFilesFilter",
+                  "description": "Filter results by access type. Use the `AccessToFiles` aggregation for a list of possible values. Multiple values are ORed.",
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "name": null,
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                      }
+                    }
+                  },
+                  "defaultValue": "null"
+                },
+                {
                   "name": "contentTypeFilter",
                   "description": "Filter results by content type. Use the `contentType` aggregation for a list of possible values. Multiple values are ANDed.",
                   "type": {
@@ -2150,6 +2190,20 @@
               },
               "isDeprecated": true,
               "deprecationReason": "Use `locations`"
+            },
+            {
+              "name": "provider",
+              "description": "The host institution for a resource. Currently only used for geospatial records",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             },
             {
               "name": "publicationDate",
