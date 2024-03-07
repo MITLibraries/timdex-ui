@@ -12,10 +12,15 @@ class TimdexSearch < TimdexBase
       $locations: String
       $subjects: String
       $title: String
-      $sourceFilter: [String!]
       $index: String
       $from: String
       $contentTypeFilter: [String!]
+      $contributorsFilter: [String!]
+      $formatFilter: [String!]
+      $languagesFilter: [String!]
+      $literaryFormFilter: String
+      $sourceFilter: [String!]
+      $subjectsFilter: [String!]
     ) {
       search(
         searchterm: $q
@@ -26,10 +31,15 @@ class TimdexSearch < TimdexBase
         locations: $locations
         subjects: $subjects
         title: $title
-        sourceFilter: $sourceFilter
         index: $index
         from: $from
         contentTypeFilter: $contentTypeFilter
+        contributorsFilter: $contributorsFilter
+        formatFilter: $formatFilter
+        languagesFilter: $languagesFilter
+        literaryFormFilter: $literaryFormFilter
+        sourceFilter: $sourceFilter
+        subjectsFilter: $subjectsFilter
       ) {
         hits
         records {

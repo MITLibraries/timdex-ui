@@ -1,17 +1,17 @@
 <% return if values.blank? %>
 
 <div class="category">
-  <button class="filter-label <%= 'expanded' if @enhanced_query[category.to_sym].present? || first == true %>"
+  <button class="filter-label <%= 'expanded' if @enhanced_query[category].present? || first == true %>"
           onclick="toggleFilter(this)"><%= nice_labels[category] || category %></button>
   <div class="filter-options">
     <ul class="category-terms list-unbulleted">
     <% values.each do |term| %>
       <li class="term">
         <% if filter_applied?(@enhanced_query[category.to_sym], term['key']) %>
-          <a href="<%= results_path(remove_filter(@enhanced_query, category.to_sym, term['key'])) %>" class="applied">
+          <a href="<%= results_path(remove_filter(@enhanced_query, category, term['key'])) %>" class="applied">
           <span class="sr">Remove applied filter?</span>
         <% else %>
-          <a href="<%= results_path(add_filter(@enhanced_query, category.to_sym, term['key'])) %>">
+          <a href="<%= results_path(add_filter(@enhanced_query, category, term['key'])) %>">
         <% end %>
           <span class="name"><%= term['key'] %></span>
           <span class="count"><%= term['docCount'] %> <span class="sr">records</span></span>

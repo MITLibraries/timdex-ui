@@ -7,12 +7,16 @@ http_interactions:
       encoding: UTF-8
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
-        $locations: String, $subjects: String, $title: String, $sourceFilter: [String!],
-        $index: String, $from: String, $contentTypeFilter: [String!]) {\n  search(searchterm:
-        $q, citation: $citation, contributors: $contributors, fundingInformation:
-        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
-        $subjects, title: $title, sourceFilter: $sourceFilter, index: $index, from:
-        $from, contentTypeFilter: $contentTypeFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $locations: String, $subjects: String, $title: String, $index: String, $from:
+        String, $contentTypeFilter: [String!], $contributorsFilter: [String!], $formatFilter:
+        [String!], $languagesFilter: [String!], $literaryFormFilter: String, $sourceFilter:
+        [String!], $subjectsFilter: [String!]) {\n  search(searchterm: $q, citation:
+        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
+        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
+        $title, index: $index, from: $from, contentTypeFilter: $contentTypeFilter,
+        contributorsFilter: $contributorsFilter, formatFilter: $formatFilter, languagesFilter:
+        $languagesFilter, literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter,
+        subjectsFilter: $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
@@ -37,11 +41,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 01 Mar 2024 19:44:31 GMT
+      - Thu, 07 Mar 2024 15:43:08 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709322272&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=UDcojkkQ3aXB5UQU4%2FIbDCt4k%2Fp6R%2F6grg6DwPuBjCg%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709826188&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=YTUly5i7kP7T72tA4%2FkwTJH8pMuM233ZHWiShIs26Q8%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1709322272&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=UDcojkkQ3aXB5UQU4%2FIbDCt4k%2Fp6R%2F6grg6DwPuBjCg%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709826188&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=YTUly5i7kP7T72tA4%2FkwTJH8pMuM233ZHWiShIs26Q8%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -52,8 +56,6 @@ http_interactions:
       - '0'
       X-Content-Type-Options:
       - nosniff
-      X-Download-Options:
-      - noopen
       X-Permitted-Cross-Domain-Policies:
       - none
       Referrer-Policy:
@@ -67,9 +69,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 7e4f2126-8f02-4581-b13a-ec4678ca1597
+      - d5962415-c42a-4476-a5c2-0db89d43d893
       X-Runtime:
-      - '0.075465'
+      - '0.112036'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
@@ -79,5 +81,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Fri, 01 Mar 2024 19:44:32 GMT
+  recorded_at: Thu, 07 Mar 2024 15:43:08 GMT
 recorded_with: VCR 6.2.0
