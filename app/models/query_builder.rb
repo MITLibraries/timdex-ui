@@ -3,7 +3,8 @@ class QueryBuilder
 
   RESULTS_PER_PAGE = 20
   QUERY_PARAMS = %w[q citation contributors fundingInformation identifiers locations subjects title].freeze
-  FILTER_PARAMS = %i[sourceFilter contentTypeFilter].freeze
+  FILTER_PARAMS = %i[contentTypeFilter contributorsFilter formatFilter languagesFilter literaryFormFilter sourceFilter
+                     subjectsFilter].freeze
 
   def initialize(enhanced_query)
     @query = {}

@@ -7,17 +7,23 @@ http_interactions:
       encoding: UTF-8
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
-        $locations: String, $subjects: String, $title: String, $sourceFilter: [String!],
-        $index: String, $from: String, $contentTypeFilter: [String!]) {\n  search(searchterm:
-        $q, citation: $citation, contributors: $contributors, fundingInformation:
-        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
-        $subjects, title: $title, sourceFilter: $sourceFilter, index: $index, from:
-        $from, contentTypeFilter: $contentTypeFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $locations: String, $subjects: String, $title: String, $index: String, $from:
+        String, $contentTypeFilter: [String!], $contributorsFilter: [String!], $formatFilter:
+        [String!], $languagesFilter: [String!], $literaryFormFilter: String, $sourceFilter:
+        [String!], $subjectsFilter: [String!]) {\n  search(searchterm: $q, citation:
+        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
+        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
+        $title, index: $index, from: $from, contentTypeFilter: $contentTypeFilter,
+        contributorsFilter: $contributorsFilter, formatFilter: $formatFilter, languagesFilter:
+        $languagesFilter, literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter,
+        subjectsFilter: $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
-        {\n      contentType {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"data","citation":"citation","contributors":"contribs","fundingInformation":"fund","identifiers":"ids","locations":"locs","subjects":"subs","title":"title","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__Query"}'
+        {\n      contentType {\n        key\n        docCount\n      }\n      contributors
+        {\n        key\n        docCount\n      }\n      format {\n        key\n        docCount\n      }\n      languages
+        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"data","citation":"citation","contributors":"contribs","fundingInformation":"fund","identifiers":"ids","locations":"locs","subjects":"subs","title":"title","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -35,11 +41,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 16 Feb 2024 20:13:29 GMT
+      - Thu, 07 Mar 2024 15:43:48 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1708114409&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=P1zGeNVhLgQL83nkA0mU3PksutcCOhvlwqibyW4USF0%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709826228&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=WPHid9psd9CSnMhKqz4e3mLOdl5XXeEc055nruDqqAQ%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1708114409&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=P1zGeNVhLgQL83nkA0mU3PksutcCOhvlwqibyW4USF0%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709826228&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=WPHid9psd9CSnMhKqz4e3mLOdl5XXeEc055nruDqqAQ%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -50,8 +56,6 @@ http_interactions:
       - '0'
       X-Content-Type-Options:
       - nosniff
-      X-Download-Options:
-      - noopen
       X-Permitted-Cross-Domain-Policies:
       - none
       Referrer-Policy:
@@ -61,21 +65,21 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"88f19da89e3e632cd9bf69fa32cb1045"
+      - W/"04c656119a920fbc130131804c438814"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - f121d7c5-b1a4-4ebc-8396-275ff6b87d16
+      - 10ea1865-90a8-4b1f-99b1-6872a3af2681
       X-Runtime:
-      - '0.066235'
+      - '0.079123'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
-      - '89'
+      - '166'
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"source":[]}}}}'
-  recorded_at: Fri, 16 Feb 2024 20:13:29 GMT
+      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
+  recorded_at: Thu, 07 Mar 2024 15:43:49 GMT
 recorded_with: VCR 6.2.0

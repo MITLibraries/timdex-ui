@@ -7,17 +7,23 @@ http_interactions:
       encoding: UTF-8
       string: '{"query":"query TimdexSearch__Query($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
-        $locations: String, $subjects: String, $title: String, $sourceFilter: [String!],
-        $index: String, $from: String, $contentTypeFilter: [String!]) {\n  search(searchterm:
-        $q, citation: $citation, contributors: $contributors, fundingInformation:
-        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
-        $subjects, title: $title, sourceFilter: $sourceFilter, index: $index, from:
-        $from, contentTypeFilter: $contentTypeFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $locations: String, $subjects: String, $title: String, $index: String, $from:
+        String, $contentTypeFilter: [String!], $contributorsFilter: [String!], $formatFilter:
+        [String!], $languagesFilter: [String!], $literaryFormFilter: String, $sourceFilter:
+        [String!], $subjectsFilter: [String!]) {\n  search(searchterm: $q, citation:
+        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
+        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
+        $title, index: $index, from: $from, contentTypeFilter: $contentTypeFilter,
+        contributorsFilter: $contributorsFilter, formatFilter: $formatFilter, languagesFilter:
+        $languagesFilter, literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter,
+        subjectsFilter: $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
         {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
-        {\n      contentType {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"asdf","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__Query"}'
+        {\n      contentType {\n        key\n        docCount\n      }\n      contributors
+        {\n        key\n        docCount\n      }\n      format {\n        key\n        docCount\n      }\n      languages
+        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"asdf","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__Query"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -35,11 +41,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Fri, 16 Feb 2024 18:44:31 GMT
+      - Thu, 07 Mar 2024 15:43:48 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1708109071&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=JzjrVhU0Hs%2F82iT7kw96NFju2i%2FXaWVtgEb0yWq2PeM%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709826228&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=WPHid9psd9CSnMhKqz4e3mLOdl5XXeEc055nruDqqAQ%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1708109071&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=JzjrVhU0Hs%2F82iT7kw96NFju2i%2FXaWVtgEb0yWq2PeM%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709826228&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=WPHid9psd9CSnMhKqz4e3mLOdl5XXeEc055nruDqqAQ%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -50,8 +56,6 @@ http_interactions:
       - '0'
       X-Content-Type-Options:
       - nosniff
-      X-Download-Options:
-      - noopen
       X-Permitted-Cross-Domain-Policies:
       - none
       Referrer-Policy:
@@ -61,22 +65,22 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"36b392e9689dd503d621706e76922900"
+      - W/"50b635c7465d84f35c784e629720bd94"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - fd976de5-3309-4e90-8fd0-e2f9839c1d2d
+      - f5daacc4-c1d0-4c44-87e1-9017cc66ca25
       X-Runtime:
-      - '0.069602'
+      - '0.075615'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
-      - '1214'
+      - '1995'
       Via:
       - 1.1 vegur
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJkYXRhIjp7InNlYXJjaCI6eyJoaXRzIjoxLCJyZWNvcmRzIjpbeyJ0aW1kZXhSZWNvcmRJZCI6ImFsbWE6OTkzNTAyMDYwMzIwNjc2MSIsInRpdGxlIjoiQXJjaGl0ZWN0aW5nIERlcGVuZGFibGUgU3lzdGVtcyBWSUkiLCJjb250ZW50VHlwZSI6WyJMYW5ndWFnZSBtYXRlcmlhbCJdLCJjb250cmlidXRvcnMiOlt7ImtpbmQiOiJlZGl0b3IiLCJ2YWx1ZSI6IkNhc2ltaXJvLCBBbnRvbmlvIn0seyJraW5kIjoiZWRpdG9yIiwidmFsdWUiOiJkZSBMZW1vcywgUm9nw6lyaW8ifSx7ImtpbmQiOiJlZGl0b3IiLCJ2YWx1ZSI6IkdhY2VrLCBDcmlzdGluYSJ9XSwicHVibGljYXRpb25JbmZvcm1hdGlvbiI6WyJCZXJsaW4sIEhlaWRlbGJlcmcgOiBTcHJpbmdlciBCZXJsaW4gSGVpZGVsYmVyZyA6IEltcHJpbnQ6IFNwcmluZ2VyLCAyMDEwIl0sImRhdGVzIjpbeyJraW5kIjoiUHVibGljYXRpb24gZGF0ZSIsInZhbHVlIjoiMjAxMCJ9XSwibm90ZXMiOlt7ImtpbmQiOiJUaXRsZSBTdGF0ZW1lbnQgb2YgUmVzcG9uc2liaWxpdHkiLCJ2YWx1ZSI6WyJlZGl0ZWQgYnkgQW50b25pbyBDYXNpbWlybywgUm9nw6lyaW8gZGUgTGVtb3MsIENyaXN0aW5hIEdhY2VrIl19LHsia2luZCI6IkdlbmVyYWwgTm90ZSIsInZhbHVlIjpbIkJpYmxpb2dyYXBoaWMgTGV2ZWwgTW9kZSBvZiBJc3N1YW5jZTogTW9ub2dyYXBoIl19LHsia2luZCI6IkJpYmxpb2dyYXBoeSBOb3RlIiwidmFsdWUiOlsiSW5jbHVkZXMgYmlibGlvZ3JhcGhpY2FsIHJlZmVyZW5jZXMgYW5kIGF1dGhvciBpbmRleCJdfV0sImhpZ2hsaWdodCI6W3sibWF0Y2hlZEZpZWxkIjoiY29udGVudHMiLCJtYXRjaGVkUGhyYXNlcyI6WyJcdTAwM2NzcGFuIGNsYXNzPVwiaGlnaGxpZ2h0XCJcdTAwM2VBU0RGXHUwMDNjL3NwYW5cdTAwM2U6IEFuIEF1dG9tYXRlZCwgT25saW5lIEZyYW1ld29yayBmb3IgRGlhZ25vc2luZyBQZXJmb3JtYW5jZSBQcm9ibGVtcyJdfV0sInNvdXJjZUxpbmsiOiJodHRwczovL21pdC5wcmltby5leGxpYnJpc2dyb3VwLmNvbS9kaXNjb3ZlcnkvZnVsbGRpc3BsYXk/dmlkPTAxTUlUX0lOU1Q6TUlUXHUwMDI2ZG9jaWQ9YWxtYTk5MzUwMjA2MDMyMDY3NjEifV0sImFnZ3JlZ2F0aW9ucyI6eyJjb250ZW50VHlwZSI6W3sia2V5IjoibGFuZ3VhZ2UgbWF0ZXJpYWwiLCJkb2NDb3VudCI6MX1dLCJzb3VyY2UiOlt7ImtleSI6Im1pdCBhbG1hIiwiZG9jQ291bnQiOjF9XX19fX0=
-  recorded_at: Fri, 16 Feb 2024 18:44:31 GMT
+        eyJkYXRhIjp7InNlYXJjaCI6eyJoaXRzIjoxLCJyZWNvcmRzIjpbeyJ0aW1kZXhSZWNvcmRJZCI6ImFsbWE6OTkzNTAyMDYwMzIwNjc2MSIsInRpdGxlIjoiQXJjaGl0ZWN0aW5nIERlcGVuZGFibGUgU3lzdGVtcyBWSUkiLCJjb250ZW50VHlwZSI6WyJMYW5ndWFnZSBtYXRlcmlhbCJdLCJjb250cmlidXRvcnMiOlt7ImtpbmQiOiJlZGl0b3IiLCJ2YWx1ZSI6IkNhc2ltaXJvLCBBbnRvbmlvIn0seyJraW5kIjoiZWRpdG9yIiwidmFsdWUiOiJkZSBMZW1vcywgUm9nw6lyaW8ifSx7ImtpbmQiOiJlZGl0b3IiLCJ2YWx1ZSI6IkdhY2VrLCBDcmlzdGluYSJ9XSwicHVibGljYXRpb25JbmZvcm1hdGlvbiI6WyJCZXJsaW4sIEhlaWRlbGJlcmcgOiBTcHJpbmdlciBCZXJsaW4gSGVpZGVsYmVyZyA6IEltcHJpbnQ6IFNwcmluZ2VyLCAyMDEwIl0sImRhdGVzIjpbeyJraW5kIjoiUHVibGljYXRpb24gZGF0ZSIsInZhbHVlIjoiMjAxMCJ9XSwibm90ZXMiOlt7ImtpbmQiOiJUaXRsZSBTdGF0ZW1lbnQgb2YgUmVzcG9uc2liaWxpdHkiLCJ2YWx1ZSI6WyJlZGl0ZWQgYnkgQW50b25pbyBDYXNpbWlybywgUm9nw6lyaW8gZGUgTGVtb3MsIENyaXN0aW5hIEdhY2VrIl19LHsia2luZCI6IkdlbmVyYWwgTm90ZSIsInZhbHVlIjpbIkJpYmxpb2dyYXBoaWMgTGV2ZWwgTW9kZSBvZiBJc3N1YW5jZTogTW9ub2dyYXBoIl19LHsia2luZCI6IkJpYmxpb2dyYXBoeSBOb3RlIiwidmFsdWUiOlsiSW5jbHVkZXMgYmlibGlvZ3JhcGhpY2FsIHJlZmVyZW5jZXMgYW5kIGF1dGhvciBpbmRleCJdfV0sImhpZ2hsaWdodCI6W3sibWF0Y2hlZEZpZWxkIjoiY29udGVudHMiLCJtYXRjaGVkUGhyYXNlcyI6WyJcdTAwM2NzcGFuIGNsYXNzPVwiaGlnaGxpZ2h0XCJcdTAwM2VBU0RGXHUwMDNjL3NwYW5cdTAwM2U6IEFuIEF1dG9tYXRlZCwgT25saW5lIEZyYW1ld29yayBmb3IgRGlhZ25vc2luZyBQZXJmb3JtYW5jZSBQcm9ibGVtcyJdfV0sInNvdXJjZUxpbmsiOiJodHRwczovL21pdC5wcmltby5leGxpYnJpc2dyb3VwLmNvbS9kaXNjb3ZlcnkvZnVsbGRpc3BsYXk/dmlkPTAxTUlUX0lOU1Q6TUlUXHUwMDI2ZG9jaWQ9YWxtYTk5MzUwMjA2MDMyMDY3NjEifV0sImFnZ3JlZ2F0aW9ucyI6eyJjb250ZW50VHlwZSI6W3sia2V5IjoibGFuZ3VhZ2UgbWF0ZXJpYWwiLCJkb2NDb3VudCI6MX1dLCJjb250cmlidXRvcnMiOlt7ImtleSI6ImNhc2ltaXJvLCBhbnRvbmlvIiwiZG9jQ291bnQiOjF9LHsia2V5IjoiZGUgbGVtb3MsIHJvZ8OpcmlvIiwiZG9jQ291bnQiOjF9LHsia2V5IjoiZ2FjZWssIGNyaXN0aW5hIiwiZG9jQ291bnQiOjF9XSwiZm9ybWF0IjpbXSwibGFuZ3VhZ2VzIjpbeyJrZXkiOiJlbmdsaXNoIiwiZG9jQ291bnQiOjF9XSwibGl0ZXJhcnlGb3JtIjpbeyJrZXkiOiJub25maWN0aW9uIiwiZG9jQ291bnQiOjF9XSwic291cmNlIjpbeyJrZXkiOiJtaXQgYWxtYSIsImRvY0NvdW50IjoxfV0sInN1YmplY3RzIjpbeyJrZXkiOiJzb2Z0d2FyZSBlbmdpbmVlcmluZyIsImRvY0NvdW50IjoyfSx7ImtleSI6ImNvbXB1dGVyIGxvZ2ljIiwiZG9jQ291bnQiOjF9LHsia2V5IjoiY29tcHV0ZXIgcHJvZ3JhbW1pbmciLCJkb2NDb3VudCI6MX0seyJrZXkiOiJjb21wdXRlcnMiLCJkb2NDb3VudCI6MX0seyJrZXkiOiJsb2dpY3MgYW5kIG1lYW5pbmdzIG9mIHByb2dyYW1zIiwiZG9jQ291bnQiOjF9LHsia2V5IjoibW9kZWxzIGFuZCBwcmluY2lwbGVzIiwiZG9jQ291bnQiOjF9LHsia2V5IjoicHJvZ3JhbW1pbmcgbGFuZ3VhZ2VzIChlbGVjdHJvbmljIGNvbXB1dGVycykiLCJkb2NDb3VudCI6MX0seyJrZXkiOiJwcm9ncmFtbWluZyBsYW5ndWFnZXMsIGNvbXBpbGVycywgaW50ZXJwcmV0ZXJzIiwiZG9jQ291bnQiOjF9LHsia2V5IjoicHJvZ3JhbW1pbmcgdGVjaG5pcXVlcyIsImRvY0NvdW50IjoxfSx7ImtleSI6InNvZnR3YXJlIGVuZ2luZWVyaW5nL3Byb2dyYW1taW5nIGFuZCBvcGVyYXRpbmcgc3lzdGVtcyIsImRvY0NvdW50IjoxfV19fX19
+  recorded_at: Thu, 07 Mar 2024 15:43:48 GMT
 recorded_with: VCR 6.2.0
