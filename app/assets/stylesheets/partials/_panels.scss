@@ -82,9 +82,11 @@
   a {
     margin-top: 0.5rem;
     &:after {
-      padding-left: 1rem;
       font-family: FontAwesome;
+      font-size: $fs-base;
+      color: $gray-l1;
       content: '\f075';
+      padding-left: .8rem;
     }
   }
   &.view-md {
