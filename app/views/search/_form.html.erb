@@ -17,7 +17,7 @@ end
 
 %>
 
-<form id="basic-search" class="form-horizontal basic-search" action="<%= results_path %>" method="get">
+<form id="basic-search" class="form-horizontal basic-search <%= ab_test(:ui_colors, "standard", "alt") %>" action="<%= results_path %>" method="get">
   <div class="form-group">
     <label for="basic-search-main" class="field-label" title="<%= label %>" />
     <input id="basic-search-main" type="search" class="field field-text basic-search-input <%= "required" if search_required %>" name="q" placeholder="Enter your search" value="<%= params[:q] %>" <%= 'required="required" aria-required="true"' if search_required %>>

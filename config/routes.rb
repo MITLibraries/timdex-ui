@@ -7,10 +7,13 @@ Rails.application.routes.draw do
   get 'issn', to: 'fact#issn'
   get 'pmid', to: 'fact#pmid'
 
+  get 'out/(:url)', to: 'record#out'
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
       :constraints => { :id => /[0-z\.\-\_~\(\)]+/ }
   get 'results', to: 'search#results'
   get 'style-guide', to: 'static#style_guide'
+
+  mount Split::Dashboard, at: 'split'
 end

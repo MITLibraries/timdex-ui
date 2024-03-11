@@ -2,6 +2,11 @@ class SearchController < ApplicationController
   before_action :validate_q!, only: %i[results]
 
   def results
+    # if we are loading results, the user submitted the form - so this experiment is finished
+    ab_finished(:ui_colors)
+
+    # ab_test(:result_format)
+
     # hand off to Enhancer chain
     @enhanced_query = Enhancer.new(params).enhanced_query
 
