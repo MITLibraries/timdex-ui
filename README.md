@@ -57,6 +57,7 @@ change as part of the work.
 - `FILTER_FORMAT`: The name to use instead of "Format" for that filter / aggregation.
 - `FILTER_LANGUAGE`: The name to use instead of "Language" for that filter / aggregation.
 - `FILTER_LITERARY_FORM`: The name to use instead of "Literary form" for that filter / aggregation.
+- `FILTER_PLACE`: The name to use instead of "Place" for that filter / aggregation.
 - `FILTER_SOURCE`: The name to use instead of "Source" for that filter / aggregation.
 - `FILTER_SUBJECT`: The name to use instead of "Subject" for that filter / aggregation.
 - `GDT`: Enables features related to geospatial data discovery. Setting this variable with any value will trigger GDT
