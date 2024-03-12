@@ -26,6 +26,7 @@ module FilterHelper
       formatFilter: ENV.fetch('FILTER_FORMAT', 'Format'),
       languagesFilter: ENV.fetch('FILTER_LANGUAGE', 'Language'),
       literaryFormFilter: ENV.fetch('FILTER_LITERARY_FORM', 'Literary form'),
+      placesFilter: ENV.fetch('FILTER_PLACE', 'Place'),
       sourceFilter: ENV.fetch('FILTER_SOURCE', 'Source'),
       subjectsFilter: ENV.fetch('FILTER_SUBJECT', 'Subject')
     }

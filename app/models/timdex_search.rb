@@ -19,6 +19,7 @@ class TimdexSearch < TimdexBase
       $formatFilter: [String!]
       $languagesFilter: [String!]
       $literaryFormFilter: String
+      $placesFilter: [String!]
       $sourceFilter: [String!]
       $subjectsFilter: [String!]
     ) {
@@ -38,6 +39,7 @@ class TimdexSearch < TimdexBase
         formatFilter: $formatFilter
         languagesFilter: $languagesFilter
         literaryFormFilter: $literaryFormFilter
+        placesFilter: $placesFilter
         sourceFilter: $sourceFilter
         subjectsFilter: $subjectsFilter
       ) {
@@ -83,6 +85,10 @@ class TimdexSearch < TimdexBase
             docCount
           }
           literaryForm {
+            key
+            docCount
+          }
+          places {
             key
             docCount
           }
