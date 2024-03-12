@@ -1,0 +1,142 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://FAKE_TIMDEX_HOST/graphql
+    body:
+      encoding: UTF-8
+      string: '{"query":"query TimdexSearch__GeoboxQuery($q: String, $citation: String,
+        $contributors: String, $fundingInformation: String, $identifiers: String,
+        $locations: String, $subjects: String, $title: String, $index: String, $from:
+        String, $geoboxMinLatitude: Float!, $geoboxMinLongitude: Float!, $geoboxMaxLatitude:
+        Float!, $geoboxMaxLongitude: Float!, $contentTypeFilter: [String!], $contributorsFilter:
+        [String!], $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
+        String, $sourceFilter: [String!], $subjectsFilter: [String!]) {\n  search(searchterm:
+        $q, citation: $citation, contributors: $contributors, fundingInformation:
+        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
+        $subjects, title: $title, index: $index, from: $from, geobox: {minLongitude:
+        $geoboxMinLongitude, minLatitude: $geoboxMinLatitude, maxLongitude: $geoboxMaxLongitude,
+        maxLatitude: $geoboxMaxLatitude}, contentTypeFilter: $contentTypeFilter, contributorsFilter:
+        $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
+        literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter:
+        $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        {\n        kind\n        value\n      }\n      publicationInformation\n      dates
+        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
+        {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
+        {\n      contentType {\n        key\n        docCount\n      }\n      contributors
+        {\n        key\n        docCount\n      }\n      format {\n        key\n        docCount\n      }\n      languages
+        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geobox":"true","geoboxMinLongitude":-180.0,"geoboxMinLatitude":-45.23,"geoboxMaxLongitude":-120.36,"geoboxMaxLatitude":-40.024,"index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__GeoboxQuery"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - MIT Libraries Client
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Mon, 11 Mar 2024 15:37:04 GMT
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710171424&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=HyQjkPHAgtkeunmT4ay0K0SMYq72B77Xu%2B8f4wLQ7f8%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1710171424&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=HyQjkPHAgtkeunmT4ay0K0SMYq72B77Xu%2B8f4wLQ7f8%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Connection:
+      - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
+      Etag:
+      - W/"6759916308c432395205b7006875aa88"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - d368d027-eb10-4dc1-83a1-8c11079b775e
+      X-Runtime:
+      - '0.117344'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Content-Length:
+      - '10542'
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":{"search":{"hits":2514,"records":[{"timdexRecordId":"gisogm:edu.stanford.purl:3cd7e0caf2a6","title":"Global
+        4G Mobile Coverage Explorer, 2015","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2015"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/wp332fk4868"},{"timdexRecordId":"gisogm:edu.stanford.purl:2573eda2de23","title":"Global
+        2G Mobile Coverage Explorer, 2013","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2013"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/cw806tx0333"},{"timdexRecordId":"gisogm:edu.stanford.purl:9707c23fe741","title":"Global
+        3G Mobile Coverage Explorer, 2012","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2012"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/wx910xj1289"},{"timdexRecordId":"gisogm:edu.stanford.purl:280ccee80610","title":"Global
+        2G Mobile Coverage Explorer, 2015","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2015"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/vm103zv7870"},{"timdexRecordId":"gisogm:edu.stanford.purl:5deea72837d6","title":"Global
+        4G Mobile Coverage Explorer, 2020","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2020"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/vb870st1694"},{"timdexRecordId":"gisogm:edu.stanford.purl:40266a41024f","title":"Global
+        4G Mobile Coverage Explorer, 2018","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2018"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/mw520ys5124"},{"timdexRecordId":"gisogm:edu.stanford.purl:74432425ef23","title":"Global
+        2G Mobile Coverage Explorer, 2014","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2014"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/kd127ky6186"},{"timdexRecordId":"gisogm:edu.stanford.purl:e30edcdbd36e","title":"Global
+        3G Mobile Coverage Explorer, 2018","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2018"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/sm584bx7151"},{"timdexRecordId":"gisogm:edu.stanford.purl:2f74ea1244f6","title":"Global
+        3G Mobile Coverage Explorer, 2017","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2017"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/by170qy6709"},{"timdexRecordId":"gisogm:edu.stanford.purl:efa604f5d2aa","title":"Global
+        3G Mobile Coverage Explorer, 2010","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2010"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/zq615rv6737"},{"timdexRecordId":"gisogm:edu.stanford.purl:c3ec8a492c6a","title":"Global
+        2G Mobile Coverage Explorer, 2012","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2012"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/mk182nq4355"},{"timdexRecordId":"gisogm:edu.stanford.purl:8e8c491ed4be","title":"Global
+        4G Mobile Coverage Explorer, 2017","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2017"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/ws148nw3282"},{"timdexRecordId":"gisogm:edu.stanford.purl:65a4b4ca160e","title":"Global
+        3G Mobile Coverage Explorer, 2011","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2011"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/hc904nr7037"},{"timdexRecordId":"gisogm:edu.stanford.purl:358b5aa64d81","title":"Global
+        3G Mobile Coverage Explorer, 2016","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2016"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/ky819sb7704"},{"timdexRecordId":"gisogm:edu.stanford.purl:fd387e94def7","title":"Global
+        3G Mobile Coverage Explorer, 2015","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2015"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/db189xs5502"},{"timdexRecordId":"gisogm:edu.stanford.purl:1ab2509a5fee","title":"Global
+        4G Mobile Coverage Explorer, 2019","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2019"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/qq802fc6344"},{"timdexRecordId":"gisogm:edu.stanford.purl:22e657f3ebf5","title":"Global
+        3G Mobile Coverage Explorer, 2013","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2013"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/dg771jv6579"},{"timdexRecordId":"gisogm:edu.stanford.purl:28e37f180be6","title":"Global
+        4G Mobile Coverage Explorer, 2016","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2016"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/ss289hn6132"},{"timdexRecordId":"gisogm:edu.stanford.purl:5b39753687f7","title":"Global
+        2G Mobile Coverage Explorer, 2016","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2016"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/sg214sm9922"},{"timdexRecordId":"gisogm:edu.stanford.purl:124a050dc496","title":"Global
+        3G Mobile Coverage Explorer, 2019","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Collins
+        Bartholomew Ltd"}],"publicationInformation":["Collins Bartholomew Ltd."],"dates":[{"kind":"Issued","value":"2021"},{"kind":"Coverage","value":"2019"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/pv446gj7324"}],"aggregations":{"contentType":[{"key":"raster
+        data","docCount":1269},{"key":"polygon data","docCount":385},{"key":"image
+        data","docCount":306},{"key":"point data","docCount":203},{"key":"line data","docCount":157},{"key":"not
+        specified","docCount":94},{"key":"world maps","docCount":80},{"key":"early
+        maps","docCount":29},{"key":"vector data","docCount":19},{"key":"thematic
+        maps","docCount":5}],"contributors":[{"key":"university of minnesota. institute
+        on the environment","docCount":1099},{"key":"environmental systems research
+        institute (redlands, calif.)","docCount":182},{"key":"kelso, nathaniel vaughn","docCount":118},{"key":"patterson,
+        tom","docCount":118},{"key":"national imagery and mapping agency","docCount":50},{"key":"collins
+        bartholomew ltd.","docCount":46},{"key":"esri","docCount":45},{"key":"collins
+        bartholomew ltd","docCount":41},{"key":"u-spatial","docCount":41},{"key":"environmental
+        systems research institute, inc. (esri)","docCount":40}],"format":[{"key":"geotiff","docCount":1194},{"key":"shapefile","docCount":751},{"key":"tiff","docCount":292},{"key":"jpeg","docCount":129},{"key":"arcgrid","docCount":59},{"key":"jpeg2000","docCount":3},{"key":"mixed","docCount":2}],"languages":[{"key":"english","docCount":1671},{"key":"eng","docCount":371},{"key":"lat","docCount":87},{"key":"deu","docCount":29},{"key":"fra","docCount":27},{"key":"ita","docCount":11},{"key":"fre","docCount":7},{"key":"ger","docCount":6},{"key":"und","docCount":6},{"key":"nld","docCount":2}],"literaryForm":[],"source":[{"key":"opengeometadata
+        gis resources","docCount":2446},{"key":"mit gis resources","docCount":68}],"subjects":[{"key":"datasets","docCount":1901},{"key":"earth
+        (planet)","docCount":1412},{"key":"imagery and base maps","docCount":1146},{"key":"farming","docCount":1104},{"key":"crop
+        yields","docCount":572},{"key":"harvesting","docCount":525},{"key":"other","docCount":429},{"key":"boundaries","docCount":410},{"key":"world","docCount":377},{"key":"census","docCount":351}]}}}}'
+  recorded_at: Mon, 11 Mar 2024 15:37:04 GMT
+recorded_with: VCR 6.2.0

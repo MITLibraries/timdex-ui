@@ -1,6 +1,16 @@
 class SearchController < ApplicationController
   before_action :validate_q!, only: %i[results]
 
+  if Flipflop.enabled?(:gdt)
+    before_action :validate_geobox_presence!, only: %i[results]
+    before_action :validate_geobox_range!, only: %i[results]
+    before_action :validate_geobox_values!, only: %i[results]
+    before_action :validate_geodistance_presence!, only: %i[results]
+    before_action :validate_geodistance_range!, only: %i[results]
+    before_action :validate_geodistance_value!, only: %i[results]
+    before_action :validate_geodistance_units!, only: %i[results]
+  end
+
   def results
     # hand off to Enhancer chain
     @enhanced_query = Enhancer.new(params).enhanced_query
@@ -9,7 +19,11 @@ class SearchController < ApplicationController
     query = QueryBuilder.new(@enhanced_query).query
 
     # builder hands off to wrapper which returns raw results here
-    response = TimdexBase::Client.query(TimdexSearch::Query, variables: query)
+    response = if Flipflop.enabled?(:gdt)
+                 execute_geospatial_query(query)
+               else
+                 TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
+               end
 
     # Handle errors
     @errors = extract_errors(response)
@@ -27,6 +41,18 @@ class SearchController < ApplicationController
 
   def active_filters
     ENV.fetch('ACTIVE_FILTERS', '').split(',').map(&:strip)
+  end
+
+  def execute_geospatial_query(query)
+    if query['geobox'] == 'true' && query[:geodistance] == 'true'
+      TimdexBase::Client.query(TimdexSearch::AllQuery, variables: query)
+    elsif query['geobox'] == 'true'
+      TimdexBase::Client.query(TimdexSearch::GeoboxQuery, variables: query)
+    elsif query['geodistance'] == 'true'
+      TimdexBase::Client.query(TimdexSearch::GeodistanceQuery, variables: query)
+    else
+      TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
+    end
   end
 
   def extract_errors(response)
@@ -60,9 +86,103 @@ class SearchController < ApplicationController
 
   def validate_q!
     return if params[:advanced]&.strip.present?
+    return if params[:geobox]&.strip.present?
+    return if params[:geodistance]&.strip.present?
     return if params[:q]&.strip.present?
 
     flash[:error] = 'A search term is required.'
+    redirect_to root_url
+  end
+
+  def validate_geodistance_presence!
+    return unless params[:geodistance]&.strip == 'true'
+
+    geodistance_params = [params[:geodistanceLatitude]&.strip, params[:geodistanceLongitude]&.strip,
+                          params[:geodistanceDistance]&.strip]
+    return if geodistance_params.all?(&:present?)
+
+    flash[:error] = 'All geospatial distance fields are required.'
+    redirect_to root_url
+  end
+
+  def validate_geobox_presence!
+    return unless params[:geobox]&.strip == 'true'
+
+    geobox_params = [params[:geoboxMinLatitude]&.strip, params[:geoboxMinLongitude]&.strip,
+                     params[:geoboxMaxLatitude]&.strip, params[:geoboxMaxLongitude]&.strip]
+    return if geobox_params.all?(&:present?)
+
+    flash[:error] = 'All bounding box fields are required.'
+    redirect_to root_url
+  end
+
+  def validate_geodistance_range!
+    return unless params[:geodistance]&.strip == 'true'
+
+    invalid_range = false
+    lat = params[:geodistanceLatitude]&.strip.to_f
+    long = params[:geodistanceLongitude]&.strip.to_f
+    invalid_range = true unless lat.between?(-90.0, 90.0)
+    invalid_range = true unless long.between?(-180.0, 180.0)
+
+    return if invalid_range == false
+
+    flash[:error] = 'Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0.'
+    redirect_to root_url
+  end
+
+  def validate_geobox_range!
+    return unless params[:geobox]&.strip == 'true'
+
+    invalid_range = false
+    geobox_lat = [params[:geoboxMinLatitude]&.strip.to_f, params[:geoboxMaxLatitude]&.strip.to_f]
+    geobox_long = [params[:geoboxMinLongitude]&.strip.to_f, params[:geoboxMaxLongitude]&.strip.to_f]
+    invalid_range = true unless geobox_lat.all? { |lat| lat.between?(-90.0, 90.0) }
+    invalid_range = true unless geobox_long.all? { |long| long.between?(-180.0, 180.0) }
+
+    return if invalid_range == false
+
+    flash[:error] = 'Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0.'
+    redirect_to root_url
+  end
+
+  def validate_geodistance_value!
+    return unless params[:geodistance]&.strip == 'true'
+
+    distance = params[:geodistanceDistance]&.strip.to_i
+    return if distance.positive?
+
+    flash[:error] = 'Distance must include an integer greater than 0.'
+    redirect_to root_url
+  end
+
+  def validate_geodistance_units!
+    return unless params[:geodistance]&.strip == 'true'
+
+    distance = params[:geodistanceDistance]&.strip
+    valid_units = %w[mi miles yd yards ft feet in inch km kilometers m meters cm
+                     centimeters mm millimeters NM nmi nauticalmiles]
+
+    # Values with no units are okay. We confirm this by round-tripping the variable to an integer and back, as that
+    # conversion strips any non-numeric characters.
+    return if distance.to_i.to_s == distance
+
+    # Otherwise, the value should contain one of the acceptable units.
+    return if valid_units.any? { |unit| distance.include? unit }
+
+    flash[:error] = 'Distance units must be one of the following: mi, km, yd, ft, in, m, cm, mm, NM/nmi'
+    redirect_to root_url
+  end
+
+  def validate_geobox_values!
+    return unless params[:geobox]&.strip == 'true'
+
+    geobox_lat = [params[:geoboxMinLatitude]&.strip.to_f, params[:geoboxMaxLatitude]&.strip.to_f]
+
+    # Confirm that min latitude value is lower than max value.
+    return if geobox_lat[0] < geobox_lat[1]
+
+    flash[:error] = 'Maximum latitude cannot exceed minimum latitude.'
     redirect_to root_url
   end
 end

@@ -57,7 +57,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('data',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = TimdexBase::Client.query(TimdexSearch::Query, variables: basic_search)
+      response = TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: basic_search)
       assert_equal response.class, GraphQL::Client::Response
       refute response.data.search.nil?
       assert response.errors.empty?
@@ -76,7 +76,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('timdex null search',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = TimdexBase::Client.query(TimdexSearch::Query, variables: null_search)
+      response = TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: null_search)
       assert_equal response.class, GraphQL::Client::Response
       refute response.data.nil?
       assert response.errors.empty?
@@ -92,7 +92,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('data from ridiculous start',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = TimdexBase::Client.query(TimdexSearch::Query, variables: big_page_search)
+      response = TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: big_page_search)
       assert_equal response.class, GraphQL::Client::Response
       assert response.data.nil?
       refute response.errors.empty?
@@ -105,7 +105,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('data',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      first_response = TimdexBase::Client.query(TimdexSearch::Query, variables: basic_search)
+      first_response = TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: basic_search)
       first_title = first_response.data.search.to_h['records'].first['title']
 
       # Load next page of results
@@ -116,7 +116,7 @@ class TimdexTest < ActiveSupport::TestCase
           'q' => 'data',
           'from' => '20'
         }
-        response = TimdexBase::Client.query(TimdexSearch::Query, variables: next_search)
+        response = TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: next_search)
         next_title = response.data.search.to_h['records'].first['title']
 
         refute_equal first_title, next_title
@@ -132,7 +132,7 @@ class TimdexTest < ActiveSupport::TestCase
     VCR.use_cassette('timdex empty search',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      response = TimdexBase::Client.query(TimdexSearch::Query, variables: empty_search)
+      response = TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: empty_search)
       assert_equal response.class, GraphQL::Client::Response
       refute response.data.search.nil?
       assert response.errors.empty?

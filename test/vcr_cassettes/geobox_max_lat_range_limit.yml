@@ -1,0 +1,174 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://FAKE_TIMDEX_HOST/graphql
+    body:
+      encoding: UTF-8
+      string: '{"query":"query TimdexSearch__GeoboxQuery($q: String, $citation: String,
+        $contributors: String, $fundingInformation: String, $identifiers: String,
+        $locations: String, $subjects: String, $title: String, $index: String, $from:
+        String, $geoboxMinLatitude: Float!, $geoboxMinLongitude: Float!, $geoboxMaxLatitude:
+        Float!, $geoboxMaxLongitude: Float!, $contentTypeFilter: [String!], $contributorsFilter:
+        [String!], $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
+        String, $sourceFilter: [String!], $subjectsFilter: [String!]) {\n  search(searchterm:
+        $q, citation: $citation, contributors: $contributors, fundingInformation:
+        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
+        $subjects, title: $title, index: $index, from: $from, geobox: {minLongitude:
+        $geoboxMinLongitude, minLatitude: $geoboxMinLatitude, maxLongitude: $geoboxMaxLongitude,
+        maxLatitude: $geoboxMaxLatitude}, contentTypeFilter: $contentTypeFilter, contributorsFilter:
+        $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
+        literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter:
+        $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        {\n        kind\n        value\n      }\n      publicationInformation\n      dates
+        {\n        kind\n        value\n      }\n      notes {\n        kind\n        value\n      }\n      highlight
+        {\n        matchedField\n        matchedPhrases\n      }\n      sourceLink\n    }\n    aggregations
+        {\n      contentType {\n        key\n        docCount\n      }\n      contributors
+        {\n        key\n        docCount\n      }\n      format {\n        key\n        docCount\n      }\n      languages
+        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geobox":"true","geoboxMinLongitude":45.0,"geoboxMinLatitude":40.024,"geoboxMaxLongitude":23.997,"geoboxMaxLatitude":90.0,"index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__GeoboxQuery"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - MIT Libraries Client
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Mon, 11 Mar 2024 15:37:07 GMT
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710171427&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=Qxo%2BoOD42Ao0e34QcvPufxyoeXaZ8Kzt1H5vwA1DYy4%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1710171427&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=Qxo%2BoOD42Ao0e34QcvPufxyoeXaZ8Kzt1H5vwA1DYy4%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Connection:
+      - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
+      Etag:
+      - W/"3ff94b5a2a58631a947f243733d0879c"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 3dc4e3ee-7ff3-4783-a589-d469005552d8
+      X-Runtime:
+      - '0.249186'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Content-Length:
+      - '12381'
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":{"search":{"hits":10000,"records":[{"timdexRecordId":"gisogm:edu.stanford.purl:be6ef8cd8ac5","title":"Heat
+        Flow, Tajikistan","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/kv971cf1984"},{"timdexRecordId":"gisogm:edu.stanford.purl:9c9c73ecfaa8","title":"Heat
+        Flow, Armenia","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/rf898rb7301"},{"timdexRecordId":"gisogm:edu.stanford.purl:eb6d522b50fb","title":"Heat
+        Flow, Turkmenistan","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/gw106bn2135"},{"timdexRecordId":"gisogm:edu.stanford.purl:86fb1d9b3ebe","title":"Heat
+        Flow, Belarus","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/vt794zh6878"},{"timdexRecordId":"gisogm:edu.stanford.purl:89e3d54868c4","title":"Heat
+        Flow, Georgia","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/sg777cy9495"},{"timdexRecordId":"gisogm:edu.stanford.purl:fcead8188795","title":"Heat
+        Flow, Latvia","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/wb713cd0031"},{"timdexRecordId":"gisogm:edu.stanford.purl:0ef27ac20958","title":"Heat
+        Flow, Azerbaijan","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/cj149vc4113"},{"timdexRecordId":"gisogm:edu.stanford.purl:9b618c1a7517","title":"Heat
+        Flow, Lithuania","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/zr794bb4542"},{"timdexRecordId":"gisogm:edu.stanford.purl:ce63773d7e5a","title":"Heat
+        Flow, Ukraine","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/vh521cc4678"},{"timdexRecordId":"gisogm:edu.stanford.purl:92ae9a341fd7","title":"Heat
+        Flow, Uzbekistan","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"International
+        Heat Flow Commission"},{"kind":"Creator","value":"International Association
+        of Seismology and Physics of the Earth''s Interior"},{"kind":"Creator","value":"Oklahoma
+        State University. Department of Geography. Cartography Service"}],"publicationInformation":["International
+        Heat Flow Commission"],"dates":[{"kind":"Issued","value":"2016"},{"kind":"Coverage","value":"9999"}],"notes":null,"highlight":null,"sourceLink":"https://purl.stanford.edu/pz259qs9185"},{"timdexRecordId":"gisogm:edu.wisc:fc8503956578","title":"Land
+        Use (Future) Walworth County, WI 2035","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Walworth
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2035"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/41E0C8A6-FEE1-416C-BB6A-653A5BCBAE48"},{"timdexRecordId":"gisogm:edu.wisc:500ab3d300ac","title":"Trails
+        Marinette County, WI 2023","contentType":["Line data"],"contributors":[{"kind":"Creator","value":"Marinette
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2023"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/709BEADE-43A1-483C-84FA-AC383D0C930C"},{"timdexRecordId":"gisogm:edu.wisc:0c70797cd044","title":"Zoning
+        Marathon County, WI 2023","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Marathon
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2023"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/B309C5FD-AAE5-4989-A8F2-D511D4FA991C"},{"timdexRecordId":"gisogm:edu.wisc:1a36ef02c969","title":"Zoning
+        Jefferson County, WI 2023","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Jefferson
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2023"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/76BAEEF4-6A5F-4CEF-85D4-46410E696283"},{"timdexRecordId":"gisogm:edu.wisc:828787f00f72","title":"Roads
+        and ROW Kenosha County, WI 2023","contentType":["Mixed"],"contributors":[{"kind":"Creator","value":"Kenosha
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2023"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/E104A9FE-154B-44AB-8952-2FC3143515B9"},{"timdexRecordId":"gisogm:edu.wisc:9e2c6e03fafa","title":"Recreation
+        (Boat Launches) Portage County, WI 2023","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"Portage
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2023"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/A5B6151D-2987-44ED-B667-63F385C17776"},{"timdexRecordId":"gisogm:edu.wisc:2bd23178aaea","title":"Trails
+        Lafayette County, WI 2023","contentType":["Line data"],"contributors":[{"kind":"Creator","value":"Lafayette
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2023"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/B7B659BF-A0D6-4C6A-AF14-8C7142413FB8"},{"timdexRecordId":"gisogm:edu.wisc:d3d23aa31d2d","title":"PLSS
+        Brown County, WI 2023","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"Brown
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2023"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/C5DF2E0F-038B-4AD0-A8D0-9929C4504F09"},{"timdexRecordId":"gisogm:edu.wisc:47f79f83826a","title":"Roads
+        and ROW Sauk County, WI 2023","contentType":["Mixed"],"contributors":[{"kind":"Creator","value":"Sauk
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2023"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/728829A6-E7BF-404C-85B6-F9C7A25FFB3E"},{"timdexRecordId":"gisogm:edu.wisc:67b160f1a7cf","title":"PLSS
+        Marathon County, WI 2023","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"Marathon
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2023"}],"notes":null,"highlight":null,"sourceLink":"https://geodata.wisc.edu/catalog/5D265FA4-A993-4263-9E38-1CC14E9338A9"}],"aggregations":{"contentType":[{"key":"image
+        data","docCount":23471},{"key":"polygon data","docCount":17296},{"key":"not
+        specified","docCount":10547},{"key":"raster data","docCount":8614},{"key":"point
+        data","docCount":5158},{"key":"line data","docCount":4728},{"key":"topographic
+        maps","docCount":4402},{"key":"military maps","docCount":4072},{"key":"fire
+        insurance maps","docCount":3701},{"key":"cadastral maps","docCount":1905}],"contributors":[{"key":"sanborn
+        map company","docCount":18245},{"key":"arctic climate system (acsys)","docCount":3349},{"key":"united
+        states general land office","docCount":2524},{"key":"columbia university.
+        libraries. reaseach data services.","docCount":2000},{"key":"u.s. department
+        of commerce, bureau of the census, geography division","docCount":2000},{"key":"harvard
+        map collection, harvard college library","docCount":1781},{"key":"boundary
+        solutions, inc.","docCount":1514},{"key":"collins bartholomew ltd","docCount":1322},{"key":"u.s.
+        department of agriculture","docCount":1211},{"key":"university of minnesota.
+        institute on the environment","docCount":1099}],"format":[{"key":"shapefile","docCount":27159},{"key":"tiff","docCount":22503},{"key":"jpeg","docCount":14492},{"key":"geotiff","docCount":12520},{"key":"pdf","docCount":2362},{"key":"mrsid","docCount":1233},{"key":"mixed","docCount":1224},{"key":"jpeg2000","docCount":343},{"key":"arcgrid","docCount":182},{"key":"las","docCount":166}],"languages":[{"key":"eng","docCount":37908},{"key":"english","docCount":26506},{"key":"rus","docCount":4108},{"key":"fra","docCount":826},{"key":"lat","docCount":684},{"key":"deu","docCount":649},{"key":"fre","docCount":221},{"key":"ita","docCount":153},{"key":"und","docCount":116},{"key":"dan","docCount":115}],"literaryForm":[],"source":[{"key":"opengeometadata
+        gis resources","docCount":82686},{"key":"mit gis resources","docCount":1288}],"subjects":[{"key":"datasets","docCount":33816},{"key":"other","docCount":27367},{"key":"maps","docCount":25489},{"key":"new
+        jersey","docCount":17942},{"key":"boundaries","docCount":14537},{"key":"transportation","docCount":11120},{"key":"oceans","docCount":7839},{"key":"2022-creator-sprint","docCount":6674},{"key":"society","docCount":6662},{"key":"planning
+        and cadastral","docCount":5937}]}}}}'
+  recorded_at: Mon, 11 Mar 2024 15:37:07 GMT
+recorded_with: VCR 6.2.0
