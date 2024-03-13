@@ -8,5 +8,9 @@
     </div>
   <% end %>
 
+  <% if Flipflop.enabled?(:gdt) && access_type(@record) && gis_access_link(@record) %>
+    <%= render 'access_button' %>
+  <% end %>
+
    <%= render partial: 'shared/ask', locals: { display: '' } %>
 </div>

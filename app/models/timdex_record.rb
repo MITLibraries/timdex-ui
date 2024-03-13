@@ -69,6 +69,7 @@ class TimdexRecord < TimdexBase
         }
         numbering
         physicalDescription
+        provider
         publicationFrequency
         publicationInformation
         relatedItems {

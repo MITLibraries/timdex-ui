@@ -1,0 +1,100 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://FAKE_TIMDEX_HOST/graphql
+    body:
+      encoding: UTF-8
+      string: '{"query":"query TimdexRecord__Query($id: String!, $index: String) {\n  recordId(id:
+        $id, index: $index) {\n    alternateTitles {\n      kind\n      value\n    }\n    callNumbers\n    contentType\n    contents\n    contributors
+        {\n      affiliation\n      identifier\n      kind\n      mitAffiliated\n      value\n    }\n    dates
+        {\n      kind\n      note\n      range {\n        gte\n        lte\n      }\n      value\n    }\n    edition\n    fundingInformation
+        {\n      funderName\n      funderIdentifier\n      funderIdentifierType\n      awardUri\n      awardNumber\n    }\n    holdings
+        {\n      callnumber\n      collection\n      format\n      location\n      notes\n      summary\n    }\n    identifiers
+        {\n      kind\n      value\n    }\n    languages\n    links {\n      kind\n      restrictions\n      text\n      url\n    }\n    literaryForm\n    locations
+        {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    provider\n    publicationFrequency\n    publicationInformation\n    relatedItems
+        {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
+        {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
+        {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"gismit:us_ma_boston_g47parcels_2018","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexRecord__Query"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - MIT Libraries Client
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Wed, 06 Mar 2024 21:39:42 GMT
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709761183&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=m1%2FI3kowg6ugcOrvp%2BELINGEqFzS5BCpQGtD%2FOS54uA%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709761183&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=m1%2FI3kowg6ugcOrvp%2BELINGEqFzS5BCpQGtD%2FOS54uA%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Connection:
+      - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
+      Etag:
+      - W/"d9702722428f5dcd7bbd64db5d6b7b4e"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 286a9e81-9da8-4a7e-bf87-5b9f14735a4c
+      X-Runtime:
+      - '0.023619'
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Content-Length:
+      - '3053'
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":{"recordId":{"alternateTitles":null,"callNumbers":null,"contentType":["Polygon
+        data"],"contents":null,"contributors":[{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"City
+        of Boston Assessing Department"}],"dates":[{"kind":"Issued","note":null,"range":null,"value":"2018-01-01"},{"kind":"Coverage","note":null,"range":null,"value":"2015-01-01"},{"kind":"Coverage","note":null,"range":null,"value":"2015"}],"edition":null,"fundingInformation":null,"holdings":null,"identifiers":[{"kind":"Not
+        specified","value":"us_ma_boston_g47parcels_2018"}],"languages":["eng"],"links":[{"kind":"Download","restrictions":null,"text":"Source
+        Metadata","url":"https://cdn.dev1.mitlibrary.net/geo/public/us_ma_boston_g47parcels_2018.source.fgdc.xml"},{"kind":"Download","restrictions":null,"text":"Aardvark
+        Metadata","url":"https://cdn.dev1.mitlibrary.net/geo/public/us_ma_boston_g47parcels_2018.normalized.aardvark.json"},{"kind":"Download","restrictions":null,"text":"Data","url":"https://cdn.dev1.mitlibrary.net/geo/restricted/us_ma_boston_g47parcels_2018.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.libraries.mit.edu/record/gismit:us_ma_boston_g47parcels_2018"}],"literaryForm":null,"locations":[{"geopoint":"BBOX
+        (-71.190913, -70.868654, 42.397012, 42.227864)","kind":"Bounding Box","value":null},{"geopoint":"BBOX
+        (-71.190913, -70.868654, 42.397012, 42.227864)","kind":"Geometry","value":null}],"notes":null,"numbering":null,"physicalDescription":null,"provider":"GIS
+        Lab, MIT Libraries","publicationFrequency":null,"publicationInformation":null,"relatedItems":null,"rights":[{"description":"Restricted","kind":"Access
+        rights","uri":null},{"description":"MIT authentication","kind":"Access to
+        files","uri":null},{"description":"N/A","kind":null,"uri":null}],"source":"MIT
+        GIS Resources","sourceLink":"https://geodata.libraries.mit.edu/record/gismit:us_ma_boston_g47parcels_2018","subjects":[{"kind":"DCAT;
+        Theme","value":["Economy"]},{"kind":"DCAT; Theme","value":["Boundaries"]},{"kind":"DCAT;
+        Theme","value":["Location"]},{"kind":"Dublin Core; Spatial","value":["Massachusetts--Boston"]},{"kind":"Dublin
+        Core; Subject","value":["Land use"]},{"kind":"Dublin Core; Subject","value":["Neighborhoods"]},{"kind":"Dublin
+        Core; Subject","value":["Administrative and political divisions"]},{"kind":"Dublin
+        Core; Subject","value":["Land value taxation"]},{"kind":"Dublin Core; Subject","value":["Land
+        tenure"]},{"kind":"Dublin Core; Subject","value":["economy"]},{"kind":"Dublin
+        Core; Subject","value":["planningCadastre"]},{"kind":"Dublin Core; Subject","value":["boundaries"]},{"kind":"Dublin
+        Core; Subject","value":["location"]},{"kind":"Subject scheme not provided","value":["Datasets"]}],"summary":["City
+        of Boston property parcel data from FY 2018 was joined with parcel boundaries
+        from FY 2018. All data is from the City of Boston Assessor''s office and represents
+        data from 2017."],"timdexRecordId":"gismit:us_ma_boston_g47parcels_2018","title":"Boston,
+        MA (Land parcels, 2018)"}}}'
+  recorded_at: Wed, 06 Mar 2024 21:39:43 GMT
+recorded_with: VCR 6.2.0

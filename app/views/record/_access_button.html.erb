@@ -1,0 +1,16 @@
+<% return if @record.blank? %>
+
+<div class="access-button-container">
+  <% if access_type(@record) == 'Free/open to all' %>
+    <a class="btn button-primary access-button" href="<%= gis_access_link(@record) %>">Download geodata files</a>
+  <% elsif access_type(@record) == 'MIT authentication' %>
+    <a class="btn button-primary access-button" href="<%= gis_access_link(@record) %>">
+      Download geodata files <span class="auth-notice">MIT authentication</span>
+    </a>
+  <% else %>
+    <p>This content is owned by: <strong><%= @record['provider'] %></strong></p>
+    <a class="btn button-primary access-button" href="<%= gis_access_link(@record) %>">
+      View <%= @record['provider'] %> record
+    </a>
+  <% end %>
+</div>
