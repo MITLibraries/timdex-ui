@@ -1,0 +1,31 @@
+<li class="result">
+  <h2 class="record-title">
+    <span class="sr">Title: </span><%= link_to(result_geo['title'], record_path(result_geo['timdexRecordId'])) %>
+  </h2>
+
+  <div class="data-info">
+    <%= render partial: 'search/geo_data_info', locals: { result: result_geo } %>
+  </div>
+
+  <% if result_geo['contributors'] %> 
+    <p class="result-authors truncate-list">
+      <%= render partial: 'search/authors', locals: { contributors: result_geo['contributors'] } %>
+    </p>
+  <% end %>
+
+  <% if result_geo['summary'] %>
+    <p class="result-summary truncate-list">
+      <span class="sr">Summary: </span><%= result_geo['summary'].join(' ') %>
+    </p>
+  <% end %>
+
+  <% if result_geo['highlight'] %>
+    <div class="result-highlights">
+      <%= render partial: 'search/highlights', locals: { result: result_geo } %>
+    </div>
+  <% end %>
+
+  <div class="result-get">
+    <%= view_record(result_geo['timdexRecordId']) %>
+  </div>
+</li>

@@ -990,47 +990,66 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :redirect
       assert_equal flash[:error], "Distance must include an integer greater than 0."
     end
-  end
 
-  test 'geodistance can contain units or not (default is meters)' do
-    VCR.use_cassette('geodistance units',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
-      acceptable_query = {
+    test 'geodistance can contain units or not (default is meters)' do
+      VCR.use_cassette('geodistance units',
+                        allow_playback_repeats: true,
+                        match_requests_on: %i[method uri body]) do
+        acceptable_query = {
+          geodistance: 'true',
+          geodistanceLatitude: -21.1724,
+          geodistanceLongitude: 76.021,
+          geodistanceDistance: '50mi'
+        }.to_query
+        get "/results?#{acceptable_query}"
+        assert_response :success
+        assert_nil flash[:error]
+      end
+
+      VCR.use_cassette('geodistance no units',
+                        allow_playback_repeats: true,
+                        match_requests_on: %i[method uri body]) do
+        another_acceptable_query = {
+          geodistance: 'true',
+          geodistanceLatitude: -21.1724,
+          geodistanceLongitude: 76.021,
+          geodistanceDistance: '50'
+        }.to_query
+        get "/results?#{another_acceptable_query}"
+        assert_response :success
+        assert_nil flash[:error]
+      end
+    end
+
+    test 'geodistance units must be valid' do
+      bad_units = {
         geodistance: 'true',
         geodistanceLatitude: -21.1724,
         geodistanceLongitude: 76.021,
-        geodistanceDistance: '50mi'
+        geodistanceDistance: '50foo'
       }.to_query
-      get "/results?#{acceptable_query}"
-      assert_response :success
-      assert_nil flash[:error]
+      get "/results?#{bad_units}"
+      assert_response :redirect
+      assert_equal flash[:error], "Distance units must be one of the following: mi, km, yd, ft, in, m, cm, mm, NM/nmi"
     end
 
-    VCR.use_cassette('geodistance no units',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
-      another_acceptable_query = {
-        geodistance: 'true',
-        geodistanceLatitude: -21.1724,
-        geodistanceLongitude: 76.021,
-        geodistanceDistance: '50'
-      }.to_query
-      get "/results?#{another_acceptable_query}"
-      assert_response :success
-      assert_nil flash[:error]
-    end
-  end
+    test 'view full record link appears as expected for GDT records' do
+      VCR.use_cassette('geobox',
+                       allow_playback_repeats: true,
+                       match_requests_on: %i[method uri body]) do
+        query = {
+          geobox: 'true',
+          geoboxMinLongitude: 40.5,
+          geoboxMinLatitude: 60.0,
+          geoboxMaxLongitude: 78.2,
+          geoboxMaxLatitude: 80.0
+        }.to_query
+        get "/results?#{query}"
+        assert_response :success
 
-  test 'geodistance units must be valid' do
-    bad_units = {
-      geodistance: 'true',
-      geodistanceLatitude: -21.1724,
-      geodistanceLongitude: 76.021,
-      geodistanceDistance: '50foo'
-    }.to_query
-    get "/results?#{bad_units}"
-    assert_response :redirect
-    assert_equal flash[:error], "Distance units must be one of the following: mi, km, yd, ft, in, m, cm, mm, NM/nmi"
+        record_id = controller.view_assigns['results'].first['timdexRecordId']
+        assert_select '.result-get a', href: '/record/#{record_id}', text: 'View full record'
+      end
+    end
   end
 end

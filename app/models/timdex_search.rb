@@ -57,6 +57,12 @@ class TimdexSearch < TimdexBase
             kind
             value
           }
+          links {
+            kind
+            restrictions
+            text
+            url
+          }
           notes {
             kind
             value
@@ -65,7 +71,14 @@ class TimdexSearch < TimdexBase
             matchedField
             matchedPhrases
           }
+          provider
+          rights {
+            kind
+            description
+            uri
+          }
           sourceLink
+          summary
         }
         aggregations {
           contentType {
@@ -168,6 +181,12 @@ class TimdexSearch < TimdexBase
             kind
             value
           }
+          links {
+            kind
+            restrictions
+            text
+            url
+          }
           notes {
             kind
             value
@@ -176,7 +195,14 @@ class TimdexSearch < TimdexBase
             matchedField
             matchedPhrases
           }
+          provider
+          rights {
+            kind
+            description
+            uri
+          }
           sourceLink
+          summary
         }
         aggregations {
           contentType {
@@ -273,6 +299,12 @@ class TimdexSearch < TimdexBase
             kind
             value
           }
+          links {
+            kind
+            restrictions
+            text
+            url
+          }
           notes {
             kind
             value
@@ -281,7 +313,14 @@ class TimdexSearch < TimdexBase
             matchedField
             matchedPhrases
           }
+          provider
+          rights {
+            kind
+            description
+            uri
+          }
           sourceLink
+          summary
         }
         aggregations {
           contentType {
@@ -388,6 +427,12 @@ class TimdexSearch < TimdexBase
             kind
             value
           }
+          links {
+            kind
+            restrictions
+            text
+            url
+          }
           notes {
             kind
             value
@@ -396,7 +441,14 @@ class TimdexSearch < TimdexBase
             matchedField
             matchedPhrases
           }
+          provider
+          rights {
+            kind
+            description
+            uri
+          }
           sourceLink
+          summary
         }
         aggregations {
           contentType {
