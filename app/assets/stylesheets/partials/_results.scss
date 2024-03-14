@@ -56,46 +56,6 @@
     margin: 1em 0;
   }
 
-  .data-info {
-    font-weight: $fw-bold;
-    font-size: $fs-base;
-    margin: 1em 0;
-    li:after {
-      margin: 0 .6rem;
-      content: " | ";
-    }
-    li:last-child:after {
-      content: "";
-    }
-    .access-restricted:after {
-      font-family: FontAwesome;
-      content: "\f023";
-      margin-left: 0.8rem;
-      color: $gray-l1;
-    }
-    .other-provider {
-      font-weight: $fw-normal;
-    }
-    @media (max-width: $bp-screen-sm) {
-      li:nth-last-child(2):after {
-        content: "";
-      }
-      li:last-child {
-        display: block;
-      }
-    }
-  }
-
-  .result-authors {
-    font-size: $fs-large;
-    font-weight: $fw-bold;
-    margin-bottom: 0.6em;
-  }
-
-  .result-summary {
-    margin-bottom: 2.4em;
-  }
-
   .result-highlights {
     margin-top: 1.4em;
     ul {
