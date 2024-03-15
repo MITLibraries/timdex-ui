@@ -12,14 +12,8 @@
     </span>
   </p>
 
-  <% contributors = [] %>
-  <% result['contributors']&.each do |contributor| %>
-    <% contributors << contributor['value'] %>
-  <% end %>
-
   <p class="result-authors">
-    <span class="sr">Authors: </span>
-    <%= contributors.uniq.map { |contrib| link_to contrib, results_path({ advanced: true, contributors: contrib }) }.join(' ; ').html_safe %>
+    <%= render partial: 'search/authors', locals: { contributors: result['contributors'] } %>
   </p>
 
   <div class="result-highlights">

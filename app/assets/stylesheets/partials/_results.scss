@@ -14,11 +14,27 @@
   .no-results + .ask-us {
     margin-top: 0rem;
   }
+
+  #results {
+    list-style-position: inside;
+  }
 }
 
 .result {
   padding: 2rem;
   border-top: 1px solid $brand-primary;
+  font-size: $fs-small;
+
+  /* Adding hd-2 styling for order markers to match result titles */
+  &::marker {
+    font-size: $fs-xxlarge;
+    line-height: $lh-tight;
+    font-weight: $fw-bold;
+  }
+
+  .record-title {
+    display: inline;
+  }
 
   &:hover,
   &:focus {
@@ -32,26 +48,76 @@
   }
 
   .pub-info {
-    font-size: $fs-small;
+    font-size: $fs-base;
     color:  $gray-d1;
     span:first-child:after {
-      content:  " | ";
+      content: " | ";
+    }
+    margin: 1em 0;
+  }
+
+  .data-info {
+    font-weight: $fw-bold;
+    font-size: $fs-base;
+    margin: 1em 0;
+    li:after {
+      margin: 0 .6rem;
+      content: " | ";
+    }
+    li:last-child:after {
+      content: "";
+    }
+    .access-restricted:after {
+      font-family: FontAwesome;
+      content: "\f023";
+      margin-left: 0.8rem;
+      color: $gray-l1;
+    }
+    .other-provider {
+      font-weight: $fw-normal;
+    }
+    @media (max-width: $bp-screen-sm) {
+      li:nth-last-child(2):after {
+        content: "";
+      }
+      li:last-child {
+        display: block;
+      }
     }
   }
 
+  .result-authors {
+    font-size: $fs-large;
+    font-weight: $fw-bold;
+    margin-bottom: 0.6em;
+  }
+
+  .result-summary {
+    margin-bottom: 2.4em;
+  }
+
   .result-highlights {
-    font-size: $fs-small;
+    margin-top: 1.4em;
     ul {
       list-style: none;
+      li {
+        margin-left: 2rem;
+      }
     }
   }
 
   .result-get {
     padding-top: 5px;
-    font-size: 1.4rem;
     a:visited {
       color: $white;
       background-color:  green;
     }
+  }
+
+  .truncate-list {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 }

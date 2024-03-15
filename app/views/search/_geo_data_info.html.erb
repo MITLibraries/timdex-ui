@@ -1,0 +1,9 @@
+<ul class="list-inline">
+  <li><%= result['contentType']&.each { |type| type['value'] }&.join(' ; ') %></li>
+  <li><%= parse_geo_dates(result['dates']) %></li>
+  <% if access_type(result) == 'Not owned by MIT' %>
+    <li><%= access_type(result) %> <span class="other-provider">(<%= link_to "Owned by #{result['provider']}", gis_access_link(result) %>)</span></li>
+  <% elsif access_type(result) == 'MIT authentication' %>
+    <li><span class="access-restricted"><%= access_type(result) %></span></li>
+  <% end %>
+</ul>

@@ -1,0 +1,9 @@
+<%= return if contributors.blank? %>
+
+<% author_list = [] %>
+<% contributors&.each do |contributor| %>
+  <% author_list << contributor['value'] %>
+<% end %>
+
+<span class="sr">Authors: </span>
+<%= author_list.uniq.map { |author| link_to author, results_path({ advanced: true, contributors: author }) }.join(' ; ').html_safe %>
