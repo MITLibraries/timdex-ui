@@ -1,0 +1,3 @@
+<% if url_for(:back)&.starts_with?([root_url, 'results'].join('')) %>
+  <div class="return-to-results"><%= link_to 'Return to search results', :back %></div>
+<% end %>

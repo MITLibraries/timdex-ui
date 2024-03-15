@@ -1,0 +1,14 @@
+<ul class="list-inline">
+  <li><%= metadata['contentType']&.each { |type| type['value'] }&.join(' ; ') %></li>
+  <% if parse_geo_dates(metadata['dates']) %>
+    <li><%= parse_geo_dates(metadata['dates']) %></li>
+  <% end %>
+  <% if access_type(metadata) == 'Not owned by MIT' %>
+    <li>
+      <%= access_type(metadata) %>
+      <span class="other-provider">(<%= link_to "Owned by #{metadata['provider']}", gis_access_link(metadata) %>)</span>
+    </li>
+  <% elsif access_type(metadata) == 'MIT authentication' %>
+    <li><span class="access-restricted"><%= access_type(metadata) %></span></li>
+  <% end %>
+</ul>

@@ -1,0 +1,55 @@
+<div class="gridband layout-3q1q wrap-full-record">
+  <div class="col3q box-content region full-record" data-region="Full record">
+    <h2 class="record-title">
+      <span class="sr">Title: </span>
+      <% if @record['title'].present? %>
+        <%= @record['title'] %>
+      <% else %>
+        No title provided for this item.
+      <% end %>
+    </h2>
+
+    <div class="data-info">
+      <%= render partial: 'shared/geo_data_info', locals: { metadata: @record } %>
+    </div>
+
+    <% if @record['contributors'].present? %>
+      <p class="authors">
+        <%= render partial: 'shared/authors', locals: { contributors: @record['contributors'] } %>
+      </p>
+    <% end %>
+
+    <% if @record['summary'].present? %>
+      <h3 class="section-title">Description</h3>
+      <% @record['summary'].each do |paragraph| %>
+        <p>
+          <%= sanitize paragraph, tags: %w(p strong em a), attributes: %w(href) %>
+        </p>
+      <% end %>
+    <% end %>
+
+    <% if @record['subjects'].present? %>
+      <h3 class="section-title">Subjects</h3>
+      <ul>
+      <% @record['subjects'].each do |subject| %>
+        <li><%= subject['value'].join(';' ) %></li>
+      <% end %>
+      </ul>
+    <% end %>
+
+    <% if more_info?(@record) %>
+      <%= render partial: 'more_info', locals: { metadata: @record } %>
+    <% end %>
+
+    <div class="record-access-links">
+      <% if access_type(@record) != 'Not owned by MIT' && source_metadata_available?(@record['links']) %>
+        <a class="btn button-secondary metadata-link"
+           href="<%= source_metadata_link(@record['links']) %>">Download full metadata</a>
+      <% end %>
+      <%= render partial: 'access_button', locals: { display: 'view-md' } %> 
+    </div>
+  </div>
+
+  <%= render('sidebar') %>
+
+</div>
