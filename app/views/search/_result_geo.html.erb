@@ -4,12 +4,12 @@
   </h2>
 
   <div class="data-info">
-    <%= render partial: 'search/geo_data_info', locals: { result: result_geo } %>
+    <%= render partial: 'shared/geo_data_info', locals: { metadata: result_geo } %>
   </div>
 
   <% if result_geo['contributors'] %> 
-    <p class="result-authors truncate-list">
-      <%= render partial: 'search/authors', locals: { contributors: result_geo['contributors'] } %>
+    <p class="authors truncate-list">
+      <%= render partial: 'shared/authors', locals: { contributors: result_geo['contributors'] } %>
     </p>
   <% end %>
 

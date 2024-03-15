@@ -98,6 +98,42 @@ module RecordHelper
     access_right.first['description']
   end
 
+  def issued_dates(dates)
+    return_relevant_dates(dates, 'Issued')
+  end
+
+  def coverage_dates(dates)
+    return_relevant_dates(dates, 'Coverage')
+  end
+
+  def more_info?(metadata)
+    if issued_dates(metadata['dates']) || coverage_dates(metadata['dates']) || places(metadata['locations']) ||
+       metadata['provider']
+      true
+    else
+      false
+    end
+  end
+
+  def source_metadata_available?(links)
+    links&.any? { |link| link['kind'] == 'Download' && link['text'] == 'Source Metadata' }
+  end
+
+  def source_metadata_link(links)
+    return if links.blank?
+
+    links.select { |link| link['kind'] == 'Download' && link['text'] == 'Source Metadata' }.first['url']
+  end
+
+  def places(locations)
+    return if locations.blank?
+
+    place_names = locations.select { |location| location['kind'] == 'Place Name' }
+    return if place_names.blank?
+
+    place_names.map { |place| place['value'] }
+  end
+
   private
 
   def render_kind_value(list)
@@ -122,5 +158,22 @@ module RecordHelper
     return list[0].to_s if list.length == 1
 
     "<ul>#{render_list_items(list)}</ul>"
+  end
+
+  def return_relevant_dates(dates, kind)
+    return if dates.blank? || dates&.none? { |date| date['kind'] == kind }
+
+    relevant_dates = dates.select { |date| date['kind'] == kind }
+    relevant_dates&.map do |date|
+      if date['range'].present?
+        if date['range']['lte'] == date['range']['gte']
+          date['range']['lte']
+        else
+          "#{date['range']['gte']}-#{date['range']['lte']}"
+        end
+      else
+        date['value']
+      end
+    end&.uniq&.join('; ')
   end
 end

@@ -43,7 +43,7 @@ class SearchHelperTest < ActionView::TestCase
     assert_equal '2011', parse_geo_dates(dates)
   end
 
-  test 'parse_geo_dates returns issued if coverage is not available' do
+  test 'parse_geo_dates returns coverage if issued is not available' do
     dates = [{ 'kind' => 'Coverage', 'value' => '2009' }]
     assert_equal '2009', parse_geo_dates(dates)
   end

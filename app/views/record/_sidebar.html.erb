@@ -9,7 +9,7 @@
   <% end %>
 
   <% if Flipflop.enabled?(:gdt) && access_type(@record) && gis_access_link(@record) %>
-    <%= render 'access_button' %>
+    <%= render partial: 'access_button', locals: { display: 'hidden-md' } %>
   <% end %>
 
    <%= render partial: 'shared/ask', locals: { display: '' } %>

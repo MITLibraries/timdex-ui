@@ -1,0 +1,41 @@
+.result,
+.full-record {
+  .authors {
+    font-size: $fs-large;
+    font-weight: $fw-bold;
+    margin-bottom: 0.6em;
+  }
+
+  .data-info {
+    font-weight: $fw-bold;
+    font-size: $fs-base;
+    margin: 1em 0;
+    li {
+      vertical-align: top;
+    }
+    li:after {
+      margin: 0 .6rem;
+      content: " | ";
+    }
+    li:last-child:after {
+      content: "";
+    }
+    .access-restricted:after {
+      font-family: FontAwesome;
+      content: "\f023";
+      margin-left: 0.8rem;
+      color: $gray-l1;
+    }
+    .other-provider {
+      font-weight: $fw-normal;
+    }
+    @media (max-width: $bp-screen-sm) {
+      li:nth-last-child(2):after {
+        content: "";
+      }
+      li:last-child {
+        display: block;
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 <% return if @record.blank? %>
 
-<div class="access-button-container">
+<div class="access-button-container <%= display %>">
   <% if access_type(@record) == 'Free/open to all' %>
     <a class="btn button-primary access-button" href="<%= gis_access_link(@record) %>">Download geodata files</a>
   <% elsif access_type(@record) == 'MIT authentication' %>
