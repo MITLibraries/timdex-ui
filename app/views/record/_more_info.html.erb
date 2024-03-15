@@ -1,0 +1,27 @@
+<h3 class="section-title">More information</h3>
+
+<ul class="list-moreinfo">
+  <!-- Add publisher when the data is available -->
+  <% if issued_date(metadata['dates']).present? %>
+    <li>Date issued: <%= issued_date(metadata['dates']) %></li>
+  <% end %>
+  <% if coverage_date(metadata['dates']).present? %>
+    <li>Geodata coverage date: <%= coverage_date(metadata['dates']) %></li>
+  <% end %>
+  <% if places(metadata['locations']).present? %>
+    <% if places(metadata['locations']).length > 1 %>
+      <li>Places:
+        <ul>
+          <% places(metadata['locations']).each do |place| %>
+            <li><%= place %></li>
+          <% end %>
+        </ul>
+      </li>
+    <% else %>
+      <li>Place: <%= places(metadata['locations']).first %></li>
+    <% end %>
+  <% end %>
+  <% if metadata['provider'] %>
+    <li>Provider: <%= metadata['provider'] %></li>
+  <% end %>
+</ul>

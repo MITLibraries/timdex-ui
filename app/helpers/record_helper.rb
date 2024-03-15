@@ -98,6 +98,48 @@ module RecordHelper
     access_right.first['description']
   end
 
+  def issued_date(dates)
+    return if dates.blank? || dates&.none? { |date| date['kind'] == 'Issued' }
+
+    # If there is more than one date issued, take the first one.
+    dates.select { |date| date['kind'] == 'Issued' }&.uniq&.first['value']
+  end
+
+  def coverage_date(dates)
+    return if dates.blank? || dates&.none? { |date| date['kind'] == 'Coverage' }
+
+    # If there is more than one coverage date, take the first one.
+    dates.select { |date| date['kind'] == 'Coverage' }&.uniq&.first['value']
+  end
+
+  def more_info?(metadata)
+    if issued_date(metadata['dates']) || coverage_date(metadata['dates']) || places(metadata['locations']) ||
+       metadata['provider']
+      true
+    else
+      false
+    end
+  end
+
+  def source_metadata_available?(links)
+    links&.any? { |link| link['kind'] == 'Download' && link['text'] == 'Source Metadata' }
+  end
+
+  def source_metadata_link(links)
+    return if links.blank?
+
+    links.select { |link| link['kind'] == 'Download' && link['text'] == 'Source Metadata' }.first['url']
+  end
+
+  def places(locations)
+    return if locations.blank?
+
+    place_names = locations.select { |location| location['kind'] == 'Place Name' }
+    return if place_names.blank?
+
+    place_names.map { |place| place['value'] }
+  end
+
   private
 
   def render_kind_value(list)

@@ -246,4 +246,98 @@ class RecordHelperTest < ActionView::TestCase
     assert_equal 'https://example.org/dz_f7regions_2016.zip', gis_access_link(access_free)
     assert_equal 'https://example.org/dz_f7regions_2016.zip', gis_access_link(access_auth)
   end
+
+  test 'issued_date returns first issued date' do
+    dates = [{ 'kind' => 'Issued', 'value' => '1-1-1999' },
+             { 'kind' => 'Issued', 'value' => '1-1-1997' }]
+    assert_equal ('1-1-1999'), issued_date(dates)
+  end
+
+  test 'issued_date does not return dates of other kinds' do
+    dates = [{ 'kind' => 'Birthday', 'value' => '1-1-1999' },
+             { 'kind' => 'First', 'value' => '1' },
+             { 'kind' => 'Coverage', 'value' => '1949' }]
+    assert_nil issued_date(dates)
+  end
+
+  test 'issued_date returns nil if no dates are available' do
+  end
+
+  test 'coverage_date returns first coverage date' do
+    dates = [{ 'kind' => 'Coverage', 'value' => '1999' },
+             { 'kind' => 'Coverage', 'value' => '1997' }]
+    assert_equal ('1999'), coverage_date(dates)
+  end
+
+  test 'coverage_date does not return dates of other kinds' do
+    dates = [{ 'kind' => 'Birthday', 'value' => '1-1-1999' },
+             { 'kind' => 'First', 'value' => '1' },
+             { 'kind' => 'Issued', 'value' => '1949' }]
+    assert_nil coverage_date(dates)
+  end
+
+  test 'coverage_date returns nil if no dates are available' do
+    dates = []
+    assert_nil coverage_date(dates)
+  end
+
+  test 'source_metadata_available? returns true if source metadata link exists' do
+    links = [{ 'kind' => 'Download', 'text' => 'Source Metadata', 'url' => 'https://example.org/metadata.zip' }]
+    assert source_metadata_available?(links)
+  end
+
+  test 'source_metadata_available? returns false if no source metadata link exists' do
+    links = [{ 'kind' => 'Download', 'text' => 'Sauce Metadata', 'url' => 'https://example.org/metadata.zip' }]
+    no_links = []
+    assert_not source_metadata_available?(links)
+    assert_not source_metadata_available?(no_links)
+  end
+
+  test 'source_metadata_link returns nil if no links are available' do
+    no_links = []
+    assert_nil source_metadata_link(no_links)
+  end
+
+  test 'source_metadata_link returns the right link' do
+    links = [{ 'kind' => 'Download', 'text' => 'Source Metadata', 'url' => 'https://example.org/metadata.zip' },
+             { 'kind' => 'Download', 'text' => 'Sauce Metadata', 'url' => 'https://example.org/meatdata.zarp' }]
+    assert_equal 'https://example.org/metadata.zip', source_metadata_link(links)
+  end
+
+  test 'places collects place names only' do
+    locations = [{ 'kind' => 'Place Name', 'value' => 'The Village Vanguard' },
+                 { 'kind' => 'Place Name', 'value' => 'Birdland' },
+                 { 'kind' => 'geopoint', 'value' => 'foo' }]
+    assert_equal ['The Village Vanguard', 'Birdland'], places(locations)
+  end
+
+  test 'places returns nil if no place names are present' do
+    locations = [{ 'kind' => 'geopoint', 'value' => 'foo' }]
+    assert_nil places(locations)
+  end
+
+  test 'more_info? true with issued_date' do
+    record = { 'dates' => [{ 'kind' => 'Issued', 'value' => '2001' }] }
+    assert more_info?(record)
+  end
+
+  test 'more_info? true with coverage_date' do
+    record = { 'dates' => [{ 'kind' => 'Coverage', 'value' => '2001' }] }
+    assert more_info?(record)
+  end
+
+  test 'more_info? true with places' do
+    record = { 'locations' => [{ 'kind' => 'Place Name', 'value' => 'The Village Vanguard' }] }
+    assert more_info?(record)
+  end
+
+  test 'more_info? true with provider' do
+    record = { 'provider' => 'MIT' }
+    assert more_info?(record)
+  end
+
+  test 'more_info? false if no more info available' do
+    record = { 'title' => 'foo', 'source' => 'bar' }
+    assert_not more_info?(record)
+  end
 end

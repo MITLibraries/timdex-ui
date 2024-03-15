@@ -4,9 +4,12 @@
 
 <%= render(partial: 'shared/site_title') %>
 <%= render(partial: 'search/form')%>
+<%= render(partial: 'back_button') %>
 
 <% if @record.nil? %>
   <%= render('record_empty') %>
+<% elsif Flipflop.enabled?(:gdt) %>
+  <%= render('record_geo') %>
 <% else %>
   <%= render('record') %>
 <% end %>
