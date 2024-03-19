@@ -119,7 +119,7 @@ button#filter-toggle {
   color: blue;
   display: flex;
   justify-content: start;
-  margin-bottom: 0.5em;
+  padding: 1rem;
   width: 100%;
   text-align: left;
 
@@ -148,6 +148,7 @@ button#filter-toggle {
   }
 
   &.expanded {
+    margin-bottom: 0.5rem;
     .filter-toggle-name {
       display: none;
     }
