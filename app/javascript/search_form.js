@@ -40,7 +40,7 @@ function disableGeobox() {
     field.setAttribute('aria-required', false);
   });
   geobox_label.classList = 'closed';
-  geobox_label.innerText = 'Bounding box search';
+  geobox_label.innerText = 'Geospatial bounding box search';
 };
 
 function enableGeobox() {
@@ -94,7 +94,7 @@ function enableGeodistance() {
     field.setAttribute('aria-required', true);
   });
   geodistance_label.classList = 'open';
-  geodistance_label.innerText = 'Close geospatial distance search';
+  geodistance_label.innerText = 'Close distance search';
 };
 
 

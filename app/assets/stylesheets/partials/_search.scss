@@ -9,7 +9,9 @@
   padding: 2.4rem 2rem 1rem 2.4rem;
 
   details {
-    margin-top: 1rem;
+    &:first-of-type {
+      margin-top: 1rem;
+    }
 
     .field-container {
       margin-top: 1rem;
@@ -78,16 +80,21 @@
 
   #geobox-search-panel,
   #geodistance-search-panel {
-    label::after {
-      color: $red-muted;
-      content: '*';
-    }
     .geo-label,
-    .geo-desc {
+    .geo-desc,
+    .hint,
+    p {
       display: block;
+      color: $black;
+      font-size: $fs-small;
+    }
+    .geo-label {
+      font-weight: $fw-bold;
+      &:after {
+        content: ' *';
+      }
     }
     .geo-desc {
-      font-size: $fs-xsmall;
       margin-bottom: 2rem;
     }
     #maxLat-desc,
