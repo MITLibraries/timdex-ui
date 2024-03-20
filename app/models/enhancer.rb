@@ -2,8 +2,8 @@ class Enhancer
   attr_accessor :enhanced_query
 
   QUERY_PARAMS = %i[q citation contentType contributors fundingInformation identifiers locations subjects title].freeze
-  FILTER_PARAMS = %i[contentTypeFilter contributorsFilter formatFilter languagesFilter literaryFormFilter placesFilter
-                     sourceFilter subjectsFilter].freeze
+  FILTER_PARAMS = %i[accessToFilesFilter contentTypeFilter contributorsFilter formatFilter languagesFilter
+                     literaryFormFilter placesFilter sourceFilter subjectsFilter].freeze
   GEO_PARAMS = %i[geoboxMinLongitude geoboxMinLatitude geoboxMaxLongitude geoboxMaxLatitude geodistanceLatitude
                   geodistanceLongitude geodistanceDistance].freeze
 

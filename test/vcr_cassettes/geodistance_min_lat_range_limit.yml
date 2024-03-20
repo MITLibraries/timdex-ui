@@ -8,14 +8,15 @@ http_interactions:
       string: '{"query":"query TimdexSearch__GeodistanceQuery($q: String, $citation:
         String, $contributors: String, $fundingInformation: String, $identifiers:
         String, $locations: String, $subjects: String, $title: String, $index: String,
-        $from: String, $geodistanceDistance: String!, $geodistanceLatitude: Float!,
-        $geodistanceLongitude: Float!, $contentTypeFilter: [String!], $contributorsFilter:
-        [String!], $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
-        String, $sourceFilter: [String!], $subjectsFilter: [String!]) {\n  search(searchterm:
-        $q, citation: $citation, contributors: $contributors, fundingInformation:
-        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
-        $subjects, title: $title, index: $index, from: $from, geodistance: {distance:
-        $geodistanceDistance, latitude: $geodistanceLatitude, longitude: $geodistanceLongitude},
+        $from: String, $accessToFilesFilter: [String!], $geodistanceDistance: String!,
+        $geodistanceLatitude: Float!, $geodistanceLongitude: Float!, $contentTypeFilter:
+        [String!], $contributorsFilter: [String!], $formatFilter: [String!], $languagesFilter:
+        [String!], $literaryFormFilter: String, $sourceFilter: [String!], $subjectsFilter:
+        [String!]) {\n  search(searchterm: $q, citation: $citation, contributors:
+        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
+        locations: $locations, subjects: $subjects, title: $title, index: $index,
+        from: $from, geodistance: {distance: $geodistanceDistance, latitude: $geodistanceLatitude,
+        longitude: $geodistanceLongitude}, accessToFilesFilter: $accessToFilesFilter,
         contentTypeFilter: $contentTypeFilter, contributorsFilter: $contributorsFilter,
         formatFilter: $formatFilter, languagesFilter: $languagesFilter, literaryFormFilter:
         $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter)
@@ -24,10 +25,11 @@ http_interactions:
         {\n        kind\n        value\n      }\n      links {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
         {\n        kind\n        value\n      }\n      highlight {\n        matchedField\n        matchedPhrases\n      }\n      provider\n      rights
         {\n        kind\n        description\n        uri\n      }\n      sourceLink\n      summary\n    }\n    aggregations
-        {\n      contentType {\n        key\n        docCount\n      }\n      contributors
-        {\n        key\n        docCount\n      }\n      format {\n        key\n        docCount\n      }\n      languages
-        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geodistance":"true","geodistanceLatitude":-90.0,"geodistanceLongitude":-43.33,"geodistanceDistance":"50mi","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__GeodistanceQuery"}'
+        {\n      accessToFiles {\n        key\n        docCount\n      }\n      contentType
+        {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
+        {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
+        {\n        key\n        docCount\n      }\n      source {\n        key\n        docCount\n      }\n      subjects
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geodistance":"true","geodistanceLatitude":-90.0,"geodistanceLongitude":-43.33,"geodistanceDistance":"50mi","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__GeodistanceQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -45,11 +47,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Mar 2024 14:43:58 GMT
+      - Wed, 20 Mar 2024 15:51:32 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710427439&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=CGOEsppr7f4wudEvdJpKlWlXKIb99EYW1YwLScdlVuU%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710949891&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=pgW5x0SD7pP1ChvjhCrZfiwNRlhOmmHrLJs8JyGaDBA%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1710427439&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=CGOEsppr7f4wudEvdJpKlWlXKIb99EYW1YwLScdlVuU%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1710949891&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=pgW5x0SD7pP1ChvjhCrZfiwNRlhOmmHrLJs8JyGaDBA%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -69,17 +71,17 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"24943abc89696b9c0454546eddffbf6f"
+      - W/"b021c7719c8d387875eed725ae3a096d"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 25469cca-3a97-45e5-b16c-f10cdcdb0791
+      - 45f1e5c5-acb1-4691-b436-61b57042de85
       X-Runtime:
-      - '0.133438'
+      - '0.113992'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
-      - '42720'
+      - '42864'
       Via:
       - 1.1 vegur
     body:
@@ -470,21 +472,22 @@ http_interactions:
         availability, quality, scale, and accuracy as well as the differences in cultural
         settlement practices, LandScan population distribution models are tailored
         to match the data conditions and geographical nature of each individual country
-        and region. Title from disk surface Developed by Oak Ridge National Laboratory."]}],"aggregations":{"contentType":[{"key":"raster
-        data","docCount":1191},{"key":"image data","docCount":209},{"key":"polygon
-        data","docCount":181},{"key":"world maps","docCount":79},{"key":"not specified","docCount":36},{"key":"line
-        data","docCount":31},{"key":"point data","docCount":17},{"key":"early maps","docCount":12},{"key":"thematic
-        maps","docCount":4},{"key":"geological maps","docCount":3}],"contributors":[{"key":"university
-        of minnesota. institute on the environment","docCount":1099},{"key":"environmental
-        systems research institute (redlands, calif.)","docCount":59},{"key":"kelso,
-        nathaniel vaughn","docCount":54},{"key":"patterson, tom","docCount":54},{"key":"oak
-        ridge national laboratory","docCount":38},{"key":"environmental systems research
-        institute, inc. (esri)","docCount":29},{"key":"united states. central intelligence
-        agency","docCount":21},{"key":"esri","docCount":19},{"key":"east view cartographic,
-        incorporated","docCount":16},{"key":"national center for ecological analysis
-        and synthesis","docCount":13}],"format":[{"key":"geotiff","docCount":1125},{"key":"shapefile","docCount":233},{"key":"tiff","docCount":196},{"key":"jpeg","docCount":80},{"key":"arcgrid","docCount":59},{"key":"jpeg2000","docCount":2}],"languages":[{"key":"english","docCount":1332},{"key":"eng","docCount":187},{"key":"lat","docCount":60},{"key":"fra","docCount":21},{"key":"deu","docCount":12},{"key":"ita","docCount":11},{"key":"ger","docCount":6},{"key":"fre","docCount":2},{"key":"rus","docCount":2},{"key":"und","docCount":2}],"literaryForm":[],"source":[{"key":"opengeometadata
+        and region. Title from disk surface Developed by Oak Ridge National Laboratory."]}],"aggregations":{"accessToFiles":[{"key":"Not
+        owned by MIT","docCount":1730},{"key":"MIT authentication","docCount":14},{"key":"Free/open
+        to all","docCount":1}],"contentType":[{"key":"raster data","docCount":1191},{"key":"image
+        data","docCount":209},{"key":"polygon data","docCount":181},{"key":"world
+        maps","docCount":79},{"key":"not specified","docCount":36},{"key":"line data","docCount":31},{"key":"point
+        data","docCount":17},{"key":"early maps","docCount":12},{"key":"thematic maps","docCount":4},{"key":"geological
+        maps","docCount":3}],"contributors":[{"key":"university of minnesota. institute
+        on the environment","docCount":1099},{"key":"environmental systems research
+        institute (redlands, calif.)","docCount":59},{"key":"kelso, nathaniel vaughn","docCount":54},{"key":"patterson,
+        tom","docCount":54},{"key":"oak ridge national laboratory","docCount":38},{"key":"environmental
+        systems research institute, inc. (esri)","docCount":29},{"key":"united states.
+        central intelligence agency","docCount":21},{"key":"esri","docCount":19},{"key":"east
+        view cartographic, incorporated","docCount":16},{"key":"national center for
+        ecological analysis and synthesis","docCount":13}],"format":[{"key":"geotiff","docCount":1125},{"key":"shapefile","docCount":233},{"key":"tiff","docCount":196},{"key":"jpeg","docCount":80},{"key":"arcgrid","docCount":59},{"key":"jpeg2000","docCount":2}],"languages":[{"key":"english","docCount":1332},{"key":"eng","docCount":187},{"key":"lat","docCount":60},{"key":"fra","docCount":21},{"key":"deu","docCount":12},{"key":"ita","docCount":11},{"key":"ger","docCount":6},{"key":"fre","docCount":2},{"key":"rus","docCount":2},{"key":"und","docCount":2}],"literaryForm":[],"source":[{"key":"opengeometadata
         gis resources","docCount":1730},{"key":"mit gis resources","docCount":15}],"subjects":[{"key":"datasets","docCount":1391},{"key":"earth
         (planet)","docCount":1243},{"key":"imagery and base maps","docCount":1130},{"key":"farming","docCount":1099},{"key":"crop
         yields","docCount":572},{"key":"harvesting","docCount":525},{"key":"census","docCount":351},{"key":"boundaries","docCount":286},{"key":"other","docCount":263},{"key":"society","docCount":214}]}}}}'
-  recorded_at: Thu, 14 Mar 2024 14:43:59 GMT
+  recorded_at: Wed, 20 Mar 2024 15:51:32 GMT
 recorded_with: VCR 6.2.0

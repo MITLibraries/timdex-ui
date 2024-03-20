@@ -9,14 +9,15 @@ http_interactions:
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $index: String, $from:
         String, $geoboxMinLatitude: Float!, $geoboxMinLongitude: Float!, $geoboxMaxLatitude:
-        Float!, $geoboxMaxLongitude: Float!, $contentTypeFilter: [String!], $contributorsFilter:
-        [String!], $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
-        String, $sourceFilter: [String!], $subjectsFilter: [String!]) {\n  search(searchterm:
-        $q, citation: $citation, contributors: $contributors, fundingInformation:
-        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
-        $subjects, title: $title, index: $index, from: $from, geobox: {minLongitude:
-        $geoboxMinLongitude, minLatitude: $geoboxMinLatitude, maxLongitude: $geoboxMaxLongitude,
-        maxLatitude: $geoboxMaxLatitude}, contentTypeFilter: $contentTypeFilter, contributorsFilter:
+        Float!, $geoboxMaxLongitude: Float!, $accessToFilesFilter: [String!], $contentTypeFilter:
+        [String!], $contributorsFilter: [String!], $formatFilter: [String!], $languagesFilter:
+        [String!], $literaryFormFilter: String, $sourceFilter: [String!], $subjectsFilter:
+        [String!]) {\n  search(searchterm: $q, citation: $citation, contributors:
+        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
+        locations: $locations, subjects: $subjects, title: $title, index: $index,
+        from: $from, geobox: {minLongitude: $geoboxMinLongitude, minLatitude: $geoboxMinLatitude,
+        maxLongitude: $geoboxMaxLongitude, maxLatitude: $geoboxMaxLatitude}, accessToFilesFilter:
+        $accessToFilesFilter, contentTypeFilter: $contentTypeFilter, contributorsFilter:
         $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
         literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter:
         $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
@@ -24,10 +25,11 @@ http_interactions:
         {\n        kind\n        value\n      }\n      links {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
         {\n        kind\n        value\n      }\n      highlight {\n        matchedField\n        matchedPhrases\n      }\n      provider\n      rights
         {\n        kind\n        description\n        uri\n      }\n      sourceLink\n      summary\n    }\n    aggregations
-        {\n      contentType {\n        key\n        docCount\n      }\n      contributors
-        {\n        key\n        docCount\n      }\n      format {\n        key\n        docCount\n      }\n      languages
-        {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geobox":"true","geodistance":"true","q":"hi","citation":"hello","title":"hey","geoboxMinLongitude":40.5,"geoboxMinLatitude":60.0,"geoboxMaxLongitude":78.2,"geoboxMaxLatitude":80.0,"geodistanceLatitude":36.1,"geodistanceLongitude":62.6,"geodistanceDistance":"50mi","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__GeoboxQuery"}'
+        {\n      accessToFiles {\n        key\n        docCount\n      }\n      contentType
+        {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
+        {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
+        {\n        key\n        docCount\n      }\n      source {\n        key\n        docCount\n      }\n      subjects
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geobox":"true","geodistance":"true","q":"hi","citation":"hello","title":"hey","geoboxMinLongitude":40.5,"geoboxMinLatitude":60.0,"geoboxMaxLongitude":78.2,"geoboxMaxLatitude":80.0,"geodistanceLatitude":36.1,"geodistanceLongitude":62.6,"geodistanceDistance":"50mi","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__GeoboxQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -45,11 +47,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Mar 2024 14:43:59 GMT
+      - Wed, 20 Mar 2024 15:51:27 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710427440&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=VFDaigvdnqO0LDa9X1mfuCVw%2FOZ0t5FdtfLjZTpav30%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710949887&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=ZW4x%2FT00JcbywJo4RmD9GW3XX47L6UQyX%2B7%2FisWp1o0%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1710427440&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=VFDaigvdnqO0LDa9X1mfuCVw%2FOZ0t5FdtfLjZTpav30%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1710949887&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=ZW4x%2FT00JcbywJo4RmD9GW3XX47L6UQyX%2B7%2FisWp1o0%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -69,21 +71,21 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"04c656119a920fbc130131804c438814"
+      - W/"e87acbb25f93506c517612ea97898b5e"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - a7d6571e-54b9-4022-977b-f6b647f235aa
+      - d43967ac-237f-4fa6-8f72-9a06a7f03c6b
       X-Runtime:
-      - '0.112416'
+      - '0.123373'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
-      - '166'
+      - '185'
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Thu, 14 Mar 2024 14:44:00 GMT
+      string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"accessToFiles":[],"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
+  recorded_at: Wed, 20 Mar 2024 15:51:28 GMT
 recorded_with: VCR 6.2.0
