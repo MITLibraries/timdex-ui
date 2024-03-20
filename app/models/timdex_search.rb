@@ -14,6 +14,7 @@ class TimdexSearch < TimdexBase
       $title: String
       $index: String
       $from: String
+      $accessToFilesFilter: [String!]
       $contentTypeFilter: [String!]
       $contributorsFilter: [String!]
       $formatFilter: [String!]
@@ -34,6 +35,7 @@ class TimdexSearch < TimdexBase
         title: $title
         index: $index
         from: $from
+        accessToFilesFilter: $accessToFilesFilter
         contentTypeFilter: $contentTypeFilter
         contributorsFilter: $contributorsFilter
         formatFilter: $formatFilter
@@ -81,6 +83,10 @@ class TimdexSearch < TimdexBase
           summary
         }
         aggregations {
+          accessToFiles {
+            key
+            docCount
+          }
           contentType {
             key
             docCount
@@ -134,6 +140,7 @@ class TimdexSearch < TimdexBase
       $geoboxMinLongitude: Float!
       $geoboxMaxLatitude: Float!
       $geoboxMaxLongitude: Float!
+      $accessToFilesFilter: [String!]
       $contentTypeFilter: [String!]
       $contributorsFilter: [String!]
       $formatFilter: [String!]
@@ -159,6 +166,7 @@ class TimdexSearch < TimdexBase
           maxLongitude: $geoboxMaxLongitude,
           maxLatitude: $geoboxMaxLatitude
         }
+        accessToFilesFilter: $accessToFilesFilter
         contentTypeFilter: $contentTypeFilter
         contributorsFilter: $contributorsFilter
         formatFilter: $formatFilter
@@ -205,6 +213,10 @@ class TimdexSearch < TimdexBase
           summary
         }
         aggregations {
+          accessToFiles {
+            key
+            docCount
+          }
           contentType {
             key
             docCount
@@ -250,6 +262,7 @@ class TimdexSearch < TimdexBase
       $title: String
       $index: String
       $from: String
+      $accessToFilesFilter: [String!]
       $geodistanceDistance: String!
       $geodistanceLatitude: Float!
       $geodistanceLongitude: Float!
@@ -277,6 +290,7 @@ class TimdexSearch < TimdexBase
           latitude: $geodistanceLatitude,
           longitude: $geodistanceLongitude
         }
+        accessToFilesFilter: $accessToFilesFilter
         contentTypeFilter: $contentTypeFilter
         contributorsFilter: $contributorsFilter
         formatFilter: $formatFilter
@@ -323,6 +337,10 @@ class TimdexSearch < TimdexBase
           summary
         }
         aggregations {
+          accessToFiles {
+            key
+            docCount
+          }
           contentType {
             key
             docCount
@@ -368,6 +386,7 @@ class TimdexSearch < TimdexBase
       $title: String
       $index: String
       $from: String
+      $accessToFilesFilter: [String!]
       $geodistanceDistance: String!
       $geodistanceLatitude: Float!
       $geodistanceLongitude: Float!
@@ -405,6 +424,7 @@ class TimdexSearch < TimdexBase
           maxLongitude: $geoboxMaxLongitude,
           maxLatitude: $geoboxMaxLatitude
         }
+        accessToFilesFilter: $accessToFilesFilter
         contentTypeFilter: $contentTypeFilter
         contributorsFilter: $contributorsFilter
         formatFilter: $formatFilter
@@ -451,6 +471,10 @@ class TimdexSearch < TimdexBase
           summary
         }
         aggregations {
+          accessToFiles {
+            key
+            docCount
+          }
           contentType {
             key
             docCount

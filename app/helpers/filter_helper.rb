@@ -21,6 +21,7 @@ module FilterHelper
 
   def nice_labels
     {
+      accessToFilesFilter: ENV.fetch('FILTER_ACCESS_TO_FILES', 'Access to files'),
       contentTypeFilter: ENV.fetch('FILTER_CONTENT_TYPE', 'Content type'),
       contributorsFilter: ENV.fetch('FILTER_CONTRIBUTOR', 'Contributor'),
       formatFilter: ENV.fetch('FILTER_FORMAT', 'Format'),

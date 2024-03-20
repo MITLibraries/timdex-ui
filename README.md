@@ -51,7 +51,8 @@ change as part of the work.
 
 - `ABOUT_APP`: If populated, an 'about' partial containing the contents of this variable will render on 
 `basic_search#index`.
-- `ACTIVE_FILTERS`: If populated, this list of strings defines which filters are shown to the user, and the order in which they appear. Values are case sensitive, and must match those used in the TIMDEX GraphQL query. Extraneous values will be ignored. If not populated, all filters will be shown.
+- `ACTIVE_FILTERS`: If populated, this list of strings defines which filters are shown to the user, and the order in which they appear. Values are case sensitive, and must match the corresponding aggregations used in the TIMDEX GraphQL query. Extraneous values will be ignored. If not populated, all filters will be shown.
+- `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.
 - `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.
 - `FILTER_CONTRIBUTOR`: The name to use instead of "Contributor" for that filter / aggregation.
 - `FILTER_FORMAT`: The name to use instead of "Format" for that filter / aggregation.

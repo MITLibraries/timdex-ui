@@ -3,8 +3,8 @@ class QueryBuilder
 
   RESULTS_PER_PAGE = 20
   QUERY_PARAMS = %w[q citation contributors fundingInformation identifiers locations subjects title].freeze
-  FILTER_PARAMS = %i[contentTypeFilter contributorsFilter formatFilter languagesFilter literaryFormFilter placesFilter
-                     sourceFilter subjectsFilter].freeze
+  FILTER_PARAMS = %i[accessToFilesFilter contentTypeFilter contributorsFilter formatFilter languagesFilter
+                     literaryFormFilter placesFilter sourceFilter subjectsFilter].freeze
   GEO_PARAMS = %w[geoboxMinLongitude geoboxMinLatitude geoboxMaxLongitude geoboxMaxLatitude geodistanceLatitude
                   geodistanceLongitude geodistanceDistance].freeze
 
