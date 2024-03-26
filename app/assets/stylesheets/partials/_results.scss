@@ -25,15 +25,16 @@
   border-top: 1px solid $brand-primary;
   font-size: $fs-small;
 
-  /* Adding hd-2 styling for order markers to match result titles */
   &::marker {
-    font-size: $fs-xxlarge;
-    line-height: $lh-tight;
+    font-size: 2.5rem;
+    line-height: 1.1;
     font-weight: $fw-bold;
   }
 
   .record-title {
     display: inline;
+    font-size: 2.5rem;
+    line-height: 1.1;
   }
 
   &:hover,
@@ -81,5 +82,10 @@
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+  }
+
+  .inner-heading {
+    font-size: 1.8rem;
+    line-height: 1.1;
   }
 }
