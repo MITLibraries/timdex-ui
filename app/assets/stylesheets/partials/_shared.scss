@@ -39,3 +39,23 @@
     }
   }
 }
+
+.skip-link {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  height: 0;
+  color: $gray-l2;
+  background-color: $black;
+  border-bottom: 2px solid $success;
+
+  &:focus {
+    position: relative;
+    display: block;
+    height: auto;
+    color: $white;
+    width: 100%;
+    padding: 5px 2%;
+  }
+}
