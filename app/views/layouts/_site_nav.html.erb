@@ -1,7 +1,7 @@
 <div class="wrap-outer-header-local layout-band">
   <div class="wrap-header-local">
     <div class="wrap-local-nav">
-      <nav class="local-nav" aria-label="Main menu">
+      <nav class="local-nav" id="main-menu" aria-label="Main menu">
         <%= nav_link_to("Home", root_path) %>
         <% if Flipflop.enabled?(:gdt) %>
           <div class="wrap-gis-links">
