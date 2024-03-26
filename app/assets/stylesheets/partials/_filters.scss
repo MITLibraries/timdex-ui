@@ -1,12 +1,12 @@
 #filters {
-  .category {
+  details.filter-category {
     position: relative;
     margin-bottom: 0.5em;
     border: 1px solid $gray-l3;
     border-radius: 3px;
   }
 
-  button.filter-label {
+  summary.filter-label {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -45,12 +45,6 @@
     &::-webkit-details-marker {
       display: none;
     }
-  }
-
-  .filter-options {
-    max-height: 0;
-    transition: max-height 0.5s ease-in-out;
-    overflow: hidden;
   }
 
   ul.category-terms {

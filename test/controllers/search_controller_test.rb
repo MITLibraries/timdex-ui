@@ -135,7 +135,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       get '/results?q=data'
       assert_response :success
       assert_select '#filters'
-      assert_select '#filters .category .filter-label', { minimum: 1 }
+      assert_select '#filters .filter-category .filter-label', { minimum: 1 }
     end
   end
 
@@ -211,7 +211,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_select '#filters', { count: 0 }
 
       # Filters are not shown
-      assert_select '#filters .category h3', { count: 0 }
+      assert_select '#filters .filter-category h3', { count: 0 }
 
       # Pagination is not shown
       assert_select '#pagination', { count: 0 }
@@ -427,31 +427,31 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       ClimateControl.modify ACTIVE_FILTERS: '' do
         get '/results?q=data'
         assert_response :success
-        assert_select '#filters .category .filter-label', { minimum: 1 }
+        assert_select '#filters .filter-category .filter-label', { minimum: 1 }
       end
 
       # Ask for a single filter, get that filter.
       ClimateControl.modify ACTIVE_FILTERS: 'subjects' do
         get '/results?q=data'
         assert_response :success
-        assert_select '#filters .category .filter-label', { count: 1 }
-        assert_select '#filters .category:first-of-type .filter-label', 'Subject'
+        assert_select '#filters .filter-category .filter-label', { count: 1 }
+        assert_select '#filters .filter-category:first-of-type .filter-label', 'Subject'
       end
 
       # The order of the terms matter, so now Format should be first.
       ClimateControl.modify ACTIVE_FILTERS: 'format, contentType, source' do
         get '/results?q=data'
         assert_response :success
-        assert_select '#filters .category .filter-label', { count: 3 }
-        assert_select '#filters .category:first-of-type .filter-label', 'Format'
+        assert_select '#filters .filter-category .filter-label', { count: 3 }
+        assert_select '#filters .filter-category:first-of-type .filter-label', 'Format'
       end
 
       # Including extra values does not affect anything - "nonsense" is extraneous.
       ClimateControl.modify ACTIVE_FILTERS: 'contentType, nonsense, source' do
         get '/results?q=data'
         assert_response :success
-        assert_select '#filters .category .filter-label', { count: 2 }
-        assert_select '#filters .category:first-of-type .filter-label', 'Content type'
+        assert_select '#filters .filter-category .filter-label', { count: 2 }
+        assert_select '#filters .filter-category:first-of-type .filter-label', 'Content type'
       end
     end
   end
