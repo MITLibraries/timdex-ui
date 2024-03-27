@@ -30,7 +30,8 @@
     font-weight: $fw-bold;
   }
 
-  .record-title {
+  .record-title,
+  span {
     display: inline;
     font-size: 2.5rem;
     line-height: 1.1;
