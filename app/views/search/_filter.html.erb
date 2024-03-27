@@ -8,14 +8,16 @@
     <ul class="category-terms list-unbulleted">
     <% values.each do |term| %>
       <li class="term">
-        <% if filter_applied?(@enhanced_query[category.to_sym], term['key']) %>
+        <% if filter_applied?(@enhanced_query[category], term['key']) %>
           <a href="<%= results_path(remove_filter(@enhanced_query, category, term['key'])) %>" class="applied">
           <span class="sr">Remove applied filter:</span>
         <% else %>
           <a href="<%= results_path(add_filter(@enhanced_query, category, term['key'])) %>">
           <span class="sr">Apply filter:</span>
         <% end %>
-          <span class="name"><%= term['key'] %></span>
+          <% if Flipflop.enabled?(:gdt) %>
+            <span class="name"><%= gdt_sources(term['key'], category) %></span>
+          <% end %>
           <span class="count"><%= term['docCount'] %> <span class="sr">records</span></span>
         </a>
       </li>

@@ -33,6 +33,16 @@ module FilterHelper
     }
   end
 
+  def gdt_sources(value, category)
+    return value if category != :sourceFilter
+
+    return 'Non-MIT institutions' if value == 'opengeometadata gis resources'
+
+    return 'MIT' if value == 'mit gis resources'
+
+    value
+  end
+
   def remove_filter(query, filter, term)
     new_query = query.deep_dup
     new_query[:page] = 1
