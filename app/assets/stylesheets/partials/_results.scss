@@ -14,10 +14,6 @@
   .no-results + .ask-us {
     margin-top: 0rem;
   }
-
-  #results {
-    list-style-position: inside;
-  }
 }
 
 .result {
@@ -30,9 +26,7 @@
     font-weight: $fw-bold;
   }
 
-  .record-title,
-  span {
-    display: inline;
+  .record-title {
     font-size: 2.5rem;
     line-height: 1.1;
     height: auto;
