@@ -1,6 +1,6 @@
 <li class="result">
   <h2 class="record-title">
-    <%= result_geo['title'] %>
+    <span class="sr">Title: </span><%= link_to(result_geo['title'], record_path(result_geo['timdexRecordId'])) %>
   </h2>
 
   <div class="data-info">
