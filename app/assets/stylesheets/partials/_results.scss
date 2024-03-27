@@ -26,12 +26,14 @@
     font-weight: $fw-bold;
     line-height: 1.1;
     height: auto;
+    text-size-adjust: none;
   }
 
   .record-title {
     font-size: 2.5rem;
     line-height: 1.1;
     height: auto;
+    text-size-adjust: none;
   }
 
   &:hover,
