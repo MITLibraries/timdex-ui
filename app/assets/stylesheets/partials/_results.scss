@@ -22,7 +22,6 @@
   font-size: $fs-small;
 
   &::marker {
-    align-self: baseline;
     font-size: 2.5rem;
     font-weight: $fw-bold;
     line-height: 1.1;
@@ -30,7 +29,6 @@
   }
 
   .record-title {
-    align-self: baseline;
     font-size: 2.5rem;
     line-height: 1.1;
     height: auto;
