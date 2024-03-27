@@ -24,9 +24,13 @@
   &::marker {
     font-size: 2.5rem;
     font-weight: $fw-bold;
+    line-height: 1.1;
+    text-align: center;
+    height: auto;
   }
 
   .record-title {
+    text-align: center;
     font-size: 2.5rem;
     line-height: 1.1;
     height: auto;
