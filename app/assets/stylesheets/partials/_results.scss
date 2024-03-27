@@ -14,10 +14,6 @@
   .no-results + .ask-us {
     margin-top: 0rem;
   }
-
-  #results {
-    list-style-position: inside;
-  }
 }
 
 .result {
@@ -27,14 +23,10 @@
 
   &::marker {
     font-size: 2.5rem;
-    line-height: 1.1;
-    font-weight: $fw-bold;
   }
 
   .record-title {
-    display: inline;
     font-size: 2.5rem;
-    line-height: 1.1;
   }
 
   &:hover,
