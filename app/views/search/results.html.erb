@@ -19,11 +19,10 @@
   <div class="<%= @filters.present? ? 'layout-1q3q' : 'layout-3q1q' %> layout-band top-space">
     <% if @filters.present? %>
       <aside id="filters" class="col1q">
-        <button id="filter-toggle"><span class="filter-toggle-name">Filter your results: <%= results_summary(@pagination[:hits]) %></span><span class="filter-toggle-hide">Hide filters</span></button>
+        <button id="filter-toggle"><span class="filter-toggle-name">Filter your results</span><span class="filter-toggle-hide">Hide filters</span></button>
         <div id="filter-container" class="hidden-md">
           <div class="hidden-md">
             <h2 class="hd-3">Filter your results</h2>
-            <h3 class="hd-4"><em><%= results_summary(@pagination[:hits]) %></em></h3>
           </div>
           <% @filters&.each_with_index do |(category, values), index| %>
             <% if index == 0 %>
@@ -37,9 +36,10 @@
       </aside>
     <% end %>
 
-    <div class="col3q wrap-results">
+    <div id="results" class="col3q wrap-results">
       <% if @results.present? %>
-        <ol id="results" start="<%= @pagination[:start] %>">
+        <h2 class="hd-3 results-context"><%= results_summary(@pagination[:hits]) %> returned</h2>
+        <ol class="results-list" start="<%= @pagination[:start] %>">
           <% if Flipflop.enabled?(:gdt) %>
             <%= render(partial: 'search/result_geo', collection: @results) %>
           <% else %>
@@ -47,7 +47,7 @@
           <% end %>
         </ol>
       <% else %>
-        <div id="results" class="no-results">
+        <div class="no-results">
           <p class="hd-2">No results found for your search</p>
         </div>
       <% end %>

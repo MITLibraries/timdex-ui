@@ -17,6 +17,14 @@
   .no-results + .ask-us {
     margin-top: 0rem;
   }
+  
+  .results-context {
+    margin-top: -15px;
+    padding-left: 2.5rem;
+    @media (max-width: $bp-screen-md) {
+      margin-top: 0;
+    }
+  }
 }
 
 .result {
