@@ -345,16 +345,22 @@ class RecordHelperTest < ActionView::TestCase
   end
 
   test 'more_info? true with issued_dates' do
+    skip("A requirement for testing is to return everything with no UI-side data cleanup. Leaving these in for now in \
+          case that changes for the final product.")
     record = { 'dates' => [{ 'kind' => 'Issued', 'value' => '2001' }] }
     assert more_info?(record)
   end
 
   test 'more_info? true with coverage_dates' do
+    skip("A requirement for testing is to return everything with no UI-side data cleanup. Leaving these in for now in \
+          case that changes for the final product.")
     record = { 'dates' => [{ 'kind' => 'Coverage', 'value' => '2001' }] }
     assert more_info?(record)
   end
 
   test 'more_info? true with places' do
+    skip("A requirement for testing is to return everything with no UI-side data cleanup. Leaving these in for now in \
+          case that changes for the final product.")
     record = { 'locations' => [{ 'kind' => 'Place Name', 'value' => 'The Village Vanguard' }] }
     assert more_info?(record)
   end
