@@ -6,7 +6,12 @@
   <% applied_filters.each do |filter| %>
     <li>
       <a href="<%= results_path(remove_filter(@enhanced_query, filter.keys[0], filter.values[0])) %>">
-        <%= "#{nice_labels[filter.keys[0]] || filter.keys[0]}: #{filter.values[0]}" %>
+        <%= "#{nice_labels[filter.keys[0]] || filter.keys[0]}:" %>
+        <% if Flipflop.enabled?(:gdt) %>
+          <%= "#{gdt_sources(filter.values[0], filter.keys[0])}" %>
+        <% else %>
+          <%= "#{filter.values[0]}" %>
+        <% end %>
         <span class="sr">Remove applied filter?</span>
       </a>
     </li>

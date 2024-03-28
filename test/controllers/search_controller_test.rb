@@ -1051,5 +1051,29 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
         assert_select '.result-get a', href: '/record/#{record_id}', text: 'View full record'
       end
     end
+
+    test 'geo sources are relabeled when GDT feature is enabled' do
+      VCR.use_cassette('geobox',
+                       allow_playback_repeats: true,
+                       match_requests_on: %i[method uri body]) do
+        query = {
+          geobox: 'true',
+          geoboxMinLongitude: 40.5,
+          geoboxMinLatitude: 60.0,
+          geoboxMaxLongitude: 78.2,
+          geoboxMaxLatitude: 80.0
+        }.to_query
+        get "/results?#{query}"
+        assert_response :success
+
+        # The original source names do not appear in the UI.
+        assert_select 'span.name', text: 'mit gis resources', count: 0
+        assert_select 'span.name', text: 'opengeometadata gis resources', count: 0
+
+        # The friendly source names do appear instead.
+        assert_select 'span.name', text: 'MIT'
+        assert_select 'span.name', text: 'Non-MIT institutions'
+      end
+    end
   end
 end
