@@ -7,16 +7,15 @@
   background-color: $white-t;
   padding: 15px;
 
+  @media (max-width: $bp-screen-md) {
+    padding: 0px;
+  }
   .no-results {
     margin-left: -15px;
   }
 
   .no-results + .ask-us {
     margin-top: 0rem;
-  }
-
-  #results {
-    list-style-position: inside;
   }
 }
 
@@ -32,7 +31,6 @@
   }
 
   .record-title {
-    display: inline;
     font-size: 2.5rem;
     line-height: 1.1;
   }
@@ -69,11 +67,17 @@
     }
   }
 
-  .result-get {
+  .result-get,
+  .result-record {
     padding-top: 5px;
     a:visited {
       color: $white;
-      background-color:  green;
+    }
+  }
+
+  .result-get {
+    a:visited {
+      background-color: $brand-secondary;
     }
   }
 

@@ -12,11 +12,11 @@ module SearchHelper
   def view_online(result)
     return unless result['sourceLink'].present?
 
-    link_to 'View online', result['sourceLink'], class: 'button button-primary green'
+    link_to 'View online', result['sourceLink'], class: 'button button-primary'
   end
 
   def view_record(record_id)
-    link_to 'View full record', record_path(id: record_id), class: 'button button-primary green'
+    link_to 'View full record', record_path(id: record_id), class: 'button button-primary'
   end
 
   # 'Coverage' and 'issued' seem to be the most prevalent types; 'coverage' is typically formatted as

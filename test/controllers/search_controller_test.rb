@@ -1048,7 +1048,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
         assert_response :success
 
         record_id = controller.view_assigns['results'].first['timdexRecordId']
-        assert_select '.result-get a', href: '/record/#{record_id}', text: 'View full record'
+        assert_select '.result-record a', href: '/record/#{record_id}', text: 'View full record'
       end
     end
 
