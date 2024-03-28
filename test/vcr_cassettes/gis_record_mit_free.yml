@@ -6,9 +6,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"query":"query TimdexRecord__Query($id: String!, $index: String) {\n  recordId(id:
-        $id, index: $index) {\n    alternateTitles {\n      kind\n      value\n    }\n    callNumbers\n    contentType\n    contents\n    contributors
+        $id, index: $index) {\n    alternateTitles {\n      kind\n      value\n    }\n    callNumbers\n    citation\n    contentType\n    contents\n    contributors
         {\n      affiliation\n      identifier\n      kind\n      mitAffiliated\n      value\n    }\n    dates
-        {\n      kind\n      note\n      range {\n        gte\n        lte\n      }\n      value\n    }\n    edition\n    fundingInformation
+        {\n      kind\n      note\n      range {\n        gte\n        lte\n      }\n      value\n    }\n    edition\n    format\n    fundingInformation
         {\n      funderName\n      funderIdentifier\n      funderIdentifierType\n      awardUri\n      awardNumber\n    }\n    holdings
         {\n      callnumber\n      collection\n      format\n      location\n      notes\n      summary\n    }\n    identifiers
         {\n      kind\n      value\n    }\n    languages\n    links {\n      kind\n      restrictions\n      text\n      url\n    }\n    literaryForm\n    locations
@@ -33,11 +33,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Mar 2024 14:43:49 GMT
+      - Thu, 28 Mar 2024 16:17:51 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710427429&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=OgHsXjkRruZrYdqPgoN54GvqteXmK9MrBI2S58m7J7c%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1711642671&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=32%2FtfnVatY0iFa0KJwMNaczg6uf7c2HIvA125TMiaLI%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1710427429&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=OgHsXjkRruZrYdqPgoN54GvqteXmK9MrBI2S58m7J7c%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1711642671&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=32%2FtfnVatY0iFa0KJwMNaczg6uf7c2HIvA125TMiaLI%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -57,24 +57,26 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"8984159175ba4873324bb570be633dbd"
+      - W/"8777f9c62c562fadb2566afa8e79741f"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - ebebfb85-7244-4ff3-86ee-24dbc03b3b8f
+      - ed24aeac-136b-49a9-a605-f57c906b43de
       X-Runtime:
-      - '0.028368'
+      - '0.029822'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
-      - '2474'
+      - '2683'
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"data":{"recordId":{"alternateTitles":null,"callNumbers":null,"contentType":["Point
+      string: '{"data":{"recordId":{"alternateTitles":null,"callNumbers":null,"citation":"Cambridge
+        (Mass.). Geographic Information Systems. Memorial Poles Cambridge MA 2009.
+        Point data. https://geodata.libraries.mit.edu/record/gismit:CAMBRIDGEMEMPOLES09","contentType":["Point
         data"],"contents":null,"contributors":[{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"Cambridge
-        (Mass.). Geographic Information Systems"}],"dates":[{"kind":"Issued","note":null,"range":null,"value":"2012-09-20"}],"edition":null,"fundingInformation":null,"holdings":null,"identifiers":[{"kind":"Not
+        (Mass.). Geographic Information Systems"}],"dates":[{"kind":"Issued","note":null,"range":null,"value":"2012-09-20"}],"edition":null,"format":"Shapefile","fundingInformation":null,"holdings":null,"identifiers":[{"kind":"Not
         specified","value":"CAMBRIDGEMEMPOLES09"}],"languages":["eng"],"links":[{"kind":"Download","restrictions":null,"text":"Source
         Metadata","url":"https://cdn.dev1.mitlibrary.net/geo/public/CAMBRIDGEMEMPOLES09.source.fgdc.xml"},{"kind":"Download","restrictions":null,"text":"Aardvark
         Metadata","url":"https://cdn.dev1.mitlibrary.net/geo/public/CAMBRIDGEMEMPOLES09.normalized.aardvark.json"},{"kind":"Download","restrictions":null,"text":"Data","url":"https://cdn.dev1.mitlibrary.net/geo/public/CAMBRIDGEMEMPOLES09.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.libraries.mit.edu/record/gismit:CAMBRIDGEMEMPOLES09"}],"literaryForm":null,"locations":[{"geopoint":"BBOX
@@ -82,8 +84,8 @@ http_interactions:
         (-71.157950, -71.076669, 42.402572, 42.355089)","kind":"Geometry","value":null},{"geopoint":null,"kind":"Place
         Name","value":"Massachusetts--Cambridge"}],"notes":null,"numbering":null,"physicalDescription":null,"provider":"GIS
         Lab, MIT Libraries","publicationFrequency":null,"publicationInformation":null,"relatedItems":null,"rights":[{"description":"Public","kind":"Access
-        rights","uri":null},{"description":"Free/open to all","kind":"Access to files","uri":null},{"description":"For
-        educational noncommercial use only.","kind":null,"uri":null}],"source":"MIT
+        rights","uri":null},{"description":"no authentication required","kind":"Access
+        to files","uri":null},{"description":"For educational noncommercial use only.","kind":null,"uri":null}],"source":"MIT
         GIS Resources","sourceLink":"https://geodata.libraries.mit.edu/record/gismit:CAMBRIDGEMEMPOLES09","subjects":[{"kind":"DCAT;
         Theme","value":["Structure"]},{"kind":"Dublin Core; Spatial","value":["Massachusetts--Cambridge"]},{"kind":"Dublin
         Core; Subject","value":["Memorials"]},{"kind":"Dublin Core; Subject","value":["structure"]},{"kind":"Subject
@@ -92,5 +94,5 @@ http_interactions:
         commemorate extraordinary citizens and those who have died or been reported
         missing in combat."],"timdexRecordId":"gismit:CAMBRIDGEMEMPOLES09","title":"Memorial
         Poles Cambridge MA 2009"}}}'
-  recorded_at: Thu, 14 Mar 2024 14:43:49 GMT
+  recorded_at: Thu, 28 Mar 2024 16:17:51 GMT
 recorded_with: VCR 6.2.0
