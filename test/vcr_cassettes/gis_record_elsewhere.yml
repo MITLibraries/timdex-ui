@@ -6,9 +6,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"query":"query TimdexRecord__Query($id: String!, $index: String) {\n  recordId(id:
-        $id, index: $index) {\n    alternateTitles {\n      kind\n      value\n    }\n    callNumbers\n    contentType\n    contents\n    contributors
+        $id, index: $index) {\n    alternateTitles {\n      kind\n      value\n    }\n    callNumbers\n    citation\n    contentType\n    contents\n    contributors
         {\n      affiliation\n      identifier\n      kind\n      mitAffiliated\n      value\n    }\n    dates
-        {\n      kind\n      note\n      range {\n        gte\n        lte\n      }\n      value\n    }\n    edition\n    fundingInformation
+        {\n      kind\n      note\n      range {\n        gte\n        lte\n      }\n      value\n    }\n    edition\n    format\n    fundingInformation
         {\n      funderName\n      funderIdentifier\n      funderIdentifierType\n      awardUri\n      awardNumber\n    }\n    holdings
         {\n      callnumber\n      collection\n      format\n      location\n      notes\n      summary\n    }\n    identifiers
         {\n      kind\n      value\n    }\n    languages\n    links {\n      kind\n      restrictions\n      text\n      url\n    }\n    literaryForm\n    locations
@@ -33,11 +33,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 14 Mar 2024 14:43:48 GMT
+      - Thu, 28 Mar 2024 16:17:51 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1710427429&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=OgHsXjkRruZrYdqPgoN54GvqteXmK9MrBI2S58m7J7c%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1711642671&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=32%2FtfnVatY0iFa0KJwMNaczg6uf7c2HIvA125TMiaLI%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1710427429&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=OgHsXjkRruZrYdqPgoN54GvqteXmK9MrBI2S58m7J7c%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1711642671&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=32%2FtfnVatY0iFa0KJwMNaczg6uf7c2HIvA125TMiaLI%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -57,26 +57,29 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"04e1c53c8a8c9aaac093cc4bdbf2592d"
+      - W/"90796773455ca4ee252eadf7949b3821"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 1307f5b5-ca3a-41ad-b514-6576997d1d82
+      - b4fb6e82-cb8b-4f40-8dca-3cf10ed14be3
       X-Runtime:
-      - '0.027347'
+      - '0.031784'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
-      - '3059'
+      - '3388'
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"data":{"recordId":{"alternateTitles":null,"callNumbers":null,"contentType":["Point
-        data"],"contents":null,"contributors":[{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"International
+      string: '{"data":{"recordId":{"alternateTitles":null,"callNumbers":null,"citation":"International
+        Heat Flow Commission, International Association of Seismology and Physics
+        of the Earth''s Interior, Oklahoma State University. Department of Geography.
+        Cartography Service. Heat Flow, Tajikistan. International Heat Flow Commission.
+        Point data. https://purl.stanford.edu/kv971cf1984","contentType":["Point data"],"contents":null,"contributors":[{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"International
         Heat Flow Commission"},{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"International
         Association of Seismology and Physics of the Earth''s Interior"},{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"Oklahoma
-        State University. Department of Geography. Cartography Service"}],"dates":[{"kind":"Issued","note":null,"range":null,"value":"2016"},{"kind":"Coverage","note":null,"range":null,"value":"9999"}],"edition":null,"fundingInformation":null,"holdings":null,"identifiers":[{"kind":"Not
+        State University. Department of Geography. Cartography Service"}],"dates":[{"kind":"Issued","note":null,"range":null,"value":"2016"},{"kind":"Coverage","note":null,"range":null,"value":"9999"}],"edition":null,"format":"Shapefile","fundingInformation":null,"holdings":null,"identifiers":[{"kind":"Not
         specified","value":"https://purl.stanford.edu/kv971cf1984"}],"languages":["English"],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:kv971cf1984/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/kv971cf1984"}],"literaryForm":null,"locations":[{"geopoint":"BBOX
         (68.2333, 74.25, 40.6333, 37.3)","kind":"Bounding Box","value":null},{"geopoint":"BBOX
         (68.2333, 74.25, 40.6333, 37.3)","kind":"Geometry","value":null},{"geopoint":null,"kind":"Place
@@ -99,5 +102,5 @@ http_interactions:
         in the WGS84 coordinate system for web display purposes. Downloadable data
         are provided in native coordinate system or projection."],"timdexRecordId":"gisogm:edu.stanford.purl:be6ef8cd8ac5","title":"Heat
         Flow, Tajikistan"}}}'
-  recorded_at: Thu, 14 Mar 2024 14:43:49 GMT
+  recorded_at: Thu, 28 Mar 2024 16:17:51 GMT
 recorded_with: VCR 6.2.0

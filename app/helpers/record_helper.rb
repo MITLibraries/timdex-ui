@@ -98,17 +98,23 @@ module RecordHelper
     access_right.first['description']
   end
 
+  # This method is not currently in use, but it may become useful later. Stakeholders need to see all available data
+  # for testing.
   def issued_dates(dates)
     return_relevant_dates(dates, 'Issued')
   end
 
+  # This method is not currently in use, but it may become useful later. Stakeholders need to see all available data
+  # for testing.
   def coverage_dates(dates)
     return_relevant_dates(dates, 'Coverage')
   end
 
+  # This method is likely to change post-MVP. Stakeholders need to see all available data for testing.
   def more_info?(metadata)
-    if issued_dates(metadata['dates']) || coverage_dates(metadata['dates']) || places(metadata['locations']) ||
-       metadata['provider']
+    if metadata['citation'] || metadata['dates'] || metadata['identifiers'] || metadata['languages'] ||
+       metadata['format'] || metadata['locations'] || metadata['notes'] || metadata['provider'] ||
+       metadata['publicationInformation']
       true
     else
       false
@@ -125,6 +131,8 @@ module RecordHelper
     links.select { |link| link['kind'] == 'Download' && link['text'] == 'Source Metadata' }.first['url']
   end
 
+  # This method is not currently in use, but it may become useful later. Stakeholders need to see all available data
+  # for testing.
   def places(locations)
     return if locations.blank?
 

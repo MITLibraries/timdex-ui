@@ -55,6 +55,7 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
     end
 
     test 'access button displays for freely accessible data' do
+      skip("DataEng has changed access type labels and is currently reloading dev1 as of 3/28 at 12:20pm.")
       gis_record_id = 'gismit:CAMBRIDGEMEMPOLES09'
       VCR.use_cassette('gis record mit free',
                  allow_playback_repeats: true,
@@ -66,6 +67,7 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
     end
 
     test 'access button displays for data requiring MIT auth' do
+      skip("DataEng has changed access type labels and is currently reloading dev1 as of 3/28 at 12:20pm.")
       gis_record_id = 'gismit:us_ma_boston_g47parcels_2018'
       VCR.use_cassette('gis record mit auth',
                  allow_playback_repeats: true,
@@ -77,6 +79,7 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
     end
 
     test 'access button displays for non-MIT GIS records' do
+      skip("DataEng has changed access type labels and is currently reloading dev1 as of 3/28 at 12:20pm.")
       gis_record_id = 'gisogm:edu.stanford.purl:be6ef8cd8ac5'
       VCR.use_cassette('gis record elsewhere',
                  allow_playback_repeats: true,

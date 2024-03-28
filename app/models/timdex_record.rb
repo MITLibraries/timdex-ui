@@ -10,6 +10,7 @@ class TimdexRecord < TimdexBase
           value
         }
         callNumbers
+        citation
         contentType
         contents
         contributors {
@@ -30,7 +31,7 @@ class TimdexRecord < TimdexBase
         }
         edition
         # fileFormats
-        # format
+        format
         fundingInformation {
           funderName
           funderIdentifier
