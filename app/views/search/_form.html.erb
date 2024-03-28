@@ -157,54 +157,69 @@ end
     <% end %>
 
     <details id="advanced-search-panel" <%= "open" if params[:advanced] == "true" %>>
-      <summary class="btn button-secondary" id="advanced-summary"><span id="advanced-search-label" class="<%= advanced_label_class %>"><%= advanced_label %></span></summary>
+      <summary class="btn button-secondary" id="advanced-summary">
+        <span id="advanced-search-label"class="<%= advanced_label_class %>"><%= advanced_label %></span>
+      </summary>
       <input id="advanced-search-field" type="hidden" name="advanced" value="<%= params[:advanced] %>">
       <div class="field-container">
         <div class="field-wrap">
-          <label for="advanced-citation" class="field-label">Citation</label>
-          <input type="text" class="field field-text wide" id="advanced-citation" name="citation" placeholder="Citation" value="<%= params[:citation] %>">
+          <label for="advanced-title" class="field-label">Title</label>
+          <input type="text" class="field field-text wide" id="advanced-title" name="title"
+                 value="<%= params[:title] %>">
         </div>
 
         <div class="field-wrap">
-          <label for="advanced-contributors" class="field-label">Contributors</label>
-          <input type="text" class="field field-text wide" id="advanced-contributors" name="contributors" placeholder="Contributors" value="<%= params[:contributors] %>">
+          <label for="advanced-contributors" class="field-label">
+            <%= Flipflop.enabled?(:gdt) ? "Authors" : "Contributors" %>    
+          </label>
+          <input type="text" class="field field-text wide" id="advanced-contributors" name="contributors"
+                 value="<%= params[:contributors] %>">
         </div>
 
-        <div class="field-wrap">
-          <label for="advanced-fundingInformation" class="field-label">Funding information</label>
-          <input type="text" class="field field-text wide" id="advanced-fundingInformation" name="fundingInformation" placeholder="Funding information" value="<%= params[:fundingInformation] %>">
-        </div>
+        <% unless Flipflop.enabled?(:gdt) %>
+          <div class="field-wrap">
+            <label for="advanced-citation" class="field-label">Citation</label>
+            <input type="text" class="field field-text wide" id="advanced-citation" name="citation" 
+                   value="<%= params[:citation] %>">
+          </div>
+
+          <div class="field-wrap">
+            <label for="advanced-fundingInformation" class="field-label">Funding information</label>
+            <input type="text" class="field field-text wide" id="advanced-fundingInformation" name="fundingInformation"
+                   value="<%= params[:fundingInformation] %>">
+          </div>
+
+          <div class="field-wrap">
+            <label for="advanced-identifiers" class="field-label">Identifiers</label>
+            <input type="text" class="field field-text wide" id="advanced-identifiers" name="identifiers"
+                   value="<%= params[:identifiers] %>">
+          </div>
+        <% end %>
 
         <div class="field-wrap">
-          <label for="advanced-identifiers" class="field-label">Identifiers</label>
-          <input type="text" class="field field-text wide" id="advanced-identifiers" name="identifiers" placeholder="Identifiers" value="<%= params[:identifiers] %>">
+          <label for="advanced-subjects" class="field-label">Subjects</label>
+          <input type="text" class="field field-text wide" id="advanced-subjects" name="subjects"
+                 value="<%= params[:subjects] %>">
         </div>
 
         <div class="field-wrap">
           <label for="advanced-locations" class="field-label">Locations</label>
-          <input type="text" class="field field-text wide" id="advanced-locations" name="locations" placeholder="Locations" value="<%= params[:locations] %>">
+          <input type="text" class="field field-text wide" id="advanced-locations" name="locations"
+                 value="<%= params[:locations] %>">
         </div>
 
-        <div class="field-wrap">
-          <label for="advanced-subjects" class="field-label">Subjects</label>
-          <input type="text" class="field field-text wide" id="advanced-subjects" name="subjects" placeholder="Subjects" value="<%= params[:subjects] %>">
-        </div>
+        <% unless Flipflop.enabled?(:gdt) %>
+          <div class="field-wrap list-checkboxes">
+            <%# https://www.w3.org/WAI/tutorials/forms/grouping/ %>
+            <fieldset>
+              <legend>Limit search to checked sources.</legend>
 
-        <div class="field-wrap">
-          <label for="advanced-title" class="field-label">Title</label>
-          <input type="text" class="field field-text wide" id="advanced-title" name="title" placeholder="Title" value="<%= params[:title] %>">
-        </div>
-
-        <div class="field-wrap list-checkboxes">
-          <%# https://www.w3.org/WAI/tutorials/forms/grouping/ %>
-          <fieldset>
-            <legend>Limit search to checked sources.</legend>
-
-            <% timdex_sources.each do |source| %>
-              <%= source_checkbox(source, params) %>
-            <% end %>
-          </fieldset>
-        </div>
+              <% timdex_sources.each do |source| %>
+                <%= source_checkbox(source, params) %>
+              <% end %>
+            </fieldset>
+          </div>
+        <% end %>
       </div>
     </details>
   </div>

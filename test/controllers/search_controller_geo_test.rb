@@ -7,6 +7,27 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     @test_strategy.switch!(:gdt, true)
   end
 
+  test 'GDT has specific advanced search fields' do
+    get '/'
+
+    # Please note that this test confirms fields in the DOM - but not whether
+    # they are visible. Fields in a hidden details panel are still in the DOM,
+    # but not visible or reachable via keyboard interaction.
+    assert_select 'input#advanced-title', count: 1
+    assert_select 'input#advanced-contributors', count: 1
+    assert_select 'input#advanced-locations', count: 1
+    assert_select 'input#advanced-subjects', count: 1
+    assert_select 'input.source', count: 0
+    assert_select 'input#advanced-citation', count: 0
+    assert_select 'input#advanced-fundingInformation', count: 0
+    assert_select 'input#advanced-identifiers', count: 0
+  end
+
+  test 'contributors label is renamed to authors in GDT' do
+    get '/'
+    assert_select 'label', text: "Authors"
+  end
+
   test 'index shows geobox form, closed by default' do
     get '/'
     assert_response :success
