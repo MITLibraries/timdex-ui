@@ -28,7 +28,7 @@ class SearchHelperTest < ActionView::TestCase
 
   test 'renders view_online link if sourceLink is present' do
     result = { 'title' => 'A record', 'sourceLink' => 'https://example.org' }
-    assert_equal '<a class="button button-primary green" href="https://example.org">View online</a>',
+    assert_equal '<a class="button button-primary" href="https://example.org">View online</a>',
                  view_online(result)
   end
 
