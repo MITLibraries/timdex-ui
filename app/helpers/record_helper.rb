@@ -83,7 +83,7 @@ module RecordHelper
 
     # At this point, we don't show download links for non-MIT records. For MIT records, the download link is stored
     # consistently as a download link. We are confirming that the link text is 'Data' for added confirmation.
-    if access_type(metadata) == 'Not owned by MIT'
+    if access_type(metadata) == 'unknown: check with owning institution'
       links.select { |link| link['kind'] == 'Website' }.first['url']
     else
       links.select { |link| link['kind'] == 'Download' && link['text'] == 'Data' }.first['url']
