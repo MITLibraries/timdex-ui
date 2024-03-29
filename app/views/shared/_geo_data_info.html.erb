@@ -3,12 +3,12 @@
   <% if parse_geo_dates(metadata['dates']) %>
     <li><%= parse_geo_dates(metadata['dates']) %></li>
   <% end %>
-  <% if access_type(metadata) == 'Not owned by MIT' %>
+  <% if access_type(metadata) == 'unknown: check with owning institution' %>
     <li>
-      <%= access_type(metadata) %>
+      Not owned by MIT
       <span class="other-provider">(<%= link_to "Owned by #{metadata['provider']}", gis_access_link(metadata) %>)</span>
     </li>
-  <% elsif access_type(metadata) == 'MIT authentication' %>
+  <% elsif access_type(metadata) == 'MIT authentication required' %>
     <li><span class="access-restricted"><%= access_type(metadata) %></span></li>
   <% end %>
 </ul>

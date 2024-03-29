@@ -122,12 +122,12 @@ class RecordHelperTest < ActionView::TestCase
                    'kind' => 'bar'
                  },
                  {
-                   'description' => 'Free/open to all',
+                   'description' => 'no authentication required',
                    'kind' => 'Access to files'
                  }
                ]
              }
-    assert_equal 'Free/open to all', access_type(rights)
+    assert_equal 'no authentication required', access_type(rights)
   end
 
   test 'gis_access_link returns nil if access type is blank' do
@@ -157,7 +157,7 @@ class RecordHelperTest < ActionView::TestCase
                             'kind' => 'bar'
                           },
                           {
-                            'description' => 'Free/open to all',
+                            'description' => 'no authentication required',
                             'kind' => 'Access to files'
                           }
                         ]
@@ -173,7 +173,7 @@ class RecordHelperTest < ActionView::TestCase
                              'kind' => 'bar'
                            },
                            {
-                             'description' => 'Not owned by MIT',
+                             'description' => 'unknown: check with owning institution',
                              'kind' => 'Access to files'
                            }
                          ],
@@ -202,7 +202,7 @@ class RecordHelperTest < ActionView::TestCase
                         'kind' => 'bar'
                       },
                       {
-                        'description' => 'Free/open to all',
+                        'description' => 'no authentication required',
                         'kind' => 'Access to files'
                       }
                     ],
@@ -226,7 +226,7 @@ class RecordHelperTest < ActionView::TestCase
                         'kind' => 'bar'
                       },
                       {
-                        'description' => 'MIT authenticated',
+                        'description' => 'MIT authentication required',
                         'kind' => 'Access to files'
                       }
                     ],
