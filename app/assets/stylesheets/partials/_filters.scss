@@ -88,10 +88,12 @@
           }
         }
         &.applied {
-          .name {
+          span {
             color: #000;
-            &:hover,
-            &:focus {
+          }
+          &:hover,
+          &:focus {
+            span {
               color: #fff;
             }
           }
