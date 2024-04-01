@@ -20,7 +20,7 @@
     <% end %>
 
     <% if @record['summary'].present? %>
-      <h3 class="section-title">Description</h3>
+      <h3 class="section-title">Summary</h3>
       <% @record['summary'].each do |paragraph| %>
         <p>
           <%= sanitize paragraph, tags: %w(p strong em a), attributes: %w(href) %>
