@@ -139,6 +139,17 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'a filter category lists available filters with names and values' do
+    VCR.use_cassette('data basic controller',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=data'
+      assert_response :success
+      assert_select '.filter-options .category-terms .name', { minimum: 1 }
+      assert_select '.filter-options .category-terms .count', { minimum: 1 }
+    end
+  end
+
   test 'results with valid query has div for pagination' do
     VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
