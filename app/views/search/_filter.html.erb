@@ -15,9 +15,11 @@
           <a href="<%= results_path(add_filter(@enhanced_query, category, term['key'])) %>">
           <span class="sr">Apply filter:</span>
         <% end %>
-          <% if Flipflop.enabled?(:gdt) %>
-            <span class="name"><%= gdt_sources(term['key'], category) %></span>
-          <% end %>
+        <% if Flipflop.enabled?(:gdt) %>
+          <span class="name"><%= gdt_sources(term['key'], category) %></span>
+        <% else %>
+          <span class="name"><%= term['key'] %></span>
+        <% end %>
           <span class="count"><%= term['docCount'] %> <span class="sr">records</span></span>
         </a>
       </li>
