@@ -32,13 +32,13 @@
       <h3 class="section-title">Subjects</h3>
       <ul>
       <% @record['subjects'].each do |subject| %>
-        <li><%= subject['value'].join(';' ) %></li>
+        <li><%= subject['value'].join('; ') %></li>
       <% end %>
       </ul>
     <% end %>
 
-    <% if more_info?(@record) %>
-      <%= render partial: 'more_info', locals: { metadata: @record } %>
+    <% if more_info_geo?(@record) %>
+      <%= render partial: 'more_info_geo', locals: { metadata: @record } %>
     <% end %>
 
     <div class="record-access-links">
