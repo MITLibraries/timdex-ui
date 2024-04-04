@@ -247,68 +247,6 @@ class RecordHelperTest < ActionView::TestCase
     assert_equal 'https://example.org/dz_f7regions_2016.zip', gis_access_link(access_auth)
   end
 
-  test 'issued_dates returns all issued dates' do
-    dates = [{ 'kind' => 'Issued', 'value' => '1-1-1999' },
-             { 'kind' => 'Issued', 'value' => '1-1-1997' }]
-    assert_equal ('1-1-1999; 1-1-1997'), issued_dates(dates)
-  end
-
-  test 'issued_dates does not return dates of other kinds' do
-    dates = [{ 'kind' => 'Birthday', 'value' => '1-1-1999' },
-             { 'kind' => 'First', 'value' => '1' },
-             { 'kind' => 'Coverage', 'value' => '1949' }]
-    assert_nil issued_dates(dates)
-  end
-
-  test 'issued_dates handles ranges' do
-    dates = [{ 'kind' => 'Issued', 'range' => { 'gte' => '2000', 'lte' => '2001' }},
-             { 'kind' => 'Issued', 'range' => { 'gte' => '1999', 'lte' => '1999' }}]
-    assert_equal '2000-2001; 1999', issued_dates(dates)
-  end
-
-  test 'issued_dates handles duplicate dates' do
-    dates = [{ 'kind' => 'Issued', 'value' => '1999' },
-             { 'kind' => 'Issued', 'value' => '1999' },
-             { 'kind' => 'Issued', 'range' => { 'gte' => '1999', 'lte' => '1999' }}]
-    assert_equal '1999', issued_dates(dates)
-  end
-
-  test 'issued_dates returns nil if no dates are available' do
-    dates = []
-    assert_nil issued_dates(dates)
-  end
-
-  test 'coverage_dates returns all coverage dates' do
-    dates = [{ 'kind' => 'Coverage', 'value' => '1999' },
-             { 'kind' => 'Coverage', 'value' => '1997' }]
-    assert_equal ('1999; 1997'), coverage_dates(dates)
-  end
-
-  test 'coverage_dates does not return dates of other kinds' do
-    dates = [{ 'kind' => 'Birthday', 'value' => '1-1-1999' },
-             { 'kind' => 'First', 'value' => '1' },
-             { 'kind' => 'Issued', 'value' => '1949' }]
-    assert_nil coverage_dates(dates)
-  end
-
-  test 'coverage_dates handles ranges' do
-    dates = [{ 'kind' => 'Coverage', 'range' => { 'gte' => '2000', 'lte' => '2001' }},
-             { 'kind' => 'Coverage', 'range' => { 'gte' => '1999', 'lte' => '1999' }}]
-    assert_equal '2000-2001; 1999', coverage_dates(dates)
-  end
-
-  test 'coverage_dates handles duplicate dates' do
-    dates = [{ 'kind' => 'Coverage', 'value' => '1999' },
-             { 'kind' => 'Coverage', 'value' => '1999' },
-             { 'kind' => 'Coverage', 'range' => { 'gte' => '1999', 'lte' => '1999' }}]
-    assert_equal '1999', coverage_dates(dates)
-  end
-
-  test 'coverage_dates returns nil if no dates are available' do
-    dates = []
-    assert_nil coverage_dates(dates)
-  end
-
   test 'source_metadata_available? returns true if source metadata link exists' do
     links = [{ 'kind' => 'Download', 'text' => 'Source Metadata', 'url' => 'https://example.org/metadata.zip' }]
     assert source_metadata_available?(links)
@@ -332,46 +270,51 @@ class RecordHelperTest < ActionView::TestCase
     assert_equal 'https://example.org/metadata.zip', source_metadata_link(links)
   end
 
-  test 'places collects place names only' do
-    locations = [{ 'kind' => 'Place Name', 'value' => 'The Village Vanguard' },
-                 { 'kind' => 'Place Name', 'value' => 'Birdland' },
-                 { 'kind' => 'geopoint', 'value' => 'foo' }]
-    assert_equal ['The Village Vanguard', 'Birdland'], places(locations)
+  test 'more_info_geo? true if some relevant fields exist' do
+    date_record = { 'dates' => [{ 'kind' => 'Issued', 'value' => '2001' }] }
+    assert more_info_geo?(date_record)
+
+    locations_record = { 'locations' => [{ 'kind' => 'Place Name', 'value' => 'The Village Vanguard' }] }
+    assert more_info_geo?(locations_record)
+
+    provider_record = { 'provider' => 'MIT' }
+    assert more_info_geo?(provider_record)
   end
 
-  test 'places returns nil if no place names are present' do
-    locations = [{ 'kind' => 'geopoint', 'value' => 'foo' }]
-    assert_nil places(locations)
-  end
-
-  test 'more_info? true with issued_dates' do
-    skip("A requirement for testing is to return everything with no UI-side data cleanup. Leaving these in for now in \
-          case that changes for the final product.")
-    record = { 'dates' => [{ 'kind' => 'Issued', 'value' => '2001' }] }
-    assert more_info?(record)
-  end
-
-  test 'more_info? true with coverage_dates' do
-    skip("A requirement for testing is to return everything with no UI-side data cleanup. Leaving these in for now in \
-          case that changes for the final product.")
-    record = { 'dates' => [{ 'kind' => 'Coverage', 'value' => '2001' }] }
-    assert more_info?(record)
-  end
-
-  test 'more_info? true with places' do
-    skip("A requirement for testing is to return everything with no UI-side data cleanup. Leaving these in for now in \
-          case that changes for the final product.")
-    record = { 'locations' => [{ 'kind' => 'Place Name', 'value' => 'The Village Vanguard' }] }
-    assert more_info?(record)
-  end
-
-  test 'more_info? true with provider' do
-    record = { 'provider' => 'MIT' }
-    assert more_info?(record)
-  end
-
-  test 'more_info? false if no more info available' do
+  test 'more_info_geo? false if no more info available' do
     record = { 'title' => 'foo', 'source' => 'bar' }
-    assert_not more_info?(record)
+    assert_not more_info_geo?(record)
+  end
+
+  test 'parse_nested_field returns nil for fields that are not nested' do
+    string_field = 'string'
+    array_of_strings_field = ['string', 'other_string']
+    assert_nil parse_nested_field(string_field)
+    assert_nil parse_nested_field(array_of_strings_field)
+  end
+
+  test 'parse_nested_field returns something for fields that seem nested' do
+    nested_field = [{ 'foo' => 'bar' }]
+    assert_equal nested_field, parse_nested_field(nested_field)
+  end
+
+  test 'parse_nested_field ignores mitAffiliated subfield' do
+    contributors = [{ 'kind' => 'bandleader', 'value' => 'Coltrane, John', 'mitAffiliated' => false }]
+    assert_equal [{ 'kind' => 'bandleader', 'value' => 'Coltrane, John' }], parse_nested_field(contributors)
+  end
+
+  test 'parse_nested_field trims null values' do
+    contributors = [{ 'kind' => 'bandleader', 'value' => 'Coltrane, John', 'identifier' => nil }]
+    assert_equal [{ 'kind' => 'bandleader', 'value' => 'Coltrane, John' }], parse_nested_field(contributors)
+  end
+
+  test 'render_subfield treats date ranges accordingly' do
+    date_range = { 'kind' => 'Coverage', 'value' => '1999', 'range' => { 'gte' => '1999', 'lte' => '2000' } }
+    assert_equal "kind: Coverage; range: 1999 to 2000", render_subfield(date_range)
+  end
+
+  test 'render_subfield renders a variety of key/value pairs' do
+    contributor = { 'kind' => 'bandleader', 'value' => 'Coltrane, John', 'identifier' => 'Trane', 'genre' => 'jazz' }
+    assert_equal "kind: bandleader; value: Coltrane, John; identifier: Trane; genre: jazz", render_subfield(contributor)
   end
 end

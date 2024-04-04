@@ -1,0 +1,97 @@
+<h3 class="section-title">More information</h3>
+
+<ul class="list-moreinfo">
+  <!-- Add publishers when the data is available -->
+
+  <% if metadata['alternateTitles'].present? %>
+    <li><strong>Alternate titles:</strong>
+      <ul>
+      <% parse_nested_field(metadata['alternateTitles']).each do |subfield| %>
+        <li><%= render_subfield(subfield) %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+
+  <% if metadata['dates'].present? %>
+    <li><strong>Dates:</strong>
+      <ul>
+      <% parse_nested_field(metadata['dates']).each do |subfield| %>
+        <li><%= render_subfield(subfield) %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+
+  <% if metadata['contributors'].present? %>
+    <li><strong>Contributors:</strong>
+      <ul>
+      <% parse_nested_field(metadata['contributors']).each do |subfield| %>
+        <li><%= render_subfield(subfield) %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+
+  <% if metadata['locations'].present? %>
+    <li><strong>Locations:</strong>
+      <ul>
+      <% parse_nested_field(metadata['locations']).each do |subfield| %>
+        <li><%= render_subfield(subfield) %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+
+  <% if metadata['notes'].present? %>
+    <li><strong>Notes:</strong>
+      <ul>
+      <% parse_nested_field(metadata['notes']).each do |subfield| %>
+        <li><%= render_subfield(subfield) %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+
+  <% if metadata['provider'].present? %>
+    <li><strong>Provider:</strong> <%= metadata['provider'] %></li>
+  <% end %>
+
+  <% if metadata['citation'].present? %>
+    <li><strong>Citation:</strong> <%= metadata['citation'] %></li>
+  <% end %>
+
+  <% if metadata['format'].present? %>
+    <li><strong>Format:</strong> <%= metadata['format'] %></li>
+  <% end %>
+
+  <% if metadata['languages'].present? %>
+    <li><strong>Languages:</strong>
+      <ul>
+      <% metadata['languages'].each do |language| %>
+        <li><%= language %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+
+  <% if metadata['links'].present? %>
+    <li><strong>Links:</strong>
+      <ul>
+      <% parse_nested_field(metadata['links']).each do |subfield| %>
+        <li><%= render_subfield(subfield) %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+
+  <% if metadata['rights'].present? %>
+    <li><strong>Rights:</strong>
+      <ul>
+      <% parse_nested_field(metadata['rights']).each do |subfield| %>
+        <li><%= render_subfield(subfield) %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>

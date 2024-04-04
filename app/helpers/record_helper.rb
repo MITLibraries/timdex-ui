@@ -98,27 +98,30 @@ module RecordHelper
     access_right.first['description']
   end
 
-  # This method is not currently in use, but it may become useful later. Stakeholders need to see all available data
-  # for testing.
-  def issued_dates(dates)
-    return_relevant_dates(dates, 'Issued')
+  # For GDT records, a 'more information' section includes all fields that are currently mapped in
+  # [transmogrifier](https://github.com/MITLibraries/transmogrifier/blob/main/transmogrifier/sources/json/aardvark.py).
+  # Note: the publishers field is not yet available in TIMDEX API, but it should be added here once it is.
+  def more_info_geo?(metadata)
+    relevant_fields = %w[alternate_titles contributors dates format identifiers languages locations
+                         links notes provider rights]
+    metadata.keys.any? { |key| relevant_fields.include? key }
   end
 
-  # This method is not currently in use, but it may become useful later. Stakeholders need to see all available data
-  # for testing.
-  def coverage_dates(dates)
-    return_relevant_dates(dates, 'Coverage')
+  def parse_nested_field(field)
+    # Don't continue if it's not a nested field.
+    return unless field.is_a?(Array) && field.first.is_a?(Hash)
+
+    # We don't care about display subfields with null values, our the contributors 'mitAffiliated' subfield.
+    field.map do |subfield|
+      subfield.reject { |key, value| key == 'mitAffiliated' || value.blank? }
+    end.compact
   end
 
-  # This method is likely to change post-MVP. Stakeholders need to see all available data for testing.
-  def more_info?(metadata)
-    if metadata['citation'] || metadata['dates'] || metadata['identifiers'] || metadata['languages'] ||
-       metadata['format'] || metadata['locations'] || metadata['notes'] || metadata['provider'] ||
-       metadata['publicationInformation']
-      true
-    else
-      false
-    end
+  def render_subfield(subfield)
+    # Date ranges are handled differently than other subfields
+    return ("kind: #{subfield['kind']}; range: " + date_range(subfield['range'])) if subfield['range'].present?
+
+    subfield.map { |key, value| "#{key}: #{value}" }.join('; ')
   end
 
   def source_metadata_available?(links)
@@ -129,17 +132,6 @@ module RecordHelper
     return if links.blank?
 
     links.select { |link| link['kind'] == 'Download' && link['text'] == 'Source Metadata' }.first['url']
-  end
-
-  # This method is not currently in use, but it may become useful later. Stakeholders need to see all available data
-  # for testing.
-  def places(locations)
-    return if locations.blank?
-
-    place_names = locations.select { |location| location['kind'] == 'Place Name' }
-    return if place_names.blank?
-
-    place_names.map { |place| place['value'] }
   end
 
   private
@@ -166,22 +158,5 @@ module RecordHelper
     return list[0].to_s if list.length == 1
 
     "<ul>#{render_list_items(list)}</ul>"
-  end
-
-  def return_relevant_dates(dates, kind)
-    return if dates.blank? || dates&.none? { |date| date['kind'] == kind }
-
-    relevant_dates = dates.select { |date| date['kind'] == kind }
-    relevant_dates&.map do |date|
-      if date['range'].present?
-        if date['range']['lte'] == date['range']['gte']
-          date['range']['lte']
-        else
-          "#{date['range']['gte']}-#{date['range']['lte']}"
-        end
-      else
-        date['value']
-      end
-    end&.uniq&.join('; ')
   end
 end
