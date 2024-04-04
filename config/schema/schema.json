@@ -1215,6 +1215,61 @@
         },
         {
           "kind": "OBJECT",
+          "name": "Publishers",
+          "description": null,
+          "fields": [
+            {
+              "name": "date",
+              "description": "The date of the publication",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "location",
+              "description": "Where the publisher is located",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "The name of the publisher",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "Query",
           "description": null,
           "fields": [
@@ -1943,7 +1998,7 @@
                 }
               },
               "isDeprecated": true,
-              "deprecationReason": "Use `publicationInformation`"
+              "deprecationReason": "Use `publishers`"
             },
             {
               "name": "inBibliography",
@@ -2243,7 +2298,7 @@
             },
             {
               "name": "publicationInformation",
-              "description": "Imprint information for item",
+              "description": null,
               "args": [
 
               ],
@@ -2256,6 +2311,28 @@
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": true,
+              "deprecationReason": "Use `publishers`"
+            },
+            {
+              "name": "publishers",
+              "description": "Publishers that are associated with the item",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Publishers",
                     "ofType": null
                   }
                 }
