@@ -103,7 +103,7 @@ module RecordHelper
   # Note: the publishers field is not yet available in TIMDEX API, but it should be added here once it is.
   def more_info_geo?(metadata)
     relevant_fields = %w[alternate_titles contributors dates format identifiers languages locations
-                         links notes provider rights]
+                         links notes provider publishers rights]
     metadata.keys.any? { |key| relevant_fields.include? key }
   end
 
