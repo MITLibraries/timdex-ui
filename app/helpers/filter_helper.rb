@@ -56,15 +56,26 @@ module FilterHelper
     new_query
   end
 
+  def remove_all_filters(query)
+    new_query = query.deep_dup
+    new_query[:page] = 1
+
+    applied_filters(query).each do |filter|
+      filter.each_key { |filter_key| new_query.delete(filter_key) if new_query[filter_key].present? }
+    end
+
+    new_query
+  end
+
   def filter_applied?(terms, term)
     return if terms.blank?
 
     terms.include?(term)
   end
 
-  def applied_filters
+  def applied_filters(query)
     filters = []
-    @enhanced_query.map do |param, values|
+    query.map do |param, values|
       next unless param.to_s.include? 'Filter'
 
       values.each { |value| filters << { param => value } }

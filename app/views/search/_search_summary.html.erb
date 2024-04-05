@@ -1,20 +1,29 @@
-<% return unless applied_filters.any? %>
+<% return unless applied_filters(@enhanced_query).any? %>
 
 <div class="filter-summary">
-  <h2 class="hd-filter-summary hd-5">Applied filters: </h2>
-  <ul class="list-filter-summary list-inline">
-  <% applied_filters.each do |filter| %>
-    <li>
-      <a href="<%= results_path(remove_filter(@enhanced_query, filter.keys[0], filter.values[0])) %>">
-        <%= "#{nice_labels[filter.keys[0]] || filter.keys[0]}:" %>
-        <% if Flipflop.enabled?(:gdt) %>
-          <%= "#{gdt_sources(filter.values[0], filter.keys[0])}" %>
-        <% else %>
-          <%= "#{filter.values[0]}" %>
-        <% end %>
-        <span class="sr">Remove applied filter?</span>
-      </a>
-    </li>
+  <div class="list-filter-summary">
+    <h2 class="hd-filter-summary hd-5">Applied filters: </h2>
+    <ul class="list-inline">
+    <% applied_filters(@enhanced_query).each do |filter| %>
+      <li>
+        <a class="applied-filter"
+           href="<%= results_path(remove_filter(@enhanced_query, filter.keys[0], filter.values[0])) %>">
+          <%= "#{nice_labels[filter.keys[0]] || filter.keys[0]}:" %>
+          <% if Flipflop.enabled?(:gdt) %>
+            <%= "#{gdt_sources(filter.values[0], filter.keys[0])}" %>
+          <% else %>
+            <%= "#{filter.values[0]}" %>
+          <% end %>
+          <span class="sr">Remove applied filter?</span>
+        </a>
+      </li>
+    <% end %>
+    </ul>
+  </div>
+  <% if applied_filters(@enhanced_query).length > 1 %>
+    <div class="clear-filters">
+      <a class="btn button-primary"
+       href="<%= results_path(remove_all_filters(@enhanced_query)) %>">Clear all filters</a>
+     </div>
   <% end %>
-  </ul>
 </div>
