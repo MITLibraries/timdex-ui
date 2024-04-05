@@ -12,8 +12,8 @@ http_interactions:
         {\n      funderName\n      funderIdentifier\n      funderIdentifierType\n      awardUri\n      awardNumber\n    }\n    holdings
         {\n      callnumber\n      collection\n      format\n      location\n      notes\n      summary\n    }\n    identifiers
         {\n      kind\n      value\n    }\n    languages\n    links {\n      kind\n      restrictions\n      text\n      url\n    }\n    literaryForm\n    locations
-        {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    provider\n    publicationFrequency\n    publicationInformation\n    relatedItems
-        {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
+        {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    provider\n    publicationFrequency\n    publishers
+        {\n      date\n      location\n      name\n    }\n    relatedItems {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
         {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
         {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":null},"operationName":"TimdexRecord__Query"}'
     headers:
@@ -33,11 +33,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 28 Mar 2024 16:17:06 GMT
+      - Thu, 04 Apr 2024 20:27:23 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1711642627&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=oYtgO42TiCRtuucZA4UzchMvRq%2BIOsUQaWttsVIWchA%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1712262444&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=zWSzVz4yFZqcux1FvOtmGs8i1hyc8v113cY8KtdSmqU%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1711642627&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=oYtgO42TiCRtuucZA4UzchMvRq%2BIOsUQaWttsVIWchA%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1712262444&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=zWSzVz4yFZqcux1FvOtmGs8i1hyc8v113cY8KtdSmqU%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -61,9 +61,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - b82b1343-259a-4470-91e3-5d135715bc37
+      - c71e6664-79e1-4a21-812d-d6b031f54aa1
       X-Runtime:
-      - '0.007263'
+      - '0.007747'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
@@ -75,5 +75,5 @@ http_interactions:
       string: '{"errors":[{"message":"Variable $id of type String! was provided invalid
         value","locations":[{"line":1,"column":27}],"extensions":{"value":null,"problems":[{"path":[],"explanation":"Expected
         value to not be null"}]}}]}'
-  recorded_at: Thu, 28 Mar 2024 16:17:07 GMT
+  recorded_at: Thu, 04 Apr 2024 20:27:24 GMT
 recorded_with: VCR 6.2.0

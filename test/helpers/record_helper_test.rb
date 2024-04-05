@@ -279,6 +279,10 @@ class RecordHelperTest < ActionView::TestCase
 
     provider_record = { 'provider' => 'MIT' }
     assert more_info_geo?(provider_record)
+
+    publishers_record = { 'publishers' => [{ 'name' => 'Jagjaguwar', 'location' => 'Bloomington, IN',
+                                             'date' => '2011' }] }
+    assert more_info_geo?(provider_record)
   end
 
   test 'more_info_geo? false if no more info available' do

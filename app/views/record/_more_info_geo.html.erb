@@ -94,4 +94,14 @@
       </ul>
     </li>
   <% end %>
+
+  <% if metadata['publishers'].present? %>
+    <li><strong>Publishers</strong>
+      <ul>
+      <% parse_nested_field(metadata['publishers']).each do |subfield| %>
+        <li><%= render_subfield(subfield) %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
 </ul>

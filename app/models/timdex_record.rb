@@ -72,7 +72,11 @@ class TimdexRecord < TimdexBase
         physicalDescription
         provider
         publicationFrequency
-        publicationInformation
+        publishers {
+          date
+          location
+          name
+        }
         relatedItems {
           description
           itemType
