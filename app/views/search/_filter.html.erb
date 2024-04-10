@@ -9,10 +9,10 @@
     <% values.each do |term| %>
       <li class="term">
         <% if filter_applied?(@enhanced_query[category], term['key']) %>
-          <a href="<%= results_path(remove_filter(@enhanced_query, category, term['key'])) %>" class="applied">
+          <a href="<%= remove_filter(@enhanced_query, category, term['key']) %>" class="applied">
           <span class="sr">Remove applied filter:</span>
         <% else %>
-          <a href="<%= results_path(add_filter(@enhanced_query, category, term['key'])) %>">
+          <a href="<%= add_filter(@enhanced_query, category, term['key']) %>">
           <span class="sr">Apply filter:</span>
         <% end %>
         <% if Flipflop.enabled?(:gdt) %>

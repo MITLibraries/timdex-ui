@@ -1,27 +1,30 @@
 class Enhancer
+  include QueryElements
+
   attr_accessor :enhanced_query
 
-  QUERY_PARAMS = %i[q citation contentType contributors fundingInformation identifiers locations subjects title].freeze
-  FILTER_PARAMS = %i[accessToFilesFilter contentTypeFilter contributorsFilter formatFilter languagesFilter
-                     literaryFormFilter placesFilter sourceFilter subjectsFilter].freeze
-  GEO_PARAMS = %i[geoboxMinLongitude geoboxMinLatitude geoboxMaxLongitude geoboxMaxLatitude geodistanceLatitude
-                  geodistanceLongitude geodistanceDistance].freeze
-
-  # accepts all params as each enhancer may require different data
-  def initialize(params)
+  # Accepts all params as each enhancer may require different data.
+  #
+  # Note that we are using `Rack::Utils` to parse the query params rather than just invoking `params`. This is because
+  # `to_params`, `to_query`, and seemingly all other Rails URL helpers [sort params lexicographically](https://github.com/rails/rails/blob/main/activesupport/lib/active_support/core_ext/object/to_query.rb#L73-L74).
+  # In order to retain the order in which a user applies filters, we need either to avoid these helpers or cache the
+  # filter application order. This approach seems less complex, and it supports user agents that are blocking cookies.
+  def initialize(url)
     @enhanced_query = {}
-    @enhanced_query[:page] = calculate_page(params[:page].to_i)
-    @enhanced_query[:advanced] = 'true' if params[:advanced].present?
+    query_params = Rack::Utils.parse_nested_query(URI(url).query)
+
+    @enhanced_query[:page] = calculate_page(query_params['page'].to_i)
+    @enhanced_query[:advanced] = 'true' if query_params['advanced'].present?
 
     if Flipflop.enabled?(:gdt)
-      @enhanced_query[:geobox] = 'true' if params[:geobox] == 'true'
-      @enhanced_query[:geodistance] = 'true' if params[:geodistance] == 'true'
+      @enhanced_query[:geobox] = 'true' if query_params['geobox'] == 'true'
+      @enhanced_query[:geodistance] = 'true' if query_params['geodistance'] == 'true'
     end
 
-    extract_query(params)
-    extract_geosearch(params)
-    extract_filters(params)
-    patterns(params) if params[:q]
+    extract_query(query_params)
+    extract_geosearch(query_params)
+    extract_filters(query_params)
+    patterns(query_params) if query_params['q']
   end
 
   private
@@ -31,26 +34,38 @@ class Enhancer
   end
 
   def extract_query(params)
-    QUERY_PARAMS.each do |qp|
-      @enhanced_query[qp] = params[qp] if params[qp].present?
+    params.each do |param_key, param_value|
+      next unless QueryElements::QUERY_PARAMS.include? param_key.to_sym
+
+      next if param_value.blank?
+
+      @enhanced_query[param_key.to_sym] = param_value
     end
   end
 
   def extract_geosearch(params)
     return unless Flipflop.enabled?(:gdt)
 
-    GEO_PARAMS.each do |gp|
-      @enhanced_query[gp] = params[gp] if params[gp].present?
+    params.each do |param_key, param_value|
+      next unless QueryElements::GEO_PARAMS.include? param_key.to_sym
+
+      next if param_value.blank?
+
+      @enhanced_query[param_key.to_sym] = param_value
     end
   end
 
   def extract_filters(params)
-    FILTER_PARAMS.each do |fp|
-      @enhanced_query[fp] = params[fp] if params[fp].present?
+    params.each do |param_key, param_value|
+      next unless QueryElements::FILTER_PARAMS.include? param_key.to_sym
+
+      next if param_value.blank?
+
+      @enhanced_query[param_key.to_sym] = param_value
     end
   end
 
   def patterns(params)
-    @enhanced_query = EnhancerPatterns.new(@enhanced_query, params[:q]).enhanced_query
+    @enhanced_query = EnhancerPatterns.new(@enhanced_query, params['q']).enhanced_query
   end
 end

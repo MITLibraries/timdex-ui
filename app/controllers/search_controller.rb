@@ -13,7 +13,7 @@ class SearchController < ApplicationController
 
   def results
     # hand off to Enhancer chain
-    @enhanced_query = Enhancer.new(params).enhanced_query
+    @enhanced_query = Enhancer.new(request.original_url).enhanced_query
 
     # hand off enhanced query to builder
     query = QueryBuilder.new(@enhanced_query).query

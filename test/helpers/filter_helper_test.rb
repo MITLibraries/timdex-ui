@@ -13,7 +13,7 @@ class FilterHelperTest < ActionView::TestCase
       q: 'data',
       contentTypeFilter: ['dataset']
     }
-    assert_equal expected_query, add_filter(original_query, :contentTypeFilter, 'dataset')
+    assert_includes add_filter(original_query, :contentTypeFilter, 'dataset'), 'dataset'
   end
 
   test 'add_filter will reset a page count when called' do
@@ -21,12 +21,8 @@ class FilterHelperTest < ActionView::TestCase
       page: 3,
       q: 'data'
     }
-    expected_query = {
-      page: 1,
-      q: 'data',
-      contentTypeFilter: ['dataset']
-    }
-    assert_equal expected_query, add_filter(original_query, :contentTypeFilter, 'dataset')
+
+    assert_includes add_filter(original_query, :contentTypeFilter, 'dataset'), 'page=1'
   end
 
   test 'add_filter can apply multiple values for each filter group' do
@@ -40,7 +36,8 @@ class FilterHelperTest < ActionView::TestCase
       q: 'data',
       contentTypeFilter: ['still image', 'dataset']
     }
-    assert_equal expected_query, add_filter(original_query, :contentTypeFilter, 'dataset')
+    assert_includes add_filter(original_query, :contentTypeFilter, 'dataset'),
+                    'contentTypeFilter%5B%5D=still+image&contentTypeFilter%5B%5D=dataset'
   end
 
   test 'add_filter with source value overwrites existing sources' do
@@ -54,7 +51,9 @@ class FilterHelperTest < ActionView::TestCase
       q: 'data',
       sourceFilter: ['source the only']
     }
-    assert_equal expected_query, add_filter(original_query, :sourceFilter, 'source the only')
+    assert_includes add_filter(original_query, :sourceFilter, 'source the only'), 'source+the+only'
+    assert_not_includes add_filter(original_query, :sourceFilter, 'source the only'), 
+                        'source+the+second'
   end
 
   test 'nice_labels allows translation of machine categories to human readable headings' do
@@ -86,11 +85,7 @@ class FilterHelperTest < ActionView::TestCase
       q: 'data',
       contentTypeFilter: ['dataset']
     }
-    expected_query = {
-      page: 1,
-      q: 'data'
-    }
-    assert_equal expected_query, remove_filter(original_query, :contentTypeFilter, 'dataset')
+    assert_not_includes remove_filter(original_query, :contentTypeFilter, 'dataset'), 'dataset'
   end
 
   test 'remove_filter will reset a page count when called' do
@@ -99,11 +94,7 @@ class FilterHelperTest < ActionView::TestCase
       q: 'data',
       contentTypeFilter: ['dataset']
     }
-    expected_query = {
-      page: 1,
-      q: 'data'
-    }
-    assert_equal expected_query, remove_filter(original_query, :contentTypeFilter, 'dataset')
+    assert_includes remove_filter(original_query, :contentTypeFilter, 'dataset'), 'page=1'
   end
 
   test 'remove_filter removes only one filter parameter if multiple are applied' do
@@ -117,7 +108,9 @@ class FilterHelperTest < ActionView::TestCase
       q: 'data',
       contentTypeFilter: ['dataset', 'vinyl record']
     }
-    assert_equal expected_query, remove_filter(original_query, :contentTypeFilter, 'microfiche')
+    assert_includes remove_filter(original_query, :contentTypeFilter, 'microfiche'), 'dataset'
+    assert_includes remove_filter(original_query, :contentTypeFilter, 'microfiche'), 'vinyl+record'
+    assert_not_includes remove_filter(original_query, :contentTypeFilter, 'microfiche'), 'microfiche'
   end
 
   test 'filter_applied? returns true if a filter is applied' do
@@ -157,10 +150,11 @@ class FilterHelperTest < ActionView::TestCase
 
   test 'applied_filters collects separately terms in the same filter category' do
     query = {
-      contentTypeFilter: ['dataset'],
+      contentTypeFilter: ['dataset', 'language material'],
       sourceFilter: ['my imagination']
     }
-    assert_equal [{ contentTypeFilter: 'dataset' }, { sourceFilter: 'my imagination' }], applied_filters(query)
+    assert_equal [{ contentTypeFilter: 'dataset' }, { contentTypeFilter: 'language material' },
+                  { sourceFilter: 'my imagination' }], applied_filters(query)
   end
 
   test 'applied_filters does not return search term params' do
@@ -237,5 +231,57 @@ class FilterHelperTest < ActionView::TestCase
     }
     assert_equal({ q: 'jazz', advanced: true, title: 'undercurrent', contributors: ['evans, bill', 'hall, jim'],
                    page: 1 }, remove_all_filters(query))
+  end
+
+
+  test 'applied_filters are returned in the order of application' do
+    query = {
+      q: 'jazz',
+      page: 1,
+      contributorsFilter: ['evans, bill', 'hall, jim'],
+      subjectsFilter: ['jazz'],
+      placesFilter: ['New York'],
+      contentTypeFilter: ['lp'],
+    }
+      assert_equal [{ contributorsFilter: 'evans, bill' }, { contributorsFilter: 'hall, jim' },
+                    { subjectsFilter: 'jazz' }, { placesFilter: 'New York' }, { contentTypeFilter: 'lp' }],
+                    applied_filters(query)
+  end
+
+  test 'add_filter URLs retain preserve order' do
+    query = {
+      q: 'jazz',
+      page: 1,
+      contributorsFilter: ['evans, bill', 'hall, jim'],
+      subjectsFilter: ['jazz'],
+      placesFilter: ['New York'],
+    }
+    assert_includes add_filter(query, :contentTypeFilter, 'lp'),
+                    'contributorsFilter%5B%5D=evans%2C+bill&contributorsFilter%5B%5D=hall%2C+jim&subjectsFilter%5B%5D=jazz&placesFilter%5B%5D=New+York&contentTypeFilter%5B%5D=lp'
+
+  end
+
+  test 'remove_filter URLs preserve order' do
+    query = {
+      q: 'jazz',
+      page: 1,
+      contributorsFilter: ['evans, bill', 'hall, jim'],
+      subjectsFilter: ['jazz'],
+      placesFilter: ['New York'],
+      contentTypeFilter: ['lp'],
+    }
+    assert_includes remove_filter(query, :contentTypeFilter, 'lp'),
+                    'contributorsFilter%5B%5D=evans%2C+bill&contributorsFilter%5B%5D=hall%2C+jim&subjectsFilter%5B%5D=jazz&placesFilter%5B%5D=New+York'
+  end
+
+  test 'single- and multi-valued filters are correctly parsed in filter URLs' do
+    query = {
+      q: 'data',
+      page: 1
+    }
+    multivalue_query = add_filter(query, :subjectsFilter, 'data')
+    singlevalue_query = add_filter(query, :literaryFormFilter, 'nonfiction')
+    assert_includes multivalue_query, 'subjectsFilter%5B%5D=data'
+    assert_includes singlevalue_query, 'literaryFormFilter=nonfiction'
   end
 end

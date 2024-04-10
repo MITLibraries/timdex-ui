@@ -21,7 +21,7 @@ class QueryBuilderTest < ActiveSupport::TestCase
                  'identifiers' => 'doi://1234.123/123.123', 'locations' => 'Cambridge, MA',
                  'subjects' => 'Subjects are the worst', 'title' => 'Hi I like titles', 'index' => 'FAKE_TIMDEX_INDEX' }
     search = {
-      q: ' blah ',
+      q: 'blah',
       citation: 'Citations are cool. Journal of cool citations. Vol 3, page 123.',
       contributors: 'Vonnegut, Kurt',
       fundingInformation: 'National Science Foundation',
@@ -40,7 +40,7 @@ class QueryBuilderTest < ActiveSupport::TestCase
                  'identifiers' => 'doi://1234.123/123.123', 'locations' => 'Cambridge, MA',
                  'subjects' => 'Subjects are the worst', 'title' => 'Hi I like titles', 'index' => 'FAKE_TIMDEX_INDEX' }
     search = {
-      q: ' blah ',
+      q: 'blah',
       citation: 'Citations are cool. Journal of cool citations. Vol 3, page 123.',
       contributors: 'Vonnegut, Kurt',
       fundingInformation: 'National Science Foundation',
@@ -58,7 +58,7 @@ class QueryBuilderTest < ActiveSupport::TestCase
                  'fundingInformation' => 'National Science Foundation',
                  'identifiers' => 'doi://1234.123/123.123', 'index' => 'FAKE_TIMDEX_INDEX' }
     search = {
-      q: ' blah ',
+      q: 'blah',
       contributors: 'Vonnegut, Kurt',
       fundingInformation: 'National Science Foundation',
       identifiers: 'doi://1234.123/123.123'

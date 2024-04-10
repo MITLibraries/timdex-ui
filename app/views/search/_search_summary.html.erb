@@ -7,7 +7,7 @@
     <% applied_filters(@enhanced_query).each do |filter| %>
       <li>
         <a class="applied-filter"
-           href="<%= results_path(remove_filter(@enhanced_query, filter.keys[0], filter.values[0])) %>">
+           href="<%= remove_filter(@enhanced_query, filter.keys[0], filter.values[0]) %>">
           <%= "#{nice_labels[filter.keys[0]] || filter.keys[0]}:" %>
           <% if Flipflop.enabled?(:gdt) %>
             <%= "#{gdt_sources(filter.values[0], filter.keys[0])}" %>

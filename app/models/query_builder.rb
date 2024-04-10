@@ -1,12 +1,7 @@
 class QueryBuilder
-  attr_reader :query
+  include QueryElements
 
-  RESULTS_PER_PAGE = 20
-  QUERY_PARAMS = %w[q citation contributors fundingInformation identifiers locations subjects title].freeze
-  FILTER_PARAMS = %i[accessToFilesFilter contentTypeFilter contributorsFilter formatFilter languagesFilter
-                     literaryFormFilter placesFilter sourceFilter subjectsFilter].freeze
-  GEO_PARAMS = %w[geoboxMinLongitude geoboxMinLatitude geoboxMaxLongitude geoboxMaxLatitude geodistanceLatitude
-                  geodistanceLongitude geodistanceDistance].freeze
+  attr_reader :query
 
   def initialize(enhanced_query)
     @query = {}
@@ -29,35 +24,45 @@ class QueryBuilder
   def calculate_from(page = 1)
     # This needs to return a string because Timdex needs $from to be a String
     page = 1 if page.to_i.zero?
-    ((page - 1) * RESULTS_PER_PAGE).to_s
+    ((page - 1) * QueryElements::RESULTS_PER_PAGE).to_s
   end
 
   def extract_query(enhanced_query)
-    QUERY_PARAMS.each do |qp|
-      @query[qp] = enhanced_query[qp.to_sym]&.strip
+    enhanced_query.each do |query_key, query_value|
+      next unless QueryElements::QUERY_PARAMS.include? query_key
+
+      @query[query_key.to_s] = stripped_value(query_value)
     end
   end
 
   def extract_geosearch(enhanced_query)
     return unless Flipflop.enabled?(:gdt)
 
-    GEO_PARAMS.each do |gp|
-      if coerce_to_float?(gp)
-        @query[gp] = enhanced_query[gp.to_sym]&.strip.to_f unless enhanced_query[gp.to_sym].blank?
+    enhanced_query.each do |query_key, query_value|
+      next unless QueryElements::GEO_PARAMS.include? query_key
+
+      if coerce_to_float?(query_key)
+        @query[query_key.to_s] = query_value.to_f unless query_value.blank?
       else
-        @query[gp] = enhanced_query[gp.to_sym]&.strip
+        @query[query_key.to_s] = stripped_value(query_value)
       end
     end
   end
 
   def extract_filters(enhanced_query)
-    FILTER_PARAMS.each do |qp|
-      @query[qp] = enhanced_query[qp]
+    enhanced_query.each do |query_key, query_value|
+      next unless QueryElements::FILTER_PARAMS.include? query_key
+
+      @query[query_key.to_s] = stripped_value(query_value)
     end
   end
 
   # The GraphQL API requires that lat/long in geospatial fields be floats
   def coerce_to_float?(geo_param)
     geo_param.to_s.include?('Longitude') || geo_param.to_s.include?('Latitude')
+  end
+
+  def stripped_value(value)
+    value.is_a?(Array) ? value.map(&:strip) : value.strip
   end
 end
