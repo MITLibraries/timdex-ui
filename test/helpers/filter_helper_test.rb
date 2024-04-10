@@ -248,6 +248,15 @@ class FilterHelperTest < ActionView::TestCase
                     applied_filters(query)
   end
 
+  test 'applied_filters handles single-valued and multi-valued filters' do
+    query = {
+      contributorsFilter: ['liu, cixin'],
+      literaryFormFilter: 'fiction'
+    }
+      assert_equal [{ contributorsFilter: 'liu, cixin' }, { literaryFormFilter: 'fiction' }],
+                    applied_filters(query)
+  end
+
   test 'add_filter URLs retain preserve order' do
     query = {
       q: 'jazz',
