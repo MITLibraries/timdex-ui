@@ -105,26 +105,31 @@
   border: 0;
   padding: 2rem;
   padding-top: 1.5rem;
-  display: flex;
-  .hd-filter-summary {
-    margin-right: 2rem;
-    padding-top: 0.3rem;
+  .list-filter-summary {
+    display: flex;
+    .hd-filter-summary {
+      margin-right: 2rem;
+      padding-top: 0.3rem;
+    }
+    .applied-filter {
+      font-size: $fs-small;
+      text-decoration: none;
+      padding: .5rem;
+      &::before {
+        font-family: FontAwesome;
+        content: '\f00d';
+        padding-right: .25rem;
+      }
+      &:hover,
+      &:focus {
+        color: $white;
+        background-color: $black;
+      }
+      margin-right: 2rem;
+    }
   }
-  a {
-    font-size: $fs-small;
-    text-decoration: none;
-    padding: .5rem;
-    &::before {
-      font-family: FontAwesome;
-      content: '\f00d';
-      padding-right: .25rem;
-    }
-    &:hover,
-    &:focus {
-      color: $white;
-      background-color: $black;
-    }
-    margin-right: 2rem;
+  .clear-filters {
+    padding-top: 1rem;
   }
   @media (max-width: $bp-screen-md) {
     display: block;

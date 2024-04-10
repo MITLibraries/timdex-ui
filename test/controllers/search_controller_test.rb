@@ -471,4 +471,43 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  test 'clear all filters button does not appear with zero filters in query' do
+    VCR.use_cassette('data basic controller',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?q=data'
+      assert_response :success
+      assert_select '.clear-filters', count: 0
+    end
+  end
+
+  test 'clear all filters button does not appear with one filter in query' do
+    VCR.use_cassette('filter one',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      query = {
+        q: 'data',
+        sourceFilter: ['Woods Hole Open Access Server']
+      }.to_query
+      get "/results?#{query}"
+      assert_response :success
+      assert_select '.clear-filters', count: 0
+    end
+  end
+
+  test 'clear all filters button appears with more than filter in query' do
+    VCR.use_cassette('filter multiple',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      query = {
+        q: 'data',
+        contentTypeFilter: ['dataset'],
+        contributorsFilter: ['Woods Hole Open Access Server']
+      }.to_query
+      get "/results?#{query}"
+      assert_response :success
+      assert_select '.clear-filters', count: 1
+    end
+  end
 end

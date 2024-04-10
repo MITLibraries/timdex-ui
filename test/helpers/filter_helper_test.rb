@@ -148,39 +148,39 @@ class FilterHelperTest < ActionView::TestCase
   end
 
   test 'applied_filters returns all currently applied filters' do
-    @enhanced_query = {
+    query = {
       contentTypeFilter: ['dataset'],
       sourceFilter: ['my imagination']
     }
-    assert_equal [{ contentTypeFilter: 'dataset' }, { sourceFilter: 'my imagination' }], applied_filters
+    assert_equal [{ contentTypeFilter: 'dataset' }, { sourceFilter: 'my imagination' }], applied_filters(query)
   end
 
   test 'applied_filters collects separately terms in the same filter category' do
-    @enhanced_query = {
+    query = {
       contentTypeFilter: ['dataset'],
       sourceFilter: ['my imagination']
     }
-    assert_equal [{ contentTypeFilter: 'dataset' }, { sourceFilter: 'my imagination' }], applied_filters
+    assert_equal [{ contentTypeFilter: 'dataset' }, { sourceFilter: 'my imagination' }], applied_filters(query)
   end
 
   test 'applied_filters does not return search term params' do
-    @enhanced_query = {
+    query = {
       q: 'jazz',
       advanced: true,
       title: 'undercurrent',
       contributors: ['evans, bill', 'hall, jim'],
       contentTypeFilter: ['lp']
     }
-    assert_equal [{ contentTypeFilter: 'lp' }], applied_filters
+    assert_equal [{ contentTypeFilter: 'lp' }], applied_filters(query)
   end
 
   test 'applied_filters does not return other unwanted parts of the enhanced query' do
-    @enhanced_query = {
+    query = {
       page: 2,
       advanced: true,
       contentTypeFilter: ['dataset']
     }
-    assert_equal [{ contentTypeFilter: 'dataset' }], applied_filters
+    assert_equal [{ contentTypeFilter: 'dataset' }], applied_filters(query)
   end
 
   test 'gdt_sources returns the source label we want for MIT stuff' do
@@ -198,5 +198,44 @@ class FilterHelperTest < ActionView::TestCase
   test 'gdt_sources returns the label as-is for non-source filters' do
     assert_equal 'me', gdt_sources('me', :contributorsFilter)
     assert_equal 'GIS', gdt_sources('GIS', :subjectsFilter)
+  end
+
+  test 'remove_all_filters removes one filter' do
+    query = {
+      q: 'jazz',
+      contributorsFilter: ['evans, bill', 'hall, jim'],
+    }
+    assert_equal({ q: 'jazz', page: 1 }, remove_all_filters(query))
+  end
+
+  test 'remove_all_filters removes multiple filters' do
+    query = {
+      q: 'jazz',
+      contributorsFilter: ['evans, bill', 'hall, jim'],
+      contentTypeFilter: ['lp'],
+      accessToFilesFilter: ['no authentication required']
+    }
+    assert_equal({ q: 'jazz', page: 1 }, remove_all_filters(query))
+  end
+
+  test 'remove_all_filters resets the page number' do
+    query = {
+      q: 'jazz',
+      contributorsFilter: ['evans, bill', 'hall, jim'],
+      page: 22
+    }
+    assert_equal({ q: 'jazz', page: 1 }, remove_all_filters(query))
+  end
+
+  test 'remove_all_filters does not change non-filter search terms' do
+    query = {
+      q: 'jazz',
+      advanced: true,
+      title: 'undercurrent',
+      contributors: ['evans, bill', 'hall, jim'],
+      contentTypeFilter: ['lp']
+    }
+    assert_equal({ q: 'jazz', advanced: true, title: 'undercurrent', contributors: ['evans, bill', 'hall, jim'],
+                   page: 1 }, remove_all_filters(query))
   end
 end
