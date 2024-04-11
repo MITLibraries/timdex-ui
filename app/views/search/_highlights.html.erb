@@ -5,7 +5,7 @@
 <ul class="list-unbulleted truncate-list">
   <% highlights.each do |h| %>
     <% h['matchedPhrases'].each do |phrase| %>
-      <li><strong><%= h['matchedField'] %>:</strong> <%= sanitize(phrase, tags: ['span']) %></li>
+      <li><strong><%= format_highlight_label(h['matchedField']) %>:</strong> <%= sanitize(phrase, tags: ['span']) %></li>
     <% end %>
   <% end %>
 </ul>
