@@ -98,4 +98,19 @@ class SearchHelperTest < ActionView::TestCase
     assert_nil parse_geo_dates(wtf)
     assert_nil parse_geo_dates(omg)
   end
+
+  # The goal here is not test every possible field name, but to confirm enough of a variety that we can infer that all
+  # of them will be parsed appropriately.
+  test 'highlight field names are humanized' do
+    subjects_value = 'subjects.value'
+    alternate_titles = 'alternateTitle.value'
+    funding_information_name = 'fundingInformation.funderName'
+    date_range = 'dates.range'
+    edition = 'edition'
+    assert_equal 'Subjects', format_highlight_label(subjects_value)
+    assert_equal 'Alternate title', format_highlight_label(alternate_titles)
+    assert_equal 'Funding information', format_highlight_label(funding_information_name)
+    assert_equal 'Dates', format_highlight_label(date_range)
+    assert_equal 'Edition', format_highlight_label(edition)
+  end
 end

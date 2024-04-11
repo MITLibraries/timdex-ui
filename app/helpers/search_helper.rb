@@ -9,6 +9,11 @@ module SearchHelper
     result['highlight'].reject { |h| displayed_fields.include? h['matchedField'] }
   end
 
+  def format_highlight_label(field_name)
+    field_name = field_name.split('.').first if field_name.include?('.')
+    field_name.underscore.humanize
+  end
+
   def view_online(result)
     return unless result['sourceLink'].present?
 
