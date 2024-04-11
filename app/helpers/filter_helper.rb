@@ -94,7 +94,7 @@ module FilterHelper
 
   private
 
-  # This kind of manual URL construction is required because any core exntesions method involving params, including
+  # This kind of manual URL construction is required because any core extensions method involving params, including
   # [`to_query`]((https://github.com/rails/rails/issues/10529), sorts entries lexicographically by key. This will cause
   # filters to appear in the search summary panel in a confusing order (i.e., alphabetically), rather than in the order
   # in which they were applied.
