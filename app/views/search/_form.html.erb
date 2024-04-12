@@ -42,6 +42,7 @@ end
            value="<%= params[:q] %>" <%= 'required="required" aria-required="true"' if search_required %>>
     <div class="basic-search-submit">
       <button type="submit" class="btn button-primary">Search</button>
+      <button type="reset" class="btn button-secondary">Reset</button>
     </div>
 
     <% if Flipflop.enabled?(:gdt) %>
