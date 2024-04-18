@@ -97,10 +97,17 @@ function enableGeodistance() {
   geodistance_label.innerText = 'Close distance search';
 };
 
+// Note that this skips hidden inputs, which are used to toggle advanced and geospatial searches.
+function clearInputs(event) {
+  [...search_form.querySelectorAll('input:not([type=hidden])')].forEach(function(field) {
+    field.value = '' ;
+  });
+};
 
 var advanced_field = document.getElementById('advanced-search-field');
 var advanced_label = document.getElementById('advanced-search-label');
 var advanced_toggle = document.getElementById('advanced-summary');
+var clear_button = document.getElementById('clear-button');
 var details_panel = document.getElementById('advanced-search-panel');
 var keyword_field = document.getElementById('basic-search-main');
 var geobox_field = document.getElementById('geobox-search-field');
@@ -111,6 +118,7 @@ var geodistance_field = document.getElementById('geodistance-search-field');
 var geodistance_label = document.getElementById('geodistance-search-label');
 var geodistance_toggle = document.getElementById('geodistance-summary');
 var geodistance_details_panel = document.getElementById('geodistance-search-panel');
+var search_form = document.getElementById('basic-search');
 
 geobox_toggle.addEventListener('click', event => {
   if (geobox_details_panel.attributes.hasOwnProperty('open')) {
@@ -134,6 +142,13 @@ advanced_toggle.addEventListener('click', event => {
   } else {
     enableAdvanced();
   }
+});
+
+clear_button.addEventListener('click', event => {
+  clearInputs();
+
+  // Invoking preventDefault() to avoid triggering client-side form validations, which may be confusing.
+  event.preventDefault();
 });
 
 console.log('search_form.js loaded');

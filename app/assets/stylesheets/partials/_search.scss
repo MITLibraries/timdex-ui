@@ -36,9 +36,9 @@
     margin-bottom: .8rem;
     padding: 6px 12px;
 
-    @media (min-width: $bp-screen-sm) {
+    @media (min-width: $bp-screen-md) {
       display: inline-block;
-      width: 80%;
+      width: 65%;
       margin-bottom: 0;
     }
   }
@@ -112,14 +112,27 @@
   }
 
   .basic-search-submit {
-    @media (min-width: $bp-screen-sm) {
-      display: inline-block;
-      width: 18%;
+    .button-secondary {
+      background-color: $white;
+      &:hover,
+      &:focus {
+        background-color: $blue;
+      }
     }
-
     .btn {
       border-radius: 0;
       width: 100%;
+      &:last-child {
+        margin-top: 0.4rem;
+      }
+    }
+    @media (min-width: $bp-screen-md) {
+      display: inline-block;
+      width: 34%;
+      .btn {
+        width: 49%;
+        margin-top: 0;
+      }
     }
   }
 }
