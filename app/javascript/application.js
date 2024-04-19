@@ -3,4 +3,4 @@ import "@hotwired/turbo-rails"
 import "controllers"
 
 // Show the progress bar after 200 milliseconds, not the default 500
-Turbolinks.setProgressBarDelay(200)
+window.Turbo.setProgressBarDelay(200);
