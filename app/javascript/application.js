@@ -2,5 +2,7 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
+Turbo.session.drive = false
+
 // Show the progress bar after 200 milliseconds, not the default 500
-Turbolinks.setProgressBarDelay(200)
+// Turbolinks.setProgressBarDelay(200)
