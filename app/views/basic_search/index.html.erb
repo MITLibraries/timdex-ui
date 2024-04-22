@@ -1,7 +1,7 @@
 <%= content_for(:title, index_page_title) %>
 
-<div class="space-wrap">
+<main class="space-wrap">
   <%= render partial: "shared/site_title" %>
   <%= render partial: "search/form" %>
   <%= render partial: "static/about" if ENV.fetch('ABOUT_APP', nil) %>
-</div>
+</main>

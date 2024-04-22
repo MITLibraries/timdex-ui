@@ -1,6 +1,6 @@
 <% return unless error['message'].present? %>
 
-<div class="alert alert-banner error">
+<div class="alert alert-banner error" role="alert">
   <%= error['message'] %><br>
   <%= error&.dig('extensions')&.dig('problems')&.pluck("explanation")&.join %>
 </div>
