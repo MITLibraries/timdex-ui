@@ -1,11 +1,9 @@
-<a class="skip-link sr sr-focusable" href="#main-menu">Skip to main menu</a>
-<a class="skip-link sr sr-focusable" href="#basic-search">Skip to search form</a>
-<% if current_page?(results_path) %>
-  <a class="skip-link sr sr-focusable" href="#results">Skip to results</a>
-  <% if @filters.present? %>
-    <a class="skip-link sr sr-focusable" href="#filters">Skip to search filters</a>
-  <% end %>
-<% end %>
 <% if controller.controller_name == 'record' && controller.action_name == 'view' %>
-  <a class="skip-link sr sr-focusable" href="#full-record">Skip to content</a>
+  <a class='skip-link sr sr-focusable' href='#full-record'>
+<% elsif controller.controller_name == 'search' %>
+  <a class='skip-link sr sr-focusable' href='#results'>
+<% else %>
+  <a class='skip-link sr sr-focusable' href='#basic-search-main'>
 <% end %>
+    Skip to main content
+  </a>
