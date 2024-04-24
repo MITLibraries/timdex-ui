@@ -1,7 +1,7 @@
 <li class="result">
-  <h2 class="record-title">
+  <h3 class="record-title">
     <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['timdexRecordId'])) %>
-  </h2>
+  </h3>
 
   <p class="pub-info">
     <span><%= result['contentType']&.each { |type| type['value'] }&.join(' ; ') %></span>
