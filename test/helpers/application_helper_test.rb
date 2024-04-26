@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FilterHelperTest < ActionView::TestCase
+class ApplicationHelperTest < ActionView::TestCase
   include ApplicationHelper
 
   test 'index_page_title renders as expected' do
