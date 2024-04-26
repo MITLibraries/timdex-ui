@@ -1,7 +1,7 @@
 <li class="result">
-  <h2 class="record-title">
+  <h3 class="record-title">
     <span class="sr">Title: </span><%= link_to(result_geo['title'], record_path(result_geo['timdexRecordId'])) %>
-  </h2>
+  </h3>
 
   <div class="data-info">
     <%= render partial: 'shared/geo_data_info', locals: { metadata: result_geo } %>
