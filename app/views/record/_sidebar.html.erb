@@ -1,4 +1,8 @@
-<div class="col1q-r sidebar">
+<% if Flipflop.enabled?(:gdt) %>
+  <div role="region" aria-label="Access link and additional information" class="col1q-r sidebar">
+<% else %>
+  <aside class="col1q-r sidebar">
+<% end %>
   <% if doi(@record) %>
     <% data_url = "/doi?doi=#{URI.encode_www_form_component(doi(@record))}&slim=true" %>
 
@@ -13,4 +17,8 @@
   <% end %>
 
    <%= render partial: 'shared/ask', locals: { display: '' } %>
-</div>
+<% if Flipflop.enabled?(:gdt) %>
+  </div>
+<% else %>
+  </aside>
+<% end %>

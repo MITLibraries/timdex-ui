@@ -1,5 +1,5 @@
 <div id="full-record" class="gridband layout-3q1q wrap-full-record">
-  <div class="col3q box-content region full-record" data-region="Full record">
+  <main class="col3q box-content region full-record" data-region="Full record">
     <h2 class="record-title">
       <span class="sr">Title: </span>
       <% if @record['title'].present? %>
@@ -177,7 +177,7 @@
 
   <%= render('sidebar') %>
 
-</div>
+</main>
 
 <% if params[:debug].present? %>
   <%= debug(@record) %>

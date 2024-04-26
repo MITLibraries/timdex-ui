@@ -33,7 +33,7 @@ class RecordControllerTest < ActionDispatch::IntegrationTest
                      match_requests_on: %i[method uri body]) do
       get "/record/#{needle_id}"
       message = 'Record not found'
-      assert_select '#content-main', /(.*)#{message}(.*)/
+      assert_select 'main', /(.*)#{message}(.*)/
     end
   end
 

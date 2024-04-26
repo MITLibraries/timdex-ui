@@ -1,6 +1,6 @@
 <% return unless applied_filters(@enhanced_query).any? %>
 
-<div class="filter-summary">
+<aside class="filter-summary">
   <div class="list-filter-summary">
     <h2 class="hd-filter-summary hd-5">Applied filters: </h2>
     <ul class="list-inline">
@@ -24,6 +24,6 @@
     <div class="clear-filters">
       <a class="btn button-primary"
        href="<%= results_path(remove_all_filters(@enhanced_query)) %>">Clear all filters</a>
-     </div>
+    </div>
   <% end %>
-</div>
+</aside>
