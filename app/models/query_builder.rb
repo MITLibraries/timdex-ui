@@ -2,7 +2,7 @@ class QueryBuilder
   attr_reader :query
 
   RESULTS_PER_PAGE = 20
-  QUERY_PARAMS = %w[q citation contributors fundingInformation identifiers locations subjects title].freeze
+  QUERY_PARAMS = %w[q citation contributors fundingInformation identifiers locations subjects title booleanType].freeze
   FILTER_PARAMS = %i[accessToFilesFilter contentTypeFilter contributorsFilter formatFilter languagesFilter
                      literaryFormFilter placesFilter sourceFilter subjectsFilter].freeze
   GEO_PARAMS = %w[geoboxMinLongitude geoboxMinLatitude geoboxMaxLongitude geoboxMaxLatitude geodistanceLatitude
@@ -21,6 +21,7 @@ class QueryBuilder
     extract_geosearch(enhanced_query)
     extract_filters(enhanced_query)
     @query['index'] = ENV.fetch('TIMDEX_INDEX', nil)
+    @query['booleanType'] = enhanced_query[:booleanType]
     @query.compact!
   end
 
