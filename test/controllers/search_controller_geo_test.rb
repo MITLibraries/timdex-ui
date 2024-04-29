@@ -82,6 +82,35 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     assert_select '#geodistance-search-panel', count: 0
   end
 
+  test 'GDT lists applied geospatial search terms' do
+    VCR.use_cassette('geobox and geodistance',
+                      allow_playback_repeats: true,
+                      match_requests_on: %i[method uri body]) do
+      query = {
+        geobox: 'true',
+        geodistance: 'true',
+        geoboxMinLongitude: 40.5,
+        geoboxMinLatitude: 60.0,
+        geoboxMaxLongitude: 78.2,
+        geoboxMaxLatitude: 80.0,
+        geodistanceLatitude: 36.1,
+        geodistanceLongitude: 62.6,
+        geodistanceDistance: '50mi'
+      }.to_query
+      get "/results?#{query}"
+      assert_response :success
+      assert_nil flash[:error]
+
+      assert_select 'li', 'Min longitude: 40.5'
+      assert_select 'li', 'Min latitude: 60.0'
+      assert_select 'li', 'Max longitude: 78.2'
+      assert_select 'li', 'Max latitude: 80.0'
+      assert_select 'li', 'Latitude: 36.1'
+      assert_select 'li', 'Longitude: 62.6'
+      assert_select 'li', 'Distance: 50mi'
+    end
+  end
+
   test 'can query geobox' do
     VCR.use_cassette('geobox',
                       allow_playback_repeats: true,
