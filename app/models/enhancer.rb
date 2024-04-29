@@ -12,6 +12,7 @@ class Enhancer
     @enhanced_query = {}
     @enhanced_query[:page] = calculate_page(params[:page].to_i)
     @enhanced_query[:advanced] = 'true' if params[:advanced].present?
+    @enhanced_query[:booleanType] = params[:booleanType] || 'AND'
 
     if Flipflop.enabled?(:gdt)
       @enhanced_query[:geobox] = 'true' if params[:geobox] == 'true'

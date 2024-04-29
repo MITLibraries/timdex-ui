@@ -1475,6 +1475,16 @@
                   "defaultValue": "null"
                 },
                 {
+                  "name": "booleanType",
+                  "description": "How to join multiword queries. Defaults to \"OR\" which means any of the words much match. Options include: \"OR\", \"AND\", \"minimum_a\"",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "\"OR\""
+                },
+                {
                   "name": "accessToFilesFilter",
                   "description": "Filter results by access type. Use the `AccessToFiles` aggregation for a list of possible values. Multiple values are ORed.",
                   "type": {

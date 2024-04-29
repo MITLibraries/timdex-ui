@@ -76,6 +76,9 @@ feature flag enabled, and do not when it is disabled.
 - `ABOUT_APP`: If populated, an 'about' partial containing the contents of this variable will render on 
 `basic_search#index`.
 - `ACTIVE_FILTERS`: If populated, this list of strings defines which filters are shown to the user, and the order in which they appear. Values are case sensitive, and must match the corresponding aggregations used in the TIMDEX GraphQL query. Extraneous values will be ignored. If not populated, all filters will be shown.
+- `BOOLEAN_OPTIONS`: comma separated list of values to present to testers on instances where `BOOLEAN_PICKER` feature is enabled.
+- `BOOLEAN_PICKER`: feature to allow users to select their preferred boolean type. If set, feature is enabled. This feature is only intended for internal team
+  testing and should never be enabled in production (mostly because the UI is a mess more than it would cause harm).
 - `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.
 - `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.
 - `FILTER_CONTRIBUTOR`: The name to use instead of "Contributor" for that filter / aggregation.

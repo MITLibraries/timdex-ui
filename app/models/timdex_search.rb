@@ -2,7 +2,7 @@ require 'graphql/client'
 require 'graphql/client/http'
 
 class TimdexSearch < TimdexBase
-  BaseQuery = TimdexBase::Client.parse <<-'GRAPHQL'
+  BaseQuery = TimdexBase::Client.parse <<-GRAPHQL
     query(
       $q: String
       $citation: String
@@ -14,6 +14,7 @@ class TimdexSearch < TimdexBase
       $title: String
       $index: String
       $from: String
+      $booleanType: String
       $accessToFilesFilter: [String!]
       $contentTypeFilter: [String!]
       $contributorsFilter: [String!]
@@ -35,6 +36,7 @@ class TimdexSearch < TimdexBase
         title: $title
         index: $index
         from: $from
+        booleanType: $booleanType
         accessToFilesFilter: $accessToFilesFilter
         contentTypeFilter: $contentTypeFilter
         contributorsFilter: $contributorsFilter
@@ -124,7 +126,7 @@ class TimdexSearch < TimdexBase
     }
   GRAPHQL
 
-  GeoboxQuery = TimdexBase::Client.parse <<-'GRAPHQL'
+  GeoboxQuery = TimdexBase::Client.parse <<-GRAPHQL
     query(
       $q: String
       $citation: String
@@ -136,6 +138,7 @@ class TimdexSearch < TimdexBase
       $title: String
       $index: String
       $from: String
+      $booleanType: String
       $geoboxMinLatitude: Float!
       $geoboxMinLongitude: Float!
       $geoboxMaxLatitude: Float!
@@ -160,6 +163,7 @@ class TimdexSearch < TimdexBase
         title: $title
         index: $index
         from: $from
+        booleanType: $booleanType
         geobox: {
           minLongitude: $geoboxMinLongitude,
           minLatitude: $geoboxMinLatitude,
@@ -250,7 +254,7 @@ class TimdexSearch < TimdexBase
     }
   GRAPHQL
 
-  GeodistanceQuery = TimdexBase::Client.parse <<-'GRAPHQL'
+  GeodistanceQuery = TimdexBase::Client.parse <<-GRAPHQL
     query(
       $q: String
       $citation: String
@@ -262,6 +266,7 @@ class TimdexSearch < TimdexBase
       $title: String
       $index: String
       $from: String
+      $booleanType: String
       $accessToFilesFilter: [String!]
       $geodistanceDistance: String!
       $geodistanceLatitude: Float!
@@ -285,6 +290,7 @@ class TimdexSearch < TimdexBase
         title: $title
         index: $index
         from: $from
+        booleanType: $booleanType
         geodistance: {
           distance: $geodistanceDistance,
           latitude: $geodistanceLatitude,
@@ -374,7 +380,7 @@ class TimdexSearch < TimdexBase
     }
   GRAPHQL
 
-  AllQuery = TimdexBase::Client.parse <<-'GRAPHQL'
+  AllQuery = TimdexBase::Client.parse <<-GRAPHQL
     query(
       $q: String
       $citation: String
@@ -386,6 +392,7 @@ class TimdexSearch < TimdexBase
       $title: String
       $index: String
       $from: String
+      $booleanType: String
       $accessToFilesFilter: [String!]
       $geodistanceDistance: String!
       $geodistanceLatitude: Float!
@@ -413,6 +420,7 @@ class TimdexSearch < TimdexBase
         title: $title
         index: $index
         from: $from
+        booleanType: $booleanType
         geodistance: {
           distance: $geodistanceDistance,
           latitude: $geodistanceLatitude,

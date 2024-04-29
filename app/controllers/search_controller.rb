@@ -12,6 +12,9 @@ class SearchController < ApplicationController
   end
 
   def results
+    # inject session preference for boolean type if it is present
+    params[:booleanType] = cookies[:boolean_type] || 'AND'
+
     # hand off to Enhancer chain
     @enhanced_query = Enhancer.new(params).enhanced_query
 

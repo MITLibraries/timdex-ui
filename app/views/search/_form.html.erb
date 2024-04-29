@@ -225,4 +225,25 @@ end
   </div>
 </form>
 
+<% if Flipflop.enabled?(:boolean_picker) %>
+  <aside class="panel panel-info">
+    <div class="panel-heading">
+  <% if cookies[:boolean_type].present? %>
+    <p>Your boolean preference for this session is: <%= cookies[:boolean_type] %></p>
+  <% else %>
+    <p>No preference is set. Default boolean preference (`AND`) is enabled.</p>
+  <% end %>
+    </div>
+    <div class="panel-body">
+      <p>Change to:</p>
+      <ul>
+      <% ENV.fetch('BOOLEAN_OPTIONS', 'AND,OR').split(',').each do |opt| %>
+        <li><%= link_to(opt, boolpref_path(boolean_type: opt)) %></li>
+      <% end %>
+        <li><%= link_to('Clear preference', boolpref_path()) %></li>
+      </ul>
+    </div>
+    </aside>
+<% end %>
+
 <%= javascript_include_tag "search_form" %>
