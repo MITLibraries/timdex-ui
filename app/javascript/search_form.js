@@ -10,7 +10,6 @@ function disableAdvanced() {
     field => field.value = ''
   );
   advanced_label.classList = 'closed';
-  advanced_label.innerText = 'Advanced search';
 };
 
 function enableAdvanced() {
@@ -22,7 +21,6 @@ function enableAdvanced() {
     keyword_field.setAttribute('placeholder', 'Keyword anywhere');
   }
   advanced_label.classList = 'open';
-  advanced_label.innerText = 'Close advanced search';
 };
 
 function disableGeobox() {
@@ -40,7 +38,6 @@ function disableGeobox() {
     field.setAttribute('aria-required', false);
   });
   geobox_label.classList = 'closed';
-  geobox_label.innerText = 'Geospatial bounding box search';
 };
 
 function enableGeobox() {
@@ -58,7 +55,6 @@ function enableGeobox() {
     field.setAttribute('aria-required', true);
   });
   geobox_label.classList = 'open';
-  geobox_label.innerText = 'Close bounding box search';
 };
 
 function disableGeodistance() {
@@ -76,7 +72,6 @@ function disableGeodistance() {
     field.setAttribute('aria-required', false);
   });
   geodistance_label.classList = 'closed';
-  geodistance_label.innerText = 'Geospatial distance search';
 };
 
 function enableGeodistance() {
@@ -94,7 +89,6 @@ function enableGeodistance() {
     field.setAttribute('aria-required', true);
   });
   geodistance_label.classList = 'open';
-  geodistance_label.innerText = 'Close distance search';
 };
 
 
