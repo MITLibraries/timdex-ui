@@ -6,11 +6,10 @@ if params[:q]
 end
 
 # Initial form setup is determined by the advanced parameter. Thereafter it is altered by javascript.
-advanced_label = "Advanced search"
+advanced_label = "Search by title, author, etc."
 advanced_label_class = "closed"
 search_required = true
 if params[:advanced] == "true"
-  advanced_label = "Close advanced search"
   advanced_label_class = "open"
   search_required = false
 end
@@ -18,7 +17,6 @@ end
 geobox_label = "Geospatial bounding box search"
 geobox_label_class = "closed"
 if params[:geobox] == "true"
-  geobox_label = "Close bounding box search"
   geobox_label_class = "open"
   geobox_required = true
   search_required = false
@@ -27,7 +25,6 @@ end
 geodistance_label = "Geospatial distance search"
 geodistance_label_class = "closed"
 if params[:geodistance] == "true"
-  geodistance_label = "Close distance search"
   geodistance_label_class = "open"
   geodistance_required = true
   search_required = false
