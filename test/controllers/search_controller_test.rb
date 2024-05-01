@@ -122,14 +122,31 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'results with valid query has div for hints' do
+  test 'results with valid query has div for hints if any fact panels are enabled' do
     VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      get '/results?q=data'
+      ClimateControl.modify(FACT_PANELS_ENABLED: 'fakepanel') do
+        get '/results?q=data'
+      end
+
       assert_response :success
 
       assert_select '#hint'
+    end
+  end
+
+  test 'results with valid query has no div for hints if no fact panels are enabled' do
+    VCR.use_cassette('data basic controller',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+        get '/results?q=data'
+      end
+
+      assert_response :success
+
+      assert_select('#hint', 0)
     end
   end
 
@@ -234,11 +251,13 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'searches with ISSN display issn fact card' do
+  test 'searches with ISSN display issn fact card when enabled' do
     VCR.use_cassette('timdex 1234-5678',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      get '/results?q=1234-5678'
+      ClimateControl.modify(FACT_PANELS_ENABLED: 'issn') do
+        get '/results?q=1234-5678'
+      end
       assert_response :success
 
       actual_div = assert_select('div[data-content-loader-url-value]')
@@ -247,11 +266,27 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'searches with ISBN insert isbn dom element' do
+  test 'searches with ISSN do not display issn fact card when not enabled' do
+    VCR.use_cassette('timdex 1234-5678',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+        get '/results?q=1234-5678'
+      end
+      assert_response :success
+
+      assert_select('div[data-content-loader-url-value]', 0)
+    end
+  end
+
+  test 'searches with ISBN insert isbn dom element when enabled' do
     VCR.use_cassette('timdex 9781857988536',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      get '/results?q=9781857988536'
+      ClimateControl.modify(FACT_PANELS_ENABLED: 'isbn') do
+        get '/results?q=9781857988536'
+      end
+
       assert_response :success
 
       actual_div = assert_select('div[data-content-loader-url-value]')
@@ -260,11 +295,27 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'searches with DOI insert doi dom element' do
+  test 'searches with ISBN do not insert isbn dom element when not enabled' do
+    VCR.use_cassette('timdex 9781857988536',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+        get '/results?q=9781857988536'
+      end
+
+      assert_response :success
+
+      assert_select('div[data-content-loader-url-value]', 0)
+    end
+  end
+
+  test 'searches with DOI insert doi dom element when enabled' do
     VCR.use_cassette('timdex 10.1038.nphys1170 ',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      get '/results?q=10.1038/nphys1170 '
+      ClimateControl.modify(FACT_PANELS_ENABLED: 'doi') do
+        get '/results?q=10.1038/nphys1170 '
+      end
       assert_response :success
 
       actual_div = assert_select('div[data-content-loader-url-value]')
@@ -273,16 +324,44 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'searches with pmid insert pmid dom element' do
+  test 'searches with DOI do not insert doi dom element when not enabled' do
+    VCR.use_cassette('timdex 10.1038.nphys1170 ',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+        get '/results?q=10.1038/nphys1170 '
+      end
+      assert_response :success
+
+      assert_select('div[data-content-loader-url-value]', 0)
+    end
+  end
+
+  test 'searches with pmid insert pmid dom element when enabled' do
     VCR.use_cassette('timdex PMID 35649707',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      get '/results?q=PMID: 35649707'
+      ClimateControl.modify(FACT_PANELS_ENABLED: 'pmid') do
+        get '/results?q=PMID: 35649707'
+      end
       assert_response :success
 
       actual_div = assert_select('div[data-content-loader-url-value]')
       assert_equal '/pmid?pmid=PMID%3A+35649707',
                    actual_div.attribute('data-content-loader-url-value').value
+    end
+  end
+
+  test 'searches with pmid do not insert pmid dom element when not enabled' do
+    VCR.use_cassette('timdex PMID 35649707',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+        get '/results?q=PMID: 35649707'
+      end
+      assert_response :success
+
+      assert_select('div[data-content-loader-url-value]', 0)
     end
   end
 
@@ -362,7 +441,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
       assert_select 'input#basic-search-main', value: 'some data'
       assert_select 'input#advanced-citation', value: 'a citation'
-      assert_select 'input#advanced-contributors', value:'some contribs'
+      assert_select 'input#advanced-contributors', value: 'some contribs'
       assert_select 'input#advanced-fundingInformation', value: 'a fund'
       assert_select 'input#advanced-identifiers', value: 'some ids'
       assert_select 'input#advanced-locations', value: 'some locs'
