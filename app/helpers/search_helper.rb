@@ -44,7 +44,48 @@ module SearchHelper
     handle_unparsable_date(relevant_date)
   end
 
+  def applied_keyword(query)
+    relevant_terms = ['q']
+    render_relevant_terms(query, relevant_terms)
+  end
+
+  def applied_geobox_terms(query)
+    relevant_terms = %w[geoboxMinLatitude geoboxMaxLatitude geoboxMinLongitude geoboxMaxLongitude]
+    render_relevant_terms(query, relevant_terms)
+  end
+
+  def applied_geodistance_terms(query)
+    relevant_terms = %w[geodistanceLatitude geodistanceLongitude geodistanceDistance]
+    render_relevant_terms(query, relevant_terms)
+  end
+
+  def applied_advanced_terms(query)
+    relevant_terms = %w[title citation contributors fundingInformation identifiers locations subjects]
+    render_relevant_terms(query, relevant_terms)
+  end
+
   private
+
+  # Query params need some treatment to look decent in the search summary panel.
+  def readable_param(param)
+    return 'Keyword anywhere' if param == 'q'
+    return 'Authors' if param == 'contributors' && Flipflop.enabled?(:gdt)
+
+    if param.starts_with?('geodistance')
+      param = param.gsub('geodistance', '')
+    elsif param.starts_with?('geobox')
+      param = param.gsub(/geobox(Max|Min)/, '\1 ')
+    end
+
+    param.titleize.humanize
+  end
+
+  def render_relevant_terms(query, relevant_terms)
+    applied_terms = query.select { |param, _value| relevant_terms.include?(param.to_s) }
+    return unless applied_terms.present?
+
+    applied_terms.filter_map { |param, value| "#{readable_param(param.to_s)}: #{value}" }
+  end
 
   def handle_unparsable_date(date)
     if date.include? '-'

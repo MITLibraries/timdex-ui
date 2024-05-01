@@ -1,29 +1,71 @@
-<% return unless applied_filters(@enhanced_query).any? %>
+<% return unless (applied_filters(@enhanced_query).present? ||
+                  applied_keyword(@enhanced_query).present? ||
+                  applied_geobox_terms(@enhanced_query).present? ||
+                  applied_geodistance_terms(@enhanced_query).present? ||
+                  applied_advanced_terms(@enhanced_query).present?) %>
 
-<aside class="filter-summary">
-  <div class="list-filter-summary">
-    <h2 class="hd-filter-summary hd-5">Applied filters: </h2>
-    <ul class="list-inline">
-    <% applied_filters(@enhanced_query).each do |filter| %>
-      <li>
-        <a class="applied-filter"
-           href="<%= results_path(remove_filter(@enhanced_query, filter.keys[0], filter.values[0])) %>">
-          <%= "#{nice_labels[filter.keys[0]] || filter.keys[0]}:" %>
-          <% if Flipflop.enabled?(:gdt) %>
-            <%= "#{gdt_sources(filter.values[0], filter.keys[0])}" %>
-          <% else %>
-            <%= "#{filter.values[0]}" %>
-          <% end %>
-          <span class="sr">Remove applied filter?</span>
-        </a>
-      </li>
-    <% end %>
-    </ul>
+<aside class="search-summary">
+  <div class="list-terms-summary">
+    <h2 class="hd-search-summary hd-5">Applied search terms: </h2>
+      <ul class="list-unbulleted">
+        <% if applied_keyword(@enhanced_query).present? %>
+          <li class="applied-term keyword"><%= applied_keyword(@enhanced_query).first %></li>
+        <% end %>
+        <% if applied_geobox_terms(@enhanced_query).present? %>
+          <li class="applied-term">
+            <ul class="list-inline">
+              <% applied_geobox_terms(@enhanced_query).each do |term| %>
+                <li class="applied-term"><%= term %></li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+        <% if applied_geodistance_terms(@enhanced_query).present? %>
+          <li class="applied-term">
+            <ul class="list-inline">
+              <% applied_geodistance_terms(@enhanced_query).each do |term| %>
+                <li class="applied-term"><%= term %></li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+        <% if applied_advanced_terms(@enhanced_query).present? %>
+          <li class="applied-term">
+            <ul class="list-inline">
+              <% applied_advanced_terms(@enhanced_query).each do |term| %>
+                <li class="applied-term"><%= term %></li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
   </div>
-  <% if applied_filters(@enhanced_query).length > 1 %>
-    <div class="clear-filters">
-      <a class="btn button-primary"
-       href="<%= results_path(remove_all_filters(@enhanced_query)) %>">Clear all filters</a>
+
+  <% if applied_filters(@enhanced_query).any? %>
+    <div class="list-filter-summary">
+      <h2 class="hd-search-summary hd-5">Applied filters: </h2>
+      <ul class="list-inline">
+      <% applied_filters(@enhanced_query).each do |filter| %>
+        <li>
+          <a class="applied-filter"
+             href="<%= results_path(remove_filter(@enhanced_query, filter.keys[0], filter.values[0])) %>">
+            <%= "#{nice_labels[filter.keys[0]] || filter.keys[0]}:" %>
+            <% if Flipflop.enabled?(:gdt) %>
+              <%= "#{gdt_sources(filter.values[0], filter.keys[0])}" %>
+            <% else %>
+              <%= "#{filter.values[0]}" %>
+            <% end %>
+            <span class="sr">Remove applied filter?</span>
+          </a>
+        </li>
+      <% end %>
+      </ul>
     </div>
+    <% if applied_filters(@enhanced_query).length > 1 %>
+      <div class="clear-filters">
+        <a class="btn button-primary"
+         href="<%= results_path(remove_all_filters(@enhanced_query)) %>">Clear all filters</a>
+      </div>
+    <% end %>
   <% end %>
 </aside>

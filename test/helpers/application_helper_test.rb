@@ -13,7 +13,8 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test 'results_page_title excludes irrelevant query params' do
-    query = { q: 'National Parks Service', page: 1, geobox: 'true', geodistance: 'true', advanced: 'true' }
+    query = { q: 'National Parks Service', page: 1, geobox: 'true', geodistance: 'true', advanced: 'true',
+              booleanType: 'AND' }
     assert_equal 'National Parks Service | MIT Libraries', results_page_title(query)
   end
 

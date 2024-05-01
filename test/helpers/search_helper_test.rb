@@ -3,6 +3,11 @@ require 'test_helper'
 class SearchHelperTest < ActionView::TestCase
   include SearchHelper
 
+  def setup
+    @test_strategy = Flipflop::FeatureSet.current.test!
+    @test_strategy.switch!(:gdt, false)
+  end
+
   test 'removes displayed fields from highlights' do
     result = { 'highlight' => [{ 'matchedField' => 'title', 'matchedPhrases' => 'Very important data' },
                                { 'matchedField' => 'title.exact_value', 'matchedPhrases' => 'Very important data' },
@@ -112,5 +117,58 @@ class SearchHelperTest < ActionView::TestCase
     assert_equal 'Funding information', format_highlight_label(funding_information_name)
     assert_equal 'Dates', format_highlight_label(date_range)
     assert_equal 'Edition', format_highlight_label(edition)
+  end
+
+  test 'applied_keyword translates q param' do
+    query = {
+      q: 'usability'
+    }
+    assert_equal ['Keyword anywhere: usability'], applied_keyword(query)
+  end
+
+  test 'applied_geobox_terms includes and translates all geobox params' do
+    query = {
+      geobox: true,
+      geoboxMinLatitude: '41.2',
+      geoboxMaxLatitude: '42.9',
+      geoboxMinLongitude: '-73.5',
+      geoboxMaxLongitude: '-69.9'
+    }
+    assert_equal ['Min latitude: 41.2', 'Max latitude: 42.9', 'Min longitude: -73.5', 'Max longitude: -69.9'],
+                 applied_geobox_terms(query)
+  end
+
+  test 'applied_geodistance_terms includes and translates all geodistance params' do
+    query = {
+      geodistance: true,
+      geodistanceLatitude: '42.3',
+      geodistanceLongitude: '-83.7',
+      geodistanceDistance: '50mi'
+    }
+    assert_equal ['Latitude: 42.3', 'Longitude: -83.7', 'Distance: 50mi'], applied_geodistance_terms(query)
+  end
+
+  test 'applied_advanced_terms includes all possible advanced search terms' do
+    query = {
+      title: 'sample book',
+      citation: 'person, sample. sample book. someplace, 2024',
+      contributors: 'person, sample',
+      fundingInformation: 'imls',
+      identifiers: '1234/5678',
+      locations: 'someplace',
+      subjects: 'unit testing'
+    }
+    assert_equal ['Title: sample book', 'Citation: person, sample. sample book. someplace, 2024',
+                  'Contributors: person, sample', 'Funding information: imls', 'Identifiers: 1234/5678',
+                  'Locations: someplace', 'Subjects: unit testing'], applied_advanced_terms(query)
+  end
+
+  test 'applied_advanced_terms translates contributors in GDT' do
+    @test_strategy.switch!(:gdt, true)
+
+    query = {
+      contributors: 'person, sample',
+    }
+    assert_equal ['Authors: person, sample'], applied_advanced_terms(query)
   end
 end

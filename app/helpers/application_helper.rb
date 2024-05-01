@@ -15,7 +15,7 @@ module ApplicationHelper
   def results_page_title(query, character_limit = 50)
     return index_page_title unless query.present?
 
-    ignored_terms = %i[page advanced geobox geodistance]
+    ignored_terms = %i[page advanced geobox geodistance booleanType]
     terms = query.reject { |term| ignored_terms.include? term }.values.join(' ')
     terms = "#{terms.first(character_limit)}..." if terms.length > character_limit
     "#{terms} | #{page_title_base}"

@@ -288,8 +288,6 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   # Advanced search behavior
   test 'advanced search by keyword' do
-    skip("We no longer display a list of search terms in the UI; leaving this in in case we decide to reintroduce" \
-         "that feature soon.")
     VCR.use_cassette('advanced keyword asdf',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -313,8 +311,6 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'advanced search can accept values from all fields' do
-    skip("We no longer display a list of search terms in the UI; leaving this in in case we decide to reintroduce" \
-         "that feature soon.")
     VCR.use_cassette('advanced all',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -337,12 +333,11 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_select 'li', 'Keyword anywhere: data'
       assert_select 'li', 'Citation: citation'
       assert_select 'li', 'Contributors: contribs'
-      assert_select 'li', 'Funders: fund'
+      assert_select 'li', 'Funding information: fund'
       assert_select 'li', 'Identifiers: ids'
       assert_select 'li', 'Locations: locs'
       assert_select 'li', 'Subjects: subs'
       assert_select 'li', 'Title: title'
-      assert_select 'li', 'Source: sauce'
     end
   end
 
