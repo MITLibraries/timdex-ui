@@ -7,12 +7,14 @@
   <%= render partial: "form" %>
   <%= render partial: "search_summary" %>
 
-  <div id="hint" aria-live="polite">
-    <%= render(partial: 'search/issn') %>
-    <%= render(partial: 'search/isbn') %>
-    <%= render(partial: 'search/pmid') %>
-    <%= render(partial: 'search/doi') %>
-  </div>
+  <% if ENV.fetch('FACT_PANELS_ENABLED', false).present? %>
+    <div id="hint" aria-live="polite">
+      <%= render(partial: 'search/issn') if fact_enabled?('issn') %>
+      <%= render(partial: 'search/isbn') if fact_enabled?('isbn') %>
+      <%= render(partial: 'search/pmid') if fact_enabled?('pmid') %>
+      <%= render(partial: 'search/doi') if fact_enabled?('doi') %>
+    </div>
+  <% end %>
 
   <%= render(partial: 'shared/error', collection: @errors) %>
 

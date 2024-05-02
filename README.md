@@ -79,6 +79,7 @@ feature flag enabled, and do not when it is disabled.
 - `BOOLEAN_OPTIONS`: comma separated list of values to present to testers on instances where `BOOLEAN_PICKER` feature is enabled.
 - `BOOLEAN_PICKER`: feature to allow users to select their preferred boolean type. If set, feature is enabled. This feature is only intended for internal team
   testing and should never be enabled in production (mostly because the UI is a mess more than it would cause harm).
+- `FACT_PANELS_ENABLED`: Comma separated list of enabled fact panels. See `/views/results.html.erb` for implemented panels/valid options. Leave unset to disable all.
 - `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.
 - `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.
 - `FILTER_CONTRIBUTOR`: The name to use instead of "Contributor" for that filter / aggregation.
