@@ -12,8 +12,8 @@
           <li class="applied-term keyword"><%= applied_keyword(@enhanced_query).first %></li>
         <% end %>
         <% if applied_geobox_terms(@enhanced_query).present? %>
-          <li class="applied-term">
-            <ul class="list-inline">
+          <li>
+            <ul class="list-inline terms-list">
               <% applied_geobox_terms(@enhanced_query).each do |term| %>
                 <li class="applied-term"><%= term %></li>
               <% end %>
@@ -21,8 +21,8 @@
           </li>
         <% end %>
         <% if applied_geodistance_terms(@enhanced_query).present? %>
-          <li class="applied-term">
-            <ul class="list-inline">
+          <li>
+            <ul class="list-inline terms-list">
               <% applied_geodistance_terms(@enhanced_query).each do |term| %>
                 <li class="applied-term"><%= term %></li>
               <% end %>
@@ -30,8 +30,8 @@
           </li>
         <% end %>
         <% if applied_advanced_terms(@enhanced_query).present? %>
-          <li class="applied-term">
-            <ul class="list-inline">
+          <li>
+            <ul class="list-inline terms-list">
               <% applied_advanced_terms(@enhanced_query).each do |term| %>
                 <li class="applied-term"><%= term %></li>
               <% end %>
