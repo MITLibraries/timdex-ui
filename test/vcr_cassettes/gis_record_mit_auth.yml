@@ -12,7 +12,7 @@ http_interactions:
         {\n      funderName\n      funderIdentifier\n      funderIdentifierType\n      awardUri\n      awardNumber\n    }\n    holdings
         {\n      callnumber\n      collection\n      format\n      location\n      notes\n      summary\n    }\n    identifiers
         {\n      kind\n      value\n    }\n    languages\n    links {\n      kind\n      restrictions\n      text\n      url\n    }\n    literaryForm\n    locations
-        {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    provider\n    publicationFrequency\n    publishers
+        {\n      geoshape\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    provider\n    publicationFrequency\n    publishers
         {\n      date\n      location\n      name\n    }\n    relatedItems {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
         {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
         {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"gismit:us_ma_boston_g47parcels_2018","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexRecord__Query"}'
@@ -33,11 +33,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 25 Apr 2024 20:57:07 GMT
+      - Thu, 02 May 2024 20:57:42 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1714078628&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=6SQs1zkmdEWgfGIYlBgwRolbNhegrWq%2F1i5so0r3oAI%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1714683463&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=NoFzCWko0lM98M6TlDxgwrKs6I2rDHUQv8oF%2BNFQD64%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1714078628&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=6SQs1zkmdEWgfGIYlBgwRolbNhegrWq%2F1i5so0r3oAI%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1714683463&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=NoFzCWko0lM98M6TlDxgwrKs6I2rDHUQv8oF%2BNFQD64%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -57,17 +57,17 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"45cbbc36050c14eddba2cf7eb4a353d9"
+      - W/"72b90141c803d20c3e99862b8439427a"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 65f3f811-d5c6-49d9-8dc3-41ec27454e4e
+      - 4ca6ef11-a4f2-4103-9fb8-821e2bc9a340
       X-Runtime:
-      - '0.060807'
+      - '0.080273'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
-      - '3309'
+      - '3318'
       Via:
       - 1.1 vegur
     body:
@@ -78,10 +78,10 @@ http_interactions:
         data"],"contents":null,"contributors":[{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"City
         of Boston Assessing Department"}],"dates":[{"kind":"Issued","note":null,"range":null,"value":"2018-01-01"},{"kind":"Coverage","note":null,"range":null,"value":"2015-01-01"},{"kind":"Coverage","note":null,"range":null,"value":"2015"}],"edition":null,"format":"Shapefile","fundingInformation":null,"holdings":null,"identifiers":[{"kind":"Not
         specified","value":"us_ma_boston_g47parcels_2018"}],"languages":["eng"],"links":[{"kind":"Download","restrictions":null,"text":"Source
-        Metadata","url":"https://cdn.libraries.mit.edu/geo/public/us_ma_boston_g47parcels_2018.source.fgdc.xml"},{"kind":"Download","restrictions":null,"text":"Aardvark
-        Metadata","url":"https://cdn.libraries.mit.edu/geo/public/us_ma_boston_g47parcels_2018.normalized.aardvark.json"},{"kind":"Download","restrictions":null,"text":"Data","url":"https://cdn.libraries.mit.edu/geo/restricted/us_ma_boston_g47parcels_2018.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.libraries.mit.edu/record/gismit:us_ma_boston_g47parcels_2018"}],"literaryForm":null,"locations":[{"geopoint":"BBOX
-        (-71.190913, -70.868654, 42.397012, 42.227864)","kind":"Bounding Box","value":null},{"geopoint":"BBOX
-        (-71.190913, -70.868654, 42.397012, 42.227864)","kind":"Geometry","value":null},{"geopoint":null,"kind":"Place
+        Metadata","url":"https://cdn.stage.mitlibrary.net/geo/public/us_ma_boston_g47parcels_2018.source.fgdc.xml"},{"kind":"Download","restrictions":null,"text":"Aardvark
+        Metadata","url":"https://cdn.stage.mitlibrary.net/geo/public/us_ma_boston_g47parcels_2018.normalized.aardvark.json"},{"kind":"Download","restrictions":null,"text":"Data","url":"https://cdn.stage.mitlibrary.net/geo/restricted/us_ma_boston_g47parcels_2018.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.libraries.mit.edu/record/gismit:us_ma_boston_g47parcels_2018"}],"literaryForm":null,"locations":[{"geoshape":"BBOX
+        (-71.190913, -70.868654, 42.397012, 42.227864)","kind":"Bounding Box","value":null},{"geoshape":"BBOX
+        (-71.190913, -70.868654, 42.397012, 42.227864)","kind":"Geometry","value":null},{"geoshape":null,"kind":"Place
         Name","value":"Massachusetts--Boston"}],"notes":null,"numbering":null,"physicalDescription":null,"provider":"GIS
         Lab, MIT Libraries","publicationFrequency":null,"publishers":null,"relatedItems":null,"rights":[{"description":"Restricted","kind":"Access
         rights","uri":null},{"description":"MIT authentication required","kind":"Access
@@ -99,5 +99,5 @@ http_interactions:
         from FY 2018. All data is from the City of Boston Assessor''s office and represents
         data from 2017."],"timdexRecordId":"gismit:us_ma_boston_g47parcels_2018","title":"Boston,
         MA (Land parcels, 2018)"}}}'
-  recorded_at: Thu, 25 Apr 2024 20:57:08 GMT
+  recorded_at: Thu, 02 May 2024 20:57:43 GMT
 recorded_with: VCR 6.2.0

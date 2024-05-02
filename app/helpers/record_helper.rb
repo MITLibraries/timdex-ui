@@ -98,30 +98,14 @@ module RecordHelper
     access_right.first['description']
   end
 
-  # For GDT records, a 'more information' section includes all fields that are currently mapped in
-  # [transmogrifier](https://github.com/MITLibraries/transmogrifier/blob/main/transmogrifier/sources/json/aardvark.py).
-  # Note: the publishers field is not yet available in TIMDEX API, but it should be added here once it is.
-  def more_info_geo?(metadata)
-    relevant_fields = %w[alternate_titles contributors dates format identifiers languages locations
-                         links notes provider publishers rights]
-    metadata.keys.any? { |key| relevant_fields.include? key }
-  end
-
   def parse_nested_field(field)
     # Don't continue if it's not a nested field.
     return unless field.is_a?(Array) && field.first.is_a?(Hash)
 
-    # We don't care about display subfields with null values, our the contributors 'mitAffiliated' subfield.
+    # We don't care about display subfields with null values.
     field.map do |subfield|
-      subfield.reject { |key, value| key == 'mitAffiliated' || value.blank? }
+      subfield.reject { |_, value| value.blank? }
     end.compact
-  end
-
-  def render_subfield(subfield)
-    # Date ranges are handled differently than other subfields
-    return ("kind: #{subfield['kind']}; range: " + date_range(subfield['range'])) if subfield['range'].present?
-
-    subfield.map { |key, value| "#{key}: #{value}" }.join('; ')
   end
 
   def source_metadata_available?(links)
@@ -132,6 +116,12 @@ module RecordHelper
     return if links.blank?
 
     links.select { |link| link['kind'] == 'Download' && link['text'] == 'Source Metadata' }.first['url']
+  end
+
+  def geospatial_coordinates?(locations)
+    return if locations.blank?
+
+    locations.any? { |location| location['geoshape'] }
   end
 
   private

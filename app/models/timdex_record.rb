@@ -60,7 +60,7 @@ class TimdexRecord < TimdexBase
         }
         literaryForm
         locations {
-          geopoint
+          geoshape
           kind
           value
         }
