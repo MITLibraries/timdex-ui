@@ -12,7 +12,7 @@ http_interactions:
         {\n      funderName\n      funderIdentifier\n      funderIdentifierType\n      awardUri\n      awardNumber\n    }\n    holdings
         {\n      callnumber\n      collection\n      format\n      location\n      notes\n      summary\n    }\n    identifiers
         {\n      kind\n      value\n    }\n    languages\n    links {\n      kind\n      restrictions\n      text\n      url\n    }\n    literaryForm\n    locations
-        {\n      geopoint\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    provider\n    publicationFrequency\n    publishers
+        {\n      geoshape\n      kind\n      value\n    }\n    notes {\n      kind\n      value\n    }\n    numbering\n    physicalDescription\n    provider\n    publicationFrequency\n    publishers
         {\n      date\n      location\n      name\n    }\n    relatedItems {\n      description\n      itemType\n      relationship\n      uri\n    }\n    rights
         {\n      description\n      kind\n      uri\n    }\n    source\n    sourceLink\n    subjects
         {\n      kind\n      value\n    }\n    summary\n    timdexRecordId\n    title\n  }\n}","variables":{"id":"jpal:doi:10.7910-DVN-MNIBOL","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexRecord__Query"}'
@@ -33,11 +33,11 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 25 Apr 2024 20:56:51 GMT
+      - Thu, 02 May 2024 20:57:41 GMT
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1714078611&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=iggGTT5ANYUZwcb1dg2ESgpObeaimyOMraPXYul6zmg%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1714683461&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=lpDgZuw3ks7S8wUJz2fQuFcCw%2F4Xd1L3wcRGc%2F4MqbA%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1714078611&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=iggGTT5ANYUZwcb1dg2ESgpObeaimyOMraPXYul6zmg%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1714683461&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=lpDgZuw3ks7S8wUJz2fQuFcCw%2F4Xd1L3wcRGc%2F4MqbA%3D
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Connection:
@@ -57,13 +57,13 @@ http_interactions:
       Vary:
       - Accept, Origin
       Etag:
-      - W/"bf9e31d66bfd6e75058029ed3deccbf7"
+      - W/"8deaac63e4cf924cc5f2085721bd0613"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - c06ef580-ca11-47d3-8fac-0b633719606b
+      - d1558b7d-2a4d-4d90-a497-92a3eb89d2bf
       X-Runtime:
-      - '0.030779'
+      - '0.145314'
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Content-Length:
@@ -84,7 +84,7 @@ http_interactions:
         Pande"},{"affiliation":null,"identifier":null,"kind":"Distributor","mitAffiliated":null,"value":"Jameel
         Poverty Action Lab"}],"dates":[{"kind":"Publication date","note":null,"range":null,"value":"2007"},{"kind":"Issued","note":null,"range":null,"value":"2006"},{"kind":"Created","note":null,"range":null,"value":"2006"},{"kind":"Submitted","note":null,"range":null,"value":"2006"},{"kind":"Updated","note":null,"range":null,"value":"2020-03-31"}],"edition":"4.2","format":"electronic
         resource","fundingInformation":null,"holdings":null,"identifiers":[{"kind":"DOI","value":"10.7910/DVN/MNIBOL"}],"languages":null,"links":[{"kind":"Digital
-        object URL","restrictions":null,"text":"Digital object URL","url":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL"}],"literaryForm":null,"locations":[{"geopoint":null,"kind":null,"value":"MIT,
+        object URL","restrictions":null,"text":"Digital object URL","url":"https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MNIBOL"}],"literaryForm":null,"locations":[{"geoshape":null,"kind":null,"value":"MIT,
         Cambridge MA"}],"notes":[{"kind":"Datacite resource type","value":["census
         data"]},{"kind":"Other","value":["Subject: STANDARD DEPOSIT TERMS 1.0  Type:
         DATAPASS:TERMS:STANDARD:1.0  Notes: This study was deposited under the of
@@ -107,5 +107,5 @@ http_interactions:
         road. The file malaria_code81.dta contains in addition a variable about malaria
         incidence."],"timdexRecordId":"jpal:doi:10.7910-DVN-MNIBOL","title":"Dams,
         Poverty, Public Goods and Malaria Incidence in India"}}}'
-  recorded_at: Thu, 25 Apr 2024 20:56:51 GMT
+  recorded_at: Thu, 02 May 2024 20:57:41 GMT
 recorded_with: VCR 6.2.0

@@ -270,26 +270,6 @@ class RecordHelperTest < ActionView::TestCase
     assert_equal 'https://example.org/metadata.zip', source_metadata_link(links)
   end
 
-  test 'more_info_geo? true if some relevant fields exist' do
-    date_record = { 'dates' => [{ 'kind' => 'Issued', 'value' => '2001' }] }
-    assert more_info_geo?(date_record)
-
-    locations_record = { 'locations' => [{ 'kind' => 'Place Name', 'value' => 'The Village Vanguard' }] }
-    assert more_info_geo?(locations_record)
-
-    provider_record = { 'provider' => 'MIT' }
-    assert more_info_geo?(provider_record)
-
-    publishers_record = { 'publishers' => [{ 'name' => 'Jagjaguwar', 'location' => 'Bloomington, IN',
-                                             'date' => '2011' }] }
-    assert more_info_geo?(provider_record)
-  end
-
-  test 'more_info_geo? false if no more info available' do
-    record = { 'title' => 'foo', 'source' => 'bar' }
-    assert_not more_info_geo?(record)
-  end
-
   test 'parse_nested_field returns nil for fields that are not nested' do
     string_field = 'string'
     array_of_strings_field = ['string', 'other_string']
@@ -302,23 +282,23 @@ class RecordHelperTest < ActionView::TestCase
     assert_equal nested_field, parse_nested_field(nested_field)
   end
 
-  test 'parse_nested_field ignores mitAffiliated subfield' do
-    contributors = [{ 'kind' => 'bandleader', 'value' => 'Coltrane, John', 'mitAffiliated' => false }]
-    assert_equal [{ 'kind' => 'bandleader', 'value' => 'Coltrane, John' }], parse_nested_field(contributors)
-  end
-
   test 'parse_nested_field trims null values' do
     contributors = [{ 'kind' => 'bandleader', 'value' => 'Coltrane, John', 'identifier' => nil }]
     assert_equal [{ 'kind' => 'bandleader', 'value' => 'Coltrane, John' }], parse_nested_field(contributors)
   end
 
-  test 'render_subfield treats date ranges accordingly' do
-    date_range = { 'kind' => 'Coverage', 'value' => '1999', 'range' => { 'gte' => '1999', 'lte' => '2000' } }
-    assert_equal "kind: Coverage; range: 1999 to 2000", render_subfield(date_range)
+  test 'geospatial_coordinates? returns true if geoshape is present' do
+    geoshape = [{ 'kind' => 'a', 'geoshape' => 'b' }]
+    assert geospatial_coordinates?(geoshape)
   end
 
-  test 'render_subfield renders a variety of key/value pairs' do
-    contributor = { 'kind' => 'bandleader', 'value' => 'Coltrane, John', 'identifier' => 'Trane', 'genre' => 'jazz' }
-    assert_equal "kind: bandleader; value: Coltrane, John; identifier: Trane; genre: jazz", render_subfield(contributor)
+  test 'geospatial_coordinates? returns false if geoshape is absent' do
+    place = [{ 'kind' => 'Place name', 'value' => 'Pittsburgh' }]
+    assert_not geospatial_coordinates?(place)
+  end
+
+  test 'geospatial_coordinates? returns false if locations are not present' do
+    locations = []
+    assert_not geospatial_coordinates?(locations)
   end
 end

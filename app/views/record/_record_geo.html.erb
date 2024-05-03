@@ -19,6 +19,37 @@
       </p>
     <% end %>
 
+    <% if @record['alternateTitles'].present? %>
+      <h3 class="section-title">Alternate titles</h3>
+      <ul class="list-unbulleted">
+      <% parse_nested_field(@record['alternateTitles']).each do |title| %>
+        <li><%= title['value'] %></li>
+      <% end %>
+      </ul>
+    <% end %>
+
+    <% if @record['dates'].present? %>
+      <h3 class="section-title">Dates</h3>
+        <ul class="list-dates">
+          <% @record['dates'].each do |date| %>
+            <li>
+              <%= date['kind'] %>: <%= date_parse(date['value']) %><%= date_range(date['range']) %>
+              <%= " Note: #{date['note']}" if date['note'].present? %>
+            </li>
+          <% end %>
+        </ul>
+    <% end %>
+
+    <!-- The publishers field also includes location and date subfields, but these are unused in GDT. -->
+    <% if @record['publishers'].present? %>
+      <h3 class="section-title">Publishers</h3>
+      <ul>
+      <% parse_nested_field(@record['publishers']).each do |publisher| %>
+        <li><%= publisher['name'] %></li>
+      <% end %>
+      </ul>
+    <% end %>
+
     <% if @record['summary'].present? %>
       <h3 class="section-title">Summary</h3>
       <% @record['summary'].each do |paragraph| %>
@@ -37,8 +68,61 @@
       </ul>
     <% end %>
 
-    <% if more_info_geo?(@record) %>
-      <%= render partial: 'more_info_geo', locals: { metadata: @record } %>
+    <!-- We only care about geospatial locations for this, as place names are also subjects. -->
+    <% if geospatial_coordinates?(@record['locations']) %>
+      <h3 class="section-title">Geospatial coordinates</h3>
+      <ul>
+      <% parse_nested_field(@record['locations']).each do |location| %>
+        <% if location['geoshape'].present? %>
+          <li><%= "#{location['kind']}: #{location['geoshape']}" %></li>
+        <% end %>
+      <% end %>
+      </ul>
+    <% end %>
+
+    <% if @record['notes'].present? %>
+      <h3 class="section-title">Notes</h3>
+      <ul>
+      <% parse_nested_field(@record['notes']).each do |note| %>
+        <li><%= "#{note['kind']}: " if note['kind'] %><%= note['value'] %></li>
+      <% end %>
+      </ul>
+    <% end %>
+
+    <% if @record['provider'].present? %>
+      <h3 class="section-title">Provider</h3>
+      <p><%= @record['provider'] %></p>
+    <% end %>
+
+    <% if @record['rights'].present? %>
+      <h3 class="section-title">Rights</h3>
+      <ul>
+      <% parse_nested_field(@record['rights']).each do |right| %>
+        <!-- Ignore 'access to files' right, which is implied in the access link and the 'geo_data_info partial' -->
+        <% unless right['kind'] == 'Access to files' %>
+          <li><%= "#{right['kind']}: " if right['kind'] %><%= right['description'] %></li>
+        <% end %>
+      <% end %>
+      </ul>
+    <% end %>
+
+    <% if @record['citation'].present? %>
+      <h3 class="section-title">Citation</h3>
+      <p><%= @record['citation'] %></p>
+    <% end %>
+
+    <% if @record['format'].present? %>
+      <h3 class="section-title">Format</h3>
+      <p><%= @record['format'] %></p>
+    <% end %>
+
+    <% if @record['languages'].present? %>
+      <h3 class="section-title">Languages</h3>
+      <ul>
+      <% @record['languages'].each do |language| %>
+        <li><%= language %></li>
+      <% end %>
+      </ul>
     <% end %>
 
     <div class="record-access-links">
