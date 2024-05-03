@@ -62,8 +62,8 @@
     <% if @record['subjects'].present? %>
       <h3 class="section-title">Subjects</h3>
       <ul>
-      <% @record['subjects'].each do |subject| %>
-        <li><%= subject['value'].join('; ') %></li>
+      <% deduplicate_subjects(@record['subjects'])&.each do |subject| %>
+        <li><%= subject.join('; ') %></li>
       <% end %>
       </ul>
     <% end %>

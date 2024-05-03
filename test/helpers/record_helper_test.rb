@@ -301,4 +301,32 @@ class RecordHelperTest < ActionView::TestCase
     locations = []
     assert_not geospatial_coordinates?(locations)
   end
+
+  test 'deduplicate_subjects returns only unique subjects' do
+    # within the same subject
+    duplicative_subject = [{ 'kind' => 'foo', 'value' => ['bar', 'bar', 'baz']}]
+    assert_equal [['bar', 'baz']], deduplicate_subjects(duplicative_subject)
+
+    # across multiple subjects
+    multiple_duplicative_subjects = [{ 'kind' => 'foo', 'value' => ['bar'] },
+                                     { 'kind' => 'baz', 'value' => ['bar'] }]
+    assert_equal [['bar']], deduplicate_subjects(multiple_duplicative_subjects)
+  end
+
+  test 'deduplicate_subjects ignores case' do
+    # within the same subject
+    duplicative_subject = [{ 'kind' => 'foo', 'value' => ['Bar', 'BAR', 'bar']}]
+    assert_equal [['Bar']], deduplicate_subjects(duplicative_subject)
+
+    # across multiple subjects
+    multiple_duplicative_subjects = [{ 'kind' => 'foo', 'value' => ['Bar'] },
+                                     { 'kind' => 'foo', 'value' => ['BAR'] },
+                                     { 'kind' => 'foo', 'value' => ['bar'] }]
+    assert_equal [['Bar']], deduplicate_subjects(multiple_duplicative_subjects)
+  end
+
+  test 'deduplicate_subjects returns nothing if subjects are not present' do
+    subjects = []
+    assert_nil deduplicate_subjects(subjects)
+  end
 end

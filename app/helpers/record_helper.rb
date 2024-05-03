@@ -124,6 +124,13 @@ module RecordHelper
     locations.any? { |location| location['geoshape'] }
   end
 
+  # It is possible for duplicate subject values to appear for the same record.
+  def deduplicate_subjects(subjects)
+    return if subjects.blank?
+
+    subjects.map { |subject| subject['value'].uniq(&:downcase) }.uniq { |values| values.map(&:downcase) }
+  end
+
   private
 
   def render_kind_value(list)
