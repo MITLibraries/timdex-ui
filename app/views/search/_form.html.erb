@@ -1,10 +1,4 @@
 <%
-# Conditional input label depends on whether a search has already happened.
-label = "Search the MIT Libraries"
-if params[:q]
-  label = "You searched for"
-end
-
 # Initial form setup is determined by the advanced parameter. Thereafter it is altered by javascript.
 advanced_label = "Search by title, author, etc."
 advanced_label_class = "closed"
@@ -34,12 +28,9 @@ end
 <form id="basic-search" class="form-horizontal basic-search" action="<%= results_path %>" method="get" role="search">
   <div class="form-group">
     <input id="basic-search-main" type="search"
-           class="field field-text basic-search-input <%= "required" if search_required %>" name="q" title="<%= label %>"
-           placeholder="Enter your search"
+           class="field field-text basic-search-input <%= "required" if search_required %>" name="q"
+           title="Keyword anywhere" placeholder="Enter your search"
            value="<%= params[:q] %>" <%= 'required="required" aria-required="true"' if search_required %>>
-    <div class="basic-search-submit">
-      <button type="submit" class="btn button-primary">Search</button>
-    </div>
 
     <% if Flipflop.enabled?(:gdt) %>
       <details id="geobox-search-panel" <%= "open" if params[:geobox] == "true" %>>
@@ -219,6 +210,10 @@ end
         <% end %>
       </div>
     </details>
+  </div>
+
+  <div class="basic-search-submit">
+    <button type="submit" class="btn button-primary">Search</button>
   </div>
 </form>
 
