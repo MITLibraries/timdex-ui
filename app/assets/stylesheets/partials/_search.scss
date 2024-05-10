@@ -6,7 +6,7 @@
 .basic-search {
   background-color: #989898;
   margin-bottom: 0rem;
-  padding: 2.4rem 2rem 1rem 2.4rem;
+  padding: 2.4rem 2rem 1.6rem 2rem;
 
   details {
     &:first-of-type {
@@ -35,12 +35,7 @@
     width: 100%;
     margin-bottom: .8rem;
     padding: 6px 12px;
-
-    @media (min-width: $bp-screen-sm) {
-      display: inline-block;
-      width: 80%;
-      margin-bottom: 0;
-    }
+    margin-bottom: 0;
   }
 
   summary {
@@ -112,12 +107,9 @@
   }
 
   .basic-search-submit {
-    @media (min-width: $bp-screen-sm) {
-      display: inline-block;
-      width: 18%;
-    }
+    width: 150px;
+    margin-top: 0.8rem;
     .btn {
-      border-radius: 0;
       width: 100%;
     }
   }

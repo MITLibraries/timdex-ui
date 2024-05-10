@@ -1,4 +1,7 @@
 #filters {
+  @media (max-width: $bp-screen-md) {
+    margin-bottom: 1.2rem;
+  }
   details.filter-category {
     position: relative;
     margin-bottom: 0.5em;
