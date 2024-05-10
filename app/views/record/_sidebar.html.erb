@@ -1,5 +1,5 @@
 <% if Flipflop.enabled?(:gdt) %>
-  <div role="region" aria-label="Access link and additional information" class="col1q-r sidebar">
+  <div role="region" aria-label="Access links and additional information" class="col1q-r sidebar access-sidebar">
 <% else %>
   <aside class="col1q-r sidebar">
 <% end %>
@@ -13,7 +13,8 @@
   <% end %>
 
   <% if Flipflop.enabled?(:gdt) && access_type(@record) && gis_access_link(@record) %>
-    <%= render partial: 'access_button', locals: { display: 'hidden-md' } %>
+    <h2 class="title hd-4">Access links</h2>
+    <%= render partial: 'access_buttons' %>
   <% end %>
 
    <%= render partial: 'shared/ask', locals: { display: '' } %>

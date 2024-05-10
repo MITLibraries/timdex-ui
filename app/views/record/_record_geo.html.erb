@@ -124,14 +124,6 @@
       <% end %>
       </ul>
     <% end %>
-
-    <div class="record-access-links">
-      <% if access_type(@record) != 'unknown: check with owning institution' && source_metadata_available?(@record['links']) %>
-        <a class="btn button-secondary metadata-link"
-           href="<%= source_metadata_link(@record['links']) %>">Download full metadata</a>
-      <% end %>
-      <%= render partial: 'access_button', locals: { display: 'view-md' } %> 
-    </div>
   </main>
 
   <%= render('sidebar') %>
