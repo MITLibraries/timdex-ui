@@ -1,4 +1,6 @@
 .wrap-full-record {
+  margin-top: 2.4rem;
+
   .record-title {
     font-size: 2.5rem;
     line-height: 1.1;
@@ -48,7 +50,7 @@
 }
 
 .return-to-results {
-  padding: 1.5% 0;
+  padding-top: 2.4rem;
   a {
     padding: 1.5%;
     color: $blue;
@@ -68,5 +70,8 @@
 }
 
 .access-sidebar {
+  @media (max-width: $bp-screen-md) {
+    margin-top: 2.4rem;
+  }
   padding-top: 3%;
 }
