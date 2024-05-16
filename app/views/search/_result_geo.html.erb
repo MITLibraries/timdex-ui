@@ -8,9 +8,7 @@
   </div>
 
   <% if result_geo['contributors'] %> 
-    <p class="authors truncate-list">
-      <%= render partial: 'shared/authors', locals: { contributors: result_geo['contributors'] } %>
-    </p>
+    <%= render partial: 'shared/contributors', locals: { contributors: result_geo['contributors'] } %>
   <% end %>
 
   <% if result_geo['summary'] %>
