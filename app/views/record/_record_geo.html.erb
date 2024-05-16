@@ -14,9 +14,7 @@
     </div>
 
     <% if @record['contributors'].present? %>
-      <p class="authors">
-        <%= render partial: 'shared/authors', locals: { contributors: @record['contributors'] } %>
-      </p>
+      <%= render partial: 'shared/authors', locals: { contributors: @record['contributors'] } %>
     <% end %>
 
     <% if @record['alternateTitles'].present? %>

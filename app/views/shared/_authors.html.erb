@@ -1,9 +1,16 @@
 <%= return if contributors.blank? %>
 
-<% author_list = [] %>
+<% contribs_list = [] %>
 <% contributors&.each do |contributor| %>
-  <% author_list << contributor['value'] %>
+  <% contribs_list << contributor %>
 <% end %>
 
-<span class="sr">Authors: </span>
-<%= author_list.uniq.map { |author| link_to author, results_path({ advanced: true, contributors: author }) }.join(' ; ').html_safe %>
+<span class="sr">Contributors: </span>
+<ul class="list-inline contributors">
+<% contribs_list.uniq.map do |contributor| %>
+  <li>
+    <%= "#{contributor['kind'].titleize}: " %><%= link_to contributor['value'],
+                results_path({ advanced: true, contributors: contributor['value'] }) %>  
+  </li>
+<% end %>
+</ul>
