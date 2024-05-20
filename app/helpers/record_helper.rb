@@ -86,7 +86,8 @@ module RecordHelper
     if access_type(metadata) == 'unknown: check with owning institution'
       links.select { |link| link['kind'] == 'Website' }.first['url']
     else
-      links.select { |link| link['kind'] == 'Download' && link['text'] == 'Data' }.first['url']
+      url = links.select { |link| link['kind'] == 'Download' && link['text'] == 'Data' }.first['url']
+      "#{url}?timdexui=true"
     end
   end
 
