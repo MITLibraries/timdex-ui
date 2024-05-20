@@ -34,6 +34,15 @@ module ApplicationHelper
     "#{title} | #{page_title_base}"
   end
 
+  # Since this is used by both the result and record view, it is included in the application helper rather than one of
+  # those helpers.
+  def render_contributor_type(type)
+    return if type == 'Not specified'
+
+    type = 'Author' if type == 'mitauthor'
+    "#{type.humanize}: "
+  end
+
   private
 
   def page_title_base

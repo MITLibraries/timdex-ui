@@ -8,7 +8,10 @@
   </div>
 
   <% if result_geo['contributors'] %> 
-    <%= render partial: 'shared/contributors', locals: { contributors: result_geo['contributors'] } %>
+    <span class="sr">Contributors: </span>
+    <ul class="list-inline truncate-list contributors">
+      <%= render partial: 'shared/contributors', locals: { contributors: result_geo['contributors'] } %>
+    </ul>
   <% end %>
 
   <% if result_geo['summary'] %>

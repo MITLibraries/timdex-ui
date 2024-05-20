@@ -1,16 +1,8 @@
 <%= return if contributors.blank? %>
 
-<% contribs_list = [] %>
-<% contributors&.each do |contributor| %>
-  <% contribs_list << contributor %>
-<% end %>
-
-<span class="sr">Contributors: </span>
-<ul class="list-inline contributors">
-<% contribs_list.uniq.map do |contributor| %>
+<% contributors.uniq.map do |contributor| %>
   <li>
-    <%= "#{contributor['kind'].titleize}: " %><%= link_to contributor['value'],
+    <%= render_contributor_type(contributor['kind']) %><%= link_to contributor['value'],
                 results_path({ advanced: true, contributors: contributor['value'] }) %>  
   </li>
 <% end %>
-</ul>

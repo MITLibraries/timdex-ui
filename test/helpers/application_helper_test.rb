@@ -76,4 +76,19 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_equal 'bar | GeoData | MIT Libraries', record_page_title(record)
     end
   end
+
+  test 'render_contributor_type ignores unspecified kinds' do
+    unspecified_type = 'Not specified'
+    assert_nil render_contributor_type(unspecified_type)
+  end
+
+  test 'render_contributor_type translates mitauthor' do
+    mitauthor_type = 'mitauthor'
+    assert_equal 'Author: ', render_contributor_type(mitauthor_type)
+  end
+
+  test 'render_contributor_type humanizes inputs' do
+    type = 'copy editor'
+    assert_equal 'Copy editor: ', render_contributor_type(type)
+  end
 end
