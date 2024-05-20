@@ -28,6 +28,16 @@
       margin-top: 0;
     }
   }
+
+  .results-list {
+    @media (max-width: $bp-screen-md) {
+      .result {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 3rem;
+      }
+    }
+  }
 }
 
 .result {
