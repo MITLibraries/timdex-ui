@@ -4,7 +4,7 @@
   <% if access_type(@record) == 'no authentication required' %>
     <a class="btn button-primary access-button" href="<%= gis_access_link(@record) %>">Download geodata files</a>
   <% elsif access_type(@record) == 'MIT authentication required' %>
-    <a class="btn button-primary access-button" href="<%= gis_access_link(@record) %>">
+    <a class="btn button-primary access-button" href="<%= gis_access_link(@record) %>" target="_blank">
       Download geodata files <span class="auth-notice">MIT authentication</span>
     </a>
   <% else %>

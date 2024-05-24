@@ -84,10 +84,25 @@ module RecordHelper
     # At this point, we don't show download links for non-MIT records. For MIT records, the download link is stored
     # consistently as a download link. We are confirming that the link text is 'Data' for added confirmation.
     if access_type(metadata) == 'unknown: check with owning institution'
-      links.select { |link| link['kind'] == 'Website' }.first['url']
+      website_url(links)
     else
-      links.select { |link| link['kind'] == 'Download' && link['text'] == 'Data' }.first['url']
+      url = download_url(links)
+      append_timdexui(url)
     end
+  end
+
+  def website_url(links)
+    links.select { |link| link['kind'] == 'Website' }.first['url']
+  end
+
+  def download_url(links)
+    links.select { |link| link['kind'] == 'Download' && link['text'] == 'Data' }.first['url']
+  end
+
+  def append_timdexui(url)
+    uri = Addressable::URI.parse(url)
+    uri.query_values = (uri.query_values || {}).merge(timdexui: true)
+    uri.to_s
   end
 
   def access_type(metadata)
