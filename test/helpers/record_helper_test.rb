@@ -247,6 +247,18 @@ class RecordHelperTest < ActionView::TestCase
     assert_equal 'https://example.org/dz_f7regions_2016.zip?timdexui=true', gis_access_link(access_auth)
   end
 
+  test 'append_timdexui_with_no_existing_query_values' do
+    url = 'https://example.org/dz_f7regions_2016.zip'
+    assert_equal('https://example.org/dz_f7regions_2016.zip?timdexui=true',
+                 append_timdexui(url))
+  end
+
+  test 'append_timdexui_with_existing_query_values' do
+    url = 'https://example.org/dz_f7regions_2016.zip?hallo=goodbye'
+    assert_equal('https://example.org/dz_f7regions_2016.zip?hallo=goodbye&timdexui=true',
+                 append_timdexui(url))
+  end
+
   test 'source_metadata_available? returns true if source metadata link exists' do
     links = [{ 'kind' => 'Download', 'text' => 'Source Metadata', 'url' => 'https://example.org/metadata.zip' }]
     assert source_metadata_available?(links)
