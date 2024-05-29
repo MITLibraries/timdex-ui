@@ -30,7 +30,8 @@ end
     <input id="basic-search-main" type="search"
            class="field field-text basic-search-input <%= "required" if search_required %>" name="q"
            title="Keyword anywhere" placeholder="Enter your search"
-           value="<%= params[:q] %>" <%= 'required="required" aria-required="true"' if search_required %>>
+           value="<%= params[:q] %>" <%= 'required' if search_required %>
+           <%= 'aria-describedby=site-desc' if Flipflop.enabled?(:gdt) %>>
 
     <% if Flipflop.enabled?(:gdt) %>
       <details id="geobox-search-panel" <%= "open" if params[:geobox] == "true" %>>
@@ -47,7 +48,7 @@ end
               <input type="number" step="0.000001" min="-180.0" max="180.0"
                      class="field field-text <%= "required" if geobox_required %>" 
                      id="geobox-minLongitude" name="geoboxMinLongitude" value="<%= params[:geoboxMinLongitude] %>"
-                     <%= 'required="required" aria-required="true"' if geobox_required %>
+                     <%= 'required' if geobox_required %>
                      aria-describedby="minLong-desc">
               <span class="geo-desc" id="minLong-desc">
                 A decimal between -180.0 and 180.0 (Ex: -73.507239)
@@ -59,7 +60,7 @@ end
               <input type="number" step="0.000001" min="-90.0" max="90.0"
                      class="field field-text <%= "required" if geobox_required %>" 
                      id="geobox-minLatitude" name="geoboxMinLatitude" value="<%= params[:geoboxMinLatitude] %>"
-                     <%= 'required="required" aria-required="true"' if geobox_required %>
+                     <%= 'required' if geobox_required %>
                      aria-describedby="minLat-desc">
               <span class="geo-desc" id="minLat-desc">
                 A decimal between -90.0 and 90.0 (Ex: 41.239083)
@@ -71,7 +72,7 @@ end
               <input type="number" step="0.000001" min="-180.0" max="180.0"
                      class="field field-text <%= "required" if geobox_required %>" 
                      id="geobox-maxLongitude" name="geoboxMaxLongitude" value="<%= params[:geoboxMaxLongitude] %>"
-                     <%= 'required="required" aria-required="true"' if geobox_required %>
+                     <%= 'required' if geobox_required %>
                      aria-describedby="maxLong-desc">
                <span class="geo-desc" id="maxLong-desc">
                  A decimal between -180.0 and 180.0 (Ex: -69.928713)
@@ -83,7 +84,7 @@ end
               <input type="number" step="0.000001" min="-90.0" max="90.0"
                      class="field field-text <%= "required" if geobox_required %>" 
                      id="geobox-maxLatitude" name="geoboxMaxLatitude" value="<%= params[:geoboxMaxLatitude] %>"
-                     <%= 'required="required" aria-required="true"' if geobox_required %>
+                     <%= 'required' if geobox_required %>
                      aria-describedby="maxLat-desc">
                <span class="geo-desc" id="maxLat-desc">
                 A decimal between -90.0 and 90.0 (Ex: 42.886759)
@@ -108,7 +109,7 @@ end
                      class="field field-text <%= "required" if geodistance_required %>" 
                      id="geodistance-latitude" name="geodistanceLatitude"
                      value="<%= params[:geodistanceLatitude] %>" aria-describedby="lat-desc"
-                     <%= 'required="required" aria-required="true"' if geodistance_required %>
+                     <%= 'required' if geodistance_required %>
                      aria-describedby="lat-desc">
               <span class="geo-desc" id="lat-desc">
                 A decimal between -90.0 and 90.0 (Ex: 42.279594)
@@ -121,7 +122,7 @@ end
                        class="field field-text <%= "required" if geodistance_required %>" 
                        id="geodistance-longitude" name="geodistanceLongitude"
                        value="<%= params[:geodistanceLongitude] %>" aria-describedby="long-desc"
-                       <%= 'required="required" aria-required="true"' if geodistance_required %>
+                       <%= 'required' if geodistance_required %>
                        aria-describedby="long-desc">
               <span class="geo-desc" id="long-desc">
                 A decimal between -180.0 and 180.0 (Ex: -83.732124)
@@ -133,7 +134,7 @@ end
               <input type="text" class="field field-text <%= "required" if geodistance_required %>"
                      id="geodistance-distance" name="geodistanceDistance"
                      value="<%= params[:geodistanceDistance] %>" aria-describedby="distance-desc"
-                     <%= 'required="required" aria-required="true"' if geodistance_required %>
+                     <%= 'required' if geodistance_required %>
                      aria-describedby="distance-desc">
               <span class="geo-desc" id="distance-desc">
                 Distance is in meters by default; add other units if preferred (Ex: '100km' or '50mi')
