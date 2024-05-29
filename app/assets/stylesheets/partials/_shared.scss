@@ -1,9 +1,18 @@
 .result,
 .full-record {
-  .authors {
+  .contributors {
     font-size: 1.6rem;
     font-weight: $fw-bold;
     margin-bottom: 0.6em;
+    li {
+      display: inline;
+    }
+    li::after {
+      content: " ; ";
+    }
+    li:last-child:after {
+      content: "";
+    }
   }
 
   .data-info {

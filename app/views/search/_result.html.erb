@@ -12,9 +12,10 @@
     </span>
   </p>
 
-  <p class="authors">
-    <%= render partial: 'shared/authors', locals: { contributors: result['contributors'] } %>
-  </p>
+  <span class="sr">Contributors: </span>
+  <ul class="list-inline truncate-list contributors">
+    <%= render partial: 'shared/contributors', locals: { contributors: result['contributors'] } %>
+  </ul>
 
   <div class="result-highlights">
     <%= render partial: 'search/highlights', locals: { result: result } %>
