@@ -3,7 +3,6 @@ function disableAdvanced() {
   if (geobox_label.classList.contains('closed') && geodistance_label.classList.contains('closed')) {
     keyword_field.toggleAttribute('required');
     keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('aria-required', true);
     keyword_field.setAttribute('placeholder', 'Enter your search');
   }
   [...details_panel.getElementsByClassName('field')].forEach(
@@ -17,7 +16,6 @@ function enableAdvanced() {
   if (geobox_label.classList.contains('closed') && geodistance_label.classList.contains('closed')) {
     keyword_field.toggleAttribute('required');
     keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('aria-required', false);
     keyword_field.setAttribute('placeholder', 'Keyword anywhere');
   }
   advanced_label.classList = 'open';
@@ -27,7 +25,6 @@ function disableGeobox() {
   if (advanced_label.classList.contains('closed') && geodistance_label.classList.contains('closed')) {
     keyword_field.toggleAttribute('required');
     keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('aria-required', true);
     keyword_field.setAttribute('placeholder', 'Enter your search');
   }
   geobox_field.setAttribute('value', '');
@@ -35,7 +32,6 @@ function disableGeobox() {
     field.value = '';
     field.classList.toggle('required');
     field.toggleAttribute('required');
-    field.setAttribute('aria-required', false);
   });
   geobox_label.classList = 'closed';
 };
@@ -44,7 +40,6 @@ function enableGeobox() {
   if (advanced_label.classList.contains('closed') && geodistance_label.classList.contains('closed')) {
     keyword_field.toggleAttribute('required');
     keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('aria-required', false);
     keyword_field.setAttribute('placeholder', 'Keyword anywhere');
   }
   geobox_field.setAttribute('value', 'true');
@@ -52,7 +47,6 @@ function enableGeobox() {
     field.value = '';
     field.classList.toggle('required');
     field.toggleAttribute('required');
-    field.setAttribute('aria-required', true);
   });
   geobox_label.classList = 'open';
 };
@@ -61,7 +55,6 @@ function disableGeodistance() {
   if (advanced_label.classList.contains('closed') && geobox_label.classList.contains('closed')) {
     keyword_field.toggleAttribute('required');
     keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('aria-required', true);
     keyword_field.setAttribute('placeholder', 'Enter your search');
   }
   geodistance_field.setAttribute('value', '');
@@ -69,7 +62,6 @@ function disableGeodistance() {
     field.value = '';
     field.classList.toggle('required');
     field.toggleAttribute('required');
-    field.setAttribute('aria-required', false);
   });
   geodistance_label.classList = 'closed';
 };
@@ -78,7 +70,6 @@ function enableGeodistance() {
   if (advanced_label.classList.contains('closed') && geobox_label.classList.contains('closed')) {
     keyword_field.toggleAttribute('required');
     keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('aria-required', false);
     keyword_field.setAttribute('placeholder', 'Keyword anywhere');
   }
   geodistance_field.setAttribute('value', 'true');
@@ -86,7 +77,6 @@ function enableGeodistance() {
     field.value = '';
     field.classList.toggle('required');
     field.toggleAttribute('required');
-    field.setAttribute('aria-required', true);
   });
   geodistance_label.classList = 'open';
 };
