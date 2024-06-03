@@ -48,14 +48,6 @@
         font-family: FontAwesome;
         margin-right: 1rem;
       }
-
-      &.closed:before {
-        content: '\f054';
-      }
-
-      &.open:before {
-        content: '\f078';
-      }
     }
 
     &::-webkit-details-marker {
@@ -69,6 +61,22 @@
     fieldset {
       legend {
         color: $black;
+      }
+    }
+    #advanced-search-label,
+    #geobox-search-label,
+    #geodistance-search-label {
+      &::before {
+        content: '\f054';
+      }
+    }
+    &[open] {
+      #advanced-search-label,
+      #geobox-search-label,
+      #geodistance-search-label {
+        &::before {
+          content: '\f078';
+        }
       }
     }
   }
