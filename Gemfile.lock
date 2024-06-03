@@ -103,6 +103,7 @@ GEM
     bootsnap (1.18.3)
       msgpack (~> 1.2)
     builder (3.2.4)
+    cancancan (3.6.1)
     capybara (3.40.0)
       addressable
       matrix
@@ -194,6 +195,8 @@ GEM
     mocha (2.2.0)
       ruby2_keywords (>= 0.0.5)
     msgpack (1.7.2)
+    mustermann (3.0.0)
+      ruby2_keywords (~> 0.0.1)
     mutex_m (0.2.0)
     net-imap (0.4.10)
       date
@@ -223,6 +226,9 @@ GEM
       nio4r (~> 2.0)
     racc (1.7.3)
     rack (3.0.10)
+    rack-protection (4.0.0)
+      base64 (>= 0.1.0)
+      rack (>= 3.0.0, < 4)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)
@@ -263,6 +269,10 @@ GEM
     rake (13.2.1)
     rdoc (6.6.3.1)
       psych (>= 4.0.0)
+    redis (5.2.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.22.2)
+      connection_pool
     regexp_parser (2.9.0)
     reline (0.5.6)
       io-console (~> 0.5)
@@ -288,6 +298,8 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
+    rubystats (0.4.1)
+      matrix
     rubyzip (2.3.2)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -315,6 +327,17 @@ GEM
     simplecov-html (0.12.3)
     simplecov-lcov (0.8.0)
     simplecov_json_formatter (0.1.4)
+    sinatra (4.0.0)
+      mustermann (~> 3.0)
+      rack (>= 3.0.0, < 4)
+      rack-protection (= 4.0.0)
+      rack-session (>= 2.0.0, < 3)
+      tilt (~> 2.0)
+    split (4.0.4)
+      matrix
+      redis (>= 4.2)
+      rubystats (>= 0.3.0)
+      sinatra (>= 1.2.6)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -373,6 +396,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap
+  cancancan
   capybara
   climate_control
   debug
@@ -396,6 +420,7 @@ DEPENDENCIES
   sentry-ruby
   simplecov
   simplecov-lcov
+  split
   sprockets-rails
   sqlite3
   stimulus-rails

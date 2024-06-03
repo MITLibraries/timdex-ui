@@ -12,6 +12,11 @@ class SearchController < ApplicationController
   end
 
   def results
+    # if we are loading results, the user submitted the form - so this experiment is finished
+    ab_finished(:ui_colors)
+
+    # ab_test(:result_format)
+
     # inject session preference for boolean type if it is present
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
