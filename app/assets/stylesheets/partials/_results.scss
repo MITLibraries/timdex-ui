@@ -44,11 +44,11 @@
   padding: 2rem;
   border-top: 1px solid $brand-primary;
   font-size: $fs-small;
+  line-height: 0;
 
-  &::before {
-    font-weight: $fw-bold;
+  &::marker {
     font-size: 2.5rem;
-    line-height: 1.1;
+    font-weight: $fw-bold;
   }
 
   .record-title {
