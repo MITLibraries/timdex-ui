@@ -41,13 +41,13 @@
     <main id="results" class="col3q wrap-results">
       <% if @results.present? %>
         <h2 class="hd-3 results-context"><%= results_summary(@pagination[:hits]) %> returned</h2>
-        <ol class="results-list" start="<%= @pagination[:start] %>">
+        <ul class="results-list list-unbulleted" start="<%= @pagination[:start] %>">
           <% if Flipflop.enabled?(:gdt) %>
             <%= render(partial: 'search/result_geo', collection: @results) %>
           <% else %>
             <%= render(partial: 'search/result', collection: @results) %>
           <% end %>
-        </ol>
+        </ul>
       <% else %>
         <div class="no-results">
           <p class="hd-2">No results found for your search</p>
