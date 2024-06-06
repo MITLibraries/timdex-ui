@@ -41,49 +41,53 @@
 }
 
 .result {
-  padding: 2rem;
   border-top: 1px solid $brand-primary;
   font-size: $fs-small;
-  line-height: 0;
+  line-height: 0; /* line height needs to be reset so iOS doesn't act weird */
 
   &::marker {
     font-size: 2.5rem;
     font-weight: $fw-bold;
   }
 
-  .record-title {
-    font-size: 2.5rem;
-    line-height: 1.1;
-  }
+  .result-content {
+    padding: 2rem;
+    line-height: 1.2;
 
-  &:hover,
-  &:focus {
-    background-color: $gray-l4;
-  }
-
-  a:visited {
-    color: $brand-secondary;
-  }
-
-  .pub-info {
-    font-size: $fs-base;
-    color:  $gray-d1;
-    span:first-child:after {
-      content: " | ";
+    .record-title {
+      font-size: 2.5rem;
+      line-height: 1.2;
     }
-    margin: 1em 0;
-  }
 
-  .result-summary {
-    margin-bottom: 2.4em;
-  }
+    &:hover,
+    &:focus {
+      background-color: $gray-l4;
+    }
 
-  .result-highlights {
-    margin-top: 1.4em;
-    ul {
-      list-style: none;
-      li {
-        margin-left: 2rem;
+    a:visited {
+      color: $brand-secondary;
+    }
+
+    .pub-info {
+      font-size: $fs-base;
+      color:  $gray-d1;
+      span:first-child:after {
+        content: " | ";
+      }
+      margin: 1em 0;
+    }
+
+    .result-summary {
+      margin-bottom: 2.4em;
+    }
+
+    .result-highlights {
+      margin-top: 1.4em;
+      ul {
+        list-style: none;
+        li {
+          margin-left: 2rem;
+        }
       }
     }
   }
