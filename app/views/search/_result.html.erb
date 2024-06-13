@@ -1,27 +1,29 @@
 <li class="result">
-  <h3 class="record-title">
-    <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['timdexRecordId'])) %>
-  </h3>
+  <div class="result-content">
+    <h3 class="record-title">
+      <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['timdexRecordId'])) %>
+    </h3>
 
-  <p class="pub-info">
-    <span><%= result['contentType']&.each { |type| type['value'] }&.join(' ; ') %></span>
-    <span>
-      <% result['dates']&.each do |date| %>
-        <%= date['value'] if date['kind'] == 'Publication date' %>
-      <% end %>
-    </span>
-  </p>
+    <p class="pub-info">
+      <span><%= result['contentType']&.each { |type| type['value'] }&.join(' ; ') %></span>
+      <span>
+        <% result['dates']&.each do |date| %>
+          <%= date['value'] if date['kind'] == 'Publication date' %>
+        <% end %>
+      </span>
+    </p>
 
-  <span class="sr">Contributors: </span>
-  <ul class="list-inline truncate-list contributors">
-    <%= render partial: 'shared/contributors', locals: { contributors: result['contributors'] } %>
-  </ul>
+    <span class="sr">Contributors: </span>
+    <ul class="list-inline truncate-list contributors">
+      <%= render partial: 'shared/contributors', locals: { contributors: result['contributors'] } %>
+    </ul>
 
-  <div class="result-highlights">
-    <%= render partial: 'search/highlights', locals: { result: result } %>
-  </div>
+    <div class="result-highlights">
+      <%= render partial: 'search/highlights', locals: { result: result } %>
+    </div>
 
-  <div class="result-get">
-    <%= view_online(result) %>
+    <div class="result-get">
+      <%= view_online(result) %>
+    </div>
   </div>
 </li>

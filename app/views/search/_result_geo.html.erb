@@ -1,32 +1,34 @@
 <li class="result">
-  <h3 class="record-title">
-    <span class="sr">Title: </span><%= link_to(result_geo['title'], record_path(result_geo['timdexRecordId'])) %>
-  </h3>
+  <div class="result-content">
+    <h3 class="record-title">
+      <span class="sr">Title: </span><%= link_to(result_geo['title'], record_path(result_geo['timdexRecordId'])) %>
+    </h3>
 
-  <div class="data-info">
-    <%= render partial: 'shared/geo_data_info', locals: { metadata: result_geo } %>
-  </div>
-
-  <% if result_geo['contributors'] %> 
-    <span class="sr">Contributors: </span>
-    <ul class="list-inline truncate-list contributors">
-      <%= render partial: 'shared/contributors', locals: { contributors: result_geo['contributors'] } %>
-    </ul>
-  <% end %>
-
-  <% if result_geo['summary'] %>
-    <p class="result-summary truncate-list">
-      <span class="sr">Summary: </span><%= result_geo['summary'].join(' ') %>
-    </p>
-  <% end %>
-
-  <% if result_geo['highlight'] %>
-    <div class="result-highlights">
-      <%= render partial: 'search/highlights', locals: { result: result_geo } %>
+    <div class="data-info">
+      <%= render partial: 'shared/geo_data_info', locals: { metadata: result_geo } %>
     </div>
-  <% end %>
 
-  <div class="result-record">
-    <%= view_record(result_geo['timdexRecordId']) %>
+    <% if result_geo['contributors'] %> 
+      <span class="sr">Contributors: </span>
+      <ul class="list-inline truncate-list contributors">
+        <%= render partial: 'shared/contributors', locals: { contributors: result_geo['contributors'] } %>
+      </ul>
+    <% end %>
+
+    <% if result_geo['summary'] %>
+      <p class="result-summary truncate-list">
+        <span class="sr">Summary: </span><%= result_geo['summary'].join(' ') %>
+      </p>
+    <% end %>
+
+    <% if result_geo['highlight'] %>
+      <div class="result-highlights">
+        <%= render partial: 'search/highlights', locals: { result: result_geo } %>
+      </div>
+    <% end %>
+
+    <div class="result-record">
+      <%= view_record(result_geo['timdexRecordId']) %>
+    </div>
   </div>
 </li>
