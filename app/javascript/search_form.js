@@ -1,123 +1,80 @@
-function disableAdvanced() {
-  advanced_field.setAttribute('value', '');
-  if (geobox_label.classList.contains('closed') && geodistance_label.classList.contains('closed')) {
-    keyword_field.toggleAttribute('required');
-    keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('placeholder', 'Enter your search');
-  }
-  [...details_panel.getElementsByClassName('field')].forEach(
-    field => field.value = ''
-  );
-  advanced_label.classList = 'closed';
-};
+var keywordField = document.getElementById('basic-search-main');
+var advancedPanel = document.getElementById('advanced-search-panel');
+var geoboxPanel = document.getElementById('geobox-search-panel');
+var geodistancePanel = document.getElementById('geodistance-search-panel');
+var allPanels = document.getElementsByClassName('form-panel');
 
-function enableAdvanced() {
-  advanced_field.setAttribute('value', 'true');
-  if (geobox_label.classList.contains('closed') && geodistance_label.classList.contains('closed')) {
-    keyword_field.toggleAttribute('required');
-    keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('placeholder', 'Keyword anywhere');
+function togglePanelState(currentPanel) {
+  // Only the geoboxPanel and geodistancePanel inputs need to be required. Advanced search inputs do not.
+  if (currentPanel === geoboxPanel || currentPanel === geodistancePanel) {
+    toggleRequiredFieldset(currentPanel);
   }
-  advanced_label.classList = 'open';
-};
 
-function disableGeobox() {
-  if (advanced_label.classList.contains('closed') && geodistance_label.classList.contains('closed')) {
-    keyword_field.toggleAttribute('required');
-    keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('placeholder', 'Enter your search');
-  }
-  geobox_field.setAttribute('value', '');
-  [...geobox_details_panel.getElementsByClassName('field')].forEach(function(field) {
+  // These two functions are delayed to ensure that events have propagated first. Otherwise, they will fire before
+  // the `open` attribute has toggled on the currentPanel, resulting in unexpected behavior.
+  setTimeout(toggleKeywordRequired, 0);
+  setTimeout(updateKeywordPlaceholder, 0);
+
+  // Finally, enable or disable the search type of the current panel, based on whether it is open or not.
+  toggleSearch(currentPanel);
+}
+
+function toggleRequiredFieldset(panel) {
+  [...panel.getElementsByClassName('field')].forEach((field) => {
     field.value = '';
     field.classList.toggle('required');
     field.toggleAttribute('required');
   });
-  geobox_label.classList = 'closed';
-};
+}
 
-function enableGeobox() {
-  if (advanced_label.classList.contains('closed') && geodistance_label.classList.contains('closed')) {
-    keyword_field.toggleAttribute('required');
-    keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('placeholder', 'Keyword anywhere');
-  }
-  geobox_field.setAttribute('value', 'true');
-  [...geobox_details_panel.getElementsByClassName('field')].forEach(function(field) {
-    field.value = '';
-    field.classList.toggle('required');
-    field.toggleAttribute('required');
-  });
-  geobox_label.classList = 'open';
-};
-
-function disableGeodistance() {
-  if (advanced_label.classList.contains('closed') && geobox_label.classList.contains('closed')) {
-    keyword_field.toggleAttribute('required');
-    keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('placeholder', 'Enter your search');
-  }
-  geodistance_field.setAttribute('value', '');
-  [...geodistance_details_panel.getElementsByClassName('field')].forEach(function(field) {
-    field.value = '';
-    field.classList.toggle('required');
-    field.toggleAttribute('required');
-  });
-  geodistance_label.classList = 'closed';
-};
-
-function enableGeodistance() {
-  if (advanced_label.classList.contains('closed') && geobox_label.classList.contains('closed')) {
-    keyword_field.toggleAttribute('required');
-    keyword_field.classList.toggle('required');
-    keyword_field.setAttribute('placeholder', 'Keyword anywhere');
-  }
-  geodistance_field.setAttribute('value', 'true');
-  [...geodistance_details_panel.getElementsByClassName('field')].forEach(function(field) {
-    field.value = '';
-    field.classList.toggle('required');
-    field.toggleAttribute('required');
-  });
-  geodistance_label.classList = 'open';
-};
-
-
-var advanced_field = document.getElementById('advanced-search-field');
-var advanced_label = document.getElementById('advanced-search-label');
-var advanced_toggle = document.getElementById('advanced-summary');
-var details_panel = document.getElementById('advanced-search-panel');
-var keyword_field = document.getElementById('basic-search-main');
-var geobox_field = document.getElementById('geobox-search-field');
-var geobox_label = document.getElementById('geobox-search-label');
-var geobox_toggle = document.getElementById('geobox-summary');
-var geobox_details_panel = document.getElementById('geobox-search-panel');
-var geodistance_field = document.getElementById('geodistance-search-field');
-var geodistance_label = document.getElementById('geodistance-search-label');
-var geodistance_toggle = document.getElementById('geodistance-summary');
-var geodistance_details_panel = document.getElementById('geodistance-search-panel');
-
-geobox_toggle.addEventListener('click', event => {
-  if (geobox_details_panel.attributes.hasOwnProperty('open')) {
-    disableGeobox();
+// Each panel has a hidden input that, when true, enables that type of search.
+function toggleSearch(panel) {
+  let input = panel.querySelector('.fieldset-toggle');
+  if (panel.open) {
+    input.setAttribute('value', '');
   } else {
-    enableGeobox();
+    input.setAttribute('value', 'true');
   }
-});
+}
 
-geodistance_toggle.addEventListener('click', event => {
-  if (geodistance_details_panel.attributes.hasOwnProperty('open')) {
-    disableGeodistance();
+// The keyword field is required only if all panels are closed.
+function toggleKeywordRequired() {
+  if (Array.from(allPanels).every((panel) => !panel.open)) {
+    keywordField.setAttribute('required', '');
+    keywordField.classList.add('required');
   } else {
-    enableGeodistance();
+    keywordField.removeAttribute('required');
+    keywordField.classList.remove('required');
   }
-});
+}
 
-advanced_toggle.addEventListener('click', event => {
-  if (details_panel.attributes.hasOwnProperty('open')) {
-    disableAdvanced();
+// Placeholder text should be 'Keyword anywhere' if any panels are open, and 'Enter your search' otherwise.
+function updateKeywordPlaceholder() {
+  if (Array.from(allPanels).some((panel) => panel.open)) {
+    keywordField.setAttribute('placeholder', 'Keyword anywhere');
   } else {
-    enableAdvanced();
+    keywordField.setAttribute('placeholder', 'Enter your search');
   }
-});
+}
+
+// Add event listeners for all panels in the DOM. For GDT, this is currently both geospatial panels and the advanced
+// panel. In all other TIMDEX UI apps, it's just the advanced panel.
+if (Array.from(allPanels).includes(geoboxPanel && geodistancePanel)) {
+  document.getElementById('geobox-summary').addEventListener('click', () => {
+    togglePanelState(geoboxPanel);
+  });
+
+  document.getElementById('geodistance-summary').addEventListener('click', () => {
+    togglePanelState(geodistancePanel);
+  });
+
+  document.getElementById('advanced-summary').addEventListener('click', () => {
+    togglePanelState(advancedPanel);
+  });
+} else {
+  document.getElementById('advanced-summary').addEventListener('click', () => {
+    togglePanelState(advancedPanel);
+  });
+}
 
 console.log('search_form.js loaded');

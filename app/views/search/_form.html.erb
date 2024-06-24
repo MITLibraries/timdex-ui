@@ -1,44 +1,42 @@
 <%
 # Initial form setup is determined by the advanced parameter. Thereafter it is altered by javascript.
 advanced_label = "Search by title, author, etc."
-advanced_label_class = "closed"
 search_required = true
 if params[:advanced] == "true"
-  advanced_label_class = "open"
   search_required = false
 end
 
 geobox_label = "Geospatial bounding box search"
-geobox_label_class = "closed"
 if params[:geobox] == "true"
-  geobox_label_class = "open"
   geobox_required = true
   search_required = false
 end
 
 geodistance_label = "Geospatial distance search"
-geodistance_label_class = "closed"
 if params[:geodistance] == "true"
-  geodistance_label_class = "open"
   geodistance_required = true
   search_required = false
 end
+
+# Placeholder text for the keyword input changes if any of the search panels are open.
+keyword_placeholder = search_required ? "Enter your search" : "Keyword anywhere"
 %>
 
 <form id="basic-search" class="form-horizontal basic-search" action="<%= results_path %>" method="get" role="search">
   <div class="form-group">
     <input id="basic-search-main" type="search"
            class="field field-text basic-search-input <%= "required" if search_required %>" name="q"
-           title="Keyword anywhere" placeholder="Enter your search"
+           title="Keyword anywhere" placeholder="<%= keyword_placeholder %>"
            value="<%= params[:q] %>" <%= 'required' if search_required %>
            <%= 'aria-describedby=site-desc' if Flipflop.enabled?(:gdt) %>>
 
     <% if Flipflop.enabled?(:gdt) %>
-      <details id="geobox-search-panel" <%= "open" if params[:geobox] == "true" %>>
+      <details id="geobox-search-panel" class="form-panel" <%= "open" if params[:geobox] == "true" %>>
         <summary class="btn button-secondary" id="geobox-summary">
-          <span id="geobox-search-label" class="<%= geobox_label_class %>"><%= geobox_label %></span>
+          <span id="geobox-search-label"><%= geobox_label %></span>
         </summary>
-        <input id="geobox-search-field" type="hidden" name="geobox" value="<%= params[:geobox] %>">
+        <input id="geobox-search-field" class="fieldset-toggle" type="hidden" name="geobox"
+               value="<%= params[:geobox] %>">
         <fieldset>
           <legend>Search within a geospatial bounding box</legend>
           <p>* All fields in this section are required</p>
@@ -94,11 +92,12 @@ end
           </div>
         </fieldset>
       </details>
-      <details id="geodistance-search-panel" <%= "open" if params[:geodistance] == "true" %>>
+      <details id="geodistance-search-panel" class="form-panel" <%= "open" if params[:geodistance] == "true" %>>
         <summary class="btn button-secondary" id="geodistance-summary">
-          <span id="geodistance-search-label" class="<%= geodistance_label_class %>"><%= geodistance_label %></span>
+          <span id="geodistance-search-label"><%= geodistance_label %></span>
         </summary>
-        <input id="geodistance-search-field" type="hidden" name="geodistance" value="<%= params[:geodistance] %>">
+        <input id="geodistance-search-field" class="fieldset-toggle" type="hidden" name="geodistance"
+               value="<%= params[:geodistance] %>">
         <fieldset>
           <legend>Search within a distance of a geographic point</legend>
           <p>* All fields in this section are required</p>
@@ -145,11 +144,12 @@ end
       </details>
     <% end %>
 
-    <details id="advanced-search-panel" <%= "open" if params[:advanced] == "true" %>>
+    <details id="advanced-search-panel" class="form-panel" <%= "open" if params[:advanced] == "true" %>>
       <summary class="btn button-secondary" id="advanced-summary">
-        <span id="advanced-search-label"class="<%= advanced_label_class %>"><%= advanced_label %></span>
+        <span id="advanced-search-label"><%= advanced_label %></span>
       </summary>
-      <input id="advanced-search-field" type="hidden" name="advanced" value="<%= params[:advanced] %>">
+      <input id="advanced-search-field" class="fieldset-toggle" type="hidden" name="advanced"
+             value="<%= params[:advanced] %>">
       <div class="field-container">
         <div class="field-wrap">
           <label for="advanced-title" class="field-label">Title</label>
