@@ -16,9 +16,22 @@ class RecordController < ApplicationController
     # Manipulation of returned record would go here...
 
     @record = response&.data&.to_h&.dig('recordId')
+    @rectangle = bounding_box_to_coords
   end
 
   private
+
+  def bounding_box_to_coords
+    return unless geospatial_coordinates?(@record['locations'])
+
+    raw_bbox = @record['locations'].select { |l| l if l['kind'] == 'Bounding Box' }.first
+    bbox = raw_bbox['geoshape'].sub('BBOX (', '').sub(')', '')
+    bbox_array = bbox.split(', ')
+    coords = [[bbox_array[2].to_f, bbox_array[0].to_f], [bbox_array[3].to_f, bbox_array[1].to_f]]
+    Rails.logger.info("Raw BBox: #{raw_bbox}")
+    Rails.logger.info("Rectangle: #{coords}")
+    coords
+  end
 
   def validate_id!
     return if params[:id]&.strip.present?
