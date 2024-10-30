@@ -67,6 +67,11 @@ class TimdexSearch < TimdexBase
             text
             url
           }
+          locations {
+            geoshape
+            kind
+            value
+          }
           notes {
             kind
             value
@@ -199,6 +204,11 @@ class TimdexSearch < TimdexBase
             text
             url
           }
+          locations {
+            geoshape
+            kind
+            value
+          }
           notes {
             kind
             value
@@ -324,6 +334,11 @@ class TimdexSearch < TimdexBase
             restrictions
             text
             url
+          }
+          locations {
+            geoshape
+            kind
+            value
           }
           notes {
             kind
@@ -460,6 +475,11 @@ class TimdexSearch < TimdexBase
             restrictions
             text
             url
+          }
+          locations {
+            geoshape
+            kind
+            value
           }
           notes {
             kind
