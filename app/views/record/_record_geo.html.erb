@@ -60,26 +60,9 @@
       <% end %>
     <% end %>
 
-    <% if @record['subjects'].present? %>
-      <h3 class="section-title">Subjects</h3>
-      <ul>
-      <% deduplicate_subjects(@record['subjects'])&.each do |subject| %>
-        <li><%= subject.join('; ') %></li>
-      <% end %>
-      </ul>
-    <% end %>
-
     <!-- We only care about geospatial locations for this, as place names are also subjects. -->
     <% if geospatial_coordinates?(@record['locations']) %>
       <h3 class="section-title">Geospatial coordinates</h3>
-      <ul>
-      <% parse_nested_field(@record['locations']).each do |location| %>
-        <% if location['geoshape'].present? %>
-          <li><%= "#{location['kind']}: #{location['geoshape']}" %></li>
-        <% end %>
-      <% end %>
-      </ul>
-
       <% content_for :additional_meta_tag do %>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -112,6 +95,25 @@
         // zoom the map to the rectangle bounds
         map.fitBounds(bounds);
       </script>
+
+      <p>
+        <ul>
+          <% parse_nested_field(@record['locations']).each do |location| %>
+            <% if location['geoshape'].present? %>
+              <li><%= "#{location['kind']}: #{location['geoshape']}" %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </p>
+    <% end %>
+
+    <% if @record['subjects'].present? %>
+      <h3 class="section-title">Subjects</h3>
+      <ul>
+      <% deduplicate_subjects(@record['subjects'])&.each do |subject| %>
+        <li><%= subject.join('; ') %></li>
+      <% end %>
+      </ul>
     <% end %>
 
     <% if @record['notes'].present? %>
