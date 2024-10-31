@@ -1,0 +1,21 @@
+<div id=<%= "map_#{result_geo_counter}" %> style="height: 180px"></div>
+
+<script>
+  var <%= "map_#{result_geo_counter}" %> = L.map('<%= "map_#{result_geo_counter}" %>');
+  
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(<%= "map_#{result_geo_counter}" %>);
+
+  // define rectangle geographical bounds
+  var bounds = <%= bounding_box_to_coords(result_geo) %>;
+
+  // console.log(bounds);
+
+  // create an orange rectangle
+  L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(<%= "map_#{result_geo_counter}" %>);
+
+  // zoom the map to the rectangle bounds
+  <%= "map_#{result_geo_counter}" %>.fitBounds(bounds);
+</script>
