@@ -25,7 +25,7 @@
     <!-- We only care about geospatial locations for this, as place names are also subjects. -->
     <% if geospatial_coordinates?(result_geo['locations']) %>
       
-      <%= render partial: 'shared/map', locals: { result_geo_counter: result_geo_counter,  result_geo: result_geo} %>
+      <div id=<%= "map_#{result_geo_counter}" %> style="height: 180px" data-controller="map" data-map-coords-value=<%= bounding_box_to_coords(result_geo).to_json %> data-map-id-value=<%= "map_#{result_geo_counter}" %>></div>
 
       <p>
         <ul>

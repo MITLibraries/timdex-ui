@@ -16,7 +16,6 @@ class RecordController < ApplicationController
     # Manipulation of returned record would go here...
 
     @record = response&.data&.to_h&.dig('recordId')
-    @rectangle = bounding_box_to_coords(@record)
   end
 
   private

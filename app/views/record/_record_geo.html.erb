@@ -64,29 +64,7 @@
     <% if geospatial_coordinates?(@record['locations']) %>
       <h3 class="section-title">Geospatial coordinates</h3>
 
-      <div id="map" style="height: 180px"></div>
-      <script>
-        var map = L.map('map');
-        
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        // define rectangle geographical bounds
-        // -71.158693, -71.064796, 42.395972, 42.351993
-        // var bounds = [[42.395972, -71.158693],[42.351993, -71.064796]];
-
-        console.log('#<%= @rectangle %>');
-        var bounds = <%= @rectangle %>;
-
-        // create an orange rectangle
-        L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(map);
-
-        // zoom the map to the rectangle bounds
-        map.fitBounds(bounds);
-      </script>
-
+      <div id="map" style="height: 180px" data-controller="map" data-map-coords-value=<%= bounding_box_to_coords(@record).to_json %> data-map-id-value="map"></div>
       <p>
         <ul>
           <% parse_nested_field(@record['locations']).each do |location| %>
