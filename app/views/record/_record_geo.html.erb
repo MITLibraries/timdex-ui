@@ -60,23 +60,27 @@
       <% end %>
     <% end %>
 
+    <!-- We only care about geospatial locations for this, as place names are also subjects. -->
+    <% if geospatial_coordinates?(@record['locations']) %>
+      <h3 class="section-title">Geospatial coordinates</h3>
+
+      <div id="map" style="height: 180px" data-controller="map" data-map-coords-value=<%= bounding_box_to_coords(@record).to_json %> data-map-id-value="map"></div>
+      <p>
+        <ul>
+          <% parse_nested_field(@record['locations']).each do |location| %>
+            <% if location['geoshape'].present? %>
+              <li><%= "#{location['kind']}: #{location['geoshape']}" %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </p>
+    <% end %>
+
     <% if @record['subjects'].present? %>
       <h3 class="section-title">Subjects</h3>
       <ul>
       <% deduplicate_subjects(@record['subjects'])&.each do |subject| %>
         <li><%= subject.join('; ') %></li>
-      <% end %>
-      </ul>
-    <% end %>
-
-    <!-- We only care about geospatial locations for this, as place names are also subjects. -->
-    <% if geospatial_coordinates?(@record['locations']) %>
-      <h3 class="section-title">Geospatial coordinates</h3>
-      <ul>
-      <% parse_nested_field(@record['locations']).each do |location| %>
-        <% if location['geoshape'].present? %>
-          <li><%= "#{location['kind']}: #{location['geoshape']}" %></li>
-        <% end %>
       <% end %>
       </ul>
     <% end %>
