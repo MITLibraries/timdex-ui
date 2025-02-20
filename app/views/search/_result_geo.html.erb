@@ -21,6 +21,23 @@
       </p>
     <% end %>
 
+
+    <!-- We only care about geospatial locations for this, as place names are also subjects. -->
+    <% if geospatial_coordinates?(result_geo['locations']) %>
+      
+      <div id=<%= "map_#{result_geo_counter}" %> style="height: 180px" data-controller="map" data-map-coords-value=<%= bounding_box_to_coords(result_geo).to_json %> data-map-id-value=<%= "map_#{result_geo_counter}" %>></div>
+
+      <p>
+        <ul>
+          <% parse_nested_field(result_geo['locations']).each do |location| %>
+            <% if location['geoshape'].present? %>
+              <li><%= "#{location['kind']}: #{location['geoshape']}" %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </p>
+    <% end %>
+
     <% if result_geo['highlight'] %>
       <div class="result-highlights">
         <%= render partial: 'search/highlights', locals: { result: result_geo } %>
