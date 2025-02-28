@@ -1,5 +1,9 @@
 <%= content_for(:title, record_page_title(@record)) %>
 
+<% content_for :additional_meta_tag do %>
+  <meta name="robots" content="noindex, nofollow" />
+<% end %>
+
 <%= render(partial: 'shared/error', collection: @errors) %>
 
 <%= render(partial: 'shared/site_title') %>
