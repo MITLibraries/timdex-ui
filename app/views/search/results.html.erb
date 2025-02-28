@@ -1,5 +1,9 @@
 <%= content_for(:title, results_page_title(@enhanced_query)) %>
 
+<% content_for :additional_meta_tag do %>
+  <meta name="robots" content="noindex, nofollow" />
+<% end %>
+
 <div class="space-wrap">
 
   <%= render partial: "shared/site_title" %>
