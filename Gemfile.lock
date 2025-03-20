@@ -106,6 +106,10 @@ GEM
       debug_inspector (>= 1.2.0)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
+    bot_challenge_page (0.3.0)
+      http (~> 5.2)
+      rack-attack (~> 6.7)
+      rails (>= 7.1, < 8.1)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -239,6 +243,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.12)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -395,6 +401,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap
+  bot_challenge_page
   capybara
   climate_control
   debug
@@ -410,6 +417,7 @@ DEPENDENCIES
   mocha
   pg
   puma
+  rack-attack
   rails (~> 7.1.0)
   rubocop
   rubocop-rails

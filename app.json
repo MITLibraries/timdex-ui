@@ -1,4 +1,12 @@
 {
   "name": "timdex-ui",
-  "stack": "heroku-22"
+  "stack": "heroku-22",
+  "addons": [
+    "heroku-redis"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
 }
