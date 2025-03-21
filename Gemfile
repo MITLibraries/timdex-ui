@@ -14,6 +14,7 @@ gem 'mitlibraries-theme', git: 'https://github.com/mitlibraries/mitlibraries-the
 gem 'puma'
 gem 'rack-attack'
 gem 'rails', '~> 7.1.0'
+gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'sprockets-rails'
