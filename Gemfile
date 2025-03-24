@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.7'
 
 gem 'bootsnap', require: false
+gem 'bot_challenge_page'
 gem 'graphql'
 gem 'graphql-client'
 gem 'http'
@@ -11,7 +12,9 @@ gem 'importmap-rails'
 gem 'jbuilder'
 gem 'mitlibraries-theme', git: 'https://github.com/mitlibraries/mitlibraries-theme', tag: 'v1.4'
 gem 'puma'
+gem 'rack-attack'
 gem 'rails', '~> 7.1.0'
+gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'sprockets-rails'
