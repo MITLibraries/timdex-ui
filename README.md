@@ -83,6 +83,12 @@ Redis to track requests.
 
 See `Optional Environment Variables` for more information.
 
+### Rack Attack
+
+This application uses [Rack Attack](https://github.com/rack/rack-attack).
+
+See `Optional Environment Variables` for more information.
+
 ### Required Environment Variables
 
 - `TIMDEX_GRAPHQL`: Set this to the URL of the GraphQL endpoint. There is no default value in the application.
@@ -115,6 +121,10 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
   safe html above the main header of the site.
 - `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
+- `REQUESTS_PER_PERIOD` - number of requests that can be made for general throttles per `REQUEST_PERIOD`
+- `REQUEST_PERIOD` - time in minutes used along with `REQUESTS_PER_PERIOD`
+- `REDIRECT_REQUESTS_PER_PERIOD`- number of requests that can be made that the query string starts with our legacy redirect parameter to throttle per `REQUEST_PERIOD`
+- `REDIRECT_REQUEST_PERIOD`- time in minutes used along with `REDIRECT_REQUEST_PERIOD`
 - `SENTRY_DSN`: Client key for Sentry exception logging.
 - `SENTRY_ENV`: Sentry environment for the application. Defaults to 'unknown' if unset.
 - `TIMDEX_INDEX`: Name of the index, or alias, to provide to the GraphQL endpoint. Defaults to `nil` which will let TIMDEX determine the best index to use. Wildcard values can be set, for example `rdi*` would search any indexes that begin with `rdi` in the underlying OpenSearch instance behind TIMDEX.
