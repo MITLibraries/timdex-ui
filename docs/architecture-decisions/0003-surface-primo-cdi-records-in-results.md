@@ -9,23 +9,18 @@ Accepted
 ## Context
 
 The Libraries' unified search strategy calls for a discovery interface that surfaces results from
-both Primo Central Discovery Index (CDI) and Alma (via TIMDEX), replacing the current [Bento UI](https://github.com/MITLibraries/bento).
+both Ex Libris Central Discovery Index (CDI) and Alma (via TIMDEX), replacing the current
+[Bento UI](https://github.com/MITLibraries/bento).
 In Bento, Alma and CDI results are displayed in separate boxes. The unified interface would
-interleave CDI and TIMDEX records in the same results list.
+interleave CDI and TIMDEX records in the same results list, providing affordances (likely tabs)
+to display CDI or TIMDEX results separately.
 
 ## Options considered
 
 ### Harvest Primo CDI data
 
 We considered adding a new Primo harvester to our ETL architecture to ingest CDI data into TIMDEX
-API. This would allow us to normalize CDI records as we do with other TIMDEX sources. Querying a
-single API for Alma and CDI records would facilitate a single-stream view as desired in the unified
-UI. Interleaving would no longer be necessary, as all records would be stored in OpenSearch.
-
-The harvester model would value beyond the scope of the TIMDEX UI redesign. By storing CDI records
-in TIMDEX API, we could facilitate computational access to a massive corpus of data.
-
-Unfortunately, this approach is not feasible for many reasons:
+API. This approach is not feasible for many reasons:
 
 - **Cost**: CDI contains over 5 billion records. Harvesting and storing these records would be impractical and expensive, both in terms of financial and compute resources.
 - **Performance**: Expanding TIMDEX API at such a scale is likely to dramatically reduce the efficiency of our OpenSearch index.
@@ -38,7 +33,8 @@ This option would essentially be a different take on the Bento design. On the re
 could tab between Alma results (labeled 'Books', 'MIT Catalog', etc.) and CDI results ('Articles').
 
 While arguably an improvement on Bento, this design does not deliver the combined Alma/CDI results
-view as envisioned in the unified UI. 
+view as envisioned in the unified UI. A superior design would include an 'Everything' tab as the
+default, with TIMDEX and CDI tabs for users that want to refine further. 
 
 ### Implement external search orchestrator
 
@@ -54,10 +50,13 @@ records into TIMDEX API.
 
 ## Decision
 
-This approach aligns with the unified search strategy's goal to display all known results from
-CDI and TIMDEX in the same interface. It also enables us to add the desired intelligent user
-guidance, because we can render search interventions from TACOS and other external systems as
-needed.
+We will implement an external search orchestrator that interleaves results from CDI and TIMDEX.
+This combined results list will become the default display in TIMDEX UI. The UI will also provide
+the option to display results from a single source.
+
+This approach aligns with the unified search strategy's goal to display all known results from CDI
+and TIMDEX in the same interface. It also enables us to add the desired intelligent user guidance,
+because we can render search interventions from TACOS and other external systems as needed.
 
 ### Proposed architecture
 
@@ -127,7 +126,7 @@ tack on the normalization component as a Python microservice.
 
 ### Cons
 
-- Requires runtime integration with Primo Search API, which may introduce latency or complexity. (We can mitigate this by implementing a caching strategy similar to that in Bento.)
+- Requires runtime integration with Primo Search API, which will introduce latency and complexity. (We can mitigate this by implementing a caching strategy similar to that in Bento.)
 - Limits computational access to CDI records (no bulk access via TIMDEX). While not a TIMDEX UI concern, this is worthy of consideration in the broader context of the TIMDEX ecosystem.
 - Mixed-source results may confuse end users.
 
@@ -140,7 +139,8 @@ separate tabs for TIMDEX and Primo records.
 Relevance normalization is a critical issue. We can begin with rank-based interleaving, but we
 should not assume this to be a long-term solution.
 
-We should connect with the MIT research community to determine whether computational access to CDI
-would be useful. If there is a need, we could consider harvesting a subset of CDI records relevant
-to the use case. This would be a significant undertaking beyond the scope of the unified search
-interface, but it aligns with the Libraries' mission, vision, and goals.
+We should connect with the MIT research community to determine their needs regarding computational
+access to library data. While we cannot harvest CDI data for the aforementioned reasons, there may
+be an alternative to CDI that could better support our users. Conducting this research would be a
+significant undertaking beyond the scope of the unified search interface, but it aligns with the
+Libraries' mission, vision, and goals.
