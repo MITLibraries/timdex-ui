@@ -58,6 +58,9 @@ This approach aligns with the unified search strategy's goal to display all know
 and TIMDEX in the same interface. It also enables us to add the desired intelligent user guidance,
 because we can render search interventions from TACOS and other external systems as needed.
 
+An overview of the proposed architecture is below, but an additional ADR will be needed to explore
+the implementation details.
+
 ### Proposed architecture
 
 ```mermaid
