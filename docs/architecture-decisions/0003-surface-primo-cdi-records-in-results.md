@@ -13,22 +13,46 @@ both Primo Central Discovery Index (CDI) and Alma (via TIMDEX), replacing the cu
 In Bento, Alma and CDI results are displayed in separate boxes. The unified interface would
 interleave CDI and TIMDEX records in the same results list.
 
+## Options considered
+
+### Harvest Primo CDI data
+
 We considered adding a new Primo harvester to our ETL architecture to ingest CDI data into TIMDEX
-API. However, this approach is not feasible for many reasons:
+API. This would allow us to normalize CDI records as we do with other TIMDEX sources. Querying a
+single API for Alma and CDI records would facilitate a single-stream view as desired in the unified
+UI. Interleaving would no longer be necessary, as all records would be stored in OpenSearch.
+
+The harvester model would value beyond the scope of the TIMDEX UI redesign. By storing CDI records
+in TIMDEX API, we could facilitate computational access to a massive corpus of data.
+
+Unfortunately, this approach is not feasible for many reasons:
 
 - **Cost**: CDI contains over 5 billion records. Harvesting and storing these records would be impractical and expensive, both in terms of financial and compute resources.
 - **Performance**: Expanding TIMDEX API at such a scale is likely to dramatically reduce the efficiency of our OpenSearch index.
 - **Data availability**: Because Primo does not expose CDI records in OAI-PMH, we would need to harvest using the Primo Search API, making the process needlessly complex and perhaps impossible.
 - **Licensing**: Harvesting CDI records for TIMDEX likely has licensing implications. Ex Libris seems to discourage the practice, as Primo does not provide OAI-PMH support, and the Search API caps records per request at 5,000 via the [`offset` parameter](https://developers.exlibrisgroup.com/primo/apis/docs/primoSearch/R0VUIC9wcmltby92MS9zZWFyY2g=/#output:~:text=Note%3A%20The%20Primo%20search%20API%20has%20a%20hardcoded%20offset%20limitation%20parameter%20of%205000.).
 
+### Display separate result streams in tabbed views
+
+This option would essentially be a different take on the Bento design. On the results page, a user
+could tab between Alma results (labeled 'Books', 'MIT Catalog', etc.) and CDI results ('Articles').
+
+While arguably an improvement on Bento, this design does not deliver the combined Alma/CDI results
+view as envisioned in the unified UI. 
+
+### Implement external search orchestrator
+
+In this approach, we would surface CDI records in TIMDEX UI by querying the Primo Search API
+directly at runtime and interleaving results with TIMDEX API results in the unified search
+interface.
+
+To achieve this, we would implement a search orchestrator that receives a query from TIMDEX UI and
+dispatches it in parallel to TIMDEX API and Primo Search API. The orchestrator would normalize and
+interleave the results before returning them to the UI. This would allow us to display Alma and
+CDI results in the same results list, without the feasibility concerns inherent in ingesting CDI
+records into TIMDEX API.
+
 ## Decision
-
-We will surface CDI results in TIMDEX UI by querying the Primo Search API directly at runtime and
-interleaving results with TIMDEX API results in the unified search interface.
-
-To achieve this, we will implement a search orchestrator that receives a query from TIMDEX UI and
-dispatches it in parallel to TIMDEX API and Primo Search API. The orchestrator will normalize and
-interleave the results before returning them to the UI.
 
 This approach aligns with the unified search strategy's goal to display all known results from
 CDI and TIMDEX in the same interface. It also enables us to add the desired intelligent user
@@ -38,35 +62,22 @@ needed.
 ### Proposed architecture
 
 ```mermaid
-sequenceDiagram
-
-participant UI as TIMDEX UI (frontend)
-participant Orchestrator as Search Orchestrator (middleware)
-participant TIMDEX as TIMDEX API (OpenSearch)
-participant Primo as Primo Search API (CDI)
-participant TACOS as TACOS (query enhancer)
-
-UI-->>Orchestrator: User submits search query
-UI-->>TACOS: Send query to TACOS
-TACOS-->>UI: Return patterns identified in query (e.g., suggested resources, citations, journal titles)
-Orchestrator-->>TIMDEX: Send query to TIMDEX API
-Orchestrator-->>Primo: Send query to Primo CDI API
-TIMDEX-->>Orchestrator: Return TIMDEX results
-Primo-->>Orchestrator: Return CDI results
-Orchestrator->>Orchestrator: Normalize & interleave results
-Orchestrator-->>UI: Return unified result set
-UI->>UI: Render interventions based on TACOS response
-UI->>UI: Render results in a single list
+flowchart TD
+  A[User] -->|Submit search query| B[TIMDEX UI]
+  B -->|Send query| C[TACOS]
+  B -->|Send query| D[TIMDEX Search Orchestrator]
+  D -->|Send query| E[TIMDEX API]
+  D -->|Send query| F[Primo Search API]
+  E -->|Return results| D
+  F -->|Return results| D
+  D -->|Normalize & interleave results| B
+  C -->|Return interventions| B 
 ```
 
-Search form submissions will be sent in parallel to the search orchestrator and TACOS (possibly
-using Turbo frames, but implementation details are TBD). This will allow us to continue rendering
-TACOS interventions rapidly, likely before results are returned to the UI.
-
-The orchestrator will make asynchronous calls to the TIMDEX and Primo Search APIs. Records in each
-response will be normalized and interleaved into a unified set of results, then returned back to
-TIMDEX UI. In addition to record metadata, relevance scores must also be normalized due to the
-disparate sources. (See 'Relevance normalization' below for more details.)
+The UI will dispatch the query in parallel to TACOS and the search orchestrator. TACOS responses are
+then rendered immediately. The orchestrator waits for both TIMDEX and CDI responses, normalizes and
+interleaves them, and returns a unified result set. This separation of concerns allows TACOS to
+operate independently while the orchestrator handles result merging.
 
 This architecture abstracts out most of the added complexity to the search orchestrator. The UI
 will be responsible only for sending queries to external systems and rendering the returned data.
@@ -94,7 +105,7 @@ include:
 
 We could begin by implementing rank-based interleaving (i.e., the first two results in the unified
 list would be the first two results from each source). While naive, such an algorithm would provide
-an heuristic against which to measure future normalization attempts.
+a baseline heuristic against which to measure future normalization attempts.
 
 Once we have more information, we could then evaluate different normalization strategies. Techniques
 like [min-max](https://opensearch.org/blog/how-does-the-rank-normalization-work-in-hybrid-search/#:~:text=3.%20Min%2Dmax%20normalization%20technique)
@@ -117,7 +128,7 @@ tack on the normalization component as a Python microservice.
 ### Cons
 
 - Requires runtime integration with Primo Search API, which may introduce latency or complexity. (We can mitigate this by implementing a caching strategy similar to that in Bento.)
-- Limits computational access to CDI records (no bulk access via TIMDEX).
+- Limits computational access to CDI records (no bulk access via TIMDEX). While not a TIMDEX UI concern, this is worthy of consideration in the broader context of the TIMDEX ecosystem.
 - Mixed-source results may confuse end users.
 
 ### Future Considerations
@@ -129,7 +140,7 @@ separate tabs for TIMDEX and Primo records.
 Relevance normalization is a critical issue. We can begin with rank-based interleaving, but we
 should not assume this to be a long-term solution.
 
-As previously mentioned, this solution does not provide computational access to CDI records via
-TIMDEX. We should connect with the MIT research community to determine whether such access would
-be useful. If there is a need, we could consider harvesting a subset of CDI records relevant to the
-use case.
+We should connect with the MIT research community to determine whether computational access to CDI
+would be useful. If there is a need, we could consider harvesting a subset of CDI records relevant
+to the use case. This would be a significant undertaking beyond the scope of the unified search
+interface, but it aligns with the Libraries' mission, vision, and goals.
