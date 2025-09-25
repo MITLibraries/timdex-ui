@@ -81,4 +81,16 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  config.rails_semantic_logger.semantic   = true
+  config.rails_semantic_logger.started    = false
+  config.rails_semantic_logger.processing = false
+  config.rails_semantic_logger.rendered   = false
+  # config.rails_semantic_logger.format = :json
+
+  # $stdout.sync = true
+  # config.rails_semantic_logger.add_file_appender = false
+  # config.semantic_logger.add_appender(io: $stdout, formatter: config.rails_semantic_logger.format)
+
+  config.log_level = :info
 end

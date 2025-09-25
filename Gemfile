@@ -14,6 +14,7 @@ gem 'mitlibraries-theme', git: 'https://github.com/mitlibraries/mitlibraries-the
 gem 'puma'
 gem 'rack-attack'
 gem 'rails', '~> 7.1.0'
+gem 'rails_semantic_logger'
 gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
@@ -33,6 +34,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'amazing_print'
   gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'

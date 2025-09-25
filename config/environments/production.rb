@@ -66,7 +66,14 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
-  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE } }
+  # User redis cache if REDIS_URL is set, otherwise fallback to memory store
+  if ENV['REDIS_URL'].blank?
+    puts "WARNING: REDIS_URL not set, falling back to memory_store for cache. This is not recommended for production environments."
+    config.cache_store = :memory_store, { size: 32.megabytes }
+  else
+    puts "Using redis cache store at #{ENV['REDIS_URL']}"
+    config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE } }
+  end
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter = :resque
