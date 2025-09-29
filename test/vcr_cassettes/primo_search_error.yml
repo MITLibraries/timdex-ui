@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api-na.hosted.exlibrisgroup.com/primo/v1/search?apikey=FAKE_PRIMO_API_KEY&limit=10&q=any,contains,test&scope=cdi&tab=all&vid=01MIT_INST:MIT
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - apikey FAKE_PRIMO_API_KEY
+      Connection:
+      - Keep-Alive
+      Host:
+      - api-na.hosted.exlibrisgroup.com
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Content-Length:
+      - '508'
+      Date:
+      - Mon, 29 Sep 2025 16:57:13 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<web_service_result
+        xmlns=\"http://com/exlibris/urm/general/xmlbeans\">\r\n            <errorsExist>true</errorsExist>\r\n
+        \           <errorList>\r\n                        <error>\r\n                                    <errorCode>UNAUTHORIZED</errorCode>\r\n
+        \                                   <errorMessage>API-key not defined or not
+        configured to allow this API.</errorMessage>\r\n                        </error>\r\n
+        \           </errorList>\r\n</web_service_result>"
+  recorded_at: Mon, 29 Sep 2025 16:57:14 GMT
+recorded_with: VCR 6.3.1

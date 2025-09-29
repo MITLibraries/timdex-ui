@@ -25,6 +25,7 @@ VCR.configure do |config|
   config.filter_sensitive_data('FAKE_TIMDEX_HOST') { ENV.fetch('TIMDEX_HOST').to_s }
   config.filter_sensitive_data('http://FAKE_TIMDEX_HOST/graphql/') { ENV.fetch('TIMDEX_GRAPHQL').to_s }
   config.filter_sensitive_data('FAKE_TIMDEX_INDEX') { ENV.fetch('TIMDEX_INDEX').to_s }
+  config.filter_sensitive_data('FAKE_PRIMO_API_KEY') { ENV.fetch('PRIMO_API_KEY').to_s }
 end
 
 module ActiveSupport
