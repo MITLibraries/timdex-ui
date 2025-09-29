@@ -15,7 +15,11 @@ class Analyzer
   private
 
   def hits(response)
-    response&.data&.search&.to_h&.dig('hits')
+    return 0 if response.nil?
+    return 0 unless response.is_a?(Hash) && response.key?(:data) && response[:data].key?('search')
+    return 0 unless response[:data]['search'].is_a?(Hash) && response[:data]['search'].key?('hits')
+
+    response[:data]['search']['hits']
   end
 
   def next_page(page, hits)
