@@ -1,0 +1,59 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://FAKE_TACOS_HOST/graphql
+    body:
+      encoding: UTF-8
+      string: '{ "query": "{ logSearchEvent(searchTerm: \"popcorn\", sourceSystem:
+        \"use\" ) { phrase source detectors { suggestedResources { title url } } }
+        }" }'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Connection:
+      - Keep-Alive
+      Host:
+      - FAKE_TACOS_HOST
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
+      Etag:
+      - W/"84adabecd4fb001e4a3306daa2b2321e"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - c72d3c64-ee74-4de3-b095-1416ef3f433b
+      X-Runtime:
+      - '0.023035'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.active_record;dur=0.85, start_transaction.active_record;dur=0.00,
+        instantiation.active_record;dur=0.07, transaction.active_record;dur=0.85,
+        process_action.action_controller;dur=4.63
+      Content-Length:
+      - '101'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"logSearchEvent":{"phrase":"popcorn","source":"use","detectors":{"suggestedResources":[]}}}}'
+  recorded_at: Fri, 03 Oct 2025 13:55:59 GMT
+recorded_with: VCR 6.3.1

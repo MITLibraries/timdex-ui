@@ -275,7 +275,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       end
       assert_response :success
 
-      assert_select('div[data-content-loader-url-value]', 0)
+      assert_select('div[data-content-loader-url-value].fact-container', 0)
     end
   end
 
@@ -305,7 +305,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
       assert_response :success
 
-      assert_select('div[data-content-loader-url-value]', 0)
+      assert_select('div[data-content-loader-url-value].fact-container', 0)
     end
   end
 
@@ -333,7 +333,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       end
       assert_response :success
 
-      assert_select('div[data-content-loader-url-value]', 0)
+      assert_select('div[data-content-loader-url-value].fact-container', 0)
     end
   end
 
@@ -361,7 +361,31 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       end
       assert_response :success
 
-      assert_select('div[data-content-loader-url-value]', 0)
+      assert_select('div[data-content-loader-url-value].fact-container', 0)
+    end
+  end
+
+  test 'TACOS intervention is inserted when TACOS enabled' do
+    VCR.use_cassette('tacos',
+                     allow_playback_repeats: true) do
+      get '/results?q=tacos'
+
+      assert_response :success
+
+      tacos_div = assert_select('div[data-content-loader-url-value].tacos-container')
+      assert_equal '/analyze?q=tacos', tacos_div.attribute('data-content-loader-url-value').value
+    end
+  end
+
+  test 'TACOS intervention not inserted when TACOS not enabled' do
+    VCR.use_cassette('tacos',
+                     allow_playback_repeats: true) do
+      ClimateControl.modify(TACOS_URL: '') do
+        get '/results?q=tacos'
+      end
+      assert_response :success
+
+      assert_select('div[data-content-loader-url-value].tacos-container', 0)
     end
   end
 

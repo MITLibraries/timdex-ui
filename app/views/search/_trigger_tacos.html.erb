@@ -1,0 +1,8 @@
+<% return unless (tacos_enabled? and @enhanced_query[:q].present?) %>
+
+<% data_url = "/analyze?q=#{URI.encode_www_form_component(@enhanced_query[:q])}" %>
+
+<div class="tacos-container"
+     data-controller="content-loader"
+     data-content-loader-url-value=<%= data_url %>>
+</div>

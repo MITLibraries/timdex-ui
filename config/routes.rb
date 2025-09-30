@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'issn', to: 'fact#issn'
   get 'pmid', to: 'fact#pmid'
 
+  get 'analyze', to: 'tacos#analyze'
+
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
