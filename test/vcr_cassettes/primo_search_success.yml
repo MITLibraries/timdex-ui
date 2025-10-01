@@ -1,0 +1,1832 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api-na.hosted.exlibrisgroup.com/primo/v1/search?apikey=FAKE_PRIMO_API_KEY&limit=10&q=any,contains,popcorn&scope=cdi&tab=all&vid=01MIT_INST:MIT
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - apikey FAKE_PRIMO_API_KEY
+      Connection:
+      - Keep-Alive
+      Host:
+      - api-na.hosted.exlibrisgroup.com
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Request-Id:
+      - cnNAkV2QX4
+      P3p:
+      - CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+      Vary:
+      - accept-encoding
+      X-Exl-Api-Remaining:
+      - '546821'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET,POST,DELETE,PUT,OPTIONS
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Authorization
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 29 Sep 2025 16:58:51 GMT
+      Keep-Alive:
+      - timeout=20
+      Connection:
+      - keep-alive
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "info" : {
+            "totalResultsLocal" : -1,
+            "totalResultsPC" : 13687,
+            "total" : 13687,
+            "first" : 1,
+            "last" : 10
+          },
+          "highlights" : {
+            "snippet" : [ "popcorn", "Popcorn" ],
+            "title" : [ "Popcorn", "popcorn", "popcorns" ],
+            "termsUnion" : [ "popcorn", "Popcorn", "popcorns" ]
+          },
+          "docs" : [ {
+            "pnx" : {
+              "addata" : {
+                "issn" : [ "0953-8585" ],
+                "jtitle" : [ "Physics world" ],
+                "genre" : [ "article" ],
+                "atitle" : [ "Popcorn" ],
+                "date" : [ "2016-11" ],
+                "risdate" : [ "2016" ],
+                "volume" : [ "29" ],
+                "issue" : [ "11" ],
+                "spage" : [ "42" ],
+                "epage" : [ "42" ],
+                "pages" : [ "42-42" ],
+                "eissn" : [ "2058-7058" ],
+                "ristype" : [ "JOUR" ],
+                "doi" : [ "10.1088/2058-7058/29/11/46" ],
+                "tpages" : [ "1" ],
+                "format" : [ "journal" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "thumbnail" : [ "$$Tsyndetics_thumb_exl" ]
+              },
+              "search" : {
+                "recordid" : [ "eNp9j81KBDEQhIMoOq6-gO8QpzuTn85RFv9gQQ96DrGTwMi6syRz8e3dQfHgwUsVFHxFlRBXCNcIRL0CQ9IdpFe-R-y1PRLdb3gsOvBmkGTInInz1t4B0GoynTh9nvY81d2FOClx2_Llj6_E693ty_pBbp7uH9c3G8no3CwTKOvZvpHVBUtWlBSZlNFTwgJJZybjdC5aIQ_IxSIZqyxn57TD6IeVUN-9XKfWai5hX8ePWD8DQliuhGV1WFYH5QNi0PYA0R-IxznO47Sbaxy3_6FfctlLiw" ],
+                "recordtype" : [ "article" ],
+                "title" : [ "Popcorn", "Physics world" ],
+                "creationdate" : [ "2016" ],
+                "rsrctype" : [ "article" ],
+                "startdate" : [ "201611" ],
+                "enddate" : [ "201611" ],
+                "scope" : [ "AAYXX", "CITATION" ],
+                "issn" : [ "0953-8585", "2058-7058" ],
+                "fulltext" : [ "true" ]
+              },
+              "display" : {
+                "type" : [ "article" ],
+                "title" : [ "Popcorn" ],
+                "source" : [ "Institute of Physics Journals" ],
+                "ispartof" : [ "Physics world, 2016-11, Vol.29 (11), p.42-42" ],
+                "identifier" : [ "ISSN: 0953-8585", "EISSN: 2058-7058", "DOI: 10.1088/2058-7058/29/11/46" ],
+                "language" : [ "eng" ],
+                "lds50" : [ "peer_reviewed" ]
+              },
+              "facets" : {
+                "creationdate" : [ "2016" ],
+                "language" : [ "eng" ],
+                "rsrctype" : [ "articles" ],
+                "prefilter" : [ "articles" ],
+                "collection" : [ "CrossRef" ],
+                "toplevel" : [ "peer_reviewed", "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-LOGICAL-c177t-d0269c6b864f1fe28d285de198d1f0d4ec8574ef421c31cf6185626ce77471a93" ],
+                "frbrtype" : [ "5" ],
+                "jtitle" : [ "Physics world" ]
+              },
+              "sort" : {
+                "title" : [ "Popcorn" ],
+                "creationdate" : [ "201611" ]
+              },
+              "control" : {
+                "sourcerecordid" : [ "10_1088_2058_7058_29_11_46" ],
+                "originalsourceid" : [ "FETCH-LOGICAL-c177t-d0269c6b864f1fe28d285de198d1f0d4ec8574ef421c31cf6185626ce77471a93" ],
+                "sourceid" : [ "crossref" ],
+                "recordid" : [ "cdi_crossref_primary_10_1088_2058_7058_29_11_46" ],
+                "recordtype" : [ "article" ],
+                "addsrcrecordid" : [ "eNp9j81KBDEQhIMoOq6-gO8QpzuTn85RFv9gQQ96DrGTwMi6syRz8e3dQfHgwUsVFHxFlRBXCNcIRL0CQ9IdpFe-R-y1PRLdb3gsOvBmkGTInInz1t4B0GoynTh9nvY81d2FOClx2_Llj6_E693ty_pBbp7uH9c3G8no3CwTKOvZvpHVBUtWlBSZlNFTwgJJZybjdC5aIQ_IxSIZqyxn57TD6IeVUN-9XKfWai5hX8ePWD8DQliuhGV1WFYH5QNi0PYA0R-IxznO47Sbaxy3_6FfctlLiw" ],
+                "sourcetype" : [ "Enrichment Source" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "iscdi" : [ "true" ],
+                "score" : [ "0.020092823" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-crossref&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=Popcorn&rft.jtitle=Physics+world&rft.date=2016-11&rft.volume=29&rft.issue=11&rft.spage=42&rft.epage=42&rft.pages=42-42&rft.issn=0953-8585&rft.eissn=2058-7058&rft_id=info:doi/10.1088%2F2058-7058%2F29%2F11%2F46&rft_dat=<crossref>10_1088_2058_7058_29_11_46</crossref>&svc_dat=viewit"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ ],
+                "citedby" : [ "FETCH-LOGICAL-c177t-d0269c6b864f1fe28d285de198d1f0d4ec8574ef421c31cf6185626ce77471a93" ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_crossref_primary_10_1088_2058_7058_29_11_46"
+          }, {
+            "pnx" : {
+              "addata" : {
+                "abstract" : [ "A\nbstract\nIn the large\nN\nc\nlimit cold dense nuclear matter must be in a lattice phase. This applies also to holographic models of hadron physics. In a class of such models, like the generalized Sakai-Sugimoto model, baryons take the form of instantons of the effective flavor gauge theory that resides on probe flavor branes. In this paper we study the phase structure of baryonic crystals by analyzing discrete periodic configurations of such instantons. We find that instanton configurations exhibit a series of “popcorn” transitions upon increasing the density. Through these transitions normal (3D) lattices expand into the transverse dimension, eventually becoming a higher dimensional (4D) multi-layer lattice at large densities.\nWe consider 3D lattices of zero size instantons as well as 1D periodic chains of finite size instantons, which serve as toy models of the full holographic systems. In particular, for the finite-size case we determine solutions of the corresponding ADHM equations for both a straight chain and for a 2D zigzag configuration where instantons pop up into the holographic dimension. At low density the system takes the form of an “abelian anti- ferromagnetic” straight periodic chain. Above a critical density there is a second order phase transition into a zigzag structure. An even higher density yields a rich phase space characterized by the formation of multi-layer zigzag structures. The finite size of the lattices in the transverse dimension is a signal of an emerging Fermi sea of quarks. We thus propose that the popcorn transitions indicate the onset of the “quarkyonic” phase of the cold dense nuclear matter." ],
+                "issn" : [ "1029-8479" ],
+                "oa" : [ "free_for_read" ],
+                "jtitle" : [ "The journal of high energy physics" ],
+                "genre" : [ "article" ],
+                "au" : [ "Kaplunovsky, Vadim", "Melnikov, Dmitry", "Sonnenschein, Jacob" ],
+                "atitle" : [ "Baryonic popcorn" ],
+                "stitle" : [ "J. High Energ. Phys" ],
+                "date" : [ "2012-11-01" ],
+                "risdate" : [ "2012" ],
+                "volume" : [ "2012" ],
+                "issue" : [ "11" ],
+                "artnum" : [ "47" ],
+                "eissn" : [ "1029-8479" ],
+                "ristype" : [ "JOUR" ],
+                "cop" : [ "Berlin/Heidelberg" ],
+                "pub" : [ "Springer-Verlag" ],
+                "doi" : [ "10.1007/JHEP11(2012)047" ],
+                "format" : [ "journal" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "thumbnail" : [ "$$Tsyndetics_thumb_exl" ],
+                "linktopdf" : [ "$$Uhttps://www.proquest.com/docview/2398248625/fulltextPDF?pq-origsite=primo$$EPDF$$P50$$Gproquest$$Hfree_for_read" ],
+                "linktohtml" : [ "$$Uhttps://www.proquest.com/docview/2398248625?pq-origsite=primo$$EHTML$$P50$$Gproquest$$Hfree_for_read" ],
+                "docinsights" : [ "$$Uhttps://www.proquest.com/docview/2398248625/fulltextPDF?pq-origsite=primo$$EPDF$$P50$$Gproquest$$Hfree_for_read" ]
+              },
+              "search" : {
+                "sourceid" : [ "ARAPS", "PIMPY" ],
+                "recordid" : [ "eNp9j0FLAzEQRoMoWKvgzavgRQ9rZ5LsJjlqqVYp6EHPIZsmsqVu1mR78N83ZQVF0NPM4XvzzSPkDOEaAcTkcT57RrykgPQKuNgjIwSqCsmF2v-xH5KjlFYAWKKCETm9NfEztI0970JnQ2yPyYE36-ROvuaYvN7NXqbzYvF0_zC9WRSWIfQFo66sDVsCeknLGirBRQXCAArhqEBpVQVLBIvS19zVdeVrVnHjuSopF5aNycVwt4vhY-NSr1dhE9tcqSlTknJZ0TKnJkPKxpBSdF53sXnPL2sEvdPWg7beaeusnYnyF2Gb3vRNaPtomvU_HAxcyg3tm4vf__yFbAEV6mep" ],
+                "recordtype" : [ "article" ],
+                "title" : [ "Baryonic popcorn", "The journal of high energy physics" ],
+                "creator" : [ "Kaplunovsky, Vadim", "Melnikov, Dmitry", "Sonnenschein, Jacob" ],
+                "creationdate" : [ "2012" ],
+                "subject" : [ "Baryons", "Branes", "Chains", "Configurations", "Density", "Ferromagnetism", "Instantons", "Nuclear matter", "Particles (Nuclear physics)", "Phase transformations (Statistical physics)", "Physics", "Quantum field theory", "Quantum theory" ],
+                "rsrctype" : [ "article" ],
+                "startdate" : [ "20121101" ],
+                "enddate" : [ "20121101" ],
+                "scope" : [ "AAYXX", "CITATION", "8FE", "8FG", "ABUWG", "AFKRA", "ARAPS", "AZQEC", "BENPR", "BGLVJ", "CCPQU", "DWQXO", "HCIFZ", "P5Z", "P62", "PHGZM", "PHGZT", "PIMPY", "PKEHL", "PQEST", "PQGLB", "PQQKQ", "PQUKI", "PRINS" ],
+                "creatorcontrib" : [ "Kaplunovsky, Vadim", "Melnikov, Dmitry", "Sonnenschein, Jacob" ],
+                "issn" : [ "1029-8479", "1029-8479" ],
+                "fulltext" : [ "true" ],
+                "addtitle" : [ "J. High Energ. Phys" ],
+                "general" : [ "Springer-Verlag", "Springer Nature B.V" ],
+                "description" : [ "A\nbstract\nIn the large\nN\nc\nlimit cold dense nuclear matter must be in a lattice phase. This applies also to holographic models of hadron physics. In a class of such models, like the generalized Sakai-Sugimoto model, baryons take the form of instantons of the effective flavor gauge theory that resides on probe flavor branes. In this paper we study the phase structure of baryonic crystals by analyzing discrete periodic configurations of such instantons. We find that instanton configurations exhibit a series of “popcorn” transitions upon increasing the density. Through these transitions normal (3D) lattices expand into the transverse dimension, eventually becoming a higher dimensional (4D) multi-layer lattice at large densities.\nWe consider 3D lattices of zero size instantons as well as 1D periodic chains of finite size instantons, which serve as toy models of the full holographic systems. In particular, for the finite-size case we determine solutions of the corresponding ADHM equations for both a straight chain and for a 2D zigzag configuration where instantons pop up into the holographic dimension. At low density the system takes the form of an “abelian anti- ferromagnetic” straight periodic chain. Above a critical density there is a second order phase transition into a zigzag structure. An even higher density yields a rich phase space characterized by the formation of multi-layer zigzag structures. The finite size of the lattices in the transverse dimension is a signal of an emerging Fermi sea of quarks. We thus propose that the popcorn transitions indicate the onset of the “quarkyonic” phase of the cold dense nuclear matter." ]
+              },
+              "display" : {
+                "type" : [ "article" ],
+                "title" : [ "Baryonic popcorn" ],
+                "source" : [ "Advanced Technologies & Aerospace Collection", "Publicly Available Content Database" ],
+                "creator" : [ "Kaplunovsky, Vadim ; Melnikov, Dmitry ; Sonnenschein, Jacob" ],
+                "publisher" : [ "Berlin/Heidelberg: Springer-Verlag" ],
+                "ispartof" : [ "The journal of high energy physics, 2012-11, Vol.2012 (11), Article 47" ],
+                "identifier" : [ "ISSN: 1029-8479", "EISSN: 1029-8479", "DOI: 10.1007/JHEP11(2012)047" ],
+                "language" : [ "eng" ],
+                "rights" : [ "SISSA, Trieste, Italy 2012", "SISSA, Trieste, Italy 2012." ],
+                "snippet" : [ ".... We find that instanton configurations exhibit a series of “popcorn” transitions upon increasing the density..." ],
+                "lds50" : [ "peer_reviewed" ],
+                "oa" : [ "free_for_read" ],
+                "description" : [ "A\nbstract\nIn the large\nN\nc\nlimit cold dense nuclear matter must be in a lattice phase. This applies also to holographic models of hadron physics. In a class of such models, like the generalized Sakai-Sugimoto model, baryons take the form of instantons of the effective flavor gauge theory that resides on probe flavor branes. In this paper we study the phase structure of baryonic crystals by analyzing discrete periodic configurations of such instantons. We find that instanton configurations exhibit a series of “popcorn” transitions upon increasing the density. Through these transitions normal (3D) lattices expand into the transverse dimension, eventually becoming a higher dimensional (4D) multi-layer lattice at large densities.\nWe consider 3D lattices of zero size instantons as well as 1D periodic chains of finite size instantons, which serve as toy models of the full holographic systems. In particular, for the finite-size case we determine solutions of the corresponding ADHM equations for both a straight chain and for a 2D zigzag configuration where instantons pop up into the holographic dimension. At low density the system takes the form of an “abelian anti- ferromagnetic” straight periodic chain. Above a critical density there is a second order phase transition into a zigzag structure. An even higher density yields a rich phase space characterized by the formation of multi-layer zigzag structures. The finite size of the lattices in the transverse dimension is a signal of an emerging Fermi sea of quarks. We thus propose that the popcorn transitions indicate the onset of the “quarkyonic” phase of the cold dense nuclear matter." ],
+                "subject" : [ "Baryons ;  Branes ;  Chains ;  Configurations ;  Density ;  Ferromagnetism ;  Instantons ;  Nuclear matter ;  Particles (Nuclear physics) ;  Phase transformations (Statistical physics) ;  Physics ;  Quantum field theory ;  Quantum theory" ],
+                "keyword" : [ "Article ;  Classical and Quantum Gravitation ;  Crystal structure ;  Flavor (particle physics) ;  Gauge theory ;  Lattices ;  Multilayers ;  Physics and Astronomy ;  Quantum Field Theories ;  Relativity Theory ;  Solid phases ;  String Theory" ]
+              },
+              "facets" : {
+                "creationdate" : [ "2012" ],
+                "language" : [ "eng" ],
+                "rsrctype" : [ "articles" ],
+                "creatorcontrib" : [ "Kaplunovsky, Vadim", "Melnikov, Dmitry", "Sonnenschein, Jacob" ],
+                "topic" : [ "Baryons", "Branes", "Chains", "Configurations", "Density", "Ferromagnetism", "Instantons", "Nuclear matter", "Particles (Nuclear physics)", "Phase transformations (Statistical physics)", "Physics", "Quantum field theory", "Quantum theory" ],
+                "prefilter" : [ "articles" ],
+                "collection" : [ "CrossRef", "ProQuest SciTech Collection", "ProQuest Technology Collection", "ProQuest Central (Alumni)", "ProQuest Central UK/Ireland", "Advanced Technologies & Aerospace Collection", "ProQuest Central Essentials", "ProQuest Central", "Technology Collection", "ProQuest One Community College", "ProQuest Central Korea", "SciTech Premium Collection", "Advanced Technologies & Aerospace Database", "ProQuest Advanced Technologies & Aerospace Collection", "ProQuest Central Premium", "ProQuest One Academic (New)", "Publicly Available Content Database", "ProQuest One Academic Middle East (New)", "ProQuest One Academic Eastern Edition (DO NOT USE)", "ProQuest One Applied & Life Sciences", "ProQuest One Academic", "ProQuest One Academic UKI Edition", "ProQuest Central China" ],
+                "toplevel" : [ "peer_reviewed", "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-LOGICAL-c310t-32e5ba3d01f825b06747607a0177e2718c960d10c18fb4ebb6fb364af495247c3" ],
+                "frbrtype" : [ "5" ],
+                "jtitle" : [ "The journal of high energy physics" ]
+              },
+              "sort" : {
+                "title" : [ "Baryonic popcorn" ],
+                "creationdate" : [ "20121101" ],
+                "author" : [ "Kaplunovsky, Vadim ; Melnikov, Dmitry ; Sonnenschein, Jacob" ]
+              },
+              "control" : {
+                "sourcerecordid" : [ "2398248625" ],
+                "originalsourceid" : [ "FETCH-LOGICAL-c310t-32e5ba3d01f825b06747607a0177e2718c960d10c18fb4ebb6fb364af495247c3" ],
+                "sourceid" : [ "proquest_cross" ],
+                "recordid" : [ "cdi_proquest_journals_2398248625" ],
+                "recordtype" : [ "article" ],
+                "addsrcrecordid" : [ "eNp9j0FLAzEQRoMoWKvgzavgRQ9rZ5LsJjlqqVYp6EHPIZsmsqVu1mR78N83ZQVF0NPM4XvzzSPkDOEaAcTkcT57RrykgPQKuNgjIwSqCsmF2v-xH5KjlFYAWKKCETm9NfEztI0970JnQ2yPyYE36-ROvuaYvN7NXqbzYvF0_zC9WRSWIfQFo66sDVsCeknLGirBRQXCAArhqEBpVQVLBIvS19zVdeVrVnHjuSopF5aNycVwt4vhY-NSr1dhE9tcqSlTknJZ0TKnJkPKxpBSdF53sXnPL2sEvdPWg7beaeusnYnyF2Gb3vRNaPtomvU_HAxcyg3tm4vf__yFbAEV6mep" ],
+                "sourcetype" : [ "Aggregation Database" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "pqid" : [ "2398248625" ],
+                "iscdi" : [ "true" ],
+                "score" : [ "0.019527128" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-proquest_cross&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=Baryonic+popcorn&rft.jtitle=The+journal+of+high+energy+physics&rft.au=Kaplunovsky%2C+Vadim&rft.date=2012-11-01&rft.volume=2012&rft.issue=11&rft.artnum=47&rft.issn=1029-8479&rft.eissn=1029-8479&rft_id=info:doi/10.1007%2FJHEP11%282012%29047&rft.pub=Springer-Verlag&rft.place=Berlin%2FHeidelberg&rft.stitle=J.+High+Energ.+Phys&rft_dat=<proquest_cross>2398248625</proquest_cross>&svc_dat=viewit&rft_pqid=2398248625"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ "FETCH-LOGICAL-c310t-32e5ba3d01f825b06747607a0177e2718c960d10c18fb4ebb6fb364af495247c3" ],
+                "citedby" : [ "FETCH-LOGICAL-c310t-32e5ba3d01f825b06747607a0177e2718c960d10c18fb4ebb6fb364af495247c3" ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_proquest_journals_2398248625"
+          }, {
+            "pnx" : {
+              "addata" : {
+                "abstract" : [ "Acetaldehyde (CH3CHO) is ubiquitous throughout the interstellar medium and has been observed in cold molecular clouds, star forming regions, and in meteorites such as Murchison. As the simplest methyl‐bearing aldehyde, acetaldehyde constitutes a critical precursor to prebiotic molecules such as the sugar deoxyribose and amino acids via the Strecker synthesis. In this study, we reveal the first laboratory detection of 2,3‐butanedione (diacetyl, CH3COCOCH3) – a butter and popcorn flavorant – synthesized within acetaldehyde‐based interstellar analog ices exposed to ionizing radiation at 5 K. Detailed isotopic substitution experiments combined with tunable vacuum ultraviolet (VUV) photoionization of the subliming molecules demonstrate that 2,3‐butanedione is formed predominantly via the barrier‐less radical–radical reaction of two acetyl radicals (CH3ĊO). These processes are of fundamental importance for a detailed understanding of how complex organic molecules (COMs) are synthesized in deep space thus constraining the molecular structures and complexity of molecules forming in extraterrestrial ices containing acetaldehyde through a vigorous galactic cosmic ray driven non‐equilibrium chemistry.\nInterstellar popcorn: Exploiting photoionization reflectron time‐of‐flight mass spectrometry, we demonstrate that the popcorn and butter flavorant 2,3‐butanedione (diacetyl) represents the main reaction product of acetaldehyde ices exposed to ionizing radiation." ],
+                "orcidid" : [ "https://orcid.org/0000-0002-7233-7206" ],
+                "issn" : [ "1439-4235", "1439-7641" ],
+                "addtitle" : [ "Chemphyschem" ],
+                "jtitle" : [ "Chemphyschem" ],
+                "genre" : [ "article" ],
+                "au" : [ "Kleimeier, N. Fabian", "Turner, Andrew M.", "Fortenberry, Ryan C.", "Kaiser, Ralf I." ],
+                "atitle" : [ "On the Formation of the Popcorn Flavorant 2,3‐Butanedione (CH3COCOCH3) in Acetaldehyde‐Containing Interstellar Ices" ],
+                "date" : [ "2020-07-17" ],
+                "risdate" : [ "2020" ],
+                "volume" : [ "21" ],
+                "issue" : [ "14" ],
+                "spage" : [ "1531" ],
+                "epage" : [ "1540" ],
+                "pages" : [ "1531-1540" ],
+                "eissn" : [ "1439-7641" ],
+                "ristype" : [ "JOUR" ],
+                "cop" : [ "Germany" ],
+                "pub" : [ "Wiley Subscription Services, Inc" ],
+                "doi" : [ "10.1002/cphc.202000116" ],
+                "pmid" : [ "32458552" ],
+                "tpages" : [ "10" ],
+                "format" : [ "journal" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "backlink" : [ "$$Uhttps://www.ncbi.nlm.nih.gov/pubmed/32458552$$D View this record in MEDLINE/PubMed$$Hfree_for_read" ],
+                "thumbnail" : [ "$$Tsyndetics_thumb_exl" ],
+                "linktopdf" : [ "$$Uhttps://libproxy.mit.edu/login?&url=https://onlinelibrary.wiley.com/doi/pdf/10.1002%2Fcphc.202000116$$EPDF$$P50$$Gwiley$$H" ],
+                "linktohtml" : [ "$$Uhttps://libproxy.mit.edu/login?&url=https://onlinelibrary.wiley.com/doi/full/10.1002%2Fcphc.202000116$$EHTML$$P50$$Gwiley$$H" ]
+              },
+              "search" : {
+                "sourceid" : [ "NPM" ],
+                "recordid" : [ "eNqFkc9qGzEQh5fS0KRprz0WQS8p1K7-7Up7TJe6NgScQ3sWWu2o3rCWXEmb4FsfIc-YJ6kcOwkEQtFBQnzfMDO_ovhA8JRgTL-azcpMKaYYY0KqV8UJ4ayeiIqT14c3p6w8Lt7GeJUZiQV5UxwzyktZlvSkuFk6lFaAZj6sdeq9Q97ef1z6jfHBodmgr33QLiH6hd39vf02Ju2gyySgs2bOmmU-c_YZ9Q6dG0h66GC17SCjjXdJ9653v9HCJQgxwTDogBYG4rviyOohwvvDfVr8mn3_2cwnF8sfi-b8YmI4wdWks9RK3QmopYSWVUSKthatxaQ1tQULggPXQOo8qmgNF0wwyaUBUdbWMs1Oi7N93U3wf0aISa37aHZ9OPBjVJRjwQiXpM7op2folR-Dy91livKKSip5pj4eqLFdQ6c2oV_rsFUPK80A3wMm-BgDWGX6dL_aFHQ_KILVLjm1S049Jpe16TPtofKLQr0XbvoBtv-hVXM5b57cf7NFqcQ" ],
+                "recordtype" : [ "article" ],
+                "title" : [ "On the Formation of the Popcorn Flavorant 2,3‐Butanedione (CH3COCOCH3) in Acetaldehyde‐Containing Interstellar Ices", "Chemphyschem" ],
+                "creator" : [ "Kleimeier, N. Fabian", "Turner, Andrew M.", "Fortenberry, Ryan C.", "Kaiser, Ralf I." ],
+                "creationdate" : [ "2020" ],
+                "subject" : [ "Acetaldehyde", "Aldehydes", "Amino acids", "Chemical models", "Chemistry, Organic", "Cosmic rays", "Cosmochemistry", "Deep space", "Flavor", "Free radicals (Chemistry)", "Galactic cosmic rays", "Ice", "Interstellar matter", "Ionizing radiation", "Mass spectrometry", "Meteorites", "Meteoroids", "Molecular clouds", "Molecular structure", "Photoionization", "Substitution reactions", "Ultraviolet radiation" ],
+                "rsrctype" : [ "article" ],
+                "startdate" : [ "20200717" ],
+                "enddate" : [ "20200717" ],
+                "scope" : [ "AAYXX", "CITATION", "CGR", "CUY", "CVF", "ECM", "EIF", "NPM", "K9.", "7X8" ],
+                "orcidid" : [ "https://orcid.org/0000-0002-7233-7206" ],
+                "creatorcontrib" : [ "Kleimeier, N. Fabian", "Turner, Andrew M.", "Fortenberry, Ryan C.", "Kaiser, Ralf I." ],
+                "issn" : [ "1439-4235", "1439-7641", "1439-7641" ],
+                "fulltext" : [ "true" ],
+                "addtitle" : [ "Chemphyschem" ],
+                "general" : [ "Wiley Subscription Services, Inc" ],
+                "description" : [ "Acetaldehyde (CH3CHO) is ubiquitous throughout the interstellar medium and has been observed in cold molecular clouds, star forming regions, and in meteorites such as Murchison. As the simplest methyl‐bearing aldehyde, acetaldehyde constitutes a critical precursor to prebiotic molecules such as the sugar deoxyribose and amino acids via the Strecker synthesis. In this study, we reveal the first laboratory detection of 2,3‐butanedione (diacetyl, CH3COCOCH3) – a butter and popcorn flavorant – synthesized within acetaldehyde‐based interstellar analog ices exposed to ionizing radiation at 5 K. Detailed isotopic substitution experiments combined with tunable vacuum ultraviolet (VUV) photoionization of the subliming molecules demonstrate that 2,3‐butanedione is formed predominantly via the barrier‐less radical–radical reaction of two acetyl radicals (CH3ĊO). These processes are of fundamental importance for a detailed understanding of how complex organic molecules (COMs) are synthesized in deep space thus constraining the molecular structures and complexity of molecules forming in extraterrestrial ices containing acetaldehyde through a vigorous galactic cosmic ray driven non‐equilibrium chemistry.\nInterstellar popcorn: Exploiting photoionization reflectron time‐of‐flight mass spectrometry, we demonstrate that the popcorn and butter flavorant 2,3‐butanedione (diacetyl) represents the main reaction product of acetaldehyde ices exposed to ionizing radiation." ]
+              },
+              "display" : {
+                "type" : [ "article" ],
+                "title" : [ "On the Formation of the Popcorn Flavorant 2,3‐Butanedione (CH3COCOCH3) in Acetaldehyde‐Containing Interstellar Ices" ],
+                "source" : [ "Wiley Online Library - AutoHoldings Journals", "EBSCOhost MEDLINE Complete", "Wiley Online Library Database Model 2022", "PubMed" ],
+                "creator" : [ "Kleimeier, N. Fabian ; Turner, Andrew M. ; Fortenberry, Ryan C. ; Kaiser, Ralf I." ],
+                "publisher" : [ "Germany: Wiley Subscription Services, Inc" ],
+                "ispartof" : [ "Chemphyschem, 2020-07, Vol.21 (14), p.1531-1540" ],
+                "identifier" : [ "ISSN: 1439-4235", "ISSN: 1439-7641", "EISSN: 1439-7641", "DOI: 10.1002/cphc.202000116", "PMID: 32458552" ],
+                "language" : [ "eng" ],
+                "rights" : [ "2020 Wiley‐VCH Verlag GmbH & Co. KGaA, Weinheim", "2020 Wiley-VCH Verlag GmbH & Co. KGaA, Weinheim." ],
+                "snippet" : [ "...) – a butter and popcorn flavorant – synthesized within acetaldehyde‐based interstellar analog ices exposed to ionizing radiation at 5 K...", "...\n) – a butter and popcorn flavorant – synthesized within acetaldehyde‐based interstellar analog ices exposed to ionizing radiation at 5 K...", "...\n) - a butter and popcorn flavorant - synthesized within acetaldehyde-based interstellar analog ices exposed to ionizing radiation at 5 K...", "... ) - a butter and popcorn flavorant - synthesized within acetaldehyde-based interstellar analog ices exposed to ionizing radiation at 5 K..." ],
+                "lds50" : [ "peer_reviewed" ],
+                "description" : [ "Acetaldehyde (CH3CHO) is ubiquitous throughout the interstellar medium and has been observed in cold molecular clouds, star forming regions, and in meteorites such as Murchison. As the simplest methyl‐bearing aldehyde, acetaldehyde constitutes a critical precursor to prebiotic molecules such as the sugar deoxyribose and amino acids via the Strecker synthesis. In this study, we reveal the first laboratory detection of 2,3‐butanedione (diacetyl, CH3COCOCH3) – a butter and popcorn flavorant – synthesized within acetaldehyde‐based interstellar analog ices exposed to ionizing radiation at 5 K. Detailed isotopic substitution experiments combined with tunable vacuum ultraviolet (VUV) photoionization of the subliming molecules demonstrate that 2,3‐butanedione is formed predominantly via the barrier‐less radical–radical reaction of two acetyl radicals (CH3ĊO). These processes are of fundamental importance for a detailed understanding of how complex organic molecules (COMs) are synthesized in deep space thus constraining the molecular structures and complexity of molecules forming in extraterrestrial ices containing acetaldehyde through a vigorous galactic cosmic ray driven non‐equilibrium chemistry.\nInterstellar popcorn: Exploiting photoionization reflectron time‐of‐flight mass spectrometry, we demonstrate that the popcorn and butter flavorant 2,3‐butanedione (diacetyl) represents the main reaction product of acetaldehyde ices exposed to ionizing radiation." ],
+                "subject" : [ "Acetaldehyde ;  Aldehydes ;  Amino acids ;  Chemical models ;  Chemistry, Organic ;  Cosmic rays ;  Cosmochemistry ;  Deep space ;  Flavor ;  Free radicals (Chemistry) ;  Galactic cosmic rays ;  Ice ;  Interstellar matter ;  Ionizing radiation ;  Mass spectrometry ;  Meteorites ;  Meteoroids ;  Molecular clouds ;  Molecular structure ;  Photoionization ;  Substitution reactions ;  Ultraviolet radiation" ],
+                "keyword" : [ "Acetaldehyde - chemistry ;  Acetaldehyde - radiation effects ;  Chemical synthesis ;  Cold Temperature ;  complex organic molecules ;  Complexity ;  Deuterium - chemistry ;  Diacetyl - chemical synthesis ;  Extraterrestrial Environment - chemistry ;  Flavoring Agents - chemical synthesis ;  Index Medicus ;  Interstellar chemistry ;  interstellar synthesis ;  IR spectroscopy ;  non-equilibrium processes ;  Star formation" ]
+              },
+              "facets" : {
+                "creationdate" : [ "2020" ],
+                "language" : [ "eng" ],
+                "rsrctype" : [ "articles" ],
+                "creatorcontrib" : [ "Kleimeier, N. Fabian", "Turner, Andrew M.", "Fortenberry, Ryan C.", "Kaiser, Ralf I." ],
+                "topic" : [ "Acetaldehyde", "Aldehydes", "Amino acids", "Chemical models", "Chemistry, Organic", "Cosmic rays", "Cosmochemistry", "Deep space", "Flavor", "Free radicals (Chemistry)", "Galactic cosmic rays", "Ice", "Interstellar matter", "Ionizing radiation", "Mass spectrometry", "Meteorites", "Meteoroids", "Molecular clouds", "Molecular structure", "Photoionization", "Substitution reactions", "Ultraviolet radiation" ],
+                "prefilter" : [ "articles" ],
+                "collection" : [ "CrossRef", "Medline", "MEDLINE", "MEDLINE (Ovid)", "MEDLINE", "MEDLINE", "PubMed", "ProQuest Health & Medical Complete (Alumni)", "MEDLINE - Academic" ],
+                "toplevel" : [ "peer_reviewed", "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-LOGICAL-c4106-df2f8ad7e988eb36187b97bf01bc9fefe74e4ae191437bc47373848ce759ff3a3" ],
+                "frbrtype" : [ "5" ],
+                "jtitle" : [ "Chemphyschem" ]
+              },
+              "sort" : {
+                "title" : [ "On the Formation of the Popcorn Flavorant 2,3‐Butanedione (CH3COCOCH3) in Acetaldehyde‐Containing Interstellar Ices" ],
+                "creationdate" : [ "20200717" ],
+                "author" : [ "Kleimeier, N. Fabian ; Turner, Andrew M. ; Fortenberry, Ryan C. ; Kaiser, Ralf I." ]
+              },
+              "control" : {
+                "sourcerecordid" : [ "2424628284" ],
+                "originalsourceid" : [ "FETCH-LOGICAL-c4106-df2f8ad7e988eb36187b97bf01bc9fefe74e4ae191437bc47373848ce759ff3a3" ],
+                "sourceid" : [ "proquest_pubme" ],
+                "recordid" : [ "cdi_proquest_miscellaneous_2407314819" ],
+                "recordtype" : [ "article" ],
+                "addsrcrecordid" : [ "eNqFkc9qGzEQh5fS0KRprz0WQS8p1K7-7Up7TJe6NgScQ3sWWu2o3rCWXEmb4FsfIc-YJ6kcOwkEQtFBQnzfMDO_ovhA8JRgTL-azcpMKaYYY0KqV8UJ4ayeiIqT14c3p6w8Lt7GeJUZiQV5UxwzyktZlvSkuFk6lFaAZj6sdeq9Q97ef1z6jfHBodmgr33QLiH6hd39vf02Ju2gyySgs2bOmmU-c_YZ9Q6dG0h66GC17SCjjXdJ9653v9HCJQgxwTDogBYG4rviyOohwvvDfVr8mn3_2cwnF8sfi-b8YmI4wdWks9RK3QmopYSWVUSKthatxaQ1tQULggPXQOo8qmgNF0wwyaUBUdbWMs1Oi7N93U3wf0aISa37aHZ9OPBjVJRjwQiXpM7op2folR-Dy91livKKSip5pj4eqLFdQ6c2oV_rsFUPK80A3wMm-BgDWGX6dL_aFHQ_KILVLjm1S049Jpe16TPtofKLQr0XbvoBtv-hVXM5b57cf7NFqcQ" ],
+                "sourcetype" : [ "Aggregation Database" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "pqid" : [ "2424628284" ],
+                "iscdi" : [ "true" ],
+                "score" : [ "0.018743617" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-proquest_pubme&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=On+the+Formation+of+the+Popcorn+Flavorant+2%2C3%E2%80%90Butanedione+%28CH3COCOCH3%29+in+Acetaldehyde%E2%80%90Containing+Interstellar+Ices&rft.jtitle=Chemphyschem&rft.au=Kleimeier%2C+N.+Fabian&rft.date=2020-07-17&rft.volume=21&rft.issue=14&rft.spage=1531&rft.epage=1540&rft.pages=1531-1540&rft.issn=1439-4235&rft.eissn=1439-7641&rft_id=info:doi/10.1002%2Fcphc.202000116&rft.pub=Wiley+Subscription+Services%2C+Inc&rft.place=Germany&rft_id=info:pmid/32458552&rft_dat=<proquest_pubme>2424628284</proquest_pubme>&svc_dat=viewit&rft_pqid=2424628284"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ "FETCH-LOGICAL-c4106-df2f8ad7e988eb36187b97bf01bc9fefe74e4ae191437bc47373848ce759ff3a3" ],
+                "citedby" : [ "FETCH-LOGICAL-c4106-df2f8ad7e988eb36187b97bf01bc9fefe74e4ae191437bc47373848ce759ff3a3" ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_proquest_miscellaneous_2407314819"
+          }, {
+            "pnx" : {
+              "addata" : {
+                "abstract" : [ "Macroporous H5PMo10V2O40(n)/biochar (abbreviated as HPMoV(n)/biochar, where n is the loading amount of HPMo: 12 wt.%, 28 wt.%, 44 wt.%, 53 wt.%, and 63 wt.%) were fabricated from popcorn biocarbon and H5PMo10V2O40. The materials exhibited a pore size of 8–50 μm and high specific surface areas, allowing them to efficiently catalyze the degradation of phthalic acid esters (PAEs) in water. HPMoV(n)/biochar contained double-functional sites with strong Brønsted acidity and redox properties; additionally, biochar promoted electron transfer between the polyanions and PAEs and confined the generation of reactive oxygen species inside the pores. At the same time, macropores and high porosity endowed the materials with high adsorption capacities toward PAEs, even long carbon-chain esters such as diallyl phthalate and diethylhexyl phthalate. These characteristics allowed HPMoV(44)/biochar to degrade 80%–88% of PAEs within 90 min through tandem hydrolysis–oxidation. The mineralization of diethyl phthalate was confirmed by the 72.5% and 64.4% reductions in chemical oxygen demand and total organic carbon, respectively, at atmospheric pressure. HPMoV(44)/biochar exhibited heterogeneity and high stability in the degradation of diethyl phthalate. Furthermore, the material could be reused at least eight times with only 1.9% and 3.0% loss of mass and activity, respectively." ],
+                "orcidid" : [ "https://orcid.org/0000-0001-8465-9782", "https://orcid.org/0009-0004-7631-867X" ],
+                "issn" : [ "2957-9821" ],
+                "oa" : [ "free_for_read" ],
+                "jtitle" : [ "Polyoxometalates" ],
+                "genre" : [ "article" ],
+                "au" : [ "Wang, Qiwen", "Wang, Jiaxin", "Zhang, Dan", "Chen, Yuannan", "Wang, Jian", "Wang, Xiaohong" ],
+                "atitle" : [ "Fabrication of macroporous POMs/biochar materials for fast degradation of phthalic acid esters through adsorption coupled with aerobic oxidation" ],
+                "date" : [ "2024-09" ],
+                "risdate" : [ "2024" ],
+                "volume" : [ "3" ],
+                "issue" : [ "3" ],
+                "spage" : [ "9140064" ],
+                "pages" : [ "9140064-" ],
+                "eissn" : [ "2957-9503" ],
+                "ristype" : [ "JOUR" ],
+                "pub" : [ "Tsinghua University Press" ],
+                "doi" : [ "10.26599/POM.2024.9140064" ],
+                "format" : [ "journal" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "thumbnail" : [ "$$Tsyndetics_thumb_exl" ]
+              },
+              "search" : {
+                "sourceid" : [ "DOA" ],
+                "recordid" : [ "eNp9kc1OLCEQRjvmmmjUB3DHC8xY0MB0L43xL_FGF7om1VBMY1rpAEZ9Cx_5cmfUhQtXkKLOIfm-pjnmsBRa9f3J3e3fpQAhlz2XAFruNPuiV6tFr6D983XvBN9rjnJ-BADRCyUE7DcfFzikYLGE-MyiZ09oU5xjii-ZVWs-GUK0I6b6UCgFnDLzMTGPuTBH64TuG53HMuIULEMbHKNc9zMrY1WtR4YuxzRvVm18mSdy7DWUOqcUh8rEt7A1HTa7vv5CR5_nQfNwcX5_drW4ub28Pju9WVihe7lwXGolVeuIhOKdBadAqxZQrWTbCkmowXXKe46cE3Qd71viEj2Qk554e9Bcb70u4qOZU3jC9G4iBrMZxLQ2mEqwExkxKI04qKEjLzW2A5KwSnAUQBy1ry6-ddXsck7kv30czKYhU7M0_xsynw1VZvWDsaFsEigJw_QL-Q8I_5i5" ],
+                "recordtype" : [ "article" ],
+                "title" : [ "Fabrication of macroporous POMs/biochar materials for fast degradation of phthalic acid esters through adsorption coupled with aerobic oxidation", "Polyoxometalates" ],
+                "creator" : [ "Wang, Qiwen", "Wang, Jiaxin", "Zhang, Dan", "Chen, Yuannan", "Wang, Jian", "Wang, Xiaohong" ],
+                "creationdate" : [ "2024" ],
+                "subject" : [ "Popcorn" ],
+                "rsrctype" : [ "article" ],
+                "startdate" : [ "202409" ],
+                "enddate" : [ "202409" ],
+                "scope" : [ "AAYXX", "CITATION", "DOA" ],
+                "orcidid" : [ "https://orcid.org/0000-0001-8465-9782", "https://orcid.org/0009-0004-7631-867X" ],
+                "creatorcontrib" : [ "Wang, Qiwen", "Wang, Jiaxin", "Zhang, Dan", "Chen, Yuannan", "Wang, Jian", "Wang, Xiaohong" ],
+                "issn" : [ "2957-9821", "2957-9503" ],
+                "fulltext" : [ "true" ],
+                "general" : [ "Tsinghua University Press" ],
+                "description" : [ "Macroporous H5PMo10V2O40(n)/biochar (abbreviated as HPMoV(n)/biochar, where n is the loading amount of HPMo: 12 wt.%, 28 wt.%, 44 wt.%, 53 wt.%, and 63 wt.%) were fabricated from popcorn biocarbon and H5PMo10V2O40. The materials exhibited a pore size of 8–50 μm and high specific surface areas, allowing them to efficiently catalyze the degradation of phthalic acid esters (PAEs) in water. HPMoV(n)/biochar contained double-functional sites with strong Brønsted acidity and redox properties; additionally, biochar promoted electron transfer between the polyanions and PAEs and confined the generation of reactive oxygen species inside the pores. At the same time, macropores and high porosity endowed the materials with high adsorption capacities toward PAEs, even long carbon-chain esters such as diallyl phthalate and diethylhexyl phthalate. These characteristics allowed HPMoV(44)/biochar to degrade 80%–88% of PAEs within 90 min through tandem hydrolysis–oxidation. The mineralization of diethyl phthalate was confirmed by the 72.5% and 64.4% reductions in chemical oxygen demand and total organic carbon, respectively, at atmospheric pressure. HPMoV(44)/biochar exhibited heterogeneity and high stability in the degradation of diethyl phthalate. Furthermore, the material could be reused at least eight times with only 1.9% and 3.0% loss of mass and activity, respectively." ]
+              },
+              "display" : {
+                "type" : [ "article" ],
+                "title" : [ "Fabrication of macroporous POMs/biochar materials for fast degradation of phthalic acid esters through adsorption coupled with aerobic oxidation" ],
+                "source" : [ "DOAJ Directory of Open Access Journals" ],
+                "creator" : [ "Wang, Qiwen ; Wang, Jiaxin ; Zhang, Dan ; Chen, Yuannan ; Wang, Jian ; Wang, Xiaohong" ],
+                "publisher" : [ "Tsinghua University Press" ],
+                "ispartof" : [ "Polyoxometalates, 2024-09, Vol.3 (3), p.9140064" ],
+                "identifier" : [ "ISSN: 2957-9821", "EISSN: 2957-9503", "DOI: 10.26599/POM.2024.9140064" ],
+                "language" : [ "eng" ],
+                "snippet" : [ "....%) were fabricated from popcorn biocarbon and H5PMo10V2O40. The materials exhibited a pore size of 8..." ],
+                "lds50" : [ "peer_reviewed" ],
+                "oa" : [ "free_for_read" ],
+                "description" : [ "Macroporous H5PMo10V2O40(n)/biochar (abbreviated as HPMoV(n)/biochar, where n is the loading amount of HPMo: 12 wt.%, 28 wt.%, 44 wt.%, 53 wt.%, and 63 wt.%) were fabricated from popcorn biocarbon and H5PMo10V2O40. The materials exhibited a pore size of 8–50 μm and high specific surface areas, allowing them to efficiently catalyze the degradation of phthalic acid esters (PAEs) in water. HPMoV(n)/biochar contained double-functional sites with strong Brønsted acidity and redox properties; additionally, biochar promoted electron transfer between the polyanions and PAEs and confined the generation of reactive oxygen species inside the pores. At the same time, macropores and high porosity endowed the materials with high adsorption capacities toward PAEs, even long carbon-chain esters such as diallyl phthalate and diethylhexyl phthalate. These characteristics allowed HPMoV(44)/biochar to degrade 80%–88% of PAEs within 90 min through tandem hydrolysis–oxidation. The mineralization of diethyl phthalate was confirmed by the 72.5% and 64.4% reductions in chemical oxygen demand and total organic carbon, respectively, at atmospheric pressure. HPMoV(44)/biochar exhibited heterogeneity and high stability in the degradation of diethyl phthalate. Furthermore, the material could be reused at least eight times with only 1.9% and 3.0% loss of mass and activity, respectively." ],
+                "subject" : [ "Popcorn" ],
+                "keyword" : [ "aerobic degradation ;  macroporous poms/biochar ;  phthalic acid esters (paes) ;  polyoxometalates (poms)" ]
+              },
+              "facets" : {
+                "creationdate" : [ "2024" ],
+                "language" : [ "eng" ],
+                "rsrctype" : [ "articles" ],
+                "creatorcontrib" : [ "Wang, Qiwen", "Wang, Jiaxin", "Zhang, Dan", "Chen, Yuannan", "Wang, Jian", "Wang, Xiaohong" ],
+                "topic" : [ "Popcorn" ],
+                "prefilter" : [ "articles" ],
+                "collection" : [ "CrossRef", "DOAJ Directory of Open Access Journals" ],
+                "toplevel" : [ "peer_reviewed", "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-LOGICAL-c2694-d1465453dee2518c0d506530a5743324ea60d85ff1a11e088193e14af0ed4fe13" ],
+                "frbrtype" : [ "5" ],
+                "jtitle" : [ "Polyoxometalates" ]
+              },
+              "sort" : {
+                "title" : [ "Fabrication of macroporous POMs/biochar materials for fast degradation of phthalic acid esters through adsorption coupled with aerobic oxidation" ],
+                "creationdate" : [ "202409" ],
+                "author" : [ "Wang, Qiwen ; Wang, Jiaxin ; Zhang, Dan ; Chen, Yuannan ; Wang, Jian ; Wang, Xiaohong" ]
+              },
+              "control" : {
+                "sourcerecordid" : [ "oai_doaj_org_article_2b56aab5b8ef46a3bae2c521a20e1a6f" ],
+                "originalsourceid" : [ "FETCH-LOGICAL-c2694-d1465453dee2518c0d506530a5743324ea60d85ff1a11e088193e14af0ed4fe13" ],
+                "sourceid" : [ "doaj_cross" ],
+                "recordid" : [ "cdi_doaj_primary_oai_doaj_org_article_2b56aab5b8ef46a3bae2c521a20e1a6f" ],
+                "recordtype" : [ "article" ],
+                "addsrcrecordid" : [ "eNp9kc1OLCEQRjvmmmjUB3DHC8xY0MB0L43xL_FGF7om1VBMY1rpAEZ9Cx_5cmfUhQtXkKLOIfm-pjnmsBRa9f3J3e3fpQAhlz2XAFruNPuiV6tFr6D983XvBN9rjnJ-BADRCyUE7DcfFzikYLGE-MyiZ09oU5xjii-ZVWs-GUK0I6b6UCgFnDLzMTGPuTBH64TuG53HMuIULEMbHKNc9zMrY1WtR4YuxzRvVm18mSdy7DWUOqcUh8rEt7A1HTa7vv5CR5_nQfNwcX5_drW4ub28Pju9WVihe7lwXGolVeuIhOKdBadAqxZQrWTbCkmowXXKe46cE3Qd71viEj2Qk554e9Bcb70u4qOZU3jC9G4iBrMZxLQ2mEqwExkxKI04qKEjLzW2A5KwSnAUQBy1ry6-ddXsck7kv30czKYhU7M0_xsynw1VZvWDsaFsEigJw_QL-Q8I_5i5" ],
+                "sourcetype" : [ "Open Website" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "iscdi" : [ "true" ],
+                "doajid" : [ "oai_doaj_org_article_2b56aab5b8ef46a3bae2c521a20e1a6f" ],
+                "score" : [ "0.018663423" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-doaj_cross&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=Fabrication+of+macroporous+POMs%2Fbiochar+materials+for+fast+degradation+of+phthalic+acid+esters+through+adsorption+coupled+with+aerobic+oxidation&rft.jtitle=Polyoxometalates&rft.au=Wang%2C+Qiwen&rft.date=2024-09&rft.volume=3&rft.issue=3&rft.spage=9140064&rft.pages=9140064-&rft.issn=2957-9821&rft.eissn=2957-9503&rft_id=info:doi/10.26599%2FPOM.2024.9140064&rft.pub=Tsinghua+University+Press&rft_dat=<doaj_cross>oai_doaj_org_article_2b56aab5b8ef46a3bae2c521a20e1a6f</doaj_cross>&svc_dat=viewit"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ "FETCH-LOGICAL-c2694-d1465453dee2518c0d506530a5743324ea60d85ff1a11e088193e14af0ed4fe13" ],
+                "citedby" : [ "FETCH-LOGICAL-c2694-d1465453dee2518c0d506530a5743324ea60d85ff1a11e088193e14af0ed4fe13" ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_doaj_primary_oai_doaj_org_article_2b56aab5b8ef46a3bae2c521a20e1a6f"
+          }, {
+            "pnx" : {
+              "addata" : {
+                "orcidid" : [ "https://orcid.org/0000-0001-8796-1856", "https://orcid.org/0000-0003-3276-4323" ],
+                "issn" : [ "1806-1117" ],
+                "oa" : [ "free_for_read" ],
+                "jtitle" : [ "Revista brasileira de ensino de física" ],
+                "genre" : [ "article" ],
+                "au" : [ "Carmo, Eduardo do", "Hönnicke, Marcelo Goncalves" ],
+                "atitle" : [ "Drag coefficient of vertically moving popcorns" ],
+                "date" : [ "2024" ],
+                "risdate" : [ "2024" ],
+                "volume" : [ "46" ],
+                "eissn" : [ "1806-1117" ],
+                "ristype" : [ "JOUR" ],
+                "doi" : [ "10.1590/1806-9126-rbef-2023-0261" ],
+                "format" : [ "journal" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "thumbnail" : [ "$$Tsyndetics_thumb_exl" ]
+              },
+              "search" : {
+                "recordid" : [ "eNpNz81KAzEUBeAgCtbqO-QFUu_Nf5ZS_woFN7oOmUxSRqaTkpRC315HXbi6By7nwEcIRVihcnCPFjRzyDWrXcqMAxcMuMYLsvh5IaK5_JevyU1rnwDiu8wXZPVYw47GknIe4pCmIy2ZnlI9DjGM45nuy2mYdvRQDrHUqd2SqxzGlu7-7pJ8PD-9r1_Z9u1ls37YssiNRGbQCotSSi2Cs4guB62gUykaUJ0CI6xODrQ1OQFEHoRUUhrVpV461fdiSezvbqyltZqyP9RhH-rZI_jZ7WeQn91-dvvZ7We3-AKi60sj" ],
+                "recordtype" : [ "article" ],
+                "title" : [ "Drag coefficient of vertically moving popcorns", "Revista brasileira de ensino de física" ],
+                "creator" : [ "Carmo, Eduardo do", "Hönnicke, Marcelo Goncalves" ],
+                "creationdate" : [ "2024" ],
+                "rsrctype" : [ "article" ],
+                "startdate" : [ "2024" ],
+                "enddate" : [ "2024" ],
+                "scope" : [ "AAYXX", "CITATION" ],
+                "orcidid" : [ "https://orcid.org/0000-0001-8796-1856", "https://orcid.org/0000-0003-3276-4323" ],
+                "creatorcontrib" : [ "Carmo, Eduardo do", "Hönnicke, Marcelo Goncalves" ],
+                "issn" : [ "1806-1117", "1806-1117" ],
+                "fulltext" : [ "true" ]
+              },
+              "display" : {
+                "type" : [ "article" ],
+                "title" : [ "Drag coefficient of vertically moving popcorns" ],
+                "source" : [ "DOAJ Directory of Open Access Journals" ],
+                "creator" : [ "Carmo, Eduardo do ; Hönnicke, Marcelo Goncalves" ],
+                "ispartof" : [ "Revista brasileira de ensino de física, 2024, Vol.46" ],
+                "identifier" : [ "ISSN: 1806-1117", "EISSN: 1806-1117", "DOI: 10.1590/1806-9126-rbef-2023-0261" ],
+                "language" : [ "eng ; por" ],
+                "oa" : [ "free_for_read" ]
+              },
+              "facets" : {
+                "creationdate" : [ "2024" ],
+                "language" : [ "eng ; por" ],
+                "rsrctype" : [ "articles" ],
+                "creatorcontrib" : [ "Carmo, Eduardo do", "Hönnicke, Marcelo Goncalves" ],
+                "prefilter" : [ "articles" ],
+                "collection" : [ "CrossRef" ],
+                "toplevel" : [ "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-LOGICAL-c2741-71838144463a98119fa650b5ec705b507386e90687fe00c2a3454475bed495dd3" ],
+                "frbrtype" : [ "5" ],
+                "jtitle" : [ "Revista brasileira de ensino de física" ]
+              },
+              "sort" : {
+                "title" : [ "Drag coefficient of vertically moving popcorns" ],
+                "creationdate" : [ "2024" ],
+                "author" : [ "Carmo, Eduardo do ; Hönnicke, Marcelo Goncalves" ]
+              },
+              "control" : {
+                "sourcerecordid" : [ "10_1590_1806_9126_rbef_2023_0261" ],
+                "originalsourceid" : [ "FETCH-LOGICAL-c2741-71838144463a98119fa650b5ec705b507386e90687fe00c2a3454475bed495dd3" ],
+                "sourceid" : [ "crossref" ],
+                "recordid" : [ "cdi_crossref_primary_10_1590_1806_9126_rbef_2023_0261" ],
+                "recordtype" : [ "article" ],
+                "addsrcrecordid" : [ "eNpNz81KAzEUBeAgCtbqO-QFUu_Nf5ZS_woFN7oOmUxSRqaTkpRC315HXbi6By7nwEcIRVihcnCPFjRzyDWrXcqMAxcMuMYLsvh5IaK5_JevyU1rnwDiu8wXZPVYw47GknIe4pCmIy2ZnlI9DjGM45nuy2mYdvRQDrHUqd2SqxzGlu7-7pJ8PD-9r1_Z9u1ls37YssiNRGbQCotSSi2Cs4guB62gUykaUJ0CI6xODrQ1OQFEHoRUUhrVpV461fdiSezvbqyltZqyP9RhH-rZI_jZ7WeQn91-dvvZ7We3-AKi60sj" ],
+                "sourcetype" : [ "Index Database" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "iscdi" : [ "true" ],
+                "score" : [ "0.018487297" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-crossref&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=Drag+coefficient+of+vertically+moving+popcorns&rft.jtitle=Revista+brasileira+de+ensino+de+f%C3%ADsica&rft.au=Carmo%2C+Eduardo+do&rft.date=2024&rft.volume=46&rft.issn=1806-1117&rft.eissn=1806-1117&rft_id=info:doi/10.1590%2F1806-9126-rbef-2023-0261&rft_dat=<crossref>10_1590_1806_9126_rbef_2023_0261</crossref>&svc_dat=viewit"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ ],
+                "citedby" : [ ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_crossref_primary_10_1590_1806_9126_rbef_2023_0261"
+          }, {
+            "pnx" : {
+              "addata" : {
+                "abstract" : [ "The advancement of electrochemical energy storage is closely bound up with the breakthrough of controllable fabrication of energy materials. Inspired by a popcorn fabrication from corn raw, herein a unique porous macrocellular carbon composed of cross‐linked nano/microsheets by a powerful puffing of rice precursor is described. The rice is directly puffed with a volume enlargement of ≈20 times when it is instantaneously released from a sealed environment with a high pressure of 1.0 MPa at 200 °C. Interestingly, when metal (e.g., Ni) nanoparticles are embedded in the puffed rice derived carbon (PRC), high‐quality PRC/metal composites are achieved with attractive properties of a high electrical conductivity of ≈7.2 × 104 S m−1, a large porosity of 85.1%, and a surface area of 1492.2 m2 g−1. The PRC/Ni are employed as a host in lithium–sulfur batteries. The designed PRC/Ni/S electrode exhibits a high reversible capacity of 1257.2 mA h g−1 at 0.2 C, a prolonged cycle life (821 mA h g−1 after 500 cycles), and enhanced rate capability, much better than other counterparts (PRC/S and rGO/S). The excellent properties are attributed to the advantages of PRC/Ni network with a high electrical conductivity, strong adsorption/blocking ability for polysulfides, and interconnected porous framework.\nA unique porous microcellular carbon composed of cross‐linked nano/microsheets created by a powerful puffing of a rice precursor is described. Because of the advantages of the puffed‐rice‐derived carbon/Ni network with a high electrical conductivity and strong adsorption/blocking ability for polysulfides, the microcellular carbon‐based electrode exhibits high sulfur utilization, long cycling life, and high rate performance in a working lithium–sulfur battery." ],
+                "orcidid" : [ "https://orcid.org/0000-0002-3929-1541" ],
+                "issn" : [ "1614-6832" ],
+                "jtitle" : [ "Advanced energy materials" ],
+                "genre" : [ "article" ],
+                "au" : [ "Zhong, Yu", "Xia, Xinhui", "Deng, Shengjue", "Zhan, Jiye", "Fang, Ruyi", "Xia, Yang", "Wang, Xiuli", "Zhang, Qiang", "Tu, Jiangping" ],
+                "atitle" : [ "Popcorn Inspired Porous Macrocellular Carbon: Rapid Puffing Fabrication from Rice and Its Applications in Lithium–Sulfur Batteries" ],
+                "date" : [ "2018-01-05" ],
+                "risdate" : [ "2018" ],
+                "volume" : [ "8" ],
+                "issue" : [ "1" ],
+                "epage" : [ "n/a" ],
+                "eissn" : [ "1614-6840" ],
+                "ristype" : [ "JOUR" ],
+                "cop" : [ "Weinheim" ],
+                "pub" : [ "Wiley Subscription Services, Inc" ],
+                "doi" : [ "10.1002/aenm.201701110" ],
+                "tpages" : [ "8" ],
+                "format" : [ "journal" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "thumbnail" : [ "$$Tsyndetics_thumb_exl" ],
+                "linktopdf" : [ "$$Uhttps://libproxy.mit.edu/login?&url=https://onlinelibrary.wiley.com/doi/pdf/10.1002%2Faenm.201701110$$EPDF$$P50$$Gwiley$$H" ],
+                "linktohtml" : [ "$$Uhttps://libproxy.mit.edu/login?&url=https://onlinelibrary.wiley.com/doi/full/10.1002%2Faenm.201701110$$EHTML$$P50$$Gwiley$$H" ]
+              },
+              "search" : {
+                "recordid" : [ "eNqFkE1LAzEQhhdRsNRePQc8t-Zrv7zVUrXQaql6XmbTRFN2kzXZRXrz4D_wH_pL3NpSQRBzmcA8zwzzBsEpwQOCMT0HacoBxSTGhBB8EHRIRHg_Sjg-3P8ZPQ563q9w-3hKMGOd4H1uK2GdQRPjK-3kEs2ts41HMxDOClkUTQEOjcDl1lygBVS6RRqltHlCV5A7LaDW1iDlbIkWWkgEZokmtUfDqip2XY-0QVNdP-um_Hz7uG8K1Th0CXUtnZb-JDhSUHjZ29Vu8Hg1fhjd9Kd315PRcNoXLOS4L1OlUp6qMGYEiErYkgGVnIYyhDBSaU4ETiJGgVCaqzyMFcdSqQQ4pIxhwbrB2XZu5exLI32drWzjTLsyI2nC45BRkrQU31JtAN47qTKh6-8zage6yAjONpFnm8izfeStNvilVU6X4NZ_C-lWeNWFXP9DZ8Px7ezH_QLfnJa-" ],
+                "recordtype" : [ "article" ],
+                "title" : [ "Popcorn Inspired Porous Macrocellular Carbon: Rapid Puffing Fabrication from Rice and Its Applications in Lithium–Sulfur Batteries", "Advanced energy materials" ],
+                "creator" : [ "Zhong, Yu", "Xia, Xinhui", "Deng, Shengjue", "Zhan, Jiye", "Fang, Ruyi", "Xia, Yang", "Wang, Xiuli", "Zhang, Qiang", "Tu, Jiangping" ],
+                "creationdate" : [ "2018" ],
+                "subject" : [ "Carbon", "Cathodes", "Corn", "Energy storage", "Hypertrophy", "Nanostructures", "Nickel", "Porosity", "Storage batteries", "Sulfur" ],
+                "rsrctype" : [ "article" ],
+                "startdate" : [ "20180105" ],
+                "enddate" : [ "20180105" ],
+                "scope" : [ "AAYXX", "CITATION", "7SP", "7TB", "8FD", "F28", "FR3", "H8D", "L7M" ],
+                "orcidid" : [ "https://orcid.org/0000-0002-3929-1541" ],
+                "creatorcontrib" : [ "Zhong, Yu", "Xia, Xinhui", "Deng, Shengjue", "Zhan, Jiye", "Fang, Ruyi", "Xia, Yang", "Wang, Xiuli", "Zhang, Qiang", "Tu, Jiangping" ],
+                "issn" : [ "1614-6832", "1614-6840" ],
+                "fulltext" : [ "true" ],
+                "general" : [ "Wiley Subscription Services, Inc" ],
+                "description" : [ "The advancement of electrochemical energy storage is closely bound up with the breakthrough of controllable fabrication of energy materials. Inspired by a popcorn fabrication from corn raw, herein a unique porous macrocellular carbon composed of cross‐linked nano/microsheets by a powerful puffing of rice precursor is described. The rice is directly puffed with a volume enlargement of ≈20 times when it is instantaneously released from a sealed environment with a high pressure of 1.0 MPa at 200 °C. Interestingly, when metal (e.g., Ni) nanoparticles are embedded in the puffed rice derived carbon (PRC), high‐quality PRC/metal composites are achieved with attractive properties of a high electrical conductivity of ≈7.2 × 104 S m−1, a large porosity of 85.1%, and a surface area of 1492.2 m2 g−1. The PRC/Ni are employed as a host in lithium–sulfur batteries. The designed PRC/Ni/S electrode exhibits a high reversible capacity of 1257.2 mA h g−1 at 0.2 C, a prolonged cycle life (821 mA h g−1 after 500 cycles), and enhanced rate capability, much better than other counterparts (PRC/S and rGO/S). The excellent properties are attributed to the advantages of PRC/Ni network with a high electrical conductivity, strong adsorption/blocking ability for polysulfides, and interconnected porous framework.\nA unique porous microcellular carbon composed of cross‐linked nano/microsheets created by a powerful puffing of a rice precursor is described. Because of the advantages of the puffed‐rice‐derived carbon/Ni network with a high electrical conductivity and strong adsorption/blocking ability for polysulfides, the microcellular carbon‐based electrode exhibits high sulfur utilization, long cycling life, and high rate performance in a working lithium–sulfur battery." ]
+              },
+              "display" : {
+                "type" : [ "article" ],
+                "title" : [ "Popcorn Inspired Porous Macrocellular Carbon: Rapid Puffing Fabrication from Rice and Its Applications in Lithium–Sulfur Batteries" ],
+                "source" : [ "Wiley Online Library - AutoHoldings Journals", "Wiley Online Library Database Model 2022" ],
+                "creator" : [ "Zhong, Yu ; Xia, Xinhui ; Deng, Shengjue ; Zhan, Jiye ; Fang, Ruyi ; Xia, Yang ; Wang, Xiuli ; Zhang, Qiang ; Tu, Jiangping" ],
+                "publisher" : [ "Weinheim: Wiley Subscription Services, Inc" ],
+                "ispartof" : [ "Advanced energy materials, 2018-01, Vol.8 (1), p.n/a" ],
+                "identifier" : [ "ISSN: 1614-6832", "EISSN: 1614-6840", "DOI: 10.1002/aenm.201701110" ],
+                "language" : [ "eng" ],
+                "rights" : [ "2017 WILEY‐VCH Verlag GmbH & Co. KGaA, Weinheim", "2018 WILEY-VCH Verlag GmbH & Co. KGaA, Weinheim" ],
+                "snippet" : [ ".... Inspired by a popcorn fabrication from corn raw, herein a unique porous macrocellular carbon composed of cross...", ".... Inspired by a popcorn fabrication from corn raw, herein a unique porous macrocellular carbon composed of cross-linked nano/microsheets by a powerful puffing of rice precursor is described..." ],
+                "lds50" : [ "peer_reviewed" ],
+                "description" : [ "The advancement of electrochemical energy storage is closely bound up with the breakthrough of controllable fabrication of energy materials. Inspired by a popcorn fabrication from corn raw, herein a unique porous macrocellular carbon composed of cross‐linked nano/microsheets by a powerful puffing of rice precursor is described. The rice is directly puffed with a volume enlargement of ≈20 times when it is instantaneously released from a sealed environment with a high pressure of 1.0 MPa at 200 °C. Interestingly, when metal (e.g., Ni) nanoparticles are embedded in the puffed rice derived carbon (PRC), high‐quality PRC/metal composites are achieved with attractive properties of a high electrical conductivity of ≈7.2 × 104 S m−1, a large porosity of 85.1%, and a surface area of 1492.2 m2 g−1. The PRC/Ni are employed as a host in lithium–sulfur batteries. The designed PRC/Ni/S electrode exhibits a high reversible capacity of 1257.2 mA h g−1 at 0.2 C, a prolonged cycle life (821 mA h g−1 after 500 cycles), and enhanced rate capability, much better than other counterparts (PRC/S and rGO/S). The excellent properties are attributed to the advantages of PRC/Ni network with a high electrical conductivity, strong adsorption/blocking ability for polysulfides, and interconnected porous framework.\nA unique porous microcellular carbon composed of cross‐linked nano/microsheets created by a powerful puffing of a rice precursor is described. Because of the advantages of the puffed‐rice‐derived carbon/Ni network with a high electrical conductivity and strong adsorption/blocking ability for polysulfides, the microcellular carbon‐based electrode exhibits high sulfur utilization, long cycling life, and high rate performance in a working lithium–sulfur battery." ],
+                "subject" : [ "Carbon ;  Cathodes ;  Corn ;  Energy storage ;  Hypertrophy ;  Nanostructures ;  Nickel ;  Porosity ;  Storage batteries ;  Sulfur" ],
+                "keyword" : [ "biomass‐derived porous carbons ;  Crosslinking ;  Electrical resistivity ;  Lithium sulfur batteries ;  metal–carbon composites ;  Puffed rice" ]
+              },
+              "facets" : {
+                "creationdate" : [ "2018" ],
+                "language" : [ "eng" ],
+                "rsrctype" : [ "articles" ],
+                "creatorcontrib" : [ "Zhong, Yu", "Xia, Xinhui", "Deng, Shengjue", "Zhan, Jiye", "Fang, Ruyi", "Xia, Yang", "Wang, Xiuli", "Zhang, Qiang", "Tu, Jiangping" ],
+                "topic" : [ "Carbon", "Cathodes", "Corn", "Energy storage", "Hypertrophy", "Nanostructures", "Nickel", "Porosity", "Storage batteries", "Sulfur" ],
+                "prefilter" : [ "articles" ],
+                "collection" : [ "CrossRef", "Electronics & Communications Abstracts", "Mechanical & Transportation Engineering Abstracts", "Technology Research Database", "ANTE: Abstracts in New Technology & Engineering", "Engineering Research Database", "Aerospace Database", "Advanced Technologies Database with Aerospace" ],
+                "toplevel" : [ "peer_reviewed", "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-LOGICAL-c3540-e9ff949f5731a1f83d3a2e425e5a56f9b1c08632a122bfb57f40eff8a4a9330c3" ],
+                "frbrtype" : [ "5" ],
+                "jtitle" : [ "Advanced energy materials" ]
+              },
+              "sort" : {
+                "title" : [ "Popcorn Inspired Porous Macrocellular Carbon: Rapid Puffing Fabrication from Rice and Its Applications in Lithium–Sulfur Batteries" ],
+                "creationdate" : [ "20180105" ],
+                "author" : [ "Zhong, Yu ; Xia, Xinhui ; Deng, Shengjue ; Zhan, Jiye ; Fang, Ruyi ; Xia, Yang ; Wang, Xiuli ; Zhang, Qiang ; Tu, Jiangping" ]
+              },
+              "control" : {
+                "sourcerecordid" : [ "1984753218" ],
+                "originalsourceid" : [ "FETCH-LOGICAL-c3540-e9ff949f5731a1f83d3a2e425e5a56f9b1c08632a122bfb57f40eff8a4a9330c3" ],
+                "sourceid" : [ "proquest_cross" ],
+                "recordid" : [ "cdi_proquest_journals_1984753218" ],
+                "recordtype" : [ "article" ],
+                "addsrcrecordid" : [ "eNqFkE1LAzEQhhdRsNRePQc8t-Zrv7zVUrXQaql6XmbTRFN2kzXZRXrz4D_wH_pL3NpSQRBzmcA8zwzzBsEpwQOCMT0HacoBxSTGhBB8EHRIRHg_Sjg-3P8ZPQ563q9w-3hKMGOd4H1uK2GdQRPjK-3kEs2ts41HMxDOClkUTQEOjcDl1lygBVS6RRqltHlCV5A7LaDW1iDlbIkWWkgEZokmtUfDqip2XY-0QVNdP-um_Hz7uG8K1Th0CXUtnZb-JDhSUHjZ29Vu8Hg1fhjd9Kd315PRcNoXLOS4L1OlUp6qMGYEiErYkgGVnIYyhDBSaU4ETiJGgVCaqzyMFcdSqQQ4pIxhwbrB2XZu5exLI32drWzjTLsyI2nC45BRkrQU31JtAN47qTKh6-8zage6yAjONpFnm8izfeStNvilVU6X4NZ_C-lWeNWFXP9DZ8Px7ezH_QLfnJa-" ],
+                "sourcetype" : [ "Aggregation Database" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "pqid" : [ "1984753218" ],
+                "iscdi" : [ "true" ],
+                "score" : [ "0.018373847" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-proquest_cross&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=Popcorn+Inspired+Porous+Macrocellular+Carbon%3A+Rapid+Puffing+Fabrication+from+Rice+and+Its+Applications+in+Lithium%E2%80%93Sulfur+Batteries&rft.jtitle=Advanced+energy+materials&rft.au=Zhong%2C+Yu&rft.date=2018-01-05&rft.volume=8&rft.issue=1&rft.epage=n%2Fa&rft.issn=1614-6832&rft.eissn=1614-6840&rft_id=info:doi/10.1002%2Faenm.201701110&rft.pub=Wiley+Subscription+Services%2C+Inc&rft.place=Weinheim&rft_dat=<proquest_cross>1984753218</proquest_cross>&svc_dat=viewit&rft_pqid=1984753218"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ "FETCH-LOGICAL-c3540-e9ff949f5731a1f83d3a2e425e5a56f9b1c08632a122bfb57f40eff8a4a9330c3" ],
+                "citedby" : [ "FETCH-LOGICAL-c3540-e9ff949f5731a1f83d3a2e425e5a56f9b1c08632a122bfb57f40eff8a4a9330c3" ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_proquest_journals_1984753218"
+          }, {
+            "pnx" : {
+              "addata" : {
+                "genre" : [ "chapter" ],
+                "btitle" : [ "Encyclopædia Britannica Online" ],
+                "atitle" : [ "popcorn" ],
+                "date" : [ "2020-07-02" ],
+                "risdate" : [ "2020" ],
+                "ristype" : [ "GEN" ],
+                "pub" : [ "Encyclopædia Britannica Inc" ],
+                "format" : [ "book" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext_linktorsrc" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "linktorsrc" : [ "$$Uhttps://academic.eb.com/levels/collegiate/article/60834$$EView_record_in_Encyclopaedia_Britannica_Inc$$FView_record_in_$$GEncyclopaedia_Britannica_Inc" ],
+                "thumbnail" : [ "$$Uhttp://media-3.web.britannica.com/eb-media/61/118661-003-BCBBEC9B.gif" ]
+              },
+              "search" : {
+                "sourceid" : [ "BKT" ],
+                "recordid" : [ "eNrjZGAvyC9Izi_K42FgTUvMKU7lhdLcDFJuriHOHrpJRZkliXl5mcmJ8alJ8WYGFsYmxnglAfESGHM" ],
+                "recordtype" : [ "reference_entry" ],
+                "title" : [ "popcorn", "Encyclopædia Britannica Online" ],
+                "creationdate" : [ "2020" ],
+                "rsrctype" : [ "reference_entry" ],
+                "startdate" : [ "20200702" ],
+                "enddate" : [ "20200702" ],
+                "scope" : [ "2WU", "3ZV", "5VY", "ASC", "BFC", "BKT", "DNS", "KER", "KLX" ],
+                "fulltext" : [ "true" ],
+                "general" : [ "Encyclopædia Britannica Inc" ]
+              },
+              "display" : {
+                "type" : [ "reference_entry" ],
+                "title" : [ "popcorn" ],
+                "source" : [ "Britannica Online Academic Edition" ],
+                "publisher" : [ "Encyclopædia Britannica Inc" ],
+                "ispartof" : [ "Encyclopædia Britannica Online, 2020" ],
+                "language" : [ "eng" ],
+                "rights" : [ "Copyright © 1994-2020 Encyclopædia Britannica, Inc." ]
+              },
+              "facets" : {
+                "creationdate" : [ "2020" ],
+                "language" : [ "eng" ],
+                "rsrctype" : [ "reference_entrys" ],
+                "prefilter" : [ "reference_entrys" ],
+                "collection" : [ "Encyclopedia Britannica Online", "Britannica Online School Edition", "Encyclopædia Britannica", "Britannica Premium Encyclopedia", "Britannica Online Public Library Edition for Kids", "Britannica Online Academic Edition", "Britannica Online Public Library Edition", "Encyclopedia Britannica High School Edition", "Encyclopedia Britannica Academic Edition" ],
+                "toplevel" : [ "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-britannica_eb_608343" ],
+                "frbrtype" : [ "5" ]
+              },
+              "sort" : {
+                "title" : [ "popcorn" ],
+                "creationdate" : [ "20200702" ]
+              },
+              "control" : {
+                "britnicaid" : [ "60834" ],
+                "sourcerecordid" : [ "60834" ],
+                "originalsourceid" : [ "FETCH-britannica_eb_608343" ],
+                "sourceid" : [ "britnica_BKT" ],
+                "recordid" : [ "cdi_britannica_eb_60834" ],
+                "recordtype" : [ "reference_entry" ],
+                "addsrcrecordid" : [ "eNrjZGAvyC9Izi_K42FgTUvMKU7lhdLcDFJuriHOHrpJRZkliXl5mcmJ8alJ8WYGFsYmxnglAfESGHM" ],
+                "sourcetype" : [ "Publisher" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "iscdi" : [ "true" ],
+                "score" : [ "0.018272916" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ {
+                "@id" : "_:0",
+                "linkType" : "http://purl.org/pnx/linkType/thumbnail",
+                "linkURL" : "http://media-3.web.britannica.com/eb-media/61/118661-003-BCBBEC9B.gif",
+                "displayLabel" : "thumbnail"
+              } ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext_linktorsrc" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-britnica_BKT&rft_val_fmt=info:ofi/fmt:kev:mtx:book&rft.genre=chapter&rft.atitle=popcorn&rft.btitle=Encyclop%C3%A6dia+Britannica+Online&rft.date=2020-07-02&rft.pub=Encyclop%C3%A6dia+Britannica+Inc&rft_dat=<britnica_BKT>60834</britnica_BKT>&svc_dat=viewit&rft_britnica_id=60834"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ ],
+                "citedby" : [ ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_britannica_eb_60834"
+          }, {
+            "pnx" : {
+              "addata" : {
+                "abstract" : [ "Popcorn is a corn-based snack that has a delicious taste. Popcorn is classified as a snack for a diet because popcorn is a cholesterol-free food, high in fiber, dry, and low in sugar. Consequently, consumer interest in popcorn is very high. This research was conducted to calculate the cost of popcorn production using the full costing method and determine the difference between the selling price and a 50% profit. Calculating the cost of production using the full costing method includes all elements of costs and is charged in the calculation of the cost of production. These costs include raw material, labor, and factory overhead costs. There is a price difference between calculating the cost of production and the product selling price using the company method and the full costing method. The cost of production of popcorn using the company method was IDR.2,007.31 per package while using the full costing method, it was IDR.2,248.39 per package. The selling price of the product with a 50% profit using the company method was IDR.3,016.25 per pack, and the full costing method was IDR.3,368.02 per pack. The price difference is due to calculations using the company method that exclude all cost elements in the COGS (Cost of Goods Sold) calculation. While using the full costing method, all costs are charged to the COGS calculation. The difference in the cost of production of the two methods is IDR 351.77.  The company use full costing method to give the price for their product." ],
+                "issn" : [ "1907-8056" ],
+                "oa" : [ "free_for_read" ],
+                "jtitle" : [ "Agrointek (Online)" ],
+                "genre" : [ "article" ],
+                "au" : [ "Sukma, Wanda Zuniati", "Asfan, Dian Farida", "Jakfar, Abdul Azis" ],
+                "atitle" : [ "Analisis perhitungan harga pokok produksi popcorn menggunakan metode full costing di UKM Tegal Watu" ],
+                "date" : [ "2023-12-01" ],
+                "risdate" : [ "2023" ],
+                "volume" : [ "17" ],
+                "issue" : [ "4" ],
+                "spage" : [ "944" ],
+                "epage" : [ "950" ],
+                "pages" : [ "944-950" ],
+                "eissn" : [ "2527-5410" ],
+                "ristype" : [ "JOUR" ],
+                "pub" : [ "Universitas Trunojoyo Madura" ],
+                "doi" : [ "10.21107/agrointek.v17i4.15720" ],
+                "tpages" : [ "7" ],
+                "format" : [ "journal" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "thumbnail" : [ "$$Tsyndetics_thumb_exl" ]
+              },
+              "search" : {
+                "sourceid" : [ "DOA" ],
+                "recordid" : [ "eNo9kMtKxDAUhoMoOKivIHmBjidpLpOlDF4GR9woLsNpm9bYTlOSVvDtrVVm9V8W3-Ij5JrBmjMG-gabGHw_unb9xbQXayY1hxOy4pLrTAoGp2TFDOhsA1Kdk6uUPgGAc8GUgRUpb3vsfPKJDi5--HHqG-zpB8YG6RDa0NIhhmpqk5_nUIbY04Prm2bqscXfPobK0XrqOlqGNPq-oZWnb0_P9NU12NF3HKdLclZjl9zVf16Qt_u71-1jtn952G1v91nJFIOs5iBdnmsmuOCaQamckrmqyo3JNc69UAim0NzUNci8KAC55shrAA21gfyC7P64VcBPO0R_wPhtA3q7HCE2FuPoy87ZiksjtMwZGBTKsAIVl3IjRDGDhK5mlvpjlTGkFF195DGwi3l7NG8X83Yxn_8AYEl5gA" ],
+                "recordtype" : [ "article" ],
+                "title" : [ "Analisis perhitungan harga pokok produksi popcorn menggunakan metode full costing di UKM Tegal Watu", "Agrointek (Online)" ],
+                "creator" : [ "Sukma, Wanda Zuniati", "Asfan, Dian Farida", "Jakfar, Abdul Azis" ],
+                "creationdate" : [ "2023" ],
+                "subject" : [ "Popcorn" ],
+                "rsrctype" : [ "article" ],
+                "startdate" : [ "20231201" ],
+                "enddate" : [ "20231201" ],
+                "scope" : [ "AAYXX", "CITATION", "DOA" ],
+                "creatorcontrib" : [ "Sukma, Wanda Zuniati", "Asfan, Dian Farida", "Jakfar, Abdul Azis" ],
+                "issn" : [ "1907-8056", "2527-5410" ],
+                "fulltext" : [ "true" ],
+                "general" : [ "Universitas Trunojoyo Madura" ],
+                "description" : [ "Popcorn is a corn-based snack that has a delicious taste. Popcorn is classified as a snack for a diet because popcorn is a cholesterol-free food, high in fiber, dry, and low in sugar. Consequently, consumer interest in popcorn is very high. This research was conducted to calculate the cost of popcorn production using the full costing method and determine the difference between the selling price and a 50% profit. Calculating the cost of production using the full costing method includes all elements of costs and is charged in the calculation of the cost of production. These costs include raw material, labor, and factory overhead costs. There is a price difference between calculating the cost of production and the product selling price using the company method and the full costing method. The cost of production of popcorn using the company method was IDR.2,007.31 per package while using the full costing method, it was IDR.2,248.39 per package. The selling price of the product with a 50% profit using the company method was IDR.3,016.25 per pack, and the full costing method was IDR.3,368.02 per pack. The price difference is due to calculations using the company method that exclude all cost elements in the COGS (Cost of Goods Sold) calculation. While using the full costing method, all costs are charged to the COGS calculation. The difference in the cost of production of the two methods is IDR 351.77.  The company use full costing method to give the price for their product." ]
+              },
+              "display" : {
+                "type" : [ "article" ],
+                "title" : [ "Analisis perhitungan harga pokok produksi popcorn menggunakan metode full costing di UKM Tegal Watu" ],
+                "source" : [ "DOAJ Directory of Open Access Journals" ],
+                "creator" : [ "Sukma, Wanda Zuniati ; Asfan, Dian Farida ; Jakfar, Abdul Azis" ],
+                "publisher" : [ "Universitas Trunojoyo Madura" ],
+                "ispartof" : [ "Agrointek (Online), 2023-12, Vol.17 (4), p.944-950" ],
+                "identifier" : [ "ISSN: 1907-8056", "EISSN: 2527-5410", "DOI: 10.21107/agrointek.v17i4.15720" ],
+                "language" : [ "eng" ],
+                "snippet" : [ "Popcorn is a corn-based snack that has a delicious taste. Popcorn is classified as a snack for a diet because popcorn is a cholesterol-free food, high in fiber, dry, and low in sugar..." ],
+                "lds50" : [ "peer_reviewed" ],
+                "oa" : [ "free_for_read" ],
+                "description" : [ "Popcorn is a corn-based snack that has a delicious taste. Popcorn is classified as a snack for a diet because popcorn is a cholesterol-free food, high in fiber, dry, and low in sugar. Consequently, consumer interest in popcorn is very high. This research was conducted to calculate the cost of popcorn production using the full costing method and determine the difference between the selling price and a 50% profit. Calculating the cost of production using the full costing method includes all elements of costs and is charged in the calculation of the cost of production. These costs include raw material, labor, and factory overhead costs. There is a price difference between calculating the cost of production and the product selling price using the company method and the full costing method. The cost of production of popcorn using the company method was IDR.2,007.31 per package while using the full costing method, it was IDR.2,248.39 per package. The selling price of the product with a 50% profit using the company method was IDR.3,016.25 per pack, and the full costing method was IDR.3,368.02 per pack. The price difference is due to calculations using the company method that exclude all cost elements in the COGS (Cost of Goods Sold) calculation. While using the full costing method, all costs are charged to the COGS calculation. The difference in the cost of production of the two methods is IDR 351.77.  The company use full costing method to give the price for their product." ],
+                "subject" : [ "Popcorn" ],
+                "keyword" : [ "cogs, full costing" ]
+              },
+              "facets" : {
+                "creationdate" : [ "2023" ],
+                "language" : [ "eng" ],
+                "rsrctype" : [ "articles" ],
+                "creatorcontrib" : [ "Sukma, Wanda Zuniati", "Asfan, Dian Farida", "Jakfar, Abdul Azis" ],
+                "topic" : [ "Popcorn" ],
+                "prefilter" : [ "articles" ],
+                "collection" : [ "CrossRef", "DOAJ Directory of Open Access Journals" ],
+                "toplevel" : [ "peer_reviewed", "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-LOGICAL-c1610-f205e33714242710c6e6536dc8937ae65b6a09b729ff053bb0a272a2f0070f903" ],
+                "frbrtype" : [ "5" ],
+                "jtitle" : [ "Agrointek (Online)" ]
+              },
+              "sort" : {
+                "title" : [ "Analisis perhitungan harga pokok produksi popcorn menggunakan metode full costing di UKM Tegal Watu" ],
+                "creationdate" : [ "20231201" ],
+                "author" : [ "Sukma, Wanda Zuniati ; Asfan, Dian Farida ; Jakfar, Abdul Azis" ]
+              },
+              "control" : {
+                "sourcerecordid" : [ "oai_doaj_org_article_d2594753109a4691ba6255844bf9047d" ],
+                "originalsourceid" : [ "FETCH-LOGICAL-c1610-f205e33714242710c6e6536dc8937ae65b6a09b729ff053bb0a272a2f0070f903" ],
+                "sourceid" : [ "doaj_cross" ],
+                "recordid" : [ "cdi_doaj_primary_oai_doaj_org_article_d2594753109a4691ba6255844bf9047d" ],
+                "recordtype" : [ "article" ],
+                "addsrcrecordid" : [ "eNo9kMtKxDAUhoMoOKivIHmBjidpLpOlDF4GR9woLsNpm9bYTlOSVvDtrVVm9V8W3-Ij5JrBmjMG-gabGHw_unb9xbQXayY1hxOy4pLrTAoGp2TFDOhsA1Kdk6uUPgGAc8GUgRUpb3vsfPKJDi5--HHqG-zpB8YG6RDa0NIhhmpqk5_nUIbY04Prm2bqscXfPobK0XrqOlqGNPq-oZWnb0_P9NU12NF3HKdLclZjl9zVf16Qt_u71-1jtn952G1v91nJFIOs5iBdnmsmuOCaQamckrmqyo3JNc69UAim0NzUNci8KAC55shrAA21gfyC7P64VcBPO0R_wPhtA3q7HCE2FuPoy87ZiksjtMwZGBTKsAIVl3IjRDGDhK5mlvpjlTGkFF195DGwi3l7NG8X83Yxn_8AYEl5gA" ],
+                "sourcetype" : [ "Open Website" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "iscdi" : [ "true" ],
+                "doajid" : [ "oai_doaj_org_article_d2594753109a4691ba6255844bf9047d" ],
+                "score" : [ "0.018240768" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-doaj_cross&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=Analisis+perhitungan+harga+pokok+produksi+popcorn+menggunakan+metode+full+costing+di+UKM+Tegal+Watu&rft.jtitle=Agrointek+%28Online%29&rft.au=Sukma%2C+Wanda+Zuniati&rft.date=2023-12-01&rft.volume=17&rft.issue=4&rft.spage=944&rft.epage=950&rft.pages=944-950&rft.issn=1907-8056&rft.eissn=2527-5410&rft_id=info:doi/10.21107%2Fagrointek.v17i4.15720&rft.pub=Universitas+Trunojoyo+Madura&rft_dat=<doaj_cross>oai_doaj_org_article_d2594753109a4691ba6255844bf9047d</doaj_cross>&svc_dat=viewit"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ ],
+                "citedby" : [ ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_doaj_primary_oai_doaj_org_article_d2594753109a4691ba6255844bf9047d"
+          }, {
+            "pnx" : {
+              "addata" : {
+                "abstract" : [ "Porous carbon materials have drawn tremendous attention due to its applications in energy storage, gas/water purification, catalyst support, and other important fields. However, producing high-performance carbons via a facile and efficient route is still a big challenge. Here we report the synthesis of microporous carbon materials by employing a steam-explosion method with subsequent potassium activation and carbonization of the obtained popcorn. The obtained carbon features a large specific surface area, high porosity, and doped nitrogen atoms. Using as an electrode material in supercapacitor, it displays a high specific capacitance of 245 F g–1 at 0.5 A g–1 and a remarkable stability of 97.8% retention after 5000 cycles at 5 A g–1. The product also exhibits a high CO2 adsorption capacity of 4.60 mmol g–1 under 1066 mbar and 25 °C. Both areal specific capacitance and specific CO2 uptake are directly proportional to the surface nitrogen content. This approach could thus enlighten the batch production of porous nitrogen-doped carbons for a wide range of energy and environmental applications." ],
+                "issn" : [ "0743-7463", "1520-5827" ],
+                "addtitle" : [ "Langmuir" ],
+                "jtitle" : [ "Langmuir" ],
+                "genre" : [ "article" ],
+                "au" : [ "Liang, Ting", "Chen, Chunlin", "Li, Xing", "Zhang, Jian" ],
+                "atitle" : [ "Popcorn-Derived Porous Carbon for Energy Storage and CO2 Capture" ],
+                "date" : [ "2016-08-16" ],
+                "risdate" : [ "2016" ],
+                "volume" : [ "32" ],
+                "issue" : [ "32" ],
+                "spage" : [ "8042" ],
+                "epage" : [ "8049" ],
+                "pages" : [ "8042-8049" ],
+                "eissn" : [ "1520-5827" ],
+                "ristype" : [ "JOUR" ],
+                "cop" : [ "United States" ],
+                "pub" : [ "American Chemical Society" ],
+                "doi" : [ "10.1021/acs.langmuir.6b01953" ],
+                "pmid" : [ "27455183" ],
+                "tpages" : [ "8" ],
+                "format" : [ "journal" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "backlink" : [ "$$Uhttps://www.ncbi.nlm.nih.gov/pubmed/27455183$$D View this record in MEDLINE/PubMed$$Hfree_for_read" ],
+                "thumbnail" : [ "$$Tsyndetics_thumb_exl" ],
+                "linktopdf" : [ "$$Uhttps://libproxy.mit.edu/login?&url=https://pubs.acs.org/doi/pdf/10.1021/acs.langmuir.6b01953$$EPDF$$P50$$Gacs$$H" ],
+                "linktohtml" : [ "$$Uhttps://libproxy.mit.edu/login?&url=https://pubs.acs.org/doi/10.1021/acs.langmuir.6b01953$$EHTML$$P50$$Gacs$$H" ]
+              },
+              "search" : {
+                "sourceid" : [ "NPM" ],
+                "recordid" : [ "eNqFkV9LwzAUxYMobk6_gUgffelMbpI2eVPq_AODDdTnkKTp6FibmrbCvr0Zbs9yHy4cflzuOQehW4LnBAN50Laf73S7acY6zDODieT0DE0JB5xyAfk5muKc0TRnGZ2gq77fYowlZfISTSBnnBNBp-hx7TvrQ5s-u1D_uDJZ--DHPil0ML5NKh-SRevCZp98DD7ojUt0WybFCiLRDWNw1-ii0rve3Rz3DH29LD6Lt3S5en0vnpapBsGHNMM844YTiMOEkZVxUBnuSs6pzQ2wEizIigPNo2ipZBLbSjNrRZlZiukM3f_d7YL_Hl0_qKburdvFCFx8WEF0l2EBTPyLEkEAgJGMRvTuiI6mcaXqQt3osFengCKA_4AYt9r6MbTRpCJYHTpQB_HUgTp2QH8BQAB4vA" ],
+                "recordtype" : [ "article" ],
+                "title" : [ "Popcorn-Derived Porous Carbon for Energy Storage and CO2 Capture", "Langmuir" ],
+                "creator" : [ "Liang, Ting", "Chen, Chunlin", "Li, Xing", "Zhang, Jian" ],
+                "creationdate" : [ "2016" ],
+                "subject" : [ "Adsorption", "Carbon", "Carbon dioxide", "Carbonization", "Catalysts", "Electrodes", "Nitrogen", "Nitrogen content", "Popcorn", "Porosity", "Porous materials", "Potassium" ],
+                "rsrctype" : [ "article" ],
+                "startdate" : [ "20160816" ],
+                "enddate" : [ "20160816" ],
+                "scope" : [ "NPM", "7X8", "7S9", "L.6" ],
+                "creatorcontrib" : [ "Liang, Ting", "Chen, Chunlin", "Li, Xing", "Zhang, Jian" ],
+                "issn" : [ "0743-7463", "1520-5827", "1520-5827" ],
+                "fulltext" : [ "true" ],
+                "addtitle" : [ "Langmuir" ],
+                "general" : [ "American Chemical Society" ],
+                "description" : [ "Porous carbon materials have drawn tremendous attention due to its applications in energy storage, gas/water purification, catalyst support, and other important fields. However, producing high-performance carbons via a facile and efficient route is still a big challenge. Here we report the synthesis of microporous carbon materials by employing a steam-explosion method with subsequent potassium activation and carbonization of the obtained popcorn. The obtained carbon features a large specific surface area, high porosity, and doped nitrogen atoms. Using as an electrode material in supercapacitor, it displays a high specific capacitance of 245 F g–1 at 0.5 A g–1 and a remarkable stability of 97.8% retention after 5000 cycles at 5 A g–1. The product also exhibits a high CO2 adsorption capacity of 4.60 mmol g–1 under 1066 mbar and 25 °C. Both areal specific capacitance and specific CO2 uptake are directly proportional to the surface nitrogen content. This approach could thus enlighten the batch production of porous nitrogen-doped carbons for a wide range of energy and environmental applications." ]
+              },
+              "display" : {
+                "type" : [ "article" ],
+                "title" : [ "Popcorn-Derived Porous Carbon for Energy Storage and CO2 Capture" ],
+                "source" : [ "PubMed", "American Chemical Society Journals" ],
+                "creator" : [ "Liang, Ting ; Chen, Chunlin ; Li, Xing ; Zhang, Jian" ],
+                "publisher" : [ "United States: American Chemical Society" ],
+                "ispartof" : [ "Langmuir, 2016-08, Vol.32 (32), p.8042-8049" ],
+                "identifier" : [ "ISSN: 0743-7463", "ISSN: 1520-5827", "EISSN: 1520-5827", "DOI: 10.1021/acs.langmuir.6b01953", "PMID: 27455183" ],
+                "language" : [ "eng" ],
+                "rights" : [ "Copyright © 2016 American Chemical Society" ],
+                "snippet" : [ ".... Here we report the synthesis of microporous carbon materials by employing a steam-explosion method with subsequent potassium activation and carbonization of the obtained popcorn..." ],
+                "lds50" : [ "peer_reviewed" ],
+                "description" : [ "Porous carbon materials have drawn tremendous attention due to its applications in energy storage, gas/water purification, catalyst support, and other important fields. However, producing high-performance carbons via a facile and efficient route is still a big challenge. Here we report the synthesis of microporous carbon materials by employing a steam-explosion method with subsequent potassium activation and carbonization of the obtained popcorn. The obtained carbon features a large specific surface area, high porosity, and doped nitrogen atoms. Using as an electrode material in supercapacitor, it displays a high specific capacitance of 245 F g–1 at 0.5 A g–1 and a remarkable stability of 97.8% retention after 5000 cycles at 5 A g–1. The product also exhibits a high CO2 adsorption capacity of 4.60 mmol g–1 under 1066 mbar and 25 °C. Both areal specific capacitance and specific CO2 uptake are directly proportional to the surface nitrogen content. This approach could thus enlighten the batch production of porous nitrogen-doped carbons for a wide range of energy and environmental applications." ],
+                "subject" : [ "Adsorption ;  Carbon ;  Carbon dioxide ;  Carbonization ;  Catalysts ;  Electrodes ;  Nitrogen ;  Nitrogen content ;  Popcorn ;  Porosity ;  Porous materials ;  Potassium" ],
+                "keyword" : [ "capacitance ;  energy ;  Index Medicus ;  Interfaces: Adsorption, Reactions, Films, Forces, Measurement Techniques, Charge Transfer, Electrochemistry, Electrocatalysis, Energy Production and Storage ;  surface area ;  water purification" ]
+              },
+              "facets" : {
+                "creationdate" : [ "2016" ],
+                "language" : [ "eng" ],
+                "rsrctype" : [ "articles" ],
+                "creatorcontrib" : [ "Liang, Ting", "Chen, Chunlin", "Li, Xing", "Zhang, Jian" ],
+                "topic" : [ "Adsorption", "Carbon", "Carbon dioxide", "Carbonization", "Catalysts", "Electrodes", "Nitrogen", "Nitrogen content", "Popcorn", "Porosity", "Porous materials", "Potassium" ],
+                "prefilter" : [ "articles" ],
+                "collection" : [ "PubMed", "MEDLINE - Academic", "AGRICOLA", "AGRICOLA - Academic" ],
+                "toplevel" : [ "peer_reviewed", "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-LOGICAL-a285t-60565b51212148b9fbe2fb5ed553c7b24d2c29f52375edc39490cfa4cc8d6c303" ],
+                "frbrtype" : [ "5" ],
+                "jtitle" : [ "Langmuir" ]
+              },
+              "sort" : {
+                "title" : [ "Popcorn-Derived Porous Carbon for Energy Storage and CO2 Capture" ],
+                "creationdate" : [ "20160816" ],
+                "author" : [ "Liang, Ting ; Chen, Chunlin ; Li, Xing ; Zhang, Jian" ]
+              },
+              "control" : {
+                "sourcerecordid" : [ "2000608248" ],
+                "originalsourceid" : [ "FETCH-LOGICAL-a285t-60565b51212148b9fbe2fb5ed553c7b24d2c29f52375edc39490cfa4cc8d6c303" ],
+                "sourceid" : [ "proquest_pubme" ],
+                "recordid" : [ "cdi_proquest_miscellaneous_2000608248" ],
+                "recordtype" : [ "article" ],
+                "addsrcrecordid" : [ "eNqFkV9LwzAUxYMobk6_gUgffelMbpI2eVPq_AODDdTnkKTp6FibmrbCvr0Zbs9yHy4cflzuOQehW4LnBAN50Laf73S7acY6zDODieT0DE0JB5xyAfk5muKc0TRnGZ2gq77fYowlZfISTSBnnBNBp-hx7TvrQ5s-u1D_uDJZ--DHPil0ML5NKh-SRevCZp98DD7ojUt0WybFCiLRDWNw1-ii0rve3Rz3DH29LD6Lt3S5en0vnpapBsGHNMM844YTiMOEkZVxUBnuSs6pzQ2wEizIigPNo2ipZBLbSjNrRZlZiukM3f_d7YL_Hl0_qKburdvFCFx8WEF0l2EBTPyLEkEAgJGMRvTuiI6mcaXqQt3osFengCKA_4AYt9r6MbTRpCJYHTpQB_HUgTp2QH8BQAB4vA" ],
+                "sourcetype" : [ "Aggregation Database" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "pqid" : [ "1812224163" ],
+                "iscdi" : [ "true" ],
+                "score" : [ "0.01790833" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-proquest_pubme&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=Popcorn-Derived+Porous+Carbon+for+Energy+Storage+and+CO2+Capture&rft.jtitle=Langmuir&rft.au=Liang%2C+Ting&rft.date=2016-08-16&rft.volume=32&rft.issue=32&rft.spage=8042&rft.epage=8049&rft.pages=8042-8049&rft.issn=0743-7463&rft.eissn=1520-5827&rft_id=info:doi/10.1021%2Facs.langmuir.6b01953&rft.pub=American+Chemical+Society&rft.place=United+States&rft_id=info:pmid/27455183&rft_dat=<proquest_pubme>2000608248</proquest_pubme>&svc_dat=viewit&rft_pqid=1812224163"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ ],
+                "citedby" : [ ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_proquest_miscellaneous_2000608248"
+          }, {
+            "pnx" : {
+              "addata" : {
+                "abstract" : [ "The ‘popcorn function’ is a well-known and important example in real analysis with many interesting features. We prove that the box dimension of the graph of the popcorn function is 4/3, as well as computing the Assouad dimension and Assouad spectrum. The main ingredients include Duffin-Schaeffer type estimates from Diophantine approximation and the Chung-Erdős inequality from probability theory." ],
+                "orcidid" : [ "https://orcid.org/0000-0002-8066-9120" ],
+                "issn" : [ "0002-9939" ],
+                "jtitle" : [ "Proceedings of the American Mathematical Society" ],
+                "genre" : [ "article" ],
+                "au" : [ "Chen, Haipeng", "Fraser, Jonathan M.", "Yu, Han" ],
+                "atitle" : [ "Dimensions of the popcorn graph" ],
+                "stitle" : [ "Proc. Amer. Math. Soc" ],
+                "date" : [ "2022-11-01" ],
+                "risdate" : [ "2022" ],
+                "volume" : [ "150" ],
+                "issue" : [ "11" ],
+                "spage" : [ "4729" ],
+                "epage" : [ "4742" ],
+                "pages" : [ "4729-4742" ],
+                "eissn" : [ "1088-6826" ],
+                "ristype" : [ "JOUR" ],
+                "cop" : [ "Providence, Rhode Island" ],
+                "pub" : [ "American Mathematical Society" ],
+                "doi" : [ "10.1090/proc/15729" ],
+                "tpages" : [ "14" ],
+                "format" : [ "journal" ]
+              },
+              "delivery" : {
+                "fulltext" : [ "fulltext" ],
+                "delcategory" : [ "Remote Search Resource" ]
+              },
+              "links" : {
+                "openurl" : [ "$$Topenurl_article" ],
+                "openurlfulltext" : [ "$$Topenurlfull_article" ],
+                "thumbnail" : [ "$$Tsyndetics_thumb_exl" ],
+                "linktopdf" : [ "$$Uhttps://libproxy.mit.edu/login?&url=https://www.ams.org/proc/2022-150-11/S0002-9939-2022-15729-3/S0002-9939-2022-15729-3.pdf$$EPDF$$P50$$Gams$$H" ],
+                "linktohtml" : [ "$$Uhttps://libproxy.mit.edu/login?&url=https://www.ams.org/proc/2022-150-11/S0002-9939-2022-15729-3/$$EHTML$$P50$$Gams$$H" ]
+              },
+              "search" : {
+                "recordid" : [ "eNp9j0tLxDAUhYMoWEc3_gG7cSPUuTdp02Yp4_iAATe6Djdp6lSmTUmy8d_bcVyJuDocOA8-xi4RbhEULKfg7RKrmqsjliE0TSEbLo9ZBgC8UEqoU3YW48dsUZV1xq7u-8GNsfdjzH2Xp63LJz9ZH8b8PdC0PWcnHe2iu_jRBXt7WL-unorNy-Pz6m5TEJeYCju_IHVCUMOxq_gsBAKUbK0hwa1BbI10luoKy7ouSTbOtGUFZEGU1ogFuzns2uBjDK7TU-gHCp8aQe_R9B5Nf6PNYfgVtn2iNEOkQP3u78r1oUJD_G_6C-TrXaE" ],
+                "recordtype" : [ "article" ],
+                "title" : [ "Dimensions of the popcorn graph", "Proceedings of the American Mathematical Society" ],
+                "creator" : [ "Chen, Haipeng", "Fraser, Jonathan M.", "Yu, Han" ],
+                "creationdate" : [ "2022" ],
+                "rsrctype" : [ "article" ],
+                "startdate" : [ "20221101" ],
+                "enddate" : [ "20221101" ],
+                "scope" : [ "AAYXX", "CITATION" ],
+                "orcidid" : [ "https://orcid.org/0000-0002-8066-9120" ],
+                "creatorcontrib" : [ "Chen, Haipeng", "Fraser, Jonathan M.", "Yu, Han" ],
+                "issn" : [ "0002-9939", "1088-6826" ],
+                "fulltext" : [ "true" ],
+                "addtitle" : [ "Proc. Amer. Math. Soc" ],
+                "general" : [ "American Mathematical Society" ],
+                "description" : [ "The ‘popcorn function’ is a well-known and important example in real analysis with many interesting features. We prove that the box dimension of the graph of the popcorn function is 4/3, as well as computing the Assouad dimension and Assouad spectrum. The main ingredients include Duffin-Schaeffer type estimates from Diophantine approximation and the Chung-Erdős inequality from probability theory." ]
+              },
+              "display" : {
+                "type" : [ "article" ],
+                "title" : [ "Dimensions of the popcorn graph" ],
+                "source" : [ "American Mathematical Society Journals" ],
+                "creator" : [ "Chen, Haipeng ; Fraser, Jonathan M. ; Yu, Han" ],
+                "publisher" : [ "Providence, Rhode Island: American Mathematical Society" ],
+                "ispartof" : [ "Proceedings of the American Mathematical Society, 2022-11, Vol.150 (11), p.4729-4742" ],
+                "identifier" : [ "ISSN: 0002-9939", "EISSN: 1088-6826", "DOI: 10.1090/proc/15729" ],
+                "language" : [ "eng" ],
+                "rights" : [ "Copyright 2022 American Mathematical Society" ],
+                "snippet" : [ "The ‘popcorn function’ is a well-known and important example in real analysis with many interesting features..." ],
+                "lds50" : [ "peer_reviewed" ],
+                "description" : [ "The ‘popcorn function’ is a well-known and important example in real analysis with many interesting features. We prove that the box dimension of the graph of the popcorn function is 4/3, as well as computing the Assouad dimension and Assouad spectrum. The main ingredients include Duffin-Schaeffer type estimates from Diophantine approximation and the Chung-Erdős inequality from probability theory." ],
+                "keyword" : [ "Research article" ]
+              },
+              "facets" : {
+                "creationdate" : [ "2022" ],
+                "language" : [ "eng" ],
+                "rsrctype" : [ "articles" ],
+                "creatorcontrib" : [ "Chen, Haipeng", "Fraser, Jonathan M.", "Yu, Han" ],
+                "prefilter" : [ "articles" ],
+                "collection" : [ "CrossRef" ],
+                "toplevel" : [ "peer_reviewed", "online_resources" ],
+                "frbrgroupid" : [ "cdi_FETCH-LOGICAL-a261t-c8261af33a821f52a82a03096dcba32cb11db6eca7514774a68ebd450ac034cb3" ],
+                "frbrtype" : [ "5" ],
+                "jtitle" : [ "Proceedings of the American Mathematical Society" ]
+              },
+              "sort" : {
+                "title" : [ "Dimensions of the popcorn graph" ],
+                "creationdate" : [ "20221101" ],
+                "author" : [ "Chen, Haipeng ; Fraser, Jonathan M. ; Yu, Han" ]
+              },
+              "control" : {
+                "sourcerecordid" : [ "10_1090_proc_15729" ],
+                "originalsourceid" : [ "FETCH-LOGICAL-a261t-c8261af33a821f52a82a03096dcba32cb11db6eca7514774a68ebd450ac034cb3" ],
+                "sourceid" : [ "ams_cross" ],
+                "recordid" : [ "cdi_crossref_primary_10_1090_proc_15729" ],
+                "recordtype" : [ "article" ],
+                "addsrcrecordid" : [ "eNp9j0tLxDAUhYMoWEc3_gG7cSPUuTdp02Yp4_iAATe6Djdp6lSmTUmy8d_bcVyJuDocOA8-xi4RbhEULKfg7RKrmqsjliE0TSEbLo9ZBgC8UEqoU3YW48dsUZV1xq7u-8GNsfdjzH2Xp63LJz9ZH8b8PdC0PWcnHe2iu_jRBXt7WL-unorNy-Pz6m5TEJeYCju_IHVCUMOxq_gsBAKUbK0hwa1BbI10luoKy7ouSTbOtGUFZEGU1ogFuzns2uBjDK7TU-gHCp8aQe_R9B5Nf6PNYfgVtn2iNEOkQP3u78r1oUJD_G_6C-TrXaE" ],
+                "sourcetype" : [ "Enrichment Source" ],
+                "sourceformat" : [ "XML" ],
+                "sourcesystem" : [ "Other" ],
+                "iscdi" : [ "true" ],
+                "score" : [ "0.017905269" ]
+              }
+            },
+            "delivery" : {
+              "link" : [ ],
+              "deliveryCategory" : [ "Remote Search Resource" ],
+              "availability" : [ "fulltext" ],
+              "displayLocation" : false,
+              "additionalLocations" : false,
+              "physicalItemTextCodes" : "",
+              "feDisplayOtherLocations" : false,
+              "displayedAvailability" : "true",
+              "holding" : [ ],
+              "almaOpenurl" : "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?ctx_enc=info:ofi/enc:UTF-8&ctx_id=10_1&ctx_tim=2025-09-29 12:58:51&ctx_ver=Z39.88-2004&url_ctx_fmt=info:ofi/fmt:kev:mtx:ctx&url_ver=Z39.88-2004&rfr_id=info:sid/primo.exlibrisgroup.com-ams_cross&rft_val_fmt=info:ofi/fmt:kev:mtx:journal&rft.genre=article&rft.atitle=Dimensions+of+the+popcorn+graph&rft.jtitle=Proceedings+of+the+American+Mathematical+Society&rft.au=Chen%2C+Haipeng&rft.date=2022-11-01&rft.volume=150&rft.issue=11&rft.spage=4729&rft.epage=4742&rft.pages=4729-4742&rft.issn=0002-9939&rft.eissn=1088-6826&rft_id=info:doi/10.1090%2Fproc%2F15729&rft.pub=American+Mathematical+Society&rft.place=Providence%2C+Rhode+Island&rft.stitle=Proc.+Amer.+Math.+Soc&rft_dat=<ams_cross>10_1090_proc_15729</ams_cross>&svc_dat=viewit"
+            },
+            "context" : "PC",
+            "adaptor" : "Primo Central",
+            "extras" : {
+              "citationTrails" : {
+                "citing" : [ "FETCH-LOGICAL-a261t-c8261af33a821f52a82a03096dcba32cb11db6eca7514774a68ebd450ac034cb3" ],
+                "citedby" : [ "FETCH-LOGICAL-a261t-c8261af33a821f52a82a03096dcba32cb11db6eca7514774a68ebd450ac034cb3" ]
+              },
+              "timesCited" : { }
+            },
+            "@id" : "https://na06.alma.exlibrisgroup.com/primaws/rest/pub/pnxs/PC/cdi_crossref_primary_10_1090_proc_15729"
+          } ],
+          "timelog" : {
+            "PC_SEARCH_CALL_TIME" : "587",
+            "PC_BUILD_JSON_AND_HIGLIGHTS" : "75",
+            "PC_SEARCH_TIME_TOTAL" : "662",
+            "BUILD_BLEND_AND_CACHE_RESULTS" : 0,
+            "BUILD_COMBINED_RESULTS_MAP" : 662,
+            "COMBINED_SEARCH_TIME" : 676,
+            "PROCESS_COMBINED_RESULTS" : 0,
+            "FEATURED_SEARCH_TIME" : 0
+          },
+          "facets" : [ {
+            "name" : "jtitle",
+            "values" : [ {
+              "value" : "The Grocer",
+              "count" : "156"
+            }, {
+              "value" : "The Washington Post",
+              "count" : "129"
+            }, {
+              "value" : "Film Journal International",
+              "count" : "126"
+            }, {
+              "value" : "Snack Food & Wholesale Bakery",
+              "count" : "123"
+            }, {
+              "value" : "The Hollywood Reporter",
+              "count" : "109"
+            }, {
+              "value" : "Boxoffice",
+              "count" : "104"
+            }, {
+              "value" : "Newsweek",
+              "count" : "82"
+            }, {
+              "value" : "The Wall Street Journal. Eastern Edition",
+              "count" : "79"
+            }, {
+              "value" : "Variety",
+              "count" : "73"
+            }, {
+              "value" : "Journal Of Agricultural And Food Chemistry",
+              "count" : "69"
+            } ]
+          }, {
+            "name" : "lang",
+            "values" : [ {
+              "value" : "eng",
+              "count" : "12858"
+            }, {
+              "value" : "chi",
+              "count" : "1437"
+            }, {
+              "value" : "fre",
+              "count" : "702"
+            }, {
+              "value" : "ger",
+              "count" : "428"
+            }, {
+              "value" : "kor",
+              "count" : "242"
+            }, {
+              "value" : "spa",
+              "count" : "200"
+            }, {
+              "value" : "por",
+              "count" : "158"
+            }, {
+              "value" : "rus",
+              "count" : "139"
+            }, {
+              "value" : "jpn",
+              "count" : "94"
+            }, {
+              "value" : "pol",
+              "count" : "22"
+            }, {
+              "value" : "ita",
+              "count" : "19"
+            }, {
+              "value" : "dan",
+              "count" : "16"
+            }, {
+              "value" : "hun",
+              "count" : "10"
+            }, {
+              "value" : "ara",
+              "count" : "9"
+            }, {
+              "value" : "dut",
+              "count" : "9"
+            }, {
+              "value" : "nor",
+              "count" : "8"
+            }, {
+              "value" : "ukr",
+              "count" : "8"
+            }, {
+              "value" : "hrv",
+              "count" : "7"
+            }, {
+              "value" : "tur",
+              "count" : "7"
+            } ]
+          }, {
+            "name" : "topic",
+            "values" : [ {
+              "value" : "Packing",
+              "count" : "992"
+            }, {
+              "value" : "Popcorn",
+              "count" : "882"
+            }, {
+              "value" : "Chemistry",
+              "count" : "878"
+            }, {
+              "value" : "Physics",
+              "count" : "629"
+            }, {
+              "value" : "Corn",
+              "count" : "562"
+            }, {
+              "value" : "Metallurgy",
+              "count" : "562"
+            }, {
+              "value" : "Food",
+              "count" : "530"
+            }, {
+              "value" : "Furniture",
+              "count" : "508"
+            }, {
+              "value" : "Snack Foods",
+              "count" : "497"
+            }, {
+              "value" : "Coffee Mills",
+              "count" : "496"
+            }, {
+              "value" : "Agriculture",
+              "count" : "495"
+            }, {
+              "value" : "Motion Pictures",
+              "count" : "473"
+            }, {
+              "value" : "Physical Sciences",
+              "count" : "461"
+            }, {
+              "value" : "Marketing",
+              "count" : "413"
+            }, {
+              "value" : "Electricity",
+              "count" : "406"
+            }, {
+              "value" : "Technology",
+              "count" : "309"
+            }, {
+              "value" : "Human Beings",
+              "count" : "285"
+            }, {
+              "value" : "New Products",
+              "count" : "274"
+            }, {
+              "value" : "Agronomy",
+              "count" : "246"
+            }, {
+              "value" : "Confectionery",
+              "count" : "243"
+            } ]
+          }, {
+            "name" : "rtype",
+            "values" : [ {
+              "value" : "patents",
+              "count" : "4806"
+            }, {
+              "value" : "articles",
+              "count" : "4285"
+            }, {
+              "value" : "magazinearticle",
+              "count" : "2504"
+            }, {
+              "value" : "book_chapters",
+              "count" : "429"
+            }, {
+              "value" : "newsletterarticle",
+              "count" : "412"
+            }, {
+              "value" : "reviews",
+              "count" : "374"
+            }, {
+              "value" : "newspaper_articles",
+              "count" : "360"
+            }, {
+              "value" : "dissertations",
+              "count" : "143"
+            }, {
+              "value" : "review_article",
+              "count" : "81"
+            }, {
+              "value" : "datasets",
+              "count" : "75"
+            }, {
+              "value" : "conference_proceedings",
+              "count" : "71"
+            }, {
+              "value" : "preprint",
+              "count" : "63"
+            }, {
+              "value" : "reference_entrys",
+              "count" : "62"
+            }, {
+              "value" : "reports",
+              "count" : "38"
+            }, {
+              "value" : "government_documents",
+              "count" : "35"
+            }, {
+              "value" : "text_resources",
+              "count" : "20"
+            }, {
+              "value" : "images",
+              "count" : "18"
+            }, {
+              "value" : "primary_source",
+              "count" : "18"
+            }, {
+              "value" : "web_resources",
+              "count" : "15"
+            }, {
+              "value" : "books",
+              "count" : "12"
+            } ]
+          }, {
+            "name" : "domain",
+            "values" : [ {
+              "value" : "esp@cenet",
+              "count" : "4806"
+            }, {
+              "value" : "ABI/INFORM Collection",
+              "count" : "2505"
+            }, {
+              "value" : "Factiva - Classic",
+              "count" : "2459"
+            }, {
+              "value" : "EBSCOhost Business Source Complete",
+              "count" : "1755"
+            }, {
+              "value" : "EBSCOhost Academic Search Complete",
+              "count" : "1652"
+            }, {
+              "value" : "ABI/INFORM Trade & Industry",
+              "count" : "1631"
+            }, {
+              "value" : "Nexis Uni",
+              "count" : "1349"
+            }, {
+              "value" : "Agricultural & Environmental Science Collection",
+              "count" : "1156"
+            }, {
+              "value" : "ABI/INFORM Global",
+              "count" : "1128"
+            }, {
+              "value" : "DOAJ Directory of Open Access Journals",
+              "count" : "808"
+            }, {
+              "value" : "Global Newsstream",
+              "count" : "750"
+            }, {
+              "value" : "PubMed",
+              "count" : "666"
+            }, {
+              "value" : "IngentaConnect Journals",
+              "count" : "578"
+            }, {
+              "value" : "Environmental Science Collection",
+              "count" : "543"
+            }, {
+              "value" : "Advanced Technologies & Aerospace Collection",
+              "count" : "505"
+            }, {
+              "value" : "ROAD: Directory of Open Access Scholarly Resources",
+              "count" : "487"
+            }, {
+              "value" : "Publicly Available Content Database",
+              "count" : "473"
+            }, {
+              "value" : "Wiley Online Library",
+              "count" : "408"
+            }, {
+              "value" : "Ebook Central Perpetual, DDA and Subscription Titles",
+              "count" : "390"
+            }, {
+              "value" : "Journals@Ovid",
+              "count" : "388"
+            } ]
+          }, {
+            "name" : "tlevel",
+            "values" : [ {
+              "value" : "open_access",
+              "count" : "5998"
+            }, {
+              "value" : "peer_reviewed",
+              "count" : "2284"
+            }, {
+              "value" : "online_resources",
+              "count" : "13687"
+            } ]
+          }, {
+            "name" : "attribute",
+            "values" : [ {
+              "value" : "review_article",
+              "count" : "81"
+            }, {
+              "value" : "preprint",
+              "count" : "63"
+            }, {
+              "value" : "primary_source",
+              "count" : "18"
+            }, {
+              "value" : "retracted_publication",
+              "count" : "3"
+            }, {
+              "value" : "online_first",
+              "count" : "2"
+            } ]
+          }, {
+            "name" : "newrecords",
+            "values" : [ {
+              "value" : "07 days back",
+              "count" : "2"
+            }, {
+              "value" : "30 days back",
+              "count" : "24"
+            }, {
+              "value" : "90 days back",
+              "count" : "122"
+            } ]
+          }, {
+            "name" : "creationdate",
+            "values" : [ {
+              "value" : "1801",
+              "count" : "1"
+            }, {
+              "value" : "1900",
+              "count" : "6"
+            }, {
+              "value" : "1910",
+              "count" : "22"
+            }, {
+              "value" : "1920",
+              "count" : "14"
+            }, {
+              "value" : "1930",
+              "count" : "9"
+            }, {
+              "value" : "1940",
+              "count" : "21"
+            }, {
+              "value" : "1950",
+              "count" : "42"
+            }, {
+              "value" : "1951",
+              "count" : "5"
+            }, {
+              "value" : "1952",
+              "count" : "9"
+            }, {
+              "value" : "1953",
+              "count" : "13"
+            }, {
+              "value" : "1954",
+              "count" : "15"
+            }, {
+              "value" : "1955",
+              "count" : "11"
+            }, {
+              "value" : "1956",
+              "count" : "8"
+            }, {
+              "value" : "1957",
+              "count" : "11"
+            }, {
+              "value" : "1958",
+              "count" : "11"
+            }, {
+              "value" : "1959",
+              "count" : "7"
+            }, {
+              "value" : "1960",
+              "count" : "18"
+            }, {
+              "value" : "1961",
+              "count" : "3"
+            }, {
+              "value" : "1962",
+              "count" : "10"
+            }, {
+              "value" : "1963",
+              "count" : "9"
+            }, {
+              "value" : "1964",
+              "count" : "22"
+            }, {
+              "value" : "1965",
+              "count" : "11"
+            }, {
+              "value" : "1966",
+              "count" : "16"
+            }, {
+              "value" : "1967",
+              "count" : "10"
+            }, {
+              "value" : "1968",
+              "count" : "10"
+            }, {
+              "value" : "1969",
+              "count" : "22"
+            }, {
+              "value" : "1970",
+              "count" : "21"
+            }, {
+              "value" : "1971",
+              "count" : "32"
+            }, {
+              "value" : "1972",
+              "count" : "23"
+            }, {
+              "value" : "1973",
+              "count" : "22"
+            }, {
+              "value" : "1974",
+              "count" : "33"
+            }, {
+              "value" : "1975",
+              "count" : "29"
+            }, {
+              "value" : "1976",
+              "count" : "20"
+            }, {
+              "value" : "1977",
+              "count" : "22"
+            }, {
+              "value" : "1978",
+              "count" : "19"
+            }, {
+              "value" : "1979",
+              "count" : "23"
+            }, {
+              "value" : "1980",
+              "count" : "16"
+            }, {
+              "value" : "1981",
+              "count" : "37"
+            }, {
+              "value" : "1982",
+              "count" : "33"
+            }, {
+              "value" : "1983",
+              "count" : "34"
+            }, {
+              "value" : "1984",
+              "count" : "50"
+            }, {
+              "value" : "1985",
+              "count" : "37"
+            }, {
+              "value" : "1986",
+              "count" : "52"
+            }, {
+              "value" : "1987",
+              "count" : "54"
+            }, {
+              "value" : "1988",
+              "count" : "108"
+            }, {
+              "value" : "1989",
+              "count" : "83"
+            }, {
+              "value" : "1990",
+              "count" : "93"
+            }, {
+              "value" : "1991",
+              "count" : "115"
+            }, {
+              "value" : "1992",
+              "count" : "144"
+            }, {
+              "value" : "1993",
+              "count" : "151"
+            }, {
+              "value" : "1994",
+              "count" : "160"
+            }, {
+              "value" : "1995",
+              "count" : "202"
+            }, {
+              "value" : "1996",
+              "count" : "165"
+            }, {
+              "value" : "1997",
+              "count" : "180"
+            }, {
+              "value" : "1998",
+              "count" : "242"
+            }, {
+              "value" : "1999",
+              "count" : "219"
+            }, {
+              "value" : "2000",
+              "count" : "252"
+            }, {
+              "value" : "2001",
+              "count" : "270"
+            }, {
+              "value" : "2002",
+              "count" : "362"
+            }, {
+              "value" : "2003",
+              "count" : "356"
+            }, {
+              "value" : "2004",
+              "count" : "380"
+            }, {
+              "value" : "2005",
+              "count" : "393"
+            }, {
+              "value" : "2006",
+              "count" : "364"
+            }, {
+              "value" : "2007",
+              "count" : "403"
+            }, {
+              "value" : "2008",
+              "count" : "457"
+            }, {
+              "value" : "2009",
+              "count" : "363"
+            }, {
+              "value" : "2010",
+              "count" : "377"
+            }, {
+              "value" : "2011",
+              "count" : "429"
+            }, {
+              "value" : "2012",
+              "count" : "465"
+            }, {
+              "value" : "2013",
+              "count" : "468"
+            }, {
+              "value" : "2014",
+              "count" : "510"
+            }, {
+              "value" : "2015",
+              "count" : "605"
+            }, {
+              "value" : "2016",
+              "count" : "538"
+            }, {
+              "value" : "2017",
+              "count" : "522"
+            }, {
+              "value" : "2018",
+              "count" : "524"
+            }, {
+              "value" : "2019",
+              "count" : "487"
+            }, {
+              "value" : "2020",
+              "count" : "452"
+            }, {
+              "value" : "2021",
+              "count" : "428"
+            }, {
+              "value" : "2022",
+              "count" : "469"
+            }, {
+              "value" : "2023",
+              "count" : "403"
+            }, {
+              "value" : "2024",
+              "count" : "407"
+            }, {
+              "value" : "2025",
+              "count" : "288"
+            } ]
+          } ]
+        }
+  recorded_at: Mon, 29 Sep 2025 16:58:52 GMT
+recorded_with: VCR 6.3.1

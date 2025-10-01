@@ -91,6 +91,14 @@ See `Optional Environment Variables` for more information.
 
 ### Required Environment Variables
 
+- `ALMA_OPENURL`: The base URL for Alma openurls found in CDI records.
+- `MIT_PRIMO_URL`: The base URL for MIT Libraries' Primo instance (used to generate record links).
+- `PRIMO_API_KEY`: The Primo Search API key.
+- `PRIMO_API_URL`: The Primo Search API base URL.
+- `PRIMO_SCOPE`: The Primo Search API `scope` param (set to `cdi` for CDI-scoped results).
+- `PRIMO_TAB`: The Primo Search API `tab` param (typically `all`).
+- `PRIMO_VID`: The Primo Search API `vid` (or 'view ID`) param.
+- `SYNDETICS_PRIMO_URL`: The Syndetics API URL for Primo. This is used to construct thumbnail URLs.
 - `TIMDEX_GRAPHQL`: Set this to the URL of the GraphQL endpoint. There is no default value in the application.
 
 ### Optional Environment Variables
@@ -121,6 +129,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
   safe html above the main header of the site.
 - `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
+- `PRIMO_TIMEOUT`: The number of seconds before a Primo request times out (default 6).
 - `REQUESTS_PER_PERIOD` - number of requests that can be made for general throttles per `REQUEST_PERIOD`
 - `REQUEST_PERIOD` - time in minutes used along with `REQUESTS_PER_PERIOD`
 - `REDIRECT_REQUESTS_PER_PERIOD`- number of requests that can be made that the query string starts with our legacy redirect parameter to throttle per `REQUEST_PERIOD`
