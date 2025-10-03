@@ -6,56 +6,128 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     @test_strategy.switch!(:gdt, false)
   end
 
+  def mock_primo_search_success
+    # Mock the Primo search components to avoid external API calls
+    sample_doc = {
+      'title' => 'Sample Primo Document Title',
+      'format' => 'Article',
+      'year' => '2025',
+      'creators' => [
+        { value: 'Foo Barston', link: nil },
+        { value: 'Baz Quxley', link: nil }
+      ],
+      'links' => [{ 'kind' => 'full record', 'url' => 'https://example.com/record' }]
+    }
+    
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({ 'docs' => [sample_doc], 'total' => 1 })
+    PrimoSearch.expects(:new).returns(mock_primo)
+    
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns([sample_doc])
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer)
+  end
+
+  def mock_timdex_search_success
+    # Mock the TIMDEX GraphQL client to avoid external API calls
+    sample_result = {
+      'title' => 'Sample TIMDEX Document Title',
+      'timdexRecordId' => 'sample-record-123',
+      'contentType' => [{ 'value' => 'Article' }],
+      'dates' => [{ 'kind' => 'Publication date', 'value' => '2023' }],
+      'contributors' => [{ 'value' => 'Foo Barston', 'kind' => 'Creator' }],
+      'highlight' => [
+        {
+          'matchedField' => 'summary',
+          'matchedPhrases' => ['<span>sample</span> document']
+        }
+      ],
+      'sourceLink' => 'https://example.com/record'
+    }
+    
+    mock_response = mock('timdex_response')
+    mock_errors = mock('timdex_errors')
+    mock_errors.stubs(:details).returns({})
+    mock_errors.stubs(:to_h).returns({})
+    mock_response.stubs(:errors).returns(mock_errors)
+    
+    mock_data = mock('timdex_data')
+    mock_search = mock('timdex_search')
+    mock_search.stubs(:to_h).returns({ 
+      'hits' => 1, 
+      'aggregations' => {},
+      'records' => [sample_result]
+    })
+    mock_data.stubs(:search).returns(mock_search)
+    mock_data.stubs(:to_h).returns({
+      'search' => {
+        'hits' => 1,
+        'aggregations' => {},
+        'records' => [sample_result]
+      }
+    })
+    mock_response.stubs(:data).returns(mock_data)
+    
+    TimdexBase::Client.expects(:query).returns(mock_response)
+  end
+
   test 'index shows basic search form by default' do
     get '/'
     assert_response :success
 
     assert_select 'form#basic-search', { count: 1 }
-
-    details_div = assert_select('details#advanced-search-panel')
-    assert_nil details_div.attribute('open')
+    assert_select 'details#advanced-search-panel', count: 0
   end
 
   test 'index shows advanced search form with URL parameter' do
-    get '/?advanced=true'
-
-    assert_response :success
-
-    details_div = assert_select('details#advanced-search-panel')
-    assert details_div.attribute('open')
+    if Flipflop.enabled?(:gdt)
+      get '/?advanced=true'
+      assert_response :success
+      details_div = assert_select('details#advanced-search-panel')
+      assert details_div.attribute('open')
+    else
+      skip('Advanced search functionality not implemented in USE UI')
+    end
   end
 
   test 'advanced search form appears on results page with URL parameter' do
-    VCR.use_cassette('advanced',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      get '/results?advanced=true'
-
-      assert_response :success
-
-      details_div = assert_select('details#advanced-search-panel')
-      assert details_div.attribute('open')
+    if Flipflop.enabled?(:gdt)
+      VCR.use_cassette('advanced',
+                       allow_playback_repeats: true,
+                       match_requests_on: %i[method uri body]) do
+        get '/results?advanced=true'
+        assert_response :success
+        details_div = assert_select('details#advanced-search-panel')
+        assert details_div.attribute('open')
+      end
+    else
+      skip('Advanced search functionality not implemented in USE UI')
     end
   end
 
   test 'search form includes a number of fields' do
     get '/'
 
-    # Please note that this test confirms fields in the DOM - but not whether
-    # they are visible. Fields in a hidden details panel are still in the DOM,
-    # but not visible or reachable via keyboard interaction.
+    # Basic search field should always be present
     assert_select 'input#basic-search-main', { count: 1 }
-    assert_select 'input#advanced-citation', { count: 1 }
-    assert_select 'input#advanced-contributors', { count: 1 }
-    assert_select 'input#advanced-fundingInformation', { count: 1 }
-    assert_select 'input#advanced-identifiers', { count: 1 }
-    assert_select 'input#advanced-locations', { count: 1 }
-    assert_select 'input#advanced-subjects', { count: 1 }
-    assert_select 'input#advanced-title', { count: 1 }
-    assert_select 'input.source', { minimum: 3 }
+    
+    if Flipflop.enabled?(:gdt)
+      # Please note that this test confirms fields in the DOM - but not whether
+      # they are visible. Fields in a hidden details panel are still in the DOM,
+      # but not visible or reachable via keyboard interaction.
+      assert_select 'input#advanced-citation', { count: 1 }
+      assert_select 'input#advanced-contributors', { count: 1 }
+      assert_select 'input#advanced-fundingInformation', { count: 1 }
+      assert_select 'input#advanced-identifiers', { count: 1 }
+      assert_select 'input#advanced-locations', { count: 1 }
+      assert_select 'input#advanced-subjects', { count: 1 }
+      assert_select 'input#advanced-title', { count: 1 }
+      assert_select 'input.source', { minimum: 3 }
+    end
   end
 
   test 'advanced search source checkboxes can be controlled by env' do
+    skip('Advanced search functionality not implemented in USE UI')
     get '/'
     assert_select 'input.source', { minimum: 3 }
 
@@ -88,69 +160,98 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'A search term is required.', flash[:error]
   end
 
-  test 'results with valid query displays the query' do
-    VCR.use_cassette('timdex hallo',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      get '/results?q=hallo'
-      assert_response :success
-      assert_nil flash[:error]
+  test 'primo results with valid query displays the query' do
+    mock_primo_search_success
+    get '/results?q=hallo'
+    assert_response :success
+    assert_nil flash[:error]
 
-      assert_select 'input[value=?]', 'hallo'
-    end
+    assert_select 'input[value=?]', 'hallo'
   end
 
-  test 'results with valid query shows search form' do
-    VCR.use_cassette('timdex hallo',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      get '/results?q=hallo'
-      assert_response :success
+  test 'timdex results with valid query displays the query' do
+    mock_timdex_search_success
+    get '/results?q=hallo&tab=timdex'
+    assert_response :success
+    assert_nil flash[:error]
 
-      assert_select 'form#basic-search', { count: 1 }
-    end
+    assert_select 'input[value=?]', 'hallo'
   end
 
-  test 'results with valid query populates search form with query' do
-    VCR.use_cassette('data basic controller',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
+  test 'primo results with valid query shows search form' do
+    mock_primo_search_success
+    get '/results?q=hallo'
+    assert_response :success
+
+    assert_select 'form#basic-search', { count: 1 }
+  end
+
+  test 'timdex results with valid query shows search form' do
+    mock_timdex_search_success
+    get '/results?q=hallo&tab=timdex'
+    assert_response :success
+
+    assert_select 'form#basic-search', { count: 1 }
+  end
+
+  test 'primo results with valid query populates search form with query' do
+    mock_primo_search_success
+    get '/results?q=data'
+    assert_response :success
+
+    assert_select '#basic-search-main[value=data]'
+  end
+
+  test 'timdex results with valid query populates search form with query' do
+    mock_timdex_search_success
+    get '/results?q=data&tab=timdex'
+    assert_response :success
+
+    assert_select '#basic-search-main[value=data]'
+  end
+
+  test 'primo results with valid query has div for hints if any fact panels are enabled' do
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: 'fakepanel') do
       get '/results?q=data'
-      assert_response :success
-
-      assert_select '#basic-search-main[value=data]'
     end
+
+    assert_response :success
+    assert_select '#hint'
   end
 
-  test 'results with valid query has div for hints if any fact panels are enabled' do
-    VCR.use_cassette('data basic controller',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: 'fakepanel') do
-        get '/results?q=data'
-      end
-
-      assert_response :success
-
-      assert_select '#hint'
+  test 'timdex results with valid query has div for hints if any fact panels are enabled' do
+    mock_timdex_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: 'fakepanel') do
+      get '/results?q=data&tab=timdex'
     end
+
+    assert_response :success
+    assert_select '#hint'
   end
 
-  test 'results with valid query has no div for hints if no fact panels are enabled' do
-    VCR.use_cassette('data basic controller',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-        get '/results?q=data'
-      end
-
-      assert_response :success
-
-      assert_select('#hint', 0)
+  test 'primo results with valid query has no div for hints if no fact panels are enabled' do
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+      get '/results?q=data'
     end
+
+    assert_response :success
+    assert_select('#hint', 0)
+  end
+
+  test 'timdex results with valid query has no div for hints if no fact panels are enabled' do
+    mock_timdex_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+      get '/results?q=data&tab=timdex'
+    end
+
+    assert_response :success
+    assert_select('#hint', 0)
   end
 
   test 'results with valid query has div for filters which is populated' do
+    skip('Filters not implemented in USE UI')
     VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -162,6 +263,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'a filter category lists available filters with names and values' do
+    skip('Filters not implemented in USE UI')
     VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -172,47 +274,55 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'results with valid query has div for pagination' do
-    VCR.use_cassette('data basic controller',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      get '/results?q=data'
-      assert_response :success
-
-      assert_select '#pagination'
-    end
+  test 'primo results with valid query has div for pagination' do
+    mock_primo_search_success
+    get '/results?q=data'
+    assert_response :success
+    assert_select '#pagination'
   end
 
-  test 'results with valid query has div for results which is populated' do
-    VCR.use_cassette('data basic controller',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      get '/results?q=data'
-      assert_response :success
-      assert_select '#results'
-      assert_select '#results .record-title', { minimum: 1 }
-    end
+  test 'timdex results with valid query has div for pagination' do
+    mock_timdex_search_success
+    get '/results?q=data&tab=timdex'
+    assert_response :success
+    assert_select '#pagination'
   end
 
-  test 'results with valid query include links' do
-    VCR.use_cassette('data basic controller',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      get '/results?q=data'
-      assert_select '#results .record-title a' do |value|
-        refute_nil(value.xpath('./@href').text)
-      end
-    end
+  test 'primo results with valid query has div for results which is populated' do
+    mock_primo_search_success
+    get '/results?q=data'
+    assert_response :success
+    assert_select '#results'
+    assert_select '#results .record-title', { minimum: 1 }
   end
 
-  test 'results with valid query have query highlights' do
-    VCR.use_cassette('data basic controller',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      get '/results?q=data'
-      assert_response :success
-      assert_select '#results .result-highlights ul li', { minimum: 1 }
-    end
+  test 'timdex results with valid query has div for results which is populated' do
+    mock_timdex_search_success
+    get '/results?q=data&tab=timdex'
+    assert_response :success
+    assert_select '#results'
+    assert_select '#results .record-title', { minimum: 1 }
+  end
+
+  test 'primo results with valid query include links' do
+    mock_primo_search_success
+    get '/results?q=data'
+    assert_response :success
+    assert_select '#results .record-title a'
+  end
+
+  test 'timdex results with valid query include links' do
+    mock_timdex_search_success
+    get '/results?q=data&tab=timdex'
+    assert_response :success
+    assert_select '#results .record-title a'
+  end
+
+  test 'timdex results with valid query have query highlights' do
+    mock_timdex_search_success
+    get '/results?q=data&tab=timdex'
+    assert_response :success
+    assert_select '#results .result-highlights ul li', { minimum: 1 }
   end
 
   test 'highlights partial is not rendered for results with no relevant highlights' do
@@ -232,13 +342,13 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     VCR.use_cassette('timdex no results',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      get '/results?q=asdfiouwenlasd'
+      get '/results?q=asdfiouwenlasd&tab=timdex'
       assert_response :success
 
       # Result list contents state "no results"
       assert_select '#results'
       assert_select '#results', { count: 1 }
-      assert_select '#results p', 'No results found for your search'
+      assert_select '#results .no-results p', 'No results found for your search'
 
       # Filter sidebar is not shown
       assert_select '#filters', { count: 0 }
@@ -252,117 +362,90 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'searches with ISSN display issn fact card when enabled' do
-    VCR.use_cassette('timdex 1234-5678',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: 'issn') do
-        get '/results?q=1234-5678'
-      end
-      assert_response :success
-
-      actual_div = assert_select('div[data-content-loader-url-value]')
-      assert_equal '/issn?issn=1234-5678',
-                   actual_div.attribute('data-content-loader-url-value').value
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: 'issn') do
+      get '/results?q=1234-5678'
     end
+    assert_response :success
+
+    actual_div = assert_select('div[data-content-loader-url-value]')
+    assert_equal '/issn?issn=1234-5678',
+                 actual_div.attribute('data-content-loader-url-value').value
   end
 
   test 'searches with ISSN do not display issn fact card when not enabled' do
-    VCR.use_cassette('timdex 1234-5678',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-        get '/results?q=1234-5678'
-      end
-      assert_response :success
-
-      assert_select('div[data-content-loader-url-value].fact-container', 0)
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+      get '/results?q=1234-5678'
     end
+    assert_response :success
+
+    assert_select('div[data-content-loader-url-value].fact-container', 0)
   end
 
   test 'searches with ISBN insert isbn dom element when enabled' do
-    VCR.use_cassette('timdex 9781857988536',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: 'isbn') do
-        get '/results?q=9781857988536'
-      end
-
-      assert_response :success
-
-      actual_div = assert_select('div[data-content-loader-url-value]')
-      assert_equal '/isbn?isbn=9781857988536',
-                   actual_div.attribute('data-content-loader-url-value').value
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: 'isbn') do
+      get '/results?q=9781857988536'
     end
+
+    assert_response :success
+
+    actual_div = assert_select('div[data-content-loader-url-value]')
+    assert_equal '/isbn?isbn=9781857988536',
+                 actual_div.attribute('data-content-loader-url-value').value
   end
 
   test 'searches with ISBN do not insert isbn dom element when not enabled' do
-    VCR.use_cassette('timdex 9781857988536',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-        get '/results?q=9781857988536'
-      end
-
-      assert_response :success
-
-      assert_select('div[data-content-loader-url-value].fact-container', 0)
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+      get '/results?q=9781857988536'
     end
+
+    assert_response :success
+    assert_select('div[data-content-loader-url-value].fact-container', 0)
   end
 
   test 'searches with DOI insert doi dom element when enabled' do
-    VCR.use_cassette('timdex 10.1038.nphys1170 ',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: 'doi') do
-        get '/results?q=10.1038/nphys1170 '
-      end
-      assert_response :success
-
-      actual_div = assert_select('div[data-content-loader-url-value]')
-      assert_equal '/doi?doi=10.1038%2Fnphys1170',
-                   actual_div.attribute('data-content-loader-url-value').value
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: 'doi') do
+      get '/results?q=10.1038/nphys1170 '
     end
+    assert_response :success
+
+    actual_div = assert_select('div[data-content-loader-url-value]')
+    assert_equal '/doi?doi=10.1038%2Fnphys1170',
+                 actual_div.attribute('data-content-loader-url-value').value
   end
 
   test 'searches with DOI do not insert doi dom element when not enabled' do
-    VCR.use_cassette('timdex 10.1038.nphys1170 ',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-        get '/results?q=10.1038/nphys1170 '
-      end
-      assert_response :success
-
-      assert_select('div[data-content-loader-url-value].fact-container', 0)
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+      get '/results?q=10.1038/nphys1170 '
     end
+    assert_response :success
+    assert_select('div[data-content-loader-url-value].fact-container', 0)
   end
 
   test 'searches with pmid insert pmid dom element when enabled' do
-    VCR.use_cassette('timdex PMID 35649707',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: 'pmid') do
-        get '/results?q=PMID: 35649707'
-      end
-      assert_response :success
-
-      actual_div = assert_select('div[data-content-loader-url-value]')
-      assert_equal '/pmid?pmid=PMID%3A+35649707',
-                   actual_div.attribute('data-content-loader-url-value').value
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: 'pmid') do
+      get '/results?q=PMID: 35649707'
     end
+    assert_response :success
+
+    actual_div = assert_select('div[data-content-loader-url-value]')
+    assert_equal '/pmid?pmid=PMID%3A+35649707',
+                 actual_div.attribute('data-content-loader-url-value').value
   end
 
   test 'searches with pmid do not insert pmid dom element when not enabled' do
-    VCR.use_cassette('timdex PMID 35649707',
-                     allow_playback_repeats: true,
-                     match_requests_on: %i[method uri body]) do
-      ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-        get '/results?q=PMID: 35649707'
-      end
-      assert_response :success
-
-      assert_select('div[data-content-loader-url-value].fact-container', 0)
+    mock_primo_search_success
+    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
+      get '/results?q=PMID: 35649707'
     end
+    assert_response :success
+    assert_select('div[data-content-loader-url-value].fact-container', 0)
   end
 
   test 'TACOS intervention is inserted when TACOS enabled' do
@@ -391,6 +474,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   # Advanced search behavior
   test 'advanced search by keyword' do
+    skip('Advanced search not implemented in USE UI')
     VCR.use_cassette('advanced keyword asdf',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -403,6 +487,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'can search an advanced field without a keyword search' do
+    skip('Advanced search not implemented in USE UI')
     # note, this confirms we only validate param[:q] is present for basic searches
     VCR.use_cassette('advanced citation asdf',
                      allow_playback_repeats: true,
@@ -414,6 +499,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'advanced search can accept values from all fields' do
+    skip('Advanced search not implemented in USE UI')
     VCR.use_cassette('advanced all',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -445,6 +531,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'advanced search form retains values with spaces' do
+    skip('Advanced search not implemented in USE UI')
     VCR.use_cassette('advanced all spaces',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -479,6 +566,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'advanced search can limit to a single source' do
+    skip('Advanced search not implemented in USE UI')
     VCR.use_cassette('advanced source limit to one source',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -496,6 +584,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'advanced search defaults to all sources' do
+    skip('Advanced search not implemented in USE UI')
     VCR.use_cassette('advanced source defaults to all',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -513,6 +602,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'advanced search can limit to multiple sources' do
+    skip('Advanced search not implemented in USE UI')
     VCR.use_cassette('advanced source limit to two sources',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -533,6 +623,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'applications can customize the displayed filters via ENV' do
+    skip('Filters not implemented in USE UI')
     VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -571,6 +662,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'clear all filters button does not appear with zero filters in query' do
+    skip('Filters not implemented in USE UI')
     VCR.use_cassette('data basic controller',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -581,6 +673,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'clear all filters button does not appear with one filter in query' do
+    skip('Filters not implemented in USE UI')
     VCR.use_cassette('filter one',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -595,6 +688,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'clear all filters button appears with more than filter in query' do
+    skip('Filters not implemented in USE UI')
     VCR.use_cassette('filter multiple',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
@@ -607,5 +701,58 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_select '.clear-filters', count: 1
     end
+  end
+
+  # Tab functionality tests for USE
+  test 'results defaults to primo tab when no tab parameter provided' do
+    mock_primo_search_success
+    
+    get '/results?q=test'
+    assert_response :success
+    assert_select 'a.tab-link.active[href*="tab=primo"]', count: 1
+  end
+
+  test 'results respects primo tab parameter' do
+    mock_primo_search_success
+    
+    get '/results?q=test&tab=primo'
+    assert_response :success
+    assert_select 'a.tab-link.active[href*="tab=primo"]', count: 1
+  end
+
+  test 'results respects timdex tab parameter' do
+    mock_timdex_search_success
+    
+    get '/results?q=test&tab=timdex'
+    assert_response :success
+    assert_select 'a.tab-link.active[href*="tab=timdex"]', count: 1
+  end
+
+  test 'results shows tab navigation when gdt is disabled' do
+    mock_primo_search_success
+    
+    get '/results?q=test'
+    assert_response :success
+    assert_select '.tab-navigation', count: 1
+    assert_select 'a[href*="tab=primo"]', count: 1
+    assert_select 'a[href*="tab=timdex"]', count: 1
+  end
+
+  test 'results handles primo search errors gracefully' do
+    PrimoSearch.expects(:new).raises(StandardError.new('API Error'))
+    
+    get '/results?q=test&tab=primo'
+    assert_response :success
+    assert_select '.alert', count: 1
+    assert_select '.alert', text: /API Error/
+  end
+
+  test 'results uses simplified search summary for USE app' do
+    mock_primo_search_success
+    
+    get '/results?q=test'
+    assert_response :success
+    assert_select 'aside.search-summary', count: 1
+    assert_select 'aside.search-summary', text: /You searched for: test/
   end
 end

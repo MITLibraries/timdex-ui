@@ -7,7 +7,7 @@ class ErrorResilienceTest < ActionDispatch::IntegrationTest
     VCR.use_cassette('timdex error',
                      allow_playback_repeats: true,
                      match_requests_on: %i[method uri body]) do
-      get '/results?q=poverty'
+      get '/results?q=poverty&tab=timdex'
       assert_response :success
       assert_select('.alert', true)
       assert_select('.alert') do |value|
