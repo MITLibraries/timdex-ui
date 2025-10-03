@@ -1,5 +1,25 @@
 require 'test_helper'
 
+class TacosConnectionError
+  def timeout(_)
+    self
+  end
+
+  def post(_url, body:)
+    raise HTTP::ConnectionError, "forced connection failure"
+  end
+end
+
+class TacosParsingError
+  def timeout(_)
+    self
+  end
+
+  def post(_url, body:)
+    'This is not valid json'
+  end
+end
+
 class TacosTest < ActiveSupport::TestCase
   test 'TACOS model has a call method that reflects a search term back' do
     VCR.use_cassette('tacos popcorn') do
@@ -20,5 +40,23 @@ class TacosTest < ActiveSupport::TestCase
         assert_equal 'faked', result['data']['logSearchEvent']['source']
       end
     end
+  end
+
+  test 'TACOS model catches connection errors' do
+    tacos_client = TacosConnectionError.new
+
+    result = Tacos.call('popcorn', tacos_client)
+
+    assert_instance_of Hash, result
+    assert_equal 'A connection error has occurred', result['error']
+  end
+
+  test 'TACOS model catches parsing errors' do
+    tacos_client = TacosParsingError.new
+
+    result = Tacos.call('popcorn', tacos_client)
+
+    assert_instance_of Hash, result
+    assert_equal 'A parsing error has occurred', result['error']
   end
 end
