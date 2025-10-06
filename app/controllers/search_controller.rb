@@ -21,11 +21,33 @@ class SearchController < ApplicationController
     # hand off enhanced query to builder
     query = QueryBuilder.new(@enhanced_query).query
 
+    # Create cache key for this query
+    # Sorting query hash to ensure consistent key generation regardless of the parameter order
+    sorted_query = query.sort_by { |k, v| k.to_sym }.to_h
+    cache_key = Digest::MD5.hexdigest(sorted_query.to_s)
+
     # builder hands off to wrapper which returns raw results here
+    # We are using two difference caches to allow for Geo and USE to be cached separately. This ensures we don't have
+    # cache key collission for these two different query types. In practice, the likelihood of this happening is low,
+    # as the query parameters are different for each type and they won't often be run with the same cache backend other
+    # than locally, but this is a safeguard.
+    # The response type is a GraphQL::Client::Response, which is not directly serializable, so we convert it to a hash.
     response = if Flipflop.enabled?(:gdt)
-                 execute_geospatial_query(query)
+                 Rails.cache.fetch("#{cache_key}/geo", expires_in: 12.hours) do
+                   raw = execute_geospatial_query(query)
+                   {
+                     data: raw.data.to_h,
+                     errors: raw.errors.details.to_h
+                   }
+                 end
                else
-                 TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
+                 Rails.cache.fetch("#{cache_key}/use", expires_in: 12.hours) do
+                   raw = TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
+                   {
+                     data: raw.data.to_h,
+                     errors: raw.errors.details.to_h
+                   }
+                 end
                end
 
     # Handle errors
@@ -59,11 +81,13 @@ class SearchController < ApplicationController
   end
 
   def extract_errors(response)
-    response&.errors&.details&.to_h&.dig('data')
+    response[:errors]['data'] if response.is_a?(Hash) && response.key?(:errors) && response[:errors].key?('data')
   end
 
   def extract_filters(response)
-    aggs = response&.data&.search&.to_h&.dig('aggregations')
+    return unless response.is_a?(Hash) && response.key?(:data) && response[:data].key?('search')
+
+    aggs = response[:data]['search']['aggregations']
     return if aggs.blank?
 
     aggs = reorder_filters(aggs, active_filters) unless active_filters.blank?
@@ -78,7 +102,9 @@ class SearchController < ApplicationController
   end
 
   def extract_results(response)
-    response&.data&.search&.to_h&.dig('records')
+    return unless response.is_a?(Hash) && response.key?(:data) && response[:data].key?('search')
+
+    response[:data]['search']['records']
   end
 
   def reorder_filters(aggs, active_filters)
