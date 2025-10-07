@@ -25,7 +25,7 @@ class TacosTest < ActiveSupport::TestCase
     VCR.use_cassette('tacos popcorn') do
       searchterm = 'popcorn'
 
-      result = Tacos.call(searchterm)
+      result = Tacos.analyze(searchterm)
 
       assert_instance_of Hash, result
       assert_equal searchterm, result['data']['logSearchEvent']['phrase']
@@ -35,7 +35,7 @@ class TacosTest < ActiveSupport::TestCase
   test 'TACOS model will use ENV to populate the sourceSystem value' do
     VCR.use_cassette('tacos fake system') do
       ClimateControl.modify(TACOS_SOURCE: 'faked') do
-        result = Tacos.call('popcorn')
+        result = Tacos.analyze('popcorn')
 
         assert_equal 'faked', result['data']['logSearchEvent']['source']
       end
@@ -45,7 +45,7 @@ class TacosTest < ActiveSupport::TestCase
   test 'TACOS model catches connection errors' do
     tacos_client = TacosConnectionError.new
 
-    result = Tacos.call('popcorn', tacos_client)
+    result = Tacos.analyze('popcorn', tacos_client)
 
     assert_instance_of Hash, result
     assert_equal 'A connection error has occurred', result['error']
@@ -54,7 +54,7 @@ class TacosTest < ActiveSupport::TestCase
   test 'TACOS model catches parsing errors' do
     tacos_client = TacosParsingError.new
 
-    result = Tacos.call('popcorn', tacos_client)
+    result = Tacos.analyze('popcorn', tacos_client)
 
     assert_instance_of Hash, result
     assert_equal 'A parsing error has occurred', result['error']

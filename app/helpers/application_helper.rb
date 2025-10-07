@@ -1,6 +1,6 @@
 module ApplicationHelper
   def tacos_enabled?
-    ENV.fetch('TACOS_URL', '').length > 0
+    ENV.fetch('TACOS_URL', '').present?
   end
   module_function :tacos_enabled?
 

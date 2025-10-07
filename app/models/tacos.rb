@@ -2,7 +2,7 @@ class Tacos
   # The tacos_client argument here is unused in production - it is provided for
   # our test suite so that we can mock various error conditions to ensure that
   # error handling happens as we intend.
-  def self.call(term, tacos_client = nil)
+  def self.analyze(term, tacos_client = nil)
     tacos_http = setup(tacos_client)
     query = '{ "query": "{ logSearchEvent(searchTerm: \"' + clean_term(term) + '\", sourceSystem: \"' + tacos_source + '\" ) { phrase source detectors { suggestedResources { title url } } } }" }'
     begin
@@ -30,7 +30,7 @@ class Tacos
   end
 
   # We define the HTTP connection this way so that it can be overridden during
-  # testing, to make sure that the .call method can handle specific error
+  # testing, to make sure that the .analyze method can handle specific error
   # conditions.
   def self.setup(tacos_client)
     tacos_client || HTTP.persistent(tacos_url)
@@ -40,7 +40,7 @@ class Tacos
   end
 
   def self.tacos_source
-    ENV.fetch('TACOS_SOURCE', 'unset')
+    ENV.fetch('TACOS_SOURCE', 'timdexui_unset')
   end
 
   def self.tacos_url

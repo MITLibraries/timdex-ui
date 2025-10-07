@@ -4,6 +4,6 @@ class TacosController < ApplicationController
   def analyze
     return unless ApplicationHelper.tacos_enabled?
 
-    Tacos.call(params[:q])
+    Tacos.analyze(params[:q])
   end
 end
