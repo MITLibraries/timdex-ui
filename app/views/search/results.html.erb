@@ -68,4 +68,6 @@
   <% end %>
 </div>
 
+<%= render(partial: 'trigger_tacos') if tacos_enabled? %>
+
 <%= javascript_include_tag "filters" %>

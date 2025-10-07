@@ -1,0 +1,59 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://FAKE_TACOS_HOST/graphql
+    body:
+      encoding: UTF-8
+      string: '{ "query": "{ logSearchEvent(searchTerm: \"direct\", sourceSystem:
+        \"use\" ) { phrase source detectors { suggestedResources { title url } } }
+        }" }'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Connection:
+      - Keep-Alive
+      Host:
+      - FAKE_TACOS_HOST
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept, Origin
+      Etag:
+      - W/"a66b90423fc1658bd873263c1f6ab9f6"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 4b46e2b5-fde0-4de2-b0bb-5363548b47c6
+      X-Runtime:
+      - '0.079767'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.active_record;dur=4.70, start_transaction.active_record;dur=0.00,
+        transaction.active_record;dur=12.18, instantiation.active_record;dur=0.11,
+        process_action.action_controller;dur=42.34
+      Content-Length:
+      - '100'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"logSearchEvent":{"phrase":"direct","source":"use","detectors":{"suggestedResources":[]}}}}'
+  recorded_at: Fri, 03 Oct 2025 15:16:35 GMT
+recorded_with: VCR 6.3.1

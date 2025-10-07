@@ -1,4 +1,9 @@
 module ApplicationHelper
+  def tacos_enabled?
+    ENV.fetch('TACOS_URL', '').present?
+  end
+  module_function :tacos_enabled?
+
   def timdex_sources
     ENV.fetch('TIMDEX_SOURCES', timdex_source_defaults).split(',')
   end

@@ -3,6 +3,16 @@ require 'test_helper'
 class ApplicationHelperTest < ActionView::TestCase
   include ApplicationHelper
 
+  test 'tacos_enabled? requires TACOS_URL env variable to have non-zero length' do
+    ClimateControl.modify TACOS_URL: 'foo' do
+      assert_equal true, tacos_enabled?
+    end
+
+    ClimateControl.modify TACOS_URL: '' do
+      assert_equal false, tacos_enabled?
+    end
+  end
+
   test 'index_page_title renders as expected' do
     assert_equal 'Search | MIT Libraries', index_page_title
   end
