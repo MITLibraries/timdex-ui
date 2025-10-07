@@ -1,0 +1,77 @@
+<li class="result">
+  <div class="result-content">
+    <h3 class="record-title">
+      <span class="sr">Title: </span>
+      <% if result_primo['links']&.find { |link| link['kind'] == 'full record' } %>
+        <%= link_to(result_primo['title'], result_primo['links'].find { |link| link['kind'] == 'full record' }['url'], target: '_blank', rel: 'noopener') %>
+      <% else %>
+        <%= result_primo['title'] %>
+      <% end %>
+    </h3>
+
+    <p class="pub-info">
+      <span><%= result_primo['format'] %></span>
+      <span><%= result_primo['year'] %></span>
+    </p>
+
+    <% if result_primo['creators'].present? %>
+      <span class="sr">Contributors: </span>
+      <ul class="list-inline truncate-list contributors">
+        <% result_primo['creators'].each do |creator| %>
+          <li>
+            <% if creator[:link] %>
+              <%= link_to creator[:value], creator[:link]  %>
+            <% else %>
+              <%= creator[:value] %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% if result_primo['container'].present? %>
+      <p class="pub-info">
+        <span class="sr">Published in: </span>
+        <em><%= result_primo['container'] %></em>
+      </p>
+    <% end %>
+
+    <% if result_primo['citation'].present? %>
+      <p class="citation">
+        <span class="sr">Citation: </span>
+        <%= result_primo['citation'] %>
+      </p>
+    <% end %>
+
+    <% if result_primo['summary'].present? %>
+      <p class="summary">
+        <span class="sr">Summary: </span>
+        <%= truncate(result_primo['summary'], length: 300) %>
+      </p>
+    <% end %>
+
+    <% if result_primo['subjects'].present? %>
+      <p class="subjects">
+        <span class="sr">Subjects: </span>
+        <%= result_primo['subjects'].join('; ') %>
+      </p>
+    <% end %>
+
+    <% if result_primo['links'].present? %>
+      <ul class="list-inline links">
+        <% result_primo['links'].each do |link| %>
+          <li>
+            <%= link_to link['kind'].titleize, link['url'], class: 'link-button' %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% if result_primo['availability'].present? %>
+      <p class="availability">
+        <span class="sr">Availability: </span>
+        <span class="availability-status"><%= result_primo['availability'] %></span>
+      </p>
+    <% end %>
+  </div>
+</li>

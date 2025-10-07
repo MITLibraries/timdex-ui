@@ -15,12 +15,78 @@ class SearchController < ApplicationController
     # inject session preference for boolean type if it is present
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
-    # hand off to Enhancer chain
+    # Determine which tab to load - default to primo unless gdt is enabled
+    @active_tab = if Flipflop.enabled?(:gdt)
+                    'gdt'  # Keep existing GDT behavior unchanged
+                  else
+                    params[:tab] || 'primo'  # Default to primo for new tabbed interface
+                  end
     @enhanced_query = Enhancer.new(params).enhanced_query
 
-    # hand off enhanced query to builder
+    # Route to appropriate search based on active tab
+    if Flipflop.enabled?(:gdt)
+      # Keep existing GDT behavior unchanged
+      load_gdt_results
+    else
+      case @active_tab
+      when 'primo'
+        load_primo_results
+      when 'timdex'
+        load_timdex_results
+      end
+    end
+  end
+
+  private
+
+  def load_gdt_results
     query = QueryBuilder.new(@enhanced_query).query
 
+    response = cache_timdex_query(query)
+
+    # Handle errors
+    @errors = extract_errors(response)
+    @pagination = Analyzer.new(@enhanced_query, response).pagination if @errors.nil?
+    @results = extract_results(response)
+    @filters = extract_filters(response)
+  end
+
+  def load_primo_results
+    begin
+      primo_search = PrimoSearch.new
+      per_page = params[:per_page] || 20
+      primo_response = primo_search.search(params[:q], per_page)
+      
+      @results = NormalizePrimoResults.new(primo_response, params[:q]).normalize
+      
+      # Basic pagination for now.
+      if @results.present?
+        @pagination = {
+          hits: @results.count,
+          start: 1,
+          end: @results.count
+        }
+      end
+      
+    rescue StandardError => e
+      @errors = handle_primo_errors(e)
+    end
+  end
+
+  def load_timdex_results
+    query = QueryBuilder.new(@enhanced_query).query
+    response = cache_timdex_query(query)
+
+    @errors = extract_errors(response)
+    @pagination = Analyzer.new(@enhanced_query, response).pagination if @errors.nil?
+    @results = extract_results(response)
+  end
+
+  def active_filters
+    ENV.fetch('ACTIVE_FILTERS', '').split(',').map(&:strip)
+  end
+
+  def cache_timdex_query(query)
     # Create cache key for this query
     # Sorting query hash to ensure consistent key generation regardless of the parameter order
     sorted_query = query.sort_by { |k, v| k.to_sym }.to_h
@@ -28,44 +94,21 @@ class SearchController < ApplicationController
 
     # builder hands off to wrapper which returns raw results here
     # We are using two difference caches to allow for Geo and USE to be cached separately. This ensures we don't have
-    # cache key collission for these two different query types. In practice, the likelihood of this happening is low,
+    # cache key collision for these two different query types. In practice, the likelihood of this happening is low,
     # as the query parameters are different for each type and they won't often be run with the same cache backend other
     # than locally, but this is a safeguard.
     # The response type is a GraphQL::Client::Response, which is not directly serializable, so we convert it to a hash.
-    response = if Flipflop.enabled?(:gdt)
-                 Rails.cache.fetch("#{cache_key}/geo", expires_in: 12.hours) do
-                   raw = execute_geospatial_query(query)
-                   {
-                     data: raw.data.to_h,
-                     errors: raw.errors.details.to_h
-                   }
-                 end
-               else
-                 Rails.cache.fetch("#{cache_key}/use", expires_in: 12.hours) do
-                   raw = TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
-                   {
-                     data: raw.data.to_h,
-                     errors: raw.errors.details.to_h
-                   }
-                 end
-               end
-
-    # Handle errors
-    @errors = extract_errors(response)
-
-    # Analayze results
-    # The @pagination instance variable includes info about next/previous pages (where they exist) to assist the UI.
-    @pagination = Analyzer.new(@enhanced_query, response).pagination if @errors.nil?
-
-    # Display results
-    @results = extract_results(response)
-    @filters = extract_filters(response)
-  end
-
-  private
-
-  def active_filters
-    ENV.fetch('ACTIVE_FILTERS', '').split(',').map(&:strip)
+    Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
+      raw = if @active_tab == 'gdt'
+              execute_geospatial_query(query)
+            elsif @active_tab == 'timdex'
+              TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
+            end
+      {
+        data: raw.data.to_h,
+        errors: raw.errors.details.to_h
+      }
+    end
   end
 
   def execute_geospatial_query(query)
@@ -213,5 +256,17 @@ class SearchController < ApplicationController
 
     flash[:error] = 'Maximum latitude cannot exceed minimum latitude.'
     redirect_to root_url
+  end
+
+  def handle_primo_errors(error)
+    Rails.logger.error("Primo search error: #{error.message}")
+    
+    if error.is_a?(ArgumentError)
+      [{ 'message' => 'Primo search is not properly configured.' }]
+    elsif error.is_a?(HTTP::TimeoutError)
+      [{ 'message' => 'The Primo service is currently slow to respond. Please try again.' }]
+    else
+      [{ 'message' => error.message }]
+    end
   end
 end
