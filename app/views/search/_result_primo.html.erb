@@ -3,7 +3,7 @@
     <h3 class="record-title">
       <span class="sr">Title: </span>
       <% if result_primo['links']&.find { |link| link['kind'] == 'full record' } %>
-        <%= link_to(result_primo['title'], result_primo['links'].find { |link| link['kind'] == 'full record' }['url'], target: '_blank', rel: 'noopener') %>
+        <%= link_to(result_primo['title'], result_primo['links'].find { |link| link['kind'] == 'full record' }['url']) %>
       <% else %>
         <%= result_primo['title'] %>
       <% end %>

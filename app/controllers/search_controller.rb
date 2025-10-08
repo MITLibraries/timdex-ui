@@ -27,6 +27,7 @@ class SearchController < ApplicationController
     if Flipflop.enabled?(:gdt)
       # Keep existing GDT behavior unchanged
       load_gdt_results
+      render 'results_geo'
     else
       case @active_tab
       when 'primo'
