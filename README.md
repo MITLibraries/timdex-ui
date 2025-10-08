@@ -67,22 +67,6 @@ If the `flipflop` gem has been updated, check that the `:gdt` feature is working
 UI elements specific to GDT (e.g., geospatial search fields or the 'Ask GIS' link) appear with the
 feature flag enabled, and do not when it is disabled.
 
-### CloudFlare Turnstile
-
-This application uses [CloudFlare Turnstile](https://www.cloudflare.com/application-services/products/turnstile/) via
-the [Bot Challenge Page](https://github.com/samvera-labs/bot_challenge_page) gem.
-
-In development, you can enable/disable this by running `rails dev:cache`. When `dev:cache` is not enabled, the cache is
-set to `null` so no enforcement is in place. As we do not register `localhost` with CloudFlare, if you have `dev:cache`
-enabled locally, you won't actually see the Turnstile challenge and instead will see a message saying you have been
-blocked. This is what users would also see if a deployed app is not registered with CloudFlare so we need to ensure all
-apps we intend to protect are registered with the site key we have enabled.
-
-`Bot Challenge Page` uses [rack-attack](https://github.com/rack/rack-attack). On Heroku deployed apps, we'll be using
-Redis to track requests.
-
-See `Optional Environment Variables` for more information.
-
 ### Rack Attack
 
 This application uses [Rack Attack](https://github.com/rack/rack-attack).
@@ -109,10 +93,6 @@ See `Optional Environment Variables` for more information.
 - `BOOLEAN_OPTIONS`: comma separated list of values to present to testers on instances where `BOOLEAN_PICKER` feature is enabled.
 - `BOOLEAN_PICKER`: feature to allow users to select their preferred boolean type. If set, feature is enabled. This feature is only intended for internal team
   testing and should never be enabled in production (mostly because the UI is a mess more than it would cause harm).
-- `CLOUDFLARE_SITE_KEY`: obtained through our cloudflare account (see lastpass for account info)
-- `CLOUDFLARE_SECRET_KEY`: obtained through our cloudflare account (see lastpass for account info)
-- `CLOUDFLARE_REQUEST_PERIOD_IN_HOURS`: integer in hours we use for grouping requests. Combined with `CLOUDFLARE_REQUESTS_PER_PERIOD` this makes up the "requests allowed per time period". Defaults to 12.
-- `CLOUDFLARE_REQUESTS_PER_PERIOD`: integer representing number of results and records pages allowed in the period defined in `CLOUDFLARE_REQUEST_PERIOD_IN_HOURS`. Defaults to 10.
 - `FACT_PANELS_ENABLED`: Comma separated list of enabled fact panels. See `/views/results.html.erb` for implemented panels/valid options. Leave unset to disable all.
 - `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.
 - `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.

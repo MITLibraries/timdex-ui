@@ -4,7 +4,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.9'
 
 gem 'bootsnap', require: false
-gem 'bot_challenge_page'
 gem 'graphql'
 gem 'graphql-client'
 gem 'http'
