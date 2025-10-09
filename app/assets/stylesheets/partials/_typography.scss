@@ -1,29 +1,39 @@
+// Override fonts from the theme gem, done temporarily for USE UI
+body {
+  font-family: $base-font;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $heading-font;
+  font-weight: $fw-semibold;
+}
+
 .hd-1 {
   font-size: $fs-xxxxlarge;
-  font-weight: $fw-bold;
-  line-height: $lh-xtight;
+  font-weight: $fw-semibold;
+  line-height: $lh-base;
 }
 
 .hd-2 {
   font-size: $fs-xxlarge;
-  font-weight: $fw-bold;
-  line-height: $lh-xtight;
+  font-weight: $fw-semibold;
+  line-height: $lh-base;
 }
 
 .hd-3 {
   font-size: $fs-xlarge;
-  font-weight: $fw-bold;
-  line-height: $lh-xtight;
+  font-weight: $fw-semibold;
+  line-height: $lh-base;
 }
 
 .hd-4 {
-  line-height: $lh-xtight;
+  line-height: $lh-base;
 }
 
 .hd-5 {
-  line-height: $lh-xtight;
+  line-height: $lh-base;
 }
 
 .hd-6 {
-  line-height: $lh-xtight;
+  line-height: $lh-base;
 }
