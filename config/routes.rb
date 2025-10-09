@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  post "/challenge", to: "bot_challenge_page/bot_challenge_page#verify_challenge", as: :bot_detect_challenge
   mount Flipflop::Engine => "/flipflop"
   root "basic_search#index"
 
