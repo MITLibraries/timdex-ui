@@ -17,9 +17,9 @@ class SearchController < ApplicationController
 
     # Determine which tab to load - default to primo unless gdt is enabled
     @active_tab = if Flipflop.enabled?(:gdt)
-                    'gdt'  # Keep existing GDT behavior unchanged
+                    'gdt' # Keep existing GDT behavior unchanged
                   else
-                    params[:tab] || 'primo'  # Default to primo for new tabbed interface
+                    params[:tab] || 'primo' # Default to primo for new tabbed interface
                   end
     @enhanced_query = Enhancer.new(params).enhanced_query
 
@@ -43,7 +43,7 @@ class SearchController < ApplicationController
   def load_gdt_results
     query = QueryBuilder.new(@enhanced_query).query
 
-    response = cache_timdex_query(query)
+    response = query_timdex(query)
 
     # Handle errors
     @errors = extract_errors(response)
@@ -53,30 +53,28 @@ class SearchController < ApplicationController
   end
 
   def load_primo_results
-    begin
-      primo_search = PrimoSearch.new
-      per_page = params[:per_page] || 20
-      primo_response = primo_search.search(params[:q], per_page)
-      
-      @results = NormalizePrimoResults.new(primo_response, params[:q]).normalize
-      
-      # Basic pagination for now.
-      if @results.present?
-        @pagination = {
-          hits: @results.count,
-          start: 1,
-          end: @results.count
-        }
-      end
-      
-    rescue StandardError => e
-      @errors = handle_primo_errors(e)
+    primo_response = query_primo
+    @results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
+
+    # Enhanced pagination using cached response
+    if @results.present?
+      total_hits = primo_response.dig('info', 'total') || @results.count
+      per_page = @enhanced_query[:per_page] || 20
+      current_page = @enhanced_query[:page] || 1
+
+      @pagination = {
+        hits: total_hits,
+        start: ((current_page - 1) * per_page) + 1,
+        end: [current_page * per_page, total_hits].min
+      }
     end
+  rescue StandardError => e
+    @errors = handle_primo_errors(e)
   end
 
   def load_timdex_results
     query = QueryBuilder.new(@enhanced_query).query
-    response = cache_timdex_query(query)
+    response = query_timdex(query)
 
     @errors = extract_errors(response)
     @pagination = Analyzer.new(@enhanced_query, response).pagination if @errors.nil?
@@ -87,29 +85,42 @@ class SearchController < ApplicationController
     ENV.fetch('ACTIVE_FILTERS', '').split(',').map(&:strip)
   end
 
-  def cache_timdex_query(query)
-    # Create cache key for this query
-    # Sorting query hash to ensure consistent key generation regardless of the parameter order
-    sorted_query = query.sort_by { |k, v| k.to_sym }.to_h
-    cache_key = Digest::MD5.hexdigest(sorted_query.to_s)
+  def query_timdex(query)
+    # We generate unique cache keys to avoid naming collisions.
+    cache_key = generate_cache_key(query)
 
-    # builder hands off to wrapper which returns raw results here
-    # We are using two difference caches to allow for Geo and USE to be cached separately. This ensures we don't have
-    # cache key collision for these two different query types. In practice, the likelihood of this happening is low,
-    # as the query parameters are different for each type and they won't often be run with the same cache backend other
-    # than locally, but this is a safeguard.
-    # The response type is a GraphQL::Client::Response, which is not directly serializable, so we convert it to a hash.
+    # Builder hands off to wrapper which returns raw results here.
     Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
       raw = if @active_tab == 'gdt'
               execute_geospatial_query(query)
             elsif @active_tab == 'timdex'
               TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
             end
+
+      # The response type is a GraphQL::Client::Response, which is not directly serializable, so we
+      # convert it to a hash.
       {
         data: raw.data.to_h,
         errors: raw.errors.details.to_h
       }
     end
+  end
+
+  def query_primo
+    # We generate unique cache keys to avoid naming collisions.
+    cache_key = generate_cache_key(@enhanced_query)
+
+    Rails.cache.fetch("#{cache_key}/primo", expires_in: 12.hours) do
+      primo_search = PrimoSearch.new
+      per_page = @enhanced_query[:per_page] || 20
+      primo_search.search(@enhanced_query[:q], per_page)
+    end
+  end
+
+  def generate_cache_key(query)
+    # Sorting query hash to ensure consistent key generation regardless of the parameter order
+    sorted_query = query.sort_by { |k, _v| k.to_sym }.to_h
+    Digest::MD5.hexdigest(sorted_query.to_s)
   end
 
   def execute_geospatial_query(query)
@@ -261,7 +272,7 @@ class SearchController < ApplicationController
 
   def handle_primo_errors(error)
     Rails.logger.error("Primo search error: #{error.message}")
-    
+
     if error.is_a?(ArgumentError)
       [{ 'message' => 'Primo search is not properly configured.' }]
     elsif error.is_a?(HTTP::TimeoutError)
