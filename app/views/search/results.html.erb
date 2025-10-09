@@ -9,11 +9,7 @@
   <%= render partial: "shared/site_title" %>
 
   <%= render partial: "form" %>
-  <% if Flipflop.enabled?(:gdt) %>
-    <%= render partial: "search_summary" %>
-  <% else %>
-    <%= render partial: "search_summary_use" %>
-  <% end %>
+  <%= render partial: "search_summary" %>
 
   <% if ENV.fetch('FACT_PANELS_ENABLED', false).present? %>
     <div id="hint" aria-live="polite">
@@ -26,46 +22,23 @@
 
   <%= render(partial: 'shared/error', collection: @errors) %>
 
-  <% unless Flipflop.enabled?(:gdt) %>
-    <!-- Tab Navigation -->
-    <div class="tab-navigation top-space">
-      <%= link_to "Primo", results_path(params.permit(:q, :per_page, :page).merge(tab: 'primo')), 
-                  class: "tab-link #{'active' if @active_tab == 'primo'}", 
-                  data: { turbo_frame: "search-results" } %>
-      <%= link_to "TIMDEX", results_path(params.permit(:q, :per_page, :page).merge(tab: 'timdex')), 
-                  class: "tab-link #{'active' if @active_tab == 'timdex'}", 
-                  data: { turbo_frame: "search-results" } %>
-    </div>
-  <% end %>
+  <!-- Tab Navigation -->
+  <div class="tab-navigation top-space">
+    <%= link_to "Primo", results_path(params.permit(:q, :per_page, :page).merge(tab: 'primo')), 
+                class: "tab-link #{'active' if @active_tab == 'primo'}", 
+                data: { turbo_frame: "search-results" } %>
+    <%= link_to "TIMDEX", results_path(params.permit(:q, :per_page, :page).merge(tab: 'timdex')), 
+                class: "tab-link #{'active' if @active_tab == 'timdex'}", 
+                data: { turbo_frame: "search-results" } %>
+  </div>
 
   <%= turbo_frame_tag "search-results" do %>
-    <div class="<%= @filters.present? ? 'layout-1q3q' : 'layout-3q1q' %> layout-band top-space">
-      <% if @filters.present? %>
-        <aside id="filters" class="col1q">
-          <button id="filter-toggle"><span class="filter-toggle-name">Filter your results</span><span class="filter-toggle-hide">Hide filters</span></button>
-          <div id="filter-container" class="hidden-md">
-            <div class="hidden-md">
-              <h2 class="hd-3">Filter your results</h2>
-            </div>
-            <% @filters&.each_with_index do |(category, values), index| %>
-              <% if index == 0 %>
-                <%= render(partial: 'search/filter', locals: { category: category, values: values, first: true }) %>
-              <% else %>
-                <%= render(partial: 'search/filter', locals: { category: category, values: values, first: false }) %>
-              <% end %>
-            <% end %>
-          </div>
-          <%= render partial: 'shared/ask', locals: { display: 'view-lg' } %>
-        </aside>
-      <% end %>
-
+    <div class="layout-3q1q layout-band top-space">
       <main id="results" class="col3q wrap-results">
         <% if @results.present? && @errors.blank? %>
           <h2 class="hd-3 results-context"><%= results_summary(@pagination[:hits]) %> returned</h2>
           <ol class="results-list" start="<%= @pagination[:start] %>">
-            <% if Flipflop.enabled?(:gdt) %>
-              <%= render(partial: 'search/result_geo', collection: @results) %>
-            <% elsif @active_tab == 'primo' %>
+            <% if @active_tab == 'primo' %>
               <%= render(partial: 'search/result_primo', collection: @results) %>
             <% else %>
               <%= render(partial: 'search/result', collection: @results) %>
@@ -79,7 +52,8 @@
       </main>
     </div>
   <% end %>
-    <%= render partial: 'shared/ask', locals: { display: 'aside' } if @results.blank? %>
+
+  <%= render partial: 'shared/ask', locals: { display: 'aside' } if @results.blank? %>
 
   <% if @results.present? %>
     <div id="pagination">  
