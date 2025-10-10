@@ -1,3 +1,27 @@
+.wrap-gridband, .wrap-notice, .wrap-header, 
+.wrap-header-local, .wrap-breadcrumb, .wrap-content, 
+.wrap-footer, .wrap-footer-institute, .wrap-footer.footer-slim {
+  
+  // Ensures the container is actually 1280px when space is available
+  max-width: calc(#{$container-max-width} + (#{$edge-padding-tablet} * 2)); 
+  
+  // Set desktop-sized padding
+  padding: 20px $edge-padding-desktop;
+
+  // Set edge margins for tablet (portrait) devices
+  @media (max-width: $bp-screen-md) {
+    padding-left: $edge-padding-tablet;
+    padding-right: $edge-padding-tablet;
+  }
+
+  // Set edge margins for phone devices
+  @media (max-width: $bp-screen-sm) {
+    padding-left: $edge-padding-phone;
+    padding-right: $edge-padding-phone;
+  }
+
+}
+
 .hidden-md {
   @media (max-width: $bp-screen-md) {
     display: none;
