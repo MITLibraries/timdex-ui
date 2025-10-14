@@ -1,8 +1,0 @@
-<% return unless @enhanced_query[:doi].present? %>
-
-<% data_url = "/doi?doi=#{URI.encode_www_form_component(@enhanced_query[:doi])}" %>
-
-<div class="fact-container"
-     data-controller="content-loader"
-     data-content-loader-url-value=<%= data_url %>>
-</div>

@@ -18,11 +18,11 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       ],
       'links' => [{ 'kind' => 'full record', 'url' => 'https://example.com/record' }]
     }
-    
+
     mock_primo = mock('primo_search')
     mock_primo.expects(:search).returns({ 'docs' => [sample_doc], 'total' => 1 })
     PrimoSearch.expects(:new).returns(mock_primo)
-    
+
     mock_normalizer = mock('normalizer')
     mock_normalizer.expects(:normalize).returns([sample_doc])
     NormalizePrimoResults.expects(:new).returns(mock_normalizer)
@@ -44,30 +44,30 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       ],
       'sourceLink' => 'https://example.com/record'
     }
-    
+
     mock_response = mock('timdex_response')
     mock_errors = mock('timdex_errors')
     mock_errors.stubs(:details).returns({})
     mock_errors.stubs(:to_h).returns({})
     mock_response.stubs(:errors).returns(mock_errors)
-    
+
     mock_data = mock('timdex_data')
     mock_search = mock('timdex_search')
-    mock_search.stubs(:to_h).returns({ 
-      'hits' => 1, 
-      'aggregations' => {},
-      'records' => [sample_result]
-    })
+    mock_search.stubs(:to_h).returns({
+                                       'hits' => 1,
+                                       'aggregations' => {},
+                                       'records' => [sample_result]
+                                     })
     mock_data.stubs(:search).returns(mock_search)
     mock_data.stubs(:to_h).returns({
-      'search' => {
-        'hits' => 1,
-        'aggregations' => {},
-        'records' => [sample_result]
-      }
-    })
+                                     'search' => {
+                                       'hits' => 1,
+                                       'aggregations' => {},
+                                       'records' => [sample_result]
+                                     }
+                                   })
     mock_response.stubs(:data).returns(mock_data)
-    
+
     TimdexBase::Client.expects(:query).returns(mock_response)
   end
 
@@ -110,7 +110,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     # Basic search field should always be present
     assert_select 'input#basic-search-main', { count: 1 }
-    
+
     if Flipflop.enabled?(:gdt)
       # Please note that this test confirms fields in the DOM - but not whether
       # they are visible. Fields in a hidden details panel are still in the DOM,
@@ -208,46 +208,6 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_select '#basic-search-main[value=data]'
-  end
-
-  test 'primo results with valid query has div for hints if any fact panels are enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: 'fakepanel') do
-      get '/results?q=data'
-    end
-
-    assert_response :success
-    assert_select '#hint'
-  end
-
-  test 'timdex results with valid query has div for hints if any fact panels are enabled' do
-    mock_timdex_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: 'fakepanel') do
-      get '/results?q=data&tab=timdex'
-    end
-
-    assert_response :success
-    assert_select '#hint'
-  end
-
-  test 'primo results with valid query has no div for hints if no fact panels are enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-      get '/results?q=data'
-    end
-
-    assert_response :success
-    assert_select('#hint', 0)
-  end
-
-  test 'timdex results with valid query has no div for hints if no fact panels are enabled' do
-    mock_timdex_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-      get '/results?q=data&tab=timdex'
-    end
-
-    assert_response :success
-    assert_select('#hint', 0)
   end
 
   test 'results with valid query has div for filters which is populated' do
@@ -359,93 +319,6 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       # Pagination is not shown
       assert_select '#pagination', { count: 0 }
     end
-  end
-
-  test 'searches with ISSN display issn fact card when enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: 'issn') do
-      get '/results?q=1234-5678'
-    end
-    assert_response :success
-
-    actual_div = assert_select('div[data-content-loader-url-value]')
-    assert_equal '/issn?issn=1234-5678',
-                 actual_div.attribute('data-content-loader-url-value').value
-  end
-
-  test 'searches with ISSN do not display issn fact card when not enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-      get '/results?q=1234-5678'
-    end
-    assert_response :success
-
-    assert_select('div[data-content-loader-url-value].fact-container', 0)
-  end
-
-  test 'searches with ISBN insert isbn dom element when enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: 'isbn') do
-      get '/results?q=9781857988536'
-    end
-
-    assert_response :success
-
-    actual_div = assert_select('div[data-content-loader-url-value]')
-    assert_equal '/isbn?isbn=9781857988536',
-                 actual_div.attribute('data-content-loader-url-value').value
-  end
-
-  test 'searches with ISBN do not insert isbn dom element when not enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-      get '/results?q=9781857988536'
-    end
-
-    assert_response :success
-    assert_select('div[data-content-loader-url-value].fact-container', 0)
-  end
-
-  test 'searches with DOI insert doi dom element when enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: 'doi') do
-      get '/results?q=10.1038/nphys1170 '
-    end
-    assert_response :success
-
-    actual_div = assert_select('div[data-content-loader-url-value]')
-    assert_equal '/doi?doi=10.1038%2Fnphys1170',
-                 actual_div.attribute('data-content-loader-url-value').value
-  end
-
-  test 'searches with DOI do not insert doi dom element when not enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-      get '/results?q=10.1038/nphys1170 '
-    end
-    assert_response :success
-    assert_select('div[data-content-loader-url-value].fact-container', 0)
-  end
-
-  test 'searches with pmid insert pmid dom element when enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: 'pmid') do
-      get '/results?q=PMID: 35649707'
-    end
-    assert_response :success
-
-    actual_div = assert_select('div[data-content-loader-url-value]')
-    assert_equal '/pmid?pmid=PMID%3A+35649707',
-                 actual_div.attribute('data-content-loader-url-value').value
-  end
-
-  test 'searches with pmid do not insert pmid dom element when not enabled' do
-    mock_primo_search_success
-    ClimateControl.modify(FACT_PANELS_ENABLED: '') do
-      get '/results?q=PMID: 35649707'
-    end
-    assert_response :success
-    assert_select('div[data-content-loader-url-value].fact-container', 0)
   end
 
   test 'TACOS intervention is inserted when TACOS enabled' do
@@ -706,7 +579,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   # Tab functionality tests for USE
   test 'results defaults to primo tab when no tab parameter provided' do
     mock_primo_search_success
-    
+
     get '/results?q=test'
     assert_response :success
     assert_select 'a.tab-link.active[href*="tab=primo"]', count: 1
@@ -714,7 +587,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results respects primo tab parameter' do
     mock_primo_search_success
-    
+
     get '/results?q=test&tab=primo'
     assert_response :success
     assert_select 'a.tab-link.active[href*="tab=primo"]', count: 1
@@ -722,7 +595,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results respects timdex tab parameter' do
     mock_timdex_search_success
-    
+
     get '/results?q=test&tab=timdex'
     assert_response :success
     assert_select 'a.tab-link.active[href*="tab=timdex"]', count: 1
@@ -730,7 +603,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results shows tab navigation when gdt is disabled' do
     mock_primo_search_success
-    
+
     get '/results?q=test'
     assert_response :success
     assert_select '.tab-navigation', count: 1
@@ -740,7 +613,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results handles primo search errors gracefully' do
     PrimoSearch.expects(:new).raises(StandardError.new('API Error'))
-    
+
     get '/results?q=test&tab=primo'
     assert_response :success
     assert_select '.alert', count: 1
@@ -749,7 +622,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results uses simplified search summary for USE app' do
     mock_primo_search_success
-    
+
     get '/results?q=test'
     assert_response :success
     assert_select 'aside.search-summary', count: 1
