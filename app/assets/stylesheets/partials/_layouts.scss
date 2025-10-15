@@ -1,6 +1,6 @@
 .wrap-gridband, .wrap-notice, .wrap-header, 
 .wrap-header-local, .wrap-breadcrumb, .wrap-content, 
-.wrap-footer, .wrap-footer-institute, .wrap-footer.footer-slim {
+.wrap-footer, .wrap-footer-institute, .wrap-footer.footer-slim, .wrapper {
   
   // Ensures the container is actually 1280px when space is available
   max-width: calc(#{$container-max-width} + (#{$edge-padding-tablet} * 2)); 
@@ -20,6 +20,12 @@
     padding-right: $edge-padding-phone;
   }
 
+}
+
+.wrap-header .header-slim .logo-mit-lib img {height: 40px;} // Adjust Libraries logo to 40px height
+
+.wrapper {
+  margin: 0 auto;
 }
 
 .hidden-md {

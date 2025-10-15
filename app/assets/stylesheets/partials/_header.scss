@@ -1,11 +1,94 @@
+.institute-bar, .libraries-header {
+    *:focus-visible {
+        outline: 2px solid $color-focus-dark;
+    }
+}
+
 .institute-bar {
     background-color: $color-gray-900;
-
-    .wrap-header {
-        background: none;
-
+        
+    .wrapper {
+        display: flex;
         padding-top: 16px;
         padding-bottom: 16px;
     }
 
+    .link-logo-mit { height: 24px; } // Sets link around logo to match logo height
+
+    nav {
+        flex: 1;
+        display: flex;
+        gap: 24px;
+        justify-content: flex-end;
+
+        a {
+            color: $color-gray-300;
+            font-size: 1.5rem;
+            padding-top: 2px;
+            @include text-decoration-animation(150ms);
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
 }
+
+.libraries-header {
+    background-color: $color-black;    
+
+    .wrapper {
+        background: url("https://cdn.mitlibrary.net/files/branding/local/vi-shape7-tp.svg") no-repeat -48px -250px;
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    .navigation-bar {
+        display: flex;
+
+        > h1 {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+    }
+
+    .divider {
+        width: 1px;
+        height: 28px;
+        background-color: $color-gray-700;
+    }
+
+    .platform-name {
+        color: $color-white;
+        font-size: 2.4rem;        
+        @include text-decoration-animation(150ms);
+
+        &:hover {
+            text-decoration: underline;
+            color: $color-white;
+        }
+    }
+
+    .main-navigation {
+        flex: 1;
+        display: flex;
+        gap: 32px;
+        justify-content: flex-end;
+        align-self: center;
+
+        a {
+            color: $color-white;
+            font-size: 1.8rem;
+            font-weight: $fw-medium;
+            @include text-decoration-animation(150ms);
+
+            &:hover {
+                text-decoration: underline;
+                color: $color-white;
+            }            
+        }
+    }
+}
+

@@ -4,6 +4,7 @@
 
 // GRAY
 $color-gray-200: #e6e6e6;
+$color-gray-300: #ccc;
 $color-gray-400: #b3b3b3;
 $color-gray-500: #999 ;
 $color-gray-700: #666;
@@ -15,6 +16,10 @@ $color-gray-975: #191919;
 $color-red-500: #ff0000;
 $color-red-600: #e50000;
 
+// CYAN
+$color-cyan-500: #00C8FF;
+$color-cyan-700: #00A0CC;
+
 // SEMANTIC COLORS
 $color-black: #000;
 $color-white: #fff;
@@ -23,6 +28,9 @@ $color-text-primary: $color-gray-950;
 $color-text-secondary: $color-gray-700;
 $color-text-placeholder: $color-gray-500;
 $color-text-disabled: $color-gray-400;
+
+$color-focus: $color-cyan-700;
+$color-focus-dark: $color-cyan-500;
 
 // ----------------------------
 // #TYPOGRAPHY
@@ -41,6 +49,7 @@ $fs-xxxlarge:  4.2rem; // unused by default
 $fs-xxxxlarge: 5.2rem;
 
 $fw-normal:   400;
+$fw-medium:   500;
 $fw-semibold: 600;
 $fw-bold:     700;
 
