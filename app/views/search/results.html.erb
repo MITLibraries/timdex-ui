@@ -10,6 +10,7 @@
 
   <%= render partial: "form" %>
   <%= render partial: "search_summary" %>
+  <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
   <%= render(partial: 'shared/error', collection: @errors) %>
 
@@ -54,7 +55,5 @@
     <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
   <% end %>
 </div>
-
-<%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
 <%= javascript_include_tag "filters" %>

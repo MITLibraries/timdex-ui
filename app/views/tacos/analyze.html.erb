@@ -1,1 +1,18 @@
-<!-- Result of TACOS analysis would go here -->
+<% if @suggestions.present? %>
+  <div id="hint" aria-live="polite">
+    <aside class="mitlib-suggestion-panel">
+      <div class="image-wrapper">
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+      </div>
+      <div class="panel-content">
+        <p class="panel-type">Suggested resource</p>
+        <h3><%= @suggestions['title'] %></h3>
+        <p>
+          <%= link_to(
+            @suggestions['url'], @suggestions['url']
+          ) %>
+        </p>
+      </div>
+    </aside>
+  </div>
+<% end %>
