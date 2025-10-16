@@ -1,11 +1,11 @@
 <li class="result">
   <div class="result-content">
     <h3 class="record-title">
-      <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['timdexRecordId'])) %>
+      <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['identifier'])) %>
     </h3>
 
     <p class="pub-info">
-      <span><%= result['contentType']&.each { |type| type['value'] }&.join(' ; ') %></span>
+      <span><%= result['content_type']&.each { |type| type['value'] }&.join(' ; ') %></span>
       <span>
         <% result['dates']&.each do |date| %>
           <%= date['value'] if date['kind'] == 'Publication date' %>

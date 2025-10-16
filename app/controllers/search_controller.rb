@@ -47,8 +47,11 @@ class SearchController < ApplicationController
 
     # Handle errors
     @errors = extract_errors(response)
-    @pagination = Analyzer.new(@enhanced_query, response).pagination if @errors.nil?
-    @results = extract_results(response)
+    return unless @errors.nil?
+
+    @pagination = Analyzer.new(@enhanced_query, response).pagination
+    raw_results = extract_results(response)
+    @results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
     @filters = extract_filters(response)
   end
 
@@ -77,8 +80,11 @@ class SearchController < ApplicationController
     response = query_timdex(query)
 
     @errors = extract_errors(response)
-    @pagination = Analyzer.new(@enhanced_query, response).pagination if @errors.nil?
-    @results = extract_results(response)
+    return unless @errors.nil?
+
+    @pagination = Analyzer.new(@enhanced_query, response).pagination
+    raw_results = extract_results(response)
+    @results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
   end
 
   def active_filters
