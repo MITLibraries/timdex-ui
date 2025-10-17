@@ -10,12 +10,11 @@
 
   <%= render partial: "form" %>
   <%= render partial: "search_summary" %>
-  <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
   <%= render(partial: 'shared/error', collection: @errors) %>
 
   <!-- Tab Navigation -->
-  <div class="tab-navigation top-space">
+  <div id="tabs" class="tab-navigation top-space">
     <%= link_to "Primo", results_path(params.permit(:q, :per_page, :page).merge(tab: 'primo')), 
                 class: "tab-link #{'active' if @active_tab == 'primo'}", 
                 data: { turbo_frame: "search-results" } %>
@@ -23,6 +22,8 @@
                 class: "tab-link #{'active' if @active_tab == 'timdex'}", 
                 data: { turbo_frame: "search-results" } %>
   </div>
+
+  <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
   <%= turbo_frame_tag "search-results" do %>
     <div class="layout-3q1q layout-band top-space">
