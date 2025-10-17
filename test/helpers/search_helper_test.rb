@@ -31,13 +31,13 @@ class SearchHelperTest < ActionView::TestCase
                   { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }], trim_highlights(result)
   end
 
-  test 'renders view_online link if sourceLink is present' do
-    result = { 'title' => 'A record', 'sourceLink' => 'https://example.org' }
+  test 'renders view_online link if source_link is present' do
+    result = { 'title' => 'A record', 'source_link' => 'https://example.org' }
     assert_equal '<a class="button button-primary" href="https://example.org">View online</a>',
                  view_online(result)
   end
 
-  test 'does not render view_online link if sourceLink is absent' do
+  test 'does not render view_online link if source_link is absent' do
     result = { 'title' => 'A record' }
     assert_nil view_online(result)
   end
@@ -167,7 +167,7 @@ class SearchHelperTest < ActionView::TestCase
     @test_strategy.switch!(:gdt, true)
 
     query = {
-      contributors: 'person, sample',
+      contributors: 'person, sample'
     }
     assert_equal ['Authors: person, sample'], applied_advanced_terms(query)
   end

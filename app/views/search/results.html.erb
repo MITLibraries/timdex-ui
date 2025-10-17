@@ -38,10 +38,11 @@
         <% if @results.present? && @errors.blank? %>
           <h2 class="hd-3 results-context"><%= results_summary(@pagination[:hits]) %> returned</h2>
           <ol class="results-list" start="<%= @pagination[:start] %>">
-            <% if @active_tab == 'primo' %>
-              <%= render(partial: 'search/result_primo', collection: @results) %>
-            <% else %>
-              <%= render(partial: 'search/result', collection: @results) %>
+            <% case @active_tab %>
+            <% when 'primo' %>
+              <%= render(partial: 'search/result_primo', collection: @results, as: :result) %>
+            <% when 'timdex' %>
+              <%= render(partial: 'search/result', collection: @results, as: :result) %>
             <% end %>
           </ol>
         <% elsif @errors.blank? %>

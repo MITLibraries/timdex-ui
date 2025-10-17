@@ -15,9 +15,9 @@ module SearchHelper
   end
 
   def view_online(result)
-    return unless result['sourceLink'].present?
+    return unless result['source_link'].present?
 
-    link_to 'View online', result['sourceLink'], class: 'button button-primary'
+    link_to 'View online', result['source_link'], class: 'button button-primary'
   end
 
   def view_record(record_id)

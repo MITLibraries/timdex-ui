@@ -1,4 +1,4 @@
-# Transforms a PNX doc from Primo Search API into a normalized record.
+# Transforms a Primo Search API result into a normalized record.
 class NormalizePrimoRecord
   def initialize(record, query)
     @record = record
@@ -7,6 +7,7 @@ class NormalizePrimoRecord
 
   def normalize
     {
+      # Core fields
       'title' => title,
       'creators' => creators,
       'source' => source,
@@ -14,15 +15,16 @@ class NormalizePrimoRecord
       'format' => format,
       'links' => links,
       'citation' => citation,
-      'container' => container_title,
       'identifier' => record_id,
       'summary' => summary,
-      'numbering' => numbering,
-      'chapter_numbering' => chapter_numbering,
-      'thumbnail' => thumbnail,
       'publisher' => publisher,
       'location' => best_location,
       'subjects' => subjects,
+      # Primo-specific fields
+      'container' => container_title,
+      'numbering' => numbering,
+      'chapter_numbering' => chapter_numbering,
+      'thumbnail' => thumbnail,
       'availability' => best_availability,
       'other_availability' => other_availability?
     }

@@ -1,0 +1,32 @@
+{
+  "timdexRecordId": "test-record-123",
+  "title": "Sample TIMDEX Record for Testing",
+  "source": "Test Repository",
+  "contentType": [
+    {"value": "Dataset"},
+    {"value": "Geospatial data"}
+  ],
+  "dates": [
+    {"kind": "Publication date", "value": "2023-01-15"},
+    {"kind": "Coverage", "value": "2020-2023"}
+  ],
+  "contributors": [
+    {"kind": "Creator", "value": "Smith, Jane"},
+    {"kind": "Author", "value": "Doe, John"},
+    {"kind": "Publisher", "value": "MIT Libraries"}
+  ],
+  "subjects": [
+    {"value": "Geographic Information Systems"},
+    {"value": "Remote Sensing"}
+  ],
+  "summary": "This is a comprehensive test record with all possible fields populated for testing normalization.",
+  "citation": "Smith, J. & Doe, J. (2023). Sample TIMDEX Record for Testing. Test Repository.",
+  "sourceLink": "https://example.com/source/record/123",
+  "locations": [
+    {"value": "Cambridge, MA"}
+  ],
+  "highlight": {
+    "title": ["Sample <em>TIMDEX</em> Record"],
+    "summary": ["comprehensive <em>test</em> record"]
+  }
+}
