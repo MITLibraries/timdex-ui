@@ -1,8 +1,0 @@
-<% return unless @enhanced_query[:issn].present? %>
-
-<% data_url = "/issn?issn=#{URI.encode_www_form_component(@enhanced_query[:issn])}" %>
-
-<div class="fact-container"
-     data-controller="content-loader"
-     data-content-loader-url-value=<%= data_url %>>
-</div>

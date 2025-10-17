@@ -27,6 +27,7 @@ VCR.configure do |config|
   config.filter_sensitive_data('FAKE_TIMDEX_INDEX') { ENV.fetch('TIMDEX_INDEX').to_s }
   config.filter_sensitive_data('FAKE_PRIMO_API_KEY') { ENV.fetch('PRIMO_API_KEY').to_s }
   config.filter_sensitive_data('FAKE_TACOS_HOST') { ENV.fetch('TACOS_HOST').to_s }
+  config.filter_sensitive_data('FAKE_TACOS_SOURCE') { ENV.fetch('TACOS_SOURCE').to_s }
   config.filter_sensitive_data('http://FAKE_TACOS_HOST/graphql/') { ENV.fetch('TACOS_URL').to_s }
 end
 

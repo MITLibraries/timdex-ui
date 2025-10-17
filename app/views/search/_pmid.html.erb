@@ -1,8 +1,0 @@
-<% return unless @enhanced_query[:pmid].present? %>
-
-<% data_url = "/pmid?pmid=#{URI.encode_www_form_component(@enhanced_query[:pmid])}" %>
-
-<div class="fact-container"
-     data-controller="content-loader"
-     data-content-loader-url-value=<%= data_url %>>
-</div>

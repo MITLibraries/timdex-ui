@@ -3,15 +3,6 @@
 <% else %>
   <aside class="col1q-r sidebar">
 <% end %>
-  <% if doi(@record) %>
-    <% data_url = "/doi?doi=#{URI.encode_www_form_component(doi(@record))}&slim=true" %>
-
-    <div class="fact-container"
-        data-controller="content-loader"
-        data-content-loader-url-value=<%= data_url %>>
-    </div>
-  <% end %>
-
   <% if Flipflop.enabled?(:gdt) && access_type(@record) && gis_access_link(@record) %>
     <h2 class="hd-3">Access links</h2>
     <%= render partial: 'access_buttons' %>

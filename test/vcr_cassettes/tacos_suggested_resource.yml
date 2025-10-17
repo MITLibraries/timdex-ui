@@ -1,0 +1,69 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://FAKE_TACOS_HOST/graphql/
+    body:
+      encoding: UTF-8
+      string: '{ "query": "{ logSearchEvent(searchTerm: \"hours\", sourceSystem: \"FAKE_TACOS_SOURCE\"
+        ) { phrase source detectors { suggestedResources { title url } } } }" }'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Connection:
+      - Keep-Alive
+      Host:
+      - tacos-stage-0386f762f11f.herokuapp.com
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Length:
+      - '174'
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"8f1888c3ddaebb3da46f00c36407dee3"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=FEvX0e63SVX0Q1hiJgqxhjrbj14G8FK3%2F4l0u%2FC%2BQe4%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1760473260"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=FEvX0e63SVX0Q1hiJgqxhjrbj14G8FK3%2F4l0u%2FC%2BQe4%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1760473260"
+      Server:
+      - Heroku
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Vary:
+      - Accept, Origin
+      Via:
+      - 1.1 heroku-router
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - fd874e9f-8497-0954-b866-baa5001edf7e
+      X-Runtime:
+      - '0.083611'
+      X-Xss-Protection:
+      - '0'
+      Date:
+      - Tue, 14 Oct 2025 20:21:00 GMT
+    body:
+      encoding: UTF-8
+      string: '{"data":{"logSearchEvent":{"phrase":"hours","source":"FAKE_TACOS_SOURCE","detectors":{"suggestedResources":[{"title":"MIT
+        Libraries Hours","url":"https://libraries.mit.edu/hours"}]}}}}'
+  recorded_at: Tue, 14 Oct 2025 20:21:00 GMT
+recorded_with: VCR 6.3.1
