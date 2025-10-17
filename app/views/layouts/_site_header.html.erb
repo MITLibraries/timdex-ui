@@ -1,0 +1,33 @@
+<div class="institute-bar">
+  <div class="wrapper">
+    <a class="link-logo-mit" href="https://www.mit.edu"><span class="sr">MIT Logo</span>
+      <img src="https://cdn.libraries.mit.edu/files/branding/local/mit_logo_std_rgb_white.svg" height="24" alt="MIT logo" >
+    </a>
+  </div>
+</div>
+<div class="libraries-header">
+  <div class="wrapper">
+    <header class="navigation-bar">
+      <h1>
+        <a href="https://libraries.mit.edu/" class="logo-mit-lib">
+          <span class="sr">MIT Libraries Homepage</span>
+          <img src="https://cdn.libraries.mit.edu/files/branding/local/mitlib-wordmark.svg" height="40" alt="MIT Libraries logo">
+        </a>
+        <% if ENV['PLATFORM_NAME'] %>
+          <span class="divider"></span>
+          <a href="/" class="platform-name"><%= ENV.fetch('PLATFORM_NAME') %></a>
+        <% end %>
+      </h1>
+      <nav class="main-navigation" aria-label="Main navigation">
+          <%= nav_link_to("Home", root_path) %>
+          <% if Flipflop.enabled?(:gdt) %>
+            <div class="wrap-gis-links">
+              <%= nav_link_to("GIS at MIT", "https://libraries.mit.edu/gis") %>
+              <span class="nav-divider" aria-hidden="true">|</span>
+              <%= nav_link_to("Ask GIS", "https://libraries.mit.edu/ask-gis") %>
+            </div>
+          <% end %>
+      </nav>
+    </header>
+  </div>  
+</div>

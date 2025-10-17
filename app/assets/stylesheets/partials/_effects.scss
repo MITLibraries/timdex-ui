@@ -1,0 +1,11 @@
+// ----------------------------------------------------
+// CENTRALIZED LOCATION FOR ANIMATIONS AND TRANSITIONS
+// ----------------------------------------------------
+
+// ANIMATION
+
+@mixin text-decoration-animation( $speed ) {
+    transition: text-decoration #{$speed} ease;
+    text-decoration: none; // Included as fallback if text-decoration-color isn't supported
+    text-decoration: underline transparent;
+}
