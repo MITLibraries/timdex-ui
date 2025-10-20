@@ -37,6 +37,12 @@
 }
 
 // FOOTER STYLES
+
+.wrap-outer-footer, .wrap-outer-footer-institute {
+  @include set-focus-outline();
+}
+
+
 .wrap-footer.footer-slim {
   padding-top: 32px;
   padding-bottom: 32px;
@@ -49,6 +55,10 @@
 
 .wrap-footer .wrap-logo-lib {
   margin-right: 48px;
+
+  .logo-mit-lib {
+    display: block;
+  }
 }
 
 .wrap-footer.footer-slim .wrap-middle .wrap-policies {
