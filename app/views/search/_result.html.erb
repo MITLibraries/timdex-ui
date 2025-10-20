@@ -1,7 +1,8 @@
 <li class="result">
   <div class="result-content">
     <h3 class="record-title">
-      <span class="sr">Title: </span><%= link_to(result['title'], record_path(result['identifier'])) %>
+      <span class="sr">Title: </span>
+      <%= link_to_result(result) %>
     </h3>
 
     <p class="pub-info">

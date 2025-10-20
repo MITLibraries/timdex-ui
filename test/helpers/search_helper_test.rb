@@ -171,4 +171,36 @@ class SearchHelperTest < ActionView::TestCase
     }
     assert_equal ['Authors: person, sample'], applied_advanced_terms(query)
   end
+
+  test 'link_to_result returns link when source_link is present' do
+    result = {
+      'title' => 'Sample Document Title',
+      'source_link' => 'https://example.com/document'
+    }
+    expected_link = '<a href="https://example.com/document">Sample Document Title</a>'
+    assert_equal expected_link, link_to_result(result)
+  end
+
+  test 'link_to_result returns plain title when source_link is nil' do
+    result = {
+      'title' => 'Sample Document Title',
+      'source_link' => nil
+    }
+    assert_equal 'Sample Document Title', link_to_result(result)
+  end
+
+  test 'link_to_result returns plain title when source_link is empty string' do
+    result = {
+      'title' => 'Sample Document Title',
+      'source_link' => ''
+    }
+    assert_equal 'Sample Document Title', link_to_result(result)
+  end
+
+  test 'link_to_result returns plain title when source_link key is absent' do
+    result = {
+      'title' => 'Sample Document Title'
+    }
+    assert_equal 'Sample Document Title', link_to_result(result)
+  end
 end
