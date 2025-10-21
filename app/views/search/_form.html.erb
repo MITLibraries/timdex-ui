@@ -22,10 +22,10 @@ end
 keyword_placeholder = search_required ? "Enter your search" : "Keyword anywhere"
 %>
 
-<form id="basic-search" class="form-horizontal basic-search" action="<%= results_path %>" method="get" role="search">
+<form id="search-form" class="form-horizontal search-form" action="<%= results_path %>" method="get" role="search">
   <div class="form-group">
     <input id="basic-search-main" type="search"
-           class="field field-text basic-search-input <%= "required" if search_required %>" name="q"
+           class="field field-text basic-search-input <%= "required" if search_required %> <%= "inline" unless Flipflop.enabled?(:gdt) %>" name="q"
            title="Keyword anywhere" placeholder="<%= keyword_placeholder %>"
            value="<%= params[:q] %>" <%= 'required' if search_required %>
            <%= 'aria-describedby=site-desc' if Flipflop.enabled?(:gdt) %>>
@@ -175,11 +175,15 @@ keyword_placeholder = search_required ? "Enter your search" : "Keyword anywhere"
         </div>
       </div>
     </details>
-    <% end %>
-  </div>
 
-  <div class="basic-search-submit">
-    <button type="submit" class="btn button-primary">Search</button>
+    <div class="geo-search-submit">
+      <button type="submit" class="btn button-primary">Search</button>
+    </div>
+    <% else %>
+    <div class="basic-search-submit">
+      <button type="submit" class="btn button-primary">Search</button>
+    </div>
+    <% end %>
   </div>
 </form>
 
