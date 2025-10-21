@@ -75,7 +75,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/'
     assert_response :success
 
-    assert_select 'form#basic-search', { count: 1 }
+    assert_select 'form#search-form', { count: 1 }
     assert_select 'details#advanced-search-panel', count: 0
   end
 
@@ -88,6 +88,19 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     else
       skip('Advanced search functionality not implemented in USE UI')
     end
+  end
+
+  test 'index shows basic search form when GDT is disabled' do
+    # GDT is disabled by default in test setup
+    get '/'
+    assert_response :success
+
+    # Should show basic form without geo elements
+    assert_select 'form#search-form', { count: 1 }
+    assert_select 'form#search-form-geo', { count: 0 }
+    assert_select 'details#geobox-search-panel', { count: 0 }
+    assert_select 'details#geodistance-search-panel', { count: 0 }
+    assert_select 'details#advanced-search-panel', { count: 0 }
   end
 
   test 'advanced search form appears on results page with URL parameter' do
@@ -183,7 +196,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=hallo'
     assert_response :success
 
-    assert_select 'form#basic-search', { count: 1 }
+    assert_select 'form#search-form', { count: 1 }
   end
 
   test 'timdex results with valid query shows search form' do
@@ -191,7 +204,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=hallo&tab=timdex'
     assert_response :success
 
-    assert_select 'form#basic-search', { count: 1 }
+    assert_select 'form#search-form', { count: 1 }
   end
 
   test 'primo results with valid query populates search form with query' do
@@ -208,6 +221,15 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_select '#basic-search-main[value=data]'
+  end
+
+  test 'results page shows basic USE search form when GDT is disabled' do
+    # GDT is disabled by default in test setup
+    mock_primo_search_success
+    get '/results?q=test'
+    assert_response :success
+    assert_select 'form#search-form', { count: 1 }
+    assert_select 'form#search-form-geo', { count: 0 }
   end
 
   test 'results with valid query has div for filters which is populated' do
