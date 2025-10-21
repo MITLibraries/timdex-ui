@@ -2,11 +2,6 @@ Rails.application.routes.draw do
   mount Flipflop::Engine => "/flipflop"
   root "basic_search#index"
 
-  get 'doi', to: 'fact#doi'
-  get 'isbn', to: 'fact#isbn'
-  get 'issn', to: 'fact#issn'
-  get 'pmid', to: 'fact#pmid'
-
   get 'analyze', to: 'tacos#analyze'
 
   get 'record/(:id)',
