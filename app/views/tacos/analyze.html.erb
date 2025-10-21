@@ -1,4 +1,4 @@
-<% if @suggestions.present? %>
+<% if @suggestions.present? && !Flipflop.enabled?(:gdt)%>
   <div id="hint" aria-live="polite">
     <aside class="mitlib-suggestion-panel">
       <div class="panel-content">
