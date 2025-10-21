@@ -14,6 +14,14 @@ module SearchHelper
     field_name.underscore.humanize
   end
 
+  def link_to_result(result)
+    if result['source_link'].present?
+      link_to(result['title'], result['source_link'])
+    else
+      result['title']
+    end
+  end
+
   def view_online(result)
     return unless result['source_link'].present?
 
