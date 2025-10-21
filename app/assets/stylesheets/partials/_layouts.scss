@@ -1,3 +1,4 @@
+// GLOBAL LAYOUT STYLING
 .wrap-gridband, .wrap-notice, .wrap-header, 
 .wrap-header-local, .wrap-breadcrumb, .wrap-content, 
 .wrap-footer, .wrap-footer-institute, .wrap-footer.footer-slim, .wrapper {
@@ -22,14 +23,94 @@
 
 }
 
-.wrap-header .header-slim .logo-mit-lib img {height: 40px;} // Adjust Libraries logo to 40px height
-
 .wrapper {
   margin: 0 auto;
 }
+
+// HEADER STYLING
+.wrap-header .header-slim .logo-mit-lib img {height: 40px;} // Adjust Libraries logo to 40px height
 
 .hidden-md {
   @media (max-width: $bp-screen-md) {
     display: none;
   }
+}
+
+// FOOTER STYLES
+
+.wrap-outer-footer, .wrap-outer-footer-institute {
+  @include set-focus-outline();
+}
+
+
+.wrap-footer.footer-slim {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.wrap-footer .identity {
+  margin-top: 0;
+  align-items: center;
+}
+
+.wrap-footer .wrap-logo-lib {
+  margin-right: 48px;
+
+  .logo-mit-lib {
+    display: block;
+  }
+}
+
+.wrap-footer.footer-slim .wrap-middle .wrap-policies {
+  padding-top: 0;
+  margin-left: 0;
+
+  nav {
+    display: flex;
+    gap: 32px;
+
+    a {
+      font-size: 1.5rem;
+      color: $color-gray-300;
+    }
+  }
+
+}
+
+// Adjust styles for navigation when on smaller screens
+@media (max-width: $bp-screen-md) {
+  .wrap-footer.footer-slim .identity {
+    margin-bottom: 0;
+  }
+
+  .wrap-footer.footer-slim .wrap-middle .wrap-policies {  
+    border-top: none;
+      
+    nav {
+      gap: 24px;
+    }
+  }
+}
+
+.wrap-footer-institute {
+  padding-top: 16px;
+  padding-bottom: 16px;
+
+  .footer-info-institute {
+    align-items: center;
+    color: $color-gray-300;
+  }
+
+  a.link-logo-mit img {
+    max-width: unset;
+  }
+
+  .license {
+    font-size: 1.3rem;
+
+    a {
+      color: $color-gray-300;
+    }
+  }
+
 }
