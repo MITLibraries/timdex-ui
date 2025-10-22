@@ -4,10 +4,14 @@
 
 // ANIMATION
 
-@mixin text-decoration-animation( $speed ) {
-    transition: text-decoration #{$speed} ease;
+@mixin text-decoration-animation {
+    transition: text-decoration 150ms ease;
     text-decoration: none; // Included as fallback if text-decoration-color isn't supported
     text-decoration: underline transparent;
+}
+
+@mixin hover-transition {
+    transition: all .25s ease-in-out 0s;
 }
 
 // OUTLINE

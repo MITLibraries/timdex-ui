@@ -2,7 +2,10 @@
 // #COLOR
 // ----------------------------
 
+
+
 // GRAY
+$color-gray-100: #F2F2F2;
 $color-gray-200: #e6e6e6;
 $color-gray-300: #ccc;
 $color-gray-400: #b3b3b3;
@@ -20,17 +23,32 @@ $color-red-600: #e50000;
 $color-cyan-500: #00C8FF;
 $color-cyan-700: #00A0CC;
 
+// BLUE
+$color-blue-500: #0000FF;
+
+// PURPLE
+$color-purple-700: #990099;
+
+
+// ---------------
 // SEMANTIC COLORS
+
 $color-black: #000;
 $color-white: #fff;
 
+// TEXT
 $color-text-primary: $color-gray-950;
 $color-text-secondary: $color-gray-700;
 $color-text-placeholder: $color-gray-500;
 $color-text-disabled: $color-gray-400;
 
+// FOCUS
 $color-focus: $color-cyan-700;
 $color-focus-dark: $color-cyan-500;
+
+// SUGGESTION
+$color-suggestion-border: $color-purple-700;
+$color-suggestion-accent-text: $color-purple-700;
 
 // ----------------------------
 // #TYPOGRAPHY
