@@ -1,0 +1,46 @@
+{
+  "pnx": {
+    "display": {
+      "title": ["Alma Record Testing"],
+      "creator": ["Smith, John A."],
+      "creationdate": ["2023"],
+      "type": ["book"],
+      "description": ["A test Alma record for FRBR functionality"],
+      "subject": ["Testing"]
+    },
+    "addata": {
+      "btitle": ["Alma Test Book"],
+      "date": ["2023"],
+      "volume": ["1"],
+      "issue": ["1"],
+      "pages": ["1-10"],
+      "jtitle": ["Alma Test Journal"],
+      "isbn": ["9781234567890"],
+      "pub": ["Test Press"]
+    },
+    "facets": {
+      "frbrtype": ["5"],
+      "frbrgroupid": ["alma12345"]
+    },
+    "search": {
+      "creationdate": ["2023"]
+    },
+    "control": {
+      "recordid": ["alma991234567890123456"]
+    }
+  },
+  "context": "contextual",
+  "delivery": {
+    "bestlocation": {
+      "mainLocation": "Test Library",
+      "subLocation": "Stacks",
+      "callNumber": "TEST.123 2023",
+      "availabilityStatus": "available"
+    },
+    "holding": [
+      {"location": "Main Library"}
+    ],
+    "link": [],
+    "almaOpenurl": "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?param=value"
+  }
+}
