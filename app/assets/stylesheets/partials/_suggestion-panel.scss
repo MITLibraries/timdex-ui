@@ -1,30 +1,9 @@
-/* Color Variables */
+#hint {padding-top: 24px;} //Temporary spacing above panel until we can revisit entire page layout
 
-// Core
-$blue-500: #0000FF;
-
-$purple-700: #990099;
-
-$white: #fff;
-$gray-100: #F2F2F2;
-$black: #111;
-
-@mixin focus-outline {
-    &:focus {
-        outline: 3px solid $blue-500;
-    }    
-}
-
-@mixin hover-transition {
-    transition: all .25s ease-in-out 0s;
-}
-
-// Semantic
-$color-suggestion-border: $purple-700;
-$color-suggestion-accent-text: $purple-700;
-
-/* Suggestion Panel */
 .mitlib-suggestion-panel {
+
+    @include set-focus-outline;
+    
     border: 4px solid $color-suggestion-border;
 
     display: flex;
@@ -35,24 +14,26 @@ $color-suggestion-accent-text: $purple-700;
 
     .panel-type {
         color: $color-suggestion-accent-text;
-        font-size: 14px;
+        font-size: 1.4rem;
         font-weight: 600;
         margin-bottom: 8px;
     }
 
     h3 {
-        font-size: 20px;
-        font-weight: 600;
-        line-height: 1.25;
+        font-size: 2rem;
         margin-bottom: 8px;
     }
 
     p {
-        font-size: 16px;
+        font-size: 1.6rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     ul.metadata {
-        font-size: 14px;
+        font-size: 1.4rem;
         list-style: none inside;
         padding-left: 0;
         margin-bottom: 20px;
@@ -69,25 +50,23 @@ $color-suggestion-accent-text: $purple-700;
         top: 0;
         right: 0;
 
-        background-color: $white;
+        background-color: $color-white;
         border: none;
-        color: $black;
+        color: $color-text-primary;
         cursor: pointer;
         font-weight: 600;
 
 	    @include hover-transition;
 
-        @include focus-outline;
-
         &:hover {
-            background-color: $gray-100;
+            background-color: $color-gray-100;
         }
     }
 }
 
 /* Button styles to be extracted into button component */
 .button.secondary {
-    border: 1px solid $black;
+    border: 1px solid $color-black;
     border-radius: 0;
     display: inline-block;
     padding: 6px 12px;
@@ -97,10 +76,8 @@ $color-suggestion-accent-text: $purple-700;
 
     @include hover-transition;
 
-    @include focus-outline;
-
     &:hover {
-        color: $white;
-        background-color: $black;
+        color: $color-white;
+        background-color: $color-black;
     }
 }
