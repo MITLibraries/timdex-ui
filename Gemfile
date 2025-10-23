@@ -38,6 +38,7 @@ group :development do
   gem 'rubocop'
   gem 'rubocop-rails'
   gem 'web-console'
+  gem 'yard'
 end
 
 group :test do
