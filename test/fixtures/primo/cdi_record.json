@@ -1,0 +1,36 @@
+{
+  "pnx": {
+    "display": {
+      "title": ["CDI Record Testing"],
+      "creator": ["Doe, Jane B."],
+      "creationdate": ["2023"],
+      "type": ["article"],
+      "description": ["A test CDI record that should not get FRBR links"],
+      "subject": ["CDI Testing"]
+    },
+    "addata": {
+      "jtitle": ["CDI Test Journal"],
+      "date": ["2023"],
+      "volume": ["2"],
+      "issue": ["3"],
+      "pages": ["15-25"],
+      "issn": ["1234-5678"],
+      "pub": ["CDI Publisher"]
+    },
+    "facets": {
+      "frbrtype": ["5"],
+      "frbrgroupid": ["cdi54321"]
+    },
+    "search": {
+      "creationdate": ["2023"]
+    },
+    "control": {
+      "recordid": ["cdi_crossref_primary_10_1234_test_article"]
+    }
+  },
+  "context": "contextual",
+  "delivery": {
+    "link": [],
+    "almaOpenurl": "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?param=value"
+  }
+}

@@ -301,8 +301,15 @@ class NormalizePrimoRecord
     @record['pnx']['facets']['frbrtype'].join == '5'
   end
 
+  def alma_record?
+    return false unless record_id
+
+    record_id.start_with?('alma')
+  end
+
   def dedup_url
     return unless frbrized?
+    return unless alma_record? # FRBR links do not work for CDI records
     return unless @record['pnx']['facets']['frbrgroupid'] &&
                   @record['pnx']['facets']['frbrgroupid'].length == 1
 

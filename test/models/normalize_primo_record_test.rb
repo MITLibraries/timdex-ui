@@ -12,6 +12,14 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     JSON.parse(File.read(Rails.root.join('test/fixtures/primo/minimal_record.json')))
   end
 
+  def alma_record
+    JSON.parse(File.read(Rails.root.join('test/fixtures/primo/alma_record.json')))
+  end
+
+  def cdi_record
+    JSON.parse(File.read(Rails.root.join('test/fixtures/primo/cdi_record.json')))
+  end
+
   test 'normalizes title' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
     assert_equal 'Testing the Limits of Knowledge', normalized['title']
@@ -95,7 +103,7 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
   test 'normalizes identifier' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    assert_equal 'MIT01000000001', normalized['identifier']
+    assert_equal 'alma991000000001234567', normalized['identifier']
   end
 
   test 'normalizes summary' do
@@ -327,5 +335,92 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     normalized = NormalizePrimoRecord.new(record, 'test').normalize
     openurl_link = normalized['links'].find { |link| link['kind'] == 'openurl' }
     assert_not_nil openurl_link
+  end
+
+  test 'identifies Alma records correctly' do
+    normalizer = NormalizePrimoRecord.new(alma_record, 'test')
+    assert normalizer.send(:alma_record?)
+  end
+
+  test 'identifies CDI records correctly' do
+    normalizer = NormalizePrimoRecord.new(cdi_record, 'test')
+    assert_not normalizer.send(:alma_record?)
+  end
+
+  test 'handles missing record ID for alma_record? check' do
+    record = minimal_record.deep_dup
+    normalizer = NormalizePrimoRecord.new(record, 'test')
+    assert_not normalizer.send(:alma_record?)
+  end
+
+  test 'generates FRBR dedup URL for Alma records when frbrized' do
+    normalized = NormalizePrimoRecord.new(alma_record, 'test query').normalize
+    full_record_link = normalized['links'].find { |link| link['kind'] == 'full record' }
+    assert_not_nil full_record_link
+
+    # Should use dedup URL for Alma records
+    assert_match 'frbrgroupid', full_record_link['url']
+    assert_match 'alma12345', full_record_link['url']
+  end
+
+  test 'does not generate FRBR dedup URL for CDI records even when frbrized' do
+    normalized = NormalizePrimoRecord.new(cdi_record, 'test query').normalize
+    full_record_link = normalized['links'].find { |link| link['kind'] == 'full record' }
+    assert_not_nil full_record_link
+
+    # Should use regular record link for CDI records, not dedup URL
+    assert_match %r{/discovery/fulldisplay\?}, full_record_link['url']
+    assert_no_match 'frbrgroupid', full_record_link['url']
+  end
+
+  test 'falls back to regular record link for Alma records without FRBR data' do
+    record = alma_record.deep_dup
+    record['pnx']['facets']['frbrtype'] = ['3'] # Not frbrized
+
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_record_link = normalized['links'].find { |link| link['kind'] == 'full record' }
+    assert_not_nil full_record_link
+
+    # Should use regular record link when not frbrized
+    assert_match %r{/discovery/fulldisplay\?}, full_record_link['url']
+    assert_no_match 'frbrgroupid', full_record_link['url']
+  end
+
+  test 'frbrized? method works correctly' do
+    # Frbrized Alma record
+    normalizer = NormalizePrimoRecord.new(alma_record, 'test')
+    assert normalizer.send(:frbrized?)
+
+    # Frbrized CDI record
+    normalizer = NormalizePrimoRecord.new(cdi_record, 'test')
+    assert normalizer.send(:frbrized?)
+
+    # Non-frbrized record
+    record = alma_record.deep_dup
+    record['pnx']['facets']['frbrtype'] = ['3']
+    normalizer = NormalizePrimoRecord.new(record, 'test')
+    assert_not normalizer.send(:frbrized?)
+
+    # Missing FRBR data
+    normalizer = NormalizePrimoRecord.new(minimal_record, 'test')
+    assert_not normalizer.send(:frbrized?)
+  end
+
+  test 'dedup_url requires both frbrized and alma_record conditions' do
+    # CDI record that is frbrized - should return nil
+    normalizer = NormalizePrimoRecord.new(cdi_record, 'test')
+    assert_nil normalizer.send(:dedup_url)
+
+    # Alma record that is not frbrized - should return nil
+    record = alma_record.deep_dup
+    record['pnx']['facets']['frbrtype'] = ['3']
+    normalizer = NormalizePrimoRecord.new(record, 'test')
+    assert_nil normalizer.send(:dedup_url)
+
+    # Test Alma record that is frbrized - should return URL
+    normalizer = NormalizePrimoRecord.new(alma_record, 'test')
+    dedup_url = normalizer.send(:dedup_url)
+    assert_not_nil dedup_url
+    assert_match %r{/discovery/search\?}, dedup_url
   end
 end
