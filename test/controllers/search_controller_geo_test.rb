@@ -23,9 +23,45 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     assert_select 'input#advanced-identifiers', count: 0
   end
 
+  test 'index shows geo form when GDT is enabled' do
+    get '/'
+
+    # Should show geo form with all geo elements, no basic form in header
+    assert_select 'form#search-form', { count: 0 } # No basic form in header when GDT enabled
+    assert_select 'form#search-form-geo', { count: 1 } # Geo form in main content
+    assert_select 'details#geobox-search-panel', { count: 1 }
+    assert_select 'details#geodistance-search-panel', { count: 1 }
+    assert_select 'details#advanced-search-panel', { count: 1 }
+  end
+
+  test 'results page shows geo form when GDT is enabled' do
+    VCR.use_cassette('geobox and geodistance',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      query = {
+        geobox: 'true',
+        geodistance: 'true',
+        geoboxMinLongitude: 40.5,
+        geoboxMinLatitude: 60.0,
+        geoboxMaxLongitude: 78.2,
+        geoboxMaxLatitude: 80.0,
+        geodistanceLatitude: 36.1,
+        geodistanceLongitude: 62.6,
+        geodistanceDistance: '50mi'
+      }.to_query
+      get "/results?#{query}"
+      assert_response :success
+      assert_select 'form#search-form', { count: 0 } # No basic form in header when GDT enabled
+      assert_select 'form#search-form-geo', { count: 1 }
+      assert_select 'details#geobox-search-panel', { count: 1 }
+      assert_select 'details#geodistance-search-panel', { count: 1 }
+      assert_select 'details#advanced-search-panel', { count: 1 }
+    end
+  end
+
   test 'contributors label is renamed to authors in GDT' do
     get '/'
-    assert_select 'label', text: "Authors"
+    assert_select 'label', text: 'Authors'
   end
 
   test 'index shows geobox form, closed by default' do
@@ -84,8 +120,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'GDT lists applied geospatial search terms' do
     VCR.use_cassette('geobox and geodistance',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       query = {
         geobox: 'true',
         geodistance: 'true',
@@ -113,8 +149,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'can query geobox' do
     VCR.use_cassette('geobox',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       query = {
         geobox: 'true',
         geoboxMinLongitude: 40.5,
@@ -130,8 +166,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'can query geodistance' do
     VCR.use_cassette('geodistance',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       query = {
         geodistance: 'true',
         geodistanceLatitude: 36.1,
@@ -146,8 +182,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'both geospatial fields can be queried at once' do
     VCR.use_cassette('geobox and geodistance',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       query = {
         geobox: 'true',
         geodistance: 'true',
@@ -167,8 +203,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'geo forms are open on results page with URL parameter' do
     VCR.use_cassette('geobox and geodistance',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       query = {
         geobox: 'true',
         geodistance: 'true',
@@ -191,8 +227,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'coordinates can include decimals or not' do
     VCR.use_cassette('geobox and geodistance many decimals',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       query = {
         geobox: 'true',
         geodistance: 'true',
@@ -213,8 +249,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     end
 
     VCR.use_cassette('geobox and geodistance no decimals',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       query = {
         geobox: 'true',
         geodistance: 'true',
@@ -237,8 +273,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'geospatial arguments retain values in search form with correct data types' do
     VCR.use_cassette('geobox and geodistance',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       query = {
         geobox: 'true',
         geodistance: 'true',
@@ -248,7 +284,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
         geoboxMaxLatitude: 80.0,
         geodistanceLatitude: 36.1,
         geodistanceLongitude: 62.6,
-        geodistanceDistance: '50mi' 
+        geodistanceDistance: '50mi'
       }.to_query
       get "/results?#{query}"
       assert_response :success
@@ -266,8 +302,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'geospatial search can combine with basic and advanced inputs' do
     VCR.use_cassette('geo all',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       query = {
         q: 'hi',
         title: 'hey',
@@ -280,7 +316,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
         geoboxMaxLatitude: 80.0,
         geodistanceLatitude: 36.1,
         geodistanceLongitude: 62.6,
-        geodistanceDistance: '50mi' 
+        geodistanceDistance: '50mi'
       }.to_query
       get "/results?#{query}"
       assert_response :success
@@ -294,7 +330,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     }.to_query
     get "/results?#{query}"
     assert_response :redirect
-    assert_equal flash[:error], "All bounding box fields are required."
+    assert_equal flash[:error], 'All bounding box fields are required.'
   end
 
   test 'geodistance arguments are non-nullable' do
@@ -303,7 +339,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     }.to_query
     get "/results?#{query}"
     assert_response :redirect
-    assert_equal flash[:error], "All geospatial distance fields are required."
+    assert_equal flash[:error], 'All geospatial distance fields are required.'
   end
 
   test 'geobox param is required for geobox search' do
@@ -315,18 +351,18 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     }.to_query
     get "/results?#{query}"
     assert_response :redirect
-    assert_equal flash[:error], "A search term is required."
+    assert_equal flash[:error], 'A search term is required.'
   end
 
   test 'geodistance param is required for geobox search' do
     query = {
       geodistanceLatitude: 36.1,
       geodistanceLongitude: 62.6,
-      geodistanceDistance: '50mi' 
+      geodistanceDistance: '50mi'
     }.to_query
     get "/results?#{query}"
     assert_response :redirect
-    assert_equal flash[:error], "A search term is required."
+    assert_equal flash[:error], 'A search term is required.'
   end
 
   test 'geobox lat cannot fall below lower limit' do
@@ -339,7 +375,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     }.to_query
     get "/results?#{low_query}"
     assert_response :redirect
-    assert_equal flash[:error], "Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0."
+    assert_equal flash[:error], 'Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0.'
   end
 
   test 'geobox long cannot fall below lower limit' do
@@ -352,7 +388,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     }.to_query
     get "/results?#{low_query}"
     assert_response :redirect
-    assert_equal flash[:error], "Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0."
+    assert_equal flash[:error], 'Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0.'
   end
 
   test 'geobox lat/long cannot exceed upper limit' do
@@ -365,13 +401,13 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     }.to_query
     get "/results?#{high_query}"
     assert_response :redirect
-    assert_equal flash[:error], "Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0."
+    assert_equal flash[:error], 'Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0.'
   end
 
   test 'geobox does not error with minimum lat value' do
     VCR.use_cassette('geobox min lat range limit',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       acceptable_query = {
         geobox: 'true',
         geoboxMinLongitude: -45.0,
@@ -387,8 +423,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'geobox does not error with minimum long value' do
     VCR.use_cassette('geobox min long range limit',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       acceptable_query = {
         geobox: 'true',
         geoboxMinLongitude: -180.0,
@@ -404,8 +440,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'geobox does not error with maximum lat value' do
     VCR.use_cassette('geobox max lat range limit',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       acceptable_query = {
         geobox: 'true',
         geoboxMinLongitude: 45.0,
@@ -421,8 +457,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'geobox does not error with maximum long value' do
     VCR.use_cassette('geobox max long range limit',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       acceptable_query = {
         geobox: 'true',
         geoboxMinLongitude: 45.0,
@@ -446,7 +482,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     }.to_query
     get "/results?#{bad_values}"
     assert_response :redirect
-    assert_equal flash[:error], "Maximum latitude cannot exceed minimum latitude."
+    assert_equal flash[:error], 'Maximum latitude cannot exceed minimum latitude.'
   end
 
   test 'geodistance lat cannot fall below lower limit' do
@@ -454,11 +490,11 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
       geodistance: 'true',
       geodistanceLatitude: -90.000001,
       geodistanceLongitude: -180.0,
-      geodistanceDistance: '50mi' 
+      geodistanceDistance: '50mi'
     }.to_query
     get "/results?#{low_query}"
     assert_response :redirect
-    assert_equal flash[:error], "Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0."
+    assert_equal flash[:error], 'Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0.'
   end
 
   test 'geodistance long cannot fall below lower limit' do
@@ -466,11 +502,11 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
       geodistance: 'true',
       geodistanceLatitude: -90.0,
       geodistanceLongitude: -180.000001,
-      geodistanceDistance: '50mi' 
+      geodistanceDistance: '50mi'
     }.to_query
     get "/results?#{low_query}"
     assert_response :redirect
-    assert_equal flash[:error], "Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0."
+    assert_equal flash[:error], 'Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0.'
   end
 
   test 'geodistance lat cannot exceed upper limit' do
@@ -478,11 +514,11 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
       geodistance: 'true',
       geodistanceLatitude: 90.000001,
       geodistanceLongitude: 180.0,
-      geodistanceDistance: '50mi' 
+      geodistanceDistance: '50mi'
     }.to_query
     get "/results?#{high_query}"
     assert_response :redirect
-    assert_equal flash[:error], "Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0."
+    assert_equal flash[:error], 'Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0.'
   end
 
   test 'geodistance long cannot exceed upper limit' do
@@ -490,22 +526,22 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
       geodistance: 'true',
       geodistanceLatitude: 90.0,
       geodistanceLongitude: 180.000001,
-      geodistanceDistance: '50mi' 
+      geodistanceDistance: '50mi'
     }.to_query
     get "/results?#{high_query}"
     assert_response :redirect
-    assert_equal flash[:error], "Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0."
+    assert_equal flash[:error], 'Latitude must be between -90.0 and 90.0, and longitude must be -180.0 and 180.0.'
   end
 
   test 'geodistance does not error with minimum lat value' do
     VCR.use_cassette('geodistance min lat range limit',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       acceptable_query = {
         geodistance: 'true',
         geodistanceLatitude: -90.0,
         geodistanceLongitude: -43.33,
-        geodistanceDistance: '50mi' 
+        geodistanceDistance: '50mi'
       }.to_query
       get "/results?#{acceptable_query}"
       assert_response :success
@@ -515,13 +551,13 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'geodistance does not error with minimum long value' do
     VCR.use_cassette('geodistance min long range limit',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       acceptable_query = {
         geodistance: 'true',
         geodistanceLatitude: -21.1724,
         geodistanceLongitude: -180.0,
-        geodistanceDistance: '50mi' 
+        geodistanceDistance: '50mi'
       }.to_query
       get "/results?#{acceptable_query}"
       assert_response :success
@@ -531,13 +567,13 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'geodistance does not error with maximum lat value' do
     VCR.use_cassette('geodistance max lat range limit',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       acceptable_query = {
         geodistance: 'true',
         geodistanceLatitude: 90.0,
         geodistanceLongitude: -43.33,
-        geodistanceDistance: '50mi' 
+        geodistanceDistance: '50mi'
       }.to_query
       get "/results?#{acceptable_query}"
       assert_response :success
@@ -547,30 +583,30 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
 
   test 'geodistance does not error with maximum long value' do
     VCR.use_cassette('geodistance max long range limit',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       acceptable_query = {
         geodistance: 'true',
         geodistanceLatitude: -21.1724,
         geodistanceLongitude: 180.0,
-        geodistanceDistance: '50mi' 
+        geodistanceDistance: '50mi'
       }.to_query
       get "/results?#{acceptable_query}"
       assert_response :success
       assert_nil flash[:error]
     end
-  end    
+  end
 
   test 'geodistance cannot be negative' do
     zero_distance = {
       geodistance: 'true',
       geodistanceLatitude: 90.0,
       geodistanceLongitude: 180.0,
-      geodistanceDistance: '-50mi' 
+      geodistanceDistance: '-50mi'
     }.to_query
     get "/results?#{zero_distance}"
     assert_response :redirect
-    assert_equal flash[:error], "Distance must include an integer greater than 0."
+    assert_equal flash[:error], 'Distance must include an integer greater than 0.'
   end
 
   test 'geodistance cannot be 0' do
@@ -578,17 +614,17 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
       geodistance: 'true',
       geodistanceLatitude: 90.0,
       geodistanceLongitude: 180.0,
-      geodistanceDistance: '0mi' 
+      geodistanceDistance: '0mi'
     }.to_query
     get "/results?#{negative_distance}"
     assert_response :redirect
-    assert_equal flash[:error], "Distance must include an integer greater than 0."
+    assert_equal flash[:error], 'Distance must include an integer greater than 0.'
   end
 
   test 'geodistance can contain units or not (default is meters)' do
     VCR.use_cassette('geodistance units',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       acceptable_query = {
         geodistance: 'true',
         geodistanceLatitude: -21.1724,
@@ -601,8 +637,8 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     end
 
     VCR.use_cassette('geodistance no units',
-                      allow_playback_repeats: true,
-                      match_requests_on: %i[method uri body]) do
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
       another_acceptable_query = {
         geodistance: 'true',
         geodistanceLatitude: -21.1724,
@@ -624,7 +660,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     }.to_query
     get "/results?#{bad_units}"
     assert_response :redirect
-    assert_equal flash[:error], "Distance units must be one of the following: mi, km, yd, ft, in, m, cm, mm, NM/nmi"
+    assert_equal flash[:error], 'Distance units must be one of the following: mi, km, yd, ft, in, m, cm, mm, NM/nmi'
   end
 
   test 'view full record link appears as expected for GDT records' do

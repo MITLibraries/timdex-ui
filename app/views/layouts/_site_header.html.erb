@@ -26,5 +26,6 @@
           <% end %>
       </nav>
     </header>
+    <%= render partial: 'search/form' unless Flipflop.enabled?(:gdt) %>
   </div>  
 </div>
