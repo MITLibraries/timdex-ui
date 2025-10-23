@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  mount Flipflop::Engine => "/flipflop"
   root "basic_search#index"
 
   get 'analyze', to: 'tacos#analyze'
