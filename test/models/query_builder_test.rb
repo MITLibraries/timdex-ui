@@ -1,13 +1,6 @@
 require 'test_helper'
 
 class QueryBuilderTest < ActiveSupport::TestCase
-  def setup
-    @test_strategy = Flipflop::FeatureSet.current.test!
-  end
-  def teardown
-    @test_strategy = Flipflop::FeatureSet.current.test!
-  end
-
   test 'query builder trims spaces' do
     expected = { 'from' => '0', 'q' => 'blah', 'index' => 'FAKE_TIMDEX_INDEX' }
     search = { q: ' blah ' }
@@ -82,51 +75,49 @@ class QueryBuilderTest < ActiveSupport::TestCase
 
   # Geospatial search behavior
   test 'query builder handles supported geospatial fields and converts lat/long to float' do
-    @test_strategy.switch!(:gdt, true)
-
-    expected = { 
-                 'from' => '0',
-                 'geobox' => 'true',
-                 'geodistance' => 'true',
-                 'geoboxMinLongitude' => 40.5,
-                 'geoboxMinLatitude' => 90.0,
-                 'geoboxMaxLongitude' => 78.2,
-                 'geoboxMaxLatitude' => 180.0,
-                 'geodistanceLatitude' => 36.1,
-                 'geodistanceLongitude' => 62.6,
-                 'geodistanceDistance' => '50mi',
-                 'index' => 'FAKE_TIMDEX_INDEX'
-               }
-    search = { 
-               geobox: 'true',
-               geodistance: 'true',
-               geoboxMinLongitude: '40.5',
-               geoboxMinLatitude: '90.0',
-               geoboxMaxLongitude: '78.2',
-               geoboxMaxLatitude: '180.0',
-               geodistanceLatitude: '36.1',
-               geodistanceLongitude: '62.6',
-               geodistanceDistance: '50mi'
-             }
-    assert_equal expected, QueryBuilder.new(search).query
+    ClimateControl.modify FEATURE_GEODATA: 'true' do
+      expected = {
+        'from' => '0',
+        'geobox' => 'true',
+        'geodistance' => 'true',
+        'geoboxMinLongitude' => 40.5,
+        'geoboxMinLatitude' => 90.0,
+        'geoboxMaxLongitude' => 78.2,
+        'geoboxMaxLatitude' => 180.0,
+        'geodistanceLatitude' => 36.1,
+        'geodistanceLongitude' => 62.6,
+        'geodistanceDistance' => '50mi',
+        'index' => 'FAKE_TIMDEX_INDEX'
+      }
+      search = {
+        geobox: 'true',
+        geodistance: 'true',
+        geoboxMinLongitude: '40.5',
+        geoboxMinLatitude: '90.0',
+        geoboxMaxLongitude: '78.2',
+        geoboxMaxLatitude: '180.0',
+        geodistanceLatitude: '36.1',
+        geodistanceLongitude: '62.6',
+        geodistanceDistance: '50mi'
+      }
+      assert_equal expected, QueryBuilder.new(search).query
+    end
   end
 
   test 'query builder ignores geospatial fields if feature flag is off' do
-    @test_strategy.switch!(:gdt, false)
-
-    expected = { 
-                 'from' => '0',
-                 'index' => 'FAKE_TIMDEX_INDEX'
-               }
+    expected = {
+      'from' => '0',
+      'index' => 'FAKE_TIMDEX_INDEX'
+    }
     search = {
-               geoboxMinLongitude: '40.5',
-               geoboxMinLatitude: '90.0',
-               geoboxMaxLongitude: '78.2',
-               geoboxMaxLatitude: '180.0',
-               geodistanceLatitude: '36.1',
-               geodistanceLongitude: '62.6',
-               geodistanceDistance: '50mi'
-             }
+      geoboxMinLongitude: '40.5',
+      geoboxMinLatitude: '90.0',
+      geoboxMaxLongitude: '78.2',
+      geoboxMaxLatitude: '180.0',
+      geodistanceLatitude: '36.1',
+      geodistanceLongitude: '62.6',
+      geodistanceDistance: '50mi'
+    }
     assert_equal expected, QueryBuilder.new(search).query
   end
 end

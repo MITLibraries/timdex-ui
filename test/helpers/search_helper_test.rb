@@ -3,11 +3,6 @@ require 'test_helper'
 class SearchHelperTest < ActionView::TestCase
   include SearchHelper
 
-  def setup
-    @test_strategy = Flipflop::FeatureSet.current.test!
-    @test_strategy.switch!(:gdt, false)
-  end
-
   test 'removes displayed fields from highlights' do
     result = { 'highlight' => [{ 'matchedField' => 'title', 'matchedPhrases' => 'Very important data' },
                                { 'matchedField' => 'title.exact_value', 'matchedPhrases' => 'Very important data' },
@@ -164,12 +159,12 @@ class SearchHelperTest < ActionView::TestCase
   end
 
   test 'applied_advanced_terms translates contributors in GDT' do
-    @test_strategy.switch!(:gdt, true)
-
-    query = {
-      contributors: 'person, sample'
-    }
-    assert_equal ['Authors: person, sample'], applied_advanced_terms(query)
+    ClimateControl.modify FEATURE_GEODATA: 'true' do
+      query = {
+        contributors: 'person, sample'
+      }
+      assert_equal ['Authors: person, sample'], applied_advanced_terms(query)
+    end
   end
 
   test 'link_to_result returns link when source_link is present' do
