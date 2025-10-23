@@ -3,7 +3,7 @@
 <% end %>
   <div class="bit ask-us <%= display %>">
     <h2 class="title hd-4">Need help?</h2>
-    <% if Flipflop.enabled?(:gdt) %>
+    <% if Feature.enabled?(:geodata) %>
       <a class="btn button-secondary" href="https://libraries.mit.edu/ask-gis">Ask GIS</a>
     <% else %>
       <a class="btn button-secondary" href="https://libraries.mit.edu/ask/">Ask Us</a>

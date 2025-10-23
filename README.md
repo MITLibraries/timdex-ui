@@ -93,7 +93,7 @@ See `Optional Environment Variables` for more information.
 - `BOOLEAN_OPTIONS`: comma separated list of values to present to testers on instances where `BOOLEAN_PICKER` feature is enabled.
 - `FEATURE_BOOLEAN_PICKER`: feature to allow users to select their preferred boolean type. If set to `true`, feature is enabled. This feature is only intended for internal team
   testing and should never be enabled in production (mostly because the UI is a mess more than it would cause harm).
-- `FEATURE_GDT`: Enables features related to geospatial data discovery. Setting this variable to `true` will trigger geodata
+- `FEATURE_GEODATA`: Enables features related to geospatial data discovery. Setting this variable to `true` will trigger geodata
 mode. Note that this is currently intended _only_ for the geodata app and
 may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.

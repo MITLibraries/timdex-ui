@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
   before_action :validate_q!, only: %i[results]
 
-  if Flipflop.enabled?(:gdt)
+  if Feature.enabled?(:geodata)
     before_action :validate_geobox_presence!, only: %i[results]
     before_action :validate_geobox_range!, only: %i[results]
     before_action :validate_geobox_values!, only: %i[results]
@@ -16,7 +16,7 @@ class SearchController < ApplicationController
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
     # Determine which tab to load - default to primo unless gdt is enabled
-    @active_tab = if Flipflop.enabled?(:gdt)
+    @active_tab = if Feature.enabled?(:geodata)
                     'gdt' # Keep existing GDT behavior unchanged
                   else
                     params[:tab] || 'primo' # Default to primo for new tabbed interface
@@ -24,7 +24,7 @@ class SearchController < ApplicationController
     @enhanced_query = Enhancer.new(params).enhanced_query
 
     # Route to appropriate search based on active tab
-    if Flipflop.enabled?(:gdt)
+    if Feature.enabled?(:geodata)
       # Keep existing GDT behavior unchanged
       load_gdt_results
       render 'results_geo'

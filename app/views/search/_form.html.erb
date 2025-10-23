@@ -11,7 +11,7 @@
   </div>
 </form>
 
-<% if Flipflop.enabled?(:boolean_picker) %>
+<% if Feature.enabled?(:boolean_picker) %>
   <aside class="panel panel-info">
     <div class="panel-heading">
   <% if cookies[:boolean_type].present? %>

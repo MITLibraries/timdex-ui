@@ -14,7 +14,7 @@ class Enhancer
     @enhanced_query[:advanced] = 'true' if params[:advanced].present?
     @enhanced_query[:booleanType] = params[:booleanType] || 'AND'
 
-    if Flipflop.enabled?(:gdt)
+    if Feature.enabled?(:geodata)
       @enhanced_query[:geobox] = 'true' if params[:geobox] == 'true'
       @enhanced_query[:geodistance] = 'true' if params[:geodistance] == 'true'
     end
@@ -38,7 +38,7 @@ class Enhancer
   end
 
   def extract_geosearch(params)
-    return unless Flipflop.enabled?(:gdt)
+    return unless Feature.enabled?(:geodata)
 
     GEO_PARAMS.each do |gp|
       @enhanced_query[gp] = params[gp] if params[gp].present?
