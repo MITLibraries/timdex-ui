@@ -63,7 +63,7 @@ requires testing against an index that contains geospatial records.)
 3. Confirm that filters from multiple categories can be applied and removed, both on the sidebar
 and the panel beneath the search form.
 
-If the `flipflop` gem has been updated, check that the `:gdt` feature is working by ensuring that
+Check that the `:geodata` feature is working by ensuring that
 UI elements specific to GDT (e.g., geospatial search fields or the 'Ask GIS' link) appear with the
 feature flag enabled, and do not when it is disabled.
 
@@ -91,8 +91,11 @@ See `Optional Environment Variables` for more information.
 `basic_search#index`.
 - `ACTIVE_FILTERS`: If populated, this list of strings defines which filters are shown to the user, and the order in which they appear. Values are case sensitive, and must match the corresponding aggregations used in the TIMDEX GraphQL query. Extraneous values will be ignored. If not populated, all filters will be shown.
 - `BOOLEAN_OPTIONS`: comma separated list of values to present to testers on instances where `BOOLEAN_PICKER` feature is enabled.
-- `BOOLEAN_PICKER`: feature to allow users to select their preferred boolean type. If set, feature is enabled. This feature is only intended for internal team
+- `FEATURE_BOOLEAN_PICKER`: feature to allow users to select their preferred boolean type. If set to `true`, feature is enabled. This feature is only intended for internal team
   testing and should never be enabled in production (mostly because the UI is a mess more than it would cause harm).
+- `FEATURE_GEODATA`: Enables features related to geospatial data discovery. Setting this variable to `true` will trigger geodata
+mode. Note that this is currently intended _only_ for the geodata app and
+may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.
 - `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.
 - `FILTER_CONTRIBUTOR`: The name to use instead of "Contributor" for that filter / aggregation.
@@ -102,9 +105,6 @@ See `Optional Environment Variables` for more information.
 - `FILTER_PLACE`: The name to use instead of "Place" for that filter / aggregation.
 - `FILTER_SOURCE`: The name to use instead of "Source" for that filter / aggregation.
 - `FILTER_SUBJECT`: The name to use instead of "Subject" for that filter / aggregation.
-- `GDT`: Enables features related to geospatial data discovery. Setting this variable with any value will trigger GDT
-mode (e.g., `GDT=false` will still enable GDT features). Note that this is currently intended _only_ for the GDT app and
-may have unexpected consequences if applied to other TIMDEX UI apps.
 - `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
   safe html above the main header of the site.
 - `ORIGINS`: sets origins for CORS (currently used only for TACOS API calls).

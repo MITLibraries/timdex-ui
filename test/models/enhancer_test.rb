@@ -1,13 +1,6 @@
 require 'test_helper'
 
 class EnhancerTest < ActiveSupport::TestCase
-  def setup
-    @test_strategy = Flipflop::FeatureSet.current.test!
-  end
-  def teardown
-    @test_strategy = Flipflop::FeatureSet.current.test!
-  end
-
   test 'enhanced_query with no matched patterns returns raw query and q' do
     params = {}
     params[:q] = 'hallo'
@@ -100,34 +93,32 @@ class EnhancerTest < ActiveSupport::TestCase
   end
 
   test 'enhanced_query extracts geospatial fields' do
-    @test_strategy.switch!(:gdt, true)
-
-    params = {
-      geobox: 'true',
-      geodistance: 'true',
-      geoboxMinLongitude: '40.5',
-      geoboxMinLatitude: '90.0',
-      geoboxMaxLongitude: '78.2',
-      geoboxMaxLatitude: '180.0',
-      geodistanceLatitude: '36.1',
-      geodistanceLongitude: '62.6',
-      geodistanceDistance: '50mi' 
-     }
-     eq = Enhancer.new(params)
-     assert_equal 'true', eq.enhanced_query[:geobox]
-     assert_equal 'true', eq.enhanced_query[:geodistance]
-     assert_equal '40.5', eq.enhanced_query[:geoboxMinLongitude]
-     assert_equal '90.0', eq.enhanced_query[:geoboxMinLatitude]
-     assert_equal '78.2', eq.enhanced_query[:geoboxMaxLongitude]
-     assert_equal '180.0', eq.enhanced_query[:geoboxMaxLatitude]
-     assert_equal '36.1', eq.enhanced_query[:geodistanceLatitude]
-     assert_equal '62.6', eq.enhanced_query[:geodistanceLongitude]
-     assert_equal '50mi', eq.enhanced_query[:geodistanceDistance]
+    ClimateControl.modify FEATURE_GEODATA: 'true' do
+      params = {
+        geobox: 'true',
+        geodistance: 'true',
+        geoboxMinLongitude: '40.5',
+        geoboxMinLatitude: '90.0',
+        geoboxMaxLongitude: '78.2',
+        geoboxMaxLatitude: '180.0',
+        geodistanceLatitude: '36.1',
+        geodistanceLongitude: '62.6',
+        geodistanceDistance: '50mi'
+      }
+      eq = Enhancer.new(params)
+      assert_equal 'true', eq.enhanced_query[:geobox]
+      assert_equal 'true', eq.enhanced_query[:geodistance]
+      assert_equal '40.5', eq.enhanced_query[:geoboxMinLongitude]
+      assert_equal '90.0', eq.enhanced_query[:geoboxMinLatitude]
+      assert_equal '78.2', eq.enhanced_query[:geoboxMaxLongitude]
+      assert_equal '180.0', eq.enhanced_query[:geoboxMaxLatitude]
+      assert_equal '36.1', eq.enhanced_query[:geodistanceLatitude]
+      assert_equal '62.6', eq.enhanced_query[:geodistanceLongitude]
+      assert_equal '50mi', eq.enhanced_query[:geodistanceDistance]
+    end
   end
 
   test 'enhanced_query does not extract geospatial fields if GDT feature flag is disabled' do
-    @test_strategy.switch!(:gdt, false)
-
     params = {
       geobox: 'true',
       geodistance: 'true',
@@ -137,17 +128,17 @@ class EnhancerTest < ActiveSupport::TestCase
       geoboxMaxLatitude: '180.0',
       geodistanceLatitude: '36.1',
       geodistanceLongitude: '62.6',
-      geodistanceDistance: '50mi' 
-     }
-     eq = Enhancer.new(params)
-     assert_nil eq.enhanced_query[:geobox]
-     assert_nil eq.enhanced_query[:geodistance]
-     assert_nil eq.enhanced_query[:geoboxMinLongitude]
-     assert_nil eq.enhanced_query[:geoboxMaxLatitude]
-     assert_nil eq.enhanced_query[:geoboxMaxLongitude]
-     assert_nil eq.enhanced_query[:geoboxMaxLatitude]
-     assert_nil eq.enhanced_query[:geodistanceLatitude]
-     assert_nil eq.enhanced_query[:geodistanceLongitude]
-     assert_nil eq.enhanced_query[:geodistanceDistance]
+      geodistanceDistance: '50mi'
+    }
+    eq = Enhancer.new(params)
+    assert_nil eq.enhanced_query[:geobox]
+    assert_nil eq.enhanced_query[:geodistance]
+    assert_nil eq.enhanced_query[:geoboxMinLongitude]
+    assert_nil eq.enhanced_query[:geoboxMaxLatitude]
+    assert_nil eq.enhanced_query[:geoboxMaxLongitude]
+    assert_nil eq.enhanced_query[:geoboxMaxLatitude]
+    assert_nil eq.enhanced_query[:geodistanceLatitude]
+    assert_nil eq.enhanced_query[:geodistanceLongitude]
+    assert_nil eq.enhanced_query[:geodistanceDistance]
   end
 end

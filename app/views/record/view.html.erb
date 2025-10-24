@@ -12,7 +12,7 @@
 
 <% if @record.nil? %>
   <%= render('record_empty') %>
-<% elsif Flipflop.enabled?(:gdt) %>
+<% elsif Feature.enabled?(:geodata) %>
   <%= render('record_geo') %>
 <% else %>
   <%= render('record') %>

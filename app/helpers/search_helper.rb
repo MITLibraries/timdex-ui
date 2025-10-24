@@ -77,7 +77,7 @@ module SearchHelper
   # Query params need some treatment to look decent in the search summary panel.
   def readable_param(param)
     return 'Keyword anywhere' if param == 'q'
-    return 'Authors' if param == 'contributors' && Flipflop.enabled?(:gdt)
+    return 'Authors' if param == 'contributors' && Feature.enabled?(:geodata)
 
     if param.starts_with?('geodistance')
       param = param.gsub('geodistance', '')

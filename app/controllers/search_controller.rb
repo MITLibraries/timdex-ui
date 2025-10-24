@@ -1,22 +1,20 @@
 class SearchController < ApplicationController
   before_action :validate_q!, only: %i[results]
 
-  if Flipflop.enabled?(:gdt)
-    before_action :validate_geobox_presence!, only: %i[results]
-    before_action :validate_geobox_range!, only: %i[results]
-    before_action :validate_geobox_values!, only: %i[results]
-    before_action :validate_geodistance_presence!, only: %i[results]
-    before_action :validate_geodistance_range!, only: %i[results]
-    before_action :validate_geodistance_value!, only: %i[results]
-    before_action :validate_geodistance_units!, only: %i[results]
-  end
+  before_action :validate_geobox_presence!, only: %i[results]
+  before_action :validate_geobox_range!, only: %i[results]
+  before_action :validate_geobox_values!, only: %i[results]
+  before_action :validate_geodistance_presence!, only: %i[results]
+  before_action :validate_geodistance_range!, only: %i[results]
+  before_action :validate_geodistance_value!, only: %i[results]
+  before_action :validate_geodistance_units!, only: %i[results]
 
   def results
     # inject session preference for boolean type if it is present
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
     # Determine which tab to load - default to primo unless gdt is enabled
-    @active_tab = if Flipflop.enabled?(:gdt)
+    @active_tab = if Feature.enabled?(:geodata)
                     'gdt' # Keep existing GDT behavior unchanged
                   else
                     params[:tab] || 'primo' # Default to primo for new tabbed interface
@@ -24,7 +22,7 @@ class SearchController < ApplicationController
     @enhanced_query = Enhancer.new(params).enhanced_query
 
     # Route to appropriate search based on active tab
-    if Flipflop.enabled?(:gdt)
+    if Feature.enabled?(:geodata)
       # Keep existing GDT behavior unchanged
       load_gdt_results
       render 'results_geo'
@@ -185,6 +183,8 @@ class SearchController < ApplicationController
   end
 
   def validate_geodistance_presence!
+    return unless Feature.enabled?(:geodata)
+
     return unless params[:geodistance]&.strip == 'true'
 
     geodistance_params = [params[:geodistanceLatitude]&.strip, params[:geodistanceLongitude]&.strip,
@@ -196,6 +196,8 @@ class SearchController < ApplicationController
   end
 
   def validate_geobox_presence!
+    return unless Feature.enabled?(:geodata)
+
     return unless params[:geobox]&.strip == 'true'
 
     geobox_params = [params[:geoboxMinLatitude]&.strip, params[:geoboxMinLongitude]&.strip,
@@ -207,6 +209,8 @@ class SearchController < ApplicationController
   end
 
   def validate_geodistance_range!
+    return unless Feature.enabled?(:geodata)
+
     return unless params[:geodistance]&.strip == 'true'
 
     invalid_range = false
@@ -222,6 +226,8 @@ class SearchController < ApplicationController
   end
 
   def validate_geobox_range!
+    return unless Feature.enabled?(:geodata)
+
     return unless params[:geobox]&.strip == 'true'
 
     invalid_range = false
@@ -237,6 +243,8 @@ class SearchController < ApplicationController
   end
 
   def validate_geodistance_value!
+    return unless Feature.enabled?(:geodata)
+
     return unless params[:geodistance]&.strip == 'true'
 
     distance = params[:geodistanceDistance]&.strip.to_i
@@ -247,6 +255,8 @@ class SearchController < ApplicationController
   end
 
   def validate_geodistance_units!
+    return unless Feature.enabled?(:geodata)
+
     return unless params[:geodistance]&.strip == 'true'
 
     distance = params[:geodistanceDistance]&.strip
@@ -265,6 +275,8 @@ class SearchController < ApplicationController
   end
 
   def validate_geobox_values!
+    return unless Feature.enabled?(:geodata)
+
     return unless params[:geobox]&.strip == 'true'
 
     geobox_lat = [params[:geoboxMinLatitude]&.strip.to_f, params[:geoboxMaxLatitude]&.strip.to_f]

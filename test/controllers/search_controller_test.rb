@@ -1,11 +1,6 @@
 require 'test_helper'
 
 class SearchControllerTest < ActionDispatch::IntegrationTest
-  def setup
-    @test_strategy = Flipflop::FeatureSet.current.test!
-    @test_strategy.switch!(:gdt, false)
-  end
-
   def mock_primo_search_success
     # Mock the Primo search components to avoid external API calls
     sample_doc = {
@@ -80,14 +75,12 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'index shows advanced search form with URL parameter' do
-    if Flipflop.enabled?(:gdt)
-      get '/?advanced=true'
-      assert_response :success
-      details_div = assert_select('details#advanced-search-panel')
-      assert details_div.attribute('open')
-    else
-      skip('Advanced search functionality not implemented in USE UI')
-    end
+    skip('Advanced search functionality not implemented in USE UI')
+
+    get '/?advanced=true'
+    assert_response :success
+    details_div = assert_select('details#advanced-search-panel')
+    assert details_div.attribute('open')
   end
 
   test 'index shows basic search form when GDT is disabled' do
@@ -104,17 +97,14 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'advanced search form appears on results page with URL parameter' do
-    if Flipflop.enabled?(:gdt)
-      VCR.use_cassette('advanced',
-                       allow_playback_repeats: true,
-                       match_requests_on: %i[method uri body]) do
-        get '/results?advanced=true'
-        assert_response :success
-        details_div = assert_select('details#advanced-search-panel')
-        assert details_div.attribute('open')
-      end
-    else
-      skip('Advanced search functionality not implemented in USE UI')
+    skip('Advanced search functionality not implemented in USE UI')
+    VCR.use_cassette('advanced',
+                     allow_playback_repeats: true,
+                     match_requests_on: %i[method uri body]) do
+      get '/results?advanced=true'
+      assert_response :success
+      details_div = assert_select('details#advanced-search-panel')
+      assert details_div.attribute('open')
     end
   end
 
@@ -123,20 +113,6 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     # Basic search field should always be present
     assert_select 'input#basic-search-main', { count: 1 }
-
-    if Flipflop.enabled?(:gdt)
-      # Please note that this test confirms fields in the DOM - but not whether
-      # they are visible. Fields in a hidden details panel are still in the DOM,
-      # but not visible or reachable via keyboard interaction.
-      assert_select 'input#advanced-citation', { count: 1 }
-      assert_select 'input#advanced-contributors', { count: 1 }
-      assert_select 'input#advanced-fundingInformation', { count: 1 }
-      assert_select 'input#advanced-identifiers', { count: 1 }
-      assert_select 'input#advanced-locations', { count: 1 }
-      assert_select 'input#advanced-subjects', { count: 1 }
-      assert_select 'input#advanced-title', { count: 1 }
-      assert_select 'input.source', { minimum: 3 }
-    end
   end
 
   test 'advanced search source checkboxes can be controlled by env' do

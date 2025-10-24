@@ -12,7 +12,7 @@ class QueryBuilder
     @query = {}
     @query['from'] = calculate_from(enhanced_query[:page])
 
-    if Flipflop.enabled?(:gdt)
+    if Feature.enabled?(:geodata)
       @query['geobox'] = 'true' if enhanced_query[:geobox] == 'true'
       @query['geodistance'] = 'true' if enhanced_query[:geodistance] == 'true'
     end
@@ -40,7 +40,7 @@ class QueryBuilder
   end
 
   def extract_geosearch(enhanced_query)
-    return unless Flipflop.enabled?(:gdt)
+    return unless Feature.enabled?(:geodata)
 
     GEO_PARAMS.each do |gp|
       if coerce_to_float?(gp)
