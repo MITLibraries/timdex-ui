@@ -39,11 +39,12 @@
     .wrapper {
         background: url("https://cdn.mitlibrary.net/files/branding/local/vi-shape7-tp.svg") no-repeat -48px -250px;
         padding-top: 32px;
-        padding-bottom: 32px;
+        padding-bottom: 0;
     }
 
     .navigation-bar {
         display: flex;
+        padding-bottom: 32px;
 
         > h1 {
             display: flex;

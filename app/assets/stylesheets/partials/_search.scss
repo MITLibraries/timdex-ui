@@ -2,6 +2,60 @@
 // #SEARCH BITS
 // ------------------------
 
+/* New USE UI search styles */
+#search-form {
+  margin: 0;
+  padding-bottom: 24px;
+
+  h3 {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+
+  .form-wrapper {
+    display: flex;
+    gap: 8px;
+
+    input, button {
+      padding: 12px 20px;
+      border-radius: 0;
+      font-size: 1.8rem;
+      font-weight: $fw-medium;
+
+      margin: 0;
+
+      &:hover:not(:focus) {
+        outline: 2px solid $color-gray-700;
+        outline-offset: 2px;
+      }
+    }
+
+    input {
+      flex-grow: 1;
+      color: $color-black;
+    } 
+    
+    button {
+      background-color: $color-red-600;
+      border: none;
+    }
+
+  }
+
+  .form-links {
+    padding-top: 12px;
+
+    a {
+      color: $color-white;
+      text-decoration: none;
+      border-bottom: 1px solid $color-red-500;
+      font-size: 1.4rem;
+    }
+
+  }
+
+}
+
 /* basic search bar */
 .search-form {
   background-color: #989898;
