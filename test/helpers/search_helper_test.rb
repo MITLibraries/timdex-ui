@@ -198,4 +198,16 @@ class SearchHelperTest < ActionView::TestCase
     }
     assert_equal 'Sample Document Title', link_to_result(result)
   end
+
+  test 'primo_search_url generates correct Primo URL' do
+    query = 'machine learning'
+    expected_url = 'https://mit.primo.exlibrisgroup.com/discovery/search?query=any%2Ccontains%2Cmachine+learning&vid=01MIT_INST%3AMIT'
+    assert_equal expected_url, primo_search_url(query)
+  end
+
+  test 'primo_search_url handles special characters in query' do
+    query = 'data & analytics'
+    expected_url = 'https://mit.primo.exlibrisgroup.com/discovery/search?query=any%2Ccontains%2Cdata+%26+analytics&vid=01MIT_INST%3AMIT'
+    assert_equal expected_url, primo_search_url(query)
+  end
 end

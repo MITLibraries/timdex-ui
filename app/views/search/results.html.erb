@@ -16,10 +16,10 @@
   <div id="tabs" class="tab-navigation top-space">
     <%= link_to "Primo", results_path(params.permit(:q, :per_page, :page).merge(tab: 'primo')), 
                 class: "tab-link #{'active' if @active_tab == 'primo'}", 
-                data: { turbo_frame: "search-results" } %>
+                data: { turbo_frame: "search-results", turbo_action: "advance" } %>
     <%= link_to "TIMDEX", results_path(params.permit(:q, :per_page, :page).merge(tab: 'timdex')), 
                 class: "tab-link #{'active' if @active_tab == 'timdex'}", 
-                data: { turbo_frame: "search-results" } %>
+                data: { turbo_frame: "search-results", turbo_action: "advance" } %>
   </div>
 
   <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
@@ -27,7 +27,9 @@
   <%= turbo_frame_tag "search-results" do %>
     <div class="layout-3q1q layout-band top-space">
       <main id="results" class="col3q wrap-results">
-        <% if @results.present? && @errors.blank? %>
+        <% if @show_primo_continuation %>
+          <%= render partial: 'search/primo_continuation' %>
+        <% elsif @results.present? && @errors.blank? %>
           <h2 class="hd-3 results-context"><%= results_summary(@pagination[:hits]) %> returned</h2>
           <ol class="results-list" start="<%= @pagination[:start] %>">
             <% case @active_tab %>
@@ -44,16 +46,16 @@
         <% end %>
       </main>
     </div>
+
+    <% if @results.present? %>
+      <div id="pagination">  
+        <%= render partial: "pagination" %>
+      </div>
+      <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
+    <% end %>
   <% end %>
 
   <%= render partial: 'shared/ask', locals: { display: 'aside' } if @results.blank? %>
-
-  <% if @results.present? %>
-    <div id="pagination">  
-      <%= render partial: "pagination" %>
-    </div>
-    <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
-  <% end %>
 </div>
 
 <%= javascript_include_tag "filters" %>

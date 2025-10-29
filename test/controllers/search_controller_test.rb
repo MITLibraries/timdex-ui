@@ -626,4 +626,53 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select 'aside.search-summary', count: 1
     assert_select 'aside.search-summary', text: /You searched for: test/
   end
+
+  test 'primo results shows continuation partial when page exceeds API offset limit' do
+    get '/results?q=test&tab=primo&page=49'
+    assert_response :success
+    assert_select '.primo-continuation', count: 1
+    assert_select '.primo-continuation h2', text: /Continue your search in Search Our Collections/
+    assert_select '.primo-continuation a[href*="primo.exlibrisgroup.com"]', count: 1
+  end
+
+  test 'primo results work normally within API offset limit' do
+    mock_primo_search_success
+
+    # Page 40 should work (offset = 39 * 20 = 780, which is < 960)
+    get '/results?q=test&tab=primo&page=40'
+    assert_response :success
+    refute_select '.alert'
+    assert_select '#results', count: 1
+  end
+
+  test 'primo results shows error when results are empty but docs exist' do
+    sample_doc = { 'title' => 'Sample' }
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({ 'docs' => [sample_doc], 'total' => 100 })
+    PrimoSearch.expects(:new).returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns([])
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer)
+
+    get '/results?q=test&tab=primo&page=5'
+    assert_response :success
+    assert_select '.alert', text: /No more results available at this page number/
+  end
+
+  test 'primo results shows continuation when both results and docs are empty' do
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({ 'docs' => [], 'total' => 100 })
+    PrimoSearch.expects(:new).returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns([])
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer)
+
+    get '/results?q=test&tab=primo&page=5'
+    assert_response :success
+    assert_select '.primo-continuation', count: 1
+    assert_select '.primo-continuation h2', text: /Continue your search in Search Our Collections/
+  end
 end

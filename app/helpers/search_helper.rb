@@ -110,4 +110,13 @@ module SearchHelper
       date.split(delimiter).last
     end
   end
+
+  def primo_search_url(query_term)
+    base_url = 'https://mit.primo.exlibrisgroup.com/discovery/search'
+    params = {
+      vid: ENV.fetch('PRIMO_VID'),
+      query: "any,contains,#{query_term}"
+    }
+    "#{base_url}?#{params.to_query}"
+  end
 end
