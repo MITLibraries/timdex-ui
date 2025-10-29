@@ -18,13 +18,12 @@
           <a href="/" class="platform-name"><%= ENV.fetch('PLATFORM_NAME') %></a>
         <% end %>
       </h1>
-      <nav class="main-navigation" aria-label="Main navigation">
-          <%= nav_link_to("Home", root_path) %>
-          <% if Feature.enabled?(:geodata) %>
-              <%= nav_link_to("GIS at MIT", "https://libraries.mit.edu/gis") %>
-              <%= nav_link_to("Ask GIS", "https://libraries.mit.edu/ask-gis") %>
-          <% end %>
-      </nav>
+      <% if Feature.enabled?(:geodata) %>
+        <nav class="main-navigation" aria-label="Main navigation">
+          <%= nav_link_to("GIS at MIT", "https://libraries.mit.edu/gis") %>
+          <%= nav_link_to("Ask GIS", "https://libraries.mit.edu/ask-gis") %>
+        </nav>
+      <% end %>
     </header>
     <%= render partial: 'search/form' unless Feature.enabled?(:geodata) %>
   </div>  
