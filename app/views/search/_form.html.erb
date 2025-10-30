@@ -27,4 +27,6 @@
     </aside>
 <% end %>
 
+<%= render partial: 'search/source_tabs' if @results.present? %>
+
 <%= javascript_include_tag "search_form" %>
