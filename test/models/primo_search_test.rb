@@ -77,4 +77,31 @@ class PrimoSearchTest < ActiveSupport::TestCase
       assert_equal 6, search.send(:http_timeout)
     end
   end
+
+  test 'search_url includes offset parameter when provided' do
+    search = PrimoSearch.new
+    url = search.send(:search_url, 'test', 20, 40)
+
+    assert_match(/&offset=40/, url)
+    assert_match(/&limit=20/, url)
+    assert_match(/q=any,contains,test/, url)
+  end
+
+  test 'search_url excludes offset parameter when zero' do
+    search = PrimoSearch.new
+    url = search.send(:search_url, 'test', 20, 0)
+
+    refute_match(/&offset=/, url)
+    assert_match(/&limit=20/, url)
+    assert_match(/q=any,contains,test/, url)
+  end
+
+  test 'search_url excludes offset parameter when not provided' do
+    search = PrimoSearch.new
+    url = search.send(:search_url, 'test', 20)
+
+    refute_match(/&offset=/, url)
+    assert_match(/&limit=20/, url)
+    assert_match(/q=any,contains,test/, url)
+  end
 end
