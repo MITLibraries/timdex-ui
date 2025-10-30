@@ -51,6 +51,16 @@
             align-items: center;
             gap: 24px;
         }
+
+        @media (max-width: 550px) {
+            flex-direction: column;
+
+            .main-navigation {
+                width: 100%;
+                justify-content: flex-start;
+                padding-top: 28px;
+            }
+        }
     }
 
     .divider {
