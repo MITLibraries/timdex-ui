@@ -1,4 +1,4 @@
-<form id="search-form" action="<%= results_path %>" method="get" role="search">
+<form id="search-form" class="<%= ab_test(:ui_colors, "standard", "alt") %>" action="<%= results_path %>" method="get" role="search">
   <h3>What can we help you find?</h3>
   <div class="form-wrapper">
     <input id="basic-search-main" type="search" class="field field-text basic-search-input" name="q" title="Keyword anywhere" placeholder="Search for anything" value="<%= params[:q] %>" required>

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get 'analyze', to: 'tacos#analyze'
 
+  get 'out/(:url)', to: 'record#out'
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
@@ -11,4 +12,6 @@ Rails.application.routes.draw do
   get 'style-guide', to: 'static#style_guide'
 
   get 'boolpref', to: 'static#boolpref'
+
+  mount Split::Dashboard, at: 'split'
 end

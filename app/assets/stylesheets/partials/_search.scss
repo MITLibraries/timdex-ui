@@ -59,9 +59,16 @@
 
 /* basic search bar */
 .search-form {
-  background-color: #989898;
   margin-bottom: 0rem;
   padding: 2.4rem 2rem 1.6rem 2rem;
+
+  &.standard {
+    background-color: #989898;
+  }
+
+  &.alt {
+    background-color: #ffd700;
+  }
 
   details {
     &:first-of-type {
