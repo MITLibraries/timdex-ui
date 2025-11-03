@@ -4,14 +4,14 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   def mock_primo_search_success
     # Mock the Primo search components to avoid external API calls
     sample_doc = {
-      'title' => 'Sample Primo Document Title',
-      'format' => 'Article',
-      'year' => '2025',
-      'creators' => [
+      title: 'Sample Primo Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [
         { value: 'Foo Barston', link: nil },
         { value: 'Baz Quxley', link: nil }
       ],
-      'links' => [{ 'kind' => 'full record', 'url' => 'https://example.com/record' }]
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/record' }]
     }
 
     mock_primo = mock('primo_search')
