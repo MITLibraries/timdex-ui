@@ -20,7 +20,7 @@ class NormalizeTimdexResultsTest < ActiveSupport::TestCase
 
     # Check first record (full record)
     first_result = results.first
-    assert_equal 'Sample TIMDEX Record for Testing', first_result['title']
+    assert_equal 'Sample TIMDEX Record for Testing', first_result[:title]
     assert_equal 'test-record-123', first_result['identifier']
     assert_equal 'Test Repository', first_result['source']
     assert_equal 'Dataset ; Geospatial data', first_result['format']
@@ -35,7 +35,7 @@ class NormalizeTimdexResultsTest < ActiveSupport::TestCase
 
     # Check second record (minimal record)
     second_result = results.second
-    assert_equal 'Minimal Test Record', second_result['title']
+    assert_equal 'Minimal Test Record', second_result[:title]
     assert_equal 'minimal-record-456', second_result['identifier']
     assert_equal 'Test Repository', second_result['source']
   end

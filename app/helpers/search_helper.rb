@@ -16,9 +16,9 @@ module SearchHelper
 
   def link_to_result(result)
     if result['source_link'].present?
-      link_to(result['title'], result['source_link'])
+      link_to(result[:title], result['source_link'])
     else
-      result['title']
+      result[:title]
     end
   end
 

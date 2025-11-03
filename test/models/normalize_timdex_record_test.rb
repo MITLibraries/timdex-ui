@@ -11,14 +11,14 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
 
   test 'normalizes title' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    assert_equal 'Sample TIMDEX Record for Testing', normalized['title']
+    assert_equal 'Sample TIMDEX Record for Testing', normalized[:title]
   end
 
   test 'handles missing title' do
     record_without_title = minimal_record
     record_without_title.delete('title')
     normalized = NormalizeTimdexRecord.new(record_without_title, 'test').normalize
-    assert_equal 'Unknown title', normalized['title']
+    assert_equal 'Unknown title', normalized[:title]
   end
 
   test 'normalizes creators from contributors' do

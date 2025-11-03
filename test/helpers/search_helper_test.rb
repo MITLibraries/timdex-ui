@@ -27,13 +27,13 @@ class SearchHelperTest < ActionView::TestCase
   end
 
   test 'renders view_online link if source_link is present' do
-    result = { 'title' => 'A record', 'source_link' => 'https://example.org' }
+    result = { title: 'A record', 'source_link' => 'https://example.org' }
     assert_equal '<a class="button button-primary" href="https://example.org">View online</a>',
                  view_online(result)
   end
 
   test 'does not render view_online link if source_link is absent' do
-    result = { 'title' => 'A record' }
+    result = { title: 'A record' }
     assert_nil view_online(result)
   end
 
@@ -169,7 +169,7 @@ class SearchHelperTest < ActionView::TestCase
 
   test 'link_to_result returns link when source_link is present' do
     result = {
-      'title' => 'Sample Document Title',
+      title: 'Sample Document Title',
       'source_link' => 'https://example.com/document'
     }
     expected_link = '<a href="https://example.com/document">Sample Document Title</a>'
@@ -178,7 +178,7 @@ class SearchHelperTest < ActionView::TestCase
 
   test 'link_to_result returns plain title when source_link is nil' do
     result = {
-      'title' => 'Sample Document Title',
+      title: 'Sample Document Title',
       'source_link' => nil
     }
     assert_equal 'Sample Document Title', link_to_result(result)
@@ -186,7 +186,7 @@ class SearchHelperTest < ActionView::TestCase
 
   test 'link_to_result returns plain title when source_link is empty string' do
     result = {
-      'title' => 'Sample Document Title',
+      title: 'Sample Document Title',
       'source_link' => ''
     }
     assert_equal 'Sample Document Title', link_to_result(result)
@@ -194,7 +194,7 @@ class SearchHelperTest < ActionView::TestCase
 
   test 'link_to_result returns plain title when source_link key is absent' do
     result = {
-      'title' => 'Sample Document Title'
+      title: 'Sample Document Title'
     }
     assert_equal 'Sample Document Title', link_to_result(result)
   end

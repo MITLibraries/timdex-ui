@@ -8,7 +8,7 @@ class NormalizeTimdexRecord
   def normalize
     {
       # Core fields
-      'title' => title,
+      title:,
       'creators' => creators,
       'source' => source,
       'year' => year,
