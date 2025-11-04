@@ -25,7 +25,7 @@ class NormalizeTimdexRecord
       dates:,
       contributors:,
       highlight:,
-      'source_link' => source_link
+      source_link:
     }
   end
 

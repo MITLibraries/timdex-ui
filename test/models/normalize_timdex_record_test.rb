@@ -204,7 +204,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
 
   test 'includes TIMDEX-specific source_link field' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    assert_equal 'https://example.com/source/record/123', normalized['source_link']
+    assert_equal 'https://example.com/source/record/123', normalized[:source_link]
   end
 
   # Test that Primo-only fields are not included

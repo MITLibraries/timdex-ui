@@ -31,7 +31,7 @@ class NormalizeTimdexResultsTest < ActiveSupport::TestCase
     assert_includes first_result.keys, :dates
     assert_includes first_result.keys, :contributors
     assert_includes first_result.keys, :highlight
-    assert_includes first_result.keys, 'source_link'
+    assert_includes first_result.keys, :source_link
 
     # Check second record (minimal record)
     second_result = results.second
