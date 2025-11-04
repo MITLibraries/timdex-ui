@@ -27,7 +27,7 @@ class NormalizeTimdexResultsTest < ActiveSupport::TestCase
     assert_equal '2023', first_result[:year]
 
     # Check TIMDEX-specific fields are preserved
-    assert_includes first_result.keys, 'content_type'
+    assert_includes first_result.keys, :content_type
     assert_includes first_result.keys, 'dates'
     assert_includes first_result.keys, :contributors
     assert_includes first_result.keys, 'highlight'

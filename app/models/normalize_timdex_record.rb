@@ -21,7 +21,7 @@ class NormalizeTimdexRecord
       location:,
       subjects:,
       # TIMDEX-specific fields
-      'content_type' => content_type,
+      content_type:,
       'dates' => dates,
       contributors:,
       'highlight' => highlight,

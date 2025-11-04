@@ -171,7 +171,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
       { 'value' => 'Dataset' },
       { 'value' => 'Geospatial data' }
     ]
-    assert_equal expected_content_type, normalized['content_type']
+    assert_equal expected_content_type, normalized[:content_type]
   end
 
   test 'includes TIMDEX-specific dates field' do
