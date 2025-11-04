@@ -1,6 +1,13 @@
 <ul class="list-inline">
-  <li><%= metadata['contentType']&.each { |type| type['value'] }&.join(' ; ') %></li>
-  <% if parse_geo_dates(metadata['dates']) %>
+  <% if metadata[:content_type] %>
+    <li><%= metadata[:content_type]&.each { |type| type['value'] }&.join(' ; ') %></li>
+  <% elsif metadata['contentType'] %>
+    <li><%= metadata['contentType']&.each { |type| type['value'] }&.join(' ; ') %></li>
+  <% end %>
+
+  <% if parse_geo_dates(metadata[:dates]) %>
+    <li><%= parse_geo_dates(metadata[:dates]) %></li>
+  <% elsif parse_geo_dates(metadata['dates']) %>
     <li><%= parse_geo_dates(metadata['dates']) %></li>
   <% end %>
   <% if access_type(metadata) == 'unknown: check with owning institution' %>

@@ -14,7 +14,7 @@ module RecordHelper
   end
 
   def publication_date(metadata)
-    metadata['dates'].select { |date| date['kind'] == 'Publication date' }.first['value']
+    metadata[:dates].select { |date| date['kind'] == 'Publication date' }.first['value']
   end
 
   # Display the machine-format key in human-readable text.
