@@ -49,12 +49,12 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
 
   test 'extracts year from publication date' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    assert_equal '2023', normalized['year']
+    assert_equal '2023', normalized[:year]
   end
 
   test 'handles missing year' do
     normalized = NormalizeTimdexRecord.new(minimal_record, 'test').normalize
-    assert_nil normalized['year']
+    assert_nil normalized[:year]
   end
 
   test 'extracts year from fallback date when no publication date' do
@@ -64,7 +64,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
       { 'kind' => 'Creation', 'value' => 'Created in 1998' }
     ]
     normalized = NormalizeTimdexRecord.new(record_with_coverage_date, 'test').normalize
-    assert_equal '1995', normalized['year']
+    assert_equal '1995', normalized[:year]
   end
 
   test 'normalizes format from content type' do
