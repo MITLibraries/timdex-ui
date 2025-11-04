@@ -7,7 +7,13 @@
 <%= render(partial: 'shared/error', collection: @errors) %>
 
 <%= render(partial: 'shared/site_title') %>
-<%= render(partial: 'search/form')%>
+
+<% if Feature.enabled?(:geodata) %>
+  <%= render(partial: 'search/form_geo')%>
+<% else %>
+  <%= render(partial: 'search/form') %>
+<% end %>
+
 <%= render(partial: 'back_button') %>
 
 <% if @record.nil? %>
