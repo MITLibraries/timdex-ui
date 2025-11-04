@@ -156,12 +156,12 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
 
   test 'normalizes subjects' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    assert_equal ['Geographic Information Systems', 'Remote Sensing'], normalized['subjects']
+    assert_equal ['Geographic Information Systems', 'Remote Sensing'], normalized[:subjects]
   end
 
   test 'handles missing subjects' do
     normalized = NormalizeTimdexRecord.new(minimal_record, 'test').normalize
-    assert_empty normalized['subjects']
+    assert_empty normalized[:subjects]
   end
 
   # Test TIMDEX-specific fields

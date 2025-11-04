@@ -19,7 +19,7 @@ class NormalizeTimdexRecord
       summary:,
       publisher:,
       location:,
-      'subjects' => subjects,
+      subjects:,
       # TIMDEX-specific fields
       'content_type' => content_type,
       'dates' => dates,
