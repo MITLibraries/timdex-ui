@@ -1,0 +1,50 @@
+// Loading indicator for pagination (Turbo Frame updates)
+// Tab navigation uses full page loads with Turbo's built-in progress bar
+// https://discuss.hotwired.dev/t/show-spinner-everytime-async-frame-reloads/3483/3
+@keyframes spinner {
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+// Pagination overlay when loading
+[busy]:not([no-spinner]) {
+  position: relative;
+  min-height: 400px;
+  display: block;
+
+  > * {
+    opacity: 0.3;
+  }
+
+  // Loading text
+  &::before {
+    content: 'Loading results...';
+    position: absolute;
+    top: 5.5rem;
+    left: 50%;
+    margin-left: -6rem; // Center the text box (12rem / 2)
+    width: 12rem;
+    font-size: $fs-small;
+    font-weight: $fw-semibold;
+    color: $color-black;
+    text-align: center;
+    z-index: 1001;
+  }
+
+  // Spinner positioned above text
+  &::after {
+    content: '';
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    margin-left: -2rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 0.3rem solid $color-gray-200;
+    border-top-color: $color-red-500;
+    animation: spinner 1s linear infinite;
+    z-index: 1000;
+  }
+}

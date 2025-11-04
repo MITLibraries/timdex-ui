@@ -14,7 +14,7 @@
 
   <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
-  <%= turbo_frame_tag "search-results" do %>
+  <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
     <div class="layout-3q1q layout-band top-space">
       <main id="results" class="col3q wrap-results">
         <% if @show_primo_continuation %>
