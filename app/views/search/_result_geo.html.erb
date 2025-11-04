@@ -1,7 +1,7 @@
 <li class="result">
   <div class="result-content">
     <h3 class="record-title">
-      <span class="sr">Title: </span><%= link_to(result_geo[:title], record_path(result_geo['identifier'])) %>
+      <span class="sr">Title: </span><%= link_to(result_geo[:title], record_path(result_geo[:identifier])) %>
     </h3>
 
     <div class="data-info">
@@ -32,7 +32,7 @@
     <% end %>
 
     <div class="result-record">
-      <%= view_record(result_geo['identifier']) %>
+      <%= view_record(result_geo[:identifier]) %>
     </div>
   </div>
 </li>

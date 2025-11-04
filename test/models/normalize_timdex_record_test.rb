@@ -109,7 +109,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
 
   test 'normalizes identifier' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    assert_equal 'test-record-123', normalized['identifier']
+    assert_equal 'test-record-123', normalized[:identifier]
   end
 
   test 'normalizes summary' do

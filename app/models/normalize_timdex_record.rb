@@ -15,7 +15,7 @@ class NormalizeTimdexRecord
       format:,
       links:,
       citation:,
-      'identifier' => identifier,
+      identifier:,
       'summary' => summary,
       'publisher' => publisher,
       'location' => location,
