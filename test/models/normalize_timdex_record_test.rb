@@ -99,12 +99,12 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
   test 'normalizes citation' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
     assert_equal 'Smith, J. & Doe, J. (2023). Sample TIMDEX Record for Testing. Test Repository.',
-                 normalized['citation']
+                 normalized[:citation]
   end
 
   test 'handles missing citation' do
     normalized = NormalizeTimdexRecord.new(minimal_record, 'test').normalize
-    assert_nil normalized['citation']
+    assert_nil normalized[:citation]
   end
 
   test 'normalizes identifier' do
