@@ -115,12 +115,12 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
   test 'normalizes summary' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
     assert_equal 'This is a comprehensive test record with all possible fields populated for testing normalization.',
-                 normalized['summary']
+                 normalized[:summary]
   end
 
   test 'handles missing summary' do
     normalized = NormalizeTimdexRecord.new(minimal_record, 'test').normalize
-    assert_nil normalized['summary']
+    assert_nil normalized[:summary]
   end
 
   test 'extracts publisher from contributors' do
