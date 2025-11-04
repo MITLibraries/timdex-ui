@@ -37,14 +37,14 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
 
   test 'normalizes source' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    assert_equal 'Test Repository', normalized['source']
+    assert_equal 'Test Repository', normalized[:source]
   end
 
   test 'handles missing source' do
     record_without_source = minimal_record.dup
     record_without_source.delete('source')
     normalized = NormalizeTimdexRecord.new(record_without_source, 'test').normalize
-    assert_equal 'Unknown source', normalized['source']
+    assert_equal 'Unknown source', normalized[:source]
   end
 
   test 'extracts year from publication date' do

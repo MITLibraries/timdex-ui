@@ -10,7 +10,7 @@ class NormalizeTimdexRecord
       # Core fields
       title:,
       creators:,
-      'source' => source,
+      source:,
       'year' => year,
       'format' => format,
       'links' => links,
