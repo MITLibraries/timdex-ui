@@ -17,8 +17,8 @@ class NormalizeTimdexRecord
       citation:,
       identifier:,
       summary:,
-      'publisher' => publisher,
-      'location' => location,
+      publisher:,
+      location:,
       'subjects' => subjects,
       # TIMDEX-specific fields
       'content_type' => content_type,

@@ -125,22 +125,22 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
 
   test 'extracts publisher from contributors' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    assert_equal 'MIT Libraries', normalized['publisher']
+    assert_equal 'MIT Libraries', normalized[:publisher]
   end
 
   test 'handles missing publisher' do
     normalized = NormalizeTimdexRecord.new(minimal_record, 'test').normalize
-    assert_nil normalized['publisher']
+    assert_nil normalized[:publisher]
   end
 
   test 'normalizes location' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    assert_equal 'Cambridge, MA', normalized['location']
+    assert_equal 'Cambridge, MA', normalized[:location]
   end
 
   test 'handles missing location' do
     normalized = NormalizeTimdexRecord.new(minimal_record, 'test').normalize
-    assert_nil normalized['location']
+    assert_nil normalized[:location]
   end
 
   test 'joins multiple locations with semicolon' do
@@ -151,7 +151,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
       { 'value' => 'New York, NY' }
     ]
     normalized = NormalizeTimdexRecord.new(record_with_multiple_locations, 'test').normalize
-    assert_equal 'Cambridge, MA; Boston, MA; New York, NY', normalized['location']
+    assert_equal 'Cambridge, MA; Boston, MA; New York, NY', normalized[:location]
   end
 
   test 'normalizes subjects' do
