@@ -8,11 +8,11 @@
       <%= render partial: 'shared/geo_data_info', locals: { metadata: result_geo } %>
     </div>
 
-    <% if result_geo['creators'].present? || result_geo['contributors'].present? %>
+    <% if result_geo[:creators].present? || result_geo[:contributors].present? %>
       <span class="sr">Contributors: </span>
       <ul class="list-inline truncate-list contributors">
         <!-- Use normalized creators if available, otherwise fall back to raw contributors -->
-        <% contributors = result_geo['creators'].present? ? result_geo['creators'] : result_geo['contributors'] %>
+        <% contributors = result_geo[:creators].present? ? result_geo[:creators] : result_geo[:contributors] %>
         <% if contributors %>
           <%= render partial: 'shared/contributors', locals: { contributors: contributors } %>
         <% end %>

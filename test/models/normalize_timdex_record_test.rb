@@ -27,12 +27,12 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
       { 'value' => 'Smith, Jane', 'link' => nil },
       { 'value' => 'Doe, John', 'link' => nil }
     ]
-    assert_equal expected_creators, normalized['creators']
+    assert_equal expected_creators, normalized[:creators]
   end
 
   test 'handles missing creators' do
     normalized = NormalizeTimdexRecord.new(minimal_record, 'test').normalize
-    assert_empty normalized['creators']
+    assert_empty normalized[:creators]
   end
 
   test 'normalizes source' do
@@ -190,7 +190,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
       { 'kind' => 'Author', 'value' => 'Doe, John' },
       { 'kind' => 'Publisher', 'value' => 'MIT Libraries' }
     ]
-    assert_equal expected_contributors, normalized['contributors']
+    assert_equal expected_contributors, normalized[:contributors]
   end
 
   test 'includes TIMDEX-specific highlight field' do

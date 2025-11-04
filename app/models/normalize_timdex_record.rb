@@ -9,7 +9,7 @@ class NormalizeTimdexRecord
     {
       # Core fields
       title:,
-      'creators' => creators,
+      creators:,
       'source' => source,
       'year' => year,
       'format' => format,
@@ -23,7 +23,7 @@ class NormalizeTimdexRecord
       # TIMDEX-specific fields
       'content_type' => content_type,
       'dates' => dates,
-      'contributors' => contributors,
+      contributors:,
       'highlight' => highlight,
       'source_link' => source_link
     }
