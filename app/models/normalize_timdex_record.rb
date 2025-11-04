@@ -24,7 +24,7 @@ class NormalizeTimdexRecord
       content_type:,
       dates:,
       contributors:,
-      'highlight' => highlight,
+      highlight:,
       'source_link' => source_link
     }
   end

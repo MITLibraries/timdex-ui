@@ -25,9 +25,9 @@
       </p>
     <% end %>
 
-    <% if result_geo['highlight'] %>
+    <% if result_geo[:highlight] %>
       <div class="result-highlights">
-        <%= render partial: 'search/highlights', locals: { result: { 'highlight' => result_geo['highlight'] } } %>
+        <%= render partial: 'search/highlights', locals: { result: { highlight: result_geo[:highlight] } } %>
       </div>
     <% end %>
 

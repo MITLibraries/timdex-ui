@@ -199,7 +199,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
       'title' => ['Sample <em>TIMDEX</em> Record'],
       'summary' => ['comprehensive <em>test</em> record']
     }
-    assert_equal expected_highlight, normalized['highlight']
+    assert_equal expected_highlight, normalized[:highlight]
   end
 
   test 'includes TIMDEX-specific source_link field' do

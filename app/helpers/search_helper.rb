@@ -4,9 +4,9 @@ module SearchHelper
   end
 
   def trim_highlights(result)
-    return unless result['highlight']&.any?
+    return unless result[:highlight]&.any?
 
-    result['highlight'].reject { |h| displayed_fields.include? h['matchedField'] }
+    result[:highlight].reject { |h| displayed_fields.include? h['matchedField'] }
   end
 
   def format_highlight_label(field_name)
