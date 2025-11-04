@@ -77,7 +77,8 @@ class SearchController < ApplicationController
     if @results.empty?
       docs = primo_response['docs'] if primo_response.is_a?(Hash)
       if docs.nil? || docs.empty?
-        @show_primo_continuation = true
+        # Only show continuation for pagination scenarios (page > 1), not for searches with no results
+        @show_primo_continuation = true if current_page > 1
       else
         @errors = [{ 'message' => 'No more results available at this page number.' }]
       end

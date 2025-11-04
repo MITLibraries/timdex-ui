@@ -675,4 +675,45 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select '.primo-continuation', count: 1
     assert_select '.primo-continuation h2', text: /Continue your search in Search Our Collections/
   end
+
+  test 'primo results shows no results message when search returns no results on first page' do
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({ 'docs' => [], 'total' => 0 })
+    PrimoSearch.expects(:new).returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns([])
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer)
+
+    get '/results?q=nonexistentterm&tab=primo'
+    assert_response :success
+    assert_select '.no-results', count: 1
+    assert_select '.no-results p', text: /No results found for your search/
+    refute_select '.primo-continuation'
+  end
+
+  test 'timdex results shows no results message when search returns no results on first page' do
+    mock_response = mock('timdex_response')
+    mock_errors = mock('timdex_errors')
+    mock_errors.stubs(:details).returns({})
+    mock_response.stubs(:errors).returns(mock_errors)
+
+    mock_data = mock('timdex_data')
+    mock_data.stubs(:to_h).returns({
+                                     'search' => {
+                                       'hits' => 0,
+                                       'aggregations' => {},
+                                       'records' => []
+                                     }
+                                   })
+    mock_response.stubs(:data).returns(mock_data)
+
+    TimdexBase::Client.expects(:query).returns(mock_response)
+
+    get '/results?q=nonexistentterm&tab=timdex'
+    assert_response :success
+    assert_select '.no-results', count: 1
+    assert_select '.no-results p', text: /No results found for your search/
+    refute_select '.primo-continuation'
+  end
 end
