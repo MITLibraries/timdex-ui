@@ -28,7 +28,7 @@ class NormalizeTimdexResultsTest < ActiveSupport::TestCase
 
     # Check TIMDEX-specific fields are preserved
     assert_includes first_result.keys, :content_type
-    assert_includes first_result.keys, 'dates'
+    assert_includes first_result.keys, :dates
     assert_includes first_result.keys, :contributors
     assert_includes first_result.keys, 'highlight'
     assert_includes first_result.keys, 'source_link'

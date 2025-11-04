@@ -8,7 +8,7 @@
     <p class="pub-info">
       <span><%= result[:content_type]&.each { |type| type['value'] }&.join(' ; ') %></span>
       <span>
-        <% result['dates']&.each do |date| %>
+        <% result[:dates]&.each do |date| %>
           <%= date['value'] if date['kind'] == 'Publication date' %>
         <% end %>
       </span>

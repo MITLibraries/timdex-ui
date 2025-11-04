@@ -180,7 +180,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
       { 'kind' => 'Publication date', 'value' => '2023-01-15' },
       { 'kind' => 'Coverage', 'value' => '2020-2023' }
     ]
-    assert_equal expected_dates, normalized['dates']
+    assert_equal expected_dates, normalized[:dates]
   end
 
   test 'includes TIMDEX-specific contributors field' do
