@@ -88,12 +88,12 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
         'text' => 'View full record'
       }
     ]
-    assert_equal expected_links, normalized['links']
+    assert_equal expected_links, normalized[:links]
   end
 
   test 'handles missing links' do
     normalized = NormalizeTimdexRecord.new(minimal_record, 'test').normalize
-    assert_empty normalized['links']
+    assert_empty normalized[:links]
   end
 
   test 'normalizes citation' do
