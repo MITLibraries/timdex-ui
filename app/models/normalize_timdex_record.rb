@@ -12,7 +12,7 @@ class NormalizeTimdexRecord
       creators:,
       source:,
       year:,
-      'format' => format,
+      format:,
       'links' => links,
       'citation' => citation,
       'identifier' => identifier,

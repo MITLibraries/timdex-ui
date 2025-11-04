@@ -23,7 +23,7 @@ class NormalizeTimdexResultsTest < ActiveSupport::TestCase
     assert_equal 'Sample TIMDEX Record for Testing', first_result[:title]
     assert_equal 'test-record-123', first_result['identifier']
     assert_equal 'Test Repository', first_result[:source]
-    assert_equal 'Dataset ; Geospatial data', first_result['format']
+    assert_equal 'Dataset ; Geospatial data', first_result[:format]
     assert_equal '2023', first_result[:year]
 
     # Check TIMDEX-specific fields are preserved

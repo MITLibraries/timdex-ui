@@ -69,14 +69,14 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
 
   test 'normalizes format from content type' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    assert_equal 'Dataset ; Geospatial data', normalized['format']
+    assert_equal 'Dataset ; Geospatial data', normalized[:format]
   end
 
   test 'handles missing format' do
     record_without_format = minimal_record.dup
     record_without_format.delete('contentType')
     normalized = NormalizeTimdexRecord.new(record_without_format, 'test').normalize
-    assert_empty normalized['format']
+    assert_empty normalized[:format]
   end
 
   test 'normalizes links from source link' do
