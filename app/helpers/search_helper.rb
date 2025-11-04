@@ -4,9 +4,9 @@ module SearchHelper
   end
 
   def trim_highlights(result)
-    return unless result['highlight']&.any?
+    return unless result[:highlight]&.any?
 
-    result['highlight'].reject { |h| displayed_fields.include? h['matchedField'] }
+    result[:highlight].reject { |h| displayed_fields.include? h['matchedField'] }
   end
 
   def format_highlight_label(field_name)
@@ -15,17 +15,17 @@ module SearchHelper
   end
 
   def link_to_result(result)
-    if result['source_link'].present?
-      link_to(result['title'], result['source_link'])
+    if result[:source_link].present?
+      link_to(result[:title], result[:source_link])
     else
-      result['title']
+      result[:title]
     end
   end
 
   def view_online(result)
-    return unless result['source_link'].present?
+    return unless result[:source_link].present?
 
-    link_to 'View online', result['source_link'], class: 'button button-primary'
+    link_to 'View online', result[:source_link], class: 'button button-primary'
   end
 
   def view_record(record_id)

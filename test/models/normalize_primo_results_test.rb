@@ -27,8 +27,8 @@ class NormalizePrimoResultsTest < ActiveSupport::TestCase
     normalized = normalizer.normalize
 
     assert_equal 2, normalized.length
-    assert_equal 'Testing the Limits of Knowledge', normalized.first['title']
-    assert_equal 'unknown title', normalized.second['title']
+    assert_equal 'Testing the Limits of Knowledge', normalized.first[:title]
+    assert_equal 'unknown title', normalized.second[:title]
   end
 
   test 'handles empty results' do

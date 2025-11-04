@@ -8,25 +8,25 @@ class NormalizePrimoRecord
   def normalize
     {
       # Core fields
-      'title' => title,
-      'creators' => creators,
-      'source' => source,
-      'year' => year,
-      'format' => format,
-      'links' => links,
-      'citation' => citation,
-      'identifier' => record_id,
-      'summary' => summary,
-      'publisher' => publisher,
-      'location' => best_location,
-      'subjects' => subjects,
+      title:,
+      creators:,
+      source:,
+      year:,
+      format:,
+      links:,
+      citation:,
+      identifier:,
+      summary:,
+      publisher:,
+      location:,
+      subjects:,
       # Primo-specific fields
-      'container' => container_title,
-      'numbering' => numbering,
-      'chapter_numbering' => chapter_numbering,
-      'thumbnail' => thumbnail,
-      'availability' => best_availability,
-      'other_availability' => other_availability?
+      container:,
+      numbering:,
+      chapter_numbering:,
+      thumbnail:,
+      availability:,
+      other_availability:
     }
   end
 
@@ -115,7 +115,7 @@ class NormalizePrimoRecord
     end
   end
 
-  def container_title
+  def container
     return unless @record['pnx']['addata']
 
     if @record['pnx']['addata']['jtitle'].present?
@@ -125,7 +125,7 @@ class NormalizePrimoRecord
     end
   end
 
-  def record_id
+  def identifier
     return unless @record['pnx']['control']['recordid']
 
     @record['pnx']['control']['recordid'].join
@@ -224,7 +224,7 @@ class NormalizePrimoRecord
     if openurl_server == record_openurl_server
       construct_primo_openurl
     else
-      Rails.logger.warn "Alma openurl server mismatch. Expected #{openurl_server}, but received #{record_openurl_server}. (record ID: #{record_id})"
+      Rails.logger.warn "Alma openurl server mismatch. Expected #{openurl_server}, but received #{record_openurl_server}. (record ID: #{identifier})"
       @record['delivery']['almaOpenurl']
     end
   end
@@ -265,7 +265,7 @@ class NormalizePrimoRecord
     @record['pnx']['addata']['pub'].first
   end
 
-  def best_location
+  def location
     return unless @record['delivery']
     return unless @record['delivery']['bestlocation']
 
@@ -279,13 +279,13 @@ class NormalizePrimoRecord
     @record['pnx']['display']['subject']
   end
 
-  def best_availability
-    return unless best_location
+  def availability
+    return unless location
 
     @record['delivery']['bestlocation']['availabilityStatus']
   end
 
-  def other_availability?
+  def other_availability
     return unless @record['delivery']['bestlocation']
     return unless @record['delivery']['holding']
 
@@ -302,9 +302,9 @@ class NormalizePrimoRecord
   end
 
   def alma_record?
-    return false unless record_id
+    return false unless identifier
 
-    record_id.start_with?('alma')
+    identifier.start_with?('alma')
   end
 
   def dedup_url

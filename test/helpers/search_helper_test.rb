@@ -4,36 +4,36 @@ class SearchHelperTest < ActionView::TestCase
   include SearchHelper
 
   test 'removes displayed fields from highlights' do
-    result = { 'highlight' => [{ 'matchedField' => 'title', 'matchedPhrases' => 'Very important data' },
-                               { 'matchedField' => 'title.exact_value', 'matchedPhrases' => 'Very important data' },
-                               { 'matchedField' => 'content_type', 'matchedPhrases' => 'Dataset' },
-                               { 'matchedField' => 'dates.value', 'matchedPhrases' => '2022' },
-                               { 'matchedField' => 'contributors.value', 'matchedPhrases' => 'Jane Datascientist' }] }
+    result = { highlight: [{ 'matchedField' => 'title', 'matchedPhrases' => 'Very important data' },
+                           { 'matchedField' => 'title.exact_value', 'matchedPhrases' => 'Very important data' },
+                           { 'matchedField' => 'content_type', 'matchedPhrases' => 'Dataset' },
+                           { 'matchedField' => 'dates.value', 'matchedPhrases' => '2022' },
+                           { 'matchedField' => 'contributors.value', 'matchedPhrases' => 'Jane Datascientist' }] }
     assert_empty trim_highlights(result)
   end
 
   test 'does not remove undisplayed fields from highlights' do
-    result = { 'highlight' => [{ 'matchedField' => 'summary', 'matchedPhrases' => 'Have some data' }] }
+    result = { highlight: [{ 'matchedField' => 'summary', 'matchedPhrases' => 'Have some data' }] }
     assert_equal [{ 'matchedField' => 'summary', 'matchedPhrases' => 'Have some data' }], trim_highlights(result)
   end
 
   test 'returns correct set of highlights when result includes displayed and undisplayed fields' do
-    result = { 'highlight' => [{ 'matchedField' => 'title', 'matchedPhrases' => 'Very important data' },
-                               { 'matchedField' => 'content_type', 'matchedPhrases' => 'Dataset' },
-                               { 'matchedField' => 'summary', 'matchedPhrases' => '2022' },
-                               { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }] }
+    result = { highlight: [{ 'matchedField' => 'title', 'matchedPhrases' => 'Very important data' },
+                           { 'matchedField' => 'content_type', 'matchedPhrases' => 'Dataset' },
+                           { 'matchedField' => 'summary', 'matchedPhrases' => '2022' },
+                           { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }] }
     assert_equal [{ 'matchedField' => 'summary', 'matchedPhrases' => '2022' },
                   { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }], trim_highlights(result)
   end
 
   test 'renders view_online link if source_link is present' do
-    result = { 'title' => 'A record', 'source_link' => 'https://example.org' }
+    result = { title: 'A record', source_link: 'https://example.org' }
     assert_equal '<a class="button button-primary" href="https://example.org">View online</a>',
                  view_online(result)
   end
 
   test 'does not render view_online link if source_link is absent' do
-    result = { 'title' => 'A record' }
+    result = { title: 'A record' }
     assert_nil view_online(result)
   end
 
@@ -169,8 +169,8 @@ class SearchHelperTest < ActionView::TestCase
 
   test 'link_to_result returns link when source_link is present' do
     result = {
-      'title' => 'Sample Document Title',
-      'source_link' => 'https://example.com/document'
+      title: 'Sample Document Title',
+      source_link: 'https://example.com/document'
     }
     expected_link = '<a href="https://example.com/document">Sample Document Title</a>'
     assert_equal expected_link, link_to_result(result)
@@ -178,23 +178,23 @@ class SearchHelperTest < ActionView::TestCase
 
   test 'link_to_result returns plain title when source_link is nil' do
     result = {
-      'title' => 'Sample Document Title',
-      'source_link' => nil
+      title: 'Sample Document Title',
+      source_link: nil
     }
     assert_equal 'Sample Document Title', link_to_result(result)
   end
 
   test 'link_to_result returns plain title when source_link is empty string' do
     result = {
-      'title' => 'Sample Document Title',
-      'source_link' => ''
+      title: 'Sample Document Title',
+      source_link: ''
     }
     assert_equal 'Sample Document Title', link_to_result(result)
   end
 
   test 'link_to_result returns plain title when source_link key is absent' do
     result = {
-      'title' => 'Sample Document Title'
+      title: 'Sample Document Title'
     }
     assert_equal 'Sample Document Title', link_to_result(result)
   end

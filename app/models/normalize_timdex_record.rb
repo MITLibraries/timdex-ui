@@ -8,24 +8,24 @@ class NormalizeTimdexRecord
   def normalize
     {
       # Core fields
-      'title' => title,
-      'creators' => creators,
-      'source' => source,
-      'year' => year,
-      'format' => format,
-      'links' => links,
-      'citation' => citation,
-      'identifier' => identifier,
-      'summary' => summary,
-      'publisher' => publisher,
-      'location' => location,
-      'subjects' => subjects,
+      title:,
+      creators:,
+      source:,
+      year:,
+      format:,
+      links:,
+      citation:,
+      identifier:,
+      summary:,
+      publisher:,
+      location:,
+      subjects:,
       # TIMDEX-specific fields
-      'content_type' => content_type,
-      'dates' => dates,
-      'contributors' => contributors,
-      'highlight' => highlight,
-      'source_link' => source_link
+      content_type:,
+      dates:,
+      contributors:,
+      highlight:,
+      source_link:
     }
   end
 

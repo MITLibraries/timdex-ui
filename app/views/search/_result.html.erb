@@ -6,9 +6,9 @@
     </h3>
 
     <p class="pub-info">
-      <span><%= result['content_type']&.each { |type| type['value'] }&.join(' ; ') %></span>
+      <span><%= result[:content_type]&.each { |type| type['value'] }&.join(' ; ') %></span>
       <span>
-        <% result['dates']&.each do |date| %>
+        <% result[:dates]&.each do |date| %>
           <%= date['value'] if date['kind'] == 'Publication date' %>
         <% end %>
       </span>
@@ -16,7 +16,7 @@
 
     <span class="sr">Contributors: </span>
     <ul class="list-inline truncate-list contributors">
-      <%= render partial: 'shared/contributors', locals: { contributors: result['contributors'] } %>
+      <%= render partial: 'shared/contributors', locals: { contributors: result[:contributors] } %>
     </ul>
 
     <div class="result-highlights">

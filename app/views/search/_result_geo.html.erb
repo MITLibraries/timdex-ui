@@ -1,38 +1,38 @@
 <li class="result">
   <div class="result-content">
     <h3 class="record-title">
-      <span class="sr">Title: </span><%= link_to(result_geo['title'], record_path(result_geo['identifier'])) %>
+      <span class="sr">Title: </span><%= link_to(result_geo[:title], record_path(result_geo[:identifier])) %>
     </h3>
 
     <div class="data-info">
       <%= render partial: 'shared/geo_data_info', locals: { metadata: result_geo } %>
     </div>
 
-    <% if result_geo['creators'].present? || result_geo['contributors'].present? %>
+    <% if result_geo[:creators].present? || result_geo[:contributors].present? %>
       <span class="sr">Contributors: </span>
       <ul class="list-inline truncate-list contributors">
         <!-- Use normalized creators if available, otherwise fall back to raw contributors -->
-        <% contributors = result_geo['creators'].present? ? result_geo['creators'] : result_geo['contributors'] %>
+        <% contributors = result_geo[:creators].present? ? result_geo[:creators] : result_geo[:contributors] %>
         <% if contributors %>
           <%= render partial: 'shared/contributors', locals: { contributors: contributors } %>
         <% end %>
       </ul>
     <% end %>
 
-    <% if result_geo['summary'].present? %>
+    <% if result_geo[:summary].present? %>
       <p class="result-summary truncate-list">
-        <span class="sr">Summary: </span><%= result_geo['summary'] %>
+        <span class="sr">Summary: </span><%= result_geo[:summary] %>
       </p>
     <% end %>
 
-    <% if result_geo['highlight'] %>
+    <% if result_geo[:highlight] %>
       <div class="result-highlights">
-        <%= render partial: 'search/highlights', locals: { result: { 'highlight' => result_geo['highlight'] } } %>
+        <%= render partial: 'search/highlights', locals: { result: { highlight: result_geo[:highlight] } } %>
       </div>
     <% end %>
 
     <div class="result-record">
-      <%= view_record(result_geo['identifier']) %>
+      <%= view_record(result_geo[:identifier]) %>
     </div>
   </div>
 </li>

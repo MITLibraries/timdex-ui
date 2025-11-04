@@ -2,22 +2,22 @@
   <div class="result-content">
     <h3 class="record-title">
       <span class="sr">Title: </span>
-      <% if result['links']&.find { |link| link['kind'] == 'full record' } %>
-        <%= link_to(result['title'], result['links'].find { |link| link['kind'] == 'full record' }['url']) %>
+      <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
+        <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
       <% else %>
-        <%= result['title'] %>
+        <%= result[:title] %>
       <% end %>
     </h3>
 
     <p class="pub-info">
-      <span><%= result['format'] %></span>
-      <span><%= result['year'] %></span>
+      <span><%= result[:format] %></span>
+      <span><%= result[:year] %></span>
     </p>
 
-    <% if result['creators'].present? %>
+    <% if result[:creators].present? %>
       <span class="sr">Contributors: </span>
       <ul class="list-inline truncate-list contributors">
-        <% result['creators'].each do |creator| %>
+        <% result[:creators].each do |creator| %>
           <li>
             <% if creator[:link] %>
               <%= link_to creator[:value], creator[:link]  %>
@@ -30,8 +30,8 @@
     <% end %>
 
     <div class="result-get">
-      <% if result['links'].present? %>
-        <% result['links'].each do |link| %>
+      <% if result[:links].present? %>
+        <% result[:links].each do |link| %>
           <%= link_to link['kind'].titleize, link['url'], class: 'link-button' %>
         <% end %>
       <% end %>
