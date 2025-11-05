@@ -2,6 +2,7 @@
   <h3>What can we help you find?</h3>
   <div class="form-wrapper">
     <input id="basic-search-main" type="search" class="field field-text basic-search-input" name="q" title="Keyword anywhere" placeholder="Search for anything" value="<%= params[:q] %>" required>
+    <input id="tab-to-target" type="hidden" name="tab" value="<%= @active_tab %>">
     <button type="submit" class="btn button-primary">Search</button>
   </div>
 </form>

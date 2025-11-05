@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
   before_action :validate_q!, only: %i[results]
+  before_action :set_active_tab, only: %i[results]
 
   before_action :validate_geobox_presence!, only: %i[results]
   before_action :validate_geobox_range!, only: %i[results]
@@ -13,29 +14,17 @@ class SearchController < ApplicationController
     # inject session preference for boolean type if it is present
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
-    # Determine which tab to load - default to primo unless gdt is enabled
-    @active_tab = if Feature.enabled?(:geodata)
-                    'gdt' # Keep existing GDT behavior unchanged
-                  else
-                    params[:tab] || 'primo' # Default to primo for new tabbed interface
-                  end
-
-    # Include the active tab in the enhanced query so it's available for pagination and other uses.
-    params[:tab] = @active_tab unless Feature.enabled?(:gdt)
     @enhanced_query = Enhancer.new(params).enhanced_query
 
     # Route to appropriate search based on active tab
-    if Feature.enabled?(:geodata)
-      # Keep existing GDT behavior unchanged
+    case @active_tab
+    when 'primo'
+      load_primo_results
+    when 'timdex'
+      load_timdex_results
+    when 'geodata'
       load_gdt_results
       render 'results_geo'
-    else
-      case @active_tab
-      when 'primo'
-        load_primo_results
-      when 'timdex'
-        load_timdex_results
-      end
     end
   end
 
@@ -112,7 +101,7 @@ class SearchController < ApplicationController
 
     # Builder hands off to wrapper which returns raw results here.
     Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
-      raw = if @active_tab == 'gdt'
+      raw = if @active_tab == 'geodata'
               execute_geospatial_query(query)
             elsif @active_tab == 'timdex'
               TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
