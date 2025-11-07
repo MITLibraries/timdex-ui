@@ -33,7 +33,7 @@
 #
 class Feature
   # List of all valid features in the application
-  VALID_FEATURES = %i[geodata boolean_picker].freeze
+  VALID_FEATURES = %i[geodata boolean_picker simulate_search_latency].freeze
 
   # Check if a feature is enabled by name
   #
