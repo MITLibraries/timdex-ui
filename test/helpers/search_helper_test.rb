@@ -199,6 +199,27 @@ class SearchHelperTest < ActionView::TestCase
     assert_equal 'Sample Document Title', link_to_result(result)
   end
 
+  test 'link_to_tab builds a link without an aria attribute when that tab is not active' do
+    @active_tab = 'bar'
+    actual = link_to_tab('Foo')
+
+    assert_select Nokogiri::HTML::Document.parse( actual ), 'a' do |link|
+      assert_select '[class*=?]', 'active', count: 0
+      assert_select '[class*=?]', 'tab-link'
+      assert_select '[aria-current=?]', 'page', count: 0
+    end
+  end
+
+  test 'link_to_tab builds a link that includes an aria attribute when that tab is active' do
+    @active_tab = 'foo'
+    actual = link_to_tab('Foo')
+
+    assert_select Nokogiri::HTML::Document.parse( actual ), 'a' do |link|
+      assert_select link, '[class*=?]', 'active'
+      assert_select link, '[aria-current=?]', 'page', count: 1
+    end
+  end
+
   test 'primo_search_url generates correct Primo URL' do
     query = 'machine learning'
     expected_url = 'https://mit.primo.exlibrisgroup.com/discovery/search?query=any%2Ccontains%2Cmachine+learning&vid=01MIT_INST%3AMIT'

@@ -23,15 +23,17 @@ document.addEventListener('turbo:frame-render', function(event) {
       // console.log(`Updated tab input value to: ${queryParam}`);
     }
 
-    // update active tab styling
-    // remove active class from all tabs
+    // update tab links to reflect new state. This is a two-step process:
+    // 1. Reset all tabs to base condition
     document.querySelectorAll('.tab-link').forEach((tab) => {
       tab.classList.remove('active');
+      tab.removeAttribute('aria-current');
     });
-    // add active class to current tab
+    // 2. Add "active" class and aria-current attribute to the newly-active tab link
     const currentTabLink = document.querySelector(`.tab-link[href*="tab=${queryParam}"]`);
     if (currentTabLink) {
       currentTabLink.classList.add('active');
+      currentTabLink.setAttribute('aria-current', 'page');
     }
 
     // Clear the pending action

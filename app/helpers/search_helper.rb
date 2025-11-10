@@ -22,6 +22,19 @@ module SearchHelper
     end
   end
 
+  def link_to_tab(target)
+    if @active_tab == target.downcase
+      link_to target, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: target.downcase)),
+        aria: { current: "page" },
+        class: "active tab-link",
+        data: { turbo_frame: "search-results", turbo_action: "advance" }
+    else
+      link_to target, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: target.downcase)),
+        class: "tab-link",
+        data: { turbo_frame: "search-results", turbo_action: "advance" }
+    end
+  end
+
   def view_online(result)
     return unless result[:source_link].present?
 
