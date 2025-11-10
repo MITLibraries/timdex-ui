@@ -7,9 +7,12 @@
   margin: 0;
   padding-bottom: 24px;
 
-  h3 {
+  label {
     font-size: 1.8rem;
     margin-bottom: 12px;
+    font-weight: $fw-medium;
+    display: block;
+    line-height: 1;
   }
 
   .form-wrapper {
