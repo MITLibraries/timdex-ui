@@ -1,10 +1,14 @@
   <!-- Tab Navigation -->
-  <div id="tabs" class="tab-navigation top-space">
-    <%= link_to "Primo", results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: 'primo')),
-                class: "tab-link #{'active' if @active_tab == 'primo'}", 
-                data: { turbo_frame: "search-results", turbo_action: "advance" } %>
-    <%= link_to "TIMDEX", results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: 'timdex')),
-                class: "tab-link #{'active' if @active_tab == 'timdex'}", 
-                data: { turbo_frame: "search-results", turbo_action: "advance" } %>
-  </div>
+  <nav id="tabs" class="tab-navigation" aria-label="Result type navigation">
+    <ul>
+      <li>
+        <%= link_to "Primo", results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: 'primo')),
+                class: "tab-link #{'active' if @active_tab == 'primo'}",
+                data: { turbo_frame: "search-results", turbo_action: "advance" } %></li>  
+      <li>
+        <%= link_to "TIMDEX", results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: 'timdex')),
+                class: "tab-link #{'active' if @active_tab == 'timdex'}",
+                data: { turbo_frame: "search-results", turbo_action: "advance" } %></li>
+    </ul>
+  </nav>
   
