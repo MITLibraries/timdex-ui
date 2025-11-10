@@ -4,23 +4,19 @@
   <meta name="robots" content="noindex, nofollow" />
 <% end %>
 
-<div class="space-wrap">
-
-  <%= render partial: "shared/site_title" %>
-
-  <%= render partial: "search_summary" %>
-
+<div id="content-wrapper" class="space-wrap">
   <%= render(partial: 'shared/error', collection: @errors) %>
 
   <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
   <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
-    <div class="layout-3q1q layout-band top-space">
+    <div class="layout-3q1q layout-band">
       <main id="results" class="col3q wrap-results">
         <% if @show_primo_continuation %>
           <%= render partial: 'search/primo_continuation' %>
         <% elsif @results.present? && @errors.blank? %>
-          <h2 class="hd-3 results-context"><%= results_summary(@pagination[:hits]) %> returned</h2>
+          <h2 class="results-context"><%= results_summary(@pagination[:hits]) %></h2>
+          <p class="results-context-description">From all MIT Libraries sources</p>
           <ol class="results-list" start="<%= @pagination[:start] %>">
             <% case @active_tab %>
             <% when 'primo' %>

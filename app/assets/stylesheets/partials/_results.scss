@@ -119,3 +119,24 @@
     line-height: 1.1;
   }
 }
+
+/* USE Specific Overrides */
+#content-wrapper {
+  padding-top: 12px;
+
+  .results-context {
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+
+  .results-context-description {
+    color: $color-text-secondary;
+    margin-bottom: 32px;
+  }
+
+  #results {
+    padding: 16px 0 0 0;
+  }
+
+}
