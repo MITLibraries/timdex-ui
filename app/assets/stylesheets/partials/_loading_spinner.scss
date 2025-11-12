@@ -8,7 +8,7 @@
 }
 
 // Pagination overlay when loading
-.spinner {
+[busy]:not([no-spinner]) {
   position: relative;
   min-height: 400px;
   display: block;
