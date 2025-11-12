@@ -5,6 +5,9 @@
     <input id="tab-to-target" type="hidden" name="tab" value="<%= @active_tab %>">
     <button type="submit" class="btn button-primary">Search</button>
   </div>
+  <div class="search-actions">
+    <a href="https://libraries.mit.edu/search/">More search options</a>
+  </div>
 </form>
 
 <% if Feature.enabled?(:boolean_picker) %>
