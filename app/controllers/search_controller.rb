@@ -23,6 +23,8 @@ class SearchController < ApplicationController
       load_primo_results
     when 'timdex'
       load_timdex_results
+    when 'all'
+      load_all_results
     when 'geodata'
       load_gdt_results
       render 'results_geo'
@@ -66,49 +68,96 @@ class SearchController < ApplicationController
   end
 
   def load_primo_results
+    data = fetch_primo_data
+    @results = data[:results]
+    @pagination = data[:pagination]
+    @errors = data[:errors]
+    @show_primo_continuation = data[:show_continuation]
+  end
+
+  def load_timdex_results
+    data = fetch_timdex_data
+    @results = data[:results]
+    @pagination = data[:pagination]
+    @errors = data[:errors]
+  end
+
+  def load_all_results
+    # Parallel fetching from both APIs
+    primo_thread = Thread.new { fetch_primo_data }
+    timdex_thread = Thread.new { fetch_timdex_data }
+
+    # Wait for both threads to complete
+    primo_data = primo_thread.value
+    timdex_data = timdex_thread.value
+
+    # Collect any errors from either API
+    all_errors = []
+    all_errors.concat(primo_data[:errors]) if primo_data[:errors]
+    all_errors.concat(timdex_data[:errors]) if timdex_data[:errors]
+    @errors = all_errors.any? ? all_errors : nil
+
+    # Zipper merge results from both APIs
+    primo_results = primo_data[:results] || []
+    timdex_results = timdex_data[:results] || []
+    @results = primo_results.zip(timdex_results).flatten.compact
+
+    # For now, just use primo pagination as a placeholder
+    @pagination = primo_data[:pagination] || {}
+    
+    # Handle primo continuation for high page numbers
+    @show_primo_continuation = primo_data[:show_continuation] || false
+  end
+
+  def fetch_primo_data
     current_page = @enhanced_query[:page] || 1
     per_page = @enhanced_query[:per_page] || 20
     offset = (current_page - 1) * per_page
 
     # Check if we're beyond Primo API limits before making the request.
     if offset >= Analyzer::PRIMO_MAX_OFFSET
-      @show_primo_continuation = true
-      return
+      return { results: [], pagination: {}, errors: nil, show_continuation: true }
     end
 
     primo_response = query_primo
-    @results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
+    results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
+    pagination = Analyzer.new(@enhanced_query, primo_response, :primo).pagination
 
     # Handle empty results from Primo API. Sometimes Primo will return no results at a given offset,
     # despite claiming in the initial query that more are available. This happens randomly and
     # seemingly for no reason (well below the recommended offset of 2,000). While the bug also
     # exists in Primo UI, sending users there seems like the best we can do.
-    if @results.empty?
+    show_continuation = false
+    errors = nil
+    
+    if results.empty?
       docs = primo_response['docs'] if primo_response.is_a?(Hash)
       if docs.nil? || docs.empty?
         # Only show continuation for pagination scenarios (page > 1), not for searches with no results
-        @show_primo_continuation = true if current_page > 1
+        show_continuation = true if current_page > 1
       else
-        @errors = [{ 'message' => 'No more results available at this page number.' }]
+        errors = [{ 'message' => 'No more results available at this page number.' }]
       end
     end
 
-    # Use Analyzer for consistent pagination across all search types
-    @pagination = Analyzer.new(@enhanced_query, primo_response, :primo).pagination
+    { results: results, pagination: pagination, errors: errors, show_continuation: show_continuation }
   rescue StandardError => e
-    @errors = handle_primo_errors(e)
+    { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false }
   end
 
-  def load_timdex_results
+  def fetch_timdex_data
     query = QueryBuilder.new(@enhanced_query).query
     response = query_timdex(query)
-
-    @errors = extract_errors(response)
-    return unless @errors.nil?
-
-    @pagination = Analyzer.new(@enhanced_query, response, :timdex).pagination
-    raw_results = extract_results(response)
-    @results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
+    errors = extract_errors(response)
+    
+    if errors.nil?
+      pagination = Analyzer.new(@enhanced_query, response, :timdex).pagination
+      raw_results = extract_results(response)
+      results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
+      { results: results, pagination: pagination, errors: nil }
+    else
+      { results: [], pagination: {}, errors: errors }
+    end
   end
 
   def active_filters
@@ -123,7 +172,7 @@ class SearchController < ApplicationController
     Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
       raw = if @active_tab == 'geodata'
               execute_geospatial_query(query)
-            elsif @active_tab == 'timdex'
+            elsif @active_tab == 'timdex' || @active_tab == 'all'
               TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
             end
 

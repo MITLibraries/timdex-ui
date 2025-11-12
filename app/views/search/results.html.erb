@@ -23,6 +23,14 @@
               <%= render(partial: 'search/result_primo', collection: @results, as: :result) %>
             <% when 'timdex' %>
               <%= render(partial: 'search/result', collection: @results, as: :result) %>
+            <% when 'all' %>
+              <% @results.each do |result| %>
+                <% if result[:source] == 'Primo' %>
+                  <%= render(partial: 'search/result_primo', locals: { result: result }) %>
+                <% else %>
+                  <%= render(partial: 'search/result', locals: { result: result }) %>
+                <% end %>
+              <% end %>
             <% end %>
           </ol>
         <% elsif @errors.blank? %>

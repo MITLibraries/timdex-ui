@@ -151,7 +151,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'primo results with valid query displays the query' do
     mock_primo_search_success
-    get '/results?q=hallo'
+    get '/results?q=hallo&tab=primo'
     assert_response :success
     assert_nil flash[:error]
 
@@ -169,7 +169,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'primo results with valid query shows search form' do
     mock_primo_search_success
-    get '/results?q=hallo'
+    get '/results?q=hallo&tab=primo'
     assert_response :success
 
     assert_select 'form#search-form', { count: 1 }
@@ -185,7 +185,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'primo results with valid query populates search form with query' do
     mock_primo_search_success
-    get '/results?q=data'
+    get '/results?q=data&tab=primo'
     assert_response :success
 
     assert_select '#basic-search-main[value=data]'
@@ -202,7 +202,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   test 'results page shows basic USE search form when GDT is disabled' do
     # GDT is disabled by default in test setup
     mock_primo_search_success
-    get '/results?q=test'
+    get '/results?q=test&tab=primo'
     assert_response :success
     assert_select 'form#search-form', { count: 1 }
     assert_select 'form#search-form-geo', { count: 0 }
@@ -234,7 +234,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'primo results with valid query has div for pagination' do
     mock_primo_search_success
-    get '/results?q=data'
+    get '/results?q=data&tab=primo'
     assert_response :success
     assert_select '#pagination'
   end
@@ -248,7 +248,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'primo results with valid query has div for results which is populated' do
     mock_primo_search_success
-    get '/results?q=data'
+    get '/results?q=data&tab=primo'
     assert_response :success
     assert_select '#results'
     assert_select '#results .record-title', { minimum: 1 }
@@ -264,7 +264,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'primo results with valid query include links' do
     mock_primo_search_success
-    get '/results?q=data'
+    get '/results?q=data&tab=primo'
     assert_response :success
     assert_select '#results .record-title a'
   end
@@ -575,12 +575,14 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   # Tab functionality tests for USE
-  test 'results defaults to primo tab when no tab parameter provided' do
+  test 'results defaults to all tab when no tab parameter provided' do
+    # Mock both APIs since 'all' tab calls both
     mock_primo_search_success
+    mock_timdex_search_success
 
     get '/results?q=test'
     assert_response :success
-    assert_select 'a.tab-link.active[href*="tab=primo"]', count: 1
+    assert_select 'a.tab-link.active[href*="tab=all"]', count: 1
   end
 
   test 'results respects primo tab parameter' do
@@ -602,7 +604,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   test 'results shows tab navigation when gdt is disabled' do
     mock_primo_search_success
 
-    get '/results?q=test'
+    get '/results?q=test&tab=primo'
     assert_response :success
     assert_select '.tab-navigation', count: 1
     assert_select 'a[href*="tab=primo"]', count: 1
@@ -621,7 +623,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   test 'results uses simplified search summary for USE app' do
     mock_primo_search_success
 
-    get '/results?q=test'
+    get '/results?q=test&tab=primo'
     assert_response :success
     assert_select '.results-context', text: /0 results/
     assert_select '.results-context-description', count: 1
@@ -716,5 +718,60 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select '.no-results', count: 1
     assert_select '.no-results p', text: /No results found for your search/
     refute_select '.primo-continuation'
+  end
+
+  test 'all tab displays results from both TIMDEX and Primo' do
+    mock_primo_search_success
+    mock_timdex_search_success
+
+    get '/results?q=test&tab=all'
+    assert_response :success
+    
+    # Verify that we get results from both sources
+    assert_select '.record-title', text: /Sample Primo Document Title/
+    assert_select '.record-title', text: /Sample TIMDEX Document Title/
+  end
+
+  test 'all tab handles API errors gracefully' do
+    # Mock Primo to fail
+    PrimoSearch.expects(:new).raises(StandardError.new('Primo API Error'))
+    mock_timdex_search_success
+
+    get '/results?q=test&tab=all'
+    assert_response :success
+    assert_select '.alert', text: /Primo API Error/
+  end
+
+  test 'all tab is default when no tab specified' do
+    mock_primo_search_success
+    mock_timdex_search_success
+
+    get '/results?q=test'
+    assert_response :success
+
+    # Should default to 'all' tab
+    assert_select '.tab-navigation .tab-link.active', text: 'All'
+  end
+
+  test 'all tab shows as active in navigation' do
+    mock_primo_search_success
+    mock_timdex_search_success
+
+    get '/results?q=test&tab=all'
+    assert_response :success
+
+    assert_select '.tab-navigation .tab-link.active', text: 'All'
+  end
+
+  test 'all tab shows primo continuation when page exceeds API offset limit' do
+    mock_timdex_search_success
+
+    get '/results?q=test&tab=all&page=49'
+    assert_response :success
+    
+    # Should show primo continuation partial
+    assert_select '.primo-continuation', count: 1
+    assert_select '.primo-continuation h2', text: /Continue your search in Search Our Collections/
+    assert_select '.primo-continuation a[href*="primo.exlibrisgroup.com"]', count: 1
   end
 end
