@@ -25,6 +25,12 @@
               <%= render(partial: 'search/result', collection: @results, as: :result) %>
             <% end %>
           </ol>
+          <% if @results.present? %>
+            <div id="pagination">  
+              <%= render partial: "pagination" %>
+            </div>
+            <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
+          <% end %>          
         <% elsif @errors.blank? %>
           <div class="no-results">
             <p class="hd-2">No results found for your search</p>
@@ -32,13 +38,6 @@
         <% end %>
       </main>
     </div>
-
-    <% if @results.present? %>
-      <div id="pagination">  
-        <%= render partial: "pagination" %>
-      </div>
-      <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
-    <% end %>
   <% end %>
 
   <%= render partial: 'shared/ask', locals: { display: 'aside' } if @results.blank? %>

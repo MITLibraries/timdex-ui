@@ -1,22 +1,26 @@
 <% return if @pagination.nil? %>
 
 <nav class="pagination-container" aria-label="Pagination">
-  <div class="first">
-    <% current_page = @enhanced_query[:page] || 1 %>
-    <% if current_page > 2 %>
-      <%= first_url(@enhanced_query) %>
-    <% else %>
-      First
-    <% end %>
-  </div>
   <div class="previous">
     <% if @pagination[:prev] %>
       <%= prev_url(@enhanced_query) %>
     <% else %>
-      Previous
+      <span>Previous</span>
     <% end %>
   </div>
-  <div class="current"><%= @pagination[:start] %> - <%= @pagination[:end] %> of <%= number_with_delimiter(@pagination[:hits]) %></div>
+  <div class="center-elements">
+    <div class="first">
+      <% current_page = @enhanced_query[:page] || 1 %>
+      <% if current_page > 2 %>
+        <%= first_url(@enhanced_query) %>
+      <% else %>
+        <span>First</span>
+      <% end %>
+    </div>  
+    <div class="current">
+      <span><%= @pagination[:start] %> - <%= @pagination[:end] %> of <%= number_with_delimiter(@pagination[:hits]) %></span>
+    </div>
+  </div>
   <div class="next">
     <% if @pagination[:next] %>
       <%= next_url(@enhanced_query) %>

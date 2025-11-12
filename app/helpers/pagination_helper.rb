@@ -10,7 +10,7 @@ module PaginationHelper
     link_to results_path(params_copy), 'aria-label': 'First page',
                                        data: { turbo_frame: 'search-results', turbo_action: 'advance' },
                                        rel: 'nofollow' do
-      '&laquo;&laquo; First'.html_safe
+      'First'.html_safe
     end
   end
 
@@ -25,7 +25,7 @@ module PaginationHelper
     link_to results_path(params_copy), 'aria-label': 'Next page',
                                        data: { turbo_frame: 'search-results', turbo_action: 'advance' },
                                        rel: 'nofollow' do
-      'Next &raquo;'.html_safe
+      'Next 20 results'.html_safe
     end
   end
 
@@ -40,7 +40,7 @@ module PaginationHelper
     link_to results_path(params_copy), 'aria-label': 'Previous page',
                                        data: { turbo_frame: 'search-results', turbo_action: 'advance' },
                                        rel: 'nofollow' do
-      '&laquo; Previous'.html_safe
+      'Previous 20 results'.html_safe
     end
   end
 end
