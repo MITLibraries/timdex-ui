@@ -2,6 +2,15 @@
 // #SEARCH BITS
 // ------------------------
 
+/* Shared link styling */
+@mixin searchUnderlinedLinks {
+  color: $color-text-oncolor;
+  font-weight: $fw-medium;
+  text-decoration: underline;
+  text-decoration-color: $color-red-500;
+  text-underline-offset: 0.5rem;  
+}
+
 /* New USE UI search styles */
 #search-form {
   margin: 0;
@@ -219,16 +228,11 @@
   a {
     padding: 12px 20px 16px;
     background-color: transparent;
-    color: $color-text-oncolor;
     display: inline-block;
-    font-weight: $fw-medium;
-
     border: 2px solid transparent;
-    border-bottom: 0;    
+    border-bottom: 0;  
 
-    text-decoration: underline;
-    text-decoration-color: $color-red-500;
-    text-underline-offset: 0.5rem;
+    @include searchUnderlinedLinks;
 
     &:hover {
       border-color: $color-gray-700;
@@ -249,4 +253,19 @@
 
   }
 
+}
+
+/* ============== */
+/* Search Actions */
+/* ============== */
+
+.search-actions {
+  padding-top: 16px;
+  padding-bottom: 8px;
+  display: flex;
+  gap: 24px;
+
+  a {
+    @include searchUnderlinedLinks();
+  }
 }
