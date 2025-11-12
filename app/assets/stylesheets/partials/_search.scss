@@ -9,6 +9,10 @@
   text-decoration: underline;
   text-decoration-color: $color-red-500;
   text-underline-offset: 0.5rem;  
+
+  &:hover {
+    color: $color-red-400;
+  }
 }
 
 /* New USE UI search styles */
@@ -237,6 +241,7 @@
     &:hover {
       border-color: $color-gray-700;
       background-color: $color-gray-900;
+      color: $color-text-oncolor;
     }
 
     &.active {
