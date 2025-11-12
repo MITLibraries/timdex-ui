@@ -35,6 +35,8 @@ document.addEventListener('turbo:frame-render', function(event) {
       currentTabLink.classList.add('active');
       currentTabLink.setAttribute('aria-current', 'page');
     }
+    // Remove the spinner now that things are ready
+    document.getElementById('search-results').classList.remove('spinner');
 
     // Clear the pending action
     window.pendingFocusAction = null;
@@ -53,6 +55,10 @@ document.addEventListener('click', function(event) {
 
   // Handle tab clicks
   if (clickedElement.closest('.tab-navigation')) {
+    // Throw the spinner on the search results immediately
+    document.getElementById('search-results').classList.add('spinner');
+
+    // Position the window at the top of the results
     window.scrollTo({ top: 0, behavior: 'smooth' });
     window.pendingFocusAction = 'tab';
   }
