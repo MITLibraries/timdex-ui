@@ -1,6 +1,7 @@
 // Override fonts from the theme gem, done temporarily for USE UI
 body {
   font-family: $base-font;
+  color: $color-text-primary;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -37,3 +38,9 @@ h1, h2, h3, h4, h5, h6 {
 .hd-6 {
   line-height: $lh-base;
 }
+
+/* Theme Gem Overrides */
+
+//Font color set to black in theme gem, breaking cascade from local body style rule
+.wrap-outer-content { color: $color-text-primary; } 
+.wrap-outer-footer-institute a, .wrap-footer a, a, .js .expand-collapse-control .button { color: $color-text-primary; }
