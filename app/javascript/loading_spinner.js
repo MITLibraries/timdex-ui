@@ -1,3 +1,19 @@
+// Update the tab UI to reflect the newly-requested state. This function is called
+// by a click event handler in the tab UI. It follows a two-step process:
+function swapTabs(new_target) {
+  // 1. Reset all tabs to base condition
+  document.querySelectorAll('.tab-link').forEach((tab) => {
+    tab.classList.remove('active');
+    tab.removeAttribute('aria-current');
+  });
+  // 2. Add "active" class and aria-current attribute to the newly-active tab link
+  const currentTabLink = document.querySelector(`.tab-link[href*="tab=${new_target}"]`);
+  if (currentTabLink) {
+    currentTabLink.classList.add('active');
+    currentTabLink.setAttribute('aria-current', 'page');
+  }
+}
+
 // Loading spinner behavior for pagination (Turbo Frame updates)
 document.addEventListener('turbo:frame-render', function(event) {
   if (window.pendingFocusAction === 'pagination') {
@@ -23,18 +39,6 @@ document.addEventListener('turbo:frame-render', function(event) {
       // console.log(`Updated tab input value to: ${queryParam}`);
     }
 
-    // update tab links to reflect new state. This is a two-step process:
-    // 1. Reset all tabs to base condition
-    document.querySelectorAll('.tab-link').forEach((tab) => {
-      tab.classList.remove('active');
-      tab.removeAttribute('aria-current');
-    });
-    // 2. Add "active" class and aria-current attribute to the newly-active tab link
-    const currentTabLink = document.querySelector(`.tab-link[href*="tab=${queryParam}"]`);
-    if (currentTabLink) {
-      currentTabLink.classList.add('active');
-      currentTabLink.setAttribute('aria-current', 'page');
-    }
     // Remove the spinner now that things are ready
     document.getElementById('search-results').classList.remove('spinner');
 
@@ -55,11 +59,17 @@ document.addEventListener('click', function(event) {
 
   // Handle tab clicks
   if (clickedElement.closest('.tab-navigation')) {
+    const clickedParams = new URLSearchParams(clickedElement.search);
+    const newTab = clickedParams.get('tab');
+
     // Throw the spinner on the search results immediately
     document.getElementById('search-results').classList.add('spinner');
 
     // Position the window at the top of the results
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    swapTabs(newTab);
+
     window.pendingFocusAction = 'tab';
   }
 });
