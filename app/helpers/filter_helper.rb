@@ -33,7 +33,7 @@ module FilterHelper
     }
   end
 
-  def gdt_sources(value, category)
+  def geodata_sources(value, category)
     return value if category != :sourceFilter
 
     return 'Non-MIT institutions' if value == 'opengeometadata gis resources'

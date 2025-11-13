@@ -158,7 +158,7 @@ class SearchHelperTest < ActionView::TestCase
                   'Locations: someplace', 'Subjects: unit testing'], applied_advanced_terms(query)
   end
 
-  test 'applied_advanced_terms translates contributors in GDT' do
+  test 'applied_advanced_terms translates contributors in GeoData' do
     ClimateControl.modify FEATURE_GEODATA: 'true' do
       query = {
         contributors: 'person, sample'

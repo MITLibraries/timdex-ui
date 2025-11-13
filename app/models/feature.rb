@@ -11,13 +11,13 @@
 #
 # @example Setting Flags in Environment
 #   # In local ENV or Heroku config:
-#   FEATURE_GEODATA=true             # Enables the GDT feature
+#   FEATURE_GEODATA=true             # Enables the GeoData feature
 #   FEATURE_BOOLEAN_PICKER=true      # Enables the boolean picker feature
 #
 #   # Any non-true value or not setting ENV does not enable the feature
-#   FEATURE_GEODATA=false            # Does not enable the GDT feature
-#   FEATURE_GEODATA=1                # Does not enable the GDT feature
-#   FEATURE_GEODATA=on               # Does not enable the GDT feature
+#   FEATURE_GEODATA=false            # Does not enable the GeoData feature
+#   FEATURE_GEODATA=1                # Does not enable the GeoData feature
+#   FEATURE_GEODATA=on               # Does not enable the GeoData feature
 #
 # @example Usage in Different Contexts
 #   # In models/controllers:

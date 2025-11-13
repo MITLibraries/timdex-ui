@@ -118,7 +118,7 @@ class EnhancerTest < ActiveSupport::TestCase
     end
   end
 
-  test 'enhanced_query does not extract geospatial fields if GDT feature flag is disabled' do
+  test 'enhanced_query does not extract geospatial fields if GeoData feature flag is disabled' do
     params = {
       geobox: 'true',
       geodistance: 'true',

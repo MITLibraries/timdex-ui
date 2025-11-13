@@ -183,21 +183,21 @@ class FilterHelperTest < ActionView::TestCase
     assert_equal [{ contentTypeFilter: 'dataset' }], applied_filters(query)
   end
 
-  test 'gdt_sources returns the source label we want for MIT stuff' do
-    assert_equal 'MIT', gdt_sources('mit gis resources', :sourceFilter)
+  test 'geodata_sources returns the source label we want for MIT stuff' do
+    assert_equal 'MIT', geodata_sources('mit gis resources', :sourceFilter)
   end
 
-  test 'gdt_sources returns the source label we want for non-MIT stuff' do
-    assert_equal 'Non-MIT institutions', gdt_sources('opengeometadata gis resources', :sourceFilter)
+  test 'geodata_sources returns the source label we want for non-MIT stuff' do
+    assert_equal 'Non-MIT institutions', geodata_sources('opengeometadata gis resources', :sourceFilter)
   end
 
-  test 'gdt_sources returns the source label as-is if we have no translation for it' do
-    assert_equal 'geodude', gdt_sources('geodude', :sourceFilter)
+  test 'geodata_sources returns the source label as-is if we have no translation for it' do
+    assert_equal 'geodude', geodata_sources('geodude', :sourceFilter)
   end
 
-  test 'gdt_sources returns the label as-is for non-source filters' do
-    assert_equal 'me', gdt_sources('me', :contributorsFilter)
-    assert_equal 'GIS', gdt_sources('GIS', :subjectsFilter)
+  test 'geodata_sources returns the label as-is for non-source filters' do
+    assert_equal 'me', geodata_sources('me', :contributorsFilter)
+    assert_equal 'GIS', geodata_sources('GIS', :subjectsFilter)
   end
 
   test 'remove_all_filters removes one filter' do

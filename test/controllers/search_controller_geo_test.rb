@@ -2,7 +2,7 @@ require 'test_helper'
 
 # Geospatial search behavior
 class SearchControllerGeoTest < ActionDispatch::IntegrationTest
-  test 'GDT has specific advanced search fields' do
+  test 'GeoData has specific advanced search fields' do
     ClimateControl.modify FEATURE_GEODATA: 'true' do
       get '/'
 
@@ -20,12 +20,12 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'index shows geo form when GDT is enabled' do
+  test 'index shows geo form when GeoData is enabled' do
     ClimateControl.modify FEATURE_GEODATA: 'true' do
       get '/'
 
       # Should show geo form with all geo elements, no basic form in header
-      assert_select 'form#search-form', { count: 0 } # No basic form in header when GDT enabled
+      assert_select 'form#search-form', { count: 0 } # No basic form in header when GeoData enabled
       assert_select 'form#search-form-geo', { count: 1 } # Geo form in main content
       assert_select 'details#geobox-search-panel', { count: 1 }
       assert_select 'details#geodistance-search-panel', { count: 1 }
@@ -33,7 +33,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'results page shows geo form when GDT is enabled' do
+  test 'results page shows geo form when GeoData is enabled' do
     ClimateControl.modify FEATURE_GEODATA: 'true' do
       VCR.use_cassette('geobox and geodistance',
                        allow_playback_repeats: true,
@@ -51,7 +51,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
         }.to_query
         get "/results?#{query}"
         assert_response :success
-        assert_select 'form#search-form', { count: 0 } # No basic form in header when GDT enabled
+        assert_select 'form#search-form', { count: 0 } # No basic form in header when GeoData enabled
         assert_select 'form#search-form-geo', { count: 1 }
         assert_select 'details#geobox-search-panel', { count: 1 }
         assert_select 'details#geodistance-search-panel', { count: 1 }
@@ -60,7 +60,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'contributors label is renamed to authors in GDT' do
+  test 'contributors label is renamed to authors in GeoData' do
     ClimateControl.modify FEATURE_GEODATA: 'true' do
       get '/'
       assert_select 'label', text: 'Authors'
@@ -125,7 +125,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'geobox and geodistance forms do not appear if GDT feature is disabled' do
+  test 'geobox and geodistance forms do not appear if GeoData feature is disabled' do
     ClimateControl.modify FEATURE_GEODATA: 'false' do
       get '/'
       assert_response :success
@@ -134,7 +134,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'GDT lists applied geospatial search terms' do
+  test 'GeoData lists applied geospatial search terms' do
     ClimateControl.modify FEATURE_GEODATA: 'true' do
       VCR.use_cassette('geobox and geodistance',
                        allow_playback_repeats: true,
@@ -743,7 +743,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'view full record link appears as expected for GDT records' do
+  test 'view full record link appears as expected for GeoData records' do
     ClimateControl.modify FEATURE_GEODATA: 'true' do
       VCR.use_cassette('geobox',
                        allow_playback_repeats: true,
@@ -764,7 +764,7 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'geo sources are relabeled when GDT feature is enabled' do
+  test 'geo sources are relabeled when GeoData feature is enabled' do
     ClimateControl.modify FEATURE_GEODATA: 'true' do
       VCR.use_cassette('geobox',
                        allow_playback_repeats: true,

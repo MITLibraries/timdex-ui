@@ -16,7 +16,7 @@
           <span class="sr">Apply filter:</span>
         <% end %>
         <% if Feature.enabled?(:geodata) %>
-          <span class="name"><%= gdt_sources(term['key'], category) %></span>
+          <span class="name"><%= geodata_sources(term['key'], category) %></span>
         <% else %>
           <span class="name"><%= term['key'] %></span>
         <% end %>

@@ -57,7 +57,7 @@ function updateKeywordPlaceholder() {
   }
 }
 
-// Add event listeners for all panels in the DOM. For GDT, this is currently both geospatial panels and the advanced
+// Add event listeners for all panels in the DOM. For GeoData, this is currently both geospatial panels and the advanced
 // panel. In all other TIMDEX UI apps, it's just the advanced panel.
 if (Array.from(allPanels).includes(geoboxPanel && geodistancePanel)) {
   document.getElementById('geobox-summary').addEventListener('click', () => {
