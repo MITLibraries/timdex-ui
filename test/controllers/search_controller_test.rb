@@ -83,8 +83,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert details_div.attribute('open')
   end
 
-  test 'index shows basic search form when GDT is disabled' do
-    # GDT is disabled by default in test setup
+  test 'index shows basic search form when GeoData is disabled' do
+    # GeoData is disabled by default in test setup
     get '/'
     assert_response :success
 
@@ -199,8 +199,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select '#basic-search-main[value=data]'
   end
 
-  test 'results page shows basic USE search form when GDT is disabled' do
-    # GDT is disabled by default in test setup
+  test 'results page shows basic USE search form when GeoData is disabled' do
+    # GeoData is disabled by default in test setup
     mock_primo_search_success
     get '/results?q=test&tab=primo'
     assert_response :success
@@ -601,7 +601,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a.tab-link.active[href*="tab=timdex"]', count: 1
   end
 
-  test 'results shows tab navigation when gdt is disabled' do
+  test 'results shows tab navigation when GeoData is disabled' do
     mock_primo_search_success
 
     get '/results?q=test&tab=primo'

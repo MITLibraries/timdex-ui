@@ -51,7 +51,7 @@
              href="<%= results_path(remove_filter(@enhanced_query, filter.keys[0], filter.values[0])) %>">
             <%= "#{nice_labels[filter.keys[0]] || filter.keys[0]}:" %>
             <% if Feature.enabled?(:geodata) %>
-              <%= "#{gdt_sources(filter.values[0], filter.keys[0])}" %>
+              <%= "#{geodata_sources(filter.values[0], filter.keys[0])}" %>
             <% else %>
               <%= "#{filter.values[0]}" %>
             <% end %>

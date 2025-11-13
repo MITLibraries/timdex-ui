@@ -6,10 +6,10 @@ class ApplicationController < ActionController::Base
   # We set this in a session cookie to persist user preference across searches.
   # Clicking on a different tab will update the cookie.
   def set_active_tab
-    @active_tab = if Feature.enabled?(:geodata)
-                    # Determine which tab to load - default to primo unless gdt is enabled
-                    'geodata'
-                  elsif params[:tab].present? && valid_tab?(params[:tab])
+    # GeoData doesn't use the tab system.
+    return if Feature.enabled?(:geodata)
+    
+    @active_tab = if params[:tab].present? && valid_tab?(params[:tab])
                     # If params[:tab] is set and valid, use it and set session
                     cookies[:last_tab] = params[:tab]
                   elsif cookies[:last_tab].present? && valid_tab?(cookies[:last_tab])

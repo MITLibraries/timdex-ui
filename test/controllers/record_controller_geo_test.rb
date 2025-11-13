@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RecordControllerGeoTest < ActionDispatch::IntegrationTest
-  test 'no access button displays if GDT feature is disabled' do
+  test 'no access button displays if GeoData feature is disabled' do
     gis_record_id = 'gismit:CAMBRIDGEMEMPOLES09'
     VCR.use_cassette('gis record mit free',
                      allow_playback_repeats: true,

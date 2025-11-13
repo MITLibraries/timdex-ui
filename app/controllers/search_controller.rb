@@ -17,6 +17,13 @@ class SearchController < ApplicationController
 
     @enhanced_query = Enhancer.new(params).enhanced_query
 
+    # Load GeoData results if applicable
+    if Feature.enabled?(:geodata)
+      load_geodata_results
+      render 'results_geo'
+      return
+    end
+    
     # Route to appropriate search based on active tab
     case @active_tab
     when 'primo'
@@ -25,9 +32,6 @@ class SearchController < ApplicationController
       load_timdex_results
     when 'all'
       load_all_results
-    when 'geodata'
-      load_gdt_results
-      render 'results_geo'
     end
   end
 
@@ -52,7 +56,7 @@ class SearchController < ApplicationController
     sleep(1 - duration)
   end
 
-  def load_gdt_results
+  def load_geodata_results
     query = QueryBuilder.new(@enhanced_query).query
 
     response = query_timdex(query)
@@ -170,7 +174,7 @@ class SearchController < ApplicationController
 
     # Builder hands off to wrapper which returns raw results here.
     Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
-      raw = if @active_tab == 'geodata'
+      raw = if Feature.enabled?(:geodata)
               execute_geospatial_query(query)
             elsif @active_tab == 'timdex' || @active_tab == 'all'
               TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)

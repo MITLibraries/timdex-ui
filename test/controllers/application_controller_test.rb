@@ -27,18 +27,6 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'set_active_tab sets to geodata when feature flag enabled even if param is passed' do
-    skip 'Geodata uses a different form'
-    ClimateControl.modify FEATURE_GEODATA: 'true' do
-      get root_path, params: { tab: 'primo' }
-      assert_select '#tab-to-target' do
-        refute_select '[value=?]', 'primo'
-        assert_select '[value=?]', 'all'
-        refute_select '[value=?]', 'timdex'
-      end
-    end
-  end
-
   test 'set_active_tab sets to param tab when provided' do
     get root_path, params: { tab: 'timdex' }
 
