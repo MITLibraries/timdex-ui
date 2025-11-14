@@ -3,7 +3,11 @@
     <ul>
       <li><%= link_to_tab("All") %></li>
       <li><%= link_to_tab("Primo") %></li>
-      <li><%= link_to_tab("TIMDEX") %></li>
+      <% if Feature.enabled?(:tab_timdex) %>
+        <li><%= link_to_tab("TIMDEX") %></li>
+      <% end %>
+      <li><%= link_to_tab("website") %></li>
+      <li><%= link_to_tab("aspace", "Archival Materials") %></li>
     </ul>
   </nav>
   
