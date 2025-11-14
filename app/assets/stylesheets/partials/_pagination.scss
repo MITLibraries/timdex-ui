@@ -28,17 +28,7 @@
   }
 
   a {
-    border: 1px solid $color-blue-500;
-    border-radius: 0;
-    display: inline-block;
-    padding: 6px 12px;
-    text-decoration: none;
-    font-size: 1.6rem;
-    font-weight: $fw-medium;
-
-    &:hover {
-      background-color: $color-blue-25;
-    }
+    @include buttonSecondary;
   }
 
   .first a, .first span {
