@@ -15,9 +15,10 @@ class Analyzer
     @pagination[:start] = ((enhanced_query[:page] - 1) * RESULTS_PER_PAGE) + 1
     @pagination[:end] = [enhanced_query[:page] * RESULTS_PER_PAGE, @pagination[:hits]].min
     @pagination[:prev] = enhanced_query[:page] - 1 if enhanced_query[:page] > 1
-
-    next_page_num = next_page(enhanced_query[:page], @pagination[:hits])
-    @pagination[:next] = next_page_num if next_page_num
+    @pagination[:next] = next_page(enhanced_query[:page], @pagination[:hits]) if next_page(
+      enhanced_query[:page], @pagination[:hits]
+    )
+    @pagination[:per_page] = RESULTS_PER_PAGE
   end
 
   private
