@@ -121,6 +121,7 @@
 }
 
 /* USE Specific Overrides */
+/* Layout of results and sidebar columns */
 #content-wrapper {
   padding-top: 12px;
   padding-bottom: 44px;
@@ -191,4 +192,24 @@
   }
 
 
+}
+
+/* Callouts below results */
+#callout-wrapper {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+
+  aside {
+    border: 3px solid $color-border-default;
+    padding: 20px 24px;
+
+    p {
+      line-height: 1.4;
+    }
+  }
+
+  @media (max-width: $bp-screen-md) {
+    flex-direction: column;
+  }
 }
