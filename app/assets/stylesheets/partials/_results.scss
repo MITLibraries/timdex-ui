@@ -135,12 +135,59 @@
     margin-bottom: 32px;
   }
 
-  #results-wrapper {
+  #results-section {
     padding: 16px 0 0 0;
   }
 
-  #results {
-    padding: 0;
+  #results-layout-wrapper {
+    display: flex;
+    gap: 64px;
+
+    #results {
+      padding: 0;
+      flex-grow: 1;
+    }
+
+    #results-sidebar {
+      flex: 0 0 360px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+
+      @media (max-width: 1140px) {
+        flex-basis: 280px;
+      }
+
+      p {
+        line-height: 1.4;
+      }
+
+      a {
+        @include underlinedLinks;
+      }
+    }
+
+    // Put the sidebar below the results when the screen is narrower than 1024px
+    @media (max-width: $bp-screen-lg) {
+        flex-direction: column;
+        gap: 32px;
+
+        // Put the sidebar items side by side when space is available
+        #results-sidebar {
+          flex-direction: row;
+        }
+    }
+
+    // Put sidebar items in a column below 768px
+    @media (max-width: $bp-screen-md) {
+    
+      #results-sidebar {
+        flex-direction: column;
+      }
+      
+    }
   }
+
 
 }

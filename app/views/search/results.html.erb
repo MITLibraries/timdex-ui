@@ -10,40 +10,42 @@
   <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
   <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
-    <div id="results-wrapper" class="layout-3q1q layout-band">
-        <% if @show_primo_continuation %>
-          <%= render partial: 'search/primo_continuation' %>
-        <% elsif @results.present? && @errors.blank? %>
-          <h2 class="results-context"><%= results_summary(@pagination[:hits]) %></h2>
-          <p class="results-context-description">From all MIT Libraries sources</p>      
-      <main id="results" class="col3q wrap-results">
-          <ol class="results-list" start="<%= @pagination[:start] %>">
-            <% case @active_tab %>
-            <% when 'primo' %>
-              <%= render(partial: 'search/result_primo', collection: @results, as: :result) %>
-            <% when 'timdex' %>
-              <%= render(partial: 'search/result', collection: @results, as: :result) %>
-            <% when 'all' %>
-              <% @results.each do |result| %>
-                <% if result[:source] == 'Primo' %>
-                  <%= render(partial: 'search/result_primo', locals: { result: result }) %>
-                <% else %>
-                  <%= render(partial: 'search/result', locals: { result: result }) %>
+    <div id="results-section">
+      <% if @show_primo_continuation %>
+        <%= render partial: 'search/primo_continuation' %>
+      <% elsif @results.present? && @errors.blank? %>
+      <h2 class="results-context"><%= results_summary(@pagination[:hits]) %></h2>
+      <p class="results-context-description">From all MIT Libraries sources</p>    
+      <div id="results-layout-wrapper">  
+        <main id="results">
+            <ol class="results-list" start="<%= @pagination[:start] %>">
+              <% case @active_tab %>
+              <% when 'primo' %>
+                <%= render(partial: 'search/result_primo', collection: @results, as: :result) %>
+              <% when 'timdex' %>
+                <%= render(partial: 'search/result', collection: @results, as: :result) %>
+              <% when 'all' %>
+                <% @results.each do |result| %>
+                  <% if result[:source] == 'Primo' %>
+                    <%= render(partial: 'search/result_primo', locals: { result: result }) %>
+                  <% else %>
+                    <%= render(partial: 'search/result', locals: { result: result }) %>
+                  <% end %>
                 <% end %>
               <% end %>
-            <% end %>
-          </ol>
-          <%= render partial: "results_callouts" %>
-          <div id="pagination">  
-            <%= render partial: "pagination" %>
-          </div>
-        <% elsif @errors.blank? %>
-          <div class="no-results">
-            <p class="hd-2">No results found for your search</p>
-          </div>
-        <% end %>
-      </main>
-      <%= render partial: "sidebar" %>
+            </ol>
+            <%= render partial: "results_callouts" %>
+            <div id="pagination">  
+              <%= render partial: "pagination" %>
+            </div>
+          <% elsif @errors.blank? %>
+            <div class="no-results">
+              <p class="hd-2">No results found for your search</p>
+            </div>
+          <% end %>
+        </main>
+        <%= render partial: "results_sidebar" %>
+      </div>
     </div>
 
     <% if @results.present? %>
