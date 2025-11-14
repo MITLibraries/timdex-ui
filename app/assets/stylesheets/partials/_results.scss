@@ -135,8 +135,12 @@
     margin-bottom: 32px;
   }
 
-  #results {
+  #results-wrapper {
     padding: 16px 0 0 0;
+  }
+
+  #results {
+    padding: 0;
   }
 
 }
