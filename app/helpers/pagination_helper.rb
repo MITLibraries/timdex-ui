@@ -64,17 +64,23 @@ module PaginationHelper
 
     # First page gets a disabled link in a span
     if query_params[:page].blank? || query_params[:page].to_i == 1
-      "<span role='link' aria-disabled='true' tabindex='-1'>#{prev_page_label}</span>".html_safe
+      "<span role='link' aria-disabled='true' tabindex='-1'>#{prev_page_label(query_params[:page].to_i || 1)}</span>".html_safe
     else
-      link_to results_path(params_copy), 'aria-label': prev_page_label,
+      link_to results_path(params_copy), 'aria-label': prev_page_label(query_params[:page].to_i || 1),
                                          data: { turbo_frame: 'search-results', turbo_action: 'advance' },
                                          rel: 'nofollow' do
-        prev_page_label.html_safe
+        prev_page_label(query_params[:page].to_i || 1).html_safe
       end
     end
   end
 
-  def prev_page_label
-    'Previous 20 results'
+  def prev_page_label(current_page = 1)
+    label = if current_page == 1
+              0
+            else
+              @pagination[:per_page]
+            end
+
+    "Previous #{label} results"
   end
 end

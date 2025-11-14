@@ -90,7 +90,7 @@ class PaginationHelperTest < ActionView::TestCase
     @pagination = { prev: nil, per_page: 20, hits: 100, end: 20 }
     query_params = { q: 'popcorn', page: 1 }
     assert_equal(
-      "<span role='link' aria-disabled='true' tabindex='-1'>Previous 20 results</span>", prev_url(query_params)
+      "<span role='link' aria-disabled='true' tabindex='-1'>Previous 0 results</span>", prev_url(query_params)
     )
   end
 end
