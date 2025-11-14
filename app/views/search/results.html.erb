@@ -11,12 +11,12 @@
 
   <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
     <div class="layout-3q1q layout-band">
-      <main id="results" class="col3q wrap-results">
         <% if @show_primo_continuation %>
           <%= render partial: 'search/primo_continuation' %>
         <% elsif @results.present? && @errors.blank? %>
           <h2 class="results-context"><%= results_summary(@pagination[:hits]) %></h2>
-          <p class="results-context-description">From all MIT Libraries sources</p>
+          <p class="results-context-description">From all MIT Libraries sources</p>      
+      <main id="results" class="col3q wrap-results">
           <ol class="results-list" start="<%= @pagination[:start] %>">
             <% case @active_tab %>
             <% when 'primo' %>
@@ -33,12 +33,14 @@
               <% end %>
             <% end %>
           </ol>
+          <%= render partial: "results_callouts" %>
         <% elsif @errors.blank? %>
           <div class="no-results">
             <p class="hd-2">No results found for your search</p>
           </div>
         <% end %>
       </main>
+      <%= render partial: "sidebar" %>
     </div>
 
     <% if @results.present? %>
