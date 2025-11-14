@@ -3,23 +3,57 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  margin-top: 3em;
+  padding-top: 1em;
+  border-top: 1px solid $color-border-default;
+  gap: 24px;
 
-  .first {
-    border-right: 1px solid black;
-    margin-right: 0.5em;
-    padding-right: 0.5em;
+  .center-elements {
+    display: flex;
+    flex-grow: 1;
+    gap: 24px;
+    justify-content: center;
   }
 
-  .previous {
-    border-right: 1px solid black;
-    margin-right: 0.5em;
-    padding-right: 0.5em;
+  span {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid $color-border-default;
+    color: $color-text-disabled;
   }
 
-  .next {
-    border-left: 1px solid black;
-    margin-left: 0.5em;
-    padding-left: 0.5em;
+  div.current span {
+    border: none;
+    padding: 6px 0;
+    color: $color-text-primary;
+  }
+
+  a {
+    border: 1px solid $color-blue-500;
+    border-radius: 0;
+    display: inline-block;
+    padding: 6px 12px;
+    text-decoration: none;
+    font-size: 1.6rem;
+    font-weight: $fw-medium;
+
+    &:hover {
+      background-color: $color-blue-25;
+    }
+  }
+
+  .first a, .first span {
+    border: none;
+    text-decoration: underline;
+    text-decoration-color: $color-blue-500;
+    text-underline-offset: 0.5rem;
+    padding: 6px 0;
+
+    &:hover {
+      background-color: $color-white;
+    }    
+  }
+
+  .first span {
+    text-decoration-color: $color-border-default;
   }
 }

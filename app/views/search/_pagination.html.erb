@@ -1,13 +1,15 @@
 <% return if @pagination.nil? %>
 
 <nav class="pagination-container" aria-label="Pagination">
-  <div class="first">
-    <%= first_url(@enhanced_query) %>
-  </div>
   <div class="previous">
     <%= prev_url(@enhanced_query) %>
   </div>
-  <div class="current"><%= @pagination[:start] %> - <%= @pagination[:end] %> of <%= number_with_delimiter(@pagination[:hits]) %></div>
+  <div class="center-elements">
+    <div class="first">
+      <%= first_url(@enhanced_query) %>
+    </div>  
+    <div class="current"><span><%= @pagination[:start] %> - <%= @pagination[:end] %> of <%= number_with_delimiter(@pagination[:hits]) %></span></div>
+  </div>
   <div class="next">
     <%= next_url(@enhanced_query) %>
   </div>
