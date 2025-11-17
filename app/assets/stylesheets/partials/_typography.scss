@@ -1,3 +1,16 @@
+// Mixing for underlined links
+@mixin underlinedLinks {
+  color: inherit;
+  font-weight: $fw-medium;
+  text-decoration: underline;
+  text-decoration-color: $color-blue-500;
+  text-underline-offset: 0.5rem;  
+
+  &:hover {
+    color: $color-blue-500;
+  }
+}
+
 // Override fonts from the theme gem, done temporarily for USE UI
 body {
   font-family: $base-font;

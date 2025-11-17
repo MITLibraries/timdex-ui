@@ -121,8 +121,10 @@
 }
 
 /* USE Specific Overrides */
+/* Layout of results and sidebar columns */
 #content-wrapper {
   padding-top: 12px;
+  padding-bottom: 44px;
 
   .results-context {
     padding-left: 0;
@@ -135,8 +137,94 @@
     margin-bottom: 32px;
   }
 
-  #results {
+  #results-section {
     padding: 16px 0 0 0;
   }
 
+  #results-layout-wrapper {
+    display: flex;
+    gap: 64px;
+
+    #results {
+      padding: 0;
+      flex-grow: 1;
+    }
+
+    #results-sidebar {
+      flex: 0 0 360px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+
+      @media (max-width: 1140px) {
+        flex-basis: 280px;
+      }
+
+      p {
+        line-height: 1.4;
+      }
+
+      a {
+        @include underlinedLinks;
+      }
+    }
+
+    // Put the sidebar below the results when the screen is narrower than 1024px
+    @media (max-width: $bp-screen-lg) {
+        flex-direction: column;
+        gap: 32px;
+
+        // Put the sidebar items side by side when space is available
+        #results-sidebar {
+          flex-direction: row;
+          padding-bottom: 40px;
+          gap: 12px;
+          flex-basis: auto;
+
+          > div {
+            padding-right: 24px;
+          }
+        }
+
+        #callout-wrapper {
+          margin-bottom: 0;
+        }
+    }
+
+    // Put sidebar items in a column below 768px
+    @media (max-width: $bp-screen-md) {
+    
+      #results-sidebar {
+        flex-direction: column;
+        gap: 32px;
+      }
+      
+    }
+  }
+
+}
+
+/* Callouts below results */
+#callout-wrapper {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+
+  aside {
+    border: 3px solid $color-border-default;
+    padding: 20px 24px;
+
+    p {
+      line-height: 1.4;
+    }
+
+    a {
+      @include buttonSecondary;
+    }
+  }
+
+  @media (max-width: $bp-screen-md) {
+    flex-direction: column;
+  }
 }
