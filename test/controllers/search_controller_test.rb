@@ -593,12 +593,24 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a.tab-link.active[href*="tab=primo"]', count: 1
   end
 
-  test 'results respects timdex tab parameter' do
-    mock_timdex_search_success
+  test 'results respects timdex all tab parameter' do
+    ClimateControl.modify FEATURE_TAB_TIMDEX_ALL: 'true' do
+      mock_timdex_search_success
 
-    get '/results?q=test&tab=timdex'
-    assert_response :success
-    assert_select 'a.tab-link.active[href*="tab=timdex"]', count: 1
+      get '/results?q=test&tab=timdex'
+      assert_response :success
+      assert_select 'a.tab-link.active[href*="tab=timdex"]', count: 1
+    end
+  end
+
+  test 'results respects timdex alma tab parameter' do
+    ClimateControl.modify FEATURE_TAB_TIMDEX_ALMA: 'true' do
+      mock_timdex_search_success
+
+      get '/results?q=test&tab=timdex_alma'
+      assert_response :success
+      assert_select 'a.tab-link.active[href*="tab=timdex_alma"]', count: 1
+    end
   end
 
   test 'results shows tab navigation when GeoData is disabled' do
@@ -608,7 +620,9 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select '.tab-navigation', count: 1
     assert_select 'a[href*="tab=primo"]', count: 1
-    assert_select 'a[href*="tab=timdex"]', count: 1
+    # assert_select 'a[href*="tab=timdex"]', count: 1
+    assert_select 'a[href*="tab=aspace"]', count: 1
+    assert_select 'a[href*="tab=website"]', count: 1
   end
 
   test 'results handles primo search errors gracefully' do
@@ -726,7 +740,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     get '/results?q=test&tab=all'
     assert_response :success
-    
+
     # Verify that we get results from both sources
     assert_select '.record-title', text: /Sample Primo Document Title/
     assert_select '.record-title', text: /Sample TIMDEX Document Title/
@@ -768,7 +782,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     get '/results?q=test&tab=all&page=49'
     assert_response :success
-    
+
     # Should show primo continuation partial
     assert_select '.primo-continuation', count: 1
     assert_select '.primo-continuation h2', text: /Continue your search in Search Our Collections/

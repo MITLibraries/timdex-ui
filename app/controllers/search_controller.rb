@@ -23,15 +23,18 @@ class SearchController < ApplicationController
       render 'results_geo'
       return
     end
-    
+
+    @primo_tabs = primo_tabs
+    @timdex_tabs = timdex_tabs
+
     # Route to appropriate search based on active tab
     case @active_tab
-    when 'primo'
-      load_primo_results
-    when 'timdex'
-      load_timdex_results
-    when 'all'
+    when 'all' # all tab must come first to avoid matching primo or timdex arrays which contain all
       load_all_results
+    when *primo_tabs
+      load_primo_results
+    when *timdex_tabs
+      load_timdex_results
     end
   end
 
@@ -108,7 +111,7 @@ class SearchController < ApplicationController
 
     # For now, just use primo pagination as a placeholder
     @pagination = primo_data[:pagination] || {}
-    
+
     # Handle primo continuation for high page numbers
     @show_primo_continuation = primo_data[:show_continuation] || false
   end
@@ -119,9 +122,7 @@ class SearchController < ApplicationController
     offset = (current_page - 1) * per_page
 
     # Check if we're beyond Primo API limits before making the request.
-    if offset >= Analyzer::PRIMO_MAX_OFFSET
-      return { results: [], pagination: {}, errors: nil, show_continuation: true }
-    end
+    return { results: [], pagination: {}, errors: nil, show_continuation: true } if offset >= Analyzer::PRIMO_MAX_OFFSET
 
     primo_response = query_primo
     results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
@@ -133,7 +134,7 @@ class SearchController < ApplicationController
     # exists in Primo UI, sending users there seems like the best we can do.
     show_continuation = false
     errors = nil
-    
+
     if results.empty?
       docs = primo_response['docs'] if primo_response.is_a?(Hash)
       if docs.nil? || docs.empty?
@@ -153,7 +154,7 @@ class SearchController < ApplicationController
     query = QueryBuilder.new(@enhanced_query).query
     response = query_timdex(query)
     errors = extract_errors(response)
-    
+
     if errors.nil?
       pagination = Analyzer.new(@enhanced_query, response, :timdex).pagination
       raw_results = extract_results(response)
@@ -169,6 +170,10 @@ class SearchController < ApplicationController
   end
 
   def query_timdex(query)
+    query[:sourceFilter] = ['MIT Libraries Website', 'LibGuides'] if @active_tab == 'website'
+    query[:sourceFilter] = ['MIT ArchivesSpace'] if @active_tab == 'aspace'
+    query[:sourceFilter] = ['MIT Alma'] if @active_tab == 'timdex_alma'
+
     # We generate unique cache keys to avoid naming collisions.
     cache_key = generate_cache_key(query)
 
@@ -176,7 +181,7 @@ class SearchController < ApplicationController
     Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
       raw = if Feature.enabled?(:geodata)
               execute_geospatial_query(query)
-            elsif @active_tab == 'timdex' || @active_tab == 'all'
+            elsif timdex_tabs.include? @active_tab
               TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
             end
 

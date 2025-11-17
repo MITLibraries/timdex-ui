@@ -24,9 +24,9 @@
           <main id="results">
             <ol class="results-list" start="<%= @pagination[:start] %>">
               <% case @active_tab %>
-              <% when 'primo' %>
+              <% when *@primo_tabs %>
                 <%= render(partial: 'search/result_primo', collection: @results, as: :result) %>
-              <% when 'timdex' %>
+              <% when *@timdex_tabs %>
                 <%= render(partial: 'search/result', collection: @results, as: :result) %>
               <% when 'all' %>
                 <% @results.each do |result| %>
