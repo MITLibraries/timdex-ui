@@ -31,6 +31,6 @@
     </aside>
 <% end %>
 
-<%= render partial: 'search/source_tabs' if @results.present? %>
+<%= render partial: 'search/source_tabs' if params[:q].present? %>
 
 <%= javascript_include_tag "search_form" %>
