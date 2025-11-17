@@ -46,4 +46,11 @@
   .first span {
     text-decoration-color: $color-border-default;
   }
+
+  // Hide the first link and count on smaller screens
+  @media (max-width: $bp-screen-md) {
+    justify-content: space-between;
+
+    .center-elements {display: none;}
+  }  
 }
