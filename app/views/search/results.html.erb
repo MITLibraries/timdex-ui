@@ -47,11 +47,9 @@
 
     <% if @results.present? %>
       <%= render partial: "pagination" %>
-      <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
     <% end %>
   <% end %>
 
-  <%= render partial: 'shared/ask', locals: { display: 'aside' } if @results.blank? %>
 </div>
 
 <%= javascript_include_tag "filters" %>
