@@ -16,11 +16,34 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     }
 
     mock_primo = mock('primo_search')
-    mock_primo.expects(:search).returns({ 'docs' => [sample_doc], 'total' => 1 })
+    mock_primo.expects(:search).returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } })
     PrimoSearch.expects(:new).returns(mock_primo)
 
     mock_normalizer = mock('normalizer')
     mock_normalizer.expects(:normalize).returns([sample_doc])
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer)
+  end
+
+  def mock_primo_search_with_hits(total_hits)
+    sample_docs = (1..10).map do |i|
+      {
+        title: "Sample Primo Document Title #{i}",
+        format: 'Article',
+        year: '2025',
+        creators: [{ value: "Author #{i}", link: nil }],
+        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record#{i}" }]
+      }
+    end
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({
+                                          'docs' => sample_docs,
+                                          'info' => { 'total' => total_hits }
+                                        })
+    PrimoSearch.expects(:new).returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns(sample_docs)
     NormalizePrimoResults.expects(:new).returns(mock_normalizer)
   end
 
@@ -66,6 +89,50 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     mock_response.stubs(:data).returns(mock_data)
 
     TimdexBase::Client.expects(:query).returns(mock_response)
+  end
+
+  def mock_timdex_search_with_hits(total_hits)
+    sample_results = (1..10).map do |i|
+      {
+        'title' => "Sample TIMDEX Document Title #{i}",
+        'timdexRecordId' => "sample-record-#{i}",
+        'contentType' => [{ 'value' => 'Article' }],
+        'dates' => [{ 'kind' => 'Publication date', 'value' => '2023' }],
+        'contributors' => [{ 'value' => "Creator #{i}", 'kind' => 'Creator' }],
+        'sourceLink' => "https://example.com/record#{i}"
+      }
+    end
+
+    mock_response = mock('timdex_response')
+    mock_errors = mock('timdex_errors')
+    mock_errors.stubs(:details).returns({})
+    mock_errors.stubs(:to_h).returns({})
+    mock_response.stubs(:errors).returns(mock_errors)
+
+    mock_data = mock('timdex_data')
+    mock_search = mock('timdex_search')
+    mock_search.stubs(:to_h).returns({
+                                       'hits' => total_hits,
+                                       'aggregations' => {},
+                                       'records' => sample_results
+                                     })
+    mock_data.stubs(:search).returns(mock_search)
+    mock_data.stubs(:to_h).returns({
+                                     'search' => {
+                                       'hits' => total_hits,
+                                       'aggregations' => {},
+                                       'records' => sample_results
+                                     }
+                                   })
+    mock_response.stubs(:data).returns(mock_data)
+
+    TimdexBase::Client.expects(:query).returns(mock_response)
+
+    # Mock the results normalization
+    normalized_results = sample_results.map { |result| result.merge({ source: 'TIMDEX' }) }
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns(normalized_results)
+    NormalizeTimdexResults.expects(:new).returns(mock_normalizer)
   end
 
   test 'index shows basic search form by default' do
@@ -637,11 +704,11 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results uses simplified search summary for USE app' do
-    mock_primo_search_success
+    mock_primo_search_with_hits(10)
 
     get '/results?q=test&tab=primo'
     assert_response :success
-    assert_select '.results-context', text: /0 results/
+    assert_select '.results-context', text: /10 results/
     assert_select '.results-context-description', count: 1
     assert_select '.results-context-description', text: /From all MIT Libraries sources/
   end
@@ -782,6 +849,15 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   test 'all tab shows primo continuation when page exceeds API offset limit' do
     mock_timdex_search_success
 
+    # Mock Primo API to return empty results for high page number (beyond offset limit)
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({ 'docs' => [], 'info' => { 'total' => 1000 } })
+    PrimoSearch.expects(:new).returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns([])
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer)
+
     get '/results?q=test&tab=all&page=49'
     assert_response :success
 
@@ -789,5 +865,42 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select '.primo-continuation', count: 1
     assert_select '.primo-continuation h2', text: /Continue your search in Search Our Collections/
     assert_select '.primo-continuation a[href*="primo.exlibrisgroup.com"]', count: 1
+  end
+
+  test 'all tab pagination displays combined hit counts' do
+    mock_primo_search_with_hits(500)
+    mock_timdex_search_with_hits(300)
+
+    get '/results?q=test&tab=all'
+    assert_response :success
+
+    # Should show pagination with combined hit counts (500 + 300 = 800)
+    assert_select '.pagination-container'
+    assert_select '.pagination-container .current', text: /1 - 20 of 800/
+  end
+
+  test 'all tab pagination includes next page link when more results available' do
+    mock_primo_search_with_hits(500)
+    mock_timdex_search_with_hits(300)
+
+    get '/results?q=test&tab=all'
+    assert_response :success
+
+    # Should show next page link when there are more than 20 total results
+    assert_select '.pagination-container .next a[href*="page=2"]'
+  end
+
+  test 'all tab pagination on page 2 includes previous page link' do
+    mock_primo_search_with_hits(500)
+    mock_timdex_search_with_hits(300)
+
+    get '/results?q=test&tab=all&page=2'
+    assert_response :success
+
+    # Should show previous page link
+    assert_select '.pagination-container .previous a[href*="page=1"]'
+
+    # Should show current range (21-40 for page 2)
+    assert_select '.pagination-container .current', text: /21 - 40 of 800/
   end
 end

@@ -65,7 +65,8 @@ class SearchController < ApplicationController
     @errors = extract_errors(response)
     return unless @errors.nil?
 
-    @pagination = Analyzer.new(@enhanced_query, response, :timdex).pagination
+    hits = response.dig(:data, 'search', 'hits') || 0
+    @pagination = Analyzer.new(@enhanced_query, hits, :timdex).pagination
     raw_results = extract_results(response)
     @results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
     @filters = extract_filters(response)
@@ -87,43 +88,58 @@ class SearchController < ApplicationController
   end
 
   def load_all_results
-    # Parallel fetching from both APIs
-    primo_thread = Thread.new { fetch_primo_data }
-    timdex_thread = Thread.new { fetch_timdex_data }
+    # Fetch results from both APIs in parallel
+    primo_data, timdex_data = fetch_all_data
 
-    # Wait for both threads to complete
-    primo_data = primo_thread.value
-    timdex_data = timdex_thread.value
-
-    # Collect any errors from either API
-    all_errors = []
-    all_errors.concat(primo_data[:errors]) if primo_data[:errors]
-    all_errors.concat(timdex_data[:errors]) if timdex_data[:errors]
-    @errors = all_errors.any? ? all_errors : nil
+    # Combine errors from both APIs
+    @errors = combine_errors(primo_data[:errors], timdex_data[:errors])
 
     # Zipper merge results from both APIs
-    primo_results = primo_data[:results] || []
-    timdex_results = timdex_data[:results] || []
-    @results = primo_results.zip(timdex_results).flatten.compact
+    @results = merge_results(primo_data[:results], timdex_data[:results])
 
-    # For now, just use primo pagination as a placeholder
-    @pagination = primo_data[:pagination] || {}
+    # Use Analyzer for combined pagination calculation
+    @pagination = Analyzer.new(@enhanced_query, timdex_data[:hits], :all,
+                               primo_data[:hits]).pagination
 
     # Handle primo continuation for high page numbers
     @show_primo_continuation = primo_data[:show_continuation] || false
   end
 
+  def fetch_all_data
+    # Parallel fetching from both APIs
+    primo_thread = Thread.new { fetch_primo_data }
+    timdex_thread = Thread.new { fetch_timdex_data }
+
+    [primo_thread.value, timdex_thread.value]
+  end
+
+  def combine_errors(*error_arrays)
+    all_errors = error_arrays.compact.flatten
+    all_errors.any? ? all_errors : nil
+  end
+
+  def merge_results(primo_results, timdex_results)
+    (primo_results || []).zip(timdex_results || []).flatten.compact
+  end
+
   def fetch_primo_data
     current_page = @enhanced_query[:page] || 1
-    per_page = @enhanced_query[:per_page] || 20
+    per_page = if @active_tab == 'all'
+                 ENV.fetch('RESULTS_PER_PAGE', '20').to_i / 2
+               else
+                 ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+               end
     offset = (current_page - 1) * per_page
 
     # Check if we're beyond Primo API limits before making the request.
-    return { results: [], pagination: {}, errors: nil, show_continuation: true } if offset >= Analyzer::PRIMO_MAX_OFFSET
+    if offset >= Analyzer::PRIMO_MAX_OFFSET
+      return { results: [], pagination: {}, errors: nil, show_continuation: true, hits: 0 }
+    end
 
-    primo_response = query_primo
+    primo_response = query_primo(per_page, offset)
+    hits = primo_response.dig('info', 'total') || 0
     results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
-    pagination = Analyzer.new(@enhanced_query, primo_response, :primo).pagination
+    pagination = Analyzer.new(@enhanced_query, hits , :primo).pagination
 
     # Handle empty results from Primo API. Sometimes Primo will return no results at a given offset,
     # despite claiming in the initial query that more are available. This happens randomly and
@@ -142,23 +158,37 @@ class SearchController < ApplicationController
       end
     end
 
-    { results: results, pagination: pagination, errors: errors, show_continuation: show_continuation }
+    { results: results, pagination: pagination, errors: errors, show_continuation: show_continuation,
+      hits: hits }
   rescue StandardError => e
-    { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false }
+    { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false, hits: 0 }
   end
 
   def fetch_timdex_data
-    query = QueryBuilder.new(@enhanced_query).query
+    # For all tab, modify query to use half page size
+    if @active_tab == 'all'
+      per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i / 2
+      page = @enhanced_query[:page] || 1
+      from_offset = ((page - 1) * per_page).to_s
+
+      query_builder = QueryBuilder.new(@enhanced_query)
+      query = query_builder.query
+      query['from'] = from_offset
+    else
+      query = QueryBuilder.new(@enhanced_query).query
+    end
+
     response = query_timdex(query)
     errors = extract_errors(response)
 
     if errors.nil?
-      pagination = Analyzer.new(@enhanced_query, response, :timdex).pagination
+      hits = response.dig(:data, 'search', 'hits') || 0
+      pagination = Analyzer.new(@enhanced_query, hits, :timdex).pagination
       raw_results = extract_results(response)
       results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
-      { results: results, pagination: pagination, errors: nil }
+      { results: results, pagination: pagination, errors: nil, hits: hits }
     else
-      { results: [], pagination: {}, errors: errors }
+      { results: [], pagination: {}, errors: errors, hits: 0 }
     end
   end
 
@@ -191,16 +221,12 @@ class SearchController < ApplicationController
     end
   end
 
-  def query_primo
+  def query_primo(per_page, offset)
     # We generate unique cache keys to avoid naming collisions.
     cache_key = generate_cache_key(@enhanced_query)
 
     Rails.cache.fetch("#{cache_key}/primo", expires_in: 12.hours) do
       primo_search = PrimoSearch.new
-      per_page = @enhanced_query[:per_page] || 20
-      current_page = @enhanced_query[:page] || 1
-      offset = (current_page - 1) * per_page
-
       primo_search.search(@enhanced_query[:q], per_page, offset)
     end
   end
