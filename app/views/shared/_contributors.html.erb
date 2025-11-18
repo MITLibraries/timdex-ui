@@ -1,5 +1,8 @@
 <%= return if contributors.blank? %>
 
-<% contributors.uniq do |contributor| %>
-  <li><%= link_to contributor['value'], results_path({ advanced: true, contributors: contributor['value'] }) %></li>
-<% end %>
+<span class="sr">Contributors: </span>
+<ul class="list-inline truncate-list contributors">
+  <% contributors.uniq do |contributor| %>
+    <li><%= link_to contributor['value'], results_path({ advanced: true, contributors: contributor['value'] }) %></li>
+  <% end %>
+</ul>
