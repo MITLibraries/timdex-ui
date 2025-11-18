@@ -1,7 +1,7 @@
 // Mixing for underlined links
 @mixin underlinedLinks {
   color: inherit;
-  font-weight: $fw-medium;
+  font-weight: inherit;
   text-decoration: underline;
   text-decoration-color: $color-blue-500;
   text-underline-offset: 0.5rem;  

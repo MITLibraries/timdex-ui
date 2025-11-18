@@ -32,48 +32,30 @@
       margin-top: 0;
     }
   }
-
-  .results-list {
-    @media (max-width: $bp-screen-md) {
-      .result {
-        padding-left: 0;
-        padding-right: 0;
-        margin-left: 3rem;
-      }
-    }
-  }
 }
 
 // ----------------------------
 // Individual Results
 // ----------------------------
 
-.result {
-  padding: 2rem;
-  border-top: 1px solid $brand-primary;
-  font-size: $fs-small;
-  line-height: 0; /* line height needs to be reset so iOS doesn't act weird */
+.results-list {
+  list-style-type: none;
+  padding: 0;
+}
 
-  &::marker {
-    font-size: 2.5rem;
-    font-weight: $fw-bold;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: $gray-l4;
-  }
+li.result {
+  margin-bottom: 48px;
 
   .result-content {
     line-height: 1.2;
 
     .record-title {
-      font-size: 2.5rem;
+      font-size: 2.4rem;
       line-height: 1.1;
-    }
 
-    a:visited {
-      color: $brand-secondary;
+      a {
+        @include underlinedLinks;     
+      }
     }
 
     .pub-info {
@@ -125,6 +107,10 @@
   .inner-heading {
     font-size: 1.8rem;
     line-height: 1.1;
+  }
+
+  .highlight {
+    background-color: $color-highlight;
   }
 }
 
