@@ -34,58 +34,60 @@
   }
 }
 
-// ----------------------------
-// Individual Results
-// ----------------------------
-
 .results-list {
   list-style-type: none;
   padding: 0;
 }
 
+// ----------------------------
+// Individual Results
+// ----------------------------
+
 li.result {
   margin-bottom: 48px;
 
-  .result-content {
-    line-height: 1.2;
+  .eyebrow {
+    font-size: 1.3rem;
+    font-weight: $fw-medium;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
 
-    .record-title {
-      font-size: 2.4rem;
-      line-height: 1.1;
+  .record-title {
+    font-size: 2.4rem;
+    line-height: 1.1;
 
-      a {
-        @include underlinedLinks;
-        font-weight: $fw-semibold;     
-      }
+    a {
+      @include underlinedLinks;
+      font-weight: $fw-semibold;     
     }
+  }
 
-    .pub-info {
-      font-size: $fs-base;
-      color:  $gray-d1;
-      span:first-child:after {
-        content: " | ";
-      }
-      margin: 1em 0;
+  .pub-info {
+    font-size: $fs-base;
+    color:  $gray-d1;
+    span:first-child:after {
+      content: " | ";
     }
+    margin-bottom: 1em;
+  }
 
-    .result-summary {
-      margin-bottom: 2.4em;
-    }
+  .result-summary {
+    margin-bottom: 2.4em;
+  }
 
-    .result-highlights {
-      margin-top: 1.4em;
-      ul {
-        list-style: none;
-        li {
-          margin-left: 2rem;
-        }
+  .result-highlights {
+    margin-top: 1.4em;
+    ul {
+      list-style: none;
+      li {
+        margin-left: 2rem;
       }
     }
   }
 
   .result-get,
   .result-record {
-    padding-top: 5px;
     a:visited {
       color: $white;
     }
