@@ -54,7 +54,8 @@ li.result {
       line-height: 1.1;
 
       a {
-        @include underlinedLinks;     
+        @include underlinedLinks;
+        font-weight: $fw-semibold;     
       }
     }
 
@@ -165,6 +166,7 @@ li.result {
 
       a {
         @include underlinedLinks;
+        font-weight: $fw-medium;   
       }
     }
 
