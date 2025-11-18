@@ -2,7 +2,7 @@
   <nav id="tabs" class="tab-navigation" aria-label="Result type navigation">
     <ul>
       <li><%= link_to_tab("All") %></li>
-      <li><%= link_to_tab("Primo") %></li>
+      <li><%= link_to_tab("Primo", "Articles and Catalog") %></li>
       <% if Feature.enabled?(:tab_timdex_all) %>
         <li><%= link_to_tab("TIMDEX") %></li>
       <% end %>
