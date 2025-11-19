@@ -85,4 +85,13 @@ class NormalizeTimdexResultsTest < ActiveSupport::TestCase
     # Test that query is stored (this would be used by individual record normalization)
     assert_equal query, normalizer.instance_variable_get(:@query)
   end
+
+  test 'all timdex results includes timdex as source api' do
+    normalizer = NormalizeTimdexResults.new(sample_timdex_response, 'test query')
+    normalized = normalizer.normalize
+
+    normalized.each do |result|
+      assert_equal 'timdex', result[:api]
+    end
+  end
 end

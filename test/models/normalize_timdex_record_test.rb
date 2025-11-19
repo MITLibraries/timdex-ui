@@ -218,4 +218,9 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
     assert_not_includes normalized.keys, 'other_availability'
     assert_not_includes normalized.keys, 'container'
   end
+
+  test 'includes timdex as source api' do
+    normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
+    assert_equal 'timdex', normalized[:api]
+  end
 end

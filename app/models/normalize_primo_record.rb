@@ -8,6 +8,7 @@ class NormalizePrimoRecord
   def normalize
     {
       # Core fields
+      api: 'primo',
       title:,
       creators:,
       source:,

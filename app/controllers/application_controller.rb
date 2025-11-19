@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   def set_active_tab
     # GeoData doesn't use the tab system.
     return if Feature.enabled?(:geodata)
-    
+
     @active_tab = if params[:tab].present? && valid_tab?(params[:tab])
                     # If params[:tab] is set and valid, use it and set session
                     cookies[:last_tab] = params[:tab]
@@ -21,9 +21,21 @@ class ApplicationController < ActionController::Base
                   end
   end
 
+  def primo_tabs
+    %w[alma cdi primo]
+  end
+
+  def timdex_tabs
+    %w[aspace timdex timdex_alma website]
+  end
+
+  def all_tabs
+    ['all', *primo_tabs, *timdex_tabs]
+  end
+
   private
 
   def valid_tab?(tab)
-    %w[primo timdex all].include?(tab)
+    all_tabs.include?(tab)
   end
 end

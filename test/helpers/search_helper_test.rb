@@ -203,7 +203,7 @@ class SearchHelperTest < ActionView::TestCase
     @active_tab = 'bar'
     actual = link_to_tab('Foo')
 
-    assert_select Nokogiri::HTML::Document.parse( actual ), 'a' do |link|
+    assert_select Nokogiri::HTML::Document.parse(actual), 'a' do |link|
       assert_select '[class*=?]', 'active', count: 0
       assert_select '[class*=?]', 'tab-link'
       assert_select '[aria-current=?]', 'page', count: 0
@@ -214,7 +214,7 @@ class SearchHelperTest < ActionView::TestCase
     @active_tab = 'foo'
     actual = link_to_tab('Foo')
 
-    assert_select Nokogiri::HTML::Document.parse( actual ), 'a' do |link|
+    assert_select Nokogiri::HTML::Document.parse(actual), 'a' do |link|
       assert_select link, '[class*=?]', 'active'
       assert_select link, '[aria-current=?]', 'page', count: 1
     end
@@ -230,5 +230,37 @@ class SearchHelperTest < ActionView::TestCase
     query = 'data & analytics'
     expected_url = 'https://mit.primo.exlibrisgroup.com/discovery/search?query=any%2Ccontains%2Cdata+%26+analytics&vid=01MIT_INST%3AMIT'
     assert_equal expected_url, primo_search_url(query)
+  end
+
+  test 'tab label defaults to target when label is nil' do
+    @active_tab = 'sample_tab'
+    actual = link_to_tab('Sample Tab', nil)
+    assert_select Nokogiri::HTML::Document.parse(actual), 'a' do |link|
+      assert_equal link.text, 'Sample Tab'
+    end
+  end
+
+  test 'tab label uses label when label is provided' do
+    @active_tab = 'sample_tab'
+    actual = link_to_tab('Sample Tab', 'Custom Label')
+    assert_select Nokogiri::HTML::Document.parse(actual), 'a' do |link|
+      assert_equal link.text, 'Custom Label'
+    end
+  end
+
+  test 'tab param uses clean_target when label is nil' do
+    @active_tab = 'sample_tab'
+    actual = link_to_tab('Sample Tab', nil)
+    assert_select Nokogiri::HTML::Document.parse(actual), 'a' do |link|
+      assert_equal link.first[:href], '/results?tab=sample_tab'
+    end
+  end
+
+  test 'tab param uses clean_target when label is provided' do
+    @active_tab = 'sample_tab'
+    actual = link_to_tab('Sample Tab', 'Custom Label')
+    assert_select Nokogiri::HTML::Document.parse(actual), 'a' do |link|
+      assert_equal link.first[:href], '/results?tab=sample_tab'
+    end
   end
 end

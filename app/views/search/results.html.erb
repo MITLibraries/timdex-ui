@@ -22,21 +22,14 @@
         <p class="results-context-description">From all MIT Libraries sources</p>    
         <div id="results-layout-wrapper">  
           <main id="results">
-            <ol class="results-list" start="<%= @pagination[:start] %>">
-              <% case @active_tab %>
-              <% when 'primo' %>
-                <%= render(partial: 'search/result_primo', collection: @results, as: :result) %>
-              <% when 'timdex' %>
-                <%= render(partial: 'search/result', collection: @results, as: :result) %>
-              <% when 'all' %>
-                <% @results.each do |result| %>
-                  <% if result[:source] == 'Primo' %>
+            <ol class="results-list" start="<%= @pagination[:start] %>">             
+              <% @results.each do |result| %>
+                  <% if result[:api] == 'primo' %>
                     <%= render(partial: 'search/result_primo', locals: { result: result }) %>
-                  <% else %>
+                  <% elsif result[:api] == 'timdex' %>
                     <%= render(partial: 'search/result', locals: { result: result }) %>
                   <% end %>
                 <% end %>
-              <% end %>
             </ol>
             <%= render partial: "results_callouts" %>
           </main>

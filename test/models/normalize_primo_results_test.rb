@@ -67,4 +67,13 @@ class NormalizePrimoResultsTest < ActiveSupport::TestCase
     normalizer = NormalizePrimoResults.new(nil, 'test query')
     assert_equal 0, normalizer.total_results
   end
+
+  test 'all primo results includes primo as source api' do
+    normalizer = NormalizePrimoResults.new(sample_results, 'test query')
+    normalized = normalizer.normalize
+
+    normalized.each do |result|
+      assert_equal 'primo', result[:api]
+    end
+  end
 end
