@@ -28,14 +28,14 @@ module SearchHelper
   # @return [String] HTML link element for the tab
   def link_to_tab(target, label = nil)
     clean_target = target.downcase.gsub(' ', '_').downcase
-    target = label || target
+    tab_label = label || target
     if @active_tab == clean_target
-      link_to target, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: clean_target)),
+      link_to tab_label, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: clean_target)),
               aria: { current: 'page' },
               class: 'active tab-link',
               data: { turbo_frame: 'search-results', turbo_action: 'advance' }
     else
-      link_to target, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: clean_target)),
+      link_to tab_label, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: clean_target)),
               class: 'tab-link',
               data: { turbo_frame: 'search-results', turbo_action: 'advance' }
     end
