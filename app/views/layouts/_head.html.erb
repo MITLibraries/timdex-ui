@@ -26,7 +26,18 @@
 
 <%= yield :additional_js %>
 
-<% if (ENV['MATOMO_URL'].present? && ENV['MATOMO_SITE_ID'].present?) %>
+<% if (ENV['MATOMO_CONTAINER_URL'].present?) %>
+<!-- Matomo Tag Manager -->
+<script type="text/javascript">
+  var _mtm = window._mtm = window._mtm || [];
+  _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+  (function() {
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src='<%= ENV['MATOMO_CONTAINER_URL'] %>'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Tag Manager -->
+<% elsif (ENV['MATOMO_URL'].present? && ENV['MATOMO_SITE_ID'].present?) %>
 <!-- Matomo -->
 <script type="text/javascript">
   var _paq = window._paq || [];

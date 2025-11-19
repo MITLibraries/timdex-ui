@@ -111,6 +111,9 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FILTER_SUBJECT`: The name to use instead of "Subject" for that filter / aggregation.
 - `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
   safe html above the main header of the site.
+- `MATOMO_CONTAINER_URL`: This is one of two options for integrating a TIMDEX UI application with Matomo - the Tag Manager. This is the only parameter needed for using a tag manager container.
+- `MATOMO_SITE_ID`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.
+- `MATOMO_URL`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.
 - `ORIGINS`: sets origins for CORS (currently used only for TACOS API calls).
 - `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
 - `PRIMO_TIMEOUT`: The number of seconds before a Primo request times out (default 6).
