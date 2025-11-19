@@ -22,16 +22,22 @@ module SearchHelper
     end
   end
 
-  def link_to_tab(target)
-    if @active_tab == target.downcase
-      link_to target, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: target.downcase)),
-        aria: { current: "page" },
-        class: "active tab-link",
-        data: { turbo_frame: "search-results", turbo_action: "advance" }
+  # Generates a link for a search results tab, marking it as active if it matches the current active tab.
+  # @param target [String] The name of the tab to link to
+  # @param label [String] The display label for the tab (optional)
+  # @return [String] HTML link element for the tab
+  def link_to_tab(target, label = nil)
+    clean_target = target.downcase.gsub(' ', '_').downcase
+    tab_label = label || target
+    if @active_tab == clean_target
+      link_to tab_label, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: clean_target)),
+              aria: { current: 'page' },
+              class: 'active tab-link',
+              data: { turbo_frame: 'search-results', turbo_action: 'advance' }
     else
-      link_to target, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: target.downcase)),
-        class: "tab-link",
-        data: { turbo_frame: "search-results", turbo_action: "advance" }
+      link_to tab_label, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: clean_target)),
+              class: 'tab-link',
+              data: { turbo_frame: 'search-results', turbo_action: 'advance' }
     end
   end
 

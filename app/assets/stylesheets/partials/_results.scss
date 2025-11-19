@@ -47,6 +47,7 @@ li.result {
   margin-bottom: 48px;
 
   .eyebrow {
+    color: $color-text-secondary;
     font-size: 1.3rem;
     font-weight: $fw-medium;
     letter-spacing: 0.05em;
@@ -55,7 +56,8 @@ li.result {
 
   .record-title {
     font-size: 2.4rem;
-    line-height: 1.1;
+    line-height: 1.3;
+    margin-bottom: 8px;
 
     a {
       @include underlinedLinks;
@@ -65,9 +67,10 @@ li.result {
 
   .pub-info {
     font-size: $fs-base;
-    color:  $gray-d1;
+    color: $color-text-secondary;
     span:first-child:after {
-      content: " | ";
+      content: " • ";
+      color: $color-text-disabled;
     }
     margin-bottom: 1em;
   }
@@ -82,6 +85,18 @@ li.result {
       list-style: none;
       li {
         margin-left: 2rem;
+      }
+    }
+  }
+
+  .result-highlights.use {
+    margin-top: 0;
+
+    ul {
+      list-style: disc inside;
+
+      li {
+        margin-left: 0.6rem;
       }
     }
   }
@@ -114,6 +129,38 @@ li.result {
 
   .highlight {
     background-color: $color-highlight;
+  }
+
+  &.use {
+    .result-metadata {
+      margin-bottom: 16px;
+    }
+
+    .pub-info {
+      margin-bottom: 4px;
+    }
+
+    ul.contributors {
+      li {
+        font-weight: $fw-normal;
+
+        a {
+          color: $color-text-secondary;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    a.button {
+      @include buttonSecondary;
+    }
+
+    .truncate-list li:last-child {margin-bottom: 0;}
+
   }
 }
 

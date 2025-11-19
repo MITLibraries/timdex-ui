@@ -1,4 +1,4 @@
-<li class="result">
+<li class="result use">
   <div class="result-content">
     <p class="eyebrow">Eyebrow Text</p>
     <h3 class="record-title">
@@ -6,18 +6,26 @@
       <%= link_to_result(result) %>
     </h3>
 
-    <p class="pub-info">
-      <span><%= result[:content_type]&.each { |type| type['value'] }&.join(' ; ') %></span>
-      <span>
-        <% result[:dates]&.each do |date| %>
-          <%= date['value'] if date['kind'] == 'Publication date' %>
-        <% end %>
-      </span>
-    </p>
+    <div class="result-metadata">
 
-    <%= render partial: 'shared/contributors', locals: { contributors: result[:contributors] } %>
+      <p class="pub-info">
+        <span><%= result[:content_type]&.each { |type| type['value'] }&.join(' ; ') %></span>
+        <span>
+          <% result[:dates]&.each do |date| %>
+            <%= date['value'] if date['kind'] == 'Publication date' %>
+          <% end %>
+        </span>
+      </p>
 
-    <div class="result-highlights">
+      <% if result[:contributors].present? %>   
+        <span class="sr">Contributors: </span>
+        <ul class="list-inline truncate-list contributors">
+          <%= render partial: 'shared/contributors', locals: { contributors: result[:contributors] } %>
+        </ul>
+      <% end %>
+    </div>
+
+    <div class="result-highlights use">
       <%= render partial: 'search/highlights', locals: { result: result } %>
     </div>
 
