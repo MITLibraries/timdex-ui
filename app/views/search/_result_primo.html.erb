@@ -1,4 +1,4 @@
-<li class="result">
+<li class="result primo">
   <div class="result-content">
     <p class="eyebrow">Eyebrow Text</p>
     <h3 class="record-title">
@@ -10,30 +10,34 @@
       <% end %>
     </h3>
 
-    <p class="pub-info">
-      <span><%= result[:format] %></span>
-      <span><%= result[:year] %></span>
-    </p>
+    <div class="result-metadata">
 
-    <% if result[:creators].present? %>
-      <span class="sr">Contributors: </span>
-      <ul class="list-inline truncate-list contributors">
-        <% result[:creators].each do |creator| %>
-          <li>
-            <% if creator[:link] %>
-              <%= link_to creator[:value], creator[:link]  %>
-            <% else %>
-              <%= creator[:value] %>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    <% end %>
+      <p class="pub-info">
+        <span><%= result[:format] %></span>
+        <span><%= result[:year] %></span>
+      </p>
+
+      <% if result[:creators].present? %>
+        <span class="sr">Contributors: </span>
+        <ul class="list-inline truncate-list contributors">
+          <% result[:creators].each do |creator| %>
+            <li>
+              <% if creator[:link] %>
+                <%= link_to creator[:value], creator[:link]  %>
+              <% else %>
+                <%= creator[:value] %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+    </div>
 
     <div class="result-get">
       <% if result[:links].present? %>
         <% result[:links].each do |link| %>
-          <%= link_to link['kind'].titleize, link['url'], class: 'link-button' %>
+          <%= link_to link['kind'].titleize, link['url'], class: 'button' %>
         <% end %>
       <% end %>
     </div>
