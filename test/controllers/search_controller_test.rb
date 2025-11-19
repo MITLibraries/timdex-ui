@@ -4,6 +4,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   def mock_primo_search_success
     # Mock the Primo search components to avoid external API calls
     sample_doc = {
+      api: 'primo',
       title: 'Sample Primo Document Title',
       format: 'Article',
       year: '2025',
@@ -26,6 +27,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   def mock_timdex_search_success
     # Mock the TIMDEX GraphQL client to avoid external API calls
     sample_result = {
+      'api' => 'timdex',
       'title' => 'Sample TIMDEX Document Title',
       'timdexRecordId' => 'sample-record-123',
       'contentType' => [{ 'value' => 'Article' }],

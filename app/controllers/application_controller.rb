@@ -22,16 +22,20 @@ class ApplicationController < ActionController::Base
   end
 
   def primo_tabs
-    %w[all alma cdi primo]
+    %w[alma cdi primo]
   end
 
   def timdex_tabs
-    %w[all aspace timdex timdex_alma website]
+    %w[aspace timdex timdex_alma website]
+  end
+
+  def all_tabs
+    ['all', *primo_tabs, *timdex_tabs]
   end
 
   private
 
   def valid_tab?(tab)
-    (primo_tabs << timdex_tabs).flatten.uniq.include?(tab)
+    all_tabs.include?(tab)
   end
 end

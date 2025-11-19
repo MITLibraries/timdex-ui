@@ -181,7 +181,7 @@ class SearchController < ApplicationController
     Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
       raw = if Feature.enabled?(:geodata)
               execute_geospatial_query(query)
-            elsif timdex_tabs.include? @active_tab
+            else
               TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
             end
 

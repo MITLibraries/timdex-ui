@@ -8,6 +8,7 @@ class NormalizeTimdexRecord
   def normalize
     {
       # Core fields
+      api: 'timdex',
       title:,
       creators:,
       source:,

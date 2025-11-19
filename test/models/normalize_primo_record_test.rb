@@ -423,4 +423,9 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_not_nil dedup_url
     assert_match %r{/discovery/search\?}, dedup_url
   end
+
+  test 'includes primo as source api' do
+    normalized = NormalizePrimoRecord.new(full_record, 'test query').normalize
+    assert_equal 'primo', normalized[:api]
+  end
 end
