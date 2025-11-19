@@ -1,7 +1,6 @@
 class QueryBuilder
   attr_reader :query
 
-  RESULTS_PER_PAGE = 20
   QUERY_PARAMS = %w[q citation contributors fundingInformation identifiers locations subjects title booleanType].freeze
   FILTER_PARAMS = %i[accessToFilesFilter contentTypeFilter contributorsFilter formatFilter languagesFilter
                      literaryFormFilter placesFilter sourceFilter subjectsFilter].freeze
@@ -10,7 +9,8 @@ class QueryBuilder
 
   def initialize(enhanced_query)
     @query = {}
-    @query['from'] = calculate_from(enhanced_query[:page])
+    @per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+    @query['from'] = calculate_from(enhanced_query[:page], @per_page)
 
     if Feature.enabled?(:geodata)
       @query['geobox'] = 'true' if enhanced_query[:geobox] == 'true'
@@ -27,10 +27,10 @@ class QueryBuilder
 
   private
 
-  def calculate_from(page = 1)
+  def calculate_from(page = 1, per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i)
     # This needs to return a string because Timdex needs $from to be a String
     page = 1 if page.to_i.zero?
-    ((page - 1) * RESULTS_PER_PAGE).to_s
+    ((page - 1) * per_page).to_s
   end
 
   def extract_query(enhanced_query)

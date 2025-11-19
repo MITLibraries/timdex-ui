@@ -118,6 +118,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `REQUEST_PERIOD` - time in minutes used along with `REQUESTS_PER_PERIOD`
 - `REDIRECT_REQUESTS_PER_PERIOD`- number of requests that can be made that the query string starts with our legacy redirect parameter to throttle per `REQUEST_PERIOD`
 - `REDIRECT_REQUEST_PERIOD`- time in minutes used along with `REDIRECT_REQUEST_PERIOD`
+- `RESULTS_PER_PAGE`: The number of results to display per page. Use an even number to avoid peculiarities. Defaults to 20 if unset.
 - `SENTRY_DSN`: Client key for Sentry exception logging.
 - `SENTRY_ENV`: Sentry environment for the application. Defaults to 'unknown' if unset.
 - `TACOS_SOURCE`: If set, this value is sent to TACOS (as the `sourceSystem` value) to distinguish which application
