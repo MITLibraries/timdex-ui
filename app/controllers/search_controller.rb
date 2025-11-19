@@ -24,12 +24,9 @@ class SearchController < ApplicationController
       return
     end
 
-    @primo_tabs = primo_tabs
-    @timdex_tabs = timdex_tabs
-
     # Route to appropriate search based on active tab
     case @active_tab
-    when 'all' # all tab must come first to avoid matching primo or timdex arrays which contain all
+    when 'all'
       load_all_results
     when *primo_tabs
       load_primo_results
