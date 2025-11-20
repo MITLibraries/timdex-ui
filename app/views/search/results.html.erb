@@ -22,7 +22,7 @@
         <p class="results-context-description">From all MIT Libraries sources</p>    
         <div id="results-layout-wrapper">  
           <main id="results">
-            <ol class="results-list" start="<%= @pagination[:start] %>">             
+            <ol class="results-list use" start="<%= @pagination[:start] %>">             
               <% @results.each do |result| %>
                   <% if result[:api] == 'primo' %>
                     <%= render(partial: 'search/result_primo', locals: { result: result }) %>
