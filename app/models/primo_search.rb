@@ -1,12 +1,23 @@
 # Searches Primo Search API and formats results
 #
 class PrimoSearch
-  def initialize
+  # Initializes the PrimoSearch with the given query parameters
+  # @param tab [String] Current `active_tab` value from SearchController. Used to set Primo tab/scope.
+  #   Defaults to 'all'.
+  # @return [PrimoSearch] An instance of PrimoSearch
+  def initialize(tab = 'all')
+    @tab = tab
+
     validate_env
     @primo_http = HTTP.persistent(primo_api_url)
     @results = {}
   end
 
+  # Performs a search against the Primo API
+  # @param term [String] The search term
+  # @param per_page [Integer] Number of results per page
+  # @param offset [Integer] The result offset for pagination
+  # @return [Hash] Parsed JSON response from Primo API
   def search(term, per_page, offset = 0)
     url = search_url(term, per_page, offset)
     result = @primo_http.timeout(http_timeout)
@@ -46,14 +57,39 @@ class PrimoSearch
     ENV.fetch('PRIMO_API_KEY', nil)
   end
 
+  # In Primo API, Search scopes determines which records are being searched
+  # Primo VE configuration calls this `Search Profiles` and uses `Scope` differently.
+  # For Primo VE API we want to be doing &scope={Primo VE Search Profile}
+  #
+  # Available scopes for USE
+  #   all_use: includes CDI configured like Primo UI + Alma (does not include ASpace)
+  #   all: same as all_use but includes ASpace
+  #   catalog_use: just Alma
+  #   cdi_use: just CDI configured like Primo UI
+  #
+  # The scope we use will be driven by the tab provided during initialization
   def primo_scope
-    ENV.fetch('PRIMO_SCOPE', nil)
+    case @tab
+    when 'cdi'
+      'cdi_use'
+    when 'alma'
+      'catalog_use'
+    else
+      'all_use'
+    end
   end
 
+  # In Primo, Tabs act as "search scope slots". They contain one or more Search Profile (which Primo API calls `scopes`).
+  # Primo VE configuration refers to these as `Search Profile Slots`
+  # Configured tabs in our Primo
+  #   all: scopes(all, all_filtered, catalog, cdi, CourseReserves)
+  #   bento: scopes(cdi, catalog, bento_catalog, all_use)
+  #   USE: scopes(all_use, all, catalog_use, cdi_use)
   def primo_tab
-    ENV.fetch('PRIMO_TAB', nil)
+    'use'
   end
 
+  # In Primo API, a vid is...[documentaiton needed!]
   def primo_vid
     ENV.fetch('PRIMO_VID', nil)
   end

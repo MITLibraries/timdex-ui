@@ -139,7 +139,7 @@ class SearchController < ApplicationController
     primo_response = query_primo(per_page, offset)
     hits = primo_response.dig('info', 'total') || 0
     results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
-    pagination = Analyzer.new(@enhanced_query, hits , :primo).pagination
+    pagination = Analyzer.new(@enhanced_query, hits, :primo).pagination
 
     # Handle empty results from Primo API. Sometimes Primo will return no results at a given offset,
     # despite claiming in the initial query that more are available. This happens randomly and
@@ -226,7 +226,7 @@ class SearchController < ApplicationController
     cache_key = generate_cache_key(@enhanced_query)
 
     Rails.cache.fetch("#{cache_key}/primo", expires_in: 12.hours) do
-      primo_search = PrimoSearch.new
+      primo_search = PrimoSearch.new(@enhanced_query[:tab])
       primo_search.search(@enhanced_query[:q], per_page, offset)
     end
   end

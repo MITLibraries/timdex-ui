@@ -28,12 +28,11 @@ class PrimoSearchTest < ActiveSupport::TestCase
   end
 
   test 'raises error when multiple environment variables are missing' do
-    ClimateControl.modify(PRIMO_API_URL: nil, PRIMO_SCOPE: nil, PRIMO_VID: nil) do
+    ClimateControl.modify(PRIMO_API_URL: nil, PRIMO_VID: nil) do
       error = assert_raises(ArgumentError) do
         PrimoSearch.new
       end
       assert_match(/PRIMO_API_URL/, error.message)
-      assert_match(/PRIMO_SCOPE/, error.message)
       assert_match(/PRIMO_VID/, error.message)
     end
   end
