@@ -1,3 +1,7 @@
+// ----------------------------
+// Results List
+// ----------------------------
+
 .top-space {
   margin-top: 1.2rem;
   @media (min-width: $bp-screen-md) {
@@ -37,8 +41,17 @@
         margin-left: 3rem;
       }
     }
-  }
+  }  
 }
+
+.results-list.use {
+  list-style-type: none;
+  padding: 0;
+}
+
+// --------------------------------------
+// Individual Results for GeoData & USE
+// --------------------------------------
 
 .result {
   padding: 2rem;
@@ -120,8 +133,119 @@
   }
 }
 
-/* USE Specific Overrides */
-/* Layout of results and sidebar columns */
+// --------------------------------------
+// Individual Results overrides for USE
+// --------------------------------------
+
+.result.use, .result.primo {
+  margin-bottom: 48px;
+  padding: 0;
+  border-top: none;
+  
+  &:hover,
+  &:focus {
+    background-color: transparent;
+  }
+
+  .eyebrow {
+    color: $color-text-secondary;
+    font-size: 1.3rem;
+    font-weight: $fw-medium;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .record-title {
+    font-size: 2.4rem;
+    line-height: 1.3;
+    margin-bottom: 8px;
+
+    a {
+      @include underlinedLinks;
+      font-weight: $fw-semibold;     
+    }
+  }
+
+  .pub-info {
+    font-size: $fs-base;
+    color: $color-text-secondary;
+    span:first-child:after {
+      content: " • ";
+      color: $color-text-disabled;
+    }
+    margin-bottom: 1em;
+    margin-top: 0;
+  }
+
+  .result-highlights.use {
+    margin-top: 0;
+
+    ul {
+      list-style: disc outside;
+      padding-left: 16px;
+
+      li {
+        margin-left: 0.6rem;
+        font-size: 1.6rem;
+      }
+    }
+  }
+
+  .highlight {
+    background-color: $color-highlight;
+  }
+
+  &.use, &.primo {
+    .result-metadata {
+      margin-bottom: 16px;
+    }
+
+    .pub-info {
+      margin-bottom: 4px;
+    }
+
+    ul.contributors {
+      li {
+        font-weight: $fw-normal;
+
+        a {
+          color: $color-text-secondary;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .inner-heading {
+      font-size: 1.6rem;
+      font-family: $base-font; // Since we're using 16px, override to use body font
+    }
+
+    // Make result buttons present as underlined links
+    a.button {
+      @include underlinedLinks;
+      font-weight: $fw-medium;
+      font-size: 1.6rem;
+      margin-right: 16px;
+    }
+
+    // Except the first button, which should present as a secondary button
+    a.button:first-child {
+      @include buttonSecondary;
+    }
+
+    .truncate-list li:last-child {margin-bottom: 0;}
+
+  }
+}
+
+// -----------------------------
+// Result list and Sidebar - USE
+// -----------------------------
+
 #content-wrapper {
   padding-top: 12px;
   padding-bottom: 44px;
@@ -167,6 +291,7 @@
 
       a {
         @include underlinedLinks;
+        font-weight: $fw-medium;   
       }
     }
 
@@ -205,7 +330,10 @@
 
 }
 
-/* Callouts below results */
+// ----------------------------
+// Result callout boxes
+// ----------------------------
+
 #callout-wrapper {
   display: flex;
   gap: 12px;
