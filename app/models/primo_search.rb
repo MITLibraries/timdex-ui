@@ -1,7 +1,7 @@
 # Searches Primo Search API and formats results
 #
 class PrimoSearch
-  # Initializes the PrimoSearch with the given query parameters
+  # Initializes PrimoSearch
   # @param tab [String] Current `active_tab` value from SearchController. Used to set Primo tab/scope.
   #   Defaults to 'all'.
   # @return [PrimoSearch] An instance of PrimoSearch
@@ -85,11 +85,12 @@ class PrimoSearch
   #   all: scopes(all, all_filtered, catalog, cdi, CourseReserves)
   #   bento: scopes(cdi, catalog, bento_catalog, all_use)
   #   USE: scopes(all_use, all, catalog_use, cdi_use)
+  #   This application should always use the 'use' tab for Primo searches.
   def primo_tab
     'use'
   end
 
-  # In Primo API, a vid is...[documentaiton needed!]
+  # In Primo API, a view (vid) contains Search Profile Slots (tabs) which in turn contain Search Profiles (scopes).
   def primo_vid
     ENV.fetch('PRIMO_VID', nil)
   end
