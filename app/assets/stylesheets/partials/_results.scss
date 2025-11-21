@@ -281,6 +281,16 @@
       flex-direction: column;
       gap: 32px;
 
+      > div {
+        display: flex;
+        gap: 12px;
+
+        i {
+          font-size: 2rem;
+          margin-top: 1px;
+        }
+      }
+
       @media (max-width: 1140px) {
         flex-basis: 280px;
       }
@@ -341,8 +351,15 @@
 
   aside {
     border: 3px solid $color-border-default;
-    padding: 20px 24px;
+    padding: 20px 24px;    
+    display: flex;
+    gap: 12px;
 
+    i {
+      font-size: 2rem;
+      margin-top: 1px;
+    }
+          
     p {
       line-height: 1.4;
     }
