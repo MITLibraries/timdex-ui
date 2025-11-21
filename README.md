@@ -79,9 +79,9 @@ See `Optional Environment Variables` for more information.
 - `MIT_PRIMO_URL`: The base URL for MIT Libraries' Primo instance (used to generate record links).
 - `PRIMO_API_KEY`: The Primo Search API key.
 - `PRIMO_API_URL`: The Primo Search API base URL.
-- `PRIMO_SCOPE`: The Primo Search API `scope` param (set to `cdi` for CDI-scoped results).
-- `PRIMO_TAB`: The Primo Search API `tab` param (typically `all`).
-- `PRIMO_VID`: The Primo Search API `vid` (or 'view ID`) param.
+- `PRIMO_SCOPE`: The Primo Search API `scope` used in Primo UI links. Does not affect our API calls. Ask Enterprise Systems for value.
+- `PRIMO_TAB`: The Primo Search API `tab` used in Primo UI links. Does not affect our API calls. Ask Enterprise Systems for value.
+- `PRIMO_VID`: The Primo Search API `vid` (or 'view ID`) param. Used in both our API calls and Primo UI. Ask Enterprise Systems for value.
 - `SECRET_KEY_BASE`: You can generate this via `bin/rails secret`. Please do not re-use the production value locally.
 - `SYNDETICS_PRIMO_URL`: The Syndetics API URL for Primo. This is used to construct thumbnail URLs.
 - `TIMDEX_GRAPHQL`: Set this to the URL of the GraphQL endpoint. There is no default value in the application.
