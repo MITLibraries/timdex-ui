@@ -11,6 +11,7 @@ class NormalizePrimoRecord
       api: 'primo',
       title:,
       creators:,
+      eyebrow:,
       source:,
       year:,
       format:,
@@ -61,6 +62,14 @@ class NormalizePrimoRecord
     end
 
     author_list.uniq
+  end
+
+  def eyebrow
+    if alma_record?
+      'MIT Libraries Catalog'
+    else
+      'Central Discovery Index'
+    end
   end
 
   def source

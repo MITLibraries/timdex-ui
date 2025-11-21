@@ -20,7 +20,7 @@ http_interactions:
         $accessToFilesFilter, contentTypeFilter: $contentTypeFilter, contributorsFilter:
         $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
         literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter:
-        $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      contentType\n      contributors
+        $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      source\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      links {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
         {\n        kind\n        value\n      }\n      highlight {\n        matchedField\n        matchedPhrases\n      }\n      provider\n      rights

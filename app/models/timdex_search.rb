@@ -51,6 +51,7 @@ class TimdexSearch < TimdexBase
         records {
           timdexRecordId
           title
+          source
           contentType
           contributors {
             kind
@@ -183,6 +184,7 @@ class TimdexSearch < TimdexBase
         records {
           timdexRecordId
           title
+          source
           contentType
           contributors {
             kind
@@ -309,6 +311,7 @@ class TimdexSearch < TimdexBase
         records {
           timdexRecordId
           title
+          source
           contentType
           contributors {
             kind
@@ -445,6 +448,7 @@ class TimdexSearch < TimdexBase
         records {
           timdexRecordId
           title
+          source
           contentType
           contributors {
             kind

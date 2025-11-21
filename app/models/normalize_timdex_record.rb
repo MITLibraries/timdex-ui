@@ -11,6 +11,7 @@ class NormalizeTimdexRecord
       api: 'timdex',
       title:,
       creators:,
+      eyebrow:,
       source:,
       year:,
       format:,
@@ -43,6 +44,12 @@ class NormalizeTimdexRecord
     @record['contributors']
       .select { |c| %w[Creator Author].include?(c['kind']) }
       .map { |creator| { 'value' => creator['value'], 'link' => nil } }
+  end
+
+  # Currently just using source as eyebrow.
+  # This will likely change to remap the source to more user-friendly values.
+  def eyebrow
+    source
   end
 
   def source
