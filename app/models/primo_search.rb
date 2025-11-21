@@ -34,13 +34,15 @@ class PrimoSearch
 
   private
 
+  # Validates required environment variables are set
+  #
+  # PRIMO_SCOPE and PRIMO_TAB look related by name, but are only used in the links to Primo UI and cannot be the same
+  # values we use for API calls so are not checked here.
   def validate_env
     missing_vars = []
 
     missing_vars << 'PRIMO_API_URL' if primo_api_url.nil?
     missing_vars << 'PRIMO_API_KEY' if primo_api_key.nil?
-    missing_vars << 'PRIMO_SCOPE' if primo_scope.nil?
-    missing_vars << 'PRIMO_TAB' if primo_tab.nil?
     missing_vars << 'PRIMO_VID' if primo_vid.nil?
 
     return if missing_vars.empty?
