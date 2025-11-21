@@ -79,9 +79,9 @@ See `Optional Environment Variables` for more information.
 - `MIT_PRIMO_URL`: The base URL for MIT Libraries' Primo instance (used to generate record links).
 - `PRIMO_API_KEY`: The Primo Search API key.
 - `PRIMO_API_URL`: The Primo Search API base URL.
-- `PRIMO_SCOPE`: The Primo Search API `scope` param (set to `cdi` for CDI-scoped results).
-- `PRIMO_TAB`: The Primo Search API `tab` param (typically `all`).
-- `PRIMO_VID`: The Primo Search API `vid` (or 'view ID`) param.
+- `PRIMO_SCOPE`: The Primo Search API `scope` used in Primo UI links. Does not affect our API calls. Ask Enterprise Systems for value.
+- `PRIMO_TAB`: The Primo Search API `tab` used in Primo UI links. Does not affect our API calls. Ask Enterprise Systems for value.
+- `PRIMO_VID`: The Primo Search API `vid` (or 'view ID`) param. Used in both our API calls and Primo UI. Ask Enterprise Systems for value.
 - `SECRET_KEY_BASE`: You can generate this via `bin/rails secret`. Please do not re-use the production value locally.
 - `SYNDETICS_PRIMO_URL`: The Syndetics API URL for Primo. This is used to construct thumbnail URLs.
 - `TIMDEX_GRAPHQL`: Set this to the URL of the GraphQL endpoint. There is no default value in the application.
@@ -98,8 +98,9 @@ See `Optional Environment Variables` for more information.
 mode. Note that this is currently intended _only_ for the geodata app and
 may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FEATURE_SIMULATE_SEARCH_LATENCY`: DO NOT SET IN PRODUCTION. Set to ensure a minimum of a one second delay in returning search results. Useful to see spinners/loaders. Only introduces delay for results that take less than one second to complete.
-- `FEATURE_TAB_TIMDEX_ALL`: Display a tab for displaying the combined TIMDEX data
-- `FEATURE_TAB_TIMDEX_ALMA`: Display a tab for displaying Alma data from TIMDEX
+- `FEATURE_TAB_PRIMO_ALL`: Display a tab for displaying the combined Primo data (CDI + Alma)
+- `FEATURE_TAB_TIMDEX_ALL`: Display a tab for displaying the combined TIMDEX data. `TIMDEX_INDEX` affects which data appears in this tab.
+- `FEATURE_TAB_TIMDEX_ALMA`: Display a tab for displaying Alma data from TIMDEX. `TIMDEX_INDEX` must include `Alma` data or no results will return.
 - `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.
 - `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.
 - `FILTER_CONTRIBUTOR`: The name to use instead of "Contributor" for that filter / aggregation.

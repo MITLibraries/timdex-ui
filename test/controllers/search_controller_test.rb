@@ -655,11 +655,13 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'results respects primo tab parameter' do
-    mock_primo_search_success
+    ClimateControl.modify FEATURE_TAB_PRIMO_ALL: 'true' do
+      mock_primo_search_success
 
-    get '/results?q=test&tab=primo'
-    assert_response :success
-    assert_select 'a.tab-link.active[href*="tab=primo"]', count: 1
+      get '/results?q=test&tab=primo'
+      assert_response :success
+      assert_select 'a.tab-link.active[href*="tab=primo"]', count: 1
+    end
   end
 
   test 'results respects timdex all tab parameter' do
@@ -688,7 +690,10 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=test&tab=primo'
     assert_response :success
     assert_select '.tab-navigation', count: 1
-    assert_select 'a[href*="tab=primo"]', count: 1
+    assert_select 'a[href*="tab=all"]', count: 1
+    assert_select 'a[href*="tab=cdi"]', count: 1
+    assert_select 'a[href*="tab=alma"]', count: 1
+    # assert_select 'a[href*="tab=primo"]', count: 1
     # assert_select 'a[href*="tab=timdex"]', count: 1
     assert_select 'a[href*="tab=aspace"]', count: 1
     assert_select 'a[href*="tab=website"]', count: 1
