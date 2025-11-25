@@ -7,10 +7,10 @@ container.classList.add('has-js')
 
 primary.insertAdjacentHTML('beforeend', `
   <li class="-more">
-    <button type="button" aria-haspopup="true" aria-expanded="false">
+    <button type="button" aria-haspopup="true" aria-expanded="false" aria-controls="more-options">
       More <i class="fa-light fa-chevron-down"></i>
     </button>
-    <ul class="-secondary">
+    <ul class="-secondary" id="more-options" aria-label="More options">
       ${primary.innerHTML}
     </ul>
   </li>

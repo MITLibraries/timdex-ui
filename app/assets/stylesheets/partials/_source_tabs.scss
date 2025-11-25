@@ -85,6 +85,11 @@
       a {
         background-color: $color-gray-950;
         width: 100%;
+
+        &:hover {
+          border-color: $color-gray-950;
+          background-color: $color-gray-900;
+        }
       }
 
     }
