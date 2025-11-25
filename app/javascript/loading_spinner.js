@@ -68,6 +68,10 @@ document.addEventListener('click', function(event) {
 
   // Handle tab clicks
   if (clickedElement.closest('.tab-navigation')) {
+
+    // If the element is NOT a link, don't show the spinner
+    if (clickedElement.nodeName !== "A") { return; }
+
     const clickedParams = new URLSearchParams(clickedElement.search);
     const newTab = clickedParams.get('tab');
 
