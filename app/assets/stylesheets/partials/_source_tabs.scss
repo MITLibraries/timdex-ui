@@ -4,6 +4,7 @@
 
 #tabs {
   margin-top: 0;
+  position: relative;
 
   // Graceful degradation when JS is not enabled
   &:not(.has-js) {
@@ -11,6 +12,7 @@
     -webkit-overflow-scrolling: touch;  
   }
 
+  // Display styles for the main tab bar
   ul.primary {
     list-style-type: none;
     padding: 0;
@@ -19,7 +21,15 @@
     gap: 4px;
   }
 
-  a {
+  li {
+
+    &.--hidden {
+      display: none;
+    }
+
+  }
+
+  a, button {
     padding: 12px 20px 16px;
     background-color: transparent;
     display: inline-block;
@@ -46,7 +56,43 @@
       }
     }
 
+  }
 
+  // Swap the icon to chevron-up when menu is open
+  button[aria-expanded="true"] {
+  
+    i::before {
+      content: '\f077';
+    }
+
+  }
+
+  // Display styles for the dropdown menu under the "More" button
+  ul.-secondary {
+    width: 100%;
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    z-index: 999;
+
+    li {
+      width: 100%;
+
+      a {
+        background-color: $color-gray-950;
+        width: 100%;
+      }
+
+    }
+
+  }
+
+  &.--show-secondary .-secondary {
+    display: block;
   }
 
 }
