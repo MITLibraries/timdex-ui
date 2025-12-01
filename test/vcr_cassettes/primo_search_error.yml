@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api-na.hosted.exlibrisgroup.com/primo/v1/search?apikey=FAKE_PRIMO_API_KEY&limit=10&q=any,contains,test&scope=all_use&tab=use&vid=01MIT_INST:MIT
+    uri: https://api-na.hosted.exlibrisgroup.com/primo/v1/search?apikey=FAKE_PRIMO_API_KEY&limit=10&pcAvailability=true&q=any,contains,test&scope=all_use&tab=use&vid=01MIT_INST:MIT
     body:
       encoding: ASCII-8BIT
       string: ''

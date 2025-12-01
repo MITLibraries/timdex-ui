@@ -115,7 +115,8 @@ class PrimoSearch
       '&scope=',
       primo_scope,
       '&limit=',
-      per_page
+      per_page,
+      '&pcAvailability=true'
     ]
 
     # Add offset parameter for pagination (only if > 0)
