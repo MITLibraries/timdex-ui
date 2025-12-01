@@ -214,52 +214,6 @@
   color: #fff;
 }
 
-/* =========== */
-/* New Tab Bar */
-/* =========== */
-
-#tabs {
-  margin-top: 0;
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 4px;
-  }
-
-  a {
-    padding: 12px 20px 16px;
-    background-color: transparent;
-    display: inline-block;
-    border: 2px solid transparent;
-    border-bottom: 0;  
-
-    @include searchUnderlinedLinks;
-
-    &:hover {
-      border-color: $color-gray-700;
-      background-color: $color-gray-900;
-      color: $color-text-oncolor;
-    }
-
-    &.active {
-      background-color: $color-white;
-      color: $color-text-primary;
-      text-decoration: none;
-
-      &:hover {
-        color: $color-text-primary;
-        border-color: transparent;
-      }
-    }
-
-
-  }
-
-}
-
 /* ============== */
 /* Search Actions */
 /* ============== */
