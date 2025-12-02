@@ -39,7 +39,7 @@ module ResultsHelper
   # purely for decoration. If an icon is used in a more meaningful way, we may want to extend this helper
   # to allow passing in additional aria attributes.
   def icon(fa)
-    "<i class='fa-sharp fa-solid fa-#{fa} aria-hidden='true''></i>"
+    "<i class='fa-sharp fa-solid fa-#{fa}' aria-hidden='true''></i>"
   end
 
   # Formats location information for availability display.
