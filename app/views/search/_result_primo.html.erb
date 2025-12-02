@@ -38,6 +38,9 @@
       <% if result[:links].present? %>
         <% result[:links].each do |link| %>
           <%= link_to link['kind'].titleize, link['url'], class: 'button' %>
+          <% if result[:availability].present? %>
+            <span class="availability"><%= availability(result[:availability], result[:location], result[:other_availability]) %></span>
+          <% end %>
         <% end %>
       <% end %>
     </div>

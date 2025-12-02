@@ -280,7 +280,7 @@ class NormalizePrimoRecord
     return unless @record['delivery']['bestlocation']
 
     loc = @record['delivery']['bestlocation']
-    ["#{loc['mainLocation']} #{loc['subLocation']}", loc['callNumber']]
+    [loc['mainLocation'], loc['subLocation'], loc['callNumber']]
   end
 
   def subjects
