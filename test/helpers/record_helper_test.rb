@@ -343,7 +343,11 @@ class RecordHelperTest < ActionView::TestCase
   end
 
   test 'availability helper handles known statuses correctly' do
-    location = ['Main Library', 'First Floor', 'QA76.73.R83 2023']
+    location = {
+      name: 'Main Library',
+      collection: 'First Floor',
+      call_number: 'QA76.73.R83 2023'
+    }
 
     available_blurb = availability('available', location, false)
     assert_includes available_blurb, 'Available in'

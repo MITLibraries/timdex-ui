@@ -181,7 +181,7 @@ module RecordHelper
   # Formats location information for availability display.
   # Expects an array with three elements: [library name, location name, call number]
   def location(loc)
-    "<strong>#{loc[0]}</strong> #{loc[1]} (#{loc[2]})"
+    "<strong>#{loc[:name]}</strong> #{loc[:collection]} (#{loc[:call_number]})"
   end
 
   private
