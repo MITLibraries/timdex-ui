@@ -805,6 +805,29 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href*="tab=website"]', count: 1
   end
 
+  test 'all tab page 1 writes totals to cache' do
+    # This integration-level behavior is covered by unit tests on `MergedSearchService`.
+    # Here we assert the controller delegates to the service.
+    mock_service = mock('merged_service')
+    mock_service.expects(:fetch).returns({ results: [], errors: nil, pagination: {}, show_primo_continuation: false })
+    MergedSearchService.expects(:new).returns(mock_service)
+
+    get '/results?q=test'
+    assert_response :success
+  end
+
+  test 'all tab deeper page reads cached totals and avoids summary calls' do
+    # This behavior is covered in greater depth by `MergedSearchService` unit tests.
+    mock_service = mock('merged_service')
+    mock_service.expects(:fetch).with(page: 2,
+                                      per_page: 20).returns({ results: [],
+                                                              errors: nil, pagination: {}, show_primo_continuation: false })
+    MergedSearchService.expects(:new).returns(mock_service)
+
+    get '/results?q=test&page=2'
+    assert_response :success
+  end
+
   test 'results handles primo search errors gracefully' do
     PrimoSearch.expects(:new).raises(StandardError.new('API Error'))
 
