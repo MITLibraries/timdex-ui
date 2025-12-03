@@ -40,6 +40,9 @@
           <%= link_to link['kind'].titleize, link['url'], class: 'button' %>
         <% end %>
       <% end %>
+      <% if result[:availability].present? %>
+        <span class="availability"><%= availability(result[:availability], result[:location], result[:other_availability]) %></span>
+      <% end %>
     </div>
   </div>
 </li>

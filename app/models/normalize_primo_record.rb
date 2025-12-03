@@ -275,12 +275,18 @@ class NormalizePrimoRecord
     @record['pnx']['addata']['pub'].first
   end
 
+  # Current logic in this method should likely move to `holdings` field
   def location
     return unless @record['delivery']
     return unless @record['delivery']['bestlocation']
 
     loc = @record['delivery']['bestlocation']
-    ["#{loc['mainLocation']} #{loc['subLocation']}", loc['callNumber']]
+
+    {
+      name: loc['mainLocation'],
+      collection: loc['subLocation'],
+      call_number: loc['callNumber']
+    }
   end
 
   def subjects

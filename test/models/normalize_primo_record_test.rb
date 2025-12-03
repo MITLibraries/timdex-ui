@@ -174,7 +174,7 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
   test 'returns best location with call number' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    expected_location = ['Hayden Library Stacks', 'QA76.73.R83 2023']
+    expected_location = { name: 'Hayden Library', collection: 'Stacks', call_number: 'QA76.73.R83 2023' }
     assert_equal expected_location, normalized[:location]
   end
 
