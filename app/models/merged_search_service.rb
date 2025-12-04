@@ -32,6 +32,10 @@ class MergedSearchService
     current_page = (page || 1).to_i
     per_page = (per_page || 20).to_i
 
+    # For page 1, we retrieve `per_page` results for each API and then store the totals
+    # We don't always use all of the results that were returned here, but the logic in the subsequent page requests
+    # accounts for that in the offset calculation. We retrieve the full per_page for each API to ensure we always get a
+    # full page 1 unless both APIs have less than per_page combined.
     if current_page == 1
       primo_data, timdex_data = parallel_fetch(offset: 0, per_page: per_page)
 
@@ -47,6 +51,8 @@ class MergedSearchService
 
     totals = @cache.read(totals_cache_key)
 
+    # If we don't have a stored totals value for the incoming query, we need to create one. This situation can happen
+    # if a user accesses (shared, bookmarked, refreshed, etc) a non-page 1 query after the cache has expired.
     unless totals
       primo_summary, timdex_summary = parallel_fetch(offset: 0, per_page: 1)
       totals = { primo: primo_summary[:hits].to_i, timdex: timdex_summary[:hits].to_i }
