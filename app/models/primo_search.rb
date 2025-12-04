@@ -97,9 +97,14 @@ class PrimoSearch
     ENV.fetch('PRIMO_VID', nil)
   end
 
-  # Initial search term sanitization
+  # clean_term performs search term sanitization to prepare the term for querying the Primo API
+  #
+  # We are using the built in `URI.encode_www_form_component`. Previous versions (including in bento) had us doing
+  # character replacements. That strategy masked some problems in that it prevented errors, but did not return the
+  # expected results when compared to the Primo UI. This simpler strategy seems to handle all of the types of problems
+  # we previously were facing better, and very likely handles problems we were not aware of.
   def clean_term(term)
-    term.strip.tr(' :,', '+').gsub(/\++/, '+')
+    URI.encode_www_form_component(term)
   end
 
   # Constructs the search URL with required parameters for Primo API

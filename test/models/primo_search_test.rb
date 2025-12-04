@@ -59,8 +59,24 @@ class PrimoSearchTest < ActiveSupport::TestCase
 
   test 'sanitizes search terms' do
     search = PrimoSearch.new
+
+    # spaces, colons, commas which historically have been problems
     clean_term = search.send(:clean_term, 'test: search, term')
-    assert_equal 'test+search+term', clean_term
+    assert_equal 'test%3A+search%2C+term', clean_term
+
+    # double quotes
+    clean_term = search.send(:clean_term, '"hello world"')
+    assert_equal '%22hello+world%22', clean_term
+
+    # our previous logic mangled this and resulted in bad results
+    clean_term = search.send(:clean_term, 'c++')
+    assert_equal 'c%2B%2B', clean_term
+
+    # full citation that has many of the features that have lead to problematic encoding
+    clean_term = search.send(:clean_term,
+                             'Fuzuloparib with or without apatinib as maintenance therapy in newly diagnosed, advanced ovarian cancer (FZOCUS-1): A multicenter, randomized, double-blind, placebo-controlled phase 3 trial. Wu L, et al. CA Cancer J Clin. 2026.')
+    assert_equal 'Fuzuloparib+with+or+without+apatinib+as+maintenance+therapy+in+newly+diagnosed%2C+advanced+ovarian+cancer+%28FZOCUS-1%29%3A+A+multicenter%2C+randomized%2C+double-blind%2C+placebo-controlled+phase+3+trial.+Wu+L%2C+et+al.+CA+Cancer+J+Clin.+2026.',
+                 clean_term
   end
 
   test 'sets timeout from ENV' do
