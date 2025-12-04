@@ -19,7 +19,7 @@
       <% elsif @results.present? && @errors.blank? %>
 
         <h2 class="results-context"><%= results_summary(@pagination[:hits]) %></h2>
-        <p class="results-context-description">From all MIT Libraries sources</p>    
+        <p class="results-context-description"><%= tab_description %></p>    
         <div id="results-layout-wrapper">  
           <main id="results">
             <ol class="results-list use" start="<%= @pagination[:start] %>">             

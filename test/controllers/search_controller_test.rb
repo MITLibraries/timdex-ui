@@ -715,7 +715,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select '.results-context', text: /10 results/
     assert_select '.results-context-description', count: 1
-    assert_select '.results-context-description', text: /From all MIT Libraries sources/
+    assert_select '.results-context-description',
+                  text: /Articles, books, chapters, streaming and physical media, and more/
   end
 
   test 'primo results shows continuation partial when page exceeds API offset limit' do
