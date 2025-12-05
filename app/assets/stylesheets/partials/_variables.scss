@@ -35,6 +35,8 @@ $color-blue-500: #0000FF;
 // PURPLE
 $color-purple-700: #990099;
 
+// GREEN
+$color-green-800: #009900;
 
 // ---------------
 // SEMANTIC COLORS
@@ -48,6 +50,10 @@ $color-text-secondary: $color-gray-700;
 $color-text-placeholder: $color-gray-500;
 $color-text-disabled: $color-gray-400;
 $color-text-oncolor: $color-white;
+
+// ICONS
+$color-icon-success: $color-green-800;
+$color-icon-danger: $color-red-500;
 
 // BORDERS
 $color-border-default: $color-gray-400;
