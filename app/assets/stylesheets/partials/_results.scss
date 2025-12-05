@@ -240,6 +240,19 @@
     .truncate-list li:last-child {margin-bottom: 0;}
 
   }
+
+  .availability {
+    color: $color-text-secondary;
+
+    i.fa-check::before {
+      color: $color-icon-success;
+    }
+
+    i.fa-times::before {
+      color: $color-icon-danger;
+    }
+
+  }
 }
 
 // -----------------------------
