@@ -64,11 +64,12 @@ class NormalizePrimoRecord
     author_list.uniq
   end
 
+  # Provides user friendly string based on whether the record is Alma or not-Alma (CDI)
   def eyebrow
     if alma_record?
       'MIT Libraries Catalog'
     else
-      'Central Discovery Index'
+      'MIT Libraries Catalog: Articles'
     end
   end
 
