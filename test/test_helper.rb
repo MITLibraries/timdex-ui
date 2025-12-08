@@ -42,3 +42,18 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+# Use a memory-backed `Rails.cache` for tests and clear it before each test to avoid cross-test
+# leakage. This simplifies tests and emoves the need to inject a cache store into most specs, but
+# a shared cache can still cause uses with parallel fetching, as we use in the Merged Search
+# Service.
+#
+# If you hit flaky tests related to cache  access under concurrency, consider injecting a per-test
+# cache or avoiding shared mutable state in the threaded path.
+Rails.cache = ActiveSupport::Cache::MemoryStore.new
+
+class ActiveSupport::TestCase
+  setup do
+    Rails.cache.clear
+  end
+end

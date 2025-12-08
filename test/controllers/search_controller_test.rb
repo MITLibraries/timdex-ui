@@ -8,6 +8,12 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   def mock_primo_search_success
     # Mock the Primo search components to avoid external API calls (single call)
+    #
+    # NOTE: This helper sets expectations for exactly one search invocation
+    # (the default `expects` behavior). Some controller flows (the 'all'
+    # tab orchestration) may call Primo multiple times. For those tests we
+    # use `mock_primo_search_all_tab` which relaxes the expectations with
+    # `at_least_once`. Keeping two helpers keeps intent explicit in tests.
     sample_doc = {
       api: 'primo',
       title: 'Sample Primo Document Title',
@@ -31,6 +37,10 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   def mock_primo_search_all_tab
     # Mock the Primo search components for the all tab (multiple calls)
+    #
+    # This helper mirrors `mock_primo_search_success`, but relaxes the
+    # expectations to `at_least_once` to allow orchestration paths that may
+    # call into Primo multiple times while assembling merged results.
     sample_doc = {
       api: 'primo',
       title: 'Sample Primo Document Title',
@@ -77,6 +87,10 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   def mock_timdex_search_success
     # Mock the TIMDEX GraphQL client to avoid external API calls (single call)
+    #
+    # NOTE: As with Primo, this helper assumes a single TIMDEX invocation.
+    # Tests exercising the 'all' tab should use `mock_timdex_search_all_tab`
+    # which allows multiple calls.
     sample_result = {
       'api' => 'timdex',
       'title' => 'Sample TIMDEX Document Title',
@@ -121,6 +135,10 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   def mock_timdex_search_all_tab
     # Mock the TIMDEX GraphQL client for the all tab (multiple calls)
+    #
+    # This helper is intentionally separate from `mock_timdex_search_success`
+    # because the merged-search orchestration can invoke TIMDEX multiple
+    # times. The helper therefore uses `at_least_once` on the expectation.
     sample_result = {
       'api' => 'timdex',
       'title' => 'Sample TIMDEX Document Title',
@@ -1095,49 +1113,5 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     # Should show current range (21-40 for page 2)
     assert_select '.pagination-container .current', text: /21 - 40 of 800/
-  end
-
-  test 'merge_results handles unbalanced API responses correctly' do
-    # Test case 1: Primo has fewer results than TIMDEX
-    paginator = MergedSearchPaginator.new(primo_total: 3, timdex_total: 5, current_page: 1, per_page: 8)
-    primo_results = %w[P1 P2 P3]
-    timdex_results = %w[T1 T2 T3 T4 T5]
-    merged = paginator.merge_results(primo_results, timdex_results)
-    expected = %w[P1 T1 P2 T2 P3 T3 T4 T5]
-    assert_equal expected, merged
-
-    # Test case 2: TIMDEX has fewer results than Primo
-    paginator = MergedSearchPaginator.new(primo_total: 5, timdex_total: 3, current_page: 1, per_page: 8)
-    primo_results = %w[P1 P2 P3 P4 P5]
-    timdex_results = %w[T1 T2 T3]
-    merged = paginator.merge_results(primo_results, timdex_results)
-    expected = %w[P1 T1 P2 T2 P3 T3 P4 P5]
-    assert_equal expected, merged
-
-    # Test case 3: Results exceed per_page limit (default 20)
-    paginator = MergedSearchPaginator.new(primo_total: 15, timdex_total: 15, current_page: 1, per_page: 20)
-    primo_results = (1..15).map { |i| "P#{i}" }
-    timdex_results = (1..15).map { |i| "T#{i}" }
-    merged = paginator.merge_results(primo_results, timdex_results)
-    assert_equal 20, merged.length
-    assert_equal 'P1', merged[0]
-    assert_equal 'T1', merged[1]
-    assert_equal 'P2', merged[2]
-    assert_equal 'T2', merged[3]
-
-    # Test case 4: One array is empty
-    paginator = MergedSearchPaginator.new(primo_total: 0, timdex_total: 3, current_page: 1, per_page: 3)
-    primo_results = []
-    timdex_results = %w[T1 T2 T3]
-    merged = paginator.merge_results(primo_results, timdex_results)
-    assert_equal %w[T1 T2 T3], merged
-
-    # Test case 5: more than 10 results from a single source can display when appropriate
-    paginator = MergedSearchPaginator.new(primo_total: 7, timdex_total: 11, current_page: 1, per_page: 18)
-    primo_results = (1..7).map { |i| "P#{i}" }
-    timdex_results = (1..11).map { |i| "T#{i}" }
-    merged = paginator.merge_results(primo_results, timdex_results)
-    expected = %w[P1 T1 P2 T2 P3 T3 P4 T4 P5 T5 P6 T6 P7 T7 T8 T9 T10 T11]
-    assert_equal expected, merged
   end
 end

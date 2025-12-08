@@ -12,9 +12,11 @@ class Analyzer
   # @param hits [Integer] Number of hits from primary source (TIMDEX for :all, source-specific otherwise)
   # @param source [Symbol] Source tab (:primo, :timdex, or :all)
   # @param secondary_hits [Integer, nil] Optional hit count from secondary source (Primo hits for :all)
-  def initialize(enhanced_query, hits, source, secondary_hits = nil)
+  # @param per_page [Integer, nil] optional per-page value to use instead of the application default
+  def initialize(enhanced_query, hits, source, secondary_hits = nil, per_page = nil)
     @source = source
     @enhanced_query = enhanced_query
+    @per_page = per_page
     @pagination = {}
     set_pagination(hits, secondary_hits)
   end
@@ -26,13 +28,17 @@ class Analyzer
   # @param hits [Integer] Hit count from primary source
   # @param secondary_hits [Integer, nil] Optional hit count from secondary source
   def set_pagination(hits, secondary_hits = nil)
+    # Use an explicitly supplied per_page when available. This protects against a potential bug
+    # where the per_page supplied by Merged Search Service fetchers are ignored.
+    per_page_value = @per_page || ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+
     if @source == :all
       @pagination[:hits] = (secondary_hits || 0) + (hits || 0)
-      @pagination[:per_page] = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+      @pagination[:per_page] = per_page_value
       calculate_pagination_values
     else
       @pagination[:hits] = hits || 0
-      @pagination[:per_page] = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+      @pagination[:per_page] = per_page_value
       calculate_pagination_values
     end
   end

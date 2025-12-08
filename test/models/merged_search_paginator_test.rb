@@ -22,14 +22,16 @@ class MergedSearchPaginatorTest < ActiveSupport::TestCase
     paginator = MergedSearchPaginator.new(primo_total: 2, timdex_total: 2, current_page: 1, per_page: 4)
     primo = %w[P1 P2]
     timdex = %w[T1 T2]
-    assert_equal(%w[P1 T1 P2 T2], paginator.merge_results(primo, timdex))
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all')
+    assert_equal(%w[P1 T1 P2 T2], svc.send(:merge_results, paginator, primo, timdex))
   end
 
   test 'merge_results with shorter array' do
     paginator = MergedSearchPaginator.new(primo_total: 3, timdex_total: 1, current_page: 1, per_page: 4)
     primo = %w[P1 P2 P3]
     timdex = %w[T1]
-    assert_equal(%w[P1 T1 P2 P3], paginator.merge_results(primo, timdex))
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all')
+    assert_equal(%w[P1 T1 P2 P3], svc.send(:merge_results, paginator, primo, timdex))
   end
 
   test 'api_offsets breaks when start_index exceeds totals' do
@@ -38,8 +40,8 @@ class MergedSearchPaginatorTest < ActiveSupport::TestCase
     primo_offset, timdex_offset = paginator.api_offsets
 
     # Offsets should stop at the available totals (1 each)
-    assert_equal 1, primo_offset
-    assert_equal 1, timdex_offset
+    assert_nil primo_offset
+    assert_nil timdex_offset
   end
 
   test 'merge_plan returns all primo when timdex is empty' do

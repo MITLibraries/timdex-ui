@@ -91,14 +91,17 @@ class SearchController < ApplicationController
     current_page = @enhanced_query[:page] || 1
     per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
 
-    service = MergedSearchService.new(
+    # Inject wrapper fetchers instead of using the service defaults. We use lambdas here so the
+    # service can call back into this controller's instance methods while preserving request-scoped
+    # context (for example `@enhanced_query`) and the controller's caching/normalization behavior.
+    # Using lambdas keeps the service decoupled from controller internals.
+    merge_service = MergedSearchService.new(
       enhanced_query: @enhanced_query,
       active_tab: @active_tab,
-      cache: Rails.cache,
       primo_fetcher: ->(offset:, per_page:, query: nil) { fetch_primo_data(offset: offset, per_page: per_page) },
       timdex_fetcher: ->(offset:, per_page:, query: nil) { fetch_timdex_data(offset: offset, per_page: per_page) }
     )
-    data = service.fetch(page: current_page, per_page: per_page)
+    data = merge_service.fetch(page: current_page, per_page: per_page)
 
     @results = data[:results]
     @errors = data[:errors]
@@ -175,7 +178,7 @@ class SearchController < ApplicationController
     query[:sourceFilter] = ['MIT Alma'] if @active_tab == 'timdex_alma'
 
     # We generate unique cache keys to avoid naming collisions.
-    cache_key = generate_cache_key(query)
+    cache_key = CacheKeyGenerator.call(query)
 
     # Builder hands off to wrapper which returns raw results here.
     Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
@@ -197,18 +200,12 @@ class SearchController < ApplicationController
   def query_primo(per_page, offset)
     # We generate unique cache keys to avoid naming collisions.
     # Include per_page and offset in the cache key to ensure pagination works correctly.
-    cache_key = generate_cache_key(@enhanced_query.merge(per_page: per_page, offset: offset))
+    cache_key = CacheKeyGenerator.call(@enhanced_query.merge(per_page: per_page, offset: offset))
 
     Rails.cache.fetch("#{cache_key}/primo", expires_in: 12.hours) do
       primo_search = PrimoSearch.new(@enhanced_query[:tab])
       primo_search.search(@enhanced_query[:q], per_page, offset)
     end
-  end
-
-  def generate_cache_key(query)
-    # Sorting query hash to ensure consistent key generation regardless of the parameter order
-    sorted_query = query.sort_by { |k, _v| k.to_sym }.to_h
-    Digest::MD5.hexdigest(sorted_query.to_s)
   end
 
   def execute_geospatial_query(query)

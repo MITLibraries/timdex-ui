@@ -6,19 +6,30 @@ require 'digest'
 # `MergedSearchPaginator`, and assembly of a controller-friendly response hash.
 class MergedSearchService
   # Time to live value for cache expiration.
-  TTL = 10.minutes
+  TTL = 12.hours
 
   # Initialize a new MergedSearchService.
   #
+  # The service supports dependency injection for the two fetchers to keep
+  # calling code simple and to make testing deterministic.
+  #
+  # Usage patterns:
+  # - Default: callers omit fetcher arguments and the service uses `Rails.cache`
+  #   plus the built-in `default_primo_fetch` and `default_timdex_fetch` methods
+  #   that call backends directly.
+  # - Controller / runtime instrumentation: the `SearchController` injects
+  #   wrapper fetchers (lambdas that call `fetch_primo_data` / `fetch_timdex_data`).
+  # - Tests: unit tests should rely on the test environment's `Rails.cache`
+  #   (test helper configures a `MemoryStore`) and provide stubbed fetchers or
+  #   mocks so tests can assert behavior without hitting external services.
+  #
   # @param enhanced_query [Hash] query hash produced by `Enhancer`
   # @param active_tab [String] the currently active tab (e.g. 'all')
-  # @param cache [Object] optional cache store responding to `read`/`write` (defaults to `Rails.cache`)
   # @param primo_fetcher [#call] optional callable used to fetch Primo results; should accept `offset:, per_page:, query:`
   # @param timdex_fetcher [#call] optional callable used to fetch TIMDEX results; should accept `offset:, per_page:, query:`
-  def initialize(enhanced_query:, active_tab:, cache: Rails.cache, primo_fetcher: nil, timdex_fetcher: nil)
+  def initialize(enhanced_query:, active_tab:, primo_fetcher: nil, timdex_fetcher: nil)
     @enhanced_query = enhanced_query
     @active_tab = active_tab
-    @cache = cache
     @primo_fetcher = primo_fetcher || method(:default_primo_fetch)
     @timdex_fetcher = timdex_fetcher || method(:default_timdex_fetch)
   end
@@ -31,21 +42,49 @@ class MergedSearchService
   def fetch(page:, per_page:)
     current_page = (page || 1).to_i
     per_page = (per_page || 20).to_i
-
     if current_page == 1
-      primo_data, timdex_data = parallel_fetch(offset: 0, per_page: per_page)
-
-      totals = { primo: primo_data[:hits].to_i, timdex: timdex_data[:hits].to_i }
-      write_cached_totals(totals)
-
-      paginator = build_paginator_from_totals(totals, current_page, per_page)
-
-      results = assemble_all_tab_result(paginator, primo_data, timdex_data, current_page, per_page)
-
-      return results
+      first_page_fetch(current_page, per_page)
+    else
+      deeper_page_fetch(current_page, per_page)
     end
+  end
 
-    totals = @cache.read(totals_cache_key)
+  # Handle page 1: perform the full-size parallel fetch, cache
+  # totals, build the paginator, and return the assembled result.
+  #
+  # Executes a full-size parallel fetch (requests `per_page` items from each
+  # backend), computes and caches per-query totals, constructs a
+  # `MergedSearchPaginator`, and assembles the controller-facing response.
+  #
+  # @param current_page [Integer] the current page (expected to be 1)
+  # @param per_page [Integer] the number of results per merged page
+  # @return [Hash] keys: :results, :errors, :pagination, :show_primo_continuation
+  def first_page_fetch(current_page, per_page)
+    primo_data, timdex_data = parallel_fetch(offset: 0, per_page: per_page)
+
+    totals = { primo: primo_data[:hits].to_i, timdex: timdex_data[:hits].to_i }
+    write_cached_totals(totals)
+
+    paginator = build_paginator_from_totals(totals, current_page, per_page)
+
+    assemble_all_tab_result(paginator, primo_data, timdex_data, current_page, per_page)
+  end
+
+  # Handle deeper pages: ensure totals are available (falling back to summary
+  # calls when missing), build the paginator, fetch required chunks, and
+  # assemble the final result.
+  #
+  # Ensures per-query totals are available by reading cached totals or
+  # performing summary requests (per_page == 1) if the cached totals aren't
+  # present. (They should be, but there may be edge cases.)
+  # Builds a `MergedSearchPaginator`, fetches the page-sized chunks required
+  # for the merged layout, and returns the assembled controller-facing response.
+  #
+  # @param current_page [Integer] the requested page number (> 1)
+  # @param per_page [Integer] the number of results per merged page
+  # @return [Hash] keys: :results, :errors, :pagination, :show_primo_continuation
+  def deeper_page_fetch(current_page, per_page)
+    totals = Rails.cache.read(totals_cache_key)
 
     unless totals
       primo_summary, timdex_summary = parallel_fetch(offset: 0, per_page: 1)
@@ -69,19 +108,15 @@ class MergedSearchService
     "#{base}/totals"
   end
 
-  # Persist per-query totals to cache(s).
+  # Persist per-query totals to the application cache.
   #
-  # The method writes to the injected cache (if available) and to
-  # `Rails.cache`. Additional marker keys are written to improve test
-  # discoverability for stores that are probed with `read_matched`.
+  # Tests use a test-local `Rails.cache` (MemoryStore) so they do not need to
+  # inject a separate cache instance; production code uses the configured
+  # `Rails.cache` store.
   #
   # @param totals [Hash] { primo: Integer, timdex: Integer }
   def write_cached_totals(totals)
-    @cache.write(totals_cache_key, totals, expires_in: TTL) if @cache.respond_to?(:write)
     Rails.cache.write(totals_cache_key, totals, expires_in: TTL)
-    Rails.cache.write("#{totals_cache_key}_marker_totals", totals, expires_in: TTL)
-    merged_key = "merged_search_totals:#{totals_cache_key}"
-    Rails.cache.write(merged_key, totals, expires_in: TTL)
   end
 
   # Perform parallel fetches from Primo and TIMDEX using the configured
@@ -115,12 +150,15 @@ class MergedSearchService
     timdex_count = merge_plan.count(:timdex)
     primo_offset, timdex_offset = paginator.api_offsets
 
-    primo_thread = if primo_count > 0
+    # Only spawn fetch threads when we both need results for the merge plan
+    # and the paginator indicates a valid offset for that API. A `nil` offset
+    # means the API is exhausted and should not be queried for this page.
+    primo_thread = if primo_count > 0 && !primo_offset.nil?
                      Thread.new do
                        @primo_fetcher.call(offset: primo_offset, per_page: primo_count, query: @enhanced_query)
                      end
                    end
-    timdex_thread = if timdex_count > 0
+    timdex_thread = if timdex_count > 0 && !timdex_offset.nil?
                       Thread.new do
                         @timdex_fetcher.call(offset: timdex_offset, per_page: timdex_count, query: @enhanced_query)
                       end
@@ -150,13 +188,23 @@ class MergedSearchService
     primo_total = primo_data[:hits] || 0
     timdex_total = timdex_data[:hits] || 0
 
-    merged = paginator.merge_results(primo_data[:results] || [], timdex_data[:results] || [])
+    merged = merge_results(paginator, primo_data[:results] || [], timdex_data[:results] || [])
     errors = combine_errors(primo_data[:errors], timdex_data[:errors])
-    pagination = Analyzer.new(@enhanced_query, timdex_total, :all, primo_total).pagination
+    pagination = Analyzer.new(@enhanced_query, timdex_total, :all, primo_total, per_page).pagination
 
     show_primo_continuation = if deeper
-                                page_offset = (current_page - 1) * per_page
-                                primo_data[:show_continuation] || (page_offset >= Analyzer::PRIMO_MAX_OFFSET)
+                                # Use the Primo-specific API offset (calculated from the paginator)
+                                # when deciding whether to show a Primo continuation.
+                                #
+                                # If the paginator returns `nil` for a exhausted API we still
+                                # want to show the continuation when the requested page is far
+                                # beyond the Primo API's practical offset limit. Fall back to
+                                # checking the merged page's start index when the API offset
+                                # is unavailable.
+                                primo_api_offset, _timdex_api_offset = paginator.api_offsets
+                                primo_data[:show_continuation] ||
+                                  (primo_api_offset && primo_api_offset >= Analyzer::PRIMO_MAX_OFFSET) ||
+                                  (primo_api_offset.nil? && ((current_page - 1) * per_page) >= Analyzer::PRIMO_MAX_OFFSET)
                               else
                                 primo_data[:show_continuation]
                               end
@@ -183,6 +231,13 @@ class MergedSearchService
 
   # Default Primo fetcher used when no custom fetcher is injected.
   #
+  # This is invoked when a caller does not provide a `primo_fetcher` at initialization. It performs
+  # a direct Primo API request via `PrimoSearch`, enforces the `Analyzer::PRIMO_MAX_OFFSET` shortcut
+  # (returns a continuation indicator when the offset is beyond the API limits), normalizes results
+  # with `NormalizePrimoResults`, and converts errors into the standard response hash. Controllers
+  # often inject wrapper fetchers so controller-level caching/normalization is applied instead of
+  # this direct call.
+  #
   # @param offset [Integer]
   # @param per_page [Integer]
   # @param query [Hash]
@@ -204,6 +259,12 @@ class MergedSearchService
   end
 
   # Default TIMDEX fetcher used when no custom fetcher is injected.
+  #
+  # Invoked when a caller does not provide a `timdex_fetcher`. This method builds a TIMDEX query
+  # from the enhanced query, executes it via `TimdexBase::Client`, extracts and normalizes records
+  # with `NormalizeTimdexResults`, and returns the standard response shape. As with Primo,
+  # controllers inject wrapper fetchers so that controller-level caching and normalization
+  # are used instead of this low-level call.
   #
   # @param offset [Integer]
   # @param per_page [Integer]
@@ -229,7 +290,30 @@ class MergedSearchService
   # @param query [Hash]
   # @return [String] MD5 hex digest
   def generate_cache_key(query)
-    sorted = query.sort_by { |k, _v| k.to_sym }.to_h
-    Digest::MD5.hexdigest(sorted.to_s)
+    CacheKeyGenerator.call(query)
+  end
+
+  # Helps callers (including `MergedSearchPaginator`) delegate merging logic to the orchestration
+  # layer. This method iterates the paginator's `merge_plan` and pulls items from the respective
+  # source result arrays in order.
+  #
+  # @param paginator [MergedSearchPaginator]
+  # @param primo_results [Array]
+  # @param timdex_results [Array]
+  # @return [Array] merged results
+  def merge_results(paginator, primo_results, timdex_results)
+    merged = []
+    primo_idx = 0
+    timdex_idx = 0
+    paginator.merge_plan.each do |source|
+      if source == :primo
+        merged << primo_results[primo_idx] if primo_idx < primo_results.length
+        primo_idx += 1
+      else
+        merged << timdex_results[timdex_idx] if timdex_idx < timdex_results.length
+        timdex_idx += 1
+      end
+    end
+    merged
   end
 end

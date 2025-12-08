@@ -36,6 +36,14 @@ class MergedSearchPaginator
   end
 
   # Returns [primo_offset, timdex_offset] for the start of this page
+  # Returns [primo_offset, timdex_offset] for the start of this page.
+  #
+  # If an API has been exhausted (the computed offset is greater-than-or-equal
+  # to that API's total), this method returns `nil` for that API to signal
+  # callers that no request should be made against that service for this page.
+  #
+  # This avoids unnecessary requests where the API would only return empty
+  # results when queried at an offset beyond its available records.
   def api_offsets
     start_index = (current_page - 1) * per_page
     primo_offset = 0
@@ -51,23 +59,11 @@ class MergedSearchPaginator
       end
       i += 1
     end
-    [primo_offset, timdex_offset]
-  end
+    # If the computed offset reached or exceeded the total for a source,
+    # return nil for that source to indicate it is exhausted.
+    primo_offset = nil if primo_offset >= primo_total
+    timdex_offset = nil if timdex_offset >= timdex_total
 
-  # Merges two result arrays according to the merge plan
-  def merge_results(primo_results, timdex_results)
-    merged = []
-    primo_idx = 0
-    timdex_idx = 0
-    merge_plan.each do |source|
-      if source == :primo
-        merged << primo_results[primo_idx] if primo_idx < primo_results.length
-        primo_idx += 1
-      else
-        merged << timdex_results[timdex_idx] if timdex_idx < timdex_results.length
-        timdex_idx += 1
-      end
-    end
-    merged
+    [primo_offset, timdex_offset]
   end
 end
