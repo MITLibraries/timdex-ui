@@ -169,13 +169,15 @@ module RecordHelper
     blurb.html_safe
   end
 
-  # Fontawesome helper. Currently only takes the icon name and assumes solid sharp style.
-  # Could be extended later to default to these styles but allow overrides if appropriate.
-  # Also defaults to aria-hidden true, which is probably what we want for icons used
-  # purely for decoration. If an icon is used in a more meaningful way, we may want to extend this helper
-  # to allow passing in additional aria attributes.
-  def icon(fa)
-    "<i class='fa-sharp fa-solid fa-#{fa}' aria-hidden='true''></i>"
+  # Fontawesome helper.
+  #
+  # Accepts name of the icon and optionally a collection. Defaults to solid sharp collection.
+  #
+  # Also includes aria-hidden true, which is probably what we want for icons used
+  # purely for decoration. If an icon is used in a more meaningful way, we should extend this helper
+  # to allow passing in additional aria attributes rather than always hiding.
+  def icon(fa, collection = 'fa-sharp fa-solid')
+    "<i class='#{collection} fa-#{fa}' aria-hidden='true''></i>"
   end
 
   # Formats location information for availability display.
