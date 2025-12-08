@@ -47,10 +47,25 @@
       }
     }
 
-    input {
+    .search-input-wrapper {
       flex-grow: 1;
-      color: $color-black;
-      border: none;
+      position: relative;
+
+      i {
+        position: absolute;
+        top: 13px;
+        left: 12px;
+        font-size: 20px;
+        color: $color-icon-primary;
+        pointer-events: none;
+      }
+
+      input {
+        color: $color-black;
+        border: none;
+        width: 100%;
+        padding-left: 46px;
+      }
     } 
     
     button {
