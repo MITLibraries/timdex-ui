@@ -1,7 +1,7 @@
 <form id="search-form" action="<%= results_path %>" method="get" role="search">
   <label for="basic-search-main">What can we help you find?</label>
   <div class="form-wrapper">
-    <input id="basic-search-main" type="search" class="field field-text basic-search-input" name="q" title="Keyword anywhere" placeholder="Search for anything" value="<%= params[:q] %>" required>
+    <input id="basic-search-main" type="search" class="field field-text basic-search-input" name="q" title="Keyword anywhere" value="<%= params[:q] %>" required>
     <input id="tab-to-target" type="hidden" name="tab" value="<%= @active_tab %>">
     <button type="submit" class="btn button-primary">Search</button>
   </div>
