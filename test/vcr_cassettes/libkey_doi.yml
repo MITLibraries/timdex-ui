@@ -1,0 +1,65 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_LIBKEY_ID/articles/doi/10.1038/s41567-023-02305-y?access_token=FAKE_LIBKEY_KEY
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - Keep-Alive
+      Host:
+      - public-api.thirdiron.com
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, Authorization
+      Access-Control-Allow-Methods:
+      - DELETE,GET,PATCH,POST,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Length:
+      - '1307'
+      Content-Security-Policy:
+      - default-src 'none'; frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 09 Dec 2025 20:25:09 GMT
+      Etag:
+      - W/"51b-nIymkzJ8mpv7d9OTDW10gnDZaQ4"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=AkvVQPazK0wer7ykqddKlqluxXaEpPm5bYgCco%2FZCt4%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765311909"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=AkvVQPazK0wer7ykqddKlqluxXaEpPm5bYgCco%2FZCt4%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765311909"
+      Server:
+      - Heroku
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 heroku-router
+      X-Powered-By:
+      - Express
+      X-Ratelimit-Limit:
+      - '7000'
+      X-Ratelimit-Remaining:
+      - '6999'
+      X-Ratelimit-Reset:
+      - '1765311970'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":594034193,"type":"articles","title":"Light as fast as
+        electrons","date":"2023-11-09","authors":"","inPress":false,"abandoned":false,"doi":"10.1038/s41567-023-02305-y","linkResolverOpenUrl":"https://mit.primo.exlibrisgroup.com/openurl/01MIT_INST/01MIT_INST:MIT?genre=article&aulast=&issn=1745-2473&title=Nature%20Physics&atitle=Light%20as%20fast%20as%20electrons&volume=19&issue=11&spage=1520&epage=1520&date=2023-11-09&doi=10.1038%2Fs41567-023-02305-y&rft_id=info:pmid/&sid=LibKey","pmid":"","openAccess":false,"unpaywallUsable":true,"fullTextFile":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/594034193/full-text-file?utm_source=api_3735&allow_speedbump=true","contentLocation":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/594034193/content-location?utm_source=api_3735&allow_speedbump=true","availableThroughBrowzine":true,"hasSecondOrderRetractions":false,"startPage":"1520","endPage":"1520","avoidUnpaywallPublisherLinks":true,"browzineWebLink":"https://browzine.com/libraries/FAKE_LIBKEY_ID/journals/13123/issues/541037047?showArticleInContext=doi:10.1038%2Fs41567-023-02305-y&utm_source=api_3735","bestIntegratorLink":{"bestLink":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/594034193/full-text-file?utm_source=api_3735&allow_speedbump=true","linkType":"fullTextFile","recommendedLinkText":"Download
+        PDF"}}}'
+  recorded_at: Tue, 09 Dec 2025 20:25:09 GMT
+recorded_with: VCR 6.3.1

@@ -112,6 +112,8 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FILTER_SUBJECT`: The name to use instead of "Subject" for that filter / aggregation.
 - `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
   safe html above the main header of the site.
+- `LIBKEY_KEY`: An access key assigned by Third Iron to enable this application to interact with the Libkey service.
+- `LIBKEY_ID`: An institutional ID value assigned by Third Iron to interact with the Libkey service.
 - `MATOMO_CONTAINER_URL`: This is one of two options for integrating a TIMDEX UI application with Matomo - the Tag Manager. This is the only parameter needed for using a tag manager container.
 - `MATOMO_SITE_ID`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.
 - `MATOMO_URL`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.
@@ -145,6 +147,8 @@ that matches `TACOS_URL`. Ex: If `TACOS_URL` is `http://localhost:3001/graphql` 
 ### Generating VCR Cassettes
 
 When generating new cassettes for timdex-ui, update `.env.test` to have appropriate values for your test for `TIMDEX_GRAPHQL` and `TIMDEX_HOST`. This will allow the cassettes to be generated from any TIMDEX source with the data you need, but be sure to set them back to the original values after the cassette are generated. When the values are not set to the "fake" values we normally store, many tests will fail due to how the cassettes re-write values to normalize what we store.
+
+If you need to regenerate any cassettes for interactions with Libkey, you will need to temporarily assign real values for the `LIBKEY_ID` and `LIBKEY_KEY` variables. These should also be reset back to the fake values after regenerating cassettes.
 
 `.env.test` should be commited to the repository, but should not include real values for a TIMDEX source even though they are not secrets. We want to use fake values to allow us to normalize our cassettes without forcing us to always generate them from a single TIMDEX source.
 

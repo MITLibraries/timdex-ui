@@ -1,0 +1,100 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_LIBKEY_ID/articles/pmid/22110403?access_token=FAKE_LIBKEY_KEY
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - Keep-Alive
+      Host:
+      - public-api.thirdiron.com
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, Authorization
+      Access-Control-Allow-Methods:
+      - DELETE,GET,PATCH,POST,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Length:
+      - '4164'
+      Content-Security-Policy:
+      - default-src 'none'; frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 09 Dec 2025 20:25:20 GMT
+      Etag:
+      - W/"1044-eDnlVGmO9KBtCy+GGTDdrzbkfxk"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=8gwp5cqf%2BB1r58WIKVwTcJbyCXv9S2nPUDlHGMmQ4Ss%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765311920"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=8gwp5cqf%2BB1r58WIKVwTcJbyCXv9S2nPUDlHGMmQ4Ss%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765311920"
+      Server:
+      - Heroku
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 heroku-router
+      X-Powered-By:
+      - Express
+      X-Ratelimit-Limit:
+      - '7000'
+      X-Ratelimit-Remaining:
+      - '6998'
+      X-Ratelimit-Reset:
+      - '1765311970'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":22766308,"type":"articles","title":"Interplay between
+        BRCA1 and RHAMM Regulates Epithelial Apicobasal Polarization and May Influence
+        Risk of Breast Cancer","date":"2011-11-15","authors":"Maxwell, Christopher
+        A.; Benítez, Javier; Gómez-Baldó, Laia; Osorio, Ana; Bonifaci, Núria; Fernández-Ramires,
+        Ricardo; Costes, Sylvain V.; Guinó, Elisabet; Chen, Helen; Evans, Gareth J.
+        R.; Mohan, Pooja; Català, Isabel; Petit, Anna; Aguilar, Helena; Villanueva,
+        Alberto; Aytes, Alvaro; Serra-Musach, Jordi; Rennert, Gad; Lejbkowicz, Flavio;
+        Peterlongo, Paolo; Manoukian, Siranoush; Peissel, Bernard; Ripamonti, Carla
+        B.; Bonanni, Bernardo; Viel, Alessandra; Allavena, Anna; Bernard, Loris; Radice,
+        Paolo; Friedman, Eitan; Kaufman, Bella; Laitman, Yael; Dubrovsky, Maya; Milgrom,
+        Roni; Jakubowska, Anna; Cybulski, Cezary; Gorski, Bohdan; Jaworska, Katarzyna;
+        Durda, Katarzyna; Sukiennicki, Grzegorz; Lubiński, Jan; Shugart, Yin Yao;
+        Domchek, Susan M.; Letrero, Richard; Weber, Barbara L.; Hogervorst, Frans
+        B. L.; Rookus, Matti A.; Collee, J. Margriet; Devilee, Peter; Ligtenberg,
+        Marjolijn J.; van der Luijt, Rob B.; Aalfs, Cora M.; Waisfisz, Quinten; Wijnen,
+        Juul; van Roozendaal, Cornelis E. P.; Easton, Douglas F.; Peock, Susan; Cook,
+        Margaret; Oliver, Clare; Frost, Debra; Harrington, Patricia; Evans, D. Gareth;
+        Lalloo, Fiona; Eeles, Rosalind; Izatt, Louise; Chu, Carol; Eccles, Diana;
+        Douglas, Fiona; Brewer, Carole; Nevanlinna, Heli; Heikkinen, Tuomas; Couch,
+        Fergus J.; Lindor, Noralane M.; Wang, Xianshu; Godwin, Andrew K.; Caligo,
+        Maria A.; Lombardi, Grazia; Loman, Niklas; Karlsson, Per; Ehrencrona, Hans;
+        von Wachenfeldt, Anna; Bjork Barkardottir, Rosa; Hamann, Ute; Rashid, Muhammad
+        U.; Lasa, Adriana; Caldés, Trinidad; Andrés, Raquel; Schmitt, Michael; Assmann,
+        Volker; Stevens, Kristen; Offit, Kenneth; Curado, João; Tilgner, Hagen; Guigó,
+        Roderic; Aiza, Gemma; Brunet, Joan; Castellsagué, Joan; Martrat, Griselda;
+        Urruticoechea, Ander; Blanco, Ignacio; Tihomirova, Laima; Goldgar, David E.;
+        Buys, Saundra; John, Esther M.; Miron, Alexander; Southey, Melissa; Daly,
+        Mary B.; Schmutzler, Rita K.; Wappenschmidt, Barbara; Meindl, Alfons; Arnold,
+        Norbert; Deissler, Helmut; Varon-Mateeva, Raymonda; Sutter, Christian; Niederacher,
+        Dieter; Imyamitov, Evgeny; Sinilnikova, Olga M.; Stoppa-Lyonne, Dominique;
+        Mazoyer, Sylvie; Verny-Pierre, Carole; Castera, Laurent; de Pauw, Antoine;
+        Bignon, Yves-Jean; Uhrhammer, Nancy; Peyrat, Jean-Philippe; Vennin, Philippe;
+        Fert Ferrer, Sandra; Collonge-Rame, Marie-Agnès; Mortemousque, Isabelle; Spurdle,
+        Amanda B.; Beesley, Jonathan; Chen, Xiaoqing; Healey, Sue; Barcellos-Hoff,
+        Mary Helen; Vidal, Marc; Gruber, Stephen B.; Lázaro, Conxi; Capellá, Gabriel;
+        McGuffog, Lesley; Nathanson, Katherine L.; Antoniou, Antonis C.; Chenevix-Trench,
+        Georgia; Fleisch, Markus C.; Moreno, Víctor; Pujana, Miguel Angel","inPress":false,"abandoned":false,"doi":"10.1371/journal.pbio.1001199","linkResolverOpenUrl":"https://mit.primo.exlibrisgroup.com/openurl/01MIT_INST/01MIT_INST:MIT?genre=article&aulast=Maxwell&issn=1544-9173&title=PLoS%20Biology&atitle=Interplay%20between%20BRCA1%20and%20RHAMM%20Regulates%20Epithelial%20Apicobasal%20Polarization%20and%20May%20Influence%20Risk%20of%20Breast%20Cancer&volume=9&issue=11&spage=e1001199&epage=&date=2011-11-15&doi=10.1371%2Fjournal.pbio.1001199&rft_id=info:pmid/22110403&sid=LibKey","pmid":"22110403","openAccess":true,"unpaywallUsable":true,"fullTextFile":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/22766308/full-text-file?utm_source=api_3735&allow_speedbump=true","contentLocation":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/22766308/content-location?utm_source=api_3735&allow_speedbump=true","availableThroughBrowzine":true,"hasSecondOrderRetractions":true,"startPage":"e1001199","endPage":"","browzineWebLink":"https://browzine.com/libraries/FAKE_LIBKEY_ID/journals/8181/issues/4311778?showArticleInContext=doi:10.1371%2Fjournal.pbio.1001199&utm_source=api_3735","bestIntegratorLink":{"bestLink":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/22766308/full-text-file?utm_source=api_3735&allow_speedbump=true","linkType":"fullTextFile","recommendedLinkText":"Download
+        PDF"}}}'
+  recorded_at: Tue, 09 Dec 2025 20:25:20 GMT
+recorded_with: VCR 6.3.1
