@@ -428,4 +428,26 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     normalized = NormalizePrimoRecord.new(full_record, 'test query').normalize
     assert_equal 'primo', normalized[:api]
   end
+
+  # Test eyebrow mapping
+  test 'sets eyebrow to MIT Libraries Catalog for Alma records' do
+    normalized = NormalizePrimoRecord.new(alma_record, 'test').normalize
+    assert_equal 'MIT Libraries Catalog', normalized[:eyebrow]
+    assert_includes normalized.keys, :eyebrow
+  end
+
+  test 'sets eyebrow to MIT Libraries Catalog: Articles for CDI records' do
+    normalized = NormalizePrimoRecord.new(cdi_record, 'test').normalize
+    assert_equal 'MIT Libraries Catalog: Articles', normalized[:eyebrow]
+    assert_includes normalized.keys, :eyebrow
+  end
+
+  # This really should never happen, but this test confirms things don't break if it does
+  test 'sets eyebrow to MIT Libraries Catalog: Articles when identifier is missing' do
+    record = minimal_record.dup
+    record.delete('recordid')
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    assert_equal 'MIT Libraries Catalog: Articles', normalized[:eyebrow]
+    assert_includes normalized.keys, :eyebrow
+  end
 end
