@@ -30,7 +30,8 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
   test 'deeper page reads cached totals and avoids summary calls' do
     query = { q: 'test' }
 
-    service = MergedSearchService.new(enhanced_query: query, active_tab: 'all')
+    service = MergedSearchService.new(enhanced_query: query, active_tab: 'all',
+                      primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
 
     # populate cache so service uses it instead of summary calls
     Rails.cache.write(service.send(:totals_cache_key), { primo: 50, timdex: 50 })
@@ -99,29 +100,6 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert res[:results].is_a?(Array)
   end
 
-  test 'default_primo_fetch returns continuation when offset exceeds max' do
-    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all')
-    res = svc.send(:default_primo_fetch, offset: Analyzer::PRIMO_MAX_OFFSET, per_page: 20, query: { q: 'foo' })
-    assert_equal true, res[:show_continuation]
-    assert_equal 0, res[:hits]
-  end
-
-  test 'default_primo_fetch handles exceptions gracefully' do
-    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all')
-    PrimoSearch.expects(:new).raises(StandardError.new('boom'))
-    res = svc.send(:default_primo_fetch, offset: 0, per_page: 10, query: { q: 'foo' })
-    assert_equal 0, res[:hits]
-    assert res[:errors].is_a?(Array)
-  end
-
-  test 'default_timdex_fetch handles client errors gracefully' do
-    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all')
-    TimdexBase::Client.expects(:query).raises(StandardError.new('boom'))
-    res = svc.send(:default_timdex_fetch, offset: 0, per_page: 10, query: { q: 'foo' })
-    assert_equal 0, res[:hits]
-    assert res[:errors].is_a?(Array)
-  end
-
   test 'fetch_all_tab_page_chunks handles zero-count branches' do
     called = []
     primo_fetcher = lambda { |offset:, per_page:, query:|
@@ -150,58 +128,24 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
   end
 
   test 'combine_errors merges arrays or returns nil' do
-    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all')
+    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+                                  timdex_fetcher: fake_fetcher)
     assert_nil svc.send(:combine_errors, nil, [])
     merged = svc.send(:combine_errors, [{ 'message' => 'a' }], [{ 'message' => 'b' }])
     assert_equal 2, merged.length
   end
 
-  test 'default_primo_fetch returns normalized results on success' do
-    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all')
-    mock_primo = mock('primo_search')
-    mock_primo.expects(:search).returns({ 'info' => { 'total' => 12 }, 'docs' => [] })
-    PrimoSearch.expects(:new).returns(mock_primo)
-
-    mock_normalizer = mock('normalizer')
-    mock_normalizer.expects(:normalize).returns(['normalized'])
-    NormalizePrimoResults.expects(:new).returns(mock_normalizer)
-
-    mock_analyzer = mock('analyzer')
-    mock_analyzer.expects(:pagination).returns({ page: 1 })
-    Analyzer.expects(:new).returns(mock_analyzer)
-
-    res = svc.send(:default_primo_fetch, offset: 0, per_page: 10, query: { q: 'foo' })
-    assert_equal 12, res[:hits]
-    assert_equal ['normalized'], res[:results]
-    assert_equal({ page: 1 }, res[:pagination])
-  end
-
-  test 'default_timdex_fetch returns normalized results on success' do
-    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all')
-    fake_resp = OpenStruct.new(data: OpenStruct.new(to_h: { 'search' => { 'hits' => 5,
-                                                                          'records' => [{ 'id' => 1 }] } }))
-    TimdexBase::Client.stubs(:query).returns(fake_resp)
-
-    mock_normalizer = mock('normalizer')
-    mock_normalizer.expects(:normalize).returns(['t_normalized'])
-    NormalizeTimdexResults.expects(:new).returns(mock_normalizer)
-
-    mock_analyzer = mock('analyzer')
-    mock_analyzer.expects(:pagination).returns({ page: 1 })
-    Analyzer.expects(:new).returns(mock_analyzer)
-
-    res = svc.send(:default_timdex_fetch, offset: 0, per_page: 10, query: { q: 'foo' })
-    assert_equal 5, res[:hits]
-    assert_equal ['t_normalized'], res[:results]
-    assert_equal({ page: 1 }, res[:pagination])
-  end
+  # The tests that asserted behavior of the removed default fetchers were
+  # intentionally removed; the service now requires injected fetchers so
+  # per-backend behavior should be tested in their respective unit tests.
 
   test 'merge_results handles unbalanced API responses correctly' do
     # Test case 1: Primo has fewer results than TIMDEX
     paginator = MergedSearchPaginator.new(primo_total: 3, timdex_total: 5, current_page: 1, per_page: 8)
     primo_results = %w[P1 P2 P3]
     timdex_results = %w[T1 T2 T3 T4 T5]
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all')
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+                    timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     expected = %w[P1 T1 P2 T2 P3 T3 T4 T5]
     assert_equal expected, merged
@@ -210,7 +154,8 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     paginator = MergedSearchPaginator.new(primo_total: 5, timdex_total: 3, current_page: 1, per_page: 8)
     primo_results = %w[P1 P2 P3 P4 P5]
     timdex_results = %w[T1 T2 T3]
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all')
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+                    timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     expected = %w[P1 T1 P2 T2 P3 T3 P4 P5]
     assert_equal expected, merged
@@ -219,7 +164,8 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     paginator = MergedSearchPaginator.new(primo_total: 15, timdex_total: 15, current_page: 1, per_page: 20)
     primo_results = (1..15).map { |i| "P#{i}" }
     timdex_results = (1..15).map { |i| "T#{i}" }
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all')
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+                    timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     assert_equal 20, merged.length
     assert_equal 'P1', merged[0]
@@ -231,7 +177,8 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     paginator = MergedSearchPaginator.new(primo_total: 0, timdex_total: 3, current_page: 1, per_page: 3)
     primo_results = []
     timdex_results = %w[T1 T2 T3]
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all')
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+                    timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     assert_equal %w[T1 T2 T3], merged
 
@@ -239,7 +186,8 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     paginator = MergedSearchPaginator.new(primo_total: 7, timdex_total: 11, current_page: 1, per_page: 18)
     primo_results = (1..7).map { |i| "P#{i}" }
     timdex_results = (1..11).map { |i| "T#{i}" }
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all')
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+            timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     expected = %w[P1 T1 P2 T2 P3 T3 P4 T4 P5 T5 P6 T6 P7 T7 T8 T9 T10 T11]
     assert_equal expected, merged

@@ -22,7 +22,8 @@ class MergedSearchPaginatorTest < ActiveSupport::TestCase
     paginator = MergedSearchPaginator.new(primo_total: 2, timdex_total: 2, current_page: 1, per_page: 4)
     primo = %w[P1 P2]
     timdex = %w[T1 T2]
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all')
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+                    timdex_fetcher: fake_fetcher)
     assert_equal(%w[P1 T1 P2 T2], svc.send(:merge_results, paginator, primo, timdex))
   end
 
@@ -30,7 +31,8 @@ class MergedSearchPaginatorTest < ActiveSupport::TestCase
     paginator = MergedSearchPaginator.new(primo_total: 3, timdex_total: 1, current_page: 1, per_page: 4)
     primo = %w[P1 P2 P3]
     timdex = %w[T1]
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all')
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+                    timdex_fetcher: fake_fetcher)
     assert_equal(%w[P1 T1 P2 P3], svc.send(:merge_results, paginator, primo, timdex))
   end
 

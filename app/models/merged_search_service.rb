@@ -10,28 +10,20 @@ class MergedSearchService
 
   # Initialize a new MergedSearchService.
   #
-  # The service supports dependency injection for the two fetchers to keep
-  # calling code simple and to make testing deterministic.
-  #
-  # Usage patterns:
-  # - Default: callers omit fetcher arguments and the service uses `Rails.cache`
-  #   plus the built-in `default_primo_fetch` and `default_timdex_fetch` methods
-  #   that call backends directly.
-  # - Controller / runtime instrumentation: the `SearchController` injects
-  #   wrapper fetchers (lambdas that call `fetch_primo_data` / `fetch_timdex_data`).
-  # - Tests: unit tests should rely on the test environment's `Rails.cache`
-  #   (test helper configures a `MemoryStore`) and provide stubbed fetchers or
-  #   mocks so tests can assert behavior without hitting external services.
+  # The service requires two callable fetchers (for Primo and TIMDEX) that
+  # perform the underlying source requests. Fetchers are injected to keep
+  # the orchestration logic decoupled from transport, caching, and
+  # normalization concerns.
   #
   # @param enhanced_query [Hash] query hash produced by `Enhancer`
   # @param active_tab [String] the currently active tab (e.g. 'all')
-  # @param primo_fetcher [#call] optional callable used to fetch Primo results; should accept `offset:, per_page:, query:`
-  # @param timdex_fetcher [#call] optional callable used to fetch TIMDEX results; should accept `offset:, per_page:, query:`
-  def initialize(enhanced_query:, active_tab:, primo_fetcher: nil, timdex_fetcher: nil)
+  # @param primo_fetcher [#call] callable used to fetch Primo results; must accept `offset:, per_page:, query:`
+  # @param timdex_fetcher [#call] callable used to fetch TIMDEX results; must accept `offset:, per_page:, query:`
+  def initialize(enhanced_query:, active_tab:, primo_fetcher:, timdex_fetcher:)
     @enhanced_query = enhanced_query
     @active_tab = active_tab
-    @primo_fetcher = primo_fetcher || method(:default_primo_fetch)
-    @timdex_fetcher = timdex_fetcher || method(:default_timdex_fetch)
+    @primo_fetcher = primo_fetcher
+    @timdex_fetcher = timdex_fetcher
   end
 
   # Execute merged search orchestration for the requested page.
@@ -229,61 +221,9 @@ class MergedSearchService
                               current_page: current_page, per_page: per_page)
   end
 
-  # Default Primo fetcher used when no custom fetcher is injected.
-  #
-  # This is invoked when a caller does not provide a `primo_fetcher` at initialization. It performs
-  # a direct Primo API request via `PrimoSearch`, enforces the `Analyzer::PRIMO_MAX_OFFSET` shortcut
-  # (returns a continuation indicator when the offset is beyond the API limits), normalizes results
-  # with `NormalizePrimoResults`, and converts errors into the standard response hash. Controllers
-  # often inject wrapper fetchers so controller-level caching/normalization is applied instead of
-  # this direct call.
-  #
-  # @param offset [Integer]
-  # @param per_page [Integer]
-  # @param query [Hash]
-  # @return [Hash] response including :results and :hits
-  def default_primo_fetch(offset:, per_page:, query:)
-    if offset && offset >= Analyzer::PRIMO_MAX_OFFSET
-      return { results: [], pagination: {}, errors: nil, show_continuation: true, hits: 0 }
-    end
-
-    per_page ||= ENV.fetch('RESULTS_PER_PAGE', '20').to_i
-    primo_search = PrimoSearch.new
-    raw = primo_search.search(query[:q], per_page, offset)
-    hits = raw.dig('info', 'total') || 0
-    results = NormalizePrimoResults.new(raw, query[:q]).normalize
-    { results: results, pagination: Analyzer.new(query, hits, :primo).pagination, errors: nil,
-      show_continuation: false, hits: hits }
-  rescue StandardError => e
-    { results: [], pagination: {}, errors: [{ 'message' => e.message }], show_continuation: false, hits: 0 }
-  end
-
-  # Default TIMDEX fetcher used when no custom fetcher is injected.
-  #
-  # Invoked when a caller does not provide a `timdex_fetcher`. This method builds a TIMDEX query
-  # from the enhanced query, executes it via `TimdexBase::Client`, extracts and normalizes records
-  # with `NormalizeTimdexResults`, and returns the standard response shape. As with Primo,
-  # controllers inject wrapper fetchers so that controller-level caching and normalization
-  # are used instead of this low-level call.
-  #
-  # @param offset [Integer]
-  # @param per_page [Integer]
-  # @param query [Hash]
-  # @return [Hash] response including :results and :hits
-  def default_timdex_fetch(offset:, per_page:, query:)
-    q = QueryBuilder.new(query).query
-    q['from'] = offset.to_s if offset
-    q['size'] = per_page.to_s if per_page
-
-    resp = TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: q)
-    data = resp.data.to_h
-    hits = data.dig('search', 'hits') || 0
-    raw_results = data.dig('search', 'records') || []
-    results = NormalizeTimdexResults.new(raw_results, query[:q]).normalize
-    { results: results, pagination: Analyzer.new(query, hits, :timdex).pagination, errors: nil, hits: hits }
-  rescue StandardError => e
-    { results: [], pagination: {}, errors: [{ 'message' => e.message }], hits: 0 }
-  end
+  # Note: default fetcher implementations were removed to enforce explicit
+  # dependency injection. Callers must provide `primo_fetcher` and
+  # `timdex_fetcher` when constructing `MergedSearchService`.
 
   # Generate a cache key based on the supplied query hash.
   #
