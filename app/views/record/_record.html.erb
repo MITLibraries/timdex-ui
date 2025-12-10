@@ -127,7 +127,7 @@
         <ul class="list-dates">
           <% @record['dates'].each do |date| %>
             <li>
-              <%= date['kind'] %>: <%= date_parse(date['value']) %><%= date_range(date['range']) %>
+              <%= date['kind'] %>: <%= date_parse(date['value']) %>
               <%= " Note: #{date['note']}" if date['note'].present? %>
             </li>
           <% end %>

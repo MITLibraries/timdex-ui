@@ -65,6 +65,10 @@ class TimdexSearch < TimdexBase
           dates {
             kind
             value
+            range {
+              gte
+              lte
+            }
           }
           links {
             kind

@@ -7,7 +7,7 @@ module RecordHelper
     date
   end
 
-  def date_range(range)
+  def geo_date_range(range)
     return unless range.present?
 
     "#{date_parse(range['gte'])} to #{date_parse(range['lte'])}"

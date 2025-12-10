@@ -24,6 +24,7 @@ class NormalizeTimdexRecord
       subjects:,
       # TIMDEX-specific fields
       content_type:,
+      date_range:,
       dates:,
       contributors:,
       highlight:,
@@ -159,6 +160,26 @@ class NormalizeTimdexRecord
 
   def dates
     @record['dates']
+  end
+
+  def date_range
+    return unless @record['dates']
+
+    # Some records have creation or publication dates that are ranges. Extract those here.
+    relevant_dates = @record['dates'].select { |date| %w[creation publication].include?(date['kind']) }
+
+    # If the record has no creation or publication date, stop here.
+    return if relevant_dates.empty?
+
+    # If the record *does* have more than one creation/pub date, just take the first one. Note: ASpace records often
+    # have more than one. Sometimes they are duplicates, sometimes they are different. For now we will just take the
+    # first.
+    relevant_date = relevant_dates.first
+
+    # We are only concerned with creation/pub dates that are ranges.
+    return unless relevant_date['range'].present?
+
+    "#{relevant_date['range']['gte']}-#{relevant_date['range']['lte']}"
   end
 
   def contributors
