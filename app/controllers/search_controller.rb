@@ -88,48 +88,32 @@ class SearchController < ApplicationController
   end
 
   def load_all_results
-    # Fetch results from both APIs in parallel
-    primo_data, timdex_data = fetch_all_data
-
-    # Combine errors from both APIs
-    @errors = combine_errors(primo_data[:errors], timdex_data[:errors])
-
-    # Zipper merge results from both APIs
-    @results = merge_results(primo_data[:results], timdex_data[:results])
-
-    # Use Analyzer for combined pagination calculation
-    @pagination = Analyzer.new(@enhanced_query, timdex_data[:hits], :all,
-                               primo_data[:hits]).pagination
-
-    # Handle primo continuation for high page numbers
-    @show_primo_continuation = primo_data[:show_continuation] || false
-  end
-
-  def fetch_all_data
-    # Parallel fetching from both APIs
-    primo_thread = Thread.new { fetch_primo_data }
-    timdex_thread = Thread.new { fetch_timdex_data }
-
-    [primo_thread.value, timdex_thread.value]
-  end
-
-  def combine_errors(*error_arrays)
-    all_errors = error_arrays.compact.flatten
-    all_errors.any? ? all_errors : nil
-  end
-
-  def merge_results(primo_results, timdex_results)
-    (primo_results || []).zip(timdex_results || []).flatten.compact
-  end
-
-  def fetch_primo_data
     current_page = @enhanced_query[:page] || 1
-    per_page = if @active_tab == 'all'
-                 ENV.fetch('RESULTS_PER_PAGE', '20').to_i / 2
-               else
-                 ENV.fetch('RESULTS_PER_PAGE', '20').to_i
-               end
-    offset = (current_page - 1) * per_page
+    per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+
+    # Inject wrapper fetchers instead of using the service defaults. We use lambdas here so the
+    # service can call back into this controller's instance methods while preserving request-scoped
+    # context (for example `@enhanced_query`) and the controller's caching/normalization behavior.
+    # Using lambdas keeps the service decoupled from controller internals.
+    merge_service = MergedSearchService.new(
+      enhanced_query: @enhanced_query,
+      active_tab: @active_tab,
+      primo_fetcher: ->(offset:, per_page:, query: nil) { fetch_primo_data(offset: offset, per_page: per_page) },
+      timdex_fetcher: ->(offset:, per_page:, query: nil) { fetch_timdex_data(offset: offset, per_page: per_page) }
+    )
+    data = merge_service.fetch(page: current_page, per_page: per_page)
+
+    @results = data[:results]
+    @errors = data[:errors]
+    @pagination = data[:pagination]
+    @show_primo_continuation = data[:show_primo_continuation]
+  end
+
+  def fetch_primo_data(offset: nil, per_page: nil)
+    # Default to current page if not provided
+    current_page = @enhanced_query[:page] || 1
+    per_page ||= ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+    offset ||= (current_page - 1) * per_page
 
     # Check if we're beyond Primo API limits before making the request.
     if offset >= Analyzer::PRIMO_MAX_OFFSET
@@ -151,8 +135,9 @@ class SearchController < ApplicationController
     if results.empty?
       docs = primo_response['docs'] if primo_response.is_a?(Hash)
       if docs.nil? || docs.empty?
-        # Only show continuation for pagination scenarios (page > 1), not for searches with no results
-        show_continuation = true if current_page > 1
+        # Only show continuation for pagination scenarios (where offset is present), not for
+        # searches with no results
+        show_continuation = true if offset > 0
       else
         errors = [{ 'message' => 'No more results available at this page number.' }]
       end
@@ -164,19 +149,10 @@ class SearchController < ApplicationController
     { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false, hits: 0 }
   end
 
-  def fetch_timdex_data
-    # For all tab, modify query to use half page size
-    if @active_tab == 'all'
-      per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i / 2
-      page = @enhanced_query[:page] || 1
-      from_offset = ((page - 1) * per_page).to_s
-
-      query_builder = QueryBuilder.new(@enhanced_query)
-      query = query_builder.query
-      query['from'] = from_offset
-    else
-      query = QueryBuilder.new(@enhanced_query).query
-    end
+  def fetch_timdex_data(offset: nil, per_page: nil)
+    query = QueryBuilder.new(@enhanced_query).query
+    query['from'] = offset.to_s if offset
+    query['size'] = per_page.to_s if per_page
 
     response = query_timdex(query)
     errors = extract_errors(response)
@@ -202,7 +178,7 @@ class SearchController < ApplicationController
     query[:sourceFilter] = ['MIT Alma'] if @active_tab == 'timdex_alma'
 
     # We generate unique cache keys to avoid naming collisions.
-    cache_key = generate_cache_key(query)
+    cache_key = CacheKeyGenerator.call(query)
 
     # Builder hands off to wrapper which returns raw results here.
     Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
@@ -223,18 +199,13 @@ class SearchController < ApplicationController
 
   def query_primo(per_page, offset)
     # We generate unique cache keys to avoid naming collisions.
-    cache_key = generate_cache_key(@enhanced_query)
+    # Include per_page and offset in the cache key to ensure pagination works correctly.
+    cache_key = CacheKeyGenerator.call(@enhanced_query.merge(per_page: per_page, offset: offset))
 
     Rails.cache.fetch("#{cache_key}/primo", expires_in: 12.hours) do
       primo_search = PrimoSearch.new(@enhanced_query[:tab])
       primo_search.search(@enhanced_query[:q], per_page, offset)
     end
-  end
-
-  def generate_cache_key(query)
-    # Sorting query hash to ensure consistent key generation regardless of the parameter order
-    sorted_query = query.sort_by { |k, _v| k.to_sym }.to_h
-    Digest::MD5.hexdigest(sorted_query.to_s)
   end
 
   def execute_geospatial_query(query)

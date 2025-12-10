@@ -42,3 +42,23 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+# Tests use the app-configured cache store (configured to a memory store in
+# `config/environments/test.rb`). We still clear the cache before each test to avoid cross-test 
+# leakage.
+#
+# If you hit flaky tests related to cache  access under concurrency, consider injecting a per-test
+# cache or avoiding shared mutable state in the threaded path.
+class ActiveSupport::TestCase
+  setup do
+    Rails.cache.clear
+  end
+end
+
+# Helper factory to create simple stub fetchers for `MergedSearchService` tests.
+# Returns a lambda matching the fetcher signature: `(offset:, per_page:, query: nil)`.
+def fake_fetcher(results: [], hits: 0, errors: nil, show_continuation: false)
+  lambda do |offset:, per_page:, query: nil|
+    { results: results.dup, hits: hits, errors: errors, show_continuation: show_continuation }
+  end
+end
