@@ -32,6 +32,11 @@
         </ul>
       <% end %>
 
+      <% if result[:summary].present? %>
+        <div class="result-summary truncate-list">
+          <span class="sr">Summary: </span><%= result[:summary] %>
+        </div>
+      <% end %>
     </div>
 
     <div class="result-get">
