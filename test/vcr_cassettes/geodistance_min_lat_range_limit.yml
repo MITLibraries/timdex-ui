@@ -44,52 +44,90 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
-      Date:
-      - Thu, 25 Apr 2024 20:56:47 GMT
-      Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1714078607&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=Pvqr2KCaB%2BxiHwcWLOMIpdoI61WJcnuBt%2FtSvXFapDs%3D"}]}'
-      Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1714078607&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=Pvqr2KCaB%2BxiHwcWLOMIpdoI61WJcnuBt%2FtSvXFapDs%3D
-      Nel:
-      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
-      Connection:
-      - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - '0'
-      X-Content-Type-Options:
-      - nosniff
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Vary:
-      - Accept, Origin
-      Etag:
-      - W/"8e668fa99d83b8e0061a0d29926f7c7a"
       Cache-Control:
       - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - 70da938c-c6e4-4e28-ae4d-0cc4ed77e590
-      X-Runtime:
-      - '0.166935'
+      Content-Length:
+      - '43926'
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"b750f56cd628384e66724ab19eaaeca6"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=vRGcK1zgODBH8CY0smRldQUg2%2Bx0RsZubqw9W97pYP8%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765382453"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=vRGcK1zgODBH8CY0smRldQUg2%2Bx0RsZubqw9W97pYP8%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765382453"
+      Server:
+      - Heroku
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Content-Length:
-      - '43798'
+      Vary:
+      - Accept, Origin
       Via:
-      - 1.1 vegur
+      - 1.1 heroku-router
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 826e56b5-55d4-afb6-1078-5188dab157e1
+      X-Runtime:
+      - '0.131928'
+      X-Xss-Protection:
+      - '0'
+      Date:
+      - Wed, 10 Dec 2025 16:00:53 GMT
     body:
       encoding: UTF-8
-      string: '{"data":{"search":{"hits":1745,"records":[{"timdexRecordId":"gisogm:edu.stanford.purl:2b7b00054980","title":"LandScan
-        Global Population Database 2019","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Oak
-        Ridge National Laboratory"}],"publicationInformation":["Oak Ridge National
-        Laboratory"],"dates":[{"kind":"Issued","value":"2020"},{"kind":"Coverage","value":"2019"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:qf389cd0263/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/qf389cd0263"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+      string: '{"data":{"search":{"hits":1682,"records":[{"timdexRecordId":"gisogm:edu.stanford.purl:9f63065f1c9e","title":"Points
+        of Interest, San Joaquin County, California, 2020","source":"OpenGeoMetadata
+        GIS Resources","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"San
+        Joaquin County (Calif.).Community Development Department"}],"publicationInformation":["San
+        Joaquin County (Calif.).Community Development Department"],"dates":[{"kind":"Issued","value":"2020"},{"kind":"Coverage","value":"2020"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:gm274jd6917/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/gm274jd6917"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+        rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
+        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/gm274jd6917","summary":["This
+        point shapefile contains points of interest in San Joaquin County, California.
+        Points of interest included in this layer are schools, education centers,
+        sports complexes, auditoriums, transit stations, zoos, churches, fire and
+        police stations, cemetaries, hospitals, marinas, parks, golf courses, greenbelts,
+        jails, libraries, museums, wineries and wasterwater treatment plants. Year:
+        2020. San Joaquin County (Calif.). Community Development Department. (2020).
+        Points of Interest, San Joaquin County, California, 2020. San Joaquin County
+        (Calif.). Community Development Department. Available at: https://purl.stanford.edu/gm274jd6917
+        These data are made available as a public service. The data is for reference
+        purposes only, and the originator(s) make no representatives, warranties,
+        or guarantees as to the accuracy of the data. Information found here should
+        not be used for making financial or any other commitments. In no way shall
+        the originator(s) become liable to users of these data, or any other party,
+        for any loss or direct, indirect, special, incidental or consequential damages,
+        including but not limited to time, money or goodwill, arising from the use
+        or modification of the data. This data is in the public domain. This layer
+        is presented in the WGS84 coordinate system for web display purposes. Downloadable
+        data are provided in native coordinate system or projection."]},{"timdexRecordId":"gisogm:edu.stanford.purl:ada1ca98b8b4","title":"LandScan
+        2019 global population database","source":"OpenGeoMetadata GIS Resources","contentType":["Not
+        specified"],"contributors":[{"kind":"Creator","value":"Oak Ridge National
+        Laboratory"},{"kind":"Creator","value":"East View Cartographic, Inc"}],"publicationInformation":["East
+        View Cartographic, Inc."],"dates":[{"kind":"Coverage","value":"2020"}],"links":[{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/sf070gk5151"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+        rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
+        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/sf070gk5151","summary":["At
+        approximately 1 km resolution (30\" X 30\"), LandScan is the finest resolution
+        global population distribution data available and represents an ambient population
+        (average over 24 hours). The LandScan algorithm uses spatial data and imagery
+        analysis technologies and a multi-variable dasymetric modeling approach to
+        disaggregate census counts within an administrative boundary. Since no single
+        population distribution model can account for the differences in spatial data
+        availability, quality, scale, and accuracy as well as the differences in cultural
+        settlement practices, LandScan population distribution models are tailored
+        to match the data conditions and geographical nature of each individual country
+        and region. Title from disk surface Developed by Oak Ridge National Laboratory."]},{"timdexRecordId":"gisogm:edu.stanford.purl:2b7b00054980","title":"LandScan
+        Global Population Database 2019","source":"OpenGeoMetadata GIS Resources","contentType":["Raster
+        data"],"contributors":[{"kind":"Creator","value":"Oak Ridge National Laboratory"}],"publicationInformation":["Oak
+        Ridge National Laboratory"],"dates":[{"kind":"Issued","value":"2020"},{"kind":"Coverage","value":"2019"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:qf389cd0263/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/qf389cd0263"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
         rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/qf389cd0263","summary":["This
         raster dataset contains population counts at 30 arc second resolution (1 km.
@@ -135,48 +173,11 @@ http_interactions:
         the cell size (for example 35.25, 35.50, 35.0) to avoid ''shifting'' of the
         dataset.\" --from the Oak Ridge National Laboratory LandScan Web site, Sept.
         12, 2018. This layer is presented in the WGS84 coordinate system for web display
-        purposes. Downloadable data are provided in native coordinate system or projection."]},{"timdexRecordId":"gisogm:edu.stanford.purl:9f63065f1c9e","title":"Points
-        of Interest, San Joaquin County, California, 2020","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"San
-        Joaquin County (Calif.).Community Development Department"}],"publicationInformation":["San
-        Joaquin County (Calif.).Community Development Department"],"dates":[{"kind":"Issued","value":"2020"},{"kind":"Coverage","value":"2020"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:gm274jd6917/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/gm274jd6917"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
-        rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
-        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/gm274jd6917","summary":["This
-        point shapefile contains points of interest in San Joaquin County, California.
-        Points of interest included in this layer are schools, education centers,
-        sports complexes, auditoriums, transit stations, zoos, churches, fire and
-        police stations, cemetaries, hospitals, marinas, parks, golf courses, greenbelts,
-        jails, libraries, museums, wineries and wasterwater treatment plants. Year:
-        2020. San Joaquin County (Calif.). Community Development Department. (2020).
-        Points of Interest, San Joaquin County, California, 2020. San Joaquin County
-        (Calif.). Community Development Department. Available at: https://purl.stanford.edu/gm274jd6917
-        These data are made available as a public service. The data is for reference
-        purposes only, and the originator(s) make no representatives, warranties,
-        or guarantees as to the accuracy of the data. Information found here should
-        not be used for making financial or any other commitments. In no way shall
-        the originator(s) become liable to users of these data, or any other party,
-        for any loss or direct, indirect, special, incidental or consequential damages,
-        including but not limited to time, money or goodwill, arising from the use
-        or modification of the data. This data is in the public domain. This layer
-        is presented in the WGS84 coordinate system for web display purposes. Downloadable
-        data are provided in native coordinate system or projection."]},{"timdexRecordId":"gisogm:edu.stanford.purl:ada1ca98b8b4","title":"LandScan
-        2019 global population database","contentType":["Not specified"],"contributors":[{"kind":"Creator","value":"Oak
-        Ridge National Laboratory"},{"kind":"Creator","value":"East View Cartographic,
-        Inc"}],"publicationInformation":["East View Cartographic, Inc."],"dates":[{"kind":"Coverage","value":"2020"}],"links":[{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/sf070gk5151"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
-        rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
-        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/sf070gk5151","summary":["At
-        approximately 1 km resolution (30\" X 30\"), LandScan is the finest resolution
-        global population distribution data available and represents an ambient population
-        (average over 24 hours). The LandScan algorithm uses spatial data and imagery
-        analysis technologies and a multi-variable dasymetric modeling approach to
-        disaggregate census counts within an administrative boundary. Since no single
-        population distribution model can account for the differences in spatial data
-        availability, quality, scale, and accuracy as well as the differences in cultural
-        settlement practices, LandScan population distribution models are tailored
-        to match the data conditions and geographical nature of each individual country
-        and region. Title from disk surface Developed by Oak Ridge National Laboratory."]},{"timdexRecordId":"gisogm:edu.stanford.purl:3c5a2eb054ce","title":"Bridges,
-        Yuba County, California, 2019","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"Yuba
-        County (Calif.). Information Technology Services"}],"publicationInformation":["Yuba
-        County (Calif.). Information Technology Services"],"dates":[{"kind":"Issued","value":"2019"},{"kind":"Coverage","value":"2019"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:sh277kf9635/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/sh277kf9635"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+        purposes. Downloadable data are provided in native coordinate system or projection."]},{"timdexRecordId":"gisogm:edu.stanford.purl:3c5a2eb054ce","title":"Bridges,
+        Yuba County, California, 2019","source":"OpenGeoMetadata GIS Resources","contentType":["Point
+        data"],"contributors":[{"kind":"Creator","value":"Yuba County (Calif.). Information
+        Technology Services"}],"publicationInformation":["Yuba County (Calif.). Information
+        Technology Services"],"dates":[{"kind":"Issued","value":"2019"},{"kind":"Coverage","value":"2019"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:sh277kf9635/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/sh277kf9635"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
         rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/sh277kf9635","summary":["This
         point shapefile represents bridges in Yuba County, California. This layer
@@ -192,28 +193,29 @@ http_interactions:
         facts and circumstances. This layer is presented in the WGS84 coordinate system
         for web display purposes. Downloadable data are provided in native coordinate
         system or projection."]},{"timdexRecordId":"gisogm:edu.stanford.purl:f8d01b63f840","title":"Stanford-Cambridge
-        Radar Film Digitization Project, Index Map","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Stanford
+        Radar Film Digitization Project, Index Map","source":"OpenGeoMetadata GIS
+        Resources","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Stanford
         Geospatial Center"}],"publicationInformation":["Stanford Digital Repository"],"dates":[{"kind":"Issued","value":"2019"},{"kind":"Coverage","value":"1978"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:xy581jd9710/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"http://purl.stanford.edu/xy581jd9710"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
         rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"http://purl.stanford.edu/xy581jd9710","summary":["This
         index map that can be used to locate individual images from the Stanford-Cambridge
         Radar Film Digitization Project."]},{"timdexRecordId":"gisogm:edu.princeton.arks:cc487d4b371e","title":"World
-        Administrative Divisions, 2018","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Garmin
-        International, Inc."}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"2013"},{"kind":"Coverage","value":"2014"},{"kind":"Coverage","value":"2015"},{"kind":"Coverage","value":"2017"},{"kind":"Coverage","value":"2018"},{"kind":"Coverage","value":"2019"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/71f91e6c-148e-41cf-83ea-ed7a4bcbc7e7/file/53fffaab-8caf-4595-8f03-4929435f361d"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-zp38wh76k"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
+        Administrative Divisions, 2018","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
+        data"],"contributors":[{"kind":"Creator","value":"Garmin International, Inc."}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"2013"},{"kind":"Coverage","value":"2014"},{"kind":"Coverage","value":"2015"},{"kind":"Coverage","value":"2017"},{"kind":"Coverage","value":"2018"},{"kind":"Coverage","value":"2019"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/71f91e6c-148e-41cf-83ea-ed7a4bcbc7e7/file/53fffaab-8caf-4595-8f03-4929435f361d"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-zp38wh76k"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
         rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"https://maps.princeton.edu/catalog/princeton-zp38wh76k","summary":["World
         Administrative Divisions represents the boundaries for the first-level administrative
         divisions of the world."]},{"timdexRecordId":"gisogm:edu.nyu:c4e37a905557","title":"Self-identifying
-        Artists in the United Arab Emirates, 2018","contentType":["Point data"],"contributors":[{"kind":"Creator","value":"Dhabia
-        AlMansoori"}],"publicationInformation":null,"dates":[{"kind":"Issued","value":"12/13/2018"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://archive.nyu.edu/retrieve/89068/nyu_2451_44260.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"http://hdl.handle.net/2451/44260"}],"notes":null,"highlight":null,"provider":"NYU
+        Artists in the United Arab Emirates, 2018","source":"OpenGeoMetadata GIS Resources","contentType":["Point
+        data"],"contributors":[{"kind":"Creator","value":"Dhabia AlMansoori"}],"publicationInformation":null,"dates":[{"kind":"Issued","value":"12/13/2018"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://archive.nyu.edu/retrieve/89068/nyu_2451_44260.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"http://hdl.handle.net/2451/44260"}],"notes":null,"highlight":null,"provider":"NYU
         Libraries","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
         to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"http://hdl.handle.net/2451/44260","summary":["This
         point shapefile represents self-identifying artists in the United Arab Emirates
         in fall 2018. Data was crowdsourced via Twitter and collected in Survey123.
         This data was collected as part of a student project for the NYU Abu Dhabi
         course Data and Human Space taught by David Wrisley during fall semester 2018."]},{"timdexRecordId":"gisogm:edu.nyu:8484c0dddd29","title":"LandScan
-        2017 Global Population Database","contentType":["Raster data"],"contributors":null,"publicationInformation":["Oak
-        Ridge National Laboratory"],"dates":[{"kind":"Issued","value":"2018"},{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://archive.nyu.edu/retrieve/87732/nyu_2451_43682.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"http://hdl.handle.net/2451/43682"}],"notes":null,"highlight":null,"provider":"NYU
+        2017 Global Population Database","source":"OpenGeoMetadata GIS Resources","contentType":["Raster
+        data"],"contributors":null,"publicationInformation":["Oak Ridge National Laboratory"],"dates":[{"kind":"Issued","value":"2018"},{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://archive.nyu.edu/retrieve/87732/nyu_2451_43682.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"http://hdl.handle.net/2451/43682"}],"notes":null,"highlight":null,"provider":"NYU
         Libraries","rights":[{"kind":"Access rights","description":"Restricted","uri":null},{"kind":"Access
         to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"http://hdl.handle.net/2451/43682","summary":["This
         raster dataset contains population counts at 30 arc second resolution (1 km.
@@ -234,9 +236,9 @@ http_interactions:
         database and is developed for the U. S. Department of Defense. The dataset
         allows for quick and easy assessment, estimation, and visualization of populations-at-risk.
         For the most current documentation and methodology, visit https://landscan.ornl.gov/documentation/."]},{"timdexRecordId":"gisogm:edu.stanford.purl:eb319b581ea0","title":"LandScan
-        Global Population Database 2018","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Oak
-        Ridge National Laboratory"}],"publicationInformation":["Oak Ridge National
-        Laboratory"],"dates":[{"kind":"Issued","value":"2017"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:cb552gf9863/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/cb552gf9863"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+        Global Population Database 2018","source":"OpenGeoMetadata GIS Resources","contentType":["Raster
+        data"],"contributors":[{"kind":"Creator","value":"Oak Ridge National Laboratory"}],"publicationInformation":["Oak
+        Ridge National Laboratory"],"dates":[{"kind":"Issued","value":"2017"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:cb552gf9863/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/cb552gf9863"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
         rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/cb552gf9863","summary":["This
         raster dataset contains population counts at 30 arc second resolution (1 km.
@@ -282,8 +284,20 @@ http_interactions:
         the cell size (for example 35.25, 35.50, 35.0) to avoid ''shifting'' of the
         dataset.\" --from the Oak Ridge National Laboratory LandScan Web site, Sept.
         12, 2018. This layer is presented in the WGS84 coordinate system for web display
-        purposes. Downloadable data are provided in native coordinate system or projection."]},{"timdexRecordId":"gisogm:edu.princeton.arks:8f453554ebf1","title":"World
-        Wildlife Fund Terrestrial Ecoregions, 2005","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"World
+        purposes. Downloadable data are provided in native coordinate system or projection."]},{"timdexRecordId":"gisogm:edu.princeton.arks:a8ce0bad2c9f","title":"World
+        Regions, 2018","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
+        data"],"contributors":[{"kind":"Creator","value":"Esri"}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"1996"},{"kind":"Coverage","value":"1998"},{"kind":"Coverage","value":"2000"},{"kind":"Coverage","value":"2007"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/1157046b-dcf6-43c2-893d-4853fa7c6cf3/file/d345acc7-a175-4af9-b655-9b75e94cdde1"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-8336h604c"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
+        rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
+        check with owning institution","uri":null}],"sourceLink":"https://maps.princeton.edu/catalog/princeton-8336h604c","summary":["World
+        Regions represents the boundaries for the regions of the world. There are
+        25 commonly recognized world regions."]},{"timdexRecordId":"gisogm:edu.princeton.arks:6f63f5cd2c46","title":"World
+        Countries, 2017","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
+        data"],"contributors":[{"kind":"Creator","value":"Garmin International, Inc."}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"2013"},{"kind":"Coverage","value":"2015"},{"kind":"Coverage","value":"2017"},{"kind":"Coverage","value":"2014"},{"kind":"Coverage","value":"2010"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/5c8c6c95-59ac-429f-a14e-783229f4ef61/file/0ad47962-5407-43a1-babd-c75f7b854905"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-gm80j0463"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
+        rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
+        check with owning institution","uri":null}],"sourceLink":"https://maps.princeton.edu/catalog/princeton-gm80j0463","summary":["World
+        Countries represents the boundaries for the countries of the world."]},{"timdexRecordId":"gisogm:edu.princeton.arks:8f453554ebf1","title":"World
+        Wildlife Fund Terrestrial Ecoregions, 2005","source":"OpenGeoMetadata GIS
+        Resources","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"World
         Wildlife Fund"}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"2001"},{"kind":"Coverage","value":"2005"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/cd4c98f9-b513-4c0e-b541-53b4e0093b74/file/b43f5953-8e6e-4448-9470-9f69c91534d3"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-vx021k24x"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
         rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"https://maps.princeton.edu/catalog/princeton-vx021k24x","summary":["World
@@ -296,28 +310,20 @@ http_interactions:
         and diverse terrestrial, freshwater, and marine habitats where the Earth''s
         biological wealth is most distinctive and rich, where its loss will be most
         severely felt, and we must protect if we are to preserve the web of life.
-        For more information, contact http://www.worldwildlife.org."]},{"timdexRecordId":"gisogm:edu.princeton.arks:a8ce0bad2c9f","title":"World
-        Regions, 2018","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Esri"}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"1996"},{"kind":"Coverage","value":"1998"},{"kind":"Coverage","value":"2000"},{"kind":"Coverage","value":"2007"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/1157046b-dcf6-43c2-893d-4853fa7c6cf3/file/d345acc7-a175-4af9-b655-9b75e94cdde1"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-8336h604c"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
-        rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
-        check with owning institution","uri":null}],"sourceLink":"https://maps.princeton.edu/catalog/princeton-8336h604c","summary":["World
-        Regions represents the boundaries for the regions of the world. There are
-        25 commonly recognized world regions."]},{"timdexRecordId":"gisogm:edu.princeton.arks:6f63f5cd2c46","title":"World
-        Countries, 2017","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Garmin
-        International, Inc."}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"2013"},{"kind":"Coverage","value":"2015"},{"kind":"Coverage","value":"2017"},{"kind":"Coverage","value":"2014"},{"kind":"Coverage","value":"2010"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/5c8c6c95-59ac-429f-a14e-783229f4ef61/file/0ad47962-5407-43a1-babd-c75f7b854905"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-gm80j0463"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
-        rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
-        check with owning institution","uri":null}],"sourceLink":"https://maps.princeton.edu/catalog/princeton-gm80j0463","summary":["World
-        Countries represents the boundaries for the countries of the world."]},{"timdexRecordId":"gisogm:edu.princeton.arks:4bae8a267d33","title":"World
-        Continents, 2007","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Esri"}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"1996"},{"kind":"Coverage","value":"1998"},{"kind":"Coverage","value":"2000"},{"kind":"Coverage","value":"2007"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/c60c8f06-48c3-488b-948b-c91830144dac/file/38052b6e-515e-4e03-89a2-79035c3e13dc"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-kd17cx99c"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
+        For more information, contact http://www.worldwildlife.org."]},{"timdexRecordId":"gisogm:edu.princeton.arks:4bae8a267d33","title":"World
+        Continents, 2007","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
+        data"],"contributors":[{"kind":"Creator","value":"Esri"}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"1996"},{"kind":"Coverage","value":"1998"},{"kind":"Coverage","value":"2000"},{"kind":"Coverage","value":"2007"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/c60c8f06-48c3-488b-948b-c91830144dac/file/38052b6e-515e-4e03-89a2-79035c3e13dc"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-kd17cx99c"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
         rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"https://maps.princeton.edu/catalog/princeton-kd17cx99c","summary":["World
         Continents represents the boundaries for the continents of the world."]},{"timdexRecordId":"gisogm:edu.princeton.arks:c34d1d06a834","title":"World
-        Countries (Generalized), 2014","contentType":["Polygon data"],"contributors":[{"kind":"Creator","value":"Esri"}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"1994"},{"kind":"Coverage","value":"1993"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/6b9ae2e0-0c93-4e1e-bfdf-629e9ce2f879/file/d8741e68-4322-4337-90b6-4e2ec44196e5"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-q524js912"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
+        Countries (Generalized), 2014","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
+        data"],"contributors":[{"kind":"Creator","value":"Esri"}],"publicationInformation":["Esri"],"dates":[{"kind":"Coverage","value":"1994"},{"kind":"Coverage","value":"1993"},{"kind":"Coverage","value":"2018"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://figgy.princeton.edu/downloads/6b9ae2e0-0c93-4e1e-bfdf-629e9ce2f879/file/d8741e68-4322-4337-90b6-4e2ec44196e5"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://maps.princeton.edu/catalog/princeton-q524js912"}],"notes":null,"highlight":null,"provider":"Princeton","rights":[{"kind":"Access
         rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"https://maps.princeton.edu/catalog/princeton-q524js912","summary":["World
         Countries (Generalized) represents generalized boundaries for the countries
         of the world."]},{"timdexRecordId":"gisogm:edu.nyu:489b211ab423","title":"LandScan
-        2016 Global Population Database","contentType":["Raster data"],"contributors":null,"publicationInformation":["Oak
-        Ridge National Laboratory"],"dates":[{"kind":"Issued","value":"2017"},{"kind":"Coverage","value":"2016"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://archive.nyu.edu/retrieve/87677/nyu_2451_43681.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"http://hdl.handle.net/2451/43681"}],"notes":null,"highlight":null,"provider":"NYU
+        2016 Global Population Database","source":"OpenGeoMetadata GIS Resources","contentType":["Raster
+        data"],"contributors":null,"publicationInformation":["Oak Ridge National Laboratory"],"dates":[{"kind":"Issued","value":"2017"},{"kind":"Coverage","value":"2016"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://archive.nyu.edu/retrieve/87677/nyu_2451_43681.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"http://hdl.handle.net/2451/43681"}],"notes":null,"highlight":null,"provider":"NYU
         Libraries","rights":[{"kind":"Access rights","description":"Restricted","uri":null},{"kind":"Access
         to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"http://hdl.handle.net/2451/43681","summary":["This
         raster dataset contains population counts at 30 arc second resolution (1 km.
@@ -337,40 +343,10 @@ http_interactions:
         settlement practices. This dataset is part of the LandScan global population
         database and is developed for the U. S. Department of Defense. The dataset
         allows for quick and easy assessment, estimation, and visualization of populations-at-risk.
-        For the most current documentation and methodology, visit https://landscan.ornl.gov/documentation/."]},{"timdexRecordId":"gisogm:edu.stanford.purl:d208bd48f5b1","title":"LandScan
-        2017 global population database","contentType":["Not specified"],"contributors":[{"kind":"Creator","value":"Oak
-        Ridge National Laboratory"},{"kind":"Creator","value":"East View Information
-        Services"}],"publicationInformation":["Oak Ridge National Laboratory"],"dates":[{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/sw902qd0802"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
-        rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
-        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/sw902qd0802","summary":["At
-        approximately 1 km resolution (30\" X 30\"), LandScan is the finest resolution
-        global population distribution data available and represents an ambient population
-        (average over 24 hours). The LandScan algorithm uses spatial data and imagery
-        analysis technologies and a multi-variable dasymetric modeling approach to
-        disaggregate census counts within an administrative boundary. Since no single
-        population distribution model can account for the differences in spatial data
-        availability, quality, scale, and accuracy as well as the differences in cultural
-        settlement practices, LandScan population distribution models are tailored
-        to match the data conditions and geographical nature of each individual country
-        and region. Title from disk surface Developed by Oak Ridge National Laboratory."]},{"timdexRecordId":"gisogm:edu.stanford.purl:f2a0f4cb0772","title":"LandScan
-        2018 global population database","contentType":["Not specified"],"contributors":[{"kind":"Creator","value":"Oak
-        Ridge National Laboratory"},{"kind":"Creator","value":"East View Information
-        Services"}],"publicationInformation":["Oak Ridge National Laboratory"],"dates":[{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/tx300mz1197"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
-        rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
-        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/tx300mz1197","summary":["At
-        approximately 1 km resolution (30\" X 30\"), LandScan is the finest resolution
-        global population distribution data available and represents an ambient population
-        (average over 24 hours). The LandScan algorithm uses spatial data and imagery
-        analysis technologies and a multi-variable dasymetric modeling approach to
-        disaggregate census counts within an administrative boundary. Since no single
-        population distribution model can account for the differences in spatial data
-        availability, quality, scale, and accuracy as well as the differences in cultural
-        settlement practices, LandScan population distribution models are tailored
-        to match the data conditions and geographical nature of each individual country
-        and region. Title from disk surface Developed by Oak Ridge National Laboratory."]},{"timdexRecordId":"gisogm:edu.stanford.purl:907d8186c760","title":"LandScan
-        Global Population Database 2017","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Oak
-        Ridge National Laboratory"}],"publicationInformation":["Oak Ridge National
-        Laboratory"],"dates":[{"kind":"Issued","value":"2017"},{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:rg696cc8418/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/rg696cc8418"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+        For the most current documentation and methodology, visit https://landscan.ornl.gov/documentation/."]},{"timdexRecordId":"gisogm:edu.stanford.purl:907d8186c760","title":"LandScan
+        Global Population Database 2017","source":"OpenGeoMetadata GIS Resources","contentType":["Raster
+        data"],"contributors":[{"kind":"Creator","value":"Oak Ridge National Laboratory"}],"publicationInformation":["Oak
+        Ridge National Laboratory"],"dates":[{"kind":"Issued","value":"2017"},{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:rg696cc8418/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/rg696cc8418"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
         rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/rg696cc8418","summary":["This
         raster dataset contains population counts at 30 arc second resolution (1 km.
@@ -416,12 +392,21 @@ http_interactions:
         the cell size (for example 35.25, 35.50, 35.0) to avoid ''shifting'' of the
         dataset.\" --from the Oak Ridge National Laboratory LandScan Web site, Sept.
         12, 2017. This layer is presented in the WGS84 coordinate system for web display
-        purposes. Downloadable data are provided in native coordinate system or projection."]},{"timdexRecordId":"gisogm:edu.stanford.purl:8482f5caa090","title":"LandScan
-        2016 global population database","contentType":["Not specified"],"contributors":[{"kind":"Creator","value":"Oak
-        Ridge National Laboratory"},{"kind":"Creator","value":"East View Information
-        Services"}],"publicationInformation":["Oak Ridge National Laboratory"],"dates":[{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/qb008gg6130"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+        purposes. Downloadable data are provided in native coordinate system or projection."]},{"timdexRecordId":"gisogm:edu.stanford.purl:3f3f7e96456c","title":"World
+        Bank GIS Datasets","source":"OpenGeoMetadata GIS Resources","contentType":["Not
+        specified"],"contributors":[{"kind":"Creator","value":"World Bank Group"}],"publicationInformation":["World
+        Bank Group"],"dates":[{"kind":"Issued","value":"2017"},{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/kn717qc3056"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
         rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
-        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/qb008gg6130","summary":["At
+        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/kn717qc3056","summary":["The
+        World Bank and the International Finance Corporation, collectively the World
+        Bank Group (WBG) strives to enhance public access to and use of data that
+        can support development impact."]},{"timdexRecordId":"gisogm:edu.stanford.purl:f2a0f4cb0772","title":"LandScan
+        2018 global population database","source":"OpenGeoMetadata GIS Resources","contentType":["Not
+        specified"],"contributors":[{"kind":"Creator","value":"Oak Ridge National
+        Laboratory"},{"kind":"Creator","value":"East View Information Services"}],"publicationInformation":["Oak
+        Ridge National Laboratory"],"dates":[{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/tx300mz1197"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+        rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
+        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/tx300mz1197","summary":["At
         approximately 1 km resolution (30\" X 30\"), LandScan is the finest resolution
         global population distribution data available and represents an ambient population
         (average over 24 hours). The LandScan algorithm uses spatial data and imagery
@@ -432,9 +417,9 @@ http_interactions:
         settlement practices, LandScan population distribution models are tailored
         to match the data conditions and geographical nature of each individual country
         and region. Title from disk surface Developed by Oak Ridge National Laboratory."]},{"timdexRecordId":"gisogm:edu.stanford.purl:4a101055a827","title":"LandScan
-        Global Population Database 2016","contentType":["Raster data"],"contributors":[{"kind":"Creator","value":"Oak
-        Ridge National Laboratory"}],"publicationInformation":["Oak Ridge National
-        Laboratory"],"dates":[{"kind":"Issued","value":"2017"},{"kind":"Coverage","value":"2016"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:mx198zx3638/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/mx198zx3638"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+        Global Population Database 2016","source":"OpenGeoMetadata GIS Resources","contentType":["Raster
+        data"],"contributors":[{"kind":"Creator","value":"Oak Ridge National Laboratory"}],"publicationInformation":["Oak
+        Ridge National Laboratory"],"dates":[{"kind":"Issued","value":"2017"},{"kind":"Coverage","value":"2016"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://stacks.stanford.edu/file/druid:mx198zx3638/data.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/mx198zx3638"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
         rights","description":"Restricted","uri":null},{"kind":"Access to files","description":"unknown:
         check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/mx198zx3638","summary":["This
         raster dataset contains population counts at 30 arc second resolution (1 km.
@@ -480,23 +465,39 @@ http_interactions:
         the cell size (for example 35.25, 35.50, 35.0) to avoid ''shifting'' of the
         dataset.\" --from the Oak Ridge National Laboratory LandScan Web site, Sept.
         12, 2016. This layer is presented in the WGS84 coordinate system for web display
-        purposes. Downloadable data are provided in native coordinate system or projection."]}],"aggregations":{"accessToFiles":[{"key":"unknown:
-        check with owning institution","docCount":1730},{"key":"MIT authentication
+        purposes. Downloadable data are provided in native coordinate system or projection."]},{"timdexRecordId":"gisogm:edu.stanford.purl:8482f5caa090","title":"LandScan
+        2016 global population database","source":"OpenGeoMetadata GIS Resources","contentType":["Not
+        specified"],"contributors":[{"kind":"Creator","value":"Oak Ridge National
+        Laboratory"},{"kind":"Creator","value":"East View Information Services"}],"publicationInformation":["Oak
+        Ridge National Laboratory"],"dates":[{"kind":"Coverage","value":"2017"}],"links":[{"kind":"Website","restrictions":null,"text":"Website","url":"https://purl.stanford.edu/qb008gg6130"}],"notes":null,"highlight":null,"provider":"Stanford","rights":[{"kind":"Access
+        rights","description":"Public","uri":null},{"kind":"Access to files","description":"unknown:
+        check with owning institution","uri":null}],"sourceLink":"https://purl.stanford.edu/qb008gg6130","summary":["At
+        approximately 1 km resolution (30\" X 30\"), LandScan is the finest resolution
+        global population distribution data available and represents an ambient population
+        (average over 24 hours). The LandScan algorithm uses spatial data and imagery
+        analysis technologies and a multi-variable dasymetric modeling approach to
+        disaggregate census counts within an administrative boundary. Since no single
+        population distribution model can account for the differences in spatial data
+        availability, quality, scale, and accuracy as well as the differences in cultural
+        settlement practices, LandScan population distribution models are tailored
+        to match the data conditions and geographical nature of each individual country
+        and region. Title from disk surface Developed by Oak Ridge National Laboratory."]}],"aggregations":{"accessToFiles":[{"key":"unknown:
+        check with owning institution","docCount":1667},{"key":"MIT authentication
         required","docCount":14},{"key":"no authentication required","docCount":1}],"contentType":[{"key":"raster
-        data","docCount":1191},{"key":"image data","docCount":209},{"key":"polygon
-        data","docCount":181},{"key":"world maps","docCount":79},{"key":"not specified","docCount":36},{"key":"line
+        data","docCount":1191},{"key":"polygon data","docCount":181},{"key":"image
+        data","docCount":146},{"key":"world maps","docCount":80},{"key":"not specified","docCount":35},{"key":"line
         data","docCount":31},{"key":"point data","docCount":17},{"key":"early maps","docCount":12},{"key":"thematic
         maps","docCount":4},{"key":"geological maps","docCount":3}],"contributors":[{"key":"university
         of minnesota. institute on the environment","docCount":1099},{"key":"environmental
         systems research institute (redlands, calif.)","docCount":59},{"key":"kelso,
         nathaniel vaughn","docCount":54},{"key":"patterson, tom","docCount":54},{"key":"oak
         ridge national laboratory","docCount":38},{"key":"environmental systems research
-        institute, inc. (esri)","docCount":29},{"key":"united states. central intelligence
-        agency","docCount":21},{"key":"esri","docCount":19},{"key":"east view cartographic,
-        incorporated","docCount":16},{"key":"national center for ecological analysis
-        and synthesis","docCount":13}],"format":[{"key":"geotiff","docCount":1125},{"key":"shapefile","docCount":233},{"key":"tiff","docCount":196},{"key":"jpeg","docCount":80},{"key":"arcgrid","docCount":59},{"key":"jpeg2000","docCount":2}],"languages":[{"key":"english","docCount":1332},{"key":"eng","docCount":187},{"key":"lat","docCount":60},{"key":"fra","docCount":21},{"key":"deu","docCount":12},{"key":"ita","docCount":11},{"key":"ger","docCount":6},{"key":"fre","docCount":2},{"key":"rus","docCount":2},{"key":"und","docCount":2}],"literaryForm":[],"source":[{"key":"opengeometadata
-        gis resources","docCount":1730},{"key":"mit gis resources","docCount":15}],"subjects":[{"key":"datasets","docCount":1391},{"key":"earth
+        institute, inc. (esri)","docCount":29},{"key":"esri","docCount":19},{"key":"east
+        view cartographic, incorporated","docCount":16},{"key":"national center for
+        ecological analysis and synthesis","docCount":13},{"key":"harvard geospatial
+        library","docCount":11}],"format":[{"key":"geotiff","docCount":1125},{"key":"shapefile","docCount":233},{"key":"tiff","docCount":133},{"key":"jpeg","docCount":81},{"key":"arcgrid","docCount":59},{"key":"jpeg2000","docCount":1}],"languages":[{"key":"english","docCount":1332},{"key":"eng","docCount":147},{"key":"lat","docCount":45},{"key":"fra","docCount":19},{"key":"ita","docCount":9},{"key":"deu","docCount":8},{"key":"ger","docCount":6},{"key":"fre","docCount":2},{"key":"rus","docCount":2},{"key":"und","docCount":2}],"literaryForm":[],"source":[{"key":"opengeometadata
+        gis resources","docCount":1667},{"key":"mit gis resources","docCount":15}],"subjects":[{"key":"datasets","docCount":1391},{"key":"earth
         (planet)","docCount":1243},{"key":"imagery and base maps","docCount":1130},{"key":"farming","docCount":1099},{"key":"crop
-        yields","docCount":572},{"key":"harvesting","docCount":525},{"key":"census","docCount":351},{"key":"boundaries","docCount":286},{"key":"other","docCount":263},{"key":"society","docCount":214}]}}}}'
-  recorded_at: Thu, 25 Apr 2024 20:56:47 GMT
-recorded_with: VCR 6.2.0
+        yields","docCount":572},{"key":"harvesting","docCount":525},{"key":"census","docCount":351},{"key":"boundaries","docCount":286},{"key":"society","docCount":214},{"key":"other","docCount":200}]}}}}'
+  recorded_at: Wed, 10 Dec 2025 16:00:53 GMT
+recorded_with: VCR 6.3.1

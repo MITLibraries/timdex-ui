@@ -30,46 +30,44 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
-      Date:
-      - Thu, 02 May 2024 20:57:43 GMT
-      Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1714683463&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=NoFzCWko0lM98M6TlDxgwrKs6I2rDHUQv8oF%2BNFQD64%3D"}]}'
-      Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1714683463&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=NoFzCWko0lM98M6TlDxgwrKs6I2rDHUQv8oF%2BNFQD64%3D
-      Nel:
-      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
-      Connection:
-      - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - '0'
-      X-Content-Type-Options:
-      - nosniff
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Vary:
-      - Accept, Origin
-      Etag:
-      - W/"7fc011864e1834c3d4c997867f78eaea"
       Cache-Control:
       - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - be6e76e5-aa27-4300-8154-a88cd5adbf62
-      X-Runtime:
-      - '0.044764'
+      Content-Length:
+      - '2665'
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"cf6a89cf963603f11ea9924153afea82"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=Wc971B2AsWlwRmEVahR%2FGw0NG6L%2Bt7j54pnJmmFIo74%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765382427"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=Wc971B2AsWlwRmEVahR%2FGw0NG6L%2Bt7j54pnJmmFIo74%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765382427"
+      Server:
+      - Heroku
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
-      Content-Length:
-      - '2674'
+      Vary:
+      - Accept, Origin
       Via:
-      - 1.1 vegur
+      - 1.1 heroku-router
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 60dd31c0-f6ad-05f7-39d9-4a2a703af503
+      X-Runtime:
+      - '0.048738'
+      X-Xss-Protection:
+      - '0'
+      Date:
+      - Wed, 10 Dec 2025 16:00:27 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"recordId":{"alternateTitles":null,"callNumbers":null,"citation":"Cambridge
@@ -78,14 +76,14 @@ http_interactions:
         data"],"contents":null,"contributors":[{"affiliation":null,"identifier":null,"kind":"Creator","mitAffiliated":null,"value":"Cambridge
         (Mass.). Geographic Information Systems"}],"dates":[{"kind":"Issued","note":null,"range":null,"value":"2012-09-20"}],"edition":null,"format":"Shapefile","fundingInformation":null,"holdings":null,"identifiers":[{"kind":"Not
         specified","value":"CAMBRIDGEMEMPOLES09"}],"languages":["eng"],"links":[{"kind":"Download","restrictions":null,"text":"Source
-        Metadata","url":"https://cdn.stage.mitlibrary.net/geo/public/CAMBRIDGEMEMPOLES09.source.fgdc.xml"},{"kind":"Download","restrictions":null,"text":"Aardvark
-        Metadata","url":"https://cdn.stage.mitlibrary.net/geo/public/CAMBRIDGEMEMPOLES09.normalized.aardvark.json"},{"kind":"Download","restrictions":null,"text":"Data","url":"https://cdn.stage.mitlibrary.net/geo/public/CAMBRIDGEMEMPOLES09.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.libraries.mit.edu/record/gismit:CAMBRIDGEMEMPOLES09"}],"literaryForm":null,"locations":[{"geoshape":"BBOX
+        Metadata","url":"https://cdn.libraries.mit.edu/geo/public/CAMBRIDGEMEMPOLES09.source.fgdc.xml"},{"kind":"Download","restrictions":null,"text":"Aardvark
+        Metadata","url":"https://cdn.libraries.mit.edu/geo/public/CAMBRIDGEMEMPOLES09.normalized.aardvark.json"},{"kind":"Download","restrictions":null,"text":"Data","url":"https://cdn.libraries.mit.edu/geo/public/CAMBRIDGEMEMPOLES09.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.libraries.mit.edu/record/gismit:CAMBRIDGEMEMPOLES09"}],"literaryForm":null,"locations":[{"geoshape":"BBOX
         (-71.157950, -71.076669, 42.402572, 42.355089)","kind":"Bounding Box","value":null},{"geoshape":"BBOX
         (-71.157950, -71.076669, 42.402572, 42.355089)","kind":"Geometry","value":null},{"geoshape":null,"kind":"Place
         Name","value":"Massachusetts--Cambridge"}],"notes":null,"numbering":null,"physicalDescription":null,"provider":"GIS
         Lab, MIT Libraries","publicationFrequency":null,"publishers":null,"relatedItems":null,"rights":[{"description":"Public","kind":"Access
-        rights","uri":null},{"description":"no authentication required","kind":"Access
-        to files","uri":null},{"description":"For educational noncommercial use only.","kind":null,"uri":null}],"source":"MIT
+        rights","uri":null},{"description":"For educational noncommercial use only.","kind":null,"uri":null},{"description":"no
+        authentication required","kind":"Access to files","uri":null}],"source":"MIT
         GIS Resources","sourceLink":"https://geodata.libraries.mit.edu/record/gismit:CAMBRIDGEMEMPOLES09","subjects":[{"kind":"DCAT;
         Theme","value":["Structure"]},{"kind":"Dublin Core; Spatial","value":["Massachusetts--Cambridge"]},{"kind":"Dublin
         Core; Subject","value":["Memorials"]},{"kind":"Dublin Core; Subject","value":["structure"]},{"kind":"Subject
@@ -94,5 +92,5 @@ http_interactions:
         commemorate extraordinary citizens and those who have died or been reported
         missing in combat."],"timdexRecordId":"gismit:CAMBRIDGEMEMPOLES09","title":"Memorial
         Poles Cambridge MA 2009"}}}'
-  recorded_at: Thu, 02 May 2024 20:57:43 GMT
-recorded_with: VCR 6.2.0
+  recorded_at: Wed, 10 Dec 2025 16:00:27 GMT
+recorded_with: VCR 6.3.1
