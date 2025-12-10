@@ -18,11 +18,14 @@ http_interactions:
         $accessToFilesFilter, contentTypeFilter: $contentTypeFilter, contributorsFilter:
         $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
         literaryFormFilter: $literaryFormFilter, placesFilter: $placesFilter, sourceFilter:
-        $sourceFilter, subjectsFilter: $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      source\n      contentType\n      contributors
+        $sourceFilter, subjectsFilter: $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      identifiers
+        {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
-        {\n        kind\n        value\n      }\n      links {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
+        {\n        kind\n        value\n        range {\n          gte\n          lte\n        }\n      }\n      links
+        {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
         {\n        kind\n        value\n      }\n      highlight {\n        matchedField\n        matchedPhrases\n      }\n      provider\n      rights
-        {\n        kind\n        description\n        uri\n      }\n      sourceLink\n      summary\n    }\n    aggregations
+        {\n        kind\n        description\n        uri\n      }\n      sourceLink\n      summary\n      subjects
+        {\n        kind\n        value\n      }\n      citation\n    }\n    aggregations
         {\n      accessToFiles {\n        key\n        docCount\n      }\n      contentType
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
         {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
@@ -42,48 +45,46 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
-      Date:
-      - Thu, 25 Apr 2024 20:57:18 GMT
-      Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1714078639&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=q14ug9fZpvaCBdTkdxX3%2Frwy29zjOto%2FSnBjR9UDdow%3D"}]}'
-      Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1714078639&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&s=q14ug9fZpvaCBdTkdxX3%2Frwy29zjOto%2FSnBjR9UDdow%3D
-      Nel:
-      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
-      Connection:
-      - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - '0'
-      X-Content-Type-Options:
-      - nosniff
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Vary:
-      - Accept, Origin
-      Etag:
-      - W/"739d1361856b08c7d7dcf051784b4019"
       Cache-Control:
       - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - cbdc106f-9ee5-47ed-888f-4a467a91c0a5
-      X-Runtime:
-      - '0.079959'
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains
       Content-Length:
       - '197'
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"739d1361856b08c7d7dcf051784b4019"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=bDoIRid6wz8VdhTGUYqr871rRwBuSVRf%2BsOuS%2FMN2Cw%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765557654"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=bDoIRid6wz8VdhTGUYqr871rRwBuSVRf%2BsOuS%2FMN2Cw%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765557654"
+      Server:
+      - Heroku
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Vary:
+      - Accept, Origin
       Via:
-      - 1.1 vegur
+      - 1.1 heroku-router
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - ee5d1135-b1f8-63d1-ea2c-86ecbfe2e126
+      X-Runtime:
+      - '0.155423'
+      X-Xss-Protection:
+      - '0'
+      Date:
+      - Fri, 12 Dec 2025 16:40:55 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"accessToFiles":[],"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"places":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Thu, 25 Apr 2024 20:57:19 GMT
-recorded_with: VCR 6.2.0
+  recorded_at: Fri, 12 Dec 2025 16:40:55 GMT
+recorded_with: VCR 6.3.1
