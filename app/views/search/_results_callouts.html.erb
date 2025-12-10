@@ -1,18 +1,73 @@
 <div id="callout-wrapper">
-  <aside class="result-callout">
-    <i class="fa-light fa-magnifying-glass"></i>
-    <div>
-      <h4>Refine your search</h4>
-      <p>Use advanced search features to expand or filter your search.</p>
-      <a href="#">Search Primo</a>
-    </div>
-  </aside>
-  <aside class="result-callout">
-    <i class="fa-light fa-book"></i>
-    <div>
-      <h4>Can’t find a book?</h4>
-      <p>If we don’t own it you can often request it from another library.</p>
-      <a href="#">Search WorldCat</a>
-    </div>
-  </aside>
+  <% if ['cdi', 'alma', 'all'].include?(@active_tab) %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'magnifying-glass',
+      heading: 'Refine your search',
+      blurb: 'Use advanced search features to expand or filter your search.',
+      link_url: search_primo_link,
+      link_text: 'Search Primo' } %>
+  <% end %>
+
+  <% if @active_tab == 'all' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'face-confused',
+      heading: 'Can’t find what you are looking for?',
+      blurb: 'Use specialized search tools for books, articles, databases, and more',
+      link_url: 'http://libraries.mit.edu/search',
+      link_text: 'More search options' } %>
+  <% end %>
+
+  <% if @active_tab == 'cdi' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'newspaper',
+      heading: 'Looking for a specific journal?',
+      blurb: 'Search by title or ISSN.',
+      link_url: 'https://browzine.com/libraries/853/subjects',
+      link_text: 'Journal search' } %>
+  <% end %>
+
+  <% if @active_tab == 'alma' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'book',
+      heading: 'Can’t find a book?',
+      blurb: 'If we don’t own it you can often request it from another library.',
+      link_url: search_worldcat_link,
+      link_text: 'Search WorldCat' } %>
+  <% end %>
+
+  <% if @active_tab == 'aspace' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'magnifying-glass',
+      heading: 'Refine your search',
+      blurb: 'Use advanced search features to expand or filter your search.',
+      link_url: search_aspace_link,
+      link_text: 'Search ArchivesSpace' } %>
+  <% end %>
+
+  <% if @active_tab == 'aspace' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'bell-concierge',
+      heading: 'Need help?',
+      blurb: 'Our staff can help you',
+      link_url: 'https://libraries.mit.edu/distinctive-collections/ask',
+      link_text: 'Ask Distinctive Collections' } %>
+  <% end %>
+
+  <% if @active_tab == 'website' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'messages',
+      heading: 'Want to talk to us?',
+      blurb: 'Get help, give us feedback, use the staff directory.',
+      link_url: 'https://libguides.mit.edu/directory',
+      link_text: 'Contact us' } %>
+  <% end %>
+
+  <% if @active_tab == 'website' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'calendar',
+      heading: 'Find library news and events',
+      blurb: 'Author events, classes, exhibits, and more.',
+      link_url: 'https://libraries.mit.edu/news/',
+      link_text: 'News and events' } %>
+  <% end %>
 </div>

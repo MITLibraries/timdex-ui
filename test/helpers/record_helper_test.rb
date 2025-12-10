@@ -365,4 +365,26 @@ class RecordHelperTest < ActionView::TestCase
     assert_includes unknown_blurb, 'Uncertain availability in'
     assert_includes unknown_blurb, location(location)
   end
+
+  test 'icon helper returns fontawesome icon with default sharp solid collection' do
+    icon_html = icon('check')
+    assert_includes icon_html, 'fa-sharp'
+    assert_includes icon_html, 'fa-solid'
+    assert_includes icon_html, 'fa-check'
+    assert_includes icon_html, "aria-hidden='true'"
+  end
+
+  test 'icon helper returns fontawesome icon with custom collection' do
+    icon_html = icon('star', 'fa-regular')
+    assert_includes icon_html, 'fa-regular'
+    assert_includes icon_html, 'fa-star'
+    assert_includes icon_html, "aria-hidden='true'"
+    assert_not_includes icon_html, 'fa-sharp'
+    assert_not_includes icon_html, 'fa-solid'
+  end
+
+  test 'icon helper generates properly formatted HTML' do
+    expected = "<i class='fa-sharp fa-solid fa-question' aria-hidden='true''></i>"
+    assert_equal expected, icon('question')
+  end
 end
