@@ -86,6 +86,10 @@
         background-color: $color-gray-950;
         width: 100%;
 
+        &.active {
+          @include searchUnderlinedLinks;
+        }
+
         &:hover {
           border-color: $color-gray-950;
           background-color: $color-gray-900;
