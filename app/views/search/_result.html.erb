@@ -10,11 +10,16 @@
 
       <p class="pub-info">
         <span><%= result[:content_type]&.each { |type| type['value'] }&.join(' ; ') %></span>
-        <span>
-          <% result[:dates]&.each do |date| %>
-            <%= date['value'] if date['kind'] == 'Publication date' %>
-          <% end %>
-        </span>
+        
+        <% if result[:date_range].present? %>
+          <span><%= result[:date_range] %></span>
+        <% else %>
+          <span>
+            <% result[:dates]&.each do |date| %>
+              <%= date['value'] if date['kind'] == 'Publication date' %>
+            <% end %>
+          </span>
+        <% end %>
       </p>
 
       <% if result[:contributors].present? %>   
