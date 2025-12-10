@@ -223,4 +223,45 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
     assert_equal 'timdex', normalized[:api]
   end
+
+  # Test eyebrow mapping
+  test 'maps DSpace@MIT source to eyebrow label' do
+    record = full_record.dup
+    record['source'] = 'DSpace@MIT'
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal 'DSpace@MIT (MIT Research)', normalized[:eyebrow]
+    assert_includes normalized.keys, :eyebrow
+  end
+
+  test 'maps LibGuides source to eyebrow label' do
+    record = full_record.dup
+    record['source'] = 'LibGuides'
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal 'MIT Libraries Website: Guides', normalized[:eyebrow]
+    assert_includes normalized.keys, :eyebrow
+  end
+
+  test 'maps OpenGeoMetadata GIS Resources source to eyebrow label' do
+    record = full_record.dup
+    record['source'] = 'OpenGeoMetadata GIS Resources'
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal 'Non-MIT GeoSpatial Data', normalized[:eyebrow]
+    assert_includes normalized.keys, :eyebrow
+  end
+
+  test 'maps MIT GIS Resources source to eyebrow label' do
+    record = full_record.dup
+    record['source'] = 'MIT GIS Resources'
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal 'MIT GeoSpatial Data', normalized[:eyebrow]
+    assert_includes normalized.keys, :eyebrow
+  end
+
+  test 'uses source value as eyebrow for unmapped sources' do
+    record = full_record.dup
+    record['source'] = 'Custom Repository'
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal 'Custom Repository', normalized[:eyebrow]
+    assert_includes normalized.keys, :eyebrow
+  end
 end

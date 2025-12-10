@@ -46,10 +46,20 @@ class NormalizeTimdexRecord
       .map { |creator| { 'value' => creator['value'], 'link' => nil } }
   end
 
-  # Currently just using source as eyebrow.
-  # This will likely change to remap the source to more user-friendly values.
+  # Maps sources to user friendly strings
   def eyebrow
-    source
+    case source
+    when 'DSpace@MIT'
+      'DSpace@MIT (MIT Research)'
+    when 'LibGuides'
+      'MIT Libraries Website: Guides'
+    when 'OpenGeoMetadata GIS Resources'
+      'Non-MIT GeoSpatial Data'
+    when 'MIT GIS Resources'
+      'MIT GeoSpatial Data'
+    else
+      source
+    end
   end
 
   def source
