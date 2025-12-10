@@ -34,7 +34,22 @@ class NormalizeTimdexRecord
   private
 
   def title
-    @record['title'] || 'Unknown title'
+    title = @record['title'] || 'Unknown title'
+
+    # The collection identifier is important for ASpace records so we append it to the title
+    return title unless source == 'MIT ArchivesSpace'
+
+    title += " (#{aspace_collection(@record['identifiers'])})"
+  end
+
+  def aspace_collection(identifiers)
+    relevant_ids = identifiers.map { |id| id['value'] if id['kind'] == 'Collection Identifier' }.compact
+
+    # In the highly unlikely event that there is more than one collection identifier, there's something weird going
+    # on with the record and we should skip it.
+    return if relevant_ids.count > 1
+
+    relevant_ids.first
   end
 
   def creators
