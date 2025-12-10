@@ -17,7 +17,9 @@
       "pages": ["123-145"],
       "jtitle": ["Journal of Testing"],
       "isbn": ["9781234567890", "1234567890"],
-      "pub": ["MIT Press"]
+      "pub": ["MIT Press"],
+      "doi": ["one"],
+      "pmid": ["one"]
     },
     "facets": {
       "frbrtype": ["5"],

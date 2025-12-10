@@ -18,6 +18,8 @@ class NormalizePrimoRecord
       links:,
       citation:,
       identifier:,
+      doi:,
+      pmid:,
       summary:,
       publisher:,
       location:,
@@ -140,6 +142,30 @@ class NormalizePrimoRecord
     return unless @record['pnx']['control']['recordid']
 
     @record['pnx']['control']['recordid'].join
+  end
+
+  def doi
+    return unless @record['pnx']['addata'] && @record['pnx']['addata']['doi']
+
+    if @record['pnx']['addata']['doi'].length > 1
+      Sentry.set_tags('mitlib.recordId': identifier || 'empty record id')
+      Sentry.set_tags('mitlib.dois': @record['pnx']['addata']['doi'])
+      Sentry.capture_message('Multiple DOIs found in one record')
+    end
+
+    @record['pnx']['addata']['doi'].first
+  end
+
+  def pmid
+    return unless @record['pnx']['addata'] && @record['pnx']['addata']['pmid']
+
+    if @record['pnx']['addata']['pmid'].length > 1
+      Sentry.set_tags('mitlib.recordId': identifier || 'empty record id')
+      Sentry.set_tags('mitlib.pmids': @record['pnx']['addata']['pmid'])
+      Sentry.capture_message('Multiple PMIDs found in one record')
+    end
+
+    @record['pnx']['addata']['pmid'].first
   end
 
   def summary
