@@ -50,6 +50,10 @@ class TimdexSearch < TimdexBase
         hits
         records {
           timdexRecordId
+          identifiers {
+            kind
+            value
+          }
           title
           source
           contentType
