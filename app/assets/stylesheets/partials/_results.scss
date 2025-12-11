@@ -366,6 +366,8 @@
     border: 3px solid $color-border-default;
     padding: 20px 24px;    
     display: flex;
+    flex-grow: 1;
+    flex-basis: 0;
     gap: 12px;
 
     i {

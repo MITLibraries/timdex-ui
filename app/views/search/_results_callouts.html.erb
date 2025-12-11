@@ -5,12 +5,12 @@
       heading: 'Refine your search',
       blurb: 'Use advanced search features to expand or filter your search.',
       link_url: search_primo_link,
-      link_text: 'Search Primo' } %>
+      link_text: 'Search the catalog' } %>
   <% end %>
 
   <% if @active_tab == 'all' %>
     <%= render partial: "results_callout_component", locals: {
-      fa_name: 'face-confused',
+      fa_name: 'file-xmark',
       heading: 'Can’t find what you are looking for?',
       blurb: 'Use specialized search tools for books, articles, databases, and more',
       link_url: 'http://libraries.mit.edu/search',
