@@ -499,7 +499,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       # Result list contents state "no results"
       assert_select '#results'
       assert_select '#results', { count: 1 }
-      assert_select '#results .no-results p', 'No results found for your search'
+      assert_select '#results .no-results h2', 'No results were found'
 
       # Filter sidebar is not shown
       assert_select '#filters', { count: 0 }
