@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   get 'analyze', to: 'tacos#analyze'
 
+  get 'lookup', to: 'libkey#lookup'
+
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
