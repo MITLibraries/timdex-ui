@@ -16,7 +16,6 @@ class Libkey
     return unless %w[doi pmid].include?(type)
 
     url = libkey_url(type, identifier)
-    Rails.logger.debug(url)
 
     libkey_http = setup(url, libkey_client)
 
@@ -27,7 +26,9 @@ class Libkey
       json_response = JSON.parse(raw_response.to_s)
       extract_metadata(json_response)
     rescue LookupFailure => e
-      Rails.logger.debug("Libkey responded with non-200 status: #{e.message}")
+      Sentry.set_tags('mitlib.libkeyurl': url)
+      Sentry.set_tags('mitlib.libkeystatus': e.message)
+      Sentry.capture_message('Unexpected Libkey response status')
       nil
     rescue HTTP::Error
       Rails.logger.error('Libkey connection error')
