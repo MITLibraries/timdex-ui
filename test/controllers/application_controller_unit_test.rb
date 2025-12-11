@@ -29,37 +29,20 @@ class ApplicationControllerUnitTest < ActionController::TestCase
     refute @controller.send(:valid_tab?, '')
   end
 
-  test 'set_active_tab defaults @active_tab to all when no params or cookies are set' do
+  test 'set_active_tab defaults @active_tab to all when no params are set' do
     @controller.stubs(:params).returns({})
-    @controller.stubs(:cookies).returns({})
     @controller.set_active_tab
     assert_equal 'all', @controller.instance_variable_get(:@active_tab)
   end
 
   test 'set_active_tab sets @active_tab to tab when tab params is valid' do
     @controller.stubs(:params).returns({ tab: 'primo' })
-    @controller.stubs(:cookies).returns({})
     @controller.set_active_tab
     assert_equal 'primo', @controller.instance_variable_get(:@active_tab)
   end
 
-  test 'set_active_tab sets @active_tab to all when tab params is invalid and no cookie is set' do
+  test 'set_active_tab sets @active_tab to all when tab param is invalid' do
     @controller.stubs(:params).returns({ tab: 'supertab' })
-    @controller.stubs(:cookies).returns({})
-    @controller.set_active_tab
-    assert_equal 'all', @controller.instance_variable_get(:@active_tab)
-  end
-
-  test 'set_active_tab sets @active_tab to cookie value when tab params is invalid and valid cookie is set' do
-    @controller.stubs(:params).returns({ tab: 'supertab' })
-    @controller.stubs(:cookies).returns({ last_tab: 'timdex' })
-    @controller.set_active_tab
-    assert_equal 'timdex', @controller.instance_variable_get(:@active_tab)
-  end
-
-  test 'set_active_tab sets @active_tab to all value when tab params is invalid and cookie is invalid' do
-    @controller.stubs(:params).returns({ tab: 'supertab' })
-    @controller.stubs(:cookies).returns({ last_tab: 'woohoo' })
     @controller.set_active_tab
     assert_equal 'all', @controller.instance_variable_get(:@active_tab)
   end
