@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.4.7'
 
 gem 'bootsnap', require: false
+gem 'cancancan'
 gem 'graphql'
 gem 'graphql-client'
 gem 'http'
@@ -17,6 +18,7 @@ gem 'rails', '~> 7.2.0'
 gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
+gem 'split', require: 'split/dashboard'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
