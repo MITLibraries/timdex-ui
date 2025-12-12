@@ -108,7 +108,7 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
   test 'normalizes doi' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    assert_equal normalized[:doi], 'one'
+    assert_equal normalized[:doi], '10.1038/s41567-023-02305-y'
   end
 
   test 'handles missing doi' do
@@ -127,7 +127,7 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
   test 'normalizes pmid' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    assert_equal normalized[:pmid], 'one'
+    assert_equal normalized[:pmid], '22110403'
   end
 
   test 'handles missing pmid' do
