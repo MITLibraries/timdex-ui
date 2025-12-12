@@ -106,6 +106,44 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_equal 'alma991000000001234567', normalized[:identifier]
   end
 
+  test 'normalizes doi' do
+    normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
+    assert_equal normalized[:doi], '10.1038/s41567-023-02305-y'
+  end
+
+  test 'handles missing doi' do
+    normalized = NormalizePrimoRecord.new(minimal_record, 'test').normalize
+    assert_nil normalized[:doi]
+  end
+
+  test 'multiple dois normalize to the first one' do
+    temp_record = full_record
+    temp_record['pnx']['addata']['doi'] = %w[three two one]
+
+    normalized = NormalizePrimoRecord.new(temp_record, 'test').normalize
+
+    assert_equal normalized[:doi], 'three'
+  end
+
+  test 'normalizes pmid' do
+    normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
+    assert_equal normalized[:pmid], '22110403'
+  end
+
+  test 'handles missing pmid' do
+    normalized = NormalizePrimoRecord.new(minimal_record, 'test').normalize
+    assert_nil normalized[:pmid]
+  end
+
+  test 'multiple pmids normalize to the first one' do
+    temp_record = full_record
+    temp_record['pnx']['addata']['pmid'] = %w[three two one]
+
+    normalized = NormalizePrimoRecord.new(temp_record, 'test').normalize
+
+    assert_equal normalized[:pmid], 'three'
+  end
+
   test 'normalizes summary' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
     assert_equal 'A comprehensive study of testing methodologies', normalized[:summary]

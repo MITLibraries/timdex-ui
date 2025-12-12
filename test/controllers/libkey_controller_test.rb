@@ -27,14 +27,14 @@ class LibkeyControllerTest < ActionDispatch::IntegrationTest
       get '/lookup?type=doi&identifier=10.1038/s41567-023-02305-y'
 
       assert_response :success
-      assert_select 'a.button-primary', { count: 1 }
+      assert_select 'a.button', { count: 1 }
     end
 
     VCR.use_cassette('libkey pmid') do
       get '/lookup?type=pmid&identifier=22110403'
 
       assert_response :success
-      assert_select 'a.button-primary', { count: 1 }
+      assert_select 'a.button', { count: 1 }
     end
   end
 

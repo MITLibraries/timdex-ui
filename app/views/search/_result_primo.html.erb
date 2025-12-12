@@ -40,6 +40,11 @@
           <%= link_to link['kind'].titleize, link['url'], class: 'button' %>
         <% end %>
       <% end %>
+      <% if Libkey.enabled? && result[:doi].present? %>
+        <%= render(partial: 'trigger_libkey', locals: { kind: 'doi', identifier: result[:doi] }) %>
+      <% elsif Libkey.enabled? && result[:pmid].present? %>
+        <%= render(partial: 'trigger_libkey', locals: { kind: 'pmid', identifier: result[:pmid] }) %>
+      <% end %>
       <% if result[:availability].present? %>
         <span class="availability"><%= availability(result[:availability], result[:location], result[:other_availability]) %></span>
       <% end %>
