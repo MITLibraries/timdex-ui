@@ -24,6 +24,7 @@ class NormalizeTimdexRecord
       subjects:,
       # TIMDEX-specific fields
       content_type:,
+      date_range:,
       dates:,
       contributors:,
       highlight:,
@@ -34,7 +35,26 @@ class NormalizeTimdexRecord
   private
 
   def title
-    @record['title'] || 'Unknown title'
+    title = @record['title'] || 'Unknown title'
+
+    # The collection identifier is important for ASpace records so we append it to the title
+    return title unless source == 'MIT ArchivesSpace'
+
+    title += " (#{aspace_collection(@record['identifiers'])})"
+  end
+
+  def aspace_collection(identifiers)
+    relevant_ids = identifiers.map { |id| id['value'] if id['kind'] == 'Collection Identifier' }.compact
+
+    # In the highly unlikely event that there is more than one collection identifier, there's something weird going
+    # on with the record and we should look into it.
+    if relevant_ids.count > 1
+      Sentry.set_tags('mitlib.recordId': identifier || 'empty record id')
+      Sentry.set_tags('mitlib.collection_ids': relevant_ids.join('; '))
+      Sentry.capture_message('Multiple Collection IDs found in ASpace record')
+    end
+
+    relevant_ids.first
   end
 
   def creators
@@ -104,7 +124,7 @@ class NormalizeTimdexRecord
   end
 
   def citation
-    @record['citation'] || nil
+    @record['citation']
   end
 
   def summary
@@ -130,7 +150,7 @@ class NormalizeTimdexRecord
   def subjects
     return [] unless @record['subjects']
 
-    @record['subjects'].map { |subject| subject['value'] }
+    @record['subjects'].flat_map { |subject| subject['value'] }
   end
 
   def identifier
@@ -144,6 +164,25 @@ class NormalizeTimdexRecord
 
   def dates
     @record['dates']
+  end
+
+  def date_range
+    return unless @record['dates']
+
+    # Some records have creation or publication dates that are ranges. Extract those here.
+    relevant_dates = @record['dates'].select do |date|
+      %w[creation publication].include?(date['kind']) && date['range'].present?
+    end
+
+    # If the record has no creation or publication date, stop here.
+    return if relevant_dates.empty?
+
+    # If the record *does* have more than one creation/pub date, just take the first one. Note: ASpace records often
+    # have more than one. Sometimes they are duplicates, sometimes they are different. For now we will just take the
+    # first.
+    relevant_date = relevant_dates.first
+
+    "#{relevant_date['range']['gte']}-#{relevant_date['range']['lte']}"
   end
 
   def contributors

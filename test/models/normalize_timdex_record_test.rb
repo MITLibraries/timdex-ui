@@ -21,6 +21,14 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
     assert_equal 'Unknown title', normalized[:title]
   end
 
+  test 'appends collection identifier to title for ASpace records' do
+    record = full_record.dup
+    record['source'] = 'MIT ArchivesSpace'
+    record['identifiers'] = [{ 'kind' => 'Collection Identifier', 'value' => 'MC-0001' }]
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal 'Sample TIMDEX Record for Testing (MC-0001)', normalized[:title]
+  end
+
   test 'normalizes creators from contributors' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
     expected_creators = [
@@ -65,6 +73,16 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
     ]
     normalized = NormalizeTimdexRecord.new(record_with_coverage_date, 'test').normalize
     assert_equal '1995', normalized[:year]
+  end
+
+  test 'handles data range in non-first creation date' do
+    record = full_record.dup
+    record['dates'] = [
+      { 'kind' => 'creation', 'value' => '2023-01-15' },
+      { 'kind' => 'creation', 'range' => { 'lte' => '2023', 'gte' => '2020' } }
+    ]
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal '2020-2023', normalized[:date_range]
   end
 
   test 'normalizes format from content type' do
