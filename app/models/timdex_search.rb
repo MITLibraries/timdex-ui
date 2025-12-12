@@ -92,6 +92,10 @@ class TimdexSearch < TimdexBase
           }
           sourceLink
           summary
+          subjects {
+            kind
+            value
+          }
         }
         aggregations {
           accessToFiles {

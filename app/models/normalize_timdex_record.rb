@@ -146,7 +146,7 @@ class NormalizeTimdexRecord
   def subjects
     return [] unless @record['subjects']
 
-    @record['subjects'].map { |subject| subject['value'] }
+    @record['subjects'].flat_map { |subject| subject['value'] }
   end
 
   def identifier

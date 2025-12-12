@@ -29,6 +29,17 @@
         </ul>
       <% end %>
 
+      <% if result[:subjects].present? %>
+        <div class="result-subjects truncate-list">
+          <span class="sr">Subjects: </span>
+          <ul>
+            <% result[:subjects].each do |subject| %>
+              <li><%= subject %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
       <% if result[:summary].present? %>
         <div class="result-summary truncate-list">
           <span class="sr">Summary: </span><%= result[:summary] %>
