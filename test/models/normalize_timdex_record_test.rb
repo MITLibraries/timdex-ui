@@ -75,6 +75,16 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
     assert_equal '1995', normalized[:year]
   end
 
+  test 'handles data range in non-first creation date' do
+    record = full_record.dup
+    record['dates'] = [
+      { 'kind' => 'creation', 'value' => '2023-01-15' },
+      { 'kind' => 'creation', 'range' => { 'lte' => '2023', 'gte' => '2020' } }
+    ]
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal '2020-2023', normalized[:date_range]
+  end
+
   test 'normalizes format from content type' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
     assert_equal 'Dataset ; Geospatial data', normalized[:format]
