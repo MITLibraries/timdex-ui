@@ -47,8 +47,12 @@ class NormalizeTimdexRecord
     relevant_ids = identifiers.map { |id| id['value'] if id['kind'] == 'Collection Identifier' }.compact
 
     # In the highly unlikely event that there is more than one collection identifier, there's something weird going
-    # on with the record and we should skip it.
-    return if relevant_ids.count > 1
+    # on with the record and we should look into it.
+    if relevant_ids.count > 1
+      Sentry.set_tags('mitlib.recordId': identifier || 'empty record id')
+      Sentry.set_tags('mitlib.collection_ids': relevant_ids.join('; '))
+      Sentry.capture_message('Multiple Collection IDs found in ASpace record')
+    end
 
     relevant_ids.first
   end
@@ -166,7 +170,9 @@ class NormalizeTimdexRecord
     return unless @record['dates']
 
     # Some records have creation or publication dates that are ranges. Extract those here.
-    relevant_dates = @record['dates'].select { |date| %w[creation publication].include?(date['kind']) }
+    relevant_dates = @record['dates'].select do |date|
+      %w[creation publication].include?(date['kind']) && date['range'].present?
+    end
 
     # If the record has no creation or publication date, stop here.
     return if relevant_dates.empty?
@@ -175,9 +181,6 @@ class NormalizeTimdexRecord
     # have more than one. Sometimes they are duplicates, sometimes they are different. For now we will just take the
     # first.
     relevant_date = relevant_dates.first
-
-    # We are only concerned with creation/pub dates that are ranges.
-    return unless relevant_date['range'].present?
 
     "#{relevant_date['range']['gte']}-#{relevant_date['range']['lte']}"
   end
