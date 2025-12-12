@@ -1,5 +1,5 @@
 <div id="full-record" class="gridband layout-3q1q wrap-full-record">
-  <main class="col3q box-content region full-record" data-region="Full record">
+  <main class="col4q box-content region full-record" data-region="Full record">
     <h2 class="record-title">
       <span class="sr">Title: </span>
       <% if @record['title'].present? %>
@@ -66,9 +66,68 @@
           <li>
             <%= link_to(link['text'] || 'unknown', link['url']) %>
           </li>
+          <% if link['kind'] == 'IIIF Manifest' %>
+            Manefest detected!
+
+            <% content_for :additional_js do %>
+              <script
+                type="application/javascript"
+                src="https://cdn.jsdelivr.net/npm/universalviewer@4.0.0/dist/umd/UV.js"
+              ></script>
+
+            <% end %>
+
+            <% content_for :additional_meta_tag do %>
+              <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/universalviewer@4.0.0/dist/uv.css"
+              />
+
+              <style>
+                #uv {
+                  width: 924px;
+                  height: 668px;
+                }
+              </style>
+            <% end %>
+
+            <div class="uv" id="uv"></div>
+
+            <script>
+                  var urlAdaptor = new UV.IIIFURLAdaptor();
+
+                  const data = urlAdaptor.getInitialData({
+                    manifest: "<%= link['url'] %>",
+                    embedded: true // needed for codesandbox frame
+                  });
+
+                  uv = UV.init("uv", data);
+                  urlAdaptor.bindTo(uv);
+
+                  // override config using an inline json object
+                  uv.on("configure", function ({ config, cb }) {
+                    cb({
+                      options: { footerPanelEnabled: true }
+                    });
+                  });
+
+                  // this is loading an complete config file for reference
+                  // to increase loading speed, just use the specific settings you require
+                  // uv.on("configure", function ({ config, cb }) {
+                  //   cb(
+                  //     new Promise(function (resolve) {
+                  //       fetch("uv-config.json").then(function (response) {
+                  //         resolve(response.json());
+                  //       });
+                  //     })
+                  //   );
+                  // });
+                </script>
+          <% end %>
         <% end %>
       <% end %>
     </ul>
+
 
     <% if @record['summary'].present? %>
       <h3 class="section-title">Summary</h3>
