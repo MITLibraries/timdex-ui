@@ -22,12 +22,15 @@
         <% end %>
       </p>
 
+      <%# unclear why TIMDEX is using contributors and Primo is using creators. Should we normalize this? %>
       <% if result[:contributors].present? %>   
         <span class="sr">Contributors: </span>
         <ul class="list-inline truncate-list contributors">
           <%= render partial: 'shared/contributors', locals: { contributors: result[:contributors] } %>
         </ul>
       <% end %>
+
+      <%# Primo displays citation here. TIMDEX citations probably need work to be useful here %>
 
       <% if result[:subjects].present? %>
         <div class="result-subjects truncate-list">

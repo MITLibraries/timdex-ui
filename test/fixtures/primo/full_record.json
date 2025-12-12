@@ -1,35 +1,83 @@
 {
   "pnx": {
     "display": {
-      "title": ["Testing the Limits of Knowledge"],
-      "creator": ["Smith, John A.", "Jones, Mary B."],
-      "contributor": ["Brown, Robert C."],
-      "creationdate": ["2023"],
-      "type": ["book"],
-      "description": ["A comprehensive study of testing methodologies"],
-      "subject": ["Computer Science", "Software Testing"]
+      "title": [
+        "Testing the Limits of Knowledge"
+      ],
+      "creator": [
+        "Smith, John A.",
+        "Jones, Mary B."
+      ],
+      "contributor": [
+        "Brown, Robert C."
+      ],
+      "creationdate": [
+        "2023"
+      ],
+      "ispartof": [
+        "Journal of Testing, Vol. 2, Issue 3"
+      ],
+      "type": [
+        "book"
+      ],
+      "description": [
+        "A comprehensive study of testing methodologies"
+      ],
+      "subject": [
+        "Computer Science",
+        "Software Testing"
+      ]
     },
     "addata": {
-      "btitle": ["Complete Guide to Testing"],
-      "date": ["2023"],
-      "volume": ["2"],
-      "issue": ["3"],
-      "pages": ["123-145"],
-      "jtitle": ["Journal of Testing"],
-      "isbn": ["9781234567890", "1234567890"],
-      "pub": ["MIT Press"],
-      "doi": ["10.1038/s41567-023-02305-y"],
-      "pmid": ["22110403"]
+      "btitle": [
+        "Complete Guide to Testing"
+      ],
+      "date": [
+        "2023"
+      ],
+      "volume": [
+        "2"
+      ],
+      "issue": [
+        "3"
+      ],
+      "pages": [
+        "123-145"
+      ],
+      "jtitle": [
+        "Journal of Testing"
+      ],
+      "isbn": [
+        "9781234567890",
+        "1234567890"
+      ],
+      "pub": [
+        "MIT Press"
+      ],
+      "doi": [
+        "10.1038/s41567-023-02305-y"
+      ],
+      "pmid": [
+        "22110403"
+      ]
     },
     "facets": {
-      "frbrtype": ["5"],
-      "frbrgroupid": ["12345"]
+      "frbrtype": [
+        "5"
+      ],
+      "frbrgroupid": [
+        "12345"
+      ]
     },
     "search": {
-      "creationdate": ["2023"]
+      "creationdate": [
+        "2023"
+      ]
     },
     "control": {
-      "recordid": ["alma991000000001234567"]
+      "recordid": [
+        "alma991000000001234567"
+      ]
     }
   },
   "context": "contextual",
@@ -41,8 +89,12 @@
       "availabilityStatus": "available"
     },
     "holding": [
-      {"location": "Main Library"},
-      {"location": "Branch Library"}
+      {
+        "location": "Main Library"
+      },
+      {
+        "location": "Branch Library"
+      }
     ],
     "link": [],
     "almaOpenurl": "https://na06.alma.exlibrisgroup.com/view/uresolver/01MIT_INST/openurl?param=value"
