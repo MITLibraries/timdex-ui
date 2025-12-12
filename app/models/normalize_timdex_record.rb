@@ -120,7 +120,7 @@ class NormalizeTimdexRecord
   end
 
   def citation
-    @record['citation'] || nil
+    @record['citation']
   end
 
   def summary

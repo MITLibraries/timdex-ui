@@ -115,17 +115,9 @@ class NormalizePrimoRecord
   end
 
   def citation
-    return unless @record['pnx']['addata']
+    return unless @record['pnx']['display']
 
-    if @record['pnx']['addata']['volume'].present?
-      if @record['pnx']['addata']['issue'].present?
-        "volume #{@record['pnx']['addata']['volume'].join} issue #{@record['pnx']['addata']['issue'].join}"
-      else
-        "volume #{@record['pnx']['addata']['volume'].join}"
-      end
-    elsif @record['pnx']['addata']['date'].present? && @record['pnx']['addata']['pages'].present?
-      "#{@record['pnx']['addata']['date'].join}, pp. #{@record['pnx']['addata']['pages'].join}"
-    end
+    @record['pnx']['display']['ispartof']&.first
   end
 
   def container

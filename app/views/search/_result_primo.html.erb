@@ -17,6 +17,7 @@
         <span><%= result[:year] %></span>
       </p>
 
+      <%# unclear why TIMDEX is using contributors and Primo is using creators. Should we normalize this? %>
       <% if result[:creators].present? %>
         <span class="sr">Contributors: </span>
         <ul class="list-inline truncate-list contributors">
@@ -30,6 +31,12 @@
             </li>
           <% end %>
         </ul>
+      <% end %>
+
+      <% if result[:citation].present? %>
+        <div class="result-container">
+          <span>In: </span><%= result[:citation] %>
+        </div>
       <% end %>
 
       <% if result[:subjects].present? %>

@@ -96,6 +96,7 @@ class TimdexSearch < TimdexBase
             kind
             value
           }
+          citation
         }
         aggregations {
           accessToFiles {
