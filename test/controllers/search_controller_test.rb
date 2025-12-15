@@ -499,7 +499,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       # Result list contents state "no results"
       assert_select '#results'
       assert_select '#results', { count: 1 }
-      assert_select '#results .no-results p', 'No results found for your search'
+      assert_select '#results .no-results h2', 'No results were found'
 
       # Filter sidebar is not shown
       assert_select '#filters', { count: 0 }
@@ -927,7 +927,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=nonexistentterm&tab=primo'
     assert_response :success
     assert_select '.no-results', count: 1
-    assert_select '.no-results p', text: /No results found for your search/
+    assert_select '.no-results h2', text: /No results were found/
     refute_select '.primo-continuation'
   end
 
@@ -952,7 +952,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=nonexistentterm&tab=timdex'
     assert_response :success
     assert_select '.no-results', count: 1
-    assert_select '.no-results p', text: /No results found for your search/
+    assert_select '.no-results h2', text: /No results were found/
     refute_select '.primo-continuation'
   end
 
