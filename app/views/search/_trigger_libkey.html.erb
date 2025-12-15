@@ -2,13 +2,8 @@
 
 <% data_url = "/lookup?type=#{kind}&identifier=#{identifier}" %>
 
-<span class="tacos-container"
+<span class="libkey-container"
      data-controller="content-loader"
      data-content-loader-url-value=<%= data_url %>>
-     <span style="background-color:lightgray;
-                  display: inline-block;
-                  font-size: 1.6rem;
-                  font-weight: 500;
-                  margin-right: 16px;
-                  min-width: 120px;">&nbsp;</span>
+     <span class="skeleton-loader">&nbsp;</span>
 </span>

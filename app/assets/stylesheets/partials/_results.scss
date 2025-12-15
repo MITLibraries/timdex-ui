@@ -225,17 +225,27 @@
       font-family: $base-font; // Since we're using 16px, override to use body font
     }
 
+    .result-get {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
     // Make result buttons present as underlined links
     a.button {
       @include underlinedLinks;
       font-weight: $fw-medium;
       font-size: 1.6rem;
-      margin-right: 16px;
     }
 
     // Except the first button, which should present as a secondary button
-    a.button:first-child {
+    .result-get > a.button:first-child {
       @include buttonSecondary;
+    }
+
+    // Loading skeleton when a button isn't available
+    span.skeleton-loader {
+      @include skeleton-loader(112px);
     }
 
     .truncate-list li:last-child {margin-bottom: 0;}
