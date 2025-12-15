@@ -31,6 +31,7 @@
                   <% end %>
                 <% end %>
             </ol>
+            <%# Note `results_callouts` is also displayed in no errors condition below %>
             <%= render partial: "results_callouts" %>
           </main>
           <%= render partial: "results_sidebar" %>
@@ -42,6 +43,9 @@
         <div id="results-layout-wrapper">
           <main id="results">
             <%= render partial: "no_results" %>
+
+            <%# Note `results_callouts` is also displayed in results and no errors condition above %>
+            <%= render partial: "results_callouts" %>
           </main>
         </div>
 
