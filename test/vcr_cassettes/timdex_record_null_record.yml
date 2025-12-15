@@ -30,50 +30,48 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
-      Date:
-      - Thu, 02 May 2024 20:57:41 GMT
-      Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1714683461&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=lpDgZuw3ks7S8wUJz2fQuFcCw%2F4Xd1L3wcRGc%2F4MqbA%3D"}]}'
-      Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1714683461&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=lpDgZuw3ks7S8wUJz2fQuFcCw%2F4Xd1L3wcRGc%2F4MqbA%3D
-      Nel:
-      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
-      Connection:
-      - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - '0'
-      X-Content-Type-Options:
-      - nosniff
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Vary:
-      - Accept, Origin
-      Etag:
-      - W/"a71ab5f227ca549959eae31dde7f19dc"
       Cache-Control:
       - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - 8e178878-4d3c-4993-8704-85836fa1f1ac
-      X-Runtime:
-      - '0.082541'
-      Strict-Transport-Security:
-      - max-age=63072000; includeSubDomains
       Content-Length:
       - '218'
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"a71ab5f227ca549959eae31dde7f19dc"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=tVGBL94wfxHCjZYFVnDfMinpiAMm6QAkaSqXZ3RHR3A%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765557676"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=tVGBL94wfxHCjZYFVnDfMinpiAMm6QAkaSqXZ3RHR3A%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765557676"
+      Server:
+      - Heroku
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Vary:
+      - Accept, Origin
       Via:
-      - 1.1 vegur
+      - 1.1 heroku-router
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - c8744be5-ed19-ea3c-fe73-72a8c5fc82a8
+      X-Runtime:
+      - '0.053393'
+      X-Xss-Protection:
+      - '0'
+      Date:
+      - Fri, 12 Dec 2025 16:41:16 GMT
     body:
       encoding: UTF-8
       string: '{"errors":[{"message":"Variable $id of type String! was provided invalid
         value","locations":[{"line":1,"column":27}],"extensions":{"value":null,"problems":[{"path":[],"explanation":"Expected
         value to not be null"}]}}]}'
-  recorded_at: Thu, 02 May 2024 20:57:41 GMT
-recorded_with: VCR 6.2.0
+  recorded_at: Fri, 12 Dec 2025 16:41:16 GMT
+recorded_with: VCR 6.3.1

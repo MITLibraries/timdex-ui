@@ -10,18 +10,43 @@
 
       <p class="pub-info">
         <span><%= result[:content_type]&.each { |type| type['value'] }&.join(' ; ') %></span>
-        <span>
-          <% result[:dates]&.each do |date| %>
-            <%= date['value'] if date['kind'] == 'Publication date' %>
-          <% end %>
-        </span>
+        
+        <% if result[:date_range].present? %>
+          <span><%= result[:date_range] %></span>
+        <% else %>
+          <span>
+            <% result[:dates]&.each do |date| %>
+              <%= date['value'] if date['kind'] == 'Publication date' %>
+            <% end %>
+          </span>
+        <% end %>
       </p>
 
+      <%# unclear why TIMDEX is using contributors and Primo is using creators. Should we normalize this? %>
       <% if result[:contributors].present? %>   
         <span class="sr">Contributors: </span>
         <ul class="list-inline truncate-list contributors">
           <%= render partial: 'shared/contributors', locals: { contributors: result[:contributors] } %>
         </ul>
+      <% end %>
+
+      <%# Primo displays citation here. TIMDEX citations probably need work to be useful here %>
+
+      <% if result[:subjects].present? %>
+        <div class="result-subjects truncate-list">
+          <span class="sr">Subjects: </span>
+          <ul>
+            <% result[:subjects].each do |subject| %>
+              <li><%= subject %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <% if result[:summary].present? %>
+        <div class="result-summary truncate-list">
+          <span class="sr">Summary: </span><%= result[:summary] %>
+        </div>
       <% end %>
     </div>
 

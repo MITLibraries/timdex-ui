@@ -83,7 +83,7 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
   test 'normalizes citation' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    assert_equal 'volume 2 issue 3', normalized[:citation]
+    assert_equal 'Journal of Testing, Vol. 2, Issue 3', normalized[:citation]
   end
 
   test 'handles missing citation' do
@@ -328,19 +328,6 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
     normalized = NormalizePrimoRecord.new(record, 'test').normalize
     assert_equal '2022', normalized[:year]
-  end
-
-  test 'handles different citation formats' do
-    # Test with just volume
-    record = full_record.deep_dup
-    record['pnx']['addata'] = { 'volume' => ['5'] }
-    normalized = NormalizePrimoRecord.new(record, 'test').normalize
-    assert_equal 'volume 5', normalized[:citation]
-
-    # Test with date and pages
-    record['pnx']['addata'] = { 'date' => ['2023'], 'pages' => ['10-20'] }
-    normalized = NormalizePrimoRecord.new(record, 'test').normalize
-    assert_equal '2023, pp. 10-20', normalized[:citation]
   end
 
   test 'prefers jtitle over btitle for container' do

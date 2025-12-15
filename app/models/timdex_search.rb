@@ -50,6 +50,10 @@ class TimdexSearch < TimdexBase
         hits
         records {
           timdexRecordId
+          identifiers {
+            kind
+            value
+          }
           title
           source
           contentType
@@ -61,6 +65,10 @@ class TimdexSearch < TimdexBase
           dates {
             kind
             value
+            range {
+              gte
+              lte
+            }
           }
           links {
             kind
@@ -84,6 +92,11 @@ class TimdexSearch < TimdexBase
           }
           sourceLink
           summary
+          subjects {
+            kind
+            value
+          }
+          citation
         }
         aggregations {
           accessToFiles {
