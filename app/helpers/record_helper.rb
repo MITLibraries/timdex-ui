@@ -186,6 +186,12 @@ module RecordHelper
     "<strong>#{loc[:name]}</strong> #{loc[:collection]} (#{loc[:call_number]})"
   end
 
+  # Returns true if the active tab includes multiple sources.
+  # As our tabs adjust over time, we will need to revisit this logic.
+  def multi_source_tab?
+    %w[all primo timdex website].include?(@active_tab)
+  end
+
   private
 
   def render_kind_value(list)

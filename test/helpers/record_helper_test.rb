@@ -387,4 +387,18 @@ class RecordHelperTest < ActionView::TestCase
     expected = "<i class='fa-sharp fa-solid fa-question' aria-hidden='true''></i>"
     assert_equal expected, icon('question')
   end
+
+  test 'multi_source_tab? returns true for tabs that combine sources' do
+    %w[all primo timdex website].each do |tab|
+      @active_tab = tab
+      assert multi_source_tab?
+    end
+  end
+
+  test 'multi_source_tab? returns false for other tabs' do
+    %w[alma cdi aspace timdex_alma fake_tab].each do |tab|
+      @active_tab = tab
+      assert_not multi_source_tab?
+    end
+  end
 end
