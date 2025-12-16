@@ -1,6 +1,8 @@
 <li class="result use">
   <div class="result-content">
-    <p class="eyebrow"><%= result[:eyebrow] %></p>
+    <% if multi_source_tab? && result[:eyebrow].present? %>
+      <p class="eyebrow"><%= result[:eyebrow] %></p>
+    <% end %>
     <h3 class="record-title">
       <span class="sr">Title: </span>
       <%= link_to_result(result) %>
