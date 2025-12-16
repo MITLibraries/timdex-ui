@@ -41,12 +41,6 @@ module SearchHelper
     end
   end
 
-  def view_online(result)
-    return unless result[:source_link].present?
-
-    link_to 'View online', result[:source_link], class: 'button button-primary'
-  end
-
   def view_record(record_id)
     link_to 'View full record', record_path(id: record_id), class: 'button button-primary'
   end
