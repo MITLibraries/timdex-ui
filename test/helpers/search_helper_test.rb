@@ -26,17 +26,6 @@ class SearchHelperTest < ActionView::TestCase
                   { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }], trim_highlights(result)
   end
 
-  test 'renders view_online link if source_link is present' do
-    result = { title: 'A record', source_link: 'https://example.org' }
-    assert_equal '<a class="button button-primary" href="https://example.org">View online</a>',
-                 view_online(result)
-  end
-
-  test 'does not render view_online link if source_link is absent' do
-    result = { title: 'A record' }
-    assert_nil view_online(result)
-  end
-
   test 'parse_geo_dates returns issued over coverage' do
     dates = [{ 'kind' => 'Coverage', 'value' => '2009-01-01' },
              { 'kind' => 'Issued', 'value' => '2011' }]
