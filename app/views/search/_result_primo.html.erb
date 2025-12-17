@@ -63,7 +63,9 @@
       <% if result[:links].present? %>
         <% result[:links].each do |link| %>
           <% if link['kind'].downcase == 'full record' %>
-            <%= view_record(link) %>
+            <% if Feature.enabled?(:record_link) %>
+              <%= link_to 'View full record', link['url'], class: 'button' %>
+            <% end %>
           <% else %>
             <%= link_to link['kind'].titleize, link['url'], class: 'button' %>
           <% end %>

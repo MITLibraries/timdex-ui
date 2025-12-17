@@ -56,8 +56,10 @@
       <%= render partial: 'search/highlights', locals: { result: result } %>
     </div>
 
-    <div class="result-get">
-      <%= view_record(result) %>
-    </div>
+    <% if Feature.enabled?(:record_link) %>
+      <div class="result-get">
+        <%= view_record(result) %>
+      </div>
+    <% end %>
   </div>
 </li>

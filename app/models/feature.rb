@@ -34,7 +34,7 @@
 class Feature
   # List of all valid features in the application
   VALID_FEATURES = %i[geodata boolean_picker simulate_search_latency tab_primo_all tab_timdex_all
-                      tab_timdex_alma].freeze
+                      tab_timdex_alma record_link].freeze
 
   # Check if a feature is enabled by name
   #
