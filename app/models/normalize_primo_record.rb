@@ -311,7 +311,8 @@ class NormalizePrimoRecord
   def subjects
     return [] unless @record['pnx']['display']['subject']
 
-    @record['pnx']['display']['subject']
+    subs = @record['pnx']['display']['subject']
+    subs.flat_map { |sub| sub.split(' ;  ') }
   end
 
   def availability
