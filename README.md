@@ -97,6 +97,7 @@ See `Optional Environment Variables` for more information.
 - `FEATURE_GEODATA`: Enables features related to geospatial data discovery. Setting this variable to `true` will trigger geodata
 mode. Note that this is currently intended _only_ for the geodata app and
 may have unexpected consequences if applied to other TIMDEX UI apps.
+- `FEATURE_RECORD_LINK`: Display the 'View full record' link below each record.
 - `FEATURE_SIMULATE_SEARCH_LATENCY`: DO NOT SET IN PRODUCTION. Set to ensure a minimum of a one second delay in returning search results. Useful to see spinners/loaders. Only introduces delay for results that take less than one second to complete.
 - `FEATURE_TAB_PRIMO_ALL`: Display a tab for displaying the combined Primo data (CDI + Alma)
 - `FEATURE_TAB_TIMDEX_ALL`: Display a tab for displaying the combined TIMDEX data. `TIMDEX_INDEX` affects which data appears in this tab.
