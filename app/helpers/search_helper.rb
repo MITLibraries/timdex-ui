@@ -1,6 +1,8 @@
 module SearchHelper
+  # These fields are used to filter out highlights that are already displayed in the main result view. Keep in mind these values need to be the names of fields in TIMDEX, not the normalized record keys.
   def displayed_fields
-    ['title', 'title.exact_value', 'content_type', 'dates.value', 'contributors.value']
+    ['title', 'title.exact_value', 'content_type', 'dates.value', 'contributors.value', 'summary', 'citation',
+     'subjects.value']
   end
 
   def trim_highlights(result)
