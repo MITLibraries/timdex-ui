@@ -182,7 +182,7 @@ class NormalizeTimdexRecord
     # first.
     relevant_date = relevant_dates.first
 
-    "#{relevant_date['range']['gte']}-#{relevant_date['range']['lte']}"
+    "#{relevant_date['range']['gte']} to #{relevant_date['range']['lte']}"
   end
 
   def contributors
