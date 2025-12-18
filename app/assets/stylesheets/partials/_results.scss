@@ -47,6 +47,7 @@
 .results-list.use {
   list-style-type: none;
   padding: 0;
+  margin-bottom: 0;
 }
 
 // --------------------------------------
@@ -139,10 +140,15 @@
 // --------------------------------------
 
 .result.use, .result.primo {
-  margin-bottom: 48px;
-  padding: 0;
+  padding: 48px 0;
+  margin: 0;
+  border-bottom: 1px solid $color-gray-400;
   border-top: none;
   
+  &:last-child {
+    border-bottom: none;
+  }
+
   &:hover,
   &:focus {
     background-color: transparent;
@@ -170,20 +176,56 @@
   .pub-info {
     font-size: $fs-base;
     color: $color-text-secondary;
-    span:first-child:after {
-      content: " • ";
-      color: $color-text-disabled;
+    
+    span {
+      &::after, &:first-child::after {
+        content: " • ";
+        color: $color-text-disabled;
+      }
+
+      &:last-child::after {
+        content: " ";
+      }
+
     }
+
     margin-bottom: 1em;
     margin-top: 0;
+  }
+
+  .result-subjects, .result-summary {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+
+  .result-subjects {
+    color: $color-text-secondary;
+
+    li {
+      margin-bottom: 0;
+
+      &::after {
+        content: " • ";
+        color: $color-text-disabled;
+      }
+
+      &:last-child::after {
+        content: " ";
+      }
+
+    }
+
   }
 
   .result-highlights.use {
     margin-top: 0;
 
+    h4, strong {font-weight: $fw-semibold;}
+
     ul {
       list-style: disc outside;
       padding-left: 16px;
+      margin-bottom: 0;
 
       li {
         margin-left: 0.6rem;

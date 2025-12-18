@@ -1,7 +1,7 @@
 <% highlights = trim_highlights(result) %>
 <% return unless highlights&.any? %>
 
-<h4 class="inner-heading">See full record for all matches to your search terms:</h4>
+<h4 class="inner-heading">Search term found in:</h4>
 <ul class="list-unbulleted truncate-list">
   <% highlights.each do |h| %>
     <% h['matchedPhrases'].each do |phrase| %>
