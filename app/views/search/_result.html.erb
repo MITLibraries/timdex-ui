@@ -47,7 +47,7 @@
 
       <% if result[:summary].present? %>
         <div class="result-summary truncate-list">
-          <span class="sr">Summary: </span><%= result[:summary] %>
+          <span class="sr">Summary: </span><%= sanitize result[:summary] %>
         </div>
       <% end %>
     </div>
