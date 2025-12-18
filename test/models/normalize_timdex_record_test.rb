@@ -82,7 +82,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
       { 'kind' => 'creation', 'range' => { 'lte' => '2023', 'gte' => '2020' } }
     ]
     normalized = NormalizeTimdexRecord.new(record, 'test').normalize
-    assert_equal '2020-2023', normalized[:date_range]
+    assert_equal '2020 to 2023', normalized[:date_range]
   end
 
   test 'normalizes format from content type' do
