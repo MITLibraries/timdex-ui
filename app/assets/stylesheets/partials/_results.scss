@@ -175,7 +175,6 @@
 
   .pub-info {
     font-size: $fs-base;
-    color: $color-text-secondary;
     
     span {
       &::after, &:first-child::after {
@@ -194,25 +193,31 @@
   }
 
   .result-subjects, .result-summary {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     margin-bottom: 8px;
+    color: $color-text-secondary;
   }
 
   .result-subjects {
     color: $color-text-secondary;
 
-    li {
-      margin-bottom: 0;
+    ul {
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
 
-      &::after {
-        content: " • ";
-        color: $color-text-disabled;
+      li {
+        margin-bottom: 0;
+
+        &::after {
+          content: " • ";
+          color: $color-text-disabled;
+        }
+
+        &:last-child::after {
+          content: " ";
+        }
+
       }
-
-      &:last-child::after {
-        content: " ";
-      }
-
     }
 
   }
@@ -220,7 +225,7 @@
   .result-highlights.use {
     margin-top: 0;
 
-    h4, strong {font-weight: $fw-semibold;}
+    h4, strong {font-weight: $fw-medium;}
 
     ul {
       list-style: disc outside;
@@ -229,7 +234,7 @@
 
       li {
         margin-left: 0.6rem;
-        font-size: 1.6rem;
+        font-size: 1.4rem;
       }
     }
   }
@@ -238,61 +243,61 @@
     background-color: $color-highlight;
   }
 
-  &.use, &.primo {
-    .result-metadata {
-      margin-bottom: 16px;
-    }
+  .result-metadata {
+    margin-bottom: 16px;
+  }
 
-    .pub-info {
-      margin-bottom: 4px;
-    }
+  .pub-info {
+    margin-bottom: 4px;
+  }
 
-    ul.contributors {
-      li {
-        font-weight: $fw-normal;
+  ul.contributors {
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    margin-bottom: 12px;
 
-        a {
-          color: $color-text-secondary;
-          text-decoration: none;
+    li {
+      font-weight: $fw-normal;
 
-          &:hover {
-            text-decoration: underline;
-          }
+      a {
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
         }
       }
     }
-
-    .inner-heading {
-      font-size: 1.6rem;
-      font-family: $base-font; // Since we're using 16px, override to use body font
-    }
-
-    .result-get {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    // Make result buttons present as underlined links
-    a.button {
-      @include underlinedLinks;
-      font-weight: $fw-medium;
-      font-size: 1.6rem;
-    }
-
-    // Except the first button, which should present as a secondary button
-    .result-get > a.button:first-child {
-      @include buttonSecondary;
-    }
-
-    // Loading skeleton when a button isn't available
-    span.skeleton-loader {
-      @include skeleton-loader(112px);
-    }
-
-    .truncate-list li:last-child {margin-bottom: 0;}
-
   }
+
+  .inner-heading {
+    font-size: 1.6rem;
+    font-family: $base-font; // Since we're using 16px, override to use body font
+  }
+
+  .result-get {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  // Make result buttons present as underlined links
+  a.button {
+    @include underlinedLinks;
+    font-weight: $fw-medium;
+    font-size: 1.6rem;
+  }
+
+  // Except the first button, which should present as a secondary button
+  .result-get > a.button:first-child {
+    @include buttonSecondary;
+  }
+
+  // Loading skeleton when a button isn't available
+  span.skeleton-loader {
+    @include skeleton-loader(112px);
+  }
+
+  .truncate-list li:last-child {margin-bottom: 0;}
 
   .availability {
     color: $color-text-secondary;
