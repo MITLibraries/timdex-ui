@@ -115,6 +115,9 @@ class NormalizePrimoRecord
   end
 
   def citation
+    # We don't want to include citations for Alma records at this time. If we include them in the future they need
+    # to be cleaned up as they currently look like `Engineering village 2$$QEngineering village 2`
+    return if alma_record?
     return unless @record['pnx']['display']
 
     @record['pnx']['display']['ispartof']&.first

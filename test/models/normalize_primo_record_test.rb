@@ -81,9 +81,17 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_empty normalized[:links]
   end
 
-  test 'normalizes citation' do
-    normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
+  test 'normalizes citation for cdi records' do
+    record = full_record.dup
+    record['pnx']['control']['recordid'] = ['cdi_crossref_primary_10_1234_test_article']
+
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
     assert_equal 'Journal of Testing, Vol. 2, Issue 3', normalized[:citation]
+  end
+
+  test 'skips citation for alma records' do
+    normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
+    assert_nil normalized[:citation]
   end
 
   test 'handles missing citation' do
