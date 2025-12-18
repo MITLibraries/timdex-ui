@@ -13,7 +13,6 @@
     </h3>
 
     <div class="result-metadata">
-
       <p class="pub-info">
         <span><%= result[:format] %></span>
         <span><%= result[:year] %></span>
@@ -63,19 +62,25 @@
       <% if result[:links].present? %>
         <% result[:links].each do |link| %>
           <% if link['kind'].downcase == 'full record' %>
+            <%# Full record link button uses the same link as the title link %>
             <% if Feature.enabled?(:record_link) %>
               <%= link_to 'View full record', link['url'], class: 'button' %>
             <% end %>
+          <%# Primo supplies PDF and HTML links in addition to the OpenURL variant that may be useful. %>
+          <%# We hide links with the `primo-link` css class if LibKey returns results. %>
           <% else %>
-            <%= link_to link['kind'].titleize, link['url'], class: 'button' %>
+            <%= link_to link['kind'], link['url'], class: 'button primo-link' %>
           <% end %>
         <% end %>
       <% end %>
+
+      <%# LibKey links are our preferred links so we call the API when possible to get these preferred links %>
       <% if Libkey.enabled? && result[:doi].present? %>
         <%= render(partial: 'trigger_libkey', locals: { kind: 'doi', identifier: result[:doi] }) %>
       <% elsif Libkey.enabled? && result[:pmid].present? %>
         <%= render(partial: 'trigger_libkey', locals: { kind: 'pmid', identifier: result[:pmid] }) %>
       <% end %>
+
       <% if result[:availability].present? %>
         <span class="availability"><%= availability(result[:availability], result[:location], result[:other_availability]) %></span>
       <% end %>

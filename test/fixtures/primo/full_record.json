@@ -60,6 +60,26 @@
         "22110403"
       ]
     },
+    "links": {
+      "openurl": [
+        "$$Topenurl_article"
+      ],
+      "openurlfulltext": [
+        "$$Topenurlfull_article"
+      ],
+      "backlink": [
+        "$$Uhttp://pascal-francis.inist.fr/vibad/index.php?action=getRecordDetail&idt=21178602$$DView record in Pascal Francis$$Hfree_for_read"
+      ],
+      "thumbnail": [
+        "$$Tsyndetics_thumb_exl"
+      ],
+      "linktopdf": [
+        "$$Uhttps://libproxy.mit.edu/login?&url=https://www.jstor.org/stable/pdf/20464433$$EPDF$$P50$$Gjstor$$H"
+      ],
+      "linktohtml": [
+        "$$Uhttps://libproxy.mit.edu/login?&url=https://www.jstor.org/stable/20464433$$EHTML$$P50$$Gjstor$$H"
+      ]
+    },
     "facets": {
       "frbrtype": [
         "5"

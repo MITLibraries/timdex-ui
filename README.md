@@ -79,6 +79,7 @@ See `Optional Environment Variables` for more information.
 - `MIT_PRIMO_URL`: The base URL for MIT Libraries' Primo instance (used to generate record links).
 - `PRIMO_API_KEY`: The Primo Search API key.
 - `PRIMO_API_URL`: The Primo Search API base URL.
+- `PRIMO_INST_ID`: Our Ex Libris Instituion ID
 - `PRIMO_SCOPE`: The Primo Search API `scope` used in Primo UI links. Does not affect our API calls. Ask Enterprise Systems for value.
 - `PRIMO_TAB`: The Primo Search API `tab` used in Primo UI links. Does not affect our API calls. Ask Enterprise Systems for value.
 - `PRIMO_VID`: The Primo Search API `vid` (or 'view ID`) param. Used in both our API calls and Primo UI. Ask Enterprise Systems for value.
