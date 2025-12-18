@@ -37,7 +37,7 @@
       <% if result[:subjects].present? %>
         <div class="result-subjects truncate-list">
           <span class="sr">Subjects: </span>
-          <ul>
+          <ul class="list-inline truncate-list subjects">
             <% result[:subjects].each do |subject| %>
               <li><%= subject %></li>
             <% end %>
