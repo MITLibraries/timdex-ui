@@ -100,7 +100,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       'contributors' => [{ 'value' => 'Foo Barston', 'kind' => 'Creator' }],
       'highlight' => [
         {
-          'matchedField' => 'summary',
+          'matchedField' => 'notes',
           'matchedPhrases' => ['<span>sample</span> document']
         }
       ],

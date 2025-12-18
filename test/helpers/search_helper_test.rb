@@ -13,17 +13,17 @@ class SearchHelperTest < ActionView::TestCase
   end
 
   test 'does not remove undisplayed fields from highlights' do
-    result = { highlight: [{ 'matchedField' => 'summary', 'matchedPhrases' => 'Have some data' }] }
-    assert_equal [{ 'matchedField' => 'summary', 'matchedPhrases' => 'Have some data' }], trim_highlights(result)
+    result = { highlight: [{ 'matchedField' => 'notes', 'matchedPhrases' => 'Have some data' }] }
+    assert_equal [{ 'matchedField' => 'notes', 'matchedPhrases' => 'Have some data' }], trim_highlights(result)
   end
 
   test 'returns correct set of highlights when result includes displayed and undisplayed fields' do
     result = { highlight: [{ 'matchedField' => 'title', 'matchedPhrases' => 'Very important data' },
                            { 'matchedField' => 'content_type', 'matchedPhrases' => 'Dataset' },
-                           { 'matchedField' => 'summary', 'matchedPhrases' => '2022' },
-                           { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }] }
-    assert_equal [{ 'matchedField' => 'summary', 'matchedPhrases' => '2022' },
-                  { 'matchedField' => 'citation', 'matchedPhrases' => 'Datascientist, Jane' }], trim_highlights(result)
+                           { 'matchedField' => 'numbering', 'matchedPhrases' => '2022' },
+                           { 'matchedField' => 'notes', 'matchedPhrases' => 'Datascientist, Jane' }] }
+    assert_equal [{ 'matchedField' => 'numbering', 'matchedPhrases' => '2022' },
+                  { 'matchedField' => 'notes', 'matchedPhrases' => 'Datascientist, Jane' }], trim_highlights(result)
   end
 
   test 'parse_geo_dates returns issued over coverage' do
