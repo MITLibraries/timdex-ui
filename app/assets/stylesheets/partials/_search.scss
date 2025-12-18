@@ -218,6 +218,11 @@
   margin: 0;
   max-width: 760px;
   padding: 3.5rem 0 2rem;
+
+  a {
+    @include underlinedLinks;
+    font-weight: $fw-medium;
+  }
 }
 
 /* primo continuation partial */

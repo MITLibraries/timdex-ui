@@ -144,6 +144,10 @@
   margin: 0;
   border-bottom: 1px solid $color-gray-400;
   border-top: none;
+
+  &:first-child {
+    padding-top: 0;
+  }
   
   &:last-child {
     border-bottom: none;
@@ -177,12 +181,17 @@
     font-size: $fs-base;
     
     span {
-      &::after, &:first-child::after {
+      &::before, &:last-child::before {
         content: " • ";
         color: $color-text-disabled;
       }
 
-      &:last-child::after {
+      &:first-child::before {
+        content: " ";
+      }
+
+      // Override the default separator
+      &::after, &:first-child::after {
         content: " ";
       }
 
@@ -192,7 +201,7 @@
     margin-top: 0;
   }
 
-  .result-subjects, .result-summary {
+  .result-subjects, .result-summary, .result-container {
     font-size: 1.4rem;
     margin-bottom: 8px;
     color: $color-text-secondary;
@@ -347,7 +356,7 @@
 
   .results-context-description {
     color: $color-text-secondary;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
   }
 
   #results-section {
