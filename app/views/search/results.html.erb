@@ -41,7 +41,7 @@
       <% elsif @errors.blank? %>
 
         <div id="results-layout-wrapper">
-          <main id="results">
+          <main id="results" class="no-results-container">
             <%= render partial: "no_results" %>
 
             <%# Note `results_callouts` is also displayed in results and no errors condition above %>
