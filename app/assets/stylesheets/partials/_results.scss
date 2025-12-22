@@ -322,13 +322,24 @@
   }
 }
 
+// -------------------------
+// NO RESULTS SECTION - USE
+// -------------------------
+
+.no-results-container {
+  max-width: 840px;
+
+  #callout-wrapper {
+    margin-bottom: 0;
+  }
+}
+
 .no-results.use {
   border: 0;
   font-size: 1.6rem;
   line-height: $lh-xloose;
   margin: 0;
   margin-bottom: 2em;
-  max-width: 760px;
 
   a {
     @include underlinedLinks;
