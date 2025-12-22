@@ -92,7 +92,7 @@ class NormalizePrimoRecord
   def format
     return unless @record['pnx']['display']['type']
 
-    normalize_type(@record['pnx']['display']['type'].join)
+    @record['pnx']['display']['type'].map { |term| Vocabularies::Format.lookup(term) }&.join(' ; ')
   end
 
   # While the links object in the Primo response often contains more than the Alma openurl, that is
@@ -275,15 +275,6 @@ class NormalizePrimoRecord
 
   def encode_author(author)
     URI.encode_uri_component(author)
-  end
-
-  def normalize_type(type)
-    r_types = {
-      'BKSE' => 'eBook',
-      'reference_entry' => 'Reference Entry',
-      'Book_chapter' => 'Book Chapter'
-    }
-    r_types[type] || type.capitalize
   end
 
   # It's possible we'll encounter records that use a different server,
