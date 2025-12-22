@@ -29,6 +29,7 @@ class Libkey
       Sentry.set_tags('mitlib.libkeyurl': url)
       Sentry.set_tags('mitlib.libkeystatus': e.message)
       Sentry.capture_message('Unexpected Libkey response status')
+      Rails.logger.error("Unexpected Libkey response status: #{e.message}")
       nil
     rescue HTTP::Error
       Rails.logger.error('Libkey connection error')

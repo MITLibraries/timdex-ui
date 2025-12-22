@@ -73,12 +73,27 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_equal 'full record', normalized[:links].first['kind']
 
     # Second link should be the Alma openurl
-    assert_equal 'openurl', normalized[:links].second['kind']
+    assert_equal 'Check Availability', normalized[:links].second['kind']
   end
 
   test 'handles missing links' do
     normalized = NormalizePrimoRecord.new(minimal_record, 'test').normalize
     assert_empty normalized[:links]
+  end
+
+  test 'parse_link_string creates expected data structure' do
+    # Strings that don't start with $$ should not be processed
+    link_string = 'https://example.com?param1=value1&param2=value2'
+    assert_nil NormalizePrimoRecord.new(full_record, 'test').send(:parse_link_string, link_string)
+
+    # Extract properly formatted links
+    link_string = '$$Uhttps://libproxy.mit.edu/login?&url=https://www.jstor.org/stable/pdf/20464433$$EPDF$$P50$$Gjstor$$H'
+    expected = { 'U' => 'https://libproxy.mit.edu/login?&url=https://www.jstor.org/stable/pdf/20464433', 'E' => 'PDF', 'P' => '50', 'G' => 'jstor', 'H' => '' }
+    assert_equal expected, NormalizePrimoRecord.new(full_record, 'test').send(:parse_link_string, link_string)
+
+    link_string = '$$Uhttps://libproxy.mit.edu/login?&url=https://www.jstor.org/stable/20464433$$EHTML$$P50$$Gjstor$$H'
+    expected = { 'U' => 'https://libproxy.mit.edu/login?&url=https://www.jstor.org/stable/20464433', 'E' => 'HTML', 'P' => '50', 'G' => 'jstor', 'H' => '' }
+    assert_equal expected, NormalizePrimoRecord.new(full_record, 'test').send(:parse_link_string, link_string)
   end
 
   test 'normalizes citation for cdi records' do
@@ -286,8 +301,10 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     link_kinds = normalized[:links].map { |link| link['kind'] }
 
     assert_includes link_kinds, 'full record'
-    assert_includes link_kinds, 'openurl'
-    assert_equal 2, normalized[:links].length # Only full record and openurl
+    assert_includes link_kinds, 'Check Availability'
+    assert_includes link_kinds, 'View PDF'
+    assert_includes link_kinds, 'View HTML'
+    assert_equal 4, normalized[:links].length
   end
 
   # Additional coverage tests for existing methods
@@ -359,14 +376,14 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
   test 'handles openurl server validation' do
     # Test with matching server
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    openurl_link = normalized[:links].find { |link| link['kind'] == 'openurl' }
+    openurl_link = normalized[:links].find { |link| link['kind'] == 'Check Availability' }
     assert_not_nil openurl_link
 
     # Test with mismatched server. Should log warning but still return URL
     record = full_record.deep_dup
     record['delivery']['almaOpenurl'] = 'https://different.server.com/openurl?param=value'
     normalized = NormalizePrimoRecord.new(record, 'test').normalize
-    openurl_link = normalized[:links].find { |link| link['kind'] == 'openurl' }
+    openurl_link = normalized[:links].find { |link| link['kind'] == 'Check Availability' }
     assert_not_nil openurl_link
   end
 

@@ -107,11 +107,53 @@ class NormalizePrimoRecord
       links << { 'url' => record_link, 'kind' => 'full record' }
     end
 
-    # Add openurl if available
-    links << { 'url' => openurl, 'kind' => 'openurl' } if openurl.present?
+    # If $$Topenurl_article
+    if @record['pnx']['links'] && @record['pnx']['links']['openurl'] && openurl.present?
+      links << { 'url' => openurl, 'kind' => 'Check Availability' }
+    end
+
+    # Add PDF if available
+    if @record['pnx']['links'] && @record['pnx']['links']['linktopdf']
+
+      parsed_string = parse_link_string(@record['pnx']['links']['linktopdf'].first)
+
+      if parsed_string['U'].present?
+        links << { 'url' => parsed_string['U'],
+                   'kind' => 'View PDF' }
+      end
+    end
+
+    # Add HTML if available
+    if @record['pnx']['links'] && @record['pnx']['links']['linktohtml']
+
+      parsed_string = parse_link_string(@record['pnx']['links']['linktohtml'].first)
+
+      if parsed_string['U'].present?
+        links << { 'url' => parsed_string['U'],
+                   'kind' => 'View HTML' }
+      end
+    end
 
     # Return links if we found any
     links.any? ? links : []
+  end
+
+  # Parses a link string into a hash of key-value pairs.
+  # The link string is a series of key-value pairs separated by $$, where each pair is prefixed by a single character.
+  # For example: "$$Uhttps://example.com$$TView PDF" would be parsed into { 'U' => 'https://example.com', 'T' => 'View PDF' }
+  def parse_link_string(link_string)
+    return unless link_string.start_with?('$$')
+
+    parts = link_string.split('$$')
+    hash = {}
+    parts.each do |part|
+      next if part.empty?
+
+      key = part[0]
+      value = part[1..-1]
+      hash[key] = value
+    end
+    hash
   end
 
   def citation
@@ -263,6 +305,9 @@ class NormalizePrimoRecord
 
   def construct_primo_openurl
     return unless @record['delivery']['almaOpenurl']
+    # Primo OpenURL links to some formats are not helpful
+    return if format == 'Journal'
+    return if format == 'Video'
 
     # Here we are converting the Alma link resolver URL provided by the Primo
     # Search API to redirect to the Primo UI. This is done for UX purposes,
@@ -270,15 +315,16 @@ class NormalizePrimoRecord
     # disambiguation page.
     primo_openurl_base = [ENV.fetch('MIT_PRIMO_URL', nil),
                           '/discovery/openurl?institution=',
-                          ENV.fetch('EXL_INST_ID', nil),
+                          ENV.fetch('PRIMO_INST_ID', nil),
                           '&vid=',
                           ENV.fetch('PRIMO_VID', nil),
                           '&'].join
     primo_openurl = @record['delivery']['almaOpenurl'].gsub(ENV.fetch('ALMA_OPENURL', nil), primo_openurl_base)
 
     # The ctx params appear to break Primo openurls, so we need to remove them.
-    params = Rack::Utils.parse_nested_query(primo_openurl)
-    filtered = params.delete_if { |key, _value| key.starts_with?('ctx') }
+    # params = Rack::Utils.parse_nested_query(primo_openurl)
+    # filtered = params.delete_if { |key, _value| key.starts_with?('ctx') }
+    filtered = primo_openurl
     URI::DEFAULT_PARSER.unescape(filtered.to_param)
   end
 
