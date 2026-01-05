@@ -72,8 +72,8 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     # First link should be the record link
     assert_equal 'full record', normalized[:links].first['kind']
 
-    # Second link should be the Alma openurl
-    assert_equal 'Check Availability', normalized[:links].second['kind']
+    # OpenURL is not included
+    refute normalized[:links].map { |l| l['kind'] }.include?('Check Availability')
   end
 
   test 'handles missing links' do
@@ -301,10 +301,10 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     link_kinds = normalized[:links].map { |link| link['kind'] }
 
     assert_includes link_kinds, 'full record'
-    assert_includes link_kinds, 'Check Availability'
     assert_includes link_kinds, 'View PDF'
     assert_includes link_kinds, 'View HTML'
     assert_equal 4, normalized[:links].length
+    assert_equal 3, normalized[:links].length
   end
 
   # Additional coverage tests for existing methods
@@ -371,20 +371,6 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
     normalized = NormalizePrimoRecord.new(record, 'test').normalize
     assert_equal 'Book Title Only', normalized[:container]
-  end
-
-  test 'handles openurl server validation' do
-    # Test with matching server
-    normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    openurl_link = normalized[:links].find { |link| link['kind'] == 'Check Availability' }
-    assert_not_nil openurl_link
-
-    # Test with mismatched server. Should log warning but still return URL
-    record = full_record.deep_dup
-    record['delivery']['almaOpenurl'] = 'https://different.server.com/openurl?param=value'
-    normalized = NormalizePrimoRecord.new(record, 'test').normalize
-    openurl_link = normalized[:links].find { |link| link['kind'] == 'Check Availability' }
-    assert_not_nil openurl_link
   end
 
   test 'identifies Alma records correctly' do

@@ -107,11 +107,6 @@ class NormalizePrimoRecord
       links << { 'url' => record_link, 'kind' => 'full record' }
     end
 
-    # If $$Topenurl_article
-    if @record['pnx']['links'] && @record['pnx']['links']['openurl'] && openurl.present?
-      links << { 'url' => openurl, 'kind' => 'Check Availability' }
-    end
-
     # Add PDF if available
     if @record['pnx']['links'] && @record['pnx']['links']['linktopdf']
 
@@ -275,48 +270,6 @@ class NormalizePrimoRecord
 
   def encode_author(author)
     URI.encode_uri_component(author)
-  end
-
-  # It's possible we'll encounter records that use a different server,
-  # so we want to test against our expected server to guard against
-  # malformed URLs. This assumes all URL strings begin with https://.
-  def openurl
-    return unless @record['delivery'] && @record['delivery']['almaOpenurl']
-
-    # Check server match
-    openurl_server = ENV.fetch('ALMA_OPENURL', nil)[8, 4]
-    record_openurl_server = @record['delivery']['almaOpenurl'][8, 4]
-    if openurl_server == record_openurl_server
-      construct_primo_openurl
-    else
-      Rails.logger.warn "Alma openurl server mismatch. Expected #{openurl_server}, but received #{record_openurl_server}. (record ID: #{identifier})"
-      @record['delivery']['almaOpenurl']
-    end
-  end
-
-  def construct_primo_openurl
-    return unless @record['delivery']['almaOpenurl']
-    # Primo OpenURL links to some formats are not helpful
-    return if format == 'Journal'
-    return if format == 'Video'
-
-    # Here we are converting the Alma link resolver URL provided by the Primo
-    # Search API to redirect to the Primo UI. This is done for UX purposes,
-    # as the regular Alma link resolver URLs redirect to a plaintext
-    # disambiguation page.
-    primo_openurl_base = [ENV.fetch('MIT_PRIMO_URL', nil),
-                          '/discovery/openurl?institution=',
-                          ENV.fetch('PRIMO_INST_ID', nil),
-                          '&vid=',
-                          ENV.fetch('PRIMO_VID', nil),
-                          '&'].join
-    primo_openurl = @record['delivery']['almaOpenurl'].gsub(ENV.fetch('ALMA_OPENURL', nil), primo_openurl_base)
-
-    # The ctx params appear to break Primo openurls, so we need to remove them.
-    # params = Rack::Utils.parse_nested_query(primo_openurl)
-    # filtered = params.delete_if { |key, _value| key.starts_with?('ctx') }
-    filtered = primo_openurl
-    URI::DEFAULT_PARSER.unescape(filtered.to_param)
   end
 
   def thumbnail
