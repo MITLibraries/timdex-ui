@@ -67,7 +67,7 @@ class LibkeyTest < ActiveSupport::TestCase
       result = Libkey.lookup(type: 'doi', identifier: '10.1038/s41567-023-02305-y')
 
       assert_instance_of Hash, result
-      assert_equal result.keys, %i[link text type]
+      assert_equal result.keys, %i[best_integrator_link browzine_link html_link pdf_link openurl_link]
     end
   end
 
@@ -76,7 +76,7 @@ class LibkeyTest < ActiveSupport::TestCase
       result = Libkey.lookup(type: 'pmid', identifier: '22110403')
 
       assert_instance_of Hash, result
-      assert_equal result.keys, %i[link text type]
+      assert_equal result.keys, %i[best_integrator_link browzine_link html_link pdf_link openurl_link]
     end
   end
 
