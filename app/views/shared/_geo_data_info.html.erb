@@ -1,7 +1,8 @@
 <ul class="list-inline">
   <% if metadata[:content_type] %>
-    <li><%= metadata[:content_type]&.each { |type| type['value'] }&.join(' ; ') %></li>
+    <li><%= metadata[:content_type] %></li>
   <% elsif metadata['contentType'] %>
+    <% # This branch is used by the record view, which is not passed through a normalizer. %>
     <li><%= metadata['contentType']&.each { |type| type['value'] }&.join(' ; ') %></li>
   <% end %>
 

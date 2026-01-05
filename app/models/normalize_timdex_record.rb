@@ -102,10 +102,11 @@ class NormalizeTimdexRecord
     end
   end
 
+  # This is the same as the content_type field below.
   def format
     return '' unless @record['contentType']
 
-    @record['contentType'].map { |type| type['value'] }.join(' ; ')
+    @record['contentType']&.map { |term| Vocabularies::Format.lookup(term) }&.join(' ; ')
   end
 
   def links
@@ -158,8 +159,10 @@ class NormalizeTimdexRecord
   end
 
   # TIMDEX-specific methods
+
+  # This is the same as the format field above.
   def content_type
-    @record['contentType']
+    @record['contentType']&.map { |term| Vocabularies::Format.lookup(term) }&.join(' ; ')
   end
 
   def dates

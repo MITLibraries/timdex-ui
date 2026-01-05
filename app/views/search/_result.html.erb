@@ -11,7 +11,7 @@
     <div class="result-metadata">
 
       <p class="pub-info">
-        <span><%= result[:content_type]&.each { |type| type['value'] }&.join(' ; ') %></span>
+        <span><%= result[:content_type] %></span>
         
         <% if result[:date_range].present? %>
           <span><%= result[:date_range] %></span>
