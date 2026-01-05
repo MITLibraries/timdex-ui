@@ -114,7 +114,7 @@ class NormalizePrimoRecord
 
       if parsed_string['U'].present?
         links << { 'url' => parsed_string['U'],
-                   'kind' => 'View PDF' }
+                   'kind' => 'Get PDF' }
       end
     end
 
@@ -125,7 +125,7 @@ class NormalizePrimoRecord
 
       if parsed_string['U'].present?
         links << { 'url' => parsed_string['U'],
-                   'kind' => 'View HTML' }
+                   'kind' => 'Read online' }
       end
     end
 

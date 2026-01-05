@@ -72,6 +72,12 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     # First link should be the record link
     assert_equal 'full record', normalized[:links].first['kind']
 
+    # Second link should be the PDF link
+    assert_equal 'Get PDF', normalized[:links][1]['kind']
+
+    # Third link should be the HTML link
+    assert_equal 'Read online', normalized[:links][2]['kind']
+
     # OpenURL is not included
     refute normalized[:links].map { |l| l['kind'] }.include?('Check Availability')
   end
@@ -301,9 +307,8 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     link_kinds = normalized[:links].map { |link| link['kind'] }
 
     assert_includes link_kinds, 'full record'
-    assert_includes link_kinds, 'View PDF'
-    assert_includes link_kinds, 'View HTML'
-    assert_equal 4, normalized[:links].length
+    assert_includes link_kinds, 'Get PDF'
+    assert_includes link_kinds, 'Read online'
     assert_equal 3, normalized[:links].length
   end
 
