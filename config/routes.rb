@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   get 'style-guide', to: 'static#style_guide'
 
   get 'boolpref', to: 'static#boolpref'
+
+  get 'robots.txt', to: 'robots#robots'
 end
