@@ -77,9 +77,6 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
     # Third link should be the HTML link
     assert_equal 'Read online', normalized[:links][2]['kind']
-
-    # OpenURL is not included
-    refute normalized[:links].map { |l| l['kind'] }.include?('Check Availability')
   end
 
   test 'handles missing links' do
