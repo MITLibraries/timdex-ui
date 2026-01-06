@@ -41,12 +41,65 @@ class Libkey
   end
 
   def self.extract_metadata(external_data)
+    return if external_data['data'].blank?
+
+    {
+      best_integrator_link: best_integrator_link(external_data),
+      browzine_link: browzine_link(external_data),
+      html_link: html_link(external_data),
+      pdf_link: pdf_link(external_data),
+      openurl_link: openurl_link(external_data)
+    }
+  end
+
+  def self.openurl_link(external_data)
+    return unless external_data['data']['linkResolverOpenUrl']&.present?
+
+    {
+      link: external_data['data']['linkResolverOpenUrl'],
+      text: 'OpenURL Link'
+    }
+  end
+
+  def self.pdf_link(external_data)
+    return unless external_data['data']['fullTextFile']&.present?
+
+    Rails.logger.debug("Libkey PDF link found: #{external_data['data']['fullTextFile']}")
+    {
+      link: external_data['data']['fullTextFile'],
+      text: 'Get PDF'
+    }
+  end
+
+  def self.html_link(external_data)
+    return unless external_data['data']['contentLocation']&.present?
+
+    {
+      link: external_data['data']['contentLocation'],
+      text: 'Read online'
+    }
+  end
+
+  def self.browzine_link(external_data)
+    return unless external_data['data']['browzineWebLink']&.present?
+
+    {
+      link: external_data['data']['browzineWebLink'],
+      text: 'Browse journal issue'
+    }
+  end
+
+  def self.best_integrator_link(external_data)
     return unless external_data['data']['bestIntegratorLink']
+
+    # Skip generic 'Access Options' links. Clicking the title is prefered in this case rather than a button to the
+    # link resolver which is missing context available on the record page.
+    return if external_data['data']['bestIntegratorLink']['recommendedLinkText'] == 'Access Options'
 
     {
       link: external_data['data']['bestIntegratorLink']['bestLink'],
       text: external_data['data']['bestIntegratorLink']['recommendedLinkText'],
-      type: external_data['data']['bestIntegratorLink']['linkType'] # Not sure whether this belongs here.
+      type: external_data['data']['bestIntegratorLink']['linkType']
     }
   end
 
