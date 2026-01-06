@@ -185,10 +185,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
   # Test TIMDEX-specific fields
   test 'includes TIMDEX-specific content_type field' do
     normalized = NormalizeTimdexRecord.new(full_record, 'test').normalize
-    expected_content_type = [
-      { 'value' => 'Dataset' },
-      { 'value' => 'Geospatial data' }
-    ]
+    expected_content_type = 'Dataset ; Geospatial data'
     assert_equal expected_content_type, normalized[:content_type]
   end
 

@@ -2,10 +2,7 @@
   "timdexRecordId": "test-record-123",
   "title": "Sample TIMDEX Record for Testing",
   "source": "Test Repository",
-  "contentType": [
-    {"value": "Dataset"},
-    {"value": "Geospatial data"}
-  ],
+  "contentType": ["Dataset", "Geospatial data"],
   "dates": [
     {"kind": "Publication date", "value": "2023-01-15"},
     {"kind": "Coverage", "value": "2020-2023"}

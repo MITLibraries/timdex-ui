@@ -95,7 +95,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       'api' => 'timdex',
       'title' => 'Sample TIMDEX Document Title',
       'timdexRecordId' => 'sample-record-123',
-      'contentType' => [{ 'value' => 'Article' }],
+      'contentType' => ['Article'],
       'dates' => [{ 'kind' => 'Publication date', 'value' => '2023' }],
       'contributors' => [{ 'value' => 'Foo Barston', 'kind' => 'Creator' }],
       'highlight' => [
@@ -143,7 +143,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       'api' => 'timdex',
       'title' => 'Sample TIMDEX Document Title',
       'timdexRecordId' => 'sample-record-123',
-      'contentType' => [{ 'value' => 'Article' }],
+      'contentType' => ['Article'],
       'dates' => [{ 'kind' => 'Publication date', 'value' => '2023' }],
       'contributors' => [{ 'value' => 'Foo Barston', 'kind' => 'Creator' }],
       'highlight' => [
@@ -186,7 +186,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       {
         'title' => "Sample TIMDEX Document Title #{i}",
         'timdexRecordId' => "sample-record-#{i}",
-        'contentType' => [{ 'value' => 'Article' }],
+        'contentType' => ['Article'],
         'dates' => [{ 'kind' => 'Publication date', 'value' => '2023' }],
         'contributors' => [{ 'value' => "Creator #{i}", 'kind' => 'Creator' }],
         'sourceLink' => "https://example.com/record#{i}"
@@ -448,7 +448,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       'api' => 'timdex',
       'title' => 'Sample TIMDEX Document Title',
       'timdexRecordId' => 'sample-record-123',
-      'contentType' => [{ 'value' => 'Article' }],
+      'contentType' => ['Article'],
       'dates' => [{ 'kind' => 'Publication date', 'value' => '2023' }],
       'contributors' => [{ 'value' => 'Foo Barston', 'kind' => 'Creator' }],
       'highlight' => [],
