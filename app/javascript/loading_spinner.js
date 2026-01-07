@@ -55,8 +55,7 @@ document.addEventListener('click', function(event) {
   const clickedElement = event.target;
 
   // Handle pagination clicks
-  if (clickedElement.closest('.pagination-container') || 
-      clickedElement.matches('.first a, .previous a, .next a')) {
+  if (clickedElement.matches('.first a, .previous a, .next a')) {
     // Throw the spinner on the search results immediately
     document.getElementById('search-results').classList.add('spinner');
 
