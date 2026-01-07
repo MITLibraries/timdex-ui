@@ -13,7 +13,7 @@ class RobotsControllerTest < ActionDispatch::IntegrationTest
       get '/robots.txt'
 
       assert_response :success
-      assert_includes response.body, "Disallow: /results/\n"
+      assert_includes response.body, "Disallow: /results\n"
       refute_includes response.body, "Disallow: /\n"
     end
   end
