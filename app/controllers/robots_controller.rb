@@ -8,7 +8,7 @@ class RobotsController < ApplicationController
       File.read(Rails.root.join('config','robots-nonproduction.txt'))
     end
 
-    headers['cache-control'] = "public, max-age=#{1.year.seconds.to_i}"
+    headers['cache-control'] = "public, max-age=#{1.week.seconds.to_i}"
     render :plain => body, :layout => false, :content_type => 'text/plain'
   end
 end
