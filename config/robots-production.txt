@@ -1,6 +1,6 @@
 # All robots should ignore results pages.
 User-agent: *
-Disallow: /analyze/
-Disallow: /lookup/
-Disallow: /record/
-Disallow: /results/
+Disallow: /analyze
+Disallow: /lookup
+Disallow: /record
+Disallow: /results
