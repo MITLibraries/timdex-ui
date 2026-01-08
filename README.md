@@ -128,6 +128,11 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `REDIRECT_REQUEST_PERIOD`- time in minutes used along with `REDIRECT_REQUEST_PERIOD`
 - `RESULTS_PER_PAGE`: The number of results to display per page. Use an even number to avoid peculiarities. Defaults to 20 if unset.
 - `ROBOTS_ENV`: Determines which version of `robots.txt` is used. This is read by the Robots controller. Any value other than `production` results in the non-production version being used.
+- `SCOUT_AUTO_INSTRUMENTS`: default is `false`. Recommended setting is `true` unless we add manual instrumentation in the future.
+- `SCOUT_DEV_TRACE`: only set in dev. Enables local, in-browser traces (does not send to ScoutAPM service. Other SCOUT ENV should not be set when using this)
+- `SCOUT_KEY`: retrieve from ScoutAPM app. Required to enable ScoutAPM.
+- `SCOUT_MONITOR`: Set to true to enable monitoring. No other settings do anything without this (other than `SCOUT_DEV_TRACE`).
+- `SCOUT_NAME`: Set to name of app and environment. Example for production Unified Search, `use-prod`.
 - `SENTRY_DSN`: Client key for Sentry exception logging.
 - `SENTRY_ENV`: Sentry environment for the application. Defaults to 'unknown' if unset.
 - `TACOS_SOURCE`: If set, this value is sent to TACOS (as the `sourceSystem` value) to distinguish which application

@@ -321,6 +321,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    scout_apm (6.0.2)
+      parser
     securerandom (0.4.1)
     selenium-webdriver (4.36.0)
       base64 (~> 0.2)
@@ -427,6 +429,7 @@ DEPENDENCIES
   redis
   rubocop
   rubocop-rails
+  scout_apm
   selenium-webdriver
   sentry-rails
   sentry-ruby
