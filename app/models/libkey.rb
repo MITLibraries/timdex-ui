@@ -64,7 +64,6 @@ class Libkey
   def self.pdf_link(external_data)
     return unless external_data['data']['fullTextFile']&.present?
 
-    Rails.logger.debug("Libkey PDF link found: #{external_data['data']['fullTextFile']}")
     {
       link: external_data['data']['fullTextFile'],
       text: 'Get PDF'
