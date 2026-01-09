@@ -20,6 +20,7 @@ class NormalizePrimoRecord
       identifier:,
       doi:,
       pmid:,
+      issn:,
       summary:,
       publisher:,
       location:,
@@ -196,6 +197,14 @@ class NormalizePrimoRecord
     end
 
     @record['pnx']['addata']['pmid'].first
+  end
+
+  def issn
+    return unless @record['pnx']['addata'] && @record['pnx']['addata']['issn']
+
+    # Unlike DOI and PMID, it's common for a record to have multiple ISSNs (e.g., print and electronic).
+    # Therefore, we don't log an error if there are multiple ISSNs.
+    @record['pnx']['addata']['issn'].first
   end
 
   def summary

@@ -7,6 +7,12 @@ class ThirdironController < ApplicationController
     @libkey = Libkey.lookup(type: params[:type], identifier: params[:identifier])
   end
 
+  def browzine
+    return unless Libkey.enabled? && params[:issn].present?
+
+    @browzine = Browzine.lookup(issn: params[:issn])
+  end
+
   private
 
   def expected_params?
