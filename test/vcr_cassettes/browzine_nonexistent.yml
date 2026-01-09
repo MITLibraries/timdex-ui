@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_LIBKEY_ID/search?access_token=FAKE_LIBKEY_KEY&issns=0000000X
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - Keep-Alive
+      Host:
+      - public-api.thirdiron.com
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, Authorization
+      Access-Control-Allow-Methods:
+      - DELETE,GET,PATCH,POST,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Length:
+      - '11'
+      Content-Security-Policy:
+      - default-src 'none'; frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Jan 2026 15:40:26 GMT
+      Etag:
+      - W/"b-EFAlOux7Kcr/ZEgGkn2r+oFAbu4"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=TQpA5Mcjfm5vapOCg6YX0ji4JZ7%2FNBXLxhWvLmQ6cKA%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1767973226"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=TQpA5Mcjfm5vapOCg6YX0ji4JZ7%2FNBXLxhWvLmQ6cKA%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1767973226"
+      Server:
+      - Heroku
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 heroku-router
+      X-Powered-By:
+      - Express
+      X-Ratelimit-Limit:
+      - '7000'
+      X-Ratelimit-Remaining:
+      - '6999'
+      X-Ratelimit-Reset:
+      - '1767973287'
+    body:
+      encoding: UTF-8
+      string: '{"data":[]}'
+  recorded_at: Fri, 09 Jan 2026 15:40:26 GMT
+recorded_with: VCR 6.3.1

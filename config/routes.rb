@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'analyze', to: 'tacos#analyze'
 
   get 'libkey', to: 'thirdiron#libkey'
+  get 'browzine', to: 'thirdiron#browzine'
 
   get 'record/(:id)',
       to: 'record#view',
