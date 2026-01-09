@@ -181,7 +181,6 @@ class NormalizePrimoRecord
 
     if @record['pnx']['addata']['doi'].length > 1
       Sentry.set_tags('mitlib.recordId': identifier || 'empty record id')
-      Sentry.set_tags('mitlib.dois': @record['pnx']['addata']['doi'])
       Sentry.capture_message('Multiple DOIs found in one record')
     end
 
@@ -193,7 +192,6 @@ class NormalizePrimoRecord
 
     if @record['pnx']['addata']['pmid'].length > 1
       Sentry.set_tags('mitlib.recordId': identifier || 'empty record id')
-      Sentry.set_tags('mitlib.pmids': @record['pnx']['addata']['pmid'])
       Sentry.capture_message('Multiple PMIDs found in one record')
     end
 
