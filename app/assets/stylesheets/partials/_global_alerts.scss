@@ -1,9 +1,23 @@
 .wrap-notices {
-  background-color: $blue-bright;
-  text-align: center;
+  background-color: $color-bg-information;
 
-  .title {
-    font-size: $fs-xlarge;
+  h1.title {
+    background-color: $color-bg-information;
+    color: $color-cyan-50;
+    font-size: $fs-large;
+    font-weight: $fw-semibold;
+    letter-spacing: 0.02em;
     line-height: 1.4;
+    text-shadow: none;
+
+    a {
+      color: $color-text-oncolor;
+      text-decoration-color: $color-cyan-500;
+      text-underline-offset: 0.5rem;  
+
+      &:hover {
+        text-decoration-color: $color-cyan-200;
+      }
+    }
   }
 }
