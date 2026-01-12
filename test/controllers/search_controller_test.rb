@@ -870,8 +870,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=test&tab=primo&page=49'
     assert_response :success
     assert_select '.primo-continuation', count: 1
-    assert_select '.primo-continuation h2', text: /Continue your search in Search Our Collections/
-    assert_select '.primo-continuation a[href*="primo.exlibrisgroup.com"]', count: 1
+    assert_select '.primo-continuation h2', text: /You have reached the limit for these search results/
   end
 
   test 'primo results work normally within API offset limit' do
@@ -912,7 +911,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=test&tab=primo&page=5'
     assert_response :success
     assert_select '.primo-continuation', count: 1
-    assert_select '.primo-continuation h2', text: /Continue your search in Search Our Collections/
+    assert_select '.primo-continuation h2', text: /You have reached the limit for these search results/
   end
 
   test 'primo results shows no results message when search returns no results on first page' do
@@ -1024,8 +1023,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     # Should show primo continuation partial
     assert_select '.primo-continuation', count: 1
-    assert_select '.primo-continuation h2', text: /Continue your search in Search Our Collections/
-    assert_select '.primo-continuation a[href*="primo.exlibrisgroup.com"]', count: 1
+    assert_select '.primo-continuation h2', text: /You have reached the limit for these search results/
   end
 
   test 'all tab pagination displays combined hit counts' do

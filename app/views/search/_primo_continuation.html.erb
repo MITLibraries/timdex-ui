@@ -1,13 +1,9 @@
 <div class="primo-continuation">
-  <h2 class="hd-3">Continue your search in Search Our Collections</h2>
+  <h2>You have reached the limit for these search results</h2>
   <p>
-    You've reached the pagination limit for embedded search results. To see more results and access 
-    additional search features, continue your search in the full Search Our Collections interface.
+    Use the links below for advanced search or browse options. <a href="https://libraries.mit.edu/ask/">Ask us</a> for help.
   </p>
   <div>
-    <%= link_to "Continue in Search Our Collections", 
-        primo_search_url(@enhanced_query[:q]), 
-        class: "button-primary", 
-        rel: "nofollow" %>
+  <%= render partial: "results_callouts" %>
   </div>
 </div>

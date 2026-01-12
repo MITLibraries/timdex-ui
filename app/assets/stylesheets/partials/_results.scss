@@ -334,10 +334,10 @@
 }
 
 // -------------------------
-// NO RESULTS SECTION - USE
+// NO RESULTS SECTION & PRIMO CONTINUATION - USE
 // -------------------------
 
-.no-results-container {
+.no-results-container, .primo-continuation {
   max-width: 840px;
 
   #callout-wrapper {
@@ -345,7 +345,7 @@
   }
 }
 
-.no-results.use {
+.no-results.use, .primo-continuation {
   border: 0;
   font-size: 1.6rem;
   line-height: $lh-xloose;
@@ -359,6 +359,14 @@
 
   p:last-child {
     margin-bottom: 0;
+  }
+}
+
+.primo-continuation {
+  margin-bottom: 0;
+
+  > p {
+    margin-bottom: 32px;
   }
 }
 
