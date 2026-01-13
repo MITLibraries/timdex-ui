@@ -12,13 +12,27 @@ This file highlights the important, discoverable conventions and workflows an AI
 
 - **Caching & query keys:** `SearchController#query_timdex` uses `Rails.cache` and generates stable cache keys with `generate_cache_key` (MD5 of a sorted query hash). When changing query shape, update cache key logic or clear cache accordingly.
 
-- **Feature flags & environment:** Feature toggles are read with `Feature.enabled?(:name)` and many behaviours are controlled by ENV variables (see README). Important env vars: `TIMDEX_GRAPHQL`, `PRIMO_API_URL`, `PRIMO_API_KEY`, `FEATURE_GEODATA`, `FEATURE_SIMULATE_SEARCH_LATENCY`, `FEATURE_TAB_TIMDEX`, and many `FILTER_*`/`ACTIVE_FILTERS` values. Tests rely on `.env.test` values for VCR cassette generation.
+- **Feature flags & environment:** Feature toggles are read with `Feature.enabled?(:name)` via the `Feature` class (see `app/models/feature.rb`). This replaces the older flipflop gem-based approach with a simpler, stateless environment variable system. Valid flags are:
 
-- **Parallel fetching pattern:** The `all` tab uses `Thread.new` to fetch Primo and Timdex concurrently and then zips results. Be careful when refactoring to preserve thread-safety and caching semantics.
+  | Flag | Purpose |
+  |------|----------|
+  | `FEATURE_GEODATA` | Enable geospatial search (bounding box and radius-based queries); defaults to false |
+  | `FEATURE_BOOLEAN_PICKER` | Allow users to choose AND/OR boolean logic in searches |
+  | `FEATURE_SIMULATE_SEARCH_LATENCY` | Add 1s minimum delay to search results for testing UX behavior |
+  | `FEATURE_TAB_PRIMO_ALL` | Display combined Primo (CDI + Alma) results tab |
+  | `FEATURE_TAB_TIMDEX_ALL` | Display combined TIMDEX results tab |
+  | `FEATURE_TAB_TIMDEX_ALMA` | Display Alma-only TIMDEX results tab |
+  | `FEATURE_RECORD_LINK` | Show "View full record" link in search results |
 
-- **JS stack & conventions:** Rails importmap is in use (`importmap-rails`). JavaScript entry is `app/javascript/application.js`. Stimulus controllers live in `app/javascript/controllers` and are imported by `importmap` via `config/importmap.rb`. Prefer small, focused changes to Stimulus controllers rather than heavy bundler-based rewrites.
+  Essential ENV vars for core functionality: `TIMDEX_GRAPHQL`, `PRIMO_API_URL`, `PRIMO_API_KEY`, `RESULTS_PER_PAGE`, `TIMDEX_INDEX`, `TIMDEX_SOURCES`. Filter customization: `FILTER_*` (e.g., `FILTER_LANGUAGE`, `FILTER_CONTENT_TYPE`) and `ACTIVE_FILTERS` (comma-separated list controlling visibility/order of filters; note that filter aggregation keys in the schema use `*Filter` suffix, e.g., `languageFilter`, `contentTypeFilter`). Tests rely on `.env.test` values for VCR cassette generation and use `ClimateControl` gem to mock feature flags.
 
-- **Errors & UX flows:** Search errors are extracted in `SearchController` (`extract_errors`) and rendered to the UI. Geospatial features are guarded by feature flags and many validations (see `validate_geobox_*` and `validate_geodistance_*`). When changing UX or params, update these validations and corresponding flash messages.
+- **Parallel fetching & multi-source pagination:** The `all` tab uses `MergedSearchService` (with `MergedSearchPaginator`) to fetch Primo and Timdex concurrently via `Thread.new`, then intelligently merges paginated results. Primo has a practical offset limit (~960 records); when this limit is reached, the UI shows a `show_continuation` flag to indicate search is exhausted. Merged totals are cached for 12 hours. Be careful when refactoring to preserve thread-safety, caching semantics, and offset limit handling.
+
+- **JS stack & conventions:** Rails importmap is in use (`importmap-rails`). JavaScript entry is `app/javascript/application.js`. Stimulus controllers live in `app/javascript/controllers` and are imported by `importmap` via `config/importmap.rb`. Key controllers include `content_loader_controller.js` (dynamic content loading) and tab management via `source_tabs.js` (which handles geospatial UI state). Prefer small, focused changes to Stimulus controllers rather than heavy bundler-based rewrites.
+
+- **Geospatial search pattern:** When `FEATURE_GEODATA` is enabled, `SearchController` supports two additional query types beyond keyword search: **geobox** (bounding box with min/max latitude/longitude) and **geodistance** (radius search with distance, latitude, longitude). These are implemented via `GeoboxQuery` and `GeodistanceQuery` in `TimdexSearch` and routed to a dedicated `results_geo` view. Use case: GEODATA (geographic discovery tool) app uses this for location-based discovery; other apps can leverage the same pattern for their own needs. Input validation guards these features: `validate_geobox_*` and `validate_geodistance_*` methods check coordinate ranges and required params before querying. When changing geospatial UX or params, update these validations and corresponding flash messages.
+
+- **Errors & UX flows:** Search errors are extracted in `SearchController` (`extract_errors`) and rendered to the UI. When implementing new search types or filters, ensure error handling covers both success and failure cases, and update flash messages for clarity.
 
 - **Naming patterns and responsibilities:** Look for classes with these roles and names:
 
@@ -34,11 +48,19 @@ This file highlights the important, discoverable conventions and workflows an AI
   - Commit `.env.test` (it should not contain real credentials).
   - Run the test that exercises the request to generate new cassettes.
 
+- **Testing geospatial features:** Geospatial tests follow the same VCR pattern. When writing tests for geobox or geodistance queries:
+
+  - Use `ClimateControl.modify(FEATURE_GEODATA: 'true')` to enable the feature flag in test blocks (see test helper for patterns).
+  - Create VCR cassettes named with `geobox_*` or `geodistance_*` suffixes to keep them organized separately from standard search cassettes.
+  - Test both validation (e.g., missing coordinates, invalid ranges) and successful query paths (verify aggregations include `places` for geobox).
+  - Disable `FEATURE_GEODATA` by default in `.env.test` and only enable in specific test cases to avoid unintended side effects.
+
 - **Common pitfalls to avoid:**
 
   - Don’t assume GraphQL responses are serializable — code converts `GraphQL::Client::Response` to hashes (`raw.data.to_h`, `raw.errors.details.to_h`). Keep that conversion when changing callers.
-  - When adding or reordering filters, note `ACTIVE_FILTERS` impacts `extract_filters`/`reorder_filters` flow (aggregation key renaming to `*Filter`).
-  - Primo has offset limits; `Analyzer::PRIMO_MAX_OFFSET` is used to prevent invalid requests and to enable `show_continuation` behavior.
+  - When adding or reordering filters, note `ACTIVE_FILTERS` impacts `extract_filters`/`reorder_filters` flow. The schema uses `*Filter` suffix for aggregation keys (e.g., `contentTypeFilter`, `languageFilter`); ensure ENV variable filter name maps correctly to schema aggregation name.
+  - Primo has offset limits; `Analyzer::PRIMO_MAX_OFFSET` (960) is used by `MergedSearchPaginator` to prevent invalid requests and to enable `show_continuation` behavior.
+  - When modifying `SearchController` routing, ensure geospatial (`geobox` / `geodistance`) branches are only reached when `FEATURE_GEODATA` is enabled, and standard keyword/filter search still works when geospatial is disabled.
 
 - **Developer workflows / commands:**
 
@@ -48,7 +70,9 @@ This file highlights the important, discoverable conventions and workflows an AI
 
 - **Where to look for more context:**
   - `README.md` — env vars, VCR and schema notes
-  - `app/controllers/search_controller.rb` — primary request orchestration
-  - `app/models/timdex_search.rb` and `app/models/timdex_base.rb` — GraphQL client and queries
+  - `app/controllers/search_controller.rb` — primary request orchestration, including geospatial routing and error handling
+  - `app/models/timdex_search.rb` and `app/models/timdex_base.rb` — GraphQL client and all four query types (`BaseQuery`, `AllQuery`, `GeoboxQuery`, `GeodistanceQuery`)
+  - `app/models/merged_search_service.rb` and `app/models/merged_search_paginator.rb` — multi-source result merging and intelligent pagination
+  - `app/models/feature.rb` — feature flag class and implementation
   - `app/models/primo_search.rb` — Primo client behavior
-  - `app/javascript/*` and `config/importmap.rb` — JS/Stimulus usage
+  - `app/javascript/*` and `config/importmap.rb` — JS/Stimulus usage, including geospatial UI state in `source_tabs.js`
