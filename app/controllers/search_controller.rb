@@ -375,7 +375,7 @@ class SearchController < ApplicationController
     if error.is_a?(ArgumentError)
       [{ 'message' => 'Primo search is not properly configured.' }]
     elsif error.is_a?(HTTP::TimeoutError)
-      [{ 'message' => 'The Primo service is currently slow to respond. Please try again.' }]
+      [{ 'message' => 'Sorry, that took longer than expected. Please try your search again.' }]
     else
       [{ 'message' => error.message }]
     end
