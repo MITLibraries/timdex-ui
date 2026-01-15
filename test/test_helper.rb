@@ -29,8 +29,8 @@ VCR.configure do |config|
   config.filter_sensitive_data('FAKE_TACOS_HOST') { ENV.fetch('TACOS_HOST').to_s }
   config.filter_sensitive_data('FAKE_TACOS_SOURCE') { ENV.fetch('TACOS_SOURCE').to_s }
   config.filter_sensitive_data('http://FAKE_TACOS_HOST/graphql/') { ENV.fetch('TACOS_URL').to_s }
-  config.filter_sensitive_data('FAKE_LIBKEY_ID') { ENV.fetch('LIBKEY_ID').to_s }
-  config.filter_sensitive_data('FAKE_LIBKEY_KEY') { ENV.fetch('LIBKEY_KEY').to_s }
+  config.filter_sensitive_data('FAKE_THIRDIRON_ID') { ENV.fetch('THIRDIRON_ID').to_s }
+  config.filter_sensitive_data('FAKE_THIRDIRON_KEY') { ENV.fetch('THIRDIRON_KEY').to_s }
 end
 
 module ActiveSupport
@@ -46,7 +46,7 @@ module ActiveSupport
 end
 
 # Tests use the app-configured cache store (configured to a memory store in
-# `config/environments/test.rb`). We still clear the cache before each test to avoid cross-test 
+# `config/environments/test.rb`). We still clear the cache before each test to avoid cross-test
 # leakage.
 #
 # If you hit flaky tests related to cache  access under concurrency, consider injecting a per-test

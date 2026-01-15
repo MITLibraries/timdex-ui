@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_LIBKEY_ID/search?access_token=FAKE_LIBKEY_KEY&issns=1546170X
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_THIRDIRON_ID/search?access_token=FAKE_THIRDIRON_KEY&issns=1546170X
     body:
       encoding: ASCII-8BIT
       string: ''
@@ -58,6 +58,6 @@ http_interactions:
       - '1767973141'
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":13075,"type":"journals","title":"Nature Medicine","issn":"1546170X","sjrValue":18.333,"coverImageUrl":"https://s3.amazonaws.com/thirdiron-assets/images/covers/1078-8956.png","browzineEnabled":true,"browzineWebLink":"https://browzine.com/libraries/FAKE_LIBKEY_ID/journals/13075?utm_source=api_3735"}]}'
+      string: '{"data":[{"id":13075,"type":"journals","title":"Nature Medicine","issn":"1546170X","sjrValue":18.333,"coverImageUrl":"https://s3.amazonaws.com/thirdiron-assets/images/covers/1078-8956.png","browzineEnabled":true,"browzineWebLink":"https://browzine.com/libraries/FAKE_THIRDIRON_ID/journals/13075?utm_source=api_3735"}]}'
   recorded_at: Fri, 09 Jan 2026 15:38:01 GMT
 recorded_with: VCR 6.3.1

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_LIBKEY_ID/articles/doi/foobar?access_token=FAKE_LIBKEY_KEY
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_THIRDIRON_ID/articles/doi/foobar?access_token=FAKE_THIRDIRON_KEY
     body:
       encoding: ASCII-8BIT
       string: ''

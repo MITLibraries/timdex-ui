@@ -45,17 +45,17 @@ end
 
 class BrowzineTest < ActiveSupport::TestCase
   test 'enabled? method returns true if both env are set' do
-    ClimateControl.modify(LIBKEY_ID: 'foo', LIBKEY_KEY: 'bar') do
+    ClimateControl.modify(THIRDIRON_ID: 'foo', THIRDIRON_KEY: 'bar') do
       assert Libkey.enabled?
     end
   end
 
   test 'enabled? method returns false if either env not set' do
-    ClimateControl.modify(LIBKEY_ID: nil) do
+    ClimateControl.modify(THIRDIRON_ID: nil) do
       refute Libkey.enabled?
     end
 
-    ClimateControl.modify(LIBKEY_KEY: nil) do
+    ClimateControl.modify(THIRDIRON_KEY: nil) do
       refute Libkey.enabled?
     end
   end

@@ -50,14 +50,14 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
 
   test 'libkey no response when either env var is not set' do
     # No cassette because this never results in traffic to Libkey
-    ClimateControl.modify(LIBKEY_ID: nil) do
+    ClimateControl.modify(THIRDIRON_ID: nil) do
       get '/libkey?type=doi&identifier=10.1038/s41567-023-02305-y'
 
       assert_response :success
       assert_equal response.body, ''
     end
 
-    ClimateControl.modify(LIBKEY_KEY: nil) do
+    ClimateControl.modify(THIRDIRON_KEY: nil) do
       get '/libkey?type=doi&identifier=10.1038/s41567-023-02305-y'
 
       assert_response :success
@@ -105,14 +105,14 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
 
   test 'browzine route when either env var is not set' do
     # No cassette because this never results in traffic to Libkey
-    ClimateControl.modify(LIBKEY_ID: nil) do
+    ClimateControl.modify(THIRDIRON_ID: nil) do
       get '/browzine?issn=1546170X'
 
       assert_response :success
       assert_equal response.body, ''
     end
 
-    ClimateControl.modify(LIBKEY_KEY: nil) do
+    ClimateControl.modify(THIRDIRON_KEY: nil) do
       get '/browzine?issn=1546170X'
 
       assert_response :success
