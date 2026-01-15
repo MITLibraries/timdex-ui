@@ -19,10 +19,35 @@
   }
 
   &.error {
-    background: $red;
-    border-color: $red;
-    color: $black;
-    font-size: 24px;
+    background: $color-bg-default;
+    border: 4px solid $color-border-danger;
+    color: $color-text-primary;    
+    padding: 16px;
+    display: flex;
+
+    > i  {
+      margin-right: 12px;
+
+      &:before{
+        color: $color-icon-danger;
+        content: "\f05e";
+
+        font-family: 'Font Awesome 7 Pro';
+        font-weight: 600;
+        font-size: 22px;
+        font-style: normal;
+        display: inline-block;
+        text-align: center;
+        text-decoration: inherit;
+        width: 20px;
+      }
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 0;
+      padding-top: 2px;
+    }
   }
 
   &.success {
