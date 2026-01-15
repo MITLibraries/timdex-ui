@@ -86,7 +86,7 @@
       <% end %>
 
       <% if result[:format].downcase == 'journal' && result[:issn].present? %>
-        <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn]&.tr('-', '') }) %>
+        <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn] }) %>
       <% end %>
     </div>
   </div>

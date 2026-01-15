@@ -1,20 +1,9 @@
 # https://thirdiron.atlassian.net/wiki/spaces/BrowZineAPIDocs/pages/66191466/Journal+Availability+Endpoint
-class Browzine
-  class LookupFailure < StandardError; end
-
-  BASEURL = 'https://public-api.thirdiron.com/public/v1/libraries'.freeze
-
-  # enabled? confirms that all required environment variables are set.
-  #
-  # @return Boolean
-  def self.enabled?
-    libkey_id.present? && libkey_key.present?
-  end
-
+class Browzine < ThirdIron
   def self.lookup(issn:, browzine_client: nil)
     return unless enabled?
 
-    url = browzine_url(issn)
+    url = browzine_url(issn&.tr('-', ''))
     browzine_http = setup(url, browzine_client)
 
     begin
@@ -55,17 +44,9 @@ class Browzine
     }
   end
 
-  def self.libkey_id
-    ENV.fetch('LIBKEY_ID', nil)
-  end
-
-  def self.libkey_key
-    ENV.fetch('LIBKEY_KEY', nil)
-  end
-
   # :library_id/search
   def self.browzine_url(issn)
-    "#{BASEURL}/#{libkey_id}/search?issns=#{issn}&access_token=#{libkey_key}"
+    "#{BASEURL}/#{thirdiron_id}/search?issns=#{issn}&access_token=#{thirdiron_key}"
   end
 
   def self.setup(url, browzine_client)

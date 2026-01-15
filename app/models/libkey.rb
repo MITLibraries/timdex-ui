@@ -1,16 +1,5 @@
 # TODO: Need some documentation block to explain what we use Libkey for...
-class Libkey
-  class LookupFailure < StandardError; end
-
-  BASEURL = 'https://public-api.thirdiron.com/public/v1/libraries'.freeze
-
-  # enabled? confirms that all required environment variables are set.
-  #
-  # @return Boolean
-  def self.enabled?
-    libkey_id.present? && libkey_key.present?
-  end
-
+class Libkey < ThirdIron
   def self.lookup(type:, identifier:, libkey_client: nil)
     return unless enabled?
     return unless %w[doi pmid].include?(type)
@@ -102,16 +91,8 @@ class Libkey
     }
   end
 
-  def self.libkey_id
-    ENV.fetch('LIBKEY_ID', nil)
-  end
-
-  def self.libkey_key
-    ENV.fetch('LIBKEY_KEY', nil)
-  end
-
   def self.libkey_url(type, identifier)
-    "#{BASEURL}/#{libkey_id}/articles/#{type}/#{identifier}?access_token=#{libkey_key}"
+    "#{BASEURL}/#{thirdiron_id}/articles/#{type}/#{identifier}?access_token=#{thirdiron_key}"
   end
 
   def self.setup(url, libkey_client)
