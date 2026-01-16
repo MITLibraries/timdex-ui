@@ -58,6 +58,9 @@
 
     <% if Feature.enabled?(:record_link) %>
       <div class="result-get">
+        <% if @fulfillment == 'link' %>
+          <%= link_to 'View full record', 'https://example.org', class: 'button' %>
+        <% end %>
         <%= view_record(result) %>
       </div>
     <% end %>

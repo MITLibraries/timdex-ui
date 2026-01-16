@@ -59,6 +59,9 @@
     </div>
 
     <div class="result-get">
+      <% if @fulfillment == 'link' %>
+        <%= link_to 'View full record', 'https://example.org', class: 'button' %>
+      <% end %>
       <% if result[:links].present? %>
         <% result[:links].each do |link| %>
           <% if link['kind'].downcase == 'full record' %>

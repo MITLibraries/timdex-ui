@@ -190,3 +190,7 @@ If you prefer an editor other than VSCode, you can manage [Dev Containers from t
 [DevPod](https://github.com/loft-sh/devpod) is also something to consider. It provides a VScode-via-web-browser-in-a-box
 as well as allowing you to use whatever editor you want and only using DevPod to start/stop the containers and run your
 terminals. Local for editor, DevPod managed Dev Container for everything else.
+
+### A/B testing, the Split gem, and Redis
+
+This application has the capability of supporting A/B testing of new features using the [Split](https://github.com/splitrb/split) gem. When running locally, this means you'll need access to a Redis instance - which can be achieved on a Mac by Homebrew. Full details can be found in the Split documentation.

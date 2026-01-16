@@ -12,6 +12,12 @@ class SearchController < ApplicationController
   before_action :validate_geodistance_units!, only: %i[results]
 
   def results
+    # if we are loading results, the user submitted the form - so this experiment is finished
+    ab_finished(:ui_colors)
+
+    # Start experimental result format
+    @fulfillment = ab_test(:result_format, 'link', 'button')
+
     # inject session preference for boolean type if it is present
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
