@@ -97,4 +97,28 @@ class LibkeyTest < ActiveSupport::TestCase
     assert_instance_of Hash, result
     assert_equal 'A parsing error has occurred', result['error']
   end
+
+  test 'libkey model returns nil when LibKey returns 404 error' do
+    libkey_client = mock('libkey_http')
+    response_mock = LibkeyMockResponse.new(404, 'Not Found')
+
+    libkey_client.expects(:timeout).with(6).returns(libkey_client)
+    libkey_client.expects(:get).returns(response_mock)
+
+    result = Libkey.lookup(type: 'doi', identifier: '10.1038/s41567-023-02305-y', libkey_client:)
+
+    assert_nil result
+  end
+
+  test 'libkey model returns nil when LibKey returns 500 error' do
+    libkey_client = mock('libkey_http')
+    response_mock = LibkeyMockResponse.new(500, 'Internal Server Error')
+
+    libkey_client.expects(:timeout).with(6).returns(libkey_client)
+    libkey_client.expects(:get).returns(response_mock)
+
+    result = Libkey.lookup(type: 'doi', identifier: '10.1038/s41567-023-02305-y', libkey_client:)
+
+    assert_nil result
+  end
 end

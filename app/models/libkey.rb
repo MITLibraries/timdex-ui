@@ -15,10 +15,13 @@ class Libkey < ThirdIron
       json_response = JSON.parse(raw_response.to_s)
       extract_metadata(json_response)
     rescue LookupFailure => e
-      Sentry.set_tags('mitlib.libkeyurl': url)
-      Sentry.set_tags('mitlib.libkeystatus': e.message)
-      Sentry.capture_message('Unexpected Libkey response status')
-      Rails.logger.error("Unexpected Libkey response status: #{e.message}")
+      if e.message != '404 Not Found'
+        Sentry.set_tags('mitlib.libkeyurl': url)
+        Sentry.set_tags('mitlib.libkeystatus': e.message)
+        Sentry.capture_message('Unexpected Libkey response status')
+        Rails.logger.error("Unexpected Libkey response status: #{e.message}")
+        Rails.logger.error("Identifier: #{identifier}, Type: #{type}")
+      end
       nil
     rescue HTTP::Error
       Rails.logger.error('Libkey connection error')
