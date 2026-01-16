@@ -11,10 +11,12 @@ export default class extends Controller {
     fetch(this.urlValue)
       .then(response => response.text())
       .then(html => {
-        this.element.innerHTML = html;
+        const parentElement = this.element.parentElement;
+        // Replace the entire element with the fetched HTML
+        this.element.outerHTML = html;
         // Hide primo links if libkey link is present
-        if (this.element.querySelector('.libkey-link')) {
-          const resultGet = this.element.closest('.result-get');
+        if (parentElement.querySelector('.libkey-link')) {
+          const resultGet = parentElement.closest('.result-get');
           if (resultGet) {
             const primoLinks = resultGet.querySelectorAll('.primo-link');
             // removing instead of hiding to avoid layout issues when selecting which link to highlight
