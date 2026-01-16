@@ -4,8 +4,7 @@
       <%# NOTE: the order of the two items in this lockup are being swapped visually with CSS. The markup is ordered to make the screen reading experience more logical %>
       <h3 class="record-title">
         <% if full_record_url(result) %>
-          <% Rails.logger.debug(outbound_path(url: result[:links].find { |link| link['kind'] == 'full record' }['url'])) %>
-        <%= link_to(result[:title], full_record_url(result), data: { content_piece: 'Result Title' }) %>
+          <%= link_to(result[:title], full_record_url(result), data: { content_piece: 'Result Title' }) %>
         <% else %>
           <%= result[:title] %>
         <% end %>
@@ -85,7 +84,10 @@
 
       <% if result_get?(result) %>
       <div class="result-get">
-        <% if result[:links].present? %>
+        <% if @fulfillment == 'link' %>
+          <%= link_to 'View full record', 'https://example.org', class: 'button' %>
+        <% end %>
+      <% if result[:links].present? %>
           <% result[:links].each do |link| %>
             <% if link['kind'].downcase == 'full record' %>
               <%# Full record link button uses the same link as the title link %>

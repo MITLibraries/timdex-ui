@@ -12,8 +12,6 @@ Rails.application.routes.draw do
   get 'libkey', to: 'thirdiron#libkey'
   get 'oa_work', to: 'openalex#work'
 
-  get 'out', to: 'record#out', as: "outbound"
-  
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
@@ -29,6 +27,8 @@ Rails.application.routes.draw do
   get 'natural_language_search_optin', to: 'static#natural_language_search_optin'
 
   mount Split::Dashboard, at: 'split'
+
+  post 'beacon', to: 'beacon#outbound'
 
   get 'robots.txt', to: 'robots#robots'
 end
