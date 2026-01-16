@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_THIRDIRON_ID/search?access_token=FAKE_THIRDIRON_KEY&issns=1546170X
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Connection:
+      - Keep-Alive
+      Host:
+      - public-api.thirdiron.com
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, Authorization
+      Access-Control-Allow-Methods:
+      - DELETE,GET,PATCH,POST,PUT
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Length:
+      - '304'
+      Content-Security-Policy:
+      - default-src 'none'; frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Jan 2026 15:38:01 GMT
+      Etag:
+      - W/"130-h6xvxKFLN64wQHnkJvlv/eRUS08"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=aH5UyLAxg2tRfMmdKFrtz2t0PgRmWxxRWvKkcYXRDjM%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1767973081"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=aH5UyLAxg2tRfMmdKFrtz2t0PgRmWxxRWvKkcYXRDjM%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1767973081"
+      Server:
+      - Heroku
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 heroku-router
+      X-Powered-By:
+      - Express
+      X-Ratelimit-Limit:
+      - '7000'
+      X-Ratelimit-Remaining:
+      - '6999'
+      X-Ratelimit-Reset:
+      - '1767973141'
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":13075,"type":"journals","title":"Nature Medicine","issn":"1546170X","sjrValue":18.333,"coverImageUrl":"https://s3.amazonaws.com/thirdiron-assets/images/covers/1078-8956.png","browzineEnabled":true,"browzineWebLink":"https://browzine.com/libraries/FAKE_THIRDIRON_ID/journals/13075?utm_source=api_3735"}]}'
+  recorded_at: Fri, 09 Jan 2026 15:38:01 GMT
+recorded_with: VCR 6.3.1

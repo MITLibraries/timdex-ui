@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_LIBKEY_ID/articles/doi/10.1038/s41567-023-02305-y?access_token=FAKE_LIBKEY_KEY
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_THIRDIRON_ID/articles/doi/10.1038/s41567-023-02305-y?access_token=FAKE_THIRDIRON_KEY
     body:
       encoding: ASCII-8BIT
       string: ''
@@ -59,7 +59,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"data":{"id":594034193,"type":"articles","title":"Light as fast as
-        electrons","date":"2023-11-09","authors":"","inPress":false,"abandoned":false,"doi":"10.1038/s41567-023-02305-y","linkResolverOpenUrl":"https://mit.primo.exlibrisgroup.com/openurl/01MIT_INST/01MIT_INST:MIT?genre=article&aulast=&issn=1745-2473&title=Nature%20Physics&atitle=Light%20as%20fast%20as%20electrons&volume=19&issue=11&spage=1520&epage=1520&date=2023-11-09&doi=10.1038%2Fs41567-023-02305-y&rft_id=info:pmid/&sid=LibKey","pmid":"","openAccess":false,"unpaywallUsable":true,"fullTextFile":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/594034193/full-text-file?utm_source=api_3735&allow_speedbump=true","contentLocation":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/594034193/content-location?utm_source=api_3735&allow_speedbump=true","availableThroughBrowzine":true,"hasSecondOrderRetractions":false,"startPage":"1520","endPage":"1520","avoidUnpaywallPublisherLinks":true,"browzineWebLink":"https://browzine.com/libraries/FAKE_LIBKEY_ID/journals/13123/issues/541037047?showArticleInContext=doi:10.1038%2Fs41567-023-02305-y&utm_source=api_3735","bestIntegratorLink":{"bestLink":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/594034193/full-text-file?utm_source=api_3735&allow_speedbump=true","linkType":"fullTextFile","recommendedLinkText":"Download
+        electrons","date":"2023-11-09","authors":"","inPress":false,"abandoned":false,"doi":"10.1038/s41567-023-02305-y","linkResolverOpenUrl":"https://mit.primo.exlibrisgroup.com/openurl/01MIT_INST/01MIT_INST:MIT?genre=article&aulast=&issn=1745-2473&title=Nature%20Physics&atitle=Light%20as%20fast%20as%20electrons&volume=19&issue=11&spage=1520&epage=1520&date=2023-11-09&doi=10.1038%2Fs41567-023-02305-y&rft_id=info:pmid/&sid=LibKey","pmid":"","openAccess":false,"unpaywallUsable":true,"fullTextFile":"https://libkey.io/libraries/FAKE_THIRDIRON_ID/articles/594034193/full-text-file?utm_source=api_3735&allow_speedbump=true","contentLocation":"https://libkey.io/libraries/FAKE_THIRDIRON_ID/articles/594034193/content-location?utm_source=api_3735&allow_speedbump=true","availableThroughBrowzine":true,"hasSecondOrderRetractions":false,"startPage":"1520","endPage":"1520","avoidUnpaywallPublisherLinks":true,"browzineWebLink":"https://browzine.com/libraries/FAKE_THIRDIRON_ID/journals/13123/issues/541037047?showArticleInContext=doi:10.1038%2Fs41567-023-02305-y&utm_source=api_3735","bestIntegratorLink":{"bestLink":"https://libkey.io/libraries/FAKE_THIRDIRON_ID/articles/594034193/full-text-file?utm_source=api_3735&allow_speedbump=true","linkType":"fullTextFile","recommendedLinkText":"Download
         PDF"}}}'
   recorded_at: Tue, 09 Dec 2025 20:25:09 GMT
 recorded_with: VCR 6.3.1

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_LIBKEY_ID/articles/pmid/22110403?access_token=FAKE_LIBKEY_KEY
+    uri: https://public-api.thirdiron.com/public/v1/libraries/FAKE_THIRDIRON_ID/articles/pmid/22110403?access_token=FAKE_THIRDIRON_KEY
     body:
       encoding: ASCII-8BIT
       string: ''
@@ -94,7 +94,7 @@ http_interactions:
         Amanda B.; Beesley, Jonathan; Chen, Xiaoqing; Healey, Sue; Barcellos-Hoff,
         Mary Helen; Vidal, Marc; Gruber, Stephen B.; Lázaro, Conxi; Capellá, Gabriel;
         McGuffog, Lesley; Nathanson, Katherine L.; Antoniou, Antonis C.; Chenevix-Trench,
-        Georgia; Fleisch, Markus C.; Moreno, Víctor; Pujana, Miguel Angel","inPress":false,"abandoned":false,"doi":"10.1371/journal.pbio.1001199","linkResolverOpenUrl":"https://mit.primo.exlibrisgroup.com/openurl/01MIT_INST/01MIT_INST:MIT?genre=article&aulast=Maxwell&issn=1544-9173&title=PLoS%20Biology&atitle=Interplay%20between%20BRCA1%20and%20RHAMM%20Regulates%20Epithelial%20Apicobasal%20Polarization%20and%20May%20Influence%20Risk%20of%20Breast%20Cancer&volume=9&issue=11&spage=e1001199&epage=&date=2011-11-15&doi=10.1371%2Fjournal.pbio.1001199&rft_id=info:pmid/22110403&sid=LibKey","pmid":"22110403","openAccess":true,"unpaywallUsable":true,"fullTextFile":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/22766308/full-text-file?utm_source=api_3735&allow_speedbump=true","contentLocation":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/22766308/content-location?utm_source=api_3735&allow_speedbump=true","availableThroughBrowzine":true,"hasSecondOrderRetractions":true,"startPage":"e1001199","endPage":"","browzineWebLink":"https://browzine.com/libraries/FAKE_LIBKEY_ID/journals/8181/issues/4311778?showArticleInContext=doi:10.1371%2Fjournal.pbio.1001199&utm_source=api_3735","bestIntegratorLink":{"bestLink":"https://libkey.io/libraries/FAKE_LIBKEY_ID/articles/22766308/full-text-file?utm_source=api_3735&allow_speedbump=true","linkType":"fullTextFile","recommendedLinkText":"Download
+        Georgia; Fleisch, Markus C.; Moreno, Víctor; Pujana, Miguel Angel","inPress":false,"abandoned":false,"doi":"10.1371/journal.pbio.1001199","linkResolverOpenUrl":"https://mit.primo.exlibrisgroup.com/openurl/01MIT_INST/01MIT_INST:MIT?genre=article&aulast=Maxwell&issn=1544-9173&title=PLoS%20Biology&atitle=Interplay%20between%20BRCA1%20and%20RHAMM%20Regulates%20Epithelial%20Apicobasal%20Polarization%20and%20May%20Influence%20Risk%20of%20Breast%20Cancer&volume=9&issue=11&spage=e1001199&epage=&date=2011-11-15&doi=10.1371%2Fjournal.pbio.1001199&rft_id=info:pmid/22110403&sid=LibKey","pmid":"22110403","openAccess":true,"unpaywallUsable":true,"fullTextFile":"https://libkey.io/libraries/FAKE_THIRDIRON_ID/articles/22766308/full-text-file?utm_source=api_3735&allow_speedbump=true","contentLocation":"https://libkey.io/libraries/FAKE_THIRDIRON_ID/articles/22766308/content-location?utm_source=api_3735&allow_speedbump=true","availableThroughBrowzine":true,"hasSecondOrderRetractions":true,"startPage":"e1001199","endPage":"","browzineWebLink":"https://browzine.com/libraries/FAKE_THIRDIRON_ID/journals/8181/issues/4311778?showArticleInContext=doi:10.1371%2Fjournal.pbio.1001199&utm_source=api_3735","bestIntegratorLink":{"bestLink":"https://libkey.io/libraries/FAKE_THIRDIRON_ID/articles/22766308/full-text-file?utm_source=api_3735&allow_speedbump=true","linkType":"fullTextFile","recommendedLinkText":"Download
         PDF"}}}'
   recorded_at: Tue, 09 Dec 2025 20:25:20 GMT
 recorded_with: VCR 6.3.1

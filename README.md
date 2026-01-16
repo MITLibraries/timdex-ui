@@ -114,8 +114,8 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FILTER_SUBJECT`: The name to use instead of "Subject" for that filter / aggregation.
 - `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
   safe html above the main header of the site.
-- `LIBKEY_KEY`: An access key assigned by Third Iron to enable this application to interact with the Libkey service.
-- `LIBKEY_ID`: An institutional ID value assigned by Third Iron to interact with the Libkey service.
+- `THIRDIRON_KEY`: An access key assigned by Third Iron to enable this application to interact with the Libkey service.
+- `THIRDIRON_ID`: An institutional ID value assigned by Third Iron to interact with the Libkey service.
 - `MATOMO_CONTAINER_URL`: This is one of two options for integrating a TIMDEX UI application with Matomo - the Tag Manager. This is the only parameter needed for using a tag manager container.
 - `MATOMO_SITE_ID`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.
 - `MATOMO_URL`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.

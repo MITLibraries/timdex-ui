@@ -1,4 +1,4 @@
-<% if Libkey.enabled? && @libkey.present? %>
+<% if ThirdIron.enabled? && @libkey.present? %>
   <%if @libkey[:pdf_link].present? || @libkey[:html_link].present? %>
     <% if @libkey[:pdf_link].present? %>
       <%= link_to( @libkey[:pdf_link][:text], @libkey[:pdf_link][:link], class: 'button libkey-link' ) %>
