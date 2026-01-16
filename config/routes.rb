@@ -5,8 +5,6 @@ Rails.application.routes.draw do
 
   get 'lookup', to: 'libkey#lookup'
 
-  get 'out', to: 'record#out', as: "outbound"
-  
   get 'record/(:id)',
       to: 'record#view',
       as: 'record',
@@ -17,6 +15,8 @@ Rails.application.routes.draw do
   get 'boolpref', to: 'static#boolpref'
 
   mount Split::Dashboard, at: 'split'
+
+  post 'beacon', to: 'beacon#outbound'
 
   get 'robots.txt', to: 'robots#robots'
 end

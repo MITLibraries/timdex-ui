@@ -6,7 +6,6 @@
     <h3 class="record-title">
       <span class="sr">Title: </span>
       <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
-        <% Rails.logger.debug(outbound_path(url: result[:links].find { |link| link['kind'] == 'full record' }['url'])) %>
         <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
       <% else %>
         <%= result[:title] %>
@@ -60,6 +59,9 @@
     </div>
 
     <div class="result-get">
+      <% if @fulfillment == 'link' %>
+        <%= link_to 'View full record', 'https://example.org', class: 'button' %>
+      <% end %>
       <% if result[:links].present? %>
         <% result[:links].each do |link| %>
           <% if link['kind'].downcase == 'full record' %>
