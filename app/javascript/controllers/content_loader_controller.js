@@ -17,7 +17,8 @@ export default class extends Controller {
           const resultGet = this.element.closest('.result-get');
           if (resultGet) {
             const primoLinks = resultGet.querySelectorAll('.primo-link');
-            primoLinks.forEach(link => link.style.display = 'none');
+            // removing instead of hiding to avoid layout issues when selecting which link to highlight
+            primoLinks.forEach(link => link.remove());
           }
         }
       })

@@ -98,6 +98,7 @@ See `Optional Environment Variables` for more information.
 - `FEATURE_GEODATA`: Enables features related to geospatial data discovery. Setting this variable to `true` will trigger geodata
 mode. Note that this is currently intended _only_ for the geodata app and
 may have unexpected consequences if applied to other TIMDEX UI apps.
+- `FEATURE_OA_ALWAYS`: Enables OpenAccess links from OpenAlex whenever they are available, not just when LibKey does not return data. `OPENALEX_EMAIL` must also be set.
 - `FEATURE_RECORD_LINK`: Display the 'View full record' link below each record.
 - `FEATURE_SIMULATE_SEARCH_LATENCY`: DO NOT SET IN PRODUCTION. Set to ensure a minimum of a one second delay in returning search results. Useful to see spinners/loaders. Only introduces delay for results that take less than one second to complete.
 - `FEATURE_TAB_PRIMO_ALL`: Display a tab for displaying the combined Primo data (CDI + Alma)
@@ -119,6 +120,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `MATOMO_CONTAINER_URL`: This is one of two options for integrating a TIMDEX UI application with Matomo - the Tag Manager. This is the only parameter needed for using a tag manager container.
 - `MATOMO_SITE_ID`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.
 - `MATOMO_URL`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.
+- `OPENALEX_EMAIL`: required to enable OpenAlex OpenAccess lookups. In dev use your personal email. In production we'll use a Moira.
 - `ORIGINS`: sets origins for CORS (currently used only for TACOS API calls).
 - `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
 - `PRIMO_TIMEOUT`: The number of seconds before a Primo request times out (default 6).

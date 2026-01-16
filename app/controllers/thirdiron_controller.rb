@@ -5,6 +5,8 @@ class ThirdironController < ApplicationController
     return unless ThirdIron.enabled? && expected_params?
 
     @libkey = Libkey.lookup(type: params[:type], identifier: params[:identifier])
+    @doi = params[:type] == 'doi' ? params[:identifier] : nil
+    @pmid = params[:type] == 'pmid' ? params[:identifier] : nil
   end
 
   def browzine

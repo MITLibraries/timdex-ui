@@ -322,7 +322,7 @@
     @include buttonSecondary;
   }
 
-  .libkey-container {
+  .libkey-container, .openalex-container {
     display: flex;
     align-items: center;
     gap: 24px;

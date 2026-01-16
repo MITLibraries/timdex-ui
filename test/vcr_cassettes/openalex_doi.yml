@@ -1,0 +1,100 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openalex.org/works/doi:10.1038/s41567-023-02305-y
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - TIMDEX UI (FAKE_OPENALEX_EMAIL)
+      Connection:
+      - Keep-Alive
+      Host:
+      - api.openalex.org
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 13 Jan 2026 14:39:36 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 9bd5a4dc28ea0fae-BOS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - accept-encoding
+      Server:
+      - cloudflare
+      Via:
+      - 1.1 heroku-router
+      Access-Control-Allow-Headers:
+      - Accept, Accept-Language, Accept-Encoding, Authorization, Content-Type
+      Access-Control-Allow-Methods:
+      - GET, HEAD, POST, OPTIONS
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Ratelimit-Limit:
+      - '100000'
+      Ratelimit-Remaining:
+      - '99999'
+      Ratelimit-Reset:
+      - '33624'
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=JSO3516PjildpPlF9vMjq230ysdJ%2FukpdRQNMhGgrEU%3D\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\u0026ts=1768315176"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=JSO3516PjildpPlF9vMjq230ysdJ%2FukpdRQNMhGgrEU%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1768315176"
+      Access-Control-Expose-Headers:
+      - Cache-Control, RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, Retry-After
+    body:
+      encoding: UTF-8
+      string: '{"id":"https://openalex.org/W4388522863","doi":"https://doi.org/10.1038/s41567-023-02305-y","title":"Light
+        as fast as electrons","display_name":"Light as fast as electrons","publication_year":2023,"publication_date":"2023-11-01","ids":{"openalex":"https://openalex.org/W4388522863","doi":"https://doi.org/10.1038/s41567-023-02305-y"},"language":"en","primary_location":{"id":"doi:10.1038/s41567-023-02305-y","is_oa":true,"landing_page_url":"http://dx.doi.org/10.1038/s41567-023-02305-y","pdf_url":"https://www.nature.com/articles/s41567-023-02305-y.pdf","source":{"id":"https://openalex.org/S156274416","display_name":"Nature
+        Physics","issn_l":"1745-2473","issn":["1745-2473","1745-2481"],"is_oa":false,"is_in_doaj":false,"is_core":true,"host_organization":"https://openalex.org/P4310319908","host_organization_name":"Nature
+        Portfolio","host_organization_lineage":["https://openalex.org/P4310319908","https://openalex.org/P4310319965"],"host_organization_lineage_names":["Nature
+        Portfolio","Springer Nature"],"type":"journal"},"license":null,"license_id":null,"version":"publishedVersion","is_accepted":true,"is_published":true,"raw_source_name":"Nature
+        Physics","raw_type":"journal-article"},"type":"article","indexed_in":["crossref"],"open_access":{"is_oa":true,"oa_status":"bronze","oa_url":"https://www.nature.com/articles/s41567-023-02305-y.pdf","any_repository_has_fulltext":false},"authorships":[],"institutions":[],"countries_distinct_count":0,"institutions_distinct_count":0,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":{"value":9750,"currency":"EUR","value_usd":11690},"apc_paid":null,"fwci":0.45997226,"has_fulltext":false,"cited_by_count":2,"citation_normalized_percentile":{"value":0.66918302,"is_in_top_1_percent":false,"is_in_top_10_percent":false},"cited_by_percentile_year":{"min":94,"max":96},"biblio":{"volume":"19","issue":"11","first_page":"1520","last_page":"1520"},"is_retracted":false,"is_paratext":false,"is_xpac":false,"primary_topic":{"id":"https://openalex.org/T10566","display_name":"Laser-Matter
+        Interactions and Applications","score":0.9998999834060669,"subfield":{"id":"https://openalex.org/subfields/3107","display_name":"Atomic
+        and Molecular Physics, and Optics"},"field":{"id":"https://openalex.org/fields/31","display_name":"Physics
+        and Astronomy"},"domain":{"id":"https://openalex.org/domains/3","display_name":"Physical
+        Sciences"}},"topics":[{"id":"https://openalex.org/T10566","display_name":"Laser-Matter
+        Interactions and Applications","score":0.9998999834060669,"subfield":{"id":"https://openalex.org/subfields/3107","display_name":"Atomic
+        and Molecular Physics, and Optics"},"field":{"id":"https://openalex.org/fields/31","display_name":"Physics
+        and Astronomy"},"domain":{"id":"https://openalex.org/domains/3","display_name":"Physical
+        Sciences"}},{"id":"https://openalex.org/T10683","display_name":"Mass Spectrometry
+        Techniques and Applications","score":0.9837999939918518,"subfield":{"id":"https://openalex.org/subfields/1607","display_name":"Spectroscopy"},"field":{"id":"https://openalex.org/fields/16","display_name":"Chemistry"},"domain":{"id":"https://openalex.org/domains/3","display_name":"Physical
+        Sciences"}},{"id":"https://openalex.org/T10002","display_name":"Advanced Chemical
+        Physics Studies","score":0.9509999752044678,"subfield":{"id":"https://openalex.org/subfields/3107","display_name":"Atomic
+        and Molecular Physics, and Optics"},"field":{"id":"https://openalex.org/fields/31","display_name":"Physics
+        and Astronomy"},"domain":{"id":"https://openalex.org/domains/3","display_name":"Physical
+        Sciences"}}],"keywords":[{"id":"https://openalex.org/keywords/physics","display_name":"Physics","score":0.9043782949447632},{"id":"https://openalex.org/keywords/electron","display_name":"Electron","score":0.65702885389328},{"id":"https://openalex.org/keywords/atomic-physics","display_name":"Atomic
+        physics","score":0.3683863878250122},{"id":"https://openalex.org/keywords/engineering-physics","display_name":"Engineering
+        physics","score":0.33429035544395447},{"id":"https://openalex.org/keywords/nuclear-physics","display_name":"Nuclear
+        physics","score":0.29664531350135803}],"concepts":[{"id":"https://openalex.org/C121332964","wikidata":"https://www.wikidata.org/wiki/Q413","display_name":"Physics","level":0,"score":0.9043782949447632},{"id":"https://openalex.org/C147120987","wikidata":"https://www.wikidata.org/wiki/Q2225","display_name":"Electron","level":2,"score":0.65702885389328},{"id":"https://openalex.org/C184779094","wikidata":"https://www.wikidata.org/wiki/Q26383","display_name":"Atomic
+        physics","level":1,"score":0.3683863878250122},{"id":"https://openalex.org/C61696701","wikidata":"https://www.wikidata.org/wiki/Q770766","display_name":"Engineering
+        physics","level":1,"score":0.33429035544395447},{"id":"https://openalex.org/C185544564","wikidata":"https://www.wikidata.org/wiki/Q81197","display_name":"Nuclear
+        physics","level":1,"score":0.29664531350135803}],"mesh":[],"locations_count":1,"locations":[{"id":"doi:10.1038/s41567-023-02305-y","is_oa":true,"landing_page_url":"http://dx.doi.org/10.1038/s41567-023-02305-y","pdf_url":"https://www.nature.com/articles/s41567-023-02305-y.pdf","source":{"id":"https://openalex.org/S156274416","display_name":"Nature
+        Physics","issn_l":"1745-2473","issn":["1745-2473","1745-2481"],"is_oa":false,"is_in_doaj":false,"is_core":true,"host_organization":"https://openalex.org/P4310319908","host_organization_name":"Nature
+        Portfolio","host_organization_lineage":["https://openalex.org/P4310319908","https://openalex.org/P4310319965"],"host_organization_lineage_names":["Nature
+        Portfolio","Springer Nature"],"type":"journal"},"license":null,"license_id":null,"version":"publishedVersion","is_accepted":true,"is_published":true,"raw_source_name":"Nature
+        Physics","raw_type":"journal-article"}],"best_oa_location":{"id":"doi:10.1038/s41567-023-02305-y","is_oa":true,"landing_page_url":"http://dx.doi.org/10.1038/s41567-023-02305-y","pdf_url":"https://www.nature.com/articles/s41567-023-02305-y.pdf","source":{"id":"https://openalex.org/S156274416","display_name":"Nature
+        Physics","issn_l":"1745-2473","issn":["1745-2473","1745-2481"],"is_oa":false,"is_in_doaj":false,"is_core":true,"host_organization":"https://openalex.org/P4310319908","host_organization_name":"Nature
+        Portfolio","host_organization_lineage":["https://openalex.org/P4310319908","https://openalex.org/P4310319965"],"host_organization_lineage_names":["Nature
+        Portfolio","Springer Nature"],"type":"journal"},"license":null,"license_id":null,"version":"publishedVersion","is_accepted":true,"is_published":true,"raw_source_name":"Nature
+        Physics","raw_type":"journal-article"},"sustainable_development_goals":[],"awards":[],"funders":[],"has_content":{"grobid_xml":true,"pdf":true},"referenced_works_count":8,"referenced_works":["https://openalex.org/W2091510035","https://openalex.org/W2035188058","https://openalex.org/W1976605764","https://openalex.org/W4245770866","https://openalex.org/W2038329126","https://openalex.org/W2056559042","https://openalex.org/W1978418647","https://openalex.org/W2080244911"],"related_works":["https://openalex.org/W2935759653","https://openalex.org/W3105167352","https://openalex.org/W54078636","https://openalex.org/W2954470139","https://openalex.org/W1501425562","https://openalex.org/W2902782467","https://openalex.org/W3084825885","https://openalex.org/W2298861036","https://openalex.org/W3148032049","https://openalex.org/W2271181815"],"abstract_inverted_index":null,"counts_by_year":[{"year":2024,"cited_by_count":2}],"updated_date":"2025-12-21T01:58:51.020947","created_date":"2025-10-10T00:00:00"}
+
+        '
+  recorded_at: Tue, 13 Jan 2026 14:39:36 GMT
+recorded_with: VCR 6.3.1

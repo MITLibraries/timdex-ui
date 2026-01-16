@@ -93,6 +93,11 @@
           <%= render(partial: 'trigger_libkey', locals: { kind: 'pmid', identifier: result[:pmid] }) %>
         <% end %>
 
+        <%# OpenAccess Links: If OA_ALWAYS is enabled, include them when available. If not we'll trigger when we have a DOI/PMID but LibKey does not return data. See app/views/thirdiron/libkey.html.erb %>
+        <% if Feature.enabled?(:oa_always) %>
+          <%= render(partial: 'trigger_openalex_setup', locals: { doi: result[:doi], pmid: result[:pmid] }) %>
+        <% end %>
+
         <% if result[:availability].present? && result[:format].downcase != 'journal' %>
           <span class="availability">
           <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>

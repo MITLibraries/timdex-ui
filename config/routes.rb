@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get 'libkey', to: 'thirdiron#libkey'
   get 'browzine', to: 'thirdiron#browzine'
+  get 'oa_work', to: 'openalex#work'
 
   get 'record/(:id)',
       to: 'record#view',

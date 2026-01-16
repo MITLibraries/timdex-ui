@@ -1,0 +1,7 @@
+<% return unless Openalex.enabled? %>
+
+<% if doi.present? %>
+  <%= render(partial: 'search/trigger_openalex', locals: { kind: 'doi', identifier: doi }) %>
+<% elsif pmid.present? %>
+  <%= render(partial: 'search/trigger_openalex', locals: { kind: 'pmid', identifier: pmid }) %>
+<% end %>

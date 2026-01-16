@@ -31,6 +31,7 @@ VCR.configure do |config|
   config.filter_sensitive_data('http://FAKE_TACOS_HOST/graphql/') { ENV.fetch('TACOS_URL').to_s }
   config.filter_sensitive_data('FAKE_THIRDIRON_ID') { ENV.fetch('THIRDIRON_ID').to_s }
   config.filter_sensitive_data('FAKE_THIRDIRON_KEY') { ENV.fetch('THIRDIRON_KEY').to_s }
+  config.filter_sensitive_data('FAKE_OPENALEX_EMAIL') { ENV.fetch('OPENALEX_EMAIL').to_s }
 end
 
 module ActiveSupport
