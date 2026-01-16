@@ -1,4 +1,4 @@
-<% if Libkey.enabled? && @browzine.present? %>
+<% if ThirdIron.enabled? && @browzine.present? %>
   <% if @browzine[:browzine_link].present? %>
     <%= link_to( @browzine[:browzine_link][:text], @browzine[:browzine_link][:link], class: 'button libkey-link' ) %>
   <% end %>

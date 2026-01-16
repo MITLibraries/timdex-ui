@@ -75,9 +75,9 @@
       <% end %>
 
       <%# LibKey links are our preferred links so we call the API when possible to get these preferred links %>
-      <% if Libkey.enabled? && result[:doi].present? %>
+      <% if ThirdIron.enabled? && result[:doi].present? %>
         <%= render(partial: 'trigger_libkey', locals: { kind: 'doi', identifier: result[:doi] }) %>
-      <% elsif Libkey.enabled? && result[:pmid].present? %>
+      <% elsif ThirdIron.enabled? && result[:pmid].present? %>
         <%= render(partial: 'trigger_libkey', locals: { kind: 'pmid', identifier: result[:pmid] }) %>
       <% end %>
 
@@ -85,7 +85,7 @@
         <span class="availability"><%= availability(result[:availability], result[:location], result[:other_availability]) %></span>
       <% end %>
 
-      <% if result[:format].downcase == 'journal' && result[:issn].present? %>
+      <% if ThirdIron.enabled? && result[:format].downcase == 'journal' && result[:issn].present? %>
         <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn] }) %>
       <% end %>
     </div>
