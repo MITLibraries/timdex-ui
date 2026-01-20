@@ -112,11 +112,23 @@
     a:visited {
       color: $white;
     }
+
+    .availability {
+      a:visited {
+        color: $brand-secondary;;
+      }
+    }
   }
 
   .result-get {
     a:visited {
       background-color: $brand-secondary;
+    }
+
+    .availability {
+      a:visited {
+        background-color: inherit;
+      }
     }
   }
 

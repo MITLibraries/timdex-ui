@@ -82,7 +82,13 @@
       <% end %>
 
       <% if result[:availability].present? && result[:format].downcase != 'journal' %>
-        <span class="availability"><%= availability(result[:availability], result[:location], result[:other_availability]) %></span>
+        <span class="availability">
+        <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
+          <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
+        <% else %>
+          <%= availability(result[:availability], result[:location], result[:other_availability]) %>
+        <% end %>
+        </span>
       <% end %>
 
       <% if ThirdIron.enabled? && result[:format].downcase == 'journal' && result[:issn].present? %>
