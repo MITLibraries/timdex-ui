@@ -444,14 +444,16 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_not normalizer.send(:frbrized?)
   end
 
-  test 'normalized output includes frbrized flag for frbrized records' do
+  test 'normalized output includes frbrized flag for frbrized Alma records' do
     normalized = NormalizePrimoRecord.new(alma_record, 'test').normalize
     assert_includes normalized.keys, :frbrized
     assert normalized[:frbrized]
+  end
 
+  test 'normalized output sets frbrized to false for frbrized CDI records' do
     normalized = NormalizePrimoRecord.new(cdi_record, 'test').normalize
     assert_includes normalized.keys, :frbrized
-    assert normalized[:frbrized]
+    assert_not normalized[:frbrized]
   end
 
   test 'normalized output sets frbrized to false when not frbrized' do
