@@ -444,6 +444,24 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_not normalizer.send(:frbrized?)
   end
 
+  test 'normalized output includes frbrized flag for frbrized records' do
+    normalized = NormalizePrimoRecord.new(alma_record, 'test').normalize
+    assert_includes normalized.keys, :frbrized
+    assert normalized[:frbrized]
+
+    normalized = NormalizePrimoRecord.new(cdi_record, 'test').normalize
+    assert_includes normalized.keys, :frbrized
+    assert normalized[:frbrized]
+  end
+
+  test 'normalized output sets frbrized to false when not frbrized' do
+    record = alma_record.deep_dup
+    record['pnx']['facets']['frbrtype'] = ['3']
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    assert_includes normalized.keys, :frbrized
+    assert_not normalized[:frbrized]
+  end
+
   test 'dedup_url requires both frbrized and alma_record conditions' do
     # CDI record that is frbrized - should return nil
     normalizer = NormalizePrimoRecord.new(cdi_record, 'test')

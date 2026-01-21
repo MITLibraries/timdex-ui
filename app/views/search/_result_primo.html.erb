@@ -12,88 +12,101 @@
       <% end %>
     </h3>
 
-    <div class="result-metadata">
-      <p class="pub-info">
-        <span><%= result[:format] %></span>
-        <span><%= result[:year] %></span>
-      </p>
+    <%# FRBR indicator: show a small callout and link to the Primo record %>
+    <% if result[:frbrized] %>
+      <div class="frbr-callout">
+        <span>Multiple versions found.</span>
+        <% frbr_link = result[:links]&.find { |link| link['kind'].to_s.downcase.include?('full') && link['kind'].to_s.downcase.include?('record') }&.dig('url') %>
+        <% if frbr_link %>
+          <%= link_to 'Expand to all editions/formats', frbr_link, class: 'button frbr-link', aria: { label: "View all editions for #{result[:title]}" } %>
+        <% end %>
+      </div>
+    <% else %>
 
-      <%# unclear why TIMDEX is using contributors and Primo is using creators. Should we normalize this? %>
-      <% if result[:creators].present? %>
-        <span class="sr">Contributors: </span>
-        <ul class="list-inline truncate-list contributors">
-          <% result[:creators].each do |creator| %>
-            <li>
-              <% if creator[:link] %>
-                <%= link_to creator[:value], creator[:link]  %>
-              <% else %>
-                <%= creator[:value] %>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      <% end %>
+      <div class="result-metadata">
+        <p class="pub-info">
+          <span><%= result[:format] %></span>
+          <span><%= result[:year] %></span>
+        </p>
 
-      <% if result[:citation].present? %>
-        <div class="result-container">
-          <span>In: </span><%= result[:citation] %>
-        </div>
-      <% end %>
-
-      <% if result[:subjects].present? %>
-        <div class="result-subjects truncate-list">
-          <span class="sr">Subjects: </span>
-          <ul class="list-inline truncate-list subjects">
-            <% result[:subjects].each do |subject| %>
-              <li><%= subject %></li>
+        <%# unclear why TIMDEX is using contributors and Primo is using creators. Should we normalize this? %>
+        <% if result[:creators].present? %>
+          <span class="sr">Contributors: </span>
+          <ul class="list-inline truncate-list contributors">
+            <% result[:creators].each do |creator| %>
+              <li>
+                <% if creator[:link] %>
+                  <%= link_to creator[:value], creator[:link]  %>
+                <% else %>
+                  <%= creator[:value] %>
+                <% end %>
+              </li>
             <% end %>
           </ul>
-        </div>
-      <% end %>
+        <% end %>
 
-      <% if result[:summary].present? %>
-        <div class="result-summary truncate-list">
-          <span class="sr">Summary: </span><%= sanitize result[:summary] %>
-        </div>
-      <% end %>
-    </div>
+        <% if result[:citation].present? %>
+          <div class="result-container">
+            <span>In: </span><%= result[:citation] %>
+          </div>
+        <% end %>
 
-    <div class="result-get">
-      <% if result[:links].present? %>
-        <% result[:links].each do |link| %>
-          <% if link['kind'].downcase == 'full record' %>
-            <%# Full record link button uses the same link as the title link %>
-            <% if Feature.enabled?(:record_link) %>
-              <%= link_to 'View full record', link['url'], class: 'button' %>
+        <% if result[:subjects].present? %>
+          <div class="result-subjects truncate-list">
+            <span class="sr">Subjects: </span>
+            <ul class="list-inline truncate-list subjects">
+              <% result[:subjects].each do |subject| %>
+                <li><%= subject %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <% if result[:summary].present? %>
+          <div class="result-summary truncate-list">
+            <span class="sr">Summary: </span><%= sanitize result[:summary] %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="result-get">
+        <% if result[:links].present? %>
+          <% result[:links].each do |link| %>
+            <% kind = link['kind'].to_s.strip.downcase %>
+            <% if kind.include?('full') && kind.include?('record') %>
+              <%# Full record link button uses the same link as the title link %>
+              <% if Feature.enabled?(:record_link) %>
+                <%= link_to 'View full record', link['url'], class: 'button' %>
+              <% end %>
+            <%# Primo supplies PDF and HTML links in addition to the OpenURL variant that may be useful. %>
+            <%# We hide links with the `primo-link` css class if LibKey returns results. %>
+            <% else %>
+              <%= link_to link['kind'].to_s.titleize, link['url'], class: 'button primo-link' %>
             <% end %>
-          <%# Primo supplies PDF and HTML links in addition to the OpenURL variant that may be useful. %>
-          <%# We hide links with the `primo-link` css class if LibKey returns results. %>
-          <% else %>
-            <%= link_to link['kind'], link['url'], class: 'button primo-link' %>
           <% end %>
         <% end %>
-      <% end %>
 
-      <%# LibKey links are our preferred links so we call the API when possible to get these preferred links %>
-      <% if ThirdIron.enabled? && result[:doi].present? %>
-        <%= render(partial: 'trigger_libkey', locals: { kind: 'doi', identifier: result[:doi] }) %>
-      <% elsif ThirdIron.enabled? && result[:pmid].present? %>
-        <%= render(partial: 'trigger_libkey', locals: { kind: 'pmid', identifier: result[:pmid] }) %>
-      <% end %>
-
-      <% if result[:availability].present? && result[:format].downcase != 'journal' %>
-        <span class="availability">
-        <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
-          <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
-        <% else %>
-          <%= availability(result[:availability], result[:location], result[:other_availability]) %>
+        <%# LibKey links are our preferred links so we call the API when possible to get these preferred links %>
+        <% if ThirdIron.enabled? && result[:doi].present? %>
+          <%= render(partial: 'trigger_libkey', locals: { kind: 'doi', identifier: result[:doi] }) %>
+        <% elsif ThirdIron.enabled? && result[:pmid].present? %>
+          <%= render(partial: 'trigger_libkey', locals: { kind: 'pmid', identifier: result[:pmid] }) %>
         <% end %>
-        </span>
-      <% end %>
 
-      <% if ThirdIron.enabled? && result[:format].downcase == 'journal' && result[:issn].present? %>
-        <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn] }) %>
-      <% end %>
-    </div>
+        <% if result[:availability].present? && result[:format].downcase != 'journal' %>
+          <span class="availability">
+          <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
+            <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
+          <% else %>
+            <%= availability(result[:availability], result[:location], result[:other_availability]) %>
+          <% end %>
+          </span>
+        <% end %>
+
+        <% if ThirdIron.enabled? && result[:format].downcase == 'journal' && result[:issn].present? %>
+          <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn] }) %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </li>

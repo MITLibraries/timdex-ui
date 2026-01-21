@@ -31,7 +31,8 @@ class NormalizePrimoRecord
       chapter_numbering:,
       thumbnail:,
       availability:,
-      other_availability:
+      other_availability:,
+      frbrized: frbrized?
     }
   end
 
