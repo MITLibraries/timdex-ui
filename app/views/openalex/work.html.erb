@@ -1,13 +1,13 @@
 <% if Openalex.enabled? && @openalex.present? %>
   <% if @openalex[:html_link].present? %>
     <%= link_to(@openalex[:html_link], class: 'button openalex-link', title: "OpenAccess #{@openalex[:type]}") do %>
-      OpenAccess
       <%= image_tag("Open_Access_logo_PLoS_white.svg", size: "20") %>
+      OpenAccess
     <% end %>
   <% elsif @openalex[:pdf_link].present? %>
     <%= link_to(@openalex[:pdf_link], class: 'button openalex-link', title: "OpenAccess #{@openalex[:type]}") do %>
-      OpenAccess
       <%= image_tag("Open_Access_logo_PLoS_white.svg", size: "20") %>
+      OpenAccess
     <% end %>
   <% end %>
 <% end %>
