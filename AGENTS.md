@@ -4,6 +4,8 @@ This file highlights the important, discoverable conventions and workflows an AI
 
 - **Big picture:** TIMDEX UI is a Rails 7 app that orchestrates searches across two backends: TIMDEX (GraphQL) and Primo (legacy API). Core request flow is implemented in `app/controllers/search_controller.rb` which: validates params, builds an enhanced query (`Enhancer` -> `QueryBuilder`), then routes to Primo or Timdex fetchers (or both for the `all` tab). Results are normalized by `NormalizePrimoResults` / `NormalizeTimdexResults` and analyzed by `Analyzer`.
 
+- **Fulfillment links:** This application considers a link a fulfillment link if it takes the user to the resource directly. Sometimes we don't have a fulfillment link, so the user will click the Title of the result to view a full record view in the source system. Fulfillment links are provided from multiple ways. Primo data sometimes returns PDF or HTML links to the resource directly. If we have a DOI or PMID, we lookup fulfillment links via LibKey; in data comes back from LibKey, we prefer these links over the Primo links. If LibKey does not provide data, or if `FEATURE_OA_ALWAYS` is enabled, we will look for OpenAccess links in OpenAlex via DOI or PMID. For journal records that have an ISSN, we also use Browzine to get a fulfillment link.
+
 - **GraphQL integration:** GraphQL queries live on the Ruby side using `graphql-client` and `TimdexBase::Client`. See `app/models/timdex_search.rb` for the queries (`BaseQuery`, `GeoboxQuery`, `GeodistanceQuery`, `AllQuery`). The canonical schema is stored at `config/schema/schema.json`. Update schema via the Rails console:
 
   ```ruby
@@ -16,13 +18,14 @@ This file highlights the important, discoverable conventions and workflows an AI
 
   | Flag | Purpose |
   |------|----------|
-  | `FEATURE_GEODATA` | Enable geospatial search (bounding box and radius-based queries); defaults to false |
   | `FEATURE_BOOLEAN_PICKER` | Allow users to choose AND/OR boolean logic in searches |
+  | `FEATURE_GEODATA` | Enable geospatial search (bounding box and radius-based queries); defaults to false |
+  | `FEATURE_OA_ALWAYS` | Always do OpenAlex lookups when DOI or PMID is detected rather than only when LibKey does not return data |
+  | `FEATURE_RECORD_LINK` | Show "View full record" link in search results |
   | `FEATURE_SIMULATE_SEARCH_LATENCY` | Add 1s minimum delay to search results for testing UX behavior |
   | `FEATURE_TAB_PRIMO_ALL` | Display combined Primo (CDI + Alma) results tab |
   | `FEATURE_TAB_TIMDEX_ALL` | Display combined TIMDEX results tab |
   | `FEATURE_TAB_TIMDEX_ALMA` | Display Alma-only TIMDEX results tab |
-  | `FEATURE_RECORD_LINK` | Show "View full record" link in search results |
 
   Essential ENV vars for core functionality: `TIMDEX_GRAPHQL`, `PRIMO_API_URL`, `PRIMO_API_KEY`, `RESULTS_PER_PAGE`, `TIMDEX_INDEX`, `TIMDEX_SOURCES`. Filter customization: `FILTER_*` (e.g., `FILTER_LANGUAGE`, `FILTER_CONTENT_TYPE`) and `ACTIVE_FILTERS` (comma-separated list controlling visibility/order of filters; note that filter aggregation keys in the schema use `*Filter` suffix, e.g., `languageFilter`, `contentTypeFilter`). Tests rely on `.env.test` values for VCR cassette generation and use `ClimateControl` gem to mock feature flags.
 

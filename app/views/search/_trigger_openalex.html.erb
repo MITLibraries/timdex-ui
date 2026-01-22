@@ -1,0 +1,9 @@
+<% return unless Openalex.enabled? %>
+
+<% data_url = "/oa_work?type=#{kind}&identifier=#{identifier}" %>
+
+<span class="openalex-container"
+     data-controller="content-loader"
+     data-content-loader-url-value=<%= data_url %>>
+     <span class="skeleton-loader">&nbsp;</span>
+</span>

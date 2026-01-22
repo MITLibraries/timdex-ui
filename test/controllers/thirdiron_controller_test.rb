@@ -6,7 +6,7 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
     get '/libkey'
 
     assert_response :success
-    assert_equal response.body, ''
+    assert response.body.blank?
   end
 
   test 'libkey route returns nothing without required parameters' do
@@ -14,12 +14,12 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
     # "type" value only
     get '/libkey?type=doi'
 
-    assert_equal response.body, ''
+    assert response.body.blank?
 
     # "identifier" value only
     get '/libkey?identifier=10.1038/s41567-023-02305-y'
 
-    assert_equal response.body, ''
+    assert response.body.blank?
   end
 
   test 'libkey route returns HTML for valid parameters' do
@@ -38,13 +38,25 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'libkey for non-existent identifier returns blank' do
+  test 'libkey for non-existent identifier inserts openalex setup when oa_always is false' do
     # Libkey responds here, so we have a cassette - but the response is empty
     VCR.use_cassette('libkey nonexistent') do
       get '/libkey?type=doi&identifier=foobar'
 
       assert_response :success
-      assert_equal response.body, ''
+      assert_select '.openalex-container', { count: 1 }
+    end
+  end
+
+  test 'libkey for non-existent identifier does not insert openalex setup when oa_always is true' do
+    ClimateControl.modify(FEATURE_OA_ALWAYS: 'true') do
+      # Libkey responds here, so we have a cassette - but the response is empty
+      VCR.use_cassette('libkey nonexistent') do
+        get '/libkey?type=doi&identifier=foobar'
+
+        assert_response :success
+        assert response.body.blank?
+      end
     end
   end
 
@@ -54,14 +66,14 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
       get '/libkey?type=doi&identifier=10.1038/s41567-023-02305-y'
 
       assert_response :success
-      assert_equal response.body, ''
+      assert response.body.blank?
     end
 
     ClimateControl.modify(THIRDIRON_KEY: nil) do
       get '/libkey?type=doi&identifier=10.1038/s41567-023-02305-y'
 
       assert_response :success
-      assert_equal response.body, ''
+      assert response.body.blank?
     end
   end
 
@@ -70,18 +82,18 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
     get '/browzine'
 
     assert_response :success
-    assert_equal response.body, ''
+    assert response.body.blank?
   end
 
   test 'browzine route returns nothing without required parameters' do
     # No cassettes because these never result in traffic to Browzine
     get '/browzine?issn='
 
-    assert_equal response.body, ''
+    assert response.body.blank?
 
     get '/browzine?type=doi&identifier=10.1038/s41567-023-02305-y'
 
-    assert_equal response.body, ''
+    assert response.body.blank?
   end
 
   test 'browzine route returns HTML for valid parameters' do
@@ -99,7 +111,7 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
       get '/browzine?issn=0000000X'
 
       assert_response :success
-      assert_equal response.body, ''
+      assert response.body.blank?
     end
   end
 
@@ -109,14 +121,14 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
       get '/browzine?issn=1546170X'
 
       assert_response :success
-      assert_equal response.body, ''
+      assert response.body.blank?
     end
 
     ClimateControl.modify(THIRDIRON_KEY: nil) do
       get '/browzine?issn=1546170X'
 
       assert_response :success
-      assert_equal response.body, ''
+      assert response.body.blank?
     end
   end
 end

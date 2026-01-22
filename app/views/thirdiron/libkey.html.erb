@@ -17,4 +17,8 @@
   <% if @libkey[:browzine_link].present? %>
     <%= link_to( @libkey[:browzine_link][:text], @libkey[:browzine_link][:link], class: 'button libkey-link' ) %>
   <% end %>
+
+<%# If we didn't get data back from LibKey, we try OpenAlex unless OA_ALWAYS is enabled at which point we would have already requested data from OpenAlex in parallel to LibKey %>
+<% elsif @libkey.blank? && !Feature.enabled?(:oa_always) %>
+  <%= render(partial: 'search/trigger_openalex_setup', locals: { doi: @doi, pmid: @pmid }) %>
 <% end %>

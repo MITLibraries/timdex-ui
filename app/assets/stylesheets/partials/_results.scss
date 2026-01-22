@@ -317,17 +317,6 @@
     @include buttonSecondary;
   }
 
-  // Treat libkey links similarly to the primo links
-  .libkey-container > a.button:first-child {
-    @include buttonSecondary;
-  }
-
-  .libkey-container {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-
   // Loading skeleton when a button isn't available
   span.skeleton-loader {
     @include skeleton-loader(112px);
