@@ -32,7 +32,7 @@ class NormalizePrimoRecord
       thumbnail:,
       availability:,
       other_availability:,
-      frbrized: dedup_url.present?
+      dedup_record: dedup_url.present?
     }
   end
 
