@@ -26,15 +26,15 @@ class ResultsHelperTest < ActionView::TestCase
     assert_equal description, tab_description
 
     params[:tab] = 'cdi'
-    description = 'Journal and newspaper articles, book chapters, and more'
+    description = 'Journal and newspaper articles, book reviews, book chapters, and more'
     assert_equal description, tab_description
 
     params[:tab] = 'alma'
-    description = 'Books, journals, streaming and physical media, and more'
+    description = 'Books, e-books, journals, streaming and physical media, and more'
     assert_equal description, tab_description
 
     params[:tab] = 'timdex_alma'
-    description = 'Books, journals, streaming and physical media, and more'
+    description = 'Books, e-books, journals, streaming and physical media, and more'
     assert_equal description, tab_description
 
     params[:tab] = 'primo'
