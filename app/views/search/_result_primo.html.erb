@@ -72,8 +72,7 @@
       <div class="result-get">
         <% if result[:links].present? %>
           <% result[:links].each do |link| %>
-            <% kind = link['kind'].to_s.strip.downcase %>
-            <% if kind.include?('full') && kind.include?('record') %>
+            <% if link['kind'].downcase == 'full record' %>
               <%# Full record link button uses the same link as the title link %>
               <% if Feature.enabled?(:record_link) %>
                 <%= link_to 'View full record', link['url'], class: 'button' %>
@@ -81,7 +80,7 @@
             <%# Primo supplies PDF and HTML links in addition to the OpenURL variant that may be useful. %>
             <%# We hide links with the `primo-link` css class if LibKey returns results. %>
             <% else %>
-              <%= link_to link['kind'].to_s.titleize, link['url'], class: 'button primo-link' %>
+              <%= link_to link['kind'], link['url'], class: 'button primo-link' %>
             <% end %>
           <% end %>
         <% end %>
