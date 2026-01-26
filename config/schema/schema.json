@@ -15,9 +15,7 @@
             {
               "name": "docCount",
               "description": "Result count for a given aggregation",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -29,9 +27,7 @@
             {
               "name": "key",
               "description": "Aggregation value matched in search",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -42,9 +38,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -56,9 +50,7 @@
             {
               "name": "accessToFiles",
               "description": "Total seach results by access type (which is a Right with description `Access to files`). This is only applicable to geospatial records at this time.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -78,9 +70,7 @@
             {
               "name": "contentType",
               "description": "Total search results by content type",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -100,9 +90,7 @@
             {
               "name": "contributors",
               "description": "Total search results by contributor name; e.g., author, editor, etc.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -122,9 +110,7 @@
             {
               "name": "format",
               "description": "Total search results by format",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -144,9 +130,7 @@
             {
               "name": "languages",
               "description": "Total search results by language",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -166,9 +150,7 @@
             {
               "name": "literaryForm",
               "description": "Total search results by fiction or nonfiction",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -188,9 +170,7 @@
             {
               "name": "places",
               "description": "Total search results by Place (which is a subject with type `Dublin Core; Spatial`)",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -210,9 +190,7 @@
             {
               "name": "source",
               "description": "Total search results by source record system",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -232,9 +210,7 @@
             {
               "name": "subjects",
               "description": "Total search results by subject term",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -253,9 +229,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -267,9 +241,7 @@
             {
               "name": "kind",
               "description": "Type of alternate title",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -281,9 +253,7 @@
             {
               "name": "value",
               "description": "Value of alternate title",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -294,9 +264,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -318,9 +286,7 @@
             {
               "name": "affiliation",
               "description": "Institutional affiliation(s) of a contributor",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -340,9 +306,7 @@
             {
               "name": "identifier",
               "description": "Unique identifier(s) of a contributor",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -362,9 +326,7 @@
             {
               "name": "kind",
               "description": "Type of contributor; e.g., editor, author, etc.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -376,9 +338,7 @@
             {
               "name": "mitAffiliated",
               "description": "Identifies whether a contributor is affiliated with MIT",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
@@ -390,9 +350,7 @@
             {
               "name": "value",
               "description": "Name of contributor",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -407,9 +365,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -421,9 +377,7 @@
             {
               "name": "kind",
               "description": "Type of date; e.g., \"creation\", \"accessioned\", etc.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -439,9 +393,7 @@
             {
               "name": "note",
               "description": "Notes about the date, if applicable",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -453,9 +405,7 @@
             {
               "name": "range",
               "description": "Range of dates",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "OBJECT",
                 "name": "DateRange",
@@ -467,9 +417,7 @@
             {
               "name": "value",
               "description": "Value of date. Note that date ranges will be returned in the `range` subfield",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -480,9 +428,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -494,9 +440,7 @@
             {
               "name": "gte",
               "description": "Beginning of date range",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -508,9 +452,7 @@
             {
               "name": "lte",
               "description": "End of date range",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -521,9 +463,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -545,9 +485,7 @@
             {
               "name": "awardNumber",
               "description": "Grant award number",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -559,9 +497,7 @@
             {
               "name": "awardUri",
               "description": "Grant award URI",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -573,9 +509,7 @@
             {
               "name": "funderIdentifier",
               "description": "Unique identifier for funding source",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -587,9 +521,7 @@
             {
               "name": "funderIdentifierType",
               "description": "Type of unique indentifier for funding source",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -601,9 +533,7 @@
             {
               "name": "funderName",
               "description": "Name of funding source",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -614,9 +544,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -748,9 +676,7 @@
             {
               "name": "matchedField",
               "description": "The field that was matched by search terms",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -762,9 +688,7 @@
             {
               "name": "matchedPhrases",
               "description": "The phrases within a field that were matched",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -783,9 +707,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -797,9 +719,7 @@
             {
               "name": "callnumber",
               "description": "Call number of the holding",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -811,9 +731,7 @@
             {
               "name": "collection",
               "description": "Collection in which the item is held",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -825,9 +743,7 @@
             {
               "name": "format",
               "description": "Format of the holding",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -839,9 +755,7 @@
             {
               "name": "location",
               "description": "Physical location of the holding",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -853,9 +767,7 @@
             {
               "name": "notes",
               "description": "Cataloging notes about the holding",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -867,9 +779,7 @@
             {
               "name": "summary",
               "description": "Summary holdings information",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -880,9 +790,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -904,9 +812,7 @@
             {
               "name": "kind",
               "description": "Type of identifier",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -922,9 +828,7 @@
             {
               "name": "value",
               "description": "Value of identifier",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -939,9 +843,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -953,9 +855,7 @@
             {
               "name": "name",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -971,9 +871,7 @@
             {
               "name": "tagline",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -989,9 +887,7 @@
             {
               "name": "version",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1006,9 +902,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1030,9 +924,7 @@
             {
               "name": "kind",
               "description": "Type of link",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1044,9 +936,7 @@
             {
               "name": "restrictions",
               "description": "Restrictions on a link, if available",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1058,9 +948,7 @@
             {
               "name": "text",
               "description": "Additional description of a link, if applicable",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1072,9 +960,7 @@
             {
               "name": "url",
               "description": "URL of a link",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1089,9 +975,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1103,9 +987,7 @@
             {
               "name": "geopoint",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1117,9 +999,7 @@
             {
               "name": "geoshape",
               "description": "GeoShape data for the location, if applicable",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1131,9 +1011,7 @@
             {
               "name": "kind",
               "description": "Type of location",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1145,9 +1023,7 @@
             {
               "name": "value",
               "description": "Name of location",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1158,9 +1034,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1172,9 +1046,7 @@
             {
               "name": "kind",
               "description": "Type of note",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1186,9 +1058,7 @@
             {
               "name": "value",
               "description": "Value of note",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1207,9 +1077,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1221,9 +1089,7 @@
             {
               "name": "date",
               "description": "The date of the publication",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1235,9 +1101,7 @@
             {
               "name": "location",
               "description": "Where the publisher is located",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1249,9 +1113,7 @@
             {
               "name": "name",
               "description": "The name of the publisher",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1262,9 +1124,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1276,9 +1136,7 @@
             {
               "name": "info",
               "description": "Information about the current endpoint",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1294,9 +1152,7 @@
             {
               "name": "ping",
               "description": "Is this thing on?",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1465,6 +1321,26 @@
                   "defaultValue": "\"0\""
                 },
                 {
+                  "name": "perPage",
+                  "description": "Number of results per page. Defaults to 20.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": "20"
+                },
+                {
+                  "name": "fulltext",
+                  "description": "Include fulltext field in search? Defaults to false.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false"
+                },
+                {
                   "name": "index",
                   "description": "It is not recommended to provide an index value unless we have provided you with one for your specific use case",
                   "type": {
@@ -1476,7 +1352,7 @@
                 },
                 {
                   "name": "booleanType",
-                  "description": "How to join multiword queries. Defaults to \"OR\" which means any of the words much match. Options include: \"OR\", \"AND\", \"minimum_a\"",
+                  "description": "How to join multiword queries. Defaults to \"OR\" which means any of the words much match. Options include: \"OR\", \"AND\"",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
@@ -1653,9 +1529,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1667,9 +1541,7 @@
             {
               "name": "alternateTitles",
               "description": "Alternate titles for the item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1689,9 +1561,7 @@
             {
               "name": "callNumbers",
               "description": "Identification number used to classify and locate item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1711,9 +1581,7 @@
             {
               "name": "citation",
               "description": "Citation for item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1725,9 +1593,7 @@
             {
               "name": "contentType",
               "description": "Type of content of item; e.g., \"still image\", \"text\", etc.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1747,9 +1613,7 @@
             {
               "name": "contents",
               "description": "Table of contents for item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1769,9 +1633,7 @@
             {
               "name": "contributors",
               "description": "Contributors to the item; e.g., authors, editors, etc.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1791,9 +1653,7 @@
             {
               "name": "dates",
               "description": "Dates associated with item, including publication date",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1813,9 +1673,7 @@
             {
               "name": "dois",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1835,9 +1693,7 @@
             {
               "name": "edition",
               "description": "Edition information for item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1849,9 +1705,7 @@
             {
               "name": "fileFormats",
               "description": "Available file formats for the item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1871,9 +1725,7 @@
             {
               "name": "format",
               "description": "Format of item e.g. \"Print Volume\", \"DVD\", etc.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1885,9 +1737,7 @@
             {
               "name": "fundingInformation",
               "description": "Funding information for the item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1907,9 +1757,7 @@
             {
               "name": "highlight",
               "description": "Search term matches in item metadata",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1929,9 +1777,7 @@
             {
               "name": "holdings",
               "description": "Local holdings of the item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1951,9 +1797,7 @@
             {
               "name": "identifier",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1969,9 +1813,7 @@
             {
               "name": "identifiers",
               "description": "Unique identifiers associated with the item; e.g., ISBN, DOI, etc.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1991,9 +1833,7 @@
             {
               "name": "imprint",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2013,9 +1853,7 @@
             {
               "name": "inBibliography",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2035,9 +1873,7 @@
             {
               "name": "isbns",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2057,9 +1893,7 @@
             {
               "name": "issns",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2079,9 +1913,7 @@
             {
               "name": "languages",
               "description": "Language(s) of item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2101,9 +1933,7 @@
             {
               "name": "lccn",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2115,9 +1945,7 @@
             {
               "name": "links",
               "description": "Link(s) to item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2137,9 +1965,7 @@
             {
               "name": "literaryForm",
               "description": "Identifies the item as fiction or nonfiction",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2151,9 +1977,7 @@
             {
               "name": "locations",
               "description": "Places associated with item, including location of publication",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2173,9 +1997,7 @@
             {
               "name": "notes",
               "description": "Notes about item from source record",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2195,9 +2017,7 @@
             {
               "name": "numbering",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2209,9 +2029,7 @@
             {
               "name": "oclcs",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2231,9 +2049,7 @@
             {
               "name": "physicalDescription",
               "description": "Physical description of item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2245,9 +2061,7 @@
             {
               "name": "placeOfPublication",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2259,9 +2073,7 @@
             {
               "name": "provider",
               "description": "The host institution for a resource. Currently only used for geospatial records",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2273,9 +2085,7 @@
             {
               "name": "publicationDate",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2287,9 +2097,7 @@
             {
               "name": "publicationFrequency",
               "description": "Publication frequency of item (used for serials)",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2309,9 +2117,7 @@
             {
               "name": "publicationInformation",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2331,9 +2137,7 @@
             {
               "name": "publishers",
               "description": "Publishers that are associated with the item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2353,9 +2157,7 @@
             {
               "name": "relatedItems",
               "description": "Items that are related to the item in some way",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2375,9 +2177,7 @@
             {
               "name": "relatedPlace",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2397,9 +2197,7 @@
             {
               "name": "rights",
               "description": "Rights information for the item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2419,9 +2217,7 @@
             {
               "name": "score",
               "description": "Search relevance",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2433,9 +2229,7 @@
             {
               "name": "source",
               "description": "Name of source record system",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2451,9 +2245,7 @@
             {
               "name": "sourceLink",
               "description": "URL for source record in source system",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2469,9 +2261,7 @@
             {
               "name": "subjects",
               "description": "Subject terms for item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2491,9 +2281,7 @@
             {
               "name": "summary",
               "description": "Summary of contents of item (also where abstract goes if applicable)",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2513,9 +2301,7 @@
             {
               "name": "timdexRecordId",
               "description": "TIMDEX unique identifier for the item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2531,9 +2317,7 @@
             {
               "name": "title",
               "description": "Title of item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2548,9 +2332,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -2562,9 +2344,7 @@
             {
               "name": "description",
               "description": "Description of the related item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2576,9 +2356,7 @@
             {
               "name": "itemType",
               "description": "Type of related item",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2590,9 +2368,7 @@
             {
               "name": "kind",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2604,9 +2380,7 @@
             {
               "name": "relationship",
               "description": "How the item is related",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2618,9 +2392,7 @@
             {
               "name": "uri",
               "description": "URI for the related item, if applicable",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2632,9 +2404,7 @@
             {
               "name": "value",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2653,9 +2423,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -2667,9 +2435,7 @@
             {
               "name": "description",
               "description": "Description of rights statement",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2681,9 +2447,7 @@
             {
               "name": "kind",
               "description": "Type of rights statement",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2695,9 +2459,7 @@
             {
               "name": "uri",
               "description": "Link to additional information about rights statement",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2708,9 +2470,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -2722,9 +2482,7 @@
             {
               "name": "aggregations",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "OBJECT",
                 "name": "Aggregations",
@@ -2736,9 +2494,7 @@
             {
               "name": "hits",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2754,9 +2510,7 @@
             {
               "name": "records",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2775,9 +2529,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -2799,9 +2551,7 @@
             {
               "name": "kind",
               "description": "Type of subject term",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2813,9 +2563,7 @@
             {
               "name": "value",
               "description": "Value of subject term",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2834,9 +2582,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -2848,9 +2594,7 @@
             {
               "name": "distribution",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2866,9 +2610,7 @@
             {
               "name": "luceneVersion",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2884,9 +2626,7 @@
             {
               "name": "number",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2901,9 +2641,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -2950,9 +2688,7 @@
             {
               "name": "description",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2964,9 +2700,7 @@
             {
               "name": "isRepeatable",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
@@ -2978,9 +2712,7 @@
             {
               "name": "locations",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3004,9 +2736,7 @@
             {
               "name": "name",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3022,9 +2752,7 @@
             {
               "name": "onField",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3040,9 +2768,7 @@
             {
               "name": "onFragment",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3058,9 +2784,7 @@
             {
               "name": "onOperation",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3075,9 +2799,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -3214,9 +2936,7 @@
             {
               "name": "deprecationReason",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3228,9 +2948,7 @@
             {
               "name": "description",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3242,9 +2960,7 @@
             {
               "name": "isDeprecated",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3260,9 +2976,7 @@
             {
               "name": "name",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3277,9 +2991,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -3326,9 +3038,7 @@
             {
               "name": "deprecationReason",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3340,9 +3050,7 @@
             {
               "name": "description",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3354,9 +3062,7 @@
             {
               "name": "isDeprecated",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3372,9 +3078,7 @@
             {
               "name": "name",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3390,9 +3094,7 @@
             {
               "name": "type",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3407,9 +3109,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -3421,9 +3121,7 @@
             {
               "name": "defaultValue",
               "description": "A GraphQL-formatted string representing the default value for this input value.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3435,9 +3133,7 @@
             {
               "name": "deprecationReason",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3449,9 +3145,7 @@
             {
               "name": "description",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3463,9 +3157,7 @@
             {
               "name": "isDeprecated",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3481,9 +3173,7 @@
             {
               "name": "name",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3499,9 +3189,7 @@
             {
               "name": "type",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3516,9 +3204,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -3530,9 +3216,7 @@
             {
               "name": "description",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3544,9 +3228,7 @@
             {
               "name": "directives",
               "description": "A list of all directives supported by this server.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3570,9 +3252,7 @@
             {
               "name": "mutationType",
               "description": "If this server supports mutation, the type that mutation operations will be rooted at.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "OBJECT",
                 "name": "__Type",
@@ -3584,9 +3264,7 @@
             {
               "name": "queryType",
               "description": "The type that query operations will be rooted at.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3602,9 +3280,7 @@
             {
               "name": "subscriptionType",
               "description": "If this server support subscription, the type that subscription operations will be rooted at.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "OBJECT",
                 "name": "__Type",
@@ -3616,9 +3292,7 @@
             {
               "name": "types",
               "description": "A list of all types supported by this server.",
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3641,9 +3315,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -3655,9 +3327,7 @@
             {
               "name": "description",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3762,9 +3432,7 @@
             {
               "name": "interfaces",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3784,9 +3452,7 @@
             {
               "name": "isOneOf",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3802,9 +3468,7 @@
             {
               "name": "kind",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -3820,9 +3484,7 @@
             {
               "name": "name",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3834,9 +3496,7 @@
             {
               "name": "ofType",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "OBJECT",
                 "name": "__Type",
@@ -3848,9 +3508,7 @@
             {
               "name": "possibleTypes",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3870,9 +3528,7 @@
             {
               "name": "specifiedByURL",
               "description": null,
-              "args": [
-
-              ],
+              "args": [],
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3883,9 +3539,7 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [
-
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -3951,6 +3605,28 @@
       ],
       "directives": [
         {
+          "name": "deprecated",
+          "description": "Marks an element of a GraphQL schema as no longer supported.",
+          "locations": [
+            "FIELD_DEFINITION",
+            "ENUM_VALUE",
+            "ARGUMENT_DEFINITION",
+            "INPUT_FIELD_DEFINITION"
+          ],
+          "args": [
+            {
+              "name": "reason",
+              "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted in [Markdown](https://daringfireball.net/projects/markdown/).",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": "\"No longer supported\""
+            }
+          ]
+        },
+        {
           "name": "include",
           "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
           "locations": [
@@ -3976,6 +3652,14 @@
           ]
         },
         {
+          "name": "oneOf",
+          "description": "Requires that exactly one field must be supplied and that field must not be `null`.",
+          "locations": [
+            "INPUT_OBJECT"
+          ],
+          "args": []
+        },
+        {
           "name": "skip",
           "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
           "locations": [
@@ -3998,38 +3682,6 @@
               },
               "defaultValue": null
             }
-          ]
-        },
-        {
-          "name": "deprecated",
-          "description": "Marks an element of a GraphQL schema as no longer supported.",
-          "locations": [
-            "FIELD_DEFINITION",
-            "ENUM_VALUE",
-            "ARGUMENT_DEFINITION",
-            "INPUT_FIELD_DEFINITION"
-          ],
-          "args": [
-            {
-              "name": "reason",
-              "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted in [Markdown](https://daringfireball.net/projects/markdown/).",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": "\"No longer supported\""
-            }
-          ]
-        },
-        {
-          "name": "oneOf",
-          "description": "Requires that exactly one field must be supplied and that field must not be `null`.",
-          "locations": [
-            "INPUT_OBJECT"
-          ],
-          "args": [
-
           ]
         },
         {
