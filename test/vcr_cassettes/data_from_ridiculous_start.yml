@@ -8,18 +8,19 @@ http_interactions:
       string: '{"query":"query TimdexSearch__BaseQuery($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $index: String, $from:
-        String, $booleanType: String, $accessToFilesFilter: [String!], $contentTypeFilter:
-        [String!], $contributorsFilter: [String!], $formatFilter: [String!], $languagesFilter:
-        [String!], $literaryFormFilter: String, $placesFilter: [String!], $sourceFilter:
-        [String!], $subjectsFilter: [String!]) {\n  search(searchterm: $q, citation:
-        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
-        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
-        $title, index: $index, from: $from, booleanType: $booleanType, accessToFilesFilter:
-        $accessToFilesFilter, contentTypeFilter: $contentTypeFilter, contributorsFilter:
-        $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
-        literaryFormFilter: $literaryFormFilter, placesFilter: $placesFilter, sourceFilter:
-        $sourceFilter, subjectsFilter: $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      identifiers
-        {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
+        String, $booleanType: String, $fulltext: Boolean, $perPage: Int, $accessToFilesFilter:
+        [String!], $contentTypeFilter: [String!], $contributorsFilter: [String!],
+        $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
+        String, $placesFilter: [String!], $sourceFilter: [String!], $subjectsFilter:
+        [String!]) {\n  search(searchterm: $q, citation: $citation, contributors:
+        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
+        locations: $locations, subjects: $subjects, title: $title, index: $index,
+        from: $from, booleanType: $booleanType, fulltext: $fulltext, perPage: $perPage,
+        accessToFilesFilter: $accessToFilesFilter, contentTypeFilter: $contentTypeFilter,
+        contributorsFilter: $contributorsFilter, formatFilter: $formatFilter, languagesFilter:
+        $languagesFilter, literaryFormFilter: $literaryFormFilter, placesFilter: $placesFilter,
+        sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter) {\n    hits\n    records
+        {\n      timdexRecordId\n      identifiers {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n        range {\n          gte\n          lte\n        }\n      }\n      links
         {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
@@ -52,9 +53,9 @@ http_interactions:
       Nel:
       - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=tVGBL94wfxHCjZYFVnDfMinpiAMm6QAkaSqXZ3RHR3A%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765557676"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=Y7KNtGxC%2FtMGMZGK41CyPq5BvFoOiwqIByeskiXJyfQ%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1769521066"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=tVGBL94wfxHCjZYFVnDfMinpiAMm6QAkaSqXZ3RHR3A%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765557676"
+      - heroku-nel="https://nel.heroku.com/reports?s=Y7KNtGxC%2FtMGMZGK41CyPq5BvFoOiwqIByeskiXJyfQ%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1769521066"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -64,13 +65,13 @@ http_interactions:
       Via:
       - 1.1 heroku-router
       X-Request-Id:
-      - 1c4a6691-4a95-634e-9d2f-96620afda7be
+      - 52a99abf-711e-64fe-bfb6-1b99502b45e7
       X-Runtime:
-      - '0.122176'
+      - '0.072697'
       Date:
-      - Fri, 12 Dec 2025 16:41:17 GMT
+      - Tue, 27 Jan 2026 13:37:46 GMT
     body:
       encoding: UTF-8
       string: '{"status":500,"error":"Internal Server Error"}'
-  recorded_at: Fri, 12 Dec 2025 16:41:17 GMT
+  recorded_at: Tue, 27 Jan 2026 13:37:46 GMT
 recorded_with: VCR 6.3.1

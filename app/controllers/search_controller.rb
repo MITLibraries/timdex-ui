@@ -153,6 +153,7 @@ class SearchController < ApplicationController
     query = QueryBuilder.new(@enhanced_query).query
     query['from'] = offset.to_s if offset
     query['size'] = per_page.to_s if per_page
+    query['fulltext'] = true if Feature.enabled?(:timdex_fulltext)
 
     response = query_timdex(query)
     errors = extract_errors(response)
