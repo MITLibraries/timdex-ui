@@ -104,6 +104,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FEATURE_TAB_PRIMO_ALL`: Display a tab for displaying the combined Primo data (CDI + Alma)
 - `FEATURE_TAB_TIMDEX_ALL`: Display a tab for displaying the combined TIMDEX data. `TIMDEX_INDEX` affects which data appears in this tab.
 - `FEATURE_TAB_TIMDEX_ALMA`: Display a tab for displaying Alma data from TIMDEX. `TIMDEX_INDEX` must include `Alma` data or no results will return.
+- `FEATURE_TIMDEX_FULLTEXT`: Activate fulltext searching for sources in TIMDEX that support it
 - `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.
 - `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.
 - `FILTER_CONTRIBUTOR`: The name to use instead of "Contributor" for that filter / aggregation.
