@@ -13,7 +13,7 @@
     </h3>
 
     <%# FRBR indicator: show a small callout and link to the Primo record %>
-    <% if result[:frbrized] %>
+    <% if result[:dedup_record] %>
       <div class="frbr-callout">
         <span>Multiple versions found.</span>
         <% frbr_link = result[:links]&.find { |link| link['kind'].to_s.downcase.include?('full') && link['kind'].to_s.downcase.include?('record') }&.dig('url') %>
