@@ -8,7 +8,8 @@ class SearchHelperTest < ActionView::TestCase
                            { 'matchedField' => 'title.exact_value', 'matchedPhrases' => 'Very important data' },
                            { 'matchedField' => 'content_type', 'matchedPhrases' => 'Dataset' },
                            { 'matchedField' => 'dates.value', 'matchedPhrases' => '2022' },
-                           { 'matchedField' => 'contributors.value', 'matchedPhrases' => 'Jane Datascientist' }] }
+                           { 'matchedField' => 'contributors.value', 'matchedPhrases' => 'Jane Datascientist' },
+                           { 'matchedField' => 'source', 'matchedPhrases' => 'mit archivesspace' }] }
     assert_empty trim_highlights(result)
   end
 
@@ -21,7 +22,8 @@ class SearchHelperTest < ActionView::TestCase
     result = { highlight: [{ 'matchedField' => 'title', 'matchedPhrases' => 'Very important data' },
                            { 'matchedField' => 'content_type', 'matchedPhrases' => 'Dataset' },
                            { 'matchedField' => 'numbering', 'matchedPhrases' => '2022' },
-                           { 'matchedField' => 'notes', 'matchedPhrases' => 'Datascientist, Jane' }] }
+                           { 'matchedField' => 'notes', 'matchedPhrases' => 'Datascientist, Jane' },
+                           { 'matchedField' => 'source', 'matchedPhrases' => 'mit archivesspace' }] }
     assert_equal [{ 'matchedField' => 'numbering', 'matchedPhrases' => '2022' },
                   { 'matchedField' => 'notes', 'matchedPhrases' => 'Datascientist, Jane' }], trim_highlights(result)
   end
