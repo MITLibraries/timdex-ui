@@ -8,18 +8,19 @@ http_interactions:
       string: '{"query":"query TimdexSearch__BaseQuery($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $index: String, $from:
-        String, $booleanType: String, $accessToFilesFilter: [String!], $contentTypeFilter:
-        [String!], $contributorsFilter: [String!], $formatFilter: [String!], $languagesFilter:
-        [String!], $literaryFormFilter: String, $placesFilter: [String!], $sourceFilter:
-        [String!], $subjectsFilter: [String!]) {\n  search(searchterm: $q, citation:
-        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
-        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
-        $title, index: $index, from: $from, booleanType: $booleanType, accessToFilesFilter:
-        $accessToFilesFilter, contentTypeFilter: $contentTypeFilter, contributorsFilter:
-        $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
-        literaryFormFilter: $literaryFormFilter, placesFilter: $placesFilter, sourceFilter:
-        $sourceFilter, subjectsFilter: $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      identifiers
-        {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
+        String, $booleanType: String, $fulltext: Boolean, $perPage: Int, $accessToFilesFilter:
+        [String!], $contentTypeFilter: [String!], $contributorsFilter: [String!],
+        $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
+        String, $placesFilter: [String!], $sourceFilter: [String!], $subjectsFilter:
+        [String!]) {\n  search(searchterm: $q, citation: $citation, contributors:
+        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
+        locations: $locations, subjects: $subjects, title: $title, index: $index,
+        from: $from, booleanType: $booleanType, fulltext: $fulltext, perPage: $perPage,
+        accessToFilesFilter: $accessToFilesFilter, contentTypeFilter: $contentTypeFilter,
+        contributorsFilter: $contributorsFilter, formatFilter: $formatFilter, languagesFilter:
+        $languagesFilter, literaryFormFilter: $literaryFormFilter, placesFilter: $placesFilter,
+        sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter) {\n    hits\n    records
+        {\n      timdexRecordId\n      identifiers {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n        range {\n          gte\n          lte\n        }\n      }\n      links
         {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
@@ -30,7 +31,7 @@ http_interactions:
         {\n        key\n        docCount\n      }\n      format {\n        key\n        docCount\n      }\n      languages
         {\n        key\n        docCount\n      }\n      literaryForm {\n        key\n        docCount\n      }\n      places
         {\n        key\n        docCount\n      }\n      source {\n        key\n        docCount\n      }\n      subjects
-        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"poverty","booleanType":"AND","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__BaseQuery"}'
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"poverty","booleanType":"AND","index":"FAKE_TIMDEX_INDEX","fulltext":true},"operationName":"TimdexSearch__BaseQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
