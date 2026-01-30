@@ -33,6 +33,14 @@ class SearchController < ApplicationController
     when *timdex_tabs
       load_timdex_results
     end
+
+    return unless request.format.json?
+
+    if params[:sekret].present? && params[:sekret] == ENV['SECRET_REQUEST_API_KEY']
+      render json: @results
+    else
+      render json: { error: 'Unauthorized request' }, status: :unauthorized
+    end
   end
 
   private
