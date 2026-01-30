@@ -37,7 +37,9 @@ class SearchController < ApplicationController
     return unless request.format.json?
 
     if params[:sekret].present? && params[:sekret] == ENV['SECRET_REQUEST_API_KEY']
-      render json: @results
+      render json: {  results: @results,
+                      pagination: @pagination,
+                      errors: @errors }
     else
       render json: { error: 'Unauthorized request' }, status: :unauthorized
     end
