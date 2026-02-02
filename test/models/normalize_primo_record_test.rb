@@ -142,13 +142,13 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_nil normalized[:doi]
   end
 
-  test 'multiple dois normalize to the first one' do
+  test 'multiple dois are ignored' do
     temp_record = full_record
     temp_record['pnx']['addata']['doi'] = %w[three two one]
 
     normalized = NormalizePrimoRecord.new(temp_record, 'test').normalize
 
-    assert_equal normalized[:doi], 'three'
+    assert_nil normalized[:doi]
   end
 
   test 'normalizes pmid' do
@@ -161,13 +161,13 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_nil normalized[:pmid]
   end
 
-  test 'multiple pmids normalize to the first one' do
+  test 'multiple pmids are ignored' do
     temp_record = full_record
     temp_record['pnx']['addata']['pmid'] = %w[three two one]
 
     normalized = NormalizePrimoRecord.new(temp_record, 'test').normalize
 
-    assert_equal normalized[:pmid], 'three'
+    assert_nil normalized[:pmid]
   end
 
   test 'normalizes summary' do
