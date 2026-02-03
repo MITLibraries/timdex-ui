@@ -15,6 +15,8 @@ class TimdexSearch < TimdexBase
       $index: String
       $from: String
       $booleanType: String
+      $fulltext: Boolean
+      $perPage: Int
       $accessToFilesFilter: [String!]
       $contentTypeFilter: [String!]
       $contributorsFilter: [String!]
@@ -37,6 +39,8 @@ class TimdexSearch < TimdexBase
         index: $index
         from: $from
         booleanType: $booleanType
+        fulltext: $fulltext
+        perPage: $perPage
         accessToFilesFilter: $accessToFilesFilter
         contentTypeFilter: $contentTypeFilter
         contributorsFilter: $contributorsFilter
