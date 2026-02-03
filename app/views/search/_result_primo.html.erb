@@ -97,7 +97,7 @@
           <%= render(partial: 'trigger_openalex_setup', locals: { doi: result[:doi], pmid: result[:pmid] }) %>
         <% end %>
 
-        <% if result[:availability].present? && result[:format].downcase != 'journal' %>
+        <% if result[:availability].present? %>
           <span class="availability">
           <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
             <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
