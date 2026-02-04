@@ -15,7 +15,9 @@
 
   <%# Display browzine link if available. This should always display if we have it regardless of other links. %>
   <% if @libkey[:browzine_link].present? %>
-    <%= link_to( @libkey[:browzine_link][:text], @libkey[:browzine_link][:link], class: 'button libkey-link' ) %>
+    <div class="libkey-actions">
+      <%= link_to @libkey[:browzine_link][:text], @libkey[:browzine_link][:link], class: 'button libkey-link' %>
+    </div>
   <% end %>
 
 <%# If we didn't get data back from LibKey, we try OpenAlex unless OA_ALWAYS is enabled at which point we would have already requested data from OpenAlex in parallel to LibKey %>

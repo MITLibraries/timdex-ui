@@ -97,16 +97,18 @@
           <%= render(partial: 'trigger_openalex_setup', locals: { doi: result[:doi], pmid: result[:pmid] }) %>
         <% end %>
 
-        <% if result[:availability].present? && result[:format].downcase != 'journal' %>
-          <span class="availability">
+        <% if result[:availability].present? %>
+          <div class="availability">
           <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
             <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
           <% else %>
             <%= availability(result[:availability], result[:location], result[:other_availability]) %>
           <% end %>
-          </span>
+          </div>
         <% end %>
 
+        <%# Trigger BrowZine lookup (render inside result-get so injected HTML
+            is part of the flex `.result-get` area and receives expected styles) %>
         <% if ThirdIron.enabled? && result[:format].downcase == 'journal' && result[:issn].present? %>
           <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn] }) %>
         <% end %>
