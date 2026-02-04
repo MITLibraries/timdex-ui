@@ -303,6 +303,27 @@
     display: flex;
     align-items: center;
     gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  // Browzine / LibKey actions wrapper
+  .libkey-actions {
+    // Default to underlined link styling for inline display (when paired with other buttons)
+    a.libkey-link {
+      @include underlinedLinks;
+      font-weight: $fw-medium;
+      font-size: 1.6rem;
+    }
+  }
+
+  // When libkey-actions is the first button (no other buttons before it),
+  // display as full-width secondary button
+  .result-get > .libkey-actions:not(.result-get > a.button ~ .libkey-actions) {
+    flex: 0 0 100%;
+
+    a.libkey-link {
+      @include buttonSecondary;
+    }
   }
 
   // Make result buttons present as underlined links
