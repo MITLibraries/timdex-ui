@@ -13,6 +13,7 @@ gem 'mitlibraries-theme', git: 'https://github.com/mitlibraries/mitlibraries-the
 gem 'openssl'
 gem 'puma'
 gem 'rack-attack'
+gem 'rack-timeout'
 gem 'rails', '~> 7.2.0'
 gem 'redis'
 gem 'scout_apm'
