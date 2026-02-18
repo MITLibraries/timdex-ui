@@ -7,6 +7,15 @@
 <div id="content-wrapper" class="space-wrap">
   <%= render(partial: 'shared/error', collection: @errors) %>
 
+  <% if @negative %>
+    <aside class="mitlib-suggestion-panel">
+      <div class="panel-content">
+        <p class="panel-type">We might not have that here...</p>
+        <h3><%= link_to( @negative['title'], "https://openlibrary.org#{@negative['key']}" )%></h3>
+      </div>
+    </aside>
+  <% end %>
+
   <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
   <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
