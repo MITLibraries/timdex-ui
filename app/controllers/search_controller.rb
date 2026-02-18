@@ -33,6 +33,10 @@ class SearchController < ApplicationController
     when *timdex_tabs
       load_timdex_results
     end
+
+    # Cross-check results to see if a better result can be found elsewhere.
+    # This defines a @negative instance variable if something better can be found elsewhere.
+    negative_result_check
   end
 
   private
@@ -380,5 +384,29 @@ class SearchController < ApplicationController
     else
       [{ 'message' => error.message }]
     end
+  end
+
+  def negative_result_check
+    return unless Openlibrary.enabled?
+
+    openlibrary_result = Openlibrary.search(@enhanced_query[:q])
+    return unless openlibrary_result
+
+    lead_title = @results.first&.dig(:title)
+    negative_title = openlibrary_result['title']
+
+    @negative = openlibrary_result if jaccard(@enhanced_query[:q],negative_title) > jaccard(@enhanced_query[:q],lead_title)
+  end
+
+  def jaccard(string1, string2)
+    string1_words = string_to_words(string1)
+    string2_words = string_to_words(string2)
+    intersection = (string1_words & string2_words).size
+    union = (string1_words | string2_words).size
+    union.zero? ? 0 : intersection.to_f / union.to_f
+  end
+
+  def string_to_words(string)
+    string.downcase.split(/\s+/).to_set
   end
 end
