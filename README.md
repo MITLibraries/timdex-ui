@@ -114,6 +114,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FILTER_PLACE`: The name to use instead of "Place" for that filter / aggregation.
 - `FILTER_SOURCE`: The name to use instead of "Source" for that filter / aggregation.
 - `FILTER_SUBJECT`: The name to use instead of "Subject" for that filter / aggregation.
+- `FORMAT_TOKEN`: If defined, user agents can request results in JSON format by providing this value in the `format_token` querystring parameter.
 - `GLOBAL_ALERT`: The main functionality for this comes from our theme gem, but when set the value will be rendered as
   safe html above the main header of the site.
 - `THIRDIRON_KEY`: An access key assigned by Third Iron to enable this application to interact with the Libkey service.

@@ -1113,4 +1113,56 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     # Should show current range (21-40 for page 2)
     assert_select '.pagination-container .current', text: /21 - 40 of 800/
   end
+
+  test 'results can be returned in JSON format when env is set and valid token is provided' do
+    secret_value = 'sooper_sekret'
+    ClimateControl.modify FORMAT_TOKEN: secret_value do
+      mock_timdex_search_with_hits(10)
+      get "/results?q=test&format=json&format_token=#{secret_value}"
+      assert_response :success
+      assert_equal 'application/json; charset=utf-8', response.content_type
+    end
+  end
+
+  # We don't mock anything here because the error prevents any external lookups
+  test 'requests for JSON results without a token generate an unauthorized error' do
+    secret_value = 'sooper_sekret'
+    ClimateControl.modify FORMAT_TOKEN: secret_value do
+      get '/results?q=test&format=json'
+      assert_response :unauthorized
+    end
+  end
+
+  # We don't mock anything here because the error prevents any external lookups
+  test 'requests for JSON results when env var is not set generate an unauthorized error' do
+    secret_value = 'irrelevant'
+    ClimateControl.modify FORMAT_TOKEN: '' do
+      get "/results?q=test&format=json&format_token=#{secret_value}"
+      assert_response :unauthorized
+    end
+  end
+
+  # We don't mock anything here because the error prevents any external lookups
+  test 'requests for JSON results with an incorrect token generate an unauthorized error' do
+    secret_value = 'sooper_sekret'
+    wrong_secret = 'something_else'
+    refute_equal secret_value, wrong_secret
+
+    ClimateControl.modify FORMAT_TOKEN: secret_value do
+      get "/results?q=test&format=json&format_token=#{wrong_secret}"
+      assert_response :unauthorized
+    end
+  end
+
+  test 'requests with unsupported format receive a 406 not-acceptable error' do
+    mock_timdex_search_with_hits(10)
+    get '/results?q=test&format=xml'
+    assert_response :not_acceptable
+  end
+
+  test 'requests with invalid format receive a 406 not-acceptable error' do
+    mock_timdex_search_with_hits(10)
+    get '/results?q=test&format=foo'
+    assert_response :not_acceptable
+  end
 end

@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
   before_action :validate_q!, only: %i[results]
+  before_action :validate_format_token, only: %i[results]
   before_action :set_active_tab, only: %i[results]
   around_action :sleep_if_too_fast, only: %i[results]
 
@@ -32,6 +33,12 @@ class SearchController < ApplicationController
       load_primo_results
     when *timdex_tabs
       load_timdex_results
+    end
+
+    # Render the response in HTML or JSON format
+    respond_to do |format|
+      format.json { render json: { results: @results, pagination: @pagination, errors: @errors } }
+      format.html { render :results }
     end
   end
 
@@ -380,5 +387,32 @@ class SearchController < ApplicationController
     else
       [{ 'message' => error.message }]
     end
+  end
+
+  # validate_format_token is only applicable to requests for JSON-format results. It takes no action so long as the
+  # valid_request_for_json? method returns true - otherwise it renders an error message with a 401 Unauthorized status.
+  def validate_format_token
+    return unless request.format.json?
+
+    return if valid_request_for_json?
+
+    render json: { error: 'Unauthorized request' }, status: :unauthorized
+  end
+
+  # valid_request_for_json? is responsible for validating whether a request for JSON format results is accompanied by
+  # a token which matches the value defined in env.
+  # 1. If the ENV is undefined, then the feature is not enabled - the check fails, which will prompt an Unauthorized
+  #    error.
+  # 2. If the ENV is defined, and the provided token matches, then the check fails, and the request will be honored.
+  # 3. In all other cases, the check fails, which will prompt the Unauthorized error.
+  def valid_request_for_json?
+    # Always fail unless the token is defined in ENV
+    return false unless ENV.fetch('FORMAT_TOKEN', '').present?
+
+    # Success if tokens match
+    return true if params[:format_token] == ENV.fetch('FORMAT_TOKEN', '')
+
+    # Otherwise fail
+    false
   end
 end
