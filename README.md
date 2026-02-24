@@ -95,6 +95,7 @@ See `Optional Environment Variables` for more information.
 - `BOOLEAN_OPTIONS`: comma separated list of values to present to testers on instances where `BOOLEAN_PICKER` feature is enabled.
 - `FEATURE_BOOLEAN_PICKER`: feature to allow users to select their preferred boolean type. If set to `true`, feature is enabled. This feature is only intended for internal team
   testing and should never be enabled in production (mostly because the UI is a mess more than it would cause harm).
+- `FEATURE_BOT_DETECTION`: When set to `true`, enables bot detection using crawler_detect and Cloudflare Turnstile challenges for suspected bots on search result pages. Requires `TURNSTILE_SITEKEY` and `TURNSTILE_SECRET` to be set. If disabled, bots may crawl search results freely.
 - `FEATURE_GEODATA`: Enables features related to geospatial data discovery. Setting this variable to `true` will trigger geodata
 mode. Note that this is currently intended _only_ for the geodata app and
 may have unexpected consequences if applied to other TIMDEX UI apps.
@@ -146,6 +147,8 @@ instance is sending what search traffic. Defaults to "unset" if not defined.
 - `TIMDEX_INDEX`: Name of the index, or alias, to provide to the GraphQL endpoint. Defaults to `nil` which will let TIMDEX determine the best index to use. Wildcard values can be set, for example `rdi*` would search any indexes that begin with `rdi` in the underlying OpenSearch instance behind TIMDEX.
 - `TIMDEX_SOURCES`: Comma-separated list of sources to display in the advanced-search source selection element. This
   overrides the default which is set in ApplicationHelper.
+- `TURNSTILE_SECRET`: The Cloudflare Turnstile secret key used to verify challenge responses. If not set, bot challenge protection is disabled.
+- `TURNSTILE_SITEKEY`: The Cloudflare Turnstile site key used to render the challenge widget. If not set, bot challenge protection is disabled.
 
 #### Test Environment-only Variables
 

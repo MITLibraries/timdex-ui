@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       as: 'record',
       :constraints => { :id => /[0-z\.\-\_~\(\)]+/ }
   get 'results', to: 'search#results'
+  get 'turnstile', to: 'turnstile#show', as: 'turnstile'
+  post 'turnstile/verify', to: 'turnstile#verify', as: 'turnstile_verify'
   get 'style-guide', to: 'static#style_guide'
 
   get 'boolpref', to: 'static#boolpref'
