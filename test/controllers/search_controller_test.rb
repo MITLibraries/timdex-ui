@@ -1165,4 +1165,41 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=test&format=foo'
     assert_response :not_acceptable
   end
+
+  # Bot detection tests
+  test 'bots are redirected to Turnstile challenge' do
+    ClimateControl.modify(FEATURE_BOT_DETECTION: 'true') do
+      bot_ua = 'Mozilla/5.0 (compatible; Googlebot/2.1)'
+      
+      # Mock BotDetector to identify this as a bot
+      BotDetector.stubs(:should_challenge?).returns(true)
+      
+      get '/results?q=test', headers: { 'HTTP_USER_AGENT' => bot_ua }
+      
+      assert_redirected_to turnstile_path(return_to: '/results?q=test')
+    end
+  end
+
+  test 'human users bypass Turnstile challenge' do
+    ClimateControl.modify(FEATURE_BOT_DETECTION: 'true') do
+      human_ua = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/91.0.4472.124 Safari/537.36'
+      mock_primo_search_success
+      
+      # Ensure BotDetector doesn't flag this as bot
+      BotDetector.stubs(:should_challenge?).returns(false)
+      
+      get '/results?q=test&tab=primo', headers: { 'HTTP_USER_AGENT' => human_ua }
+      
+      assert_response :success
+    end
+  end
+
+  test 'bots on non-search paths are not challenged' do
+    bot_ua = 'Googlebot/2.1'
+    
+    get '/', headers: { 'HTTP_USER_AGENT' => bot_ua }
+    
+    # Should not be redirected to Turnstile (doesn't hit SearchController)
+    assert_response :success
+  end
 end

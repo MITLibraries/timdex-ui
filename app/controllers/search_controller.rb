@@ -2,6 +2,7 @@ class SearchController < ApplicationController
   before_action :validate_q!, only: %i[results]
   before_action :validate_format_token, only: %i[results]
   before_action :set_active_tab, only: %i[results]
+  before_action :challenge_bots!, only: %i[results]
   around_action :sleep_if_too_fast, only: %i[results]
 
   before_action :validate_geobox_presence!, only: %i[results]
@@ -269,6 +270,18 @@ class SearchController < ApplicationController
 
     flash[:error] = 'A search term is required.'
     redirect_to root_url
+  end
+
+  # If a request is flagged as a bot and violates crawling rules, redirect to
+  # a Cloudflare Turnstile challenge so a human can prove they're legitimate.
+  # Only applicable if the bot_detection feature is enabled.
+  def challenge_bots!
+    return if session[:passed_turnstile]
+    return unless Feature.enabled?(:bot_detection)
+
+    if BotDetector.should_challenge?(request, params)
+      redirect_to turnstile_path(return_to: request.fullpath)
+    end
   end
 
   def validate_geodistance_presence!

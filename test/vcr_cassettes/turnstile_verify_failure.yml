@@ -1,0 +1,22 @@
+---
+http_interactions:
+- request:
+    body:
+      string: 'secret=test_secret&response=invalid_token'
+      encoding: UTF-8
+    headers:
+      User-Agent:
+      - http/5.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,*;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      string: '{"success":false,"error-codes":["invalid-input-response"]}'
+  recorded_at: 2024-02-24 10:00:00 GMT
+version: 1
