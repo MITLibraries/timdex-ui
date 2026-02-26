@@ -117,6 +117,8 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    crawler_detect (1.2.9)
+      qonfig (>= 0.24)
     date (3.4.1)
     debug (1.11.0)
       irb (~> 1.10)
@@ -131,6 +133,12 @@ GEM
     drb (2.2.3)
     erb (5.0.3)
     erubi (1.13.1)
+    faraday (2.14.1)
+      faraday-net_http (>= 2.0, < 3.5)
+      json
+      logger
+    faraday-net_http (3.4.2)
+      net-http (~> 0.5)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-arm64-darwin)
     ffi (1.17.2-x86_64-darwin)
@@ -198,6 +206,8 @@ GEM
     mocha (2.7.1)
       ruby2_keywords (>= 0.0.5)
     msgpack (1.8.0)
+    net-http (0.9.1)
+      uri (>= 0.11.1)
     net-imap (0.5.12)
       date
       net-protocol
@@ -235,6 +245,8 @@ GEM
     public_suffix (6.0.2)
     puma (7.0.4)
       nio4r (~> 2.0)
+    qonfig (0.30.0)
+      base64 (>= 0.2)
     racc (1.8.1)
     rack (3.1.18)
     rack-attack (6.7.0)
@@ -268,6 +280,9 @@ GEM
     rails-html-sanitizer (1.6.2)
       loofah (~> 2.21)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
+    rails_cloudflare_turnstile (0.5.0)
+      faraday (>= 1.0, < 3.0)
+      rails (>= 6.0, < 8.2)
     railties (7.2.2.2)
       actionpack (= 7.2.2.2)
       activesupport (= 7.2.2.2)
@@ -372,6 +387,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
+    uri (1.1.1)
     useragent (0.16.11)
     vcr (6.3.1)
       base64
@@ -413,6 +429,7 @@ DEPENDENCIES
   bootsnap
   capybara
   climate_control
+  crawler_detect
   debug
   dotenv-rails
   graphql
@@ -429,6 +446,7 @@ DEPENDENCIES
   rack-attack
   rack-timeout
   rails (~> 7.2.0)
+  rails_cloudflare_turnstile
   redis
   rubocop
   rubocop-rails

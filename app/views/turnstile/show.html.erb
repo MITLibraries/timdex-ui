@@ -1,0 +1,22 @@
+<%= cloudflare_turnstile_script_tag %>
+
+<section class="turnstile-challenge">
+  <div class="turnstile-challenge__inner">
+    <h1>Are you a bot?</h1>
+    <p>
+      Please complete the following challenge to continue.
+    </p>
+
+    <%= form_with url: turnstile_verify_path, method: :post, local: true do %>
+      <%= hidden_field_tag :return_to, @return_to %>
+
+      <div class="turnstile-widget">
+        <%= cloudflare_turnstile(action: 'search') %>
+      </div>
+
+      <div class="turnstile-challenge__actions">
+        <%= submit_tag 'Submit verification', class: 'btn button-primary' %>
+      </div>
+    <% end %>
+  </div>
+</section>
