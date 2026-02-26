@@ -3,6 +3,8 @@
 // Source: https://css-tricks.com/container-adapting-tabs-with-more-button/
 // ===========================================================================
 
+import { trackTabChange } from 'matomo_events'
+
 // Store references to relevant selectors
 const container = document.querySelector('#tabs')
 const primary = container.querySelector('.primary')
@@ -33,6 +35,17 @@ moreBtn.addEventListener('click', (e) => {
   e.preventDefault()
   container.classList.toggle('--show-secondary')
   moreBtn.setAttribute('aria-expanded', container.classList.contains('--show-secondary'))
+})
+
+// Track tab selection when a tab link is clicked
+container.addEventListener('click', (e) => {
+  const tabLink = e.target.closest('a[href*="tab="]')
+  if (tabLink) {
+    const tabMatch = tabLink.href.match(/tab=([^&]*)/)
+    if (tabMatch) {
+      trackTabChange(tabMatch[1])
+    }
+  }
 })
 
 // adapt tabs
