@@ -1,3 +1,5 @@
+import { trackSearch, trackCustomEvent } from 'matomo_events'
+
 var keywordField = document.getElementById('basic-search-main');
 var advancedPanel = document.getElementById('advanced-search-panel');
 var geoboxPanel = document.getElementById('geobox-search-panel');
@@ -61,20 +63,50 @@ function updateKeywordPlaceholder() {
 // panel. In all other TIMDEX UI apps, it's just the advanced panel.
 if (Array.from(allPanels).includes(geoboxPanel && geodistancePanel)) {
   document.getElementById('geobox-summary').addEventListener('click', () => {
+    trackCustomEvent('search_panel_toggled', { panel_type: 'geobox' });
     togglePanelState(geoboxPanel);
   });
 
   document.getElementById('geodistance-summary').addEventListener('click', () => {
+    trackCustomEvent('search_panel_toggled', { panel_type: 'geodistance' });
     togglePanelState(geodistancePanel);
   });
 
   document.getElementById('advanced-summary').addEventListener('click', () => {
+    trackCustomEvent('search_panel_toggled', { panel_type: 'advanced' });
     togglePanelState(advancedPanel);
   });
 } else {
   document.getElementById('advanced-summary').addEventListener('click', () => {
+    trackCustomEvent('search_panel_toggled', { panel_type: 'advanced' });
     togglePanelState(advancedPanel);
   });
+}
+
+// Track form submission
+const searchForm = document.querySelector('form[data-turbo-confirm], form[action*="/results"]');
+if (searchForm) {
+  searchForm.addEventListener('submit', (e) => {
+    const query = keywordField.value;
+    const searchType = determineSearchType();
+    
+    if (query) {
+      trackSearch(query, { 
+        searchType: searchType,
+        advanced_search: advancedPanel.open,
+        geobox_search: geoboxPanel ? geoboxPanel.open : false,
+        geodistance_search: geodistancePanel ? geodistancePanel.open : false
+      });
+    }
+  });
+}
+
+// Helper function to determine which search type is active
+function determineSearchType() {
+  if (geoboxPanel && geoboxPanel.open) return 'geobox';
+  if (geodistancePanel && geodistancePanel.open) return 'geodistance';
+  if (advancedPanel && advancedPanel.open) return 'advanced';
+  return 'keyword';
 }
 
 console.log('search_form.js loaded');

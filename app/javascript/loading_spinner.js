@@ -1,3 +1,5 @@
+import { trackPagination } from 'matomo_events'
+
 // Update the tab UI to reflect the newly-requested state. This function is called
 // by a click event handler in the tab UI. It follows a two-step process:
 function swapTabs(new_target) {
@@ -56,6 +58,13 @@ document.addEventListener('click', function(event) {
 
   // Handle pagination clicks
   if (clickedElement.matches('.first a, .previous a, .next a')) {
+    // Track pagination
+    const urlParams = new URLSearchParams(clickedElement.href);
+    const pageParam = urlParams.get('page');
+    if (pageParam) {
+      trackPagination(parseInt(pageParam));
+    }
+
     // Throw the spinner on the search results immediately
     document.getElementById('search-results').classList.add('spinner');
 
