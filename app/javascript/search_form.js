@@ -68,11 +68,11 @@ if (Array.from(allPanels).includes(geoboxPanel && geodistancePanel)) {
     togglePanelState(geodistancePanel);
   });
 
-  document.getElementById('advanced-summary').addEventListener('click', () => {
+  document.getElementById('advanced-summary')?.addEventListener('click', () => {
     togglePanelState(advancedPanel);
   });
 } else {
-  document.getElementById('advanced-summary').addEventListener('click', () => {
+  document.getElementById('advanced-summary')?.addEventListener('click', () => {
     togglePanelState(advancedPanel);
   });
 }
