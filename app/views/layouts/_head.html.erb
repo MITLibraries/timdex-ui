@@ -36,6 +36,18 @@
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.async=true; g.src='<%= ENV['MATOMO_CONTAINER_URL'] %>'; s.parentNode.insertBefore(g,s);
   })();
+
+  // Track SPA page navigation for Tag Manager mode
+  // matomo_events.js must be loaded before this listener can be used
+  (function() {
+    var previousPageUrl = null;
+    addEventListener('turbo:load', function(event) {
+      if (previousPageUrl && window.matomoTracker) {
+        window.matomoTracker.trackPageView(window.location.href, document.title);
+      }
+      previousPageUrl = window.location.href;
+    });
+  })();
 </script>
 <!-- End Matomo Tag Manager -->
 <% elsif (ENV['MATOMO_URL'].present? && ENV['MATOMO_SITE_ID'].present?) %>

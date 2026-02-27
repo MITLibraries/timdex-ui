@@ -17,6 +17,15 @@ function togglePanelState(currentPanel) {
 
   // Finally, enable or disable the search type of the current panel, based on whether it is open or not.
   toggleSearch(currentPanel);
+
+  // Track panel toggle
+  if (window.matomoTracker) {
+    const panelName = currentPanel.id
+      .replace('-search-panel', '')
+      .replace('-', '_');
+    const isOpen = currentPanel.open || false;
+    window.matomoTracker.trackAdvancedSearchToggle(panelName, isOpen);
+  }
 }
 
 function toggleRequiredFieldset(panel) {
@@ -77,4 +86,26 @@ if (Array.from(allPanels).includes(geoboxPanel && geodistancePanel)) {
   });
 }
 
-console.log('search_form.js loaded');
+// Track search form submission
+document.addEventListener('submit', function(event) {
+  const form = event.target;
+  
+  // Check if this is the search form (has the basic-search-main field)
+  if (form.querySelector('input[name="q"]') && window.matomoTracker) {
+    const keyword = form.querySelector('input[name="q"]').value || '';
+    
+    // Collect applied filters from the URL if available
+    const filters = [];
+    const urlParams = new URLSearchParams(window.location.search);
+    for (const [key, value] of urlParams.entries()) {
+      if (key.startsWith('filter_') && value) {
+        filters.push(`${key}=${value}`);
+      }
+    }
+    
+    window.matomoTracker.trackSearch({
+      keyword: keyword,
+      filters: filters
+    });
+  }
+}, true); // Use capture phase to catch events before form submission

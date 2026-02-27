@@ -19,7 +19,7 @@ module SearchHelper
 
   def link_to_result(result)
     if result[:source_link].present?
-      link_to(result[:title], result[:source_link])
+      link_to(result[:title], result[:source_link], data: { 'matomo-record-id': result[:identifier], 'matomo-record-title': result[:title] })
     else
       result[:title]
     end
@@ -45,7 +45,7 @@ module SearchHelper
   end
 
   def view_record(record_id)
-    link_to 'View full record', record_path(id: record_id), class: 'button button-primary'
+    link_to 'View full record', record_path(id: record_id), class: 'button button-primary', data: { 'matomo-record-id': record_id, 'matomo-record-title': "View full record for #{record_id}" }
   end
 
   # 'Coverage' and 'issued' seem to be the most prevalent types; 'coverage' is typically formatted as
