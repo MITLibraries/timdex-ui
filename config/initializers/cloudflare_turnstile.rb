@@ -16,11 +16,7 @@ module TurnstileConfig
   end
 
   def bot_detection_enabled?
-    if defined?(Feature)
-      Feature.enabled?(:bot_detection)
-    else
-      ENV.fetch('FEATURE_BOT_DETECTION', false).to_s.downcase == 'true'
-    end
+    Feature.enabled?(:bot_detection)
   end
 end
 

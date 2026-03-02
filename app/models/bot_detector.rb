@@ -5,7 +5,7 @@ class BotDetector
     detector = CrawlerDetect.new(ua)
     detector.crawler?
   rescue StandardError => e
-    Rails.logger.warn("BotDetector: crawler_detect failed for UA '#{ua}': #{e.message}")
+    Rails.logger.debug("BotDetector: crawler_detect failed for UA '#{ua}': #{e.message}")
     false
   end
 
@@ -15,11 +15,11 @@ class BotDetector
   def self.should_challenge?(request, params = {})
     return false unless bot?(request)
 
-    # Basic rule: crawling any results page triggers a challenge. We consider the
-    # SearchController `results` action (path `/results`) and other search-related
-    # paths to be search result pages. This keeps the rule simple and conservative.
+    # Basic rule: crawling search results or record pages triggers a challenge.
+    # /results is the search results page and /record is the full record view.
+    # This keeps the rule simple and conservative.
     path = request.path.to_s
-    return true if path.start_with?('/search') || path.start_with?('/results') || path.include?('/search')
+    return true if path.start_with?('/results') || path.start_with?('/record')
 
     false
   end

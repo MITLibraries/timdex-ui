@@ -1,5 +1,4 @@
 class TurnstileController < ApplicationController
-  before_action :ensure_bot_detection_enabled
   before_action :validate_cloudflare_turnstile, only: :verify
 
   rescue_from RailsCloudflareTurnstile::Forbidden, with: :handle_forbidden
@@ -15,15 +14,14 @@ class TurnstileController < ApplicationController
 
   private
 
-  def ensure_bot_detection_enabled
-    head :not_found unless Feature.enabled?(:bot_detection)
-  end
-
+  # Handles Turnstile rejecting token submission due to invalid token, network issue, etc.
   def handle_forbidden
     flash.now[:error] = 'Turnstile validation failed. Please try again.'
     render :show, status: :unprocessable_entity
   end
 
+  # Returns a safe path to redirect to after Turnstile verification. Valid paths should begin with
+  # a single slash. Falls back to root_path if the provided path is invalid.
   def safe_return_path
     return_to = params[:return_to].to_s
     return root_path if return_to.blank?
