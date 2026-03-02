@@ -37,13 +37,11 @@ class TurnstileControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'show returns 404 when feature is disabled' do
-    ClimateControl.modify(FEATURE_BOT_DETECTION: 'false') do
-      TurnstileConfig.apply
-      get turnstile_path
-      assert_response :not_found
-    ensure
-      TurnstileConfig.apply
+  test 'verify falls back to root_path for invalid return_to' do
+    with_bot_detection_enabled do
+      post turnstile_verify_path, params: { 'cf-turnstile-response' => 'mocked', return_to: 'foo' }
+      assert_redirected_to root_path
+      assert session[:passed_turnstile]
     end
   end
 end

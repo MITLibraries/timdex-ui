@@ -1,3 +1,6 @@
+# Explicitly require Feature model to check if bot detection is enabled
+require Rails.root.join('app/models/feature')
+
 module TurnstileConfig
   module_function
 
