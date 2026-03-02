@@ -36,6 +36,16 @@
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.async=true; g.src='<%= ENV['MATOMO_CONTAINER_URL'] %>'; s.parentNode.insertBefore(g,s);
   })();
+  
+  // Track initial page view for Tag Manager
+  // (matomo_events.js will track subsequent page views on turbo:load)
+  _mtm.push({
+    'event': 'page_view',
+    'page_url': window.location.href,
+    'page_path': window.location.pathname + window.location.search,
+    'page_title': document.title,
+    'timestamp': new Date().toISOString()
+  });
 </script>
 <!-- End Matomo Tag Manager -->
 <% elsif (ENV['MATOMO_URL'].present? && ENV['MATOMO_SITE_ID'].present?) %>
