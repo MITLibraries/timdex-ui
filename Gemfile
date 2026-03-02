@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.4.8'
 
 gem 'bootsnap', require: false
+gem 'crawler_detect'
 gem 'graphql'
 gem 'graphql-client'
 gem 'http'
@@ -14,6 +15,7 @@ gem 'openssl'
 gem 'puma'
 gem 'rack-attack'
 gem 'rack-timeout'
+gem 'rails_cloudflare_turnstile'
 gem 'rails', '~> 7.2.0'
 gem 'redis'
 gem 'scout_apm'
