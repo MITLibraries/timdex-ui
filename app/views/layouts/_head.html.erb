@@ -27,15 +27,22 @@
 
 <%= yield :additional_js %>
 
-<% if (ENV['MATOMO_CONTAINER_URL'].present?) %>
+<% if (ENV['MATOMO_URL'].present? && ENV['MATOMO_CONTAINER_ID'].present?) %>
 <!-- Matomo Tag Manager -->
 <script type="text/javascript">
   var _mtm = window._mtm = window._mtm || [];
   _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
   (function() {
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.async=true; g.src='<%= ENV['MATOMO_CONTAINER_URL'] %>'; s.parentNode.insertBefore(g,s);
+    g.async=true; g.src='<%= ENV['MATOMO_URL'] %>js/container_<%= ENV['MATOMO_CONTAINER_ID'] %>.js'; s.parentNode.insertBefore(g,s);
   })();
+  if ((document.cookie.indexOf('mtmPreview13_<%= ENV['MATOMO_CONTAINER_ID'] %>%3D1') !== -1 && window.location.href.indexOf('&mtmPreviewMode=0') === -1 && window.location.href.indexOf('?mtmPreviewMode=0') === -1) || window.location.href.indexOf('&mtmPreviewMode=<%= ENV['MATOMO_CONTAINER_ID'] %>') !== -1 || window.location.href.indexOf('?mtmPreviewMode=<%= ENV['MATOMO_CONTAINER_ID'] %>') !== -1) {
+    console.log('Loading preview container');
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=false; g.defer=false; g.src='<%= ENV['MATOMO_URL'] %>js/container_<%= ENV['MATOMO_CONTAINER_ID'] %>_preview.js'; s.parentNode.insertBefore(g,s);
+  } else {
+    console.log('Skipping preview container');
+  }
 </script>
 <!-- End Matomo Tag Manager -->
 <% elsif (ENV['MATOMO_URL'].present? && ENV['MATOMO_SITE_ID'].present?) %>
