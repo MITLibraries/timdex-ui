@@ -111,3 +111,20 @@ const observer = new MutationObserver((mutations) => {
 
 // Observe the entire document subtree so no async insertion is missed.
 observer.observe(document.body, { childList: true, subtree: true });
+
+// Turbo Drive navigation replaces document.body with a brand new element,
+// which detaches the observer from the old body. Re-scan and re-observe on
+// every turbo:load so full-page navigations are handled correctly.
+// (Turbo frame and content-loader updates are covered by the observer above
+// because they mutate within the existing body rather than replacing it.)
+document.addEventListener("turbo:load", () => {
+  // Re-scan the new body for any seen elements that arrived with the navigation.
+  document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
+    if (seenTracked.has(el)) return;
+    seenTracked.add(el);
+    pushMatomoEvent(el.dataset.matomoSeen);
+  });
+
+  // Re-attach the observer to the new document.body instance.
+  observer.observe(document.body, { childList: true, subtree: true });
+});
