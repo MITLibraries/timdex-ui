@@ -1,5 +1,6 @@
-// Matomo click event tracking via data attributes.
+// Matomo event tracking via data attributes.
 //
+// CLICK TRACKING
 // Add `data-matomo-click="Category, Action, Name"` to any element to track
 // clicks as Matomo events. The Name segment is optional.
 //
@@ -9,27 +10,104 @@
 //
 // Event delegation on `document` means this works for elements loaded
 // asynchronously (Turbo frames, content-loader, etc.) without re-binding.
+//
+// SEEN TRACKING
+// Add `data-matomo-seen="Category, Action, Name"` to any element to fire a
+// Matomo event as soon as that element is added to the DOM. The Name segment
+// is optional. Works for elements present on initial page load and for elements
+// injected later by Turbo frames or async content loaders.
+//
+// Examples:
+//   <div data-matomo-seen="Impressions, Result Card, Alma">...</div>
+//   <a data-matomo-seen="Promotions, Banner Shown">...</a>
 
-document.addEventListener("click", (event) => {
-  
-  // Find the closest ancestor (or self) with the data-matomo-click attribute.
-  const el = event.target.closest("[data-matomo-click]");
-  if (!el) return;
+// ---------------------------------------------------------------------------
+// Shared helper
+// ---------------------------------------------------------------------------
 
-  // Read the attribute value and break it apart into segments. Trim whitespace and ignore empty segments.
-  const raw = el.dataset.matomoClick || "";
-  const parts = raw.split(",").map((s) => s.trim()).filter(Boolean);
+// Parse a "Category, Action, Name" attribute string and push a trackEvent call
+// to the Matomo queue. Name is optional; returns early if fewer than 2 parts.
+function pushMatomoEvent(raw) {
 
-  // Matomo requires at least a Category and an Action — bail out if we don't have both.
+  // Split on commas, trim whitespace from each part, drop any empty strings.
+  const parts = (raw || "").split(",").map((s) => s.trim()).filter(Boolean);
+  // Matomo requires at least a Category and an Action.
   if (parts.length < 2) return;
 
   // Destructure into named variables; `name` will be undefined if not provided.
   const [category, action, name] = parts;
 
-  // Build the payload for trackEvent and push to Matomo.
+  // Ensure _paq exists even if the Matomo snippet hasn't loaded yet
+  // (e.g. in development). Matomo will replay queued calls once it initialises.
   window._paq = window._paq || [];
   const payload = ["trackEvent", category, action];
   if (name) payload.push(name);
   window._paq.push(payload);
-  
+}
+
+// ---------------------------------------------------------------------------
+// Click tracking
+// ---------------------------------------------------------------------------
+
+// Attach a single click listener to the entire document (event delegation).
+// This catches clicks on any element, including those added to the DOM later
+// by Turbo frames or async content loaders, without needing to re-bind.
+document.addEventListener("click", (event) => {
+  // Walk up the DOM from the clicked element to find the nearest ancestor
+  // (or the element itself) that has a data-matomo-click attribute.
+  const el = event.target.closest("[data-matomo-click]");
+  // If no such element exists in the ancestor chain, ignore this click.
+  if (!el) return;
+
+  pushMatomoEvent(el.dataset.matomoClick);
 });
+
+// ---------------------------------------------------------------------------
+// Seen tracking
+// ---------------------------------------------------------------------------
+
+// Track elements that have already been processed to avoid double-firing
+// if the same node is observed more than once (e.g. re-attached to the DOM).
+const seenTracked = new WeakSet();
+
+// Fire a Matomo event for a single element if it carries data-matomo-seen
+// and hasn't been tracked yet.
+function trackIfSeen(el) {
+  // Only process element nodes (not text nodes, comments, etc.).
+  if (el.nodeType !== Node.ELEMENT_NODE) return;
+  // Skip if this element has already fired its seen event.
+  if (seenTracked.has(el)) return;
+
+  // Check the element itself for the attribute.
+  if (el.dataset.matomoSeen) {
+    seenTracked.add(el);
+    pushMatomoEvent(el.dataset.matomoSeen);
+  }
+
+  // Also check any descendants — content loaders often inject a whole subtree
+  // at once, so walking deep ensures every marked element is captured.
+  el.querySelectorAll("[data-matomo-seen]").forEach((child) => {
+    if (seenTracked.has(child)) return;
+    seenTracked.add(child);
+    pushMatomoEvent(child.dataset.matomoSeen);
+  });
+}
+
+// Process all elements already present in the DOM on initial page load.
+document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
+  seenTracked.add(el);
+  pushMatomoEvent(el.dataset.matomoSeen);
+});
+
+// Watch for any new nodes added to the DOM after initial load.
+// MutationObserver fires synchronously after each DOM mutation, so it catches
+// both Turbo frame renders and content-loader replacements immediately.
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    // Each mutation record lists the nodes that were added in this batch.
+    mutation.addedNodes.forEach(trackIfSeen);
+  });
+});
+
+// Observe the entire document subtree so no async insertion is missed.
+observer.observe(document.body, { childList: true, subtree: true });
