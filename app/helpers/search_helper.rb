@@ -128,11 +128,6 @@ module SearchHelper
   end
 
   def primo_search_url(query_term)
-    base_url = 'https://mit.primo.exlibrisgroup.com/discovery/search'
-    params = {
-      vid: ENV.fetch('PRIMO_VID'),
-      query: "any,contains,#{query_term}"
-    }
-    "#{base_url}?#{params.to_query}"
+    PrimoLinkBuilder.new(query_term: query_term).search_link
   end
 end

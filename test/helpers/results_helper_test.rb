@@ -54,13 +54,16 @@ class ResultsHelperTest < ActionView::TestCase
     assert_equal description, tab_description
   end
 
-  test 'search_primo_params includes encoded search query' do
+  test 'search_primo_link includes encoded search query and correct path' do
     params[:q] = 'breakfast of champions'
-    result = search_primo_params
+    link = search_primo_link
 
-    assert_includes result, 'query=any%2Ccontains%2Cbreakfast+of+champions'
-    assert_includes result, 'tab=all'
-    assert_includes result, 'search_scope=all'
+    assert link.start_with?('https://')
+    assert_includes link, '/discovery/search?'
+    assert_includes link, 'query=any%2Ccontains%2Cbreakfast+of+champions'
+    assert_includes link, 'tab=all'
+    assert_includes link, 'search_scope=all'
+    assert_includes link, 'vid=01MIT_INST%3AMIT'
   end
 
   test 'search_primo_link returns a valid URL string' do

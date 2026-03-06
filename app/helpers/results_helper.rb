@@ -30,18 +30,9 @@ module ResultsHelper
   # Examples from UI we are targeting:
   #  - https://mit.primo.exlibrisgroup.com/discovery/search?query=any,contains,breakfast%20of%20champions&tab=all&search_scope=bento_catalog&vid=01MIT_INST:MIT
   #  - https://mit.primo.exlibrisgroup.com/discovery/search?query=any,contains,breakfast%20of%20champions&tab=all&search_scope=cdi&vid=01MIT_INST:MIT
+  #  - https://mit.primo.exlibrisgroup.com/nde/search?query=breakfast%20of%20champions&tab=all&search_scope=all&vid=01MIT_INST:NDE
   def search_primo_link
-    base_url = ENV.fetch('MIT_PRIMO_URL') + '/discovery/search?'
-    base_url + search_primo_params
-  end
-
-  def search_primo_params
-    URI.encode_www_form({
-                          query: "any,contains,#{params[:q]}",
-                          tab: 'all',
-                          search_scope: 'all',
-                          vid: ENV.fetch('PRIMO_VID')
-                        })
+    PrimoLinkBuilder.new(query_term: params[:q]).search_link
   end
 
   # Creates MIT ArchivesSpace links based on current search term
