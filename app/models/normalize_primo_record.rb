@@ -237,16 +237,10 @@ class NormalizePrimoRecord
     return unless @record['context']
 
     record_id = @record['pnx']['control']['recordid'].join
-    base = [ENV.fetch('MIT_PRIMO_URL'), '/discovery/fulldisplay?'].join
-    query = {
-      docid: record_id,
-      vid: ENV.fetch('PRIMO_VID'),
-      context: @record['context'],
-      search_scope: 'all',
-      lang: 'en',
-      tab: ENV.fetch('PRIMO_TAB')
-    }.to_query
-    [base, query].join
+    PrimoLinkBuilder.new(
+      record_id: record_id,
+      context: @record['context']
+    ).full_record_link
   end
 
   def numbering

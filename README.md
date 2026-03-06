@@ -105,6 +105,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FEATURE_TAB_TIMDEX_ALL`: Display a tab for displaying the combined TIMDEX data. `TIMDEX_INDEX` affects which data appears in this tab.
 - `FEATURE_TAB_TIMDEX_ALMA`: Display a tab for displaying Alma data from TIMDEX. `TIMDEX_INDEX` must include `Alma` data or no results will return.
 - `FEATURE_TIMDEX_FULLTEXT`: Activate fulltext searching for sources in TIMDEX that support it
+- `FEATURE_PRIMO_NDE_LINKS`: Enables all Primo UI links to target the NDE version of Primo. When enabled, links will use `/nde/search` and `/nde/fulldisplay` paths along with the NDE view ID from `PRIMO_NDE_VID`.
 - `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.
 - `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.
 - `FILTER_CONTRIBUTOR`: The name to use instead of "Contributor" for that filter / aggregation.
@@ -125,6 +126,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `OPENALEX_EMAIL`: required to enable OpenAlex OpenAccess lookups. In dev use your personal email. In production we'll use a Moira.
 - `ORIGINS`: sets origins for CORS (currently used only for TACOS API calls).
 - `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
+- `PRIMO_NDE_VID`: The Primo view ID for NDE Only required if `FEATURE_PRIMO_NDE_LINKS` is enabled. Ask Enterprise Systems for value.
 - `PRIMO_TIMEOUT`: The number of seconds before a Primo request times out (default 6).
 - `REQUESTS_PER_PERIOD` - number of requests that can be made for general throttles per `REQUEST_PERIOD`
 - `REQUEST_PERIOD` - time in minutes used along with `REQUESTS_PER_PERIOD`
