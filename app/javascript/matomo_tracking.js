@@ -128,3 +128,26 @@ document.addEventListener("turbo:load", () => {
   // Re-attach the observer to the new document.body instance.
   observer.observe(document.body, { childList: true, subtree: true });
 });
+
+
+// ===========================================================================
+// HELPER FUNCTIONS
+// Custom JS to enhance the payload information we provide to Matomo.
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// Get the name of the active search results tab, if any.
+// ---------------------------------------------------------------------------
+function getActiveTabName() {
+  var tabs = document.querySelector('#tabs');
+  if (!tabs) {
+    return "None"; // #tabs not found
+  }
+
+  var activeAnchor = tabs.querySelector('a.active');
+  if (!activeAnchor) {
+    return "None"; // no active tab
+  }
+
+  return activeAnchor.textContent.trim();
+}
