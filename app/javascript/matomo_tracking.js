@@ -20,6 +20,16 @@
 // Examples:
 //   <div data-matomo-seen="Impressions, Result Card, Alma">...</div>
 //   <a data-matomo-seen="Promotions, Banner Shown">...</a>
+//
+// DYNAMIC VALUES ({{...}} interpolation)
+// Wrap a helper name in double curly braces anywhere inside a segment to have
+// it replaced with the return value of that function at tracking time. Helpers
+// must be registered on `window.MatomoHelpers` (see bottom of this file).
+// Multiple tokens in one segment are supported.
+//
+// Examples:
+//   <h2 data-matomo-seen="Search, Results Found, Tab: {{getActiveTabName}}">...</h2>
+//   <a data-matomo-click="Nav, {{getActiveTabName}} Link Click">...</a>
 
 // ---------------------------------------------------------------------------
 // Shared helper
@@ -34,8 +44,19 @@ function pushMatomoEvent(raw) {
   // Matomo requires at least a Category and an Action.
   if (parts.length < 2) return;
 
+  // Resolve any {{functionName}} tokens by calling the matching helper.
+  // Each token is replaced in-place, so it can appear anywhere in a segment.
+  const helpers = window.MatomoHelpers || {};
+  const resolved = parts.map((part) =>
+    part.replace(/\{\{(\w+)\}\}/g, (_, fnName) => {
+      const fn = helpers[fnName];
+      // Call the function if it exists; otherwise leave the token as-is.
+      return (typeof fn === "function") ? fn() : `{{${fnName}}}`;
+    })
+  );
+
   // Destructure into named variables; `name` will be undefined if not provided.
-  const [category, action, name] = parts;
+  const [category, action, name] = resolved;
 
   // Ensure _paq exists even if the Matomo snippet hasn't loaded yet
   // (e.g. in development). Matomo will replay queued calls once it initialises.
@@ -151,3 +172,12 @@ function getActiveTabName() {
 
   return activeAnchor.textContent.trim();
 }
+
+// ---------------------------------------------------------------------------
+// Register helpers on window.MatomoHelpers so they can be referenced with the
+// {{functionName}} syntax in data-matomo-seen and data-matomo-click attributes.
+// Add new helpers here as needed.
+// ---------------------------------------------------------------------------
+window.MatomoHelpers = {
+  getActiveTabName,
+};
