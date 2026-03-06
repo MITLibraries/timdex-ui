@@ -1,0 +1,183 @@
+// Matomo event tracking via data attributes.
+//
+// CLICK TRACKING
+// Add `data-matomo-click="Category, Action, Name"` to any element to track
+// clicks as Matomo events. The Name segment is optional.
+//
+// Examples:
+//   <a href="/file.pdf" data-matomo-click="Downloads, PDF Click, My Paper">Download</a>
+//   <button data-matomo-click="Search, Boolean Toggle">AND/OR</button>
+//
+// Event delegation on `document` means this works for elements loaded
+// asynchronously (Turbo frames, content-loader, etc.) without re-binding.
+//
+// SEEN TRACKING
+// Add `data-matomo-seen="Category, Action, Name"` to any element to fire a
+// Matomo event as soon as that element is added to the DOM. The Name segment
+// is optional. Works for elements present on initial page load and for elements
+// injected later by Turbo frames or async content loaders.
+//
+// Examples:
+//   <div data-matomo-seen="Impressions, Result Card, Alma">...</div>
+//   <a data-matomo-seen="Promotions, Banner Shown">...</a>
+//
+// DYNAMIC VALUES ({{...}} interpolation)
+// Wrap a helper name in double curly braces anywhere inside a segment to have
+// it replaced with the return value of that function at tracking time. Helpers
+// must be registered on `window.MatomoHelpers` (see bottom of this file).
+// Multiple tokens in one segment are supported.
+//
+// Examples:
+//   <h2 data-matomo-seen="Search, Results Found, Tab: {{getActiveTabName}}">...</h2>
+//   <a data-matomo-click="Nav, {{getActiveTabName}} Link Click">...</a>
+
+// ---------------------------------------------------------------------------
+// Shared helper
+// ---------------------------------------------------------------------------
+
+// Parse a "Category, Action, Name" attribute string and push a trackEvent call
+// to the Matomo queue. Name is optional; returns early if fewer than 2 parts.
+function pushMatomoEvent(raw) {
+
+  // Split on commas, trim whitespace from each part, drop any empty strings.
+  const parts = (raw || "").split(",").map((s) => s.trim()).filter(Boolean);
+  // Matomo requires at least a Category and an Action.
+  if (parts.length < 2) return;
+
+  // Resolve any {{functionName}} tokens by calling the matching helper.
+  // Each token is replaced in-place, so it can appear anywhere in a segment.
+  const helpers = window.MatomoHelpers || {};
+  const resolved = parts.map((part) =>
+    part.replace(/\{\{(\w+)\}\}/g, (_, fnName) => {
+      const fn = helpers[fnName];
+      // Call the function if it exists; otherwise leave the token as-is.
+      return (typeof fn === "function") ? fn() : `{{${fnName}}}`;
+    })
+  );
+
+  // Destructure into named variables; `name` will be undefined if not provided.
+  const [category, action, name] = resolved;
+
+  // Ensure _paq exists even if the Matomo snippet hasn't loaded yet
+  // (e.g. in development). Matomo will replay queued calls once it initialises.
+  window._paq = window._paq || [];
+  const payload = ["trackEvent", category, action];
+  if (name) payload.push(name);
+  window._paq.push(payload);
+}
+
+// ---------------------------------------------------------------------------
+// Click tracking
+// ---------------------------------------------------------------------------
+
+// Attach a single click listener to the entire document (event delegation).
+// This catches clicks on any element, including those added to the DOM later
+// by Turbo frames or async content loaders, without needing to re-bind.
+document.addEventListener("click", (event) => {
+  // Walk up the DOM from the clicked element to find the nearest ancestor
+  // (or the element itself) that has a data-matomo-click attribute.
+  const el = event.target.closest("[data-matomo-click]");
+  // If no such element exists in the ancestor chain, ignore this click.
+  if (!el) return;
+
+  pushMatomoEvent(el.dataset.matomoClick);
+});
+
+// ---------------------------------------------------------------------------
+// Seen tracking
+// ---------------------------------------------------------------------------
+
+// Track elements that have already been processed to avoid double-firing
+// if the same node is observed more than once (e.g. re-attached to the DOM).
+const seenTracked = new WeakSet();
+
+// Fire a Matomo event for a single element if it carries data-matomo-seen
+// and hasn't been tracked yet.
+function trackIfSeen(el) {
+  // Only process element nodes (not text nodes, comments, etc.).
+  if (el.nodeType !== Node.ELEMENT_NODE) return;
+  // Skip if this element has already fired its seen event.
+  if (seenTracked.has(el)) return;
+
+  // Check the element itself for the attribute.
+  if (el.dataset.matomoSeen) {
+    seenTracked.add(el);
+    pushMatomoEvent(el.dataset.matomoSeen);
+  }
+
+  // Also check any descendants — content loaders often inject a whole subtree
+  // at once, so walking deep ensures every marked element is captured.
+  el.querySelectorAll("[data-matomo-seen]").forEach((child) => {
+    if (seenTracked.has(child)) return;
+    seenTracked.add(child);
+    pushMatomoEvent(child.dataset.matomoSeen);
+  });
+}
+
+// Process all elements already present in the DOM on initial page load.
+document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
+  seenTracked.add(el);
+  pushMatomoEvent(el.dataset.matomoSeen);
+});
+
+// Watch for any new nodes added to the DOM after initial load.
+// MutationObserver fires synchronously after each DOM mutation, so it catches
+// both Turbo frame renders and content-loader replacements immediately.
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    // Each mutation record lists the nodes that were added in this batch.
+    mutation.addedNodes.forEach(trackIfSeen);
+  });
+});
+
+// Observe the entire document subtree so no async insertion is missed.
+observer.observe(document.body, { childList: true, subtree: true });
+
+// Turbo Drive navigation replaces document.body with a brand new element,
+// which detaches the observer from the old body. Re-scan and re-observe on
+// every turbo:load so full-page navigations are handled correctly.
+// (Turbo frame and content-loader updates are covered by the observer above
+// because they mutate within the existing body rather than replacing it.)
+document.addEventListener("turbo:load", () => {
+  // Re-scan the new body for any seen elements that arrived with the navigation.
+  document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
+    if (seenTracked.has(el)) return;
+    seenTracked.add(el);
+    pushMatomoEvent(el.dataset.matomoSeen);
+  });
+
+  // Re-attach the observer to the new document.body instance.
+  observer.observe(document.body, { childList: true, subtree: true });
+});
+
+
+// ===========================================================================
+// HELPER FUNCTIONS
+// Custom JS to enhance the payload information we provide to Matomo.
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// Get the name of the active search results tab, if any.
+// ---------------------------------------------------------------------------
+function getActiveTabName() {
+  var tabs = document.querySelector('#tabs');
+  if (!tabs) {
+    return "None"; // #tabs not found
+  }
+
+  var activeAnchor = tabs.querySelector('a.active');
+  if (!activeAnchor) {
+    return "None"; // no active tab
+  }
+
+  return activeAnchor.textContent.trim();
+}
+
+// ---------------------------------------------------------------------------
+// Register helpers on window.MatomoHelpers so they can be referenced with the
+// {{functionName}} syntax in data-matomo-seen and data-matomo-click attributes.
+// Add new helpers here as needed.
+// ---------------------------------------------------------------------------
+window.MatomoHelpers = {
+  getActiveTabName,
+};
