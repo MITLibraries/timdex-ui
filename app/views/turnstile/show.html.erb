@@ -2,9 +2,9 @@
 
 <section class="turnstile-challenge">
   <div class="turnstile-challenge__inner">
-    <h1>Are you a bot?</h1>
+    <h1>Verify you're human</h1>
     <p>
-      Please complete the following challenge to continue.
+      Please complete this verification to continue.
     </p>
 
     <%= form_with url: turnstile_verify_path, method: :post, local: true do %>
@@ -15,7 +15,7 @@
       </div>
 
       <div class="turnstile-challenge__actions">
-        <%= submit_tag 'Submit verification', class: 'btn button-primary' %>
+        <%= submit_tag 'Submit', class: 'btn button-primary' %>
       </div>
     <% end %>
   </div>

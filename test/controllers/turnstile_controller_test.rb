@@ -32,7 +32,7 @@ class TurnstileControllerTest < ActionDispatch::IntegrationTest
       post turnstile_verify_path
 
       assert_response :unprocessable_entity
-      assert_match 'Turnstile validation failed', response.body
+      assert_match "We couldn't complete the verification", response.body
       refute session[:passed_turnstile]
     end
   end

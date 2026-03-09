@@ -19,7 +19,19 @@ module TurnstileConfig
   end
 
   def bot_detection_enabled?
-    Feature.enabled?(:bot_detection)
+    return false unless Feature.enabled?(:bot_detection)
+
+    # Check that required env is present
+    sitekey = ENV.fetch('TURNSTILE_SITEKEY', nil)
+    secret = ENV.fetch('TURNSTILE_SECRET', nil)
+
+    if sitekey.blank? || secret.blank?
+      Rails.logger.error('Bot detection enabled but missing TURNSTILE_SITEKEY or TURNSTILE_SECRET')
+      Sentry.capture_message('Bot detection misconfigured: missing Turnstile credentials', level: :error)
+      return false
+    end
+
+    true
   end
 end
 
