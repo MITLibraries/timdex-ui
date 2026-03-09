@@ -21,7 +21,7 @@ class PrimoLinkBuilderTest < ActiveSupport::TestCase
     end
   end
 
-  test 'full_record_link generates production URL by default' do
+  test 'full_record_link generates discovery URL by default' do
     link = PrimoLinkBuilder.new(record_id: 'alma990003098710106761', context: 'L').full_record_link
 
     assert_includes link, '/discovery/fulldisplay?'
@@ -57,5 +57,49 @@ class PrimoLinkBuilderTest < ActiveSupport::TestCase
     link = PrimoLinkBuilder.new(record_id: 'alma123').full_record_link
 
     assert_nil link
+  end
+
+  test 'search_link generates complete URL for discovery' do
+    builder = PrimoLinkBuilder.new(query_term: 'database security')
+    link = builder.search_link
+
+    expected = 'https://mit.primo.exlibrisgroup.com/discovery/search?query=any%2Ccontains%2Cdatabase+security&tab=all&search_scope=all&vid=01MIT_INST%3AMIT'
+    assert_equal expected, link
+  end
+
+  test 'search_link generates complete URL for NDE' do
+    ClimateControl.modify(FEATURE_PRIMO_NDE_LINKS: 'true') do
+      builder = PrimoLinkBuilder.new(query_term: 'machine learning')
+      link = builder.search_link
+
+      expected = 'https://mit.primo.exlibrisgroup.com/nde/search?query=machine+learning&tab=all&search_scope=all&vid=01MIT_INST%3ANDE'
+      assert_equal expected, link
+    end
+  end
+
+  test 'full_record_link generates complete URL for discovery' do
+    builder = PrimoLinkBuilder.new(record_id: 'alma990003098710106761', context: 'L')
+    link = builder.full_record_link
+
+    assert link.start_with?('https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?')
+    assert_includes link, 'docid=alma990003098710106761'
+    assert_includes link, 'context=L'
+    assert_includes link, 'vid=01MIT_INST%3AMIT'
+    assert_includes link, 'search_scope=all'
+    assert_includes link, 'lang=en'
+  end
+
+  test 'full_record_link generates complete URL for NDE' do
+    ClimateControl.modify(FEATURE_PRIMO_NDE_LINKS: 'true') do
+      builder = PrimoLinkBuilder.new(record_id: 'alma990003098710106761', context: 'P')
+      link = builder.full_record_link
+
+      assert link.start_with?('https://mit.primo.exlibrisgroup.com/nde/fulldisplay?')
+      assert_includes link, 'docid=alma990003098710106761'
+      assert_includes link, 'context=P'
+      assert_includes link, 'vid=01MIT_INST%3ANDE'
+      assert_includes link, 'search_scope=all'
+      assert_includes link, 'lang=en'
+    end
   end
 end

@@ -1,4 +1,4 @@
-# Builds Primo links with support for standard and NDE UIs.
+# Builds Primo links with support for discovery and NDE UIs.
 #
 # @example Building a search link
 #   builder = PrimoLinkBuilder.new(query_term: "machine learning")
@@ -10,6 +10,14 @@
 #   builder.full_record_link
 #   # => "https://mit.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma123&..."
 class PrimoLinkBuilder
+  # @param query_term [String, nil] The search query term (used for search_link)
+  # @param record_id [String, nil] The Primo record ID (used for full_record_link)
+  # @param context [String, nil] The Primo context code indicating record type:
+  #   - 'L' for local catalog (Alma) records
+  #   - 'PC' for CDI records
+  #   - 'ALL' for all scopes
+  #   See https://developers.exlibrisgroup.com/primo/apis/deep-links-new-ui/ and
+  #   https://knowledge.exlibrisgroup.com/Primo/Product_Documentation/Primo/Back_Office_Guide/070Monitoring_and_Maintaining_Primo/Displaying_PNX_Records_from_Primo_Front_End
   def initialize(query_term: nil, record_id: nil, context: nil)
     @query_term = query_term
     @record_id = record_id
@@ -17,10 +25,12 @@ class PrimoLinkBuilder
   end
 
   # Build a Primo search results link
-  # @param tab [String] The Primo tab parameter (default: 'all')
-  # @param search_scope [String] The search scope (default: 'all')
+  # @param tab [String] Determines which results tab to display. (default: PRIMO_TAB env var, or 'all').
+  #   For detailed documentation, see primo_search model.
+  # @param search_scope [String] Determines which Primo scope to search. (default: PRIMO_SCOPE env var, or 'all').
+  #   For detailed documentation, see primo_search model.
   # @return [String] The complete search URL
-  def search_link(tab: 'all', search_scope: 'all')
+  def search_link(tab: ENV.fetch('PRIMO_TAB', 'all'), search_scope: ENV.fetch('PRIMO_SCOPE', 'all'))
     return nil unless @query_term
 
     base_url = "#{ENV.fetch('MIT_PRIMO_URL')}#{search_path}?"
@@ -34,11 +44,13 @@ class PrimoLinkBuilder
   end
 
   # Build a Primo full record link
-  # @param tab [String] The Primo tab parameter (default: PRIMO_TAB env var)
-  # @param search_scope [String] The search scope (default: 'all')
+  # @param tab [String] Determines which results tab to display. (default: PRIMO_TAB env var, or 'all').
+  #   For detailed documentation, see primo_search model.
+  # @param search_scope [String] Determines which Primo scope to search. (default: PRIMO_SCOPE env var, or 'all').
+  #   For detailed documentation, see primo_search model.
   # @param lang [String] The language (default: 'en')
   # @return [String] The complete full record URL, or nil if record_id or context is missing
-  def full_record_link(tab: ENV.fetch('PRIMO_TAB'), search_scope: 'all', lang: 'en')
+  def full_record_link(tab: ENV.fetch('PRIMO_TAB', 'all'), search_scope: ENV.fetch('PRIMO_SCOPE', 'all'), lang: 'en')
     return nil unless @record_id && @context
 
     base_url = "#{ENV.fetch('MIT_PRIMO_URL')}#{full_record_path}?"
