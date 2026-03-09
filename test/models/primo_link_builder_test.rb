@@ -63,7 +63,7 @@ class PrimoLinkBuilderTest < ActiveSupport::TestCase
     builder = PrimoLinkBuilder.new(query_term: 'database security')
     link = builder.search_link
 
-    expected = 'https://mit.primo.exlibrisgroup.com/discovery/search?query=any%2Ccontains%2Cdatabase+security&tab=all&search_scope=all&vid=01MIT_INST%3AMIT'
+    expected = 'https://mit.primo.exlibrisgroup.com/discovery/search?query=any%2Ccontains%2Cdatabase+security&tab=all&search_scope=cdi&vid=01MIT_INST%3AMIT'
     assert_equal expected, link
   end
 
@@ -72,7 +72,7 @@ class PrimoLinkBuilderTest < ActiveSupport::TestCase
       builder = PrimoLinkBuilder.new(query_term: 'machine learning')
       link = builder.search_link
 
-      expected = 'https://mit.primo.exlibrisgroup.com/nde/search?query=machine+learning&tab=all&search_scope=all&vid=01MIT_INST%3ANDE'
+      expected = 'https://mit.primo.exlibrisgroup.com/nde/search?query=machine+learning&tab=all&search_scope=cdi&vid=01MIT_INST%3ANDE'
       assert_equal expected, link
     end
   end
@@ -85,7 +85,7 @@ class PrimoLinkBuilderTest < ActiveSupport::TestCase
     assert_includes link, 'docid=alma990003098710106761'
     assert_includes link, 'context=L'
     assert_includes link, 'vid=01MIT_INST%3AMIT'
-    assert_includes link, 'search_scope=all'
+    assert_includes link, 'search_scope=cdi'
     assert_includes link, 'lang=en'
   end
 
@@ -98,7 +98,7 @@ class PrimoLinkBuilderTest < ActiveSupport::TestCase
       assert_includes link, 'docid=alma990003098710106761'
       assert_includes link, 'context=P'
       assert_includes link, 'vid=01MIT_INST%3ANDE'
-      assert_includes link, 'search_scope=all'
+      assert_includes link, 'search_scope=cdi'
       assert_includes link, 'lang=en'
     end
   end

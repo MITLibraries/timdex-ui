@@ -62,7 +62,7 @@ class ResultsHelperTest < ActionView::TestCase
     assert_includes link, '/discovery/search?'
     assert_includes link, 'query=any%2Ccontains%2Cbreakfast+of+champions'
     assert_includes link, 'tab=all'
-    assert_includes link, 'search_scope=all'
+    assert_includes link, 'search_scope=cdi'
     assert_includes link, 'vid=01MIT_INST%3AMIT'
   end
 
