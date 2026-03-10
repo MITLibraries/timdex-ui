@@ -31,7 +31,7 @@ http_interactions:
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
         {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
         {\n        key\n        docCount\n      }\n      places {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"asdfiouwenlasd","booleanType":"AND","index":"FAKE_TIMDEX_INDEX","fulltext":true},"operationName":"TimdexSearch__BaseQuery"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"asdfiouwenlasd","booleanType":"AND","index":"FAKE_TIMDEX_INDEX","perPage":20,"fulltext":true},"operationName":"TimdexSearch__BaseQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -59,9 +59,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=qhei8g%2BNZQIPawqNjaZAZh2CTCodvsPyM7xo8UMX6f8%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1769551431"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=yT46harZFkpM%2BNqOMI%2BrsKHg%2FdslDX5DlwMwK5maapY%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1773174801"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=qhei8g%2BNZQIPawqNjaZAZh2CTCodvsPyM7xo8UMX6f8%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1769551431"
+      - heroku-nel="https://nel.heroku.com/reports?s=yT46harZFkpM%2BNqOMI%2BrsKHg%2FdslDX5DlwMwK5maapY%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1773174801"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -77,15 +77,15 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 1b2c6369-5346-9fe1-2095-4b3571e38c4f
+      - 501f46ff-02d1-0c59-4056-e4561fffe0fe
       X-Runtime:
-      - '0.130609'
+      - '0.071096'
       X-Xss-Protection:
       - '0'
       Date:
-      - Tue, 27 Jan 2026 22:03:52 GMT
+      - Tue, 10 Mar 2026 20:33:21 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"accessToFiles":[],"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"places":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Tue, 27 Jan 2026 22:03:52 GMT
-recorded_with: VCR 6.3.1
+  recorded_at: Tue, 10 Mar 2026 20:33:21 GMT
+recorded_with: VCR 6.4.0

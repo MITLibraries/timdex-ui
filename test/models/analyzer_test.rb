@@ -318,4 +318,41 @@ class AnalyzerTest < ActiveSupport::TestCase
       assert_equal 100, pagination[:end] # 2 * 50
     end
   end
+
+  test 'analyzer correctly handles configurable results per page' do
+    eq = {
+      q: 'data',
+      page: 1
+    }
+
+    ClimateControl.modify RESULTS_PER_PAGE: '50' do
+      pagination = Analyzer.new(eq, 500, :timdex).pagination
+
+      assert_equal 50, pagination[:per_page]
+      assert_equal 1, pagination[:start]
+      assert_equal 50, pagination[:end]
+      assert_equal 2, pagination[:next]
+      refute pagination.key?(:prev)
+    end
+  end
+
+  test 'analyzer correctly handles configurable results per page for all tab' do
+    eq = {
+      q: 'data',
+      page: 1
+    }
+
+    ClimateControl.modify RESULTS_PER_PAGE: '50' do
+      pagination = Analyzer.new(eq, 500, :all, 300).pagination
+
+      # Combined hits: 300 + 500 = 800
+      # Page 1 with 50 per page: 1-50 of 800
+      assert_equal 50, pagination[:per_page]
+      assert_equal 800, pagination[:hits]
+      assert_equal 1, pagination[:start]
+      assert_equal 50, pagination[:end]
+      assert_equal 2, pagination[:next]
+      refute pagination.key?(:prev)
+    end
+  end
 end

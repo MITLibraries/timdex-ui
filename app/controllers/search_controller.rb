@@ -160,7 +160,7 @@ class SearchController < ApplicationController
   def fetch_timdex_data(offset: nil, per_page: nil)
     query = QueryBuilder.new(@enhanced_query).query
     query['from'] = offset.to_s if offset
-    query['size'] = per_page.to_s if per_page
+    query['perPage'] = per_page || ENV.fetch('RESULTS_PER_PAGE', '20').to_i
     query['fulltext'] = true if Feature.enabled?(:timdex_fulltext)
 
     response = query_timdex(query)
