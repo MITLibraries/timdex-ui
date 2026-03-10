@@ -1,4 +1,5 @@
 <% if @suggestions.present? && !Feature.enabled?(:geodata) %>
+  <h2 class="sr">Suggested resource</h2>
   <div id="hint" aria-live="polite">
     <aside class="mitlib-suggestion-panel">
       <div class="panel-content">
