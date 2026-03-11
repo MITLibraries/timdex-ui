@@ -455,7 +455,7 @@
     i {
       font-size: 2rem;
       margin-top: 1px;
-      max-width: 20px;
+      flex: 0 0 20px;
     }
           
     p {
@@ -505,6 +505,7 @@
         i {
           font-size: 2rem;
           margin-top: 1px;
+          flex: 0 0 20px;
         }
       }
     }
