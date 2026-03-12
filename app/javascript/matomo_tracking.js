@@ -80,6 +80,17 @@ document.addEventListener("click", (event) => {
   // If no such element exists in the ancestor chain, ignore this click.
   if (!el) return;
 
+  // Only fire when the click originated from an interactive element (link,
+  // button, or form control). This allows data-matomo-click to be placed on
+  // a container and track only meaningful interactions within it, ignoring
+  // clicks on surrounding text, padding, or decorative children.
+  const interactive = event.target.closest("a, button, input, select, textarea");
+  if (!interactive) return;
+
+  // Confirm the interactive element is actually inside the tracked container
+  // (guards against the unlikely case where closest() finds an ancestor of el).
+  if (!el.contains(interactive) && el !== interactive) return;
+
   pushMatomoEvent(el.dataset.matomoClick);
 });
 
