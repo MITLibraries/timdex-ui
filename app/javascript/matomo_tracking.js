@@ -37,7 +37,9 @@
 
 // Parse a "Category, Action, Name" attribute string and push a trackEvent call
 // to the Matomo queue. Name is optional; returns early if fewer than 2 parts.
-function pushMatomoEvent(raw) {
+// `context` is the DOM element that triggered the event; it is forwarded to
+// every helper so functions like getElementText can reference it.
+function pushMatomoEvent(raw, context) {
 
   // Split on commas, trim whitespace from each part, drop any empty strings.
   const parts = (raw || "").split(",").map((s) => s.trim()).filter(Boolean);
@@ -46,12 +48,14 @@ function pushMatomoEvent(raw) {
 
   // Resolve any {{functionName}} tokens by calling the matching helper.
   // Each token is replaced in-place, so it can appear anywhere in a segment.
+  // The context element is passed as the first argument so helpers can
+  // inspect the element that triggered the event (e.g. getElementText).
   const helpers = window.MatomoHelpers || {};
   const resolved = parts.map((part) =>
     part.replace(/\{\{(\w+)\}\}/g, (_, fnName) => {
       const fn = helpers[fnName];
       // Call the function if it exists; otherwise leave the token as-is.
-      return (typeof fn === "function") ? fn() : `{{${fnName}}}`;
+      return (typeof fn === "function") ? fn(context) : `{{${fnName}}}`;
     })
   );
 
@@ -91,7 +95,9 @@ document.addEventListener("click", (event) => {
   // (guards against the unlikely case where closest() finds an ancestor of el).
   if (!el.contains(interactive) && el !== interactive) return;
 
-  pushMatomoEvent(el.dataset.matomoClick);
+  // Pass the interactive element as context so helpers like getElementText
+  // can read the text of the specific link or button that was clicked.
+  pushMatomoEvent(el.dataset.matomoClick, interactive);
 });
 
 // ---------------------------------------------------------------------------
@@ -113,7 +119,7 @@ function trackIfSeen(el) {
   // Check the element itself for the attribute.
   if (el.dataset.matomoSeen) {
     seenTracked.add(el);
-    pushMatomoEvent(el.dataset.matomoSeen);
+    pushMatomoEvent(el.dataset.matomoSeen, el);
   }
 
   // Also check any descendants — content loaders often inject a whole subtree
@@ -121,14 +127,14 @@ function trackIfSeen(el) {
   el.querySelectorAll("[data-matomo-seen]").forEach((child) => {
     if (seenTracked.has(child)) return;
     seenTracked.add(child);
-    pushMatomoEvent(child.dataset.matomoSeen);
+    pushMatomoEvent(child.dataset.matomoSeen, child);
   });
 }
 
 // Process all elements already present in the DOM on initial page load.
 document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
   seenTracked.add(el);
-  pushMatomoEvent(el.dataset.matomoSeen);
+  pushMatomoEvent(el.dataset.matomoSeen, el);
 });
 
 // Watch for any new nodes added to the DOM after initial load.
@@ -154,7 +160,7 @@ document.addEventListener("turbo:load", () => {
   document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
     if (seenTracked.has(el)) return;
     seenTracked.add(el);
-    pushMatomoEvent(el.dataset.matomoSeen);
+    pushMatomoEvent(el.dataset.matomoSeen, el);
   });
 
   // Re-attach the observer to the new document.body instance.
@@ -185,10 +191,22 @@ function getActiveTabName() {
 }
 
 // ---------------------------------------------------------------------------
+// Get the visible text of the element that triggered the event.
+// For click tracking this is the interactive element (link, button, etc.).
+// For seen tracking this is the element carrying data-matomo-seen.
+// Returns an empty string if no context element is available.
+// ---------------------------------------------------------------------------
+function getElementText(el) {
+  if (!el) return "";
+  return el.textContent.trim();
+}
+
+// ---------------------------------------------------------------------------
 // Register helpers on window.MatomoHelpers so they can be referenced with the
 // {{functionName}} syntax in data-matomo-seen and data-matomo-click attributes.
 // Add new helpers here as needed.
 // ---------------------------------------------------------------------------
 window.MatomoHelpers = {
   getActiveTabName,
+  getElementText,
 };
