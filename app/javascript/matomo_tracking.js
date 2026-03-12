@@ -202,6 +202,15 @@ function getElementText(el) {
 }
 
 // ---------------------------------------------------------------------------
+// Get the current results page number from the `page` URL parameter.
+// Returns "1" when the parameter is absent (the first page has no page param).
+// ---------------------------------------------------------------------------
+function getCurrentResultsPage() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("page") || "1";
+}
+
+// ---------------------------------------------------------------------------
 // Register helpers on window.MatomoHelpers so they can be referenced with the
 // {{functionName}} syntax in data-matomo-seen and data-matomo-click attributes.
 // Add new helpers here as needed.
@@ -209,4 +218,5 @@ function getElementText(el) {
 window.MatomoHelpers = {
   getActiveTabName,
   getElementText,
+  getCurrentResultsPage,
 };
