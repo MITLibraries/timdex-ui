@@ -4,7 +4,6 @@
       <p class="eyebrow"><%= result[:eyebrow] %></p>
     <% end %>
     <h3 class="record-title">
-      <span class="sr">Title: </span>
       <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
         <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
       <% else %>
