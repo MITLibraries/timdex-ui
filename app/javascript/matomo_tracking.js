@@ -13,9 +13,10 @@
 //
 // SEEN TRACKING
 // Add `data-matomo-seen="Category, Action, Name"` to any element to fire a
-// Matomo event as soon as that element is added to the DOM. The Name segment
-// is optional. Works for elements present on initial page load and for elements
-// injected later by Turbo frames or async content loaders.
+// Matomo event when that element becomes visible in the viewport. The Name
+// segment is optional. Each element fires at most once per page load.
+// Works for elements present on initial page load and for elements injected
+// later by Turbo frames or async content loaders.
 //
 // Examples:
 //   <div data-matomo-seen="Impressions, Result Card, Alma">...</div>
@@ -104,37 +105,48 @@ document.addEventListener("click", (event) => {
 // Seen tracking
 // ---------------------------------------------------------------------------
 
-// Track elements that have already been processed to avoid double-firing
-// if the same node is observed more than once (e.g. re-attached to the DOM).
-const seenTracked = new WeakSet();
+// Track elements already registered with the viewport observer to avoid
+// double-registration if the same node is added to the DOM more than once.
+const seenRegistered = new WeakSet();
 
-// Fire a Matomo event for a single element if it carries data-matomo-seen
-// and hasn't been tracked yet.
-function trackIfSeen(el) {
+// Fire a Matomo event when an observed element intersects the viewport.
+// Unobserve immediately so the event fires at most once per element.
+const viewportObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    // Stop watching — we only want to fire once per element.
+    viewportObserver.unobserve(entry.target);
+    pushMatomoEvent(entry.target.dataset.matomoSeen, entry.target);
+  });
+});
+
+// Register a single element with the viewport observer if it carries
+// data-matomo-seen and hasn't been registered yet.
+function registerIfSeen(el) {
   // Only process element nodes (not text nodes, comments, etc.).
   if (el.nodeType !== Node.ELEMENT_NODE) return;
-  // Skip if this element has already fired its seen event.
-  if (seenTracked.has(el)) return;
+  // Skip if already registered.
+  if (seenRegistered.has(el)) return;
 
-  // Check the element itself for the attribute.
+  // Register the element itself if it has the attribute.
   if (el.dataset.matomoSeen) {
-    seenTracked.add(el);
-    pushMatomoEvent(el.dataset.matomoSeen, el);
+    seenRegistered.add(el);
+    viewportObserver.observe(el);
   }
 
-  // Also check any descendants — content loaders often inject a whole subtree
-  // at once, so walking deep ensures every marked element is captured.
+  // Also register any descendants — content loaders often inject a whole
+  // subtree at once, so walking deep ensures every marked element is caught.
   el.querySelectorAll("[data-matomo-seen]").forEach((child) => {
-    if (seenTracked.has(child)) return;
-    seenTracked.add(child);
-    pushMatomoEvent(child.dataset.matomoSeen, child);
+    if (seenRegistered.has(child)) return;
+    seenRegistered.add(child);
+    viewportObserver.observe(child);
   });
 }
 
-// Process all elements already present in the DOM on initial page load.
+// Register all elements already present in the DOM on initial page load.
 document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
-  seenTracked.add(el);
-  pushMatomoEvent(el.dataset.matomoSeen, el);
+  seenRegistered.add(el);
+  viewportObserver.observe(el);
 });
 
 // Watch for any new nodes added to the DOM after initial load.
@@ -143,7 +155,7 @@ document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     // Each mutation record lists the nodes that were added in this batch.
-    mutation.addedNodes.forEach(trackIfSeen);
+    mutation.addedNodes.forEach(registerIfSeen);
   });
 });
 
@@ -151,19 +163,19 @@ const observer = new MutationObserver((mutations) => {
 observer.observe(document.body, { childList: true, subtree: true });
 
 // Turbo Drive navigation replaces document.body with a brand new element,
-// which detaches the observer from the old body. Re-scan and re-observe on
-// every turbo:load so full-page navigations are handled correctly.
+// which detaches the MutationObserver from the old body. Re-scan and
+// re-attach on every turbo:load so full-page navigations are handled.
 // (Turbo frame and content-loader updates are covered by the observer above
 // because they mutate within the existing body rather than replacing it.)
 document.addEventListener("turbo:load", () => {
-  // Re-scan the new body for any seen elements that arrived with the navigation.
+  // Register any seen elements that arrived with the navigation.
   document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
-    if (seenTracked.has(el)) return;
-    seenTracked.add(el);
-    pushMatomoEvent(el.dataset.matomoSeen, el);
+    if (seenRegistered.has(el)) return;
+    seenRegistered.add(el);
+    viewportObserver.observe(el);
   });
 
-  // Re-attach the observer to the new document.body instance.
+  // Re-attach the MutationObserver to the new document.body instance.
   observer.observe(document.body, { childList: true, subtree: true });
 });
 
