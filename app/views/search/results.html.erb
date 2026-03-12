@@ -1,7 +1,7 @@
 <%= content_for(:title, results_page_title(@enhanced_query)) %>
 
 <% content_for :additional_meta_tag do %>
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="robots" content="noindex, nofollow">
 <% end %>
 
 <div id="content-wrapper" class="space-wrap">
@@ -31,13 +31,13 @@
                   <% end %>
                 <% end %>
             </ol>
+            <%= render partial: "pagination" %>
             <%# Note `results_callouts` is also displayed in no errors condition below %>
             <%= render partial: "results_callouts" %>
           </main>
           <%= render partial: "results_sidebar" %>
         </div>
-        <%= render partial: "pagination" %>
-
+        
       <% elsif @errors.blank? %>
 
         <div id="results-layout-wrapper">

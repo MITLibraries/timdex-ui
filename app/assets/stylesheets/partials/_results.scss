@@ -397,7 +397,7 @@
 }
 
 // -----------------------------
-// Result list and Sidebar - USE
+// Result list - USE
 // -----------------------------
 
 #content-wrapper {
@@ -428,77 +428,18 @@
       flex-grow: 1;
     }
 
-    #results-sidebar {
-      flex: 0 0 360px;
-
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-
-      > div {
-        display: flex;
-        gap: 12px;
-
-        i {
-          font-size: 2rem;
-          margin-top: 1px;
-        }
-      }
-
-      @media (max-width: 1140px) {
-        flex-basis: 280px;
-      }
-
-      p {
-        line-height: 1.4;
-      }
-
-      a {
-        @include underlinedLinks;
-        font-weight: $fw-medium;   
-      }
-    }
-
     // Put the sidebar below the results when the screen is narrower than 1024px
     @media (max-width: $bp-screen-lg) {
         flex-direction: column;
-        gap: 32px;
-
-        // Put the sidebar items side by side when space is available
-        #results-sidebar {
-          flex-direction: row;
-          padding-bottom: 40px;
-          gap: 12px;
-          flex-basis: auto;
-
-          > div {
-            padding-right: 24px;
-          }
-        }
-
-        #callout-wrapper {
-          margin-bottom: 0;
-        }
+        gap: 0px;
     }
-
-    // Put sidebar items in a column below 768px
-    @media (max-width: $bp-screen-md) {
-    
-      #results-sidebar {
-        flex-direction: column;
-        gap: 32px;
-      }
-      
-    }
-  }
-
 }
 
 // ----------------------------
 // Result callout boxes
 // ----------------------------
 
-#callout-wrapper {
+.callout-wrapper {
   display: flex;
   gap: 12px;
   margin-bottom: 32px;
@@ -514,6 +455,7 @@
     i {
       font-size: 2rem;
       margin-top: 1px;
+      flex: 0 0 20px;
     }
           
     p {
@@ -527,5 +469,101 @@
 
   @media (max-width: $bp-screen-md) {
     flex-direction: column;
+  }
+}
+
+// Callout box responsive behavior
+// SIDEBAR COLLAPSES BELOW RESULTS
+@media (max-width: $bp-screen-lg) {
+  // Hide the bordered callouts
+  #results > .callout-wrapper {
+    display: none;
+  }
+}
+
+
+// -----------------------------
+// Result sidebar
+// -----------------------------
+
+ #results-layout-wrapper #results-sidebar {
+    flex: 0 0 360px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .core-sidebar-items {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+
+      > div {
+        display: flex;
+        gap: 12px;
+
+        i {
+          font-size: 2rem;
+          margin-top: 1px;
+          flex: 0 0 20px;
+        }
+      }
+    }
+
+    @media (max-width: 1140px) {
+      flex-basis: 280px;
+    }
+
+    p {
+      line-height: 1.4;
+    }
+
+    a {
+      @include underlinedLinks;
+      font-weight: $fw-medium;   
+    }
+
+    // Override some of the styling of the callout boxes when they're in the sidebar.
+    .callout-wrapper {
+      aside {
+        border: none;
+        padding: 0;
+
+        a {
+          text-decoration: none;
+        }
+      }
+
+      flex-direction: column;
+      gap: 32px;
+      border-bottom: 1px solid $color-border-default;
+      padding-bottom: 32px;
+      margin-bottom: 0;
+    }  
+
+    // Re-layout the sidebar contents when below results on smaller screens
+    @media (max-width: $bp-screen-lg) {
+      
+      flex-direction: column;
+
+      .callout-wrapper {
+        flex-direction: row;
+      }
+
+      .core-sidebar-items {
+        flex-direction: row;
+      }
+
+    }
+
+    @media (max-width: $bp-screen-sm2) {
+      .callout-wrapper {
+        flex-direction: column;
+      }
+
+      .core-sidebar-items {
+        flex-direction: column;
+      }      
+    }
   }
 }
