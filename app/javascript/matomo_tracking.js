@@ -75,9 +75,11 @@ function pushMatomoEvent(raw, context) {
 // Click tracking
 // ---------------------------------------------------------------------------
 
-// Attach a single click listener to the entire document (event delegation).
-// This catches clicks on any element, including those added to the DOM later
-// by Turbo frames or async content loaders, without needing to re-bind.
+// Attach a single click listener to the entire document using the capture
+// phase (third argument { capture: true }). Capture phase fires top-down
+// before any bubble-phase listeners, which guarantees helpers like
+// getActiveTabName() read pre-click DOM state before other listeners
+// (e.g. loading_spinner.js's swapTabs) synchronously update it.
 document.addEventListener("click", (event) => {
   // Walk up the DOM from the clicked element to find the nearest ancestor
   // (or the element itself) that has a data-matomo-click attribute.
@@ -99,7 +101,7 @@ document.addEventListener("click", (event) => {
   // Pass the interactive element as context so helpers like getElementText
   // can read the text of the specific link or button that was clicked.
   pushMatomoEvent(el.dataset.matomoClick, interactive);
-});
+}, { capture: true });
 
 // ---------------------------------------------------------------------------
 // Seen tracking
