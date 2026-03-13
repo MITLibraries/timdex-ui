@@ -62,6 +62,15 @@ document.addEventListener('click', function(event) {
     // Position the window at the top of the results
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
+    // Track pagination click with page information
+    const clickedParams = new URLSearchParams(clickedElement.search);
+    const pageParam = clickedParams.get('page');
+    const direction = clickedElement.matches('.first a') ? 'first' : 
+                      clickedElement.matches('.previous a') ? 'previous' : 'next';
+    if (window.matomoTracker) {
+      window.matomoTracker.trackPagination(pageParam || 1, direction);
+    }
+
     window.pendingFocusAction = 'pagination';
   }
 
@@ -79,6 +88,11 @@ document.addEventListener('click', function(event) {
 
     // Position the window at the top of the results
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Track tab click
+    if (window.matomoTracker) {
+      window.matomoTracker.trackTabClick(newTab || 'unknown');
+    }
 
     swapTabs(newTab);
 
@@ -99,5 +113,18 @@ document.addEventListener('turbo:load', function(event) {
     // console.log(`Updated search input value to: ${queryParam}`);
   }
 });
+
+// Track record/result clicks
+document.addEventListener('click', function(event) {
+  const clickedElement = event.target;
+
+  // Check if click is on a record link (has matomo-record-id data attribute)
+  const recordLink = clickedElement.closest('[data-matomo-record-id]');
+  if (recordLink && window.matomoTracker) {
+    const recordId = recordLink.getAttribute('data-matomo-record-id');
+    const recordTitle = recordLink.getAttribute('data-matomo-record-title');
+    window.matomoTracker.trackRecordClick(recordTitle || 'unknown', recordId || '');
+  }
+}, true); // Use capture phase to ensure we catch the event
 
 
