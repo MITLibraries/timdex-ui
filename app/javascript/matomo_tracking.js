@@ -152,12 +152,38 @@ document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
 });
 
 // Watch for any new nodes added to the DOM after initial load.
+// ---------------------------------------------------------------------------
+// Matomo native content tracking
+// ---------------------------------------------------------------------------
+
+// Matomo's built-in content tracking (data-track-content / data-content-name /
+// data-content-piece) only scans the DOM at page load. For content injected
+// asynchronously (e.g. by the content-loader Stimulus controller), we must
+// manually notify Matomo by calling trackContentImpressionsWithinNode on the
+// newly-added node.
+function trackContentImpressionsIfPresent(el) {
+  if (el.nodeType !== Node.ELEMENT_NODE) return;
+  // Check the element itself or any descendant for data-track-content.
+  const hasContent =
+    el.hasAttribute("data-track-content") ||
+    el.querySelector("[data-track-content]") !== null;
+  if (!hasContent) return;
+
+  window._paq = window._paq || [];
+  // Ask Matomo to scan the subtree for content impressions.
+  window._paq.push(["trackContentImpressionsWithinNode", el]);
+}
+
+// Watch for any new nodes added to the DOM after initial load.
 // MutationObserver fires synchronously after each DOM mutation, so it catches
 // both Turbo frame renders and content-loader replacements immediately.
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     // Each mutation record lists the nodes that were added in this batch.
-    mutation.addedNodes.forEach(registerIfSeen);
+    mutation.addedNodes.forEach((node) => {
+      registerIfSeen(node);
+      trackContentImpressionsIfPresent(node);
+    });
   });
 });
 
