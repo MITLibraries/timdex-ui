@@ -1,6 +1,6 @@
 <% return if @pagination.nil? %>
 <div id="pagination">
-  <nav class="pagination-container" aria-label="Pagination" data-matomo-seen="Navigation, Pagination Seen, Tab: {{getActiveTabName}}" data-matomo-click="Navigation, Pagination Engaged, Link: {{getElementText}}, Current Page: {{getCurrentPage}}" > ">
+  <nav class="pagination-container" aria-label="Pagination" data-matomo-seen="Navigation, Pagination Seen, Tab: {{getActiveTabName}}" data-matomo-click="Navigation, Pagination Engaged, Link: {{getElementText}}, Current Page: {{getCurrentPage}}">
     <div class="previous">
       <%= prev_url(@enhanced_query) %>
     </div>
