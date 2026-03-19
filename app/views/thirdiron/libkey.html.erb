@@ -1,5 +1,5 @@
 <% if ThirdIron.enabled? && @libkey.present? %>
-  <%if @libkey[:pdf_link].present? || @libkey[:html_link].present? %>
+  <% if @libkey[:pdf_link].present? || @libkey[:html_link].present? %>
     <% if @libkey[:pdf_link].present? %>
       <%= link_to( @libkey[:pdf_link][:text], @libkey[:pdf_link][:link], class: 'button libkey-link' ) %>
     <% end %>
@@ -16,7 +16,7 @@
   <%# Display browzine link if available. This should always display if we have it regardless of other links. %>
   <% if @libkey[:browzine_link].present? %>
     <div class="libkey-actions">
-      <%= link_to @libkey[:browzine_link][:text], @libkey[:browzine_link][:link], class: 'button libkey-link' %>
+      <%= link_to @libkey[:browzine_link][:text], @libkey[:browzine_link][:link], class: 'button libkey-link', data: { matomo_seen: "LibKey, Browzine Link Seen", matomo_click: "LibKey, Browzine Link Engaged, Link: {{getElementText}}" } %>
     </div>
   <% end %>
 
