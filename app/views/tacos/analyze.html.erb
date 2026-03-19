@@ -1,9 +1,9 @@
 <% if @suggestions.present? && !Feature.enabled?(:geodata) %>
-  <div id="hint" aria-live="polite">
+  <div id="hint" aria-live="polite" data-matomo-seen="Interventions, Intervention Shown" data-track-content data-content-name="Intervention">
     <aside class="mitlib-suggestion-panel">
       <div class="panel-content">
         <p class="panel-type">Suggested resource</p>
-        <h3><%= @suggestions['title'] %></h3>
+        <h3 data-content-piece="<%= @suggestions['title'] %>"><%= @suggestions['title'] %></h3>
         <p>
           <%= link_to(
             @suggestions['url'], @suggestions['url']

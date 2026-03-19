@@ -18,11 +18,11 @@
 
       <% elsif @results.present? && @errors.blank? %>
 
-        <h2 class="results-context"><%= results_summary(@pagination[:hits]) %></h2>
+        <h2 class="results-context" data-matomo-seen="Search, Results Found, Tab: {{getActiveTabName}}"><%= results_summary(@pagination[:hits]) %></h2>
         <p class="results-context-description"><%= tab_description %></p>    
         <div id="results-layout-wrapper">  
           <main id="results">
-            <ol class="results-list use" start="<%= @pagination[:start] %>">             
+            <ol class="results-list use" data-matomo-click="Results, Link Engaged, Link: {{getElementText}}; Tab: {{getActiveTabName}}" start="<%= @pagination[:start] %>">             
               <% @results.each do |result| %>
                   <% if result[:api] == 'primo' %>
                     <%= render(partial: 'search/result_primo', locals: { result: result }) %>
@@ -41,7 +41,7 @@
       <% elsif @errors.blank? %>
 
         <div id="results-layout-wrapper">
-          <main id="results" class="no-results-container">
+          <main id="results" class="no-results-container" data-matomo-seen="Search, No Results Found, Tab: {{getActiveTabName}}">
             <%= render partial: "no_results" %>
 
             <%# Note `results_callouts` is also displayed in results and no errors condition above %>
