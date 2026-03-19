@@ -1,16 +1,16 @@
 <% if ThirdIron.enabled? && @libkey.present? %>
   <% if @libkey[:pdf_link].present? || @libkey[:html_link].present? %>
     <% if @libkey[:pdf_link].present? %>
-      <%= link_to( @libkey[:pdf_link][:text], @libkey[:pdf_link][:link], class: 'button libkey-link' ) %>
+      <%= link_to( @libkey[:pdf_link][:text], @libkey[:pdf_link][:link], class: 'button libkey-link', data: { matomo_seen: "Results, LibKey Link Seen", matomo_click: "Results, LibKey Link Engaged, Link: {{getElementText}}" } ) %>
     <% end %>
 
     <% if @libkey[:html_link].present? %>
-      <%= link_to( @libkey[:html_link][:text], @libkey[:html_link][:link], class: 'button libkey-link' ) %>
+      <%= link_to( @libkey[:html_link][:text], @libkey[:html_link][:link], class: 'button libkey-link', data: { matomo_seen: "Results, LibKey Link Seen", matomo_click: "Results, LibKey Link Engaged, Link: {{getElementText}}" } ) %>
     <% end %>
 
   <%# If we don't have direct links, fall back to best_integrator_link. This allows for things like Article Galaxy links %>
   <% elsif @libkey[:best_integrator_link].present? %>
-    <%= link_to( @libkey[:best_integrator_link][:text], @libkey[:best_integrator_link][:link], class: 'button libkey-link' ) %>
+    <%= link_to( @libkey[:best_integrator_link][:text], @libkey[:best_integrator_link][:link], class: 'button libkey-link', data: { matomo_seen: "Results, LibKey Link Seen", matomo_click: "Results, LibKey Link Engaged, Link: {{getElementText}}" } ) %>
   <% end %>
 
   <%# Display browzine link if available. This should always display if we have it regardless of other links. %>
