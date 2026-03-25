@@ -100,7 +100,7 @@
         <% if result[:availability].present? %>
           <div class="availability">
           <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
-            <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
+            <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url'], data: { content_piece: 'Availability Link' }) %>
           <% else %>
             <%= availability(result[:availability], result[:location], result[:other_availability]) %>
           <% end %>
