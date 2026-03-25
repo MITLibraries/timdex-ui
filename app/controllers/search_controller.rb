@@ -276,6 +276,7 @@ class SearchController < ApplicationController
   def challenge_bots!
     return unless Feature.enabled?(:bot_detection)
     return if session[:passed_turnstile]
+    return if request.format.json? # Requests for the JSON format are protected by a token, so BotDetector isn't needed.
     return unless BotDetector.should_challenge?(request)
 
     redirect_to turnstile_path(return_to: request.fullpath)
