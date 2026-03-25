@@ -1,7 +1,7 @@
 <% if ThirdIron.enabled? && @browzine.present? %>
   <% if @browzine[:browzine_link].present? %>
     <div class="libkey-actions">
-      <%= link_to @browzine[:browzine_link][:text], @browzine[:browzine_link][:link], class: 'button libkey-link' %>
+      <%= link_to @browzine[:browzine_link][:text], @browzine[:browzine_link][:link], class: 'button libkey-link', data: { matomo_seen: "Results, Browzine Link Seen", matomo_click: "Results, Browzine Link Engaged, Link: {{getElementText}}", content-piece: @browzine[:browzine_link][:text] } %>
     </div>
   <% end %>
 <% end %>
