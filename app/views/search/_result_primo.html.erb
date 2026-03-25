@@ -6,7 +6,7 @@
     <h3 class="record-title">
       <span class="sr">Title: </span>
       <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
-        <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
+        <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url']), data: { content_piece: 'Result Title' } %>
       <% else %>
         <%= result[:title] %>
       <% end %>
