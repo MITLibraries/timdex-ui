@@ -393,8 +393,9 @@ class SearchController < ApplicationController
   # based on the requested format. Requests for results in JSON format need to be accompanied with a valid token.
   # Requests for results in HTML format are subject to review by BotDetector and Turnstile.
   #
-  # Returns true if the request is valid and worth responding to
-  # Returns false if the request is invalid
+  # If the request if authorized, it returns true (allowing the application to generate a response)
+  # If the request is not authorized, it either renders an unauthorized error, or redirects the user to Turnstile
+  # (depending on the requested format)
   def authorized_request?
     if request.format.json?
       return true if format_tokens_defined? && valid_token?
