@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
-  before_action :authorized_request?, only: %i[results]
   before_action :validate_q!, only: %i[results]
+  before_action :authorized_request?, only: %i[results]
   before_action :set_active_tab, only: %i[results]
   around_action :sleep_if_too_fast, only: %i[results]
 
@@ -390,13 +390,14 @@ class SearchController < ApplicationController
   end
 
   # authorized_request? handles the verification that a request is valid. This validity is enforced in different ways
-  # based on the requested format.
+  # based on the requested format. Requests for results in JSON format need to be accompanied with a valid token.
+  # Requests for results in HTML format are subject to review by BotDetector and Turnstile.
   #
   # Returns true if the request is valid and worth responding to
   # Returns false if the request is invalid
   def authorized_request?
     if request.format.json?
-      return true if format_token_defined? && valid_token?
+      return true if format_tokens_defined? && valid_token?
 
       render json: { error: 'Unauthorized request' }, status: :unauthorized
     else
@@ -407,11 +408,13 @@ class SearchController < ApplicationController
 
       redirect_to turnstile_path(return_to: request.fullpath)
     end
+
   end
 
-  # format_token_defined? confirms whether a format token is defined in the environment. Returns a boolean.
-  def format_token_defined?
-    return true if ENV.fetch('FORMAT_TOKEN', '').present?
+  # format_tokens_defined? confirms whether a format token is defined in both the environment and query params.
+  # Returns a boolean.
+  def format_tokens_defined?
+    return true if ENV.fetch('FORMAT_TOKEN', '').present? && params.key?(:format_token)
 
     false
   end
@@ -419,7 +422,7 @@ class SearchController < ApplicationController
   # valid_token? confirms whether the token received from the user matches the one defined in the environment. Returns
   # a boolean.
   def valid_token?
-    return true if params[:format_token] == ENV.fetch('FORMAT_TOKEN', '')
+    return true if ActiveSupport::SecurityUtils.secure_compare(params[:format_token], ENV.fetch('FORMAT_TOKEN', ''))
 
     false
   end
