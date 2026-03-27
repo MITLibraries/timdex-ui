@@ -409,7 +409,6 @@ class SearchController < ApplicationController
 
       redirect_to turnstile_path(return_to: request.fullpath)
     end
-
   end
 
   # format_tokens_defined? confirms whether a format token is defined in both the environment and query params.
