@@ -163,7 +163,7 @@ class SearchHelperTest < ActionView::TestCase
       title: 'Sample Document Title',
       source_link: 'https://example.com/document'
     }
-    expected_link = '<a href="https://example.com/document">Sample Document Title</a>'
+    expected_link = '<a data-content-piece="Result Title" href="https://example.com/document">Sample Document Title</a>'
     assert_equal expected_link, link_to_result(result)
   end
 
