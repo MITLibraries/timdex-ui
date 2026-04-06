@@ -1,8 +1,30 @@
 <% return unless error['message'].present? %>
+<% primo_unavailable = error['code'] == 'primo_unavailable' %>
 
-<aside class="alert alert-banner error" role="alert">
-  <i></i>
-  <div><h3><%= error['message'] %></h3>
-  <%= error&.dig('extensions')&.dig('problems')&.pluck("explanation")&.join %>
-  </div>
-</aside>
+<% if primo_unavailable %>
+  <aside role="alert" class="primo-unavailable">
+    <h3><%= error['message'] %></h3>
+
+    <p><%= error['description'] %></p>
+    <ul>
+      <% Array(error['links']).each do |link| %>
+        <% next unless link['label'].present? && link['url'].present? %>
+        <li>
+          <a href="<%= link['url'] %>"><%= link['label'] %></a><% if link['description'].present? %>: <%= link['description'] %><% end %>
+        </li>
+      <% end %>
+    </ul>
+    <% if error['help_label'].present? && error['help_url'].present? %>
+      <p>If you need help, <a href="<%= error['help_url'] %>"><%= error['help_label'] %></a>.</p>
+    <% end %>
+  </aside>
+<% else %>
+  <aside class="alert alert-banner error" role="alert">
+    <i></i>
+    <div>
+      <h3><%= error['message'] %></h3>
+
+    <%= error&.dig('extensions')&.dig('problems')&.pluck('explanation')&.join %>
+    </div>
+  </aside>
+<% end %>
