@@ -391,7 +391,7 @@ class SearchController < ApplicationController
 
   # authorized_request? handles the verification that a request is valid. This validity is enforced in different ways
   # based on the requested format. Requests for results in JSON format need to be accompanied with a valid token.
-  # Requests for results in HTML format are subject to review by BotDetector and Turnstile.
+  # Requests for results in other formats (HTML, primarily) are subject to review by BotDetector and Turnstile.
   #
   # If the request if authorized, it returns true (allowing the application to generate a response)
   # If the request is not authorized, it either renders an unauthorized error, or redirects the user to Turnstile
