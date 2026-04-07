@@ -12,7 +12,7 @@
 // Tracking also works if placed on a container. The script will look
 // for any interactive elements inside the container.
 //
-// Interactive elemenets are defined as elements: a, button, input, select, textarea
+// Interactive elements are defined as elements: a, button, input, select, textarea
 //
 // Examples:
 //   <a href="/file.pdf" data-matomo-click="Downloads, PDF Click, My Paper">Download</a>
@@ -39,7 +39,7 @@
 // must be registered on `window.MatomoHelpers` (see bottom of this file).
 // Multiple tokens in one segment are supported.
 //
-// Convention is to only use these in the "Name" segement to provide more context.
+// Convention is to only use these in the "Name" segment to provide more context.
 // Avoid using inside Category or Action to improve the hierarchy of Matomo dashboards.
 //
 // Examples:
@@ -168,6 +168,17 @@ document.querySelectorAll("[data-matomo-seen]").forEach((el) => {
 // ---------------------------------------------------------------------------
 // Matomo native content tracking
 // ---------------------------------------------------------------------------
+
+// Core Matomo includes "Content Tracking" 
+// You can use these attributes to track content impressions and interactions.
+// See documentation for details (https://matomo.org/faq/how-to/how-do-i-markup-content-for-content-tracking/)
+// This file only ensures that these attributes are processed for asynchronously-inserted content.
+// 
+// Attributes for content tracking (native to Matomo):
+// * data-track-content - Defines a content block to track
+// * data-content-name - Gives a name for the content block (appears in Matomo Dashboard)
+// * data-content-piece - Names a piece of content to track interactions on (appears in Matomo Dashboard)
+// * data-content-target - Specifies the target of the content interaction (appears in Matomo Dashboard)
 
 // Matomo's built-in content tracking (data-track-content / data-content-name /
 // data-content-piece) only scans the DOM at page load. For content injected
