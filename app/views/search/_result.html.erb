@@ -1,4 +1,4 @@
-<li class="result use" data-record-id="<%= result[:identifier] %>" data-matomo-seen="Results, Result Seen, Tab: {{getActiveTabName}}" data-content-track data-content-name="Result">
+<li class="result use" data-record-id="<%= result[:identifier] %>" data-matomo-seen="Results, Result Seen, Tab: {{getActiveTabName}}" data-track-content data-content-name="Result">
   <div class="result-content">
     <% if multi_source_tab? && result[:eyebrow].present? %>
       <p class="eyebrow"><%= result[:eyebrow] %></p>
