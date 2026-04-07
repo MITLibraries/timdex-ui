@@ -44,7 +44,7 @@
 //
 // Examples:
 //   <h2 data-matomo-seen="Search, Results Found, Tab: {{getActiveTabName}}">...</h2>
-//   <a data-matomo-click="Nav, {{getActiveTabName}} Link Click">...</a>
+//   <a data-matomo-click="Nav, Link Click, Link: {{getElementText}}">...</a>
 
 // ---------------------------------------------------------------------------
 // Shared helper
