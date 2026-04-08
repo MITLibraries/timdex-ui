@@ -1127,9 +1127,22 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results can be returned in JSON format when env is set and valid token is provided' do
     secret_value = 'sooper_sekret'
+    quepid_ua = 'Quepid/1.0 (Web Scraper)'
     ClimateControl.modify FORMAT_TOKEN: secret_value do
       mock_timdex_search_with_hits(10)
-      get "/results?q=test&format=json&format_token=#{secret_value}"
+      get "/results?q=test&format=json&format_token=#{secret_value}", headers: { 'HTTP_USER_AGENT' => quepid_ua }
+      assert_response :success
+      assert_equal 'application/json; charset=utf-8', response.content_type
+    end
+  end
+
+  test 'results can be returned in JSON format when env is set and valid token is provided even with bot challenge' do
+    secret_value = 'sooper_sekret'
+    quepid_ua = 'Quepid/1.0 (Web Scraper)'
+
+    ClimateControl.modify(FORMAT_TOKEN: secret_value, FEATURE_BOT_DETECTION: 'true') do
+      mock_timdex_search_with_hits(10)
+      get "/results?q=test&format=json&format_token=#{secret_value}", headers: { 'HTTP_USER_AGENT' => quepid_ua }
       assert_response :success
       assert_equal 'application/json; charset=utf-8', response.content_type
     end

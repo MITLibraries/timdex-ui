@@ -1,8 +1,7 @@
 class SearchController < ApplicationController
   before_action :validate_q!, only: %i[results]
-  before_action :validate_format_token, only: %i[results]
+  before_action :authorized_request?, only: %i[results]
   before_action :set_active_tab, only: %i[results]
-  before_action :challenge_bots!, only: %i[results]
   around_action :sleep_if_too_fast, only: %i[results]
 
   before_action :validate_geobox_presence!, only: %i[results]
@@ -272,15 +271,6 @@ class SearchController < ApplicationController
     redirect_to root_url
   end
 
-  # Redirect suspected crawlers to Turnstile when the bot_detection feature is enabled.
-  def challenge_bots!
-    return unless Feature.enabled?(:bot_detection)
-    return if session[:passed_turnstile]
-    return unless BotDetector.should_challenge?(request)
-
-    redirect_to turnstile_path(return_to: request.fullpath)
-  end
-
   def validate_geodistance_presence!
     return unless Feature.enabled?(:geodata)
 
@@ -409,30 +399,41 @@ class SearchController < ApplicationController
     }]
   end
 
-  # validate_format_token is only applicable to requests for JSON-format results. It takes no action so long as the
-  # valid_request_for_json? method returns true - otherwise it renders an error message with a 401 Unauthorized status.
-  def validate_format_token
-    return unless request.format.json?
+  # authorized_request? handles the verification that a request is valid. This validity is enforced in different ways
+  # based on the requested format. Requests for results in JSON format need to be accompanied with a valid token.
+  # Requests for results in other formats (HTML, primarily) are subject to review by BotDetector and Turnstile.
+  #
+  # If the request if authorized, it returns true (allowing the application to generate a response)
+  # If the request is not authorized, it either renders an unauthorized error, or redirects the user to Turnstile
+  # (depending on the requested format)
+  def authorized_request?
+    if request.format.json?
+      return true if format_tokens_defined? && valid_token?
 
-    return if valid_request_for_json?
+      render json: { error: 'Unauthorized request' }, status: :unauthorized
+    else
+      return true unless Feature.enabled?(:bot_detection) # always pass if feature not enabled
+      return true if session[:passed_turnstile]
 
-    render json: { error: 'Unauthorized request' }, status: :unauthorized
+      return true unless BotDetector.should_challenge?(request)
+
+      redirect_to turnstile_path(return_to: request.fullpath)
+    end
   end
 
-  # valid_request_for_json? is responsible for validating whether a request for JSON format results is accompanied by
-  # a token which matches the value defined in env.
-  # 1. If the ENV is undefined, then the feature is not enabled - the check fails, which will prompt an Unauthorized
-  #    error.
-  # 2. If the ENV is defined, and the provided token matches, then the check fails, and the request will be honored.
-  # 3. In all other cases, the check fails, which will prompt the Unauthorized error.
-  def valid_request_for_json?
-    # Always fail unless the token is defined in ENV
-    return false unless ENV.fetch('FORMAT_TOKEN', '').present?
+  # format_tokens_defined? confirms whether a format token is defined in both the environment and query params.
+  # Returns a boolean.
+  def format_tokens_defined?
+    return true if ENV.fetch('FORMAT_TOKEN', '').present? && params.key?(:format_token)
 
-    # Success if tokens match
-    return true if params[:format_token] == ENV.fetch('FORMAT_TOKEN', '')
+    false
+  end
 
-    # Otherwise fail
+  # valid_token? confirms whether the token received from the user matches the one defined in the environment. Returns
+  # a boolean.
+  def valid_token?
+    return true if ActiveSupport::SecurityUtils.secure_compare(params[:format_token], ENV.fetch('FORMAT_TOKEN', ''))
+
     false
   end
 end
