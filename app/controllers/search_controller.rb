@@ -388,15 +388,25 @@ class SearchController < ApplicationController
   end
 
   def handle_primo_errors(error)
-    Rails.logger.error("Primo search error: #{error.message}")
+    Rails.logger.error("Primo search error: #{error.class}: #{error.message}")
 
-    if error.is_a?(ArgumentError)
-      [{ 'message' => 'Primo search is not properly configured.' }]
-    elsif error.is_a?(HTTP::TimeoutError)
-      [{ 'message' => 'Sorry, that took longer than expected. Please try your search again.' }]
-    else
-      [{ 'message' => error.message }]
-    end
+    # For timeouts, prompt users to try again.
+    return [{ 'message' => 'Sorry, that took longer than expected. Please try your search again.' }] if error.is_a?(HTTP::TimeoutError)
+
+    # For other errors, Primo is probably down, and we should direct users elsewhere.
+    [{
+      'code' => 'primo_unavailable',
+      'message' => 'Hmm, we seem to be having difficulties...',
+      'description' => 'In the meantime, try searching these tools directly.',
+      'links' => [
+        { 'label' => "MIT's WorldCat", 'description' => 'Books and media', 'url' => 'https://libraries.mit.edu/worldcat' },
+        { 'label' => 'Google Scholar', 'description' => 'Articles', 'url' => 'https://scholar.google.com/' },
+        { 'label' => 'ArchivesSpace', 'description' => 'MIT archives', 'url' => 'https://archivesspace.mit.edu/' },
+        { 'label' => 'DSpace@MIT', 'description' => 'MIT research', 'url' => 'https://dspace.mit.edu/' }
+      ],
+      'help_label' => 'Ask Us',
+      'help_url' => 'https://libraries.mit.edu/ask/'
+    }]
   end
 
   # validate_format_token is only applicable to requests for JSON-format results. It takes no action so long as the

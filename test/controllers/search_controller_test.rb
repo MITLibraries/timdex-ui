@@ -851,8 +851,18 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     get '/results?q=test&tab=primo'
     assert_response :success
-    assert_select '.alert', count: 1
-    assert_select '.alert', text: /API Error/
+    assert_select 'aside[role="alert"]', count: 1
+    assert_select 'aside.primo-unavailable h3', text: /Hmm, we seem to be having difficulties/
+    assert_select 'aside.primo-unavailable', text: /In the meantime, try searching these tools directly/
+    assert_select 'aside.primo-unavailable', text: /MIT's WorldCat: Books and media/
+    assert_select 'aside.primo-unavailable', text: /Google Scholar: Articles/
+    assert_select 'aside.primo-unavailable', text: /ArchivesSpace: MIT archives/
+    assert_select 'aside.primo-unavailable', text: /DSpace@MIT: MIT research/
+    assert_select 'aside.primo-unavailable a[href="https://libraries.mit.edu/worldcat"]', text: /MIT's WorldCat/
+    assert_select 'aside.primo-unavailable a[href="https://scholar.google.com/"]', text: /Google Scholar/
+    assert_select 'aside.primo-unavailable a[href="https://archivesspace.mit.edu/"]', text: /ArchivesSpace/
+    assert_select 'aside.primo-unavailable a[href="https://dspace.mit.edu/"]', text: /DSpace@MIT/
+    assert_select 'aside.primo-unavailable a[href="https://libraries.mit.edu/ask/"]', text: /Ask Us/
   end
 
   test 'results uses simplified search summary for USE app' do
@@ -974,7 +984,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     get '/results?q=test&tab=all'
     assert_response :success
-    assert_select '.alert', text: /Primo API Error/
+    assert_select 'aside.primo-unavailable h3', text: /Hmm, we seem to be having difficulties/
+    assert_select 'aside.primo-unavailable', text: /In the meantime, try searching these tools directly/
   end
 
   test 'all tab is default when no tab specified' do
