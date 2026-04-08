@@ -1,4 +1,4 @@
-<li class="result use" data-record-id="<%=result[:identifier]%>">
+<li class="result use" data-record-id="<%= result[:identifier] %>" data-matomo-seen="Results, Result Seen, Tab: {{getActiveTabName}}" data-track-content data-content-name="Result">
   <div class="result-content">
     <% if multi_source_tab? && result[:eyebrow].present? %>
       <p class="eyebrow"><%= result[:eyebrow] %></p>
@@ -11,20 +11,22 @@
 
       <p class="pub-info">
         <span><%= result[:content_type] %></span>
-        
-        <% if result[:date_range].present? %>
-          <span><%= result[:date_range] %></span>
-        <% else %>
-          <span>
+
+        <span>
+          <% if result[:date_range].present? %>
+            <%= result[:date_range] %>
+          <% else %>
+
             <% result[:dates]&.each do |date| %>
               <%= date['value'] if date['kind'] == 'Publication date' %>
             <% end %>
-          </span>
-        <% end %>
+
+          <% end %>
+        </span>
       </p>
 
       <%# unclear why TIMDEX is using contributors and Primo is using creators. Should we normalize this? %>
-      <% if result[:contributors].present? %>   
+      <% if result[:contributors].present? %>
         <span class="sr">Contributors: </span>
         <ul class="list-inline truncate-list contributors">
           <%= render partial: 'shared/contributors', locals: { contributors: result[:contributors] } %>

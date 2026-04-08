@@ -1,11 +1,11 @@
-<li class="result primo" data-record-id="<%=result[:identifier]%>">
+<li class="result primo" data-record-id="<%= result[:identifier] %>" data-matomo-seen="Results, Result Seen, Tab: {{getActiveTabName}}" data-track-content data-content-name="Result">
   <div class="result-content">
     <% if multi_source_tab? && result[:eyebrow].present? %>
       <p class="eyebrow"><%= result[:eyebrow] %></p>
     <% end %>
     <h3 class="record-title">
       <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
-        <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
+        <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url'], data: { content_piece: 'Result Title' }) %>
       <% else %>
         <%= result[:title] %>
       <% end %>
@@ -35,7 +35,7 @@
             <% result[:creators].each do |creator| %>
               <li>
                 <% if creator[:link] %>
-                  <%= link_to creator[:value], creator[:link]  %>
+                  <%= link_to creator[:value], creator[:link] %>
                 <% else %>
                   <%= creator[:value] %>
                 <% end %>
@@ -74,12 +74,12 @@
             <% if link['kind'].downcase == 'full record' %>
               <%# Full record link button uses the same link as the title link %>
               <% if Feature.enabled?(:record_link) %>
-                <%= link_to 'View full record', link['url'], class: 'button' %>
+                <%= link_to 'View full record', link['url'], class: 'button', data: { content_piece: 'View Full Record' } %>
               <% end %>
             <%# Primo supplies PDF and HTML links in addition to the OpenURL variant that may be useful. %>
             <%# We hide links with the `primo-link` css class if LibKey returns results. %>
             <% else %>
-              <%= link_to link['kind'], link['url'], class: 'button primo-link' %>
+              <%= link_to link['kind'], link['url'], class: 'button primo-link', data: { content_piece: link['kind'] } %>
             <% end %>
           <% end %>
         <% end %>
@@ -99,7 +99,7 @@
         <% if result[:availability].present? %>
           <div class="availability">
           <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
-            <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url']) %>
+            <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url'], data: { content_piece: 'Availability Link' }) %>
           <% else %>
             <%= availability(result[:availability], result[:location], result[:other_availability]) %>
           <% end %>
