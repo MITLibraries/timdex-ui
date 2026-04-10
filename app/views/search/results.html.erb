@@ -10,7 +10,7 @@
   <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
   <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
-    <div id="results-section" data-matomo-seen="Search, Search Performed">
+    <div id="results-section" data-matomo-seen="Search, Search Performed, Tab: {{getActiveTabName}}">
 
       <% if @show_primo_continuation %>
 

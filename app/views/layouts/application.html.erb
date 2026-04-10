@@ -11,7 +11,7 @@
       <%= render partial: "layouts/global_alert" %>
 
       <%= render partial: "layouts/site_header" %>
-      
+
       <div class="wrap-outer-content layout-band">
         <div class="wrap-content">
           <%= render partial: "layouts/flash" %>
@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <footer data-matomo-seen="Navigation, Footer Links Seen" data-matomo-click="Navigation, Footer Links Engaged, Link: {{getElementText}}">
+      <footer data-matomo-seen="Navigation, Footer Links Seen, Tab: {{getActiveTabName}}" data-matomo-click="Navigation, Footer Links Engaged, Link: {{getElementText}}">
         <%= render partial: "layouts/libraries_footer" %>
         <%= render partial: "layouts/institute_footer" %>
       </footer>
