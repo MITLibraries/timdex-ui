@@ -1,0 +1,15 @@
+Running 582 tests in a single process (parallelization threshold is 999)
+Run options: --seed 1257
+
+# Running:
+
+............................................................................................................................................................................................................................................................S........................................................................................................................................................................................................................S.S..S....SS.....S.S.S......SS.............S.S..........S..SS..S.................................................
+
+Finished in 2.615215s, 222.5438 runs/s, 584.6556 assertions/s.
+
+582 runs, 1529 assertions, 0 failures, 0 errors, 17 skips
+
+You have skipped tests. Run with --verbose for details.
+Coverage report generated for Minitest, Unit Tests to /Users/jazairi/workspace/timdex-ui/coverage.
+Line Coverage: 96.67% (1366 / 1413)
+Lcov style coverage report generated for Minitest, Unit Tests to /Users/jazairi/workspace/timdex-ui/coverage/lcov/coverage.lcov
