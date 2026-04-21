@@ -5,8 +5,8 @@
 //
 // CLICK TRACKING
 // Add `data-matomo-click="Category, Action, Name"` to any element to track
-// clicks as Matomo events. The Name segment is optional. We have a convention 
-// of using semicolons inside Name to divide multiple values.
+// clicks as Matomo events. We have a convention of using semicolons inside Name 
+// to divide multiple values. This is purely for consistency.
 //
 // This tracking can be placed directly on an interactive element.
 // Tracking also works if placed on a container. The script will look
@@ -16,22 +16,22 @@
 //
 // Examples:
 //   <a href="/file.pdf" data-matomo-click="Downloads, PDF Click, My Paper">Download</a>
-//   <button data-matomo-click="Search, Boolean Toggle">AND/OR</button>
+//   <button data-matomo-click="Search, Boolean Toggle, Off">AND/OR</button>
 //
 // Event delegation on `document` means this works for elements loaded
 // asynchronously (Turbo frames, content-loader, etc.) without re-binding.
 //
 // SEEN TRACKING
 // Add `data-matomo-seen="Category, Action, Name"` to any element to fire a
-// Matomo event when that element becomes visible in the viewport. The Name
-// segment is optional. We have a convention of using semicolons inside Name 
-// to divide multiple values. Each element fires at most once per page load.
+// Matomo event when that element becomes visible in the viewport. We have  
+// a convention of using semicolons inside Name to divide multiple values. 
+// Each element fires at most once per page load.
 // Works for elements present on initial page load and for elements injected
 // later by Turbo frames or async content loaders.
 //
 // Examples:
 //   <div data-matomo-seen="Impressions, Result Card, Alma">...</div>
-//   <a data-matomo-seen="Promotions, Banner Shown">...</a>
+//   <a data-matomo-seen="Promotions, Banner Shown, Banner Type">...</a>
 //
 // DYNAMIC VALUES
 // Wrap a helper name in double curly braces anywhere inside a segment to have

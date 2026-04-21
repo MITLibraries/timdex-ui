@@ -1,5 +1,5 @@
 <% if @suggestions.present? && !Feature.enabled?(:geodata) %>
-  <div id="hint" aria-live="polite" data-matomo-seen="Interventions, Intervention Shown" data-track-content data-content-name="Intervention">
+  <div id="hint" aria-live="polite" data-matomo-seen="Interventions, Intervention Shown, Tab: {{getActiveTabName}}" data-track-content data-content-name="Intervention">
     <aside class="mitlib-suggestion-panel">
       <div class="panel-content">
         <h2 class="panel-type">Suggested resource</h2>
