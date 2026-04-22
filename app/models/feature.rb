@@ -33,8 +33,9 @@
 #
 class Feature
   # List of all valid features in the application
-  VALID_FEATURES = %i[bot_detection geodata boolean_picker oa_always primo_nde_links simulate_search_latency tab_primo_all tab_timdex_all
-                      tab_timdex_alma record_link timdex_fulltext timdex_semantic_search].freeze
+  VALID_FEATURES = %i[bot_detection geodata boolean_picker oa_always primo_nde_links simulate_search_latency
+                      tab_primo_all tab_timdex_all tab_timdex_alma record_link timdex_fulltext
+                      timdex_semantic_search].freeze
 
   # Check if a feature is enabled by name
   #
