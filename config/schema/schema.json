@@ -1361,6 +1361,16 @@
                   "defaultValue": "\"OR\""
                 },
                 {
+                  "name": "queryMode",
+                  "description": "Search mode to use. Defaults to \"lexical\". Options include: \"lexical\", \"semantic\"",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "\"lexical\""
+                },
+                {
                   "name": "accessToFilesFilter",
                   "description": "Filter results by access type. Use the `AccessToFiles` aggregation for a list of possible values. Multiple values are ORed.",
                   "type": {

@@ -106,6 +106,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FEATURE_TAB_TIMDEX_ALL`: Display a tab for displaying the combined TIMDEX data. `TIMDEX_INDEX` affects which data appears in this tab.
 - `FEATURE_TAB_TIMDEX_ALMA`: Display a tab for displaying Alma data from TIMDEX. `TIMDEX_INDEX` must include `Alma` data or no results will return.
 - `FEATURE_TIMDEX_FULLTEXT`: Activate fulltext searching for sources in TIMDEX that support it
+- `FEATURE_TIMDEX_SEMANTIC_SEARCH`: Enables semantic query mode (`queryMode: semantic`) for TIMDEX searches. When disabled, TIMDEX defaults to lexical search behavior.
 - `FEATURE_PRIMO_NDE_LINKS`: Enables all Primo UI links to target the NDE version of Primo. When enabled, links will use `/nde/search` and `/nde/fulldisplay` paths along with the NDE view ID from `PRIMO_NDE_VID`.
 - `FILTER_ACCESS_TO_FILES`: The name to use instead of "Access to files" for that filter / aggregation.
 - `FILTER_CONTENT_TYPE`: The name to use instead of "Content type" for that filter / aggregation.

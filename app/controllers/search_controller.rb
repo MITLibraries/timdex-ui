@@ -217,6 +217,8 @@ class SearchController < ApplicationController
   end
 
   def execute_geospatial_query(query)
+    query = query.except('queryMode')
+
     if query['geobox'] == 'true' && query[:geodistance] == 'true'
       TimdexBase::Client.query(TimdexSearch::AllQuery, variables: query)
     elsif query['geobox'] == 'true'

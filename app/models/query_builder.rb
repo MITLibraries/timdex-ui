@@ -20,6 +20,7 @@ class QueryBuilder
     extract_query(enhanced_query)
     extract_geosearch(enhanced_query)
     extract_filters(enhanced_query)
+    @query['queryMode'] = 'semantic' if Feature.enabled?(:timdex_semantic_search)
     @query['index'] = ENV.fetch('TIMDEX_INDEX', nil)
     @query['booleanType'] = enhanced_query[:booleanType]
     @query.compact!

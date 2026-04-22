@@ -120,4 +120,16 @@ class QueryBuilderTest < ActiveSupport::TestCase
     }
     assert_equal expected, QueryBuilder.new(search).query
   end
+
+  test 'query builder defaults to lexical mode by omitting queryMode' do
+    search = { q: 'blah' }
+    refute_includes(QueryBuilder.new(search).query.keys, 'queryMode')
+  end
+
+  test 'query builder adds semantic queryMode when feature flag is enabled' do
+    ClimateControl.modify FEATURE_TIMDEX_SEMANTIC_SEARCH: 'true' do
+      search = { q: 'blah' }
+      assert_equal('semantic', QueryBuilder.new(search).query['queryMode'])
+    end
+  end
 end

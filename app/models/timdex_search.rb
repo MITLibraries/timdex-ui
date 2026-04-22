@@ -15,6 +15,7 @@ class TimdexSearch < TimdexBase
       $index: String
       $from: String
       $booleanType: String
+      $queryMode: String
       $fulltext: Boolean
       $perPage: Int
       $accessToFilesFilter: [String!]
@@ -39,6 +40,7 @@ class TimdexSearch < TimdexBase
         index: $index
         from: $from
         booleanType: $booleanType
+        queryMode: $queryMode
         fulltext: $fulltext
         perPage: $perPage
         accessToFilesFilter: $accessToFilesFilter

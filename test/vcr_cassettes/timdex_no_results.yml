@@ -8,19 +8,20 @@ http_interactions:
       string: '{"query":"query TimdexSearch__BaseQuery($q: String, $citation: String,
         $contributors: String, $fundingInformation: String, $identifiers: String,
         $locations: String, $subjects: String, $title: String, $index: String, $from:
-        String, $booleanType: String, $fulltext: Boolean, $perPage: Int, $accessToFilesFilter:
-        [String!], $contentTypeFilter: [String!], $contributorsFilter: [String!],
-        $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
+        String, $booleanType: String, $queryMode: String, $fulltext: Boolean, $perPage:
+        Int, $accessToFilesFilter: [String!], $contentTypeFilter: [String!], $contributorsFilter:
+        [String!], $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
         String, $placesFilter: [String!], $sourceFilter: [String!], $subjectsFilter:
         [String!]) {\n  search(searchterm: $q, citation: $citation, contributors:
         $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
         locations: $locations, subjects: $subjects, title: $title, index: $index,
-        from: $from, booleanType: $booleanType, fulltext: $fulltext, perPage: $perPage,
-        accessToFilesFilter: $accessToFilesFilter, contentTypeFilter: $contentTypeFilter,
-        contributorsFilter: $contributorsFilter, formatFilter: $formatFilter, languagesFilter:
-        $languagesFilter, literaryFormFilter: $literaryFormFilter, placesFilter: $placesFilter,
-        sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter) {\n    hits\n    records
-        {\n      timdexRecordId\n      identifiers {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
+        from: $from, booleanType: $booleanType, queryMode: $queryMode, fulltext: $fulltext,
+        perPage: $perPage, accessToFilesFilter: $accessToFilesFilter, contentTypeFilter:
+        $contentTypeFilter, contributorsFilter: $contributorsFilter, formatFilter:
+        $formatFilter, languagesFilter: $languagesFilter, literaryFormFilter: $literaryFormFilter,
+        placesFilter: $placesFilter, sourceFilter: $sourceFilter, subjectsFilter:
+        $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      identifiers
+        {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n        range {\n          gte\n          lte\n        }\n      }\n      links
         {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
@@ -59,9 +60,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=yT46harZFkpM%2BNqOMI%2BrsKHg%2FdslDX5DlwMwK5maapY%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1773174801"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=zUxZQgeWnFrSjSZQoL%2F1lmTeq2Ne6Inc6ivwYFLTsBA%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1776884516"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=yT46harZFkpM%2BNqOMI%2BrsKHg%2FdslDX5DlwMwK5maapY%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1773174801"
+      - heroku-nel="https://nel.heroku.com/reports?s=zUxZQgeWnFrSjSZQoL%2F1lmTeq2Ne6Inc6ivwYFLTsBA%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1776884516"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -77,15 +78,15 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 501f46ff-02d1-0c59-4056-e4561fffe0fe
+      - 23cd451d-914e-ca58-405b-4e5a7d4e8578
       X-Runtime:
-      - '0.071096'
+      - '0.063112'
       X-Xss-Protection:
       - '0'
       Date:
-      - Tue, 10 Mar 2026 20:33:21 GMT
+      - Wed, 22 Apr 2026 19:01:56 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"accessToFiles":[],"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"places":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Tue, 10 Mar 2026 20:33:21 GMT
+  recorded_at: Wed, 22 Apr 2026 19:01:56 GMT
 recorded_with: VCR 6.4.0
