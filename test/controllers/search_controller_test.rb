@@ -1220,26 +1220,4 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     # Should not be redirected to Turnstile (doesn't hit SearchController)
     assert_response :success
   end
-
-  test 'uses BaseQuery when semantic search feature is disabled' do
-    # When the feature flag is not enabled, base_query_for_mode returns BaseQuery (default tab is 'all')
-    mock_primo_search_all_tab
-    mock_timdex_search_all_tab
-
-    get '/results?q=test'
-
-    assert_response :success
-  end
-
-  test 'uses SemanticBaseQuery when semantic search feature is enabled' do
-    # When the feature flag is enabled, base_query_for_mode returns SemanticBaseQuery (default tab is 'all')
-    ClimateControl.modify FEATURE_TIMDEX_SEMANTIC_SEARCH: 'true' do
-      mock_primo_search_all_tab
-      mock_timdex_search_all_tab
-
-      get '/results?q=test'
-
-      assert_response :success
-    end
-  end
 end

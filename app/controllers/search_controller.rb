@@ -193,7 +193,7 @@ class SearchController < ApplicationController
       raw = if Feature.enabled?(:geodata)
               execute_geospatial_query(query)
             else
-              TimdexBase::Client.query(base_query_for_mode, variables: query)
+              TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
             end
 
       # The response type is a GraphQL::Client::Response, which is not directly serializable, so we
@@ -226,14 +226,8 @@ class SearchController < ApplicationController
     elsif query['geodistance'] == 'true'
       TimdexBase::Client.query(TimdexSearch::GeodistanceQuery, variables: query)
     else
-      TimdexBase::Client.query(base_query_for_mode, variables: query)
+      TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
     end
-  end
-
-  def base_query_for_mode
-    return TimdexSearch::BaseQuery unless Feature.enabled?(:timdex_semantic_search)
-
-    TimdexSearch::SemanticBaseQuery
   end
 
   def extract_errors(response)
