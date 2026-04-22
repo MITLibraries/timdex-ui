@@ -10,11 +10,11 @@ class ApplicationControllerUnitTest < ActionController::TestCase
   end
 
   test '#timdex_tabs returns expected tabs' do
-    assert_equal %w[aspace timdex timdex_alma website], @controller.timdex_tabs
+    assert_equal %w[aspace databases dspace geodata timdex timdex_alma website], @controller.timdex_tabs
   end
 
   test '#all_tabs includes both primo and timdex tabs as well as all tab' do
-    expected = %w[all alma cdi primo aspace timdex timdex_alma website]
+    expected = %w[all alma cdi primo aspace databases dspace geodata timdex timdex_alma website]
     assert_equal expected, @controller.all_tabs
   end
 

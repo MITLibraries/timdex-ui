@@ -184,6 +184,9 @@ class SearchController < ApplicationController
     query[:sourceFilter] = ['MIT Libraries Website', 'LibGuides'] if @active_tab == 'website'
     query[:sourceFilter] = ['MIT ArchivesSpace'] if @active_tab == 'aspace'
     query[:sourceFilter] = ['MIT Alma'] if @active_tab == 'timdex_alma'
+    query[:sourceFilter] = ['DSpace@MIT'] if @active_tab == 'dspace'
+    query[:sourceFilter] = ['Research Databases'] if @active_tab == 'databases'
+    query[:sourceFilter] = ['OpenGeoMetadata GIS Resources', 'MIT GIS Resources'] if @active_tab == 'geodata'
 
     # We generate unique cache keys to avoid naming collisions.
     cache_key = CacheKeyGenerator.call(query)
@@ -391,7 +394,8 @@ class SearchController < ApplicationController
       'message' => 'Hmm, we seem to be having difficulties...',
       'description' => 'In the meantime, try searching these tools directly.',
       'links' => [
-        { 'label' => "MIT's WorldCat", 'description' => 'Books and media', 'url' => 'https://libraries.mit.edu/worldcat' },
+        { 'label' => "MIT's WorldCat", 'description' => 'Books and media',
+          'url' => 'https://libraries.mit.edu/worldcat' },
         { 'label' => 'Google Scholar', 'description' => 'Articles', 'url' => 'https://scholar.google.com/' },
         { 'label' => 'ArchivesSpace', 'description' => 'MIT archives', 'url' => 'https://archivesspace.mit.edu/' },
         { 'label' => 'DSpace@MIT', 'description' => 'MIT research', 'url' => 'https://dspace.mit.edu/' }
