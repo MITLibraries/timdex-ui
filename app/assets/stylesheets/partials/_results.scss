@@ -476,7 +476,7 @@
 // SIDEBAR COLLAPSES BELOW RESULTS
 @media (max-width: $bp-screen-lg) {
   // Hide the bordered callouts
-  #results > .callout-wrapper {
+  #results:not(.no-results-container) > .callout-wrapper {
     display: none;
   }
 }
