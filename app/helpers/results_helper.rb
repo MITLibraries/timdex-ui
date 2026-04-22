@@ -21,13 +21,13 @@ module ResultsHelper
     when 'website'
       'Information about the library: events, news, services, and more'
     when 'dspace'
-      "#{link_to('DSpace@MIT',
-                 'https://dspace.mit.edu')} is a digital repository for MIT's research, including peer-reviewed articles, technical reports, working papers, theses, and more.".html_safe
+      "#{link_to('DSpace@MIT', 'https://dspace.mit.edu')} " \
+      "is a digital repository for MIT's research, including peer-reviewed articles, " \
+      'technical reports, working papers, theses, and more.'.html_safe
     when 'geodata'
-      "Geospatial datasets and maps from in MIT Libraries' #{link_to('GeoData',
-                                                                     'https://geodata.libraries.mit.edu')} collections; includes #{link_to(
-                                                                       'Open Geospatial Consortium (OGC)', 'https://opengeometadata.org'
-                                                                     )} data.".html_safe
+      "Geospatial datasets and maps from MIT Libraries' " \
+      "#{link_to('GeoData', 'https://geodata.libraries.mit.edu')} collections; " \
+      "includes #{link_to('Open Geospatial Consortium (OGC)', 'https://opengeometadata.org')} data.".html_safe
     when 'databases'
       "#{link_to('Research Databases',
                  'https://libguides.mit.edu/az/databases')} covering a wide range of subjects and formats".html_safe
