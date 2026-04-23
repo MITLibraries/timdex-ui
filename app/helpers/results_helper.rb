@@ -1,37 +1,32 @@
 module ResultsHelper
+  # Descriptions for each tab. HTML entries use raw anchor tags (all URLs are
+  # hardcoded external links, so no XSS risk) and must be marked html_safe.
+  TAB_DESCRIPTIONS = {
+    'all' => 'All MIT Libraries sources',
+    'cdi' => 'Journal and newspaper articles, book reviews, book chapters, and more',
+    'alma' => 'Books, e-books, journals, streaming and physical media, and more',
+    'timdex_alma' => 'Books, e-books, journals, streaming and physical media, and more',
+    'primo' => 'Articles, books, chapters, streaming and physical media, and more',
+    'aspace' => 'Archives, manuscripts, and other unique materials related to MIT',
+    'timdex' => 'Digital collections, images, documents, and more from MIT Libraries',
+    'website' => 'Information about the library: events, news, services, and more',
+    'dspace' => '<a href="https://dspace.mit.edu">DSpace@MIT</a> ' \
+                "is a digital repository for MIT's research, including peer-reviewed articles, " \
+                'technical reports, working papers, theses, and more.'.html_safe,
+    'geodata' => "Geospatial datasets and maps from MIT Libraries' " \
+                 '<a href="https://geodata.libraries.mit.edu">GeoData</a> collections; ' \
+                 'includes <a href="https://opengeometadata.org">Open Geospatial Consortium (OGC)</a> data.'.html_safe,
+    'databases' => '<a href="https://libguides.mit.edu/az/databases">Research Databases</a> ' \
+                   'covering a wide range of subjects and formats'.html_safe
+  }.freeze
+
   def results_summary(hits)
     hits.to_i >= 10_000 ? '10,000+ results' : "#{number_with_delimiter(hits)} results"
   end
 
   # Provides a description for the current tab in search results.
   def tab_description
-    case params[:tab]
-    when 'all'
-      'All MIT Libraries sources'
-    when 'cdi'
-      'Journal and newspaper articles, book reviews, book chapters, and more'
-    when 'alma', 'timdex_alma'
-      'Books, e-books, journals, streaming and physical media, and more'
-    when 'primo'
-      'Articles, books, chapters, streaming and physical media, and more'
-    when 'aspace'
-      'Archives, manuscripts, and other unique materials related to MIT'
-    when 'timdex'
-      'Digital collections, images, documents, and more from MIT Libraries'
-    when 'website'
-      'Information about the library: events, news, services, and more'
-    when 'dspace'
-      "#{link_to('DSpace@MIT', 'https://dspace.mit.edu')} " \
-      "is a digital repository for MIT's research, including peer-reviewed articles, " \
-      'technical reports, working papers, theses, and more.'.html_safe
-    when 'geodata'
-      "Geospatial datasets and maps from MIT Libraries' " \
-      "#{link_to('GeoData', 'https://geodata.libraries.mit.edu')} collections; " \
-      "includes #{link_to('Open Geospatial Consortium (OGC)', 'https://opengeometadata.org')} data.".html_safe
-    when 'databases'
-      "#{link_to('Research Databases',
-                 'https://libguides.mit.edu/az/databases')} covering a wide range of subjects and formats".html_safe
-    else
+    TAB_DESCRIPTIONS.fetch(params[:tab]) do
       Rails.logger.error "Unknown tab parameter in `tab_description` helper: #{params[:tab]}"
       ''
     end
