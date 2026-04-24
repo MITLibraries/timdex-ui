@@ -1,23 +1,28 @@
   <!-- Tab Navigation -->
   <nav id="tabs" class="tab-navigation" aria-label="Result type navigation" data-matomo-click="Navigation, Tabs Engaged, Current Tab: {{getActiveTabName}}; Navigated to: {{getElementText}}">
     <ul class="primary">
+      <%# Core tabs %>
       <li><%= link_to_tab("All") %></li>
+      <li><%= link_to_tab("cdi", "Articles") %></li>
+      <li><%= link_to_tab("alma", "Books and media") %></li>
+      <li><%= link_to_tab("databases", "Databases") %></li>
+      <li><%= link_to_tab("aspace", "MIT archives") %></li>
+      <li><%= link_to_tab("Website") %></li>
+      <li><%= link_to_tab("dspace", "MIT research") %></li>
+      <li><%= link_to_tab("geodata", "Geospatial data") %></li>
 
+      <%# Experimental tabs %>
       <% if Feature.enabled?(:tab_primo_all) %>
         <li><%= link_to_tab("Primo", "Articles and Catalog") %></li>
       <% end %>
 
-      <li><%= link_to_tab("cdi", "Articles") %></li>
-      <li><%= link_to_tab("alma", "Books and media") %></li>
-
       <% if Feature.enabled?(:tab_timdex_all) %>
         <li><%= link_to_tab("TIMDEX") %></li>
       <% end %>
+
       <% if Feature.enabled?(:tab_timdex_alma) %>
         <li><%= link_to_tab("timdex_alma", "Alma (TIMDEX)") %></li>
       <% end %>
-      <li><%= link_to_tab("aspace", "MIT archives") %></li>
-      <li><%= link_to_tab("Website") %></li>
     </ul>
   </nav>
 

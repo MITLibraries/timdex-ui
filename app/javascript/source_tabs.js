@@ -35,6 +35,9 @@ moreBtn.addEventListener('click', (e) => {
   moreBtn.setAttribute('aria-expanded', container.classList.contains('--show-secondary'))
 })
 
+// Maximum number of tabs to show in the primary tab bar at once
+const MAX_TABS = 10
+
 // adapt tabs
 const doAdapt = () => {
 
@@ -43,14 +46,17 @@ const doAdapt = () => {
     item.classList.remove('--hidden')
   })
 
-  // hide items that won't fit in the Primary tab bar
+  // hide items that won't fit in the Primary tab bar, or exceed MAX_TABS
+  // once a tab is hidden, all subsequent tabs are also hidden to preserve order
   let stopWidth = moreBtn.offsetWidth
   let hiddenItems = []
+  let shouldHide = false
   const primaryWidth = primary.offsetWidth
   primaryItems.forEach((item, i) => {
-    if(primaryWidth >= stopWidth + item.offsetWidth) {
+    if(!shouldHide && i < MAX_TABS && primaryWidth >= stopWidth + item.offsetWidth) {
       stopWidth += item.offsetWidth
     } else {
+      shouldHide = true
       item.classList.add('--hidden')
       hiddenItems.push(i)
     }
