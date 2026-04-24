@@ -36,7 +36,7 @@ moreBtn.addEventListener('click', (e) => {
 })
 
 // Maximum number of tabs to show in the primary tab bar at once
-const MAX_TABS = 5
+const MAX_TABS = 10
 
 // adapt tabs
 const doAdapt = () => {
