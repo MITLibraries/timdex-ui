@@ -232,6 +232,7 @@
 
       li {
         margin-bottom: 0;
+        display: inline;
 
         &::after {
           content: " • ";
