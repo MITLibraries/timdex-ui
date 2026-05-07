@@ -280,7 +280,7 @@
   ul.contributors {
     line-clamp: 1;
     -webkit-line-clamp: 1;
-    margin-bottom: 12px;
+    margin-bottom: 4px;
 
     li {
       font-weight: $fw-normal;
@@ -293,6 +293,10 @@
         }
       }
     }
+  }
+
+  .result-source {
+    font-size: $fs-base;
   }
 
   .inner-heading {
