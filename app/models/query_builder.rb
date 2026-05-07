@@ -6,6 +6,7 @@ class QueryBuilder
                      literaryFormFilter placesFilter sourceFilter subjectsFilter].freeze
   GEO_PARAMS = %w[geoboxMinLongitude geoboxMinLatitude geoboxMaxLongitude geoboxMaxLatitude geodistanceLatitude
                   geodistanceLongitude geodistanceDistance].freeze
+  VALID_QUERY_MODES = %w[keyword semantic hybrid].freeze
 
   def initialize(enhanced_query)
     @query = {}
@@ -20,7 +21,7 @@ class QueryBuilder
     extract_query(enhanced_query)
     extract_geosearch(enhanced_query)
     extract_filters(enhanced_query)
-    @query['queryMode'] = 'semantic' if Feature.enabled?(:timdex_semantic_search)
+    evaluate_query_mode(enhanced_query)
     @query['index'] = ENV.fetch('TIMDEX_INDEX', nil)
     @query['booleanType'] = enhanced_query[:booleanType]
     @query.compact!
@@ -61,5 +62,16 @@ class QueryBuilder
   # The GraphQL API requires that lat/long in geospatial fields be floats
   def coerce_to_float?(geo_param)
     geo_param.to_s.include?('Longitude') || geo_param.to_s.include?('Latitude')
+  end
+
+  # Determine the query mode from URL parameter or config, with fallback to 'keyword'
+  # Only allows valid modes: keyword, semantic, hybrid
+  def evaluate_query_mode(enhanced_query)
+    mode = enhanced_query[:queryMode] || ENV.fetch('DEFAULT_QUERY_MODE', 'keyword')
+    mode = mode.to_s.downcase.strip
+
+    # Validate against allow list
+    mode = 'keyword' unless VALID_QUERY_MODES.include?(mode)
+    @query['queryMode'] = mode
   end
 end
