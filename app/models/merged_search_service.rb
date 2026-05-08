@@ -1,4 +1,5 @@
 require 'digest'
+require 'timeout'
 
 # Orchestrates merged "all" tab searches across Primo and TIMDEX.
 #
@@ -115,6 +116,10 @@ class MergedSearchService
   # fetchers. Each fetcher should return the usual response hash including
   # `:results` and `:hits`.
   #
+  # Individual fetchers are wrapped with a timeout to prevent runaway API
+  # calls from causing request timeouts. If a fetcher times out, returns
+  # an empty response with an error message.
+  #
   # WARNING: exceptions raised inside these threads will not automatically
   # propagate to the caller; callers/tests should account for this.
   #
@@ -122,11 +127,41 @@ class MergedSearchService
   # @param per_page [Integer] number of items to request
   # @return [Array<Hash,Hash>] [primo_response, timdex_response]
   def parallel_fetch(offset:, per_page:)
+    # Individual thread timeout in seconds. Set to allow most requests to complete
+    # while protecting against runaway API calls. Must be less than the total
+    # Rack::Timeout value to allow graceful failure.
+    thread_timeout = ENV.fetch('MERGED_SEARCH_THREAD_TIMEOUT', '20').to_i
+
     primo = nil
     timdex = nil
+    primo_error = nil
+    timdex_error = nil
+
     threads = []
-    threads << Thread.new { primo = @primo_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query) }
-    threads << Thread.new { timdex = @timdex_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query) }
+    threads << Thread.new do
+      Timeout.timeout(thread_timeout) do
+        primo = @primo_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query)
+      end
+    rescue Timeout::Error
+      primo_error = 'Primo search timed out'
+      primo = { results: [], hits: 0, errors: primo_error }
+    rescue StandardError => e
+      primo_error = e.message
+      primo = { results: [], hits: 0, errors: primo_error }
+    end
+
+    threads << Thread.new do
+      Timeout.timeout(thread_timeout) do
+        timdex = @timdex_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query)
+      end
+    rescue Timeout::Error
+      timdex_error = 'TIMDEX search timed out'
+      timdex = { results: [], hits: 0, errors: timdex_error }
+    rescue StandardError => e
+      timdex_error = e.message
+      timdex = { results: [], hits: 0, errors: timdex_error }
+    end
+
     threads.each(&:join)
     [primo, timdex]
   end
@@ -175,7 +210,7 @@ class MergedSearchService
   # @param current_page [Integer]
   # @param per_page [Integer]
   # @param deeper [Boolean] whether this was a deeper-page flow
-  # @return [Hash] response with :results, :errors, :pagination, :show_primo_continuation
+  # @return [Hash] response with :results, :errors, :pagination, :show_primo_continuation, :incomplete_results
   def assemble_all_tab_result(paginator, primo_data, timdex_data, current_page, per_page, deeper: false)
     primo_total = primo_data[:hits] || 0
     timdex_total = timdex_data[:hits] || 0
@@ -183,6 +218,9 @@ class MergedSearchService
     merged = merge_results(paginator, primo_data[:results] || [], timdex_data[:results] || [])
     errors = combine_errors(primo_data[:errors], timdex_data[:errors])
     pagination = Analyzer.new(@enhanced_query, timdex_total, :all, primo_total, per_page).pagination
+
+    # Detect if results are incomplete due to timeouts
+    incomplete_results = detect_incomplete_results(primo_data, timdex_data)
 
     show_primo_continuation = if deeper
                                 # Use the Primo-specific API offset (calculated from the paginator)
@@ -201,7 +239,35 @@ class MergedSearchService
                                 primo_data[:show_continuation]
                               end
 
-    { results: merged, errors: errors, pagination: pagination, show_primo_continuation: show_primo_continuation }
+    { results: merged, errors: errors, pagination: pagination, show_primo_continuation: show_primo_continuation,
+      incomplete_results: incomplete_results }
+  end
+
+  # Detect if search results are incomplete due to source timeouts.
+  #
+  # When a fetcher times out, it returns an error message containing "timed out".
+  # This method identifies which sources failed and returns an indicator for the UI.
+  #
+  # @param primo_data [Hash] response from Primo fetcher
+  # @param timdex_data [Hash] response from TIMDEX fetcher
+  # @return [Hash, nil] { sources: Array<String> } e.g., { sources: ['Primo'] } or nil if complete
+  def detect_incomplete_results(primo_data, timdex_data)
+    timed_out_sources = []
+    timed_out_sources << 'Primo' if timeout_error?(primo_data[:errors])
+    timed_out_sources << 'TIMDEX' if timeout_error?(timdex_data[:errors])
+
+    timed_out_sources.any? ? { sources: timed_out_sources } : nil
+  end
+
+  # Check if an error message indicates a timeout.
+  #
+  # @param errors [String, Array, nil]
+  # @return [Boolean]
+  def timeout_error?(errors)
+    return false if errors.nil?
+
+    error_string = errors.is_a?(Array) ? errors.join(' ') : errors.to_s
+    error_string.downcase.include?('timed out')
   end
 
   # Merge multiple error arrays into a single array or nil when empty.
@@ -221,7 +287,7 @@ class MergedSearchService
                               current_page: current_page, per_page: per_page)
   end
 
-  # Note: default fetcher implementations were removed to enforce explicit
+  # NOTE: default fetcher implementations were removed to enforce explicit
   # dependency injection. Callers must provide `primo_fetcher` and
   # `timdex_fetcher` when constructing `MergedSearchService`.
 

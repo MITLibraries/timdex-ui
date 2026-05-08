@@ -31,7 +31,7 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     query = { q: 'test' }
 
     service = MergedSearchService.new(enhanced_query: query, active_tab: 'all',
-                      primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
+                                      primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
 
     # populate cache so service uses it instead of summary calls
     Rails.cache.write(service.send(:totals_cache_key), { primo: 50, timdex: 50 })
@@ -139,57 +139,77 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
   # intentionally removed; the service now requires injected fetchers so
   # per-backend behavior should be tested in their respective unit tests.
 
-  test 'merge_results handles unbalanced API responses correctly' do
-    # Test case 1: Primo has fewer results than TIMDEX
-    paginator = MergedSearchPaginator.new(primo_total: 3, timdex_total: 5, current_page: 1, per_page: 8)
-    primo_results = %w[P1 P2 P3]
-    timdex_results = %w[T1 T2 T3 T4 T5]
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
-    merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
-    expected = %w[P1 T1 P2 T2 P3 T3 T4 T5]
-    assert_equal expected, merged
+  test 'detect_incomplete_results identifies which sources timed out' do
+    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+                                  timdex_fetcher: fake_fetcher)
 
-    # Test case 2: TIMDEX has fewer results than Primo
-    paginator = MergedSearchPaginator.new(primo_total: 5, timdex_total: 3, current_page: 1, per_page: 8)
-    primo_results = %w[P1 P2 P3 P4 P5]
-    timdex_results = %w[T1 T2 T3]
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
-    merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
-    expected = %w[P1 T1 P2 T2 P3 T3 P4 P5]
-    assert_equal expected, merged
+    # Test 1: No timeouts
+    primo_data = { results: ['p1'], hits: 10, errors: nil }
+    timdex_data = { results: ['t1'], hits: 20, errors: nil }
+    result = svc.send(:detect_incomplete_results, primo_data, timdex_data)
+    assert_nil result
 
-    # Test case 3: Results exceed per_page limit (default 20)
-    paginator = MergedSearchPaginator.new(primo_total: 15, timdex_total: 15, current_page: 1, per_page: 20)
-    primo_results = (1..15).map { |i| "P#{i}" }
-    timdex_results = (1..15).map { |i| "T#{i}" }
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
-    merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
-    assert_equal 20, merged.length
-    assert_equal 'P1', merged[0]
-    assert_equal 'T1', merged[1]
-    assert_equal 'P2', merged[2]
-    assert_equal 'T2', merged[3]
+    # Test 2: Primo times out
+    primo_data = { results: [], hits: 0, errors: 'Primo search timed out' }
+    timdex_data = { results: ['t1'], hits: 20, errors: nil }
+    result = svc.send(:detect_incomplete_results, primo_data, timdex_data)
+    assert_equal({ sources: ['Primo'] }, result)
 
-    # Test case 4: One array is empty
-    paginator = MergedSearchPaginator.new(primo_total: 0, timdex_total: 3, current_page: 1, per_page: 3)
-    primo_results = []
-    timdex_results = %w[T1 T2 T3]
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
-    merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
-    assert_equal %w[T1 T2 T3], merged
+    # Test 3: TIMDEX times out
+    primo_data = { results: ['p1'], hits: 10, errors: nil }
+    timdex_data = { results: [], hits: 0, errors: 'TIMDEX search timed out' }
+    result = svc.send(:detect_incomplete_results, primo_data, timdex_data)
+    assert_equal({ sources: ['TIMDEX'] }, result)
 
-    # Test case 5: more than 10 results from a single source can display when appropriate
-    paginator = MergedSearchPaginator.new(primo_total: 7, timdex_total: 11, current_page: 1, per_page: 18)
-    primo_results = (1..7).map { |i| "P#{i}" }
-    timdex_results = (1..11).map { |i| "T#{i}" }
-    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-            timdex_fetcher: fake_fetcher)
-    merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
-    expected = %w[P1 T1 P2 T2 P3 T3 P4 T4 P5 T5 P6 T6 P7 T7 T8 T9 T10 T11]
-    assert_equal expected, merged
+    # Test 4: Both time out
+    primo_data = { results: [], hits: 0, errors: 'Primo search timed out' }
+    timdex_data = { results: [], hits: 0, errors: 'TIMDEX search timed out' }
+    result = svc.send(:detect_incomplete_results, primo_data, timdex_data)
+    assert_equal({ sources: %w[Primo TIMDEX] }, result)
+
+    # Test 5: Error arrays are handled (not just strings)
+    primo_data = { results: [], hits: 0, errors: ['Primo search timed out'] }
+    timdex_data = { results: ['t1'], hits: 20, errors: nil }
+    result = svc.send(:detect_incomplete_results, primo_data, timdex_data)
+    assert_equal({ sources: ['Primo'] }, result)
+  end
+
+  test 'timeout_error? detects timeout messages in various formats' do
+    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all', primo_fetcher: fake_fetcher,
+                                  timdex_fetcher: fake_fetcher)
+
+    # Test string errors
+    assert svc.send(:timeout_error?, 'Primo search timed out')
+    assert svc.send(:timeout_error?, 'Connection timed out')
+    assert svc.send(:timeout_error?, 'TIMED OUT')
+    refute svc.send(:timeout_error?, 'Connection error')
+
+    # Test array errors
+    assert svc.send(:timeout_error?, ['Primo search timed out'])
+    assert svc.send(:timeout_error?, ['Some error', 'Another timed out'])
+    refute svc.send(:timeout_error?, ['Some error', 'Another error'])
+
+    # Test nil/empty
+    refute svc.send(:timeout_error?, nil)
+  end
+
+  test 'assemble_all_tab_result includes incomplete_results flag' do
+    query = { q: 'test' }
+
+    primo_fetcher = lambda do |offset:, per_page:, query:|
+      { results: [], hits: 0, errors: 'Primo search timed out', show_continuation: false }
+    end
+
+    timdex_fetcher = lambda do |offset:, per_page:, query:|
+      { results: ['bar'], hits: 37, errors: nil }
+    end
+
+    svc = MergedSearchService.new(enhanced_query: query, active_tab: 'all',
+                                  primo_fetcher: primo_fetcher, timdex_fetcher: timdex_fetcher)
+
+    res = svc.fetch(page: 1, per_page: 20)
+
+    assert res[:incomplete_results].present?
+    assert_equal(['Primo'], res[:incomplete_results][:sources])
   end
 end

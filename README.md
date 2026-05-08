@@ -125,11 +125,13 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `MATOMO_CONTAINER_URL`: This is one of two options for integrating a TIMDEX UI application with Matomo - the Tag Manager. This is the only parameter needed for using a tag manager container.
 - `MATOMO_SITE_ID`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.
 - `MATOMO_URL`: Integrating with Matomo using the legacy approach (instead of Tag Manager) requires two values: the site id and a URL. This is one of those legacy values.
+- `MERGED_SEARCH_THREAD_TIMEOUT`: The number of seconds before an individual fetcher thread times out during parallel searches on the "all" tab (default 20). When a thread exceeds this timeout, the service continues with results from other sources. Must be less than `RACK_TIMEOUT` to allow graceful failure.
 - `OPENALEX_EMAIL`: required to enable OpenAlex OpenAccess lookups. In dev use your personal email. In production we'll use a Moira.
 - `ORIGINS`: sets origins for CORS (currently used only for TACOS API calls).
 - `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
 - `PRIMO_NDE_VID`: The Primo view ID for NDE Only required if `FEATURE_PRIMO_NDE_LINKS` is enabled. Ask Enterprise Systems for value.
 - `PRIMO_TIMEOUT`: The number of seconds before a Primo request times out (default 6).
+- `RACK_TIMEOUT`: The number of seconds before a request times out at the Rack middleware level. On Heroku, the hard limit is 30 seconds, so this should be set to less than 30 (recommended 25 seconds). When both Primo and TIMDEX fetch threads are active, ensure this is greater than `MERGED_SEARCH_THREAD_TIMEOUT` to allow graceful timeout handling. This is typically configured via Heroku environment variables.
 - `REQUESTS_PER_PERIOD` - number of requests that can be made for general throttles per `REQUEST_PERIOD`
 - `REQUEST_PERIOD` - time in minutes used along with `REQUESTS_PER_PERIOD`
 - `REDIRECT_REQUESTS_PER_PERIOD`- number of requests that can be made that the query string starts with our legacy redirect parameter to throttle per `REQUEST_PERIOD`

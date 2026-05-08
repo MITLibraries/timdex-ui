@@ -7,6 +7,8 @@
 <div id="content-wrapper" class="space-wrap">
   <%= render(partial: 'shared/error', collection: @errors) %>
 
+  <%= render(partial: 'search/incomplete_results_warning', locals: { incomplete_results: @incomplete_results }) %>
+
   <%= render(partial: 'trigger_tacos') if tacos_enabled? %>
 
   <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>

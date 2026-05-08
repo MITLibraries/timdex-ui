@@ -1,0 +1,16 @@
+<% return unless incomplete_results.present? %>
+<% sources = incomplete_results[:sources] %>
+
+<aside role="alert" class="incomplete-results-warning">
+  <h3>Partial Results</h3>
+
+  <p>
+    Search results are incomplete because 
+    <% if sources.length == 1 %>
+      <strong><%= sources.first %></strong> is temporarily unavailable.
+    <% else %>
+      <strong><%= sources.join(' and ') %></strong> are temporarily unavailable.
+    <% end %>
+    Showing available results from other sources.
+  </p>
+</aside>
