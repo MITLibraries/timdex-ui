@@ -150,54 +150,36 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert_nil result
 
     # Test 2: Primo times out
-    primo_data = { results: [], hits: 0, errors: 'Primo search timed out' }
+    primo_data = { results: [], hits: 0, errors: nil, timed_out: true }
     timdex_data = { results: ['t1'], hits: 20, errors: nil }
     result = svc.send(:detect_incomplete_results, primo_data, timdex_data)
     assert_equal({ sources: ['Primo'] }, result)
 
     # Test 3: TIMDEX times out
     primo_data = { results: ['p1'], hits: 10, errors: nil }
-    timdex_data = { results: [], hits: 0, errors: 'TIMDEX search timed out' }
+    timdex_data = { results: [], hits: 0, errors: nil, timed_out: true }
     result = svc.send(:detect_incomplete_results, primo_data, timdex_data)
     assert_equal({ sources: ['TIMDEX'] }, result)
 
     # Test 4: Both time out
-    primo_data = { results: [], hits: 0, errors: 'Primo search timed out' }
-    timdex_data = { results: [], hits: 0, errors: 'TIMDEX search timed out' }
+    primo_data = { results: [], hits: 0, errors: nil, timed_out: true }
+    timdex_data = { results: [], hits: 0, errors: nil, timed_out: true }
     result = svc.send(:detect_incomplete_results, primo_data, timdex_data)
     assert_equal({ sources: %w[Primo TIMDEX] }, result)
 
-    # Test 5: Error arrays are handled (not just strings)
-    primo_data = { results: [], hits: 0, errors: ['Primo search timed out'] }
-    timdex_data = { results: ['t1'], hits: 20, errors: nil }
+    # Test 5: timed_out flag takes precedence (timeout doesn't go in errors field)
+    primo_data = { results: [], hits: 0, errors: nil, timed_out: true }
+    timdex_data = { results: ['t1'], hits: 20, errors: 'Some other error' }
     result = svc.send(:detect_incomplete_results, primo_data, timdex_data)
     assert_equal({ sources: ['Primo'] }, result)
   end
 
-  test 'timeout_error? detects timeout messages in various formats' do
-    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                                  timdex_fetcher: fake_fetcher)
-
-    # Test string errors
-    assert svc.send(:timeout_error?, 'Primo search timed out')
-    assert svc.send(:timeout_error?, 'Connection timed out')
-    assert svc.send(:timeout_error?, 'TIMED OUT')
-    refute svc.send(:timeout_error?, 'Connection error')
-
-    # Test array errors
-    assert svc.send(:timeout_error?, ['Primo search timed out'])
-    assert svc.send(:timeout_error?, ['Some error', 'Another timed out'])
-    refute svc.send(:timeout_error?, ['Some error', 'Another error'])
-
-    # Test nil/empty
-    refute svc.send(:timeout_error?, nil)
-  end
-
-  test 'assemble_all_tab_result includes incomplete_results flag' do
+  test 'assemble_all_tab_result includes incomplete_results flag for timeouts' do
     query = { q: 'test' }
 
+    # Fetcher that returns timed_out flag
     primo_fetcher = lambda do |offset:, per_page:, query:|
-      { results: [], hits: 0, errors: 'Primo search timed out', show_continuation: false }
+      { results: [], hits: 0, errors: nil, timed_out: true, show_continuation: false }
     end
 
     timdex_fetcher = lambda do |offset:, per_page:, query:|
@@ -209,7 +191,15 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
 
     res = svc.fetch(page: 1, per_page: 20)
 
+    # Results should include TIMDEX data even though Primo timed out
+    assert res[:results].present?
+    assert_equal(['bar'], res[:results])
+
+    # Incomplete results flag should be set
     assert res[:incomplete_results].present?
     assert_equal(['Primo'], res[:incomplete_results][:sources])
+
+    # Overall errors should be nil (timeout doesn't block partial results)
+    assert_nil res[:errors]
   end
 end

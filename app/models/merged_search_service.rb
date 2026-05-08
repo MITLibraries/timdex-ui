@@ -134,8 +134,6 @@ class MergedSearchService
 
     primo = nil
     timdex = nil
-    primo_error = nil
-    timdex_error = nil
 
     threads = []
     threads << Thread.new do
@@ -143,11 +141,12 @@ class MergedSearchService
         primo = @primo_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query)
       end
     rescue Timeout::Error
-      primo_error = 'Primo search timed out'
-      primo = { results: [], hits: 0, errors: primo_error }
+      # Timeout: return empty results with timed_out flag (not in errors field,
+      # so partial results can still display with incomplete_results warning)
+      primo = { results: [], hits: 0, errors: nil, timed_out: true }
     rescue StandardError => e
-      primo_error = e.message
-      primo = { results: [], hits: 0, errors: primo_error }
+      # Other exceptions: return empty results with error message
+      primo = { results: [], hits: 0, errors: e.message }
     end
 
     threads << Thread.new do
@@ -155,11 +154,12 @@ class MergedSearchService
         timdex = @timdex_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query)
       end
     rescue Timeout::Error
-      timdex_error = 'TIMDEX search timed out'
-      timdex = { results: [], hits: 0, errors: timdex_error }
+      # Timeout: return empty results with timed_out flag (not in errors field,
+      # so partial results can still display with incomplete_results warning)
+      timdex = { results: [], hits: 0, errors: nil, timed_out: true }
     rescue StandardError => e
-      timdex_error = e.message
-      timdex = { results: [], hits: 0, errors: timdex_error }
+      # Other exceptions: return empty results with error message
+      timdex = { results: [], hits: 0, errors: e.message }
     end
 
     threads.each(&:join)
@@ -245,29 +245,18 @@ class MergedSearchService
 
   # Detect if search results are incomplete due to source timeouts.
   #
-  # When a fetcher times out, it returns an error message containing "timed out".
-  # This method identifies which sources failed and returns an indicator for the UI.
+  # When a fetcher times out, it returns timed_out: true in the response.
+  # This method identifies which sources timed out and returns an indicator for the UI.
   #
   # @param primo_data [Hash] response from Primo fetcher
   # @param timdex_data [Hash] response from TIMDEX fetcher
   # @return [Hash, nil] { sources: Array<String> } e.g., { sources: ['Primo'] } or nil if complete
   def detect_incomplete_results(primo_data, timdex_data)
     timed_out_sources = []
-    timed_out_sources << 'Primo' if timeout_error?(primo_data[:errors])
-    timed_out_sources << 'TIMDEX' if timeout_error?(timdex_data[:errors])
+    timed_out_sources << 'Primo' if primo_data[:timed_out]
+    timed_out_sources << 'TIMDEX' if timdex_data[:timed_out]
 
     timed_out_sources.any? ? { sources: timed_out_sources } : nil
-  end
-
-  # Check if an error message indicates a timeout.
-  #
-  # @param errors [String, Array, nil]
-  # @return [Boolean]
-  def timeout_error?(errors)
-    return false if errors.nil?
-
-    error_string = errors.is_a?(Array) ? errors.join(' ') : errors.to_s
-    error_string.downcase.include?('timed out')
   end
 
   # Merge multiple error arrays into a single array or nil when empty.
