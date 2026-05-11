@@ -115,6 +115,10 @@ class MergedSearchService
   # fetchers. Each fetcher should return the usual response hash including
   # `:results` and `:hits`.
   #
+  # Timeouts are handled at the HTTP level by each fetcher (PRIMO_TIMEOUT and
+  # TIMDEX_TIMEOUT), which raise catchable exceptions that the fetchers convert
+  # to `timed_out: true` responses for graceful partial-results display.
+  #
   # WARNING: exceptions raised inside these threads will not automatically
   # propagate to the caller; callers/tests should account for this.
   #
@@ -124,6 +128,7 @@ class MergedSearchService
   def parallel_fetch(offset:, per_page:)
     primo = nil
     timdex = nil
+
     threads = []
     threads << Thread.new { primo = @primo_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query) }
     threads << Thread.new { timdex = @timdex_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query) }
@@ -175,7 +180,7 @@ class MergedSearchService
   # @param current_page [Integer]
   # @param per_page [Integer]
   # @param deeper [Boolean] whether this was a deeper-page flow
-  # @return [Hash] response with :results, :errors, :pagination, :show_primo_continuation
+  # @return [Hash] response with :results, :errors, :pagination, :show_primo_continuation, :incomplete_results
   def assemble_all_tab_result(paginator, primo_data, timdex_data, current_page, per_page, deeper: false)
     primo_total = primo_data[:hits] || 0
     timdex_total = timdex_data[:hits] || 0
@@ -183,6 +188,9 @@ class MergedSearchService
     merged = merge_results(paginator, primo_data[:results] || [], timdex_data[:results] || [])
     errors = combine_errors(primo_data[:errors], timdex_data[:errors])
     pagination = Analyzer.new(@enhanced_query, timdex_total, :all, primo_total, per_page).pagination
+
+    # Detect if results are incomplete due to timeouts
+    incomplete_results = detect_incomplete_results(primo_data, timdex_data)
 
     show_primo_continuation = if deeper
                                 # Use the Primo-specific API offset (calculated from the paginator)
@@ -201,7 +209,24 @@ class MergedSearchService
                                 primo_data[:show_continuation]
                               end
 
-    { results: merged, errors: errors, pagination: pagination, show_primo_continuation: show_primo_continuation }
+    { results: merged, errors: errors, pagination: pagination, show_primo_continuation: show_primo_continuation,
+      incomplete_results: incomplete_results }
+  end
+
+  # Detect if search results are incomplete due to source timeouts.
+  #
+  # When a fetcher times out, it returns timed_out: true in the response.
+  # This method identifies which sources timed out and returns an indicator for the UI.
+  #
+  # @param primo_data [Hash] response from Primo fetcher
+  # @param timdex_data [Hash] response from TIMDEX fetcher
+  # @return [Hash, nil] { sources: Array<String> } e.g., { sources: ['Primo'] } or nil if complete
+  def detect_incomplete_results(primo_data, timdex_data)
+    timed_out_sources = []
+    timed_out_sources << 'Primo' if primo_data[:timed_out]
+    timed_out_sources << 'TIMDEX' if timdex_data[:timed_out]
+
+    timed_out_sources.any? ? { sources: timed_out_sources } : nil
   end
 
   # Merge multiple error arrays into a single array or nil when empty.
@@ -221,7 +246,7 @@ class MergedSearchService
                               current_page: current_page, per_page: per_page)
   end
 
-  # Note: default fetcher implementations were removed to enforce explicit
+  # NOTE: default fetcher implementations were removed to enforce explicit
   # dependency injection. Callers must provide `primo_fetcher` and
   # `timdex_fetcher` when constructing `MergedSearchService`.
 
