@@ -159,6 +159,8 @@ class SearchController < ApplicationController
 
     { results: results, pagination: pagination, errors: errors, show_continuation: show_continuation,
       hits: hits }
+  rescue HTTP::TimeoutError
+    { results: [], pagination: {}, errors: nil, show_continuation: false, hits: 0, timed_out: true }
   rescue StandardError => e
     { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false, hits: 0 }
   end
@@ -181,6 +183,8 @@ class SearchController < ApplicationController
     else
       { results: [], pagination: {}, errors: errors, hits: 0 }
     end
+  rescue Net::ReadTimeout
+    { results: [], pagination: {}, errors: nil, hits: 0, timed_out: true }
   end
 
   def active_filters

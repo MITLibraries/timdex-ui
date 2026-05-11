@@ -6,6 +6,12 @@ class TimdexBase
     def headers(*)
       { 'User-Agent': 'MIT Libraries Client' }
     end
+
+    def connection
+      conn = super
+      conn.read_timeout = ENV.fetch('TIMDEX_TIMEOUT', '20').to_i
+      conn
+    end
   end
 
   Schema = GraphQL::Client.load_schema('config/schema/schema.json')
