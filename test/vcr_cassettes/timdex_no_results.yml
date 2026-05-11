@@ -32,7 +32,7 @@ http_interactions:
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
         {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
         {\n        key\n        docCount\n      }\n      places {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"asdfiouwenlasd","booleanType":"AND","index":"FAKE_TIMDEX_INDEX","perPage":20,"fulltext":true},"operationName":"TimdexSearch__BaseQuery"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"asdfiouwenlasd","booleanType":"AND","queryMode":"keyword","index":"FAKE_TIMDEX_INDEX","perPage":20,"fulltext":true},"operationName":"TimdexSearch__BaseQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -60,9 +60,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=zUxZQgeWnFrSjSZQoL%2F1lmTeq2Ne6Inc6ivwYFLTsBA%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1776884516"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=%2Ff8RvAIOvr%2FeyDl9cKetXfuW3lBej8EH5axnxvbIJAg%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1778021950"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=zUxZQgeWnFrSjSZQoL%2F1lmTeq2Ne6Inc6ivwYFLTsBA%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1776884516"
+      - heroku-nel="https://nel.heroku.com/reports?s=%2Ff8RvAIOvr%2FeyDl9cKetXfuW3lBej8EH5axnxvbIJAg%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1778021950"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -78,15 +78,15 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 23cd451d-914e-ca58-405b-4e5a7d4e8578
+      - 97a5069d-70fb-8752-4556-5a5b5a810f82
       X-Runtime:
-      - '0.063112'
+      - '0.077166'
       X-Xss-Protection:
       - '0'
       Date:
-      - Wed, 22 Apr 2026 19:01:56 GMT
+      - Tue, 05 May 2026 22:59:10 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"accessToFiles":[],"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"places":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Wed, 22 Apr 2026 19:01:56 GMT
+  recorded_at: Tue, 05 May 2026 22:59:10 GMT
 recorded_with: VCR 6.4.0
