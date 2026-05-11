@@ -26,6 +26,16 @@ document.addEventListener('turbo:frame-render', function(event) {
     // Remove the spinner now that things are ready
     document.getElementById('search-results').classList.remove('spinner');
 
+    // Experimental poking of Matomo
+    window._mtm = window._mtm || [];
+    window._mtm.push({
+      'event': 'customEvent',
+      'customCategory': 'Search',
+      'customAction': 'Pagination',
+      'customLabel': 'Page 1',
+      'customValue': 1
+    });
+
     // Clear the pending action
     window.pendingFocusAction = null;
   };
@@ -45,6 +55,16 @@ document.addEventListener('turbo:frame-render', function(event) {
 
     // Remove the spinner now that things are ready
     document.getElementById('search-results').classList.remove('spinner');
+
+    // Experimental poking of Matomo
+    window._mtm = window._mtm || [];
+    window._mtm.push({
+      'event': 'customEvent',
+      'customCategory': 'Search',
+      'customAction': 'Tab',
+      'customLabel': 'Bespoke',
+      'customValue': 1
+    });
 
     // Clear the pending action
     window.pendingFocusAction = null;

@@ -33,13 +33,13 @@ module SearchHelper
     clean_target = target.downcase.gsub(' ', '_').downcase
     tab_label = label || target
     if @active_tab == clean_target
-      link_to tab_label, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: clean_target)),
+      link_to tab_label, results_path(params.permit(:q, :per_page, :booleanType, :tab, :mtmPreviewMode).merge(tab: clean_target)),
               aria: { current: 'page' },
               class: 'active tab-link',
               role: 'button',
               data: { turbo_frame: 'search-results', turbo_action: 'advance' }
     else
-      link_to tab_label, results_path(params.permit(:q, :per_page, :booleanType, :tab).merge(tab: clean_target)),
+      link_to tab_label, results_path(params.permit(:q, :per_page, :booleanType, :tab, :mtmPreviewMode).merge(tab: clean_target)),
               class: 'tab-link',
               role: 'button',
               data: { turbo_frame: 'search-results', turbo_action: 'advance' }
