@@ -1,5 +1,4 @@
 require 'digest'
-require 'timeout'
 
 # Orchestrates merged "all" tab searches across Primo and TIMDEX.
 #
@@ -116,9 +115,9 @@ class MergedSearchService
   # fetchers. Each fetcher should return the usual response hash including
   # `:results` and `:hits`.
   #
-  # Individual fetchers are wrapped with a timeout to prevent runaway API
-  # calls from causing request timeouts. If a fetcher times out, returns
-  # an empty response with an error message.
+  # Timeouts are handled at the HTTP level by each fetcher (PRIMO_TIMEOUT and
+  # TIMDEX_TIMEOUT), which raise catchable exceptions that the fetchers convert
+  # to `timed_out: true` responses for graceful partial-results display.
   #
   # WARNING: exceptions raised inside these threads will not automatically
   # propagate to the caller; callers/tests should account for this.
@@ -127,41 +126,12 @@ class MergedSearchService
   # @param per_page [Integer] number of items to request
   # @return [Array<Hash,Hash>] [primo_response, timdex_response]
   def parallel_fetch(offset:, per_page:)
-    # Individual thread timeout in seconds. Set to allow most requests to complete
-    # while protecting against runaway API calls. Must be less than the total
-    # Rack::Timeout value to allow graceful failure.
-    thread_timeout = ENV.fetch('MERGED_SEARCH_THREAD_TIMEOUT', '20').to_i
-
     primo = nil
     timdex = nil
 
     threads = []
-    threads << Thread.new do
-      Timeout.timeout(thread_timeout) do
-        primo = @primo_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query)
-      end
-    rescue Timeout::Error
-      # Timeout: return empty results with timed_out flag (not in errors field,
-      # so partial results can still display with incomplete_results warning)
-      primo = { results: [], hits: 0, errors: nil, timed_out: true }
-    rescue StandardError => e
-      # Other exceptions: return empty results with error message
-      primo = { results: [], hits: 0, errors: e.message }
-    end
-
-    threads << Thread.new do
-      Timeout.timeout(thread_timeout) do
-        timdex = @timdex_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query)
-      end
-    rescue Timeout::Error
-      # Timeout: return empty results with timed_out flag (not in errors field,
-      # so partial results can still display with incomplete_results warning)
-      timdex = { results: [], hits: 0, errors: nil, timed_out: true }
-    rescue StandardError => e
-      # Other exceptions: return empty results with error message
-      timdex = { results: [], hits: 0, errors: e.message }
-    end
-
+    threads << Thread.new { primo = @primo_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query) }
+    threads << Thread.new { timdex = @timdex_fetcher.call(offset: offset, per_page: per_page, query: @enhanced_query) }
     threads.each(&:join)
     [primo, timdex]
   end
