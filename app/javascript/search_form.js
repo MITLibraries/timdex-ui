@@ -3,6 +3,7 @@ var advancedPanel = document.getElementById('advanced-search-panel');
 var geoboxPanel = document.getElementById('geobox-search-panel');
 var geodistancePanel = document.getElementById('geodistance-search-panel');
 var allPanels = document.getElementsByClassName('form-panel');
+var clearSearchButton = document.getElementById('clear-search');
 
 function togglePanelState(currentPanel) {
   // Only the geoboxPanel and geodistancePanel inputs need to be required. Advanced search inputs do not.
@@ -57,6 +58,15 @@ function updateKeywordPlaceholder() {
   }
 }
 
+// Toggle visibility of clear search button based on whether the input has text.
+function toggleClearButtonVisibility() {
+  if (keywordField.value.trim() === '') {
+    clearSearchButton.style.display = 'none';
+  } else {
+    clearSearchButton.style.display = 'inline';
+  }
+}
+
 // Add event listeners for all panels in the DOM. For GeoData, this is currently both geospatial panels and the advanced
 // panel. In all other TIMDEX UI apps, it's just the advanced panel.
 if (Array.from(allPanels).includes(geoboxPanel && geodistancePanel)) {
@@ -76,5 +86,18 @@ if (Array.from(allPanels).includes(geoboxPanel && geodistancePanel)) {
     togglePanelState(advancedPanel);
   });
 }
+
+// Add event listener to show/hide clear button when typing.
+keywordField.addEventListener('input', toggleClearButtonVisibility);
+
+// Add event listener to clear input when button is clicked.
+clearSearchButton.addEventListener('click', () => {
+  keywordField.value = '';
+  toggleClearButtonVisibility();
+  keywordField.focus();
+});
+
+// Initialize clear button visibility on page load to handle pre-populated search values.
+toggleClearButtonVisibility();
 
 console.log('search_form.js loaded');
