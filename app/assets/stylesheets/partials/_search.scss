@@ -65,6 +65,7 @@
         border: none;
         width: 100%;
         padding-left: 46px;
+        padding-right: 48px;
       }
 
       #clear-search {
@@ -100,6 +101,10 @@
     button {
       background-color: $color-red-600;
       border: none;
+    }
+
+    @media (max-width: $bp-screen-xs) {
+      flex-direction: column;
     }
 
   }
