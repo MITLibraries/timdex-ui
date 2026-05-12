@@ -20,7 +20,6 @@ class PrimoSearch
   # @return [Hash] Parsed JSON response from Primo API
   def search(term, per_page, offset = 0)
     url = search_url(term, per_page, offset)
-    Rails.logger.debug("Primo Search URL: #{url}")
     result = @primo_http.timeout(http_timeout)
                         .headers(
                           accept: 'application/json',
@@ -101,8 +100,8 @@ class PrimoSearch
   # skip_delivery determines whether to include the delivery parameter in Primo API calls, which affects performance
   # and in theory results (but we have not observed differences yet). Setting it to true can speed up response times
   # but may exclude some availability information.
-  def skip_delivery
-    ENV.fetch('PRIMO_SKIP_DELIVERY', 'true') == 'true'
+  def skip_delivery?
+    ENV.fetch('PRIMO_SKIP_DELIVERY', 'true').to_s.downcase == 'true'
   end
 
   # clean_term performs search term sanitization to prepare the term for querying the Primo API
@@ -130,7 +129,7 @@ class PrimoSearch
       '&limit=',
       per_page,
       '&pcAvailability=true',
-      "&skipDelivery=#{skip_delivery}"
+      "&skipDelivery=#{skip_delivery?}"
     ]
 
     # Add offset parameter for pagination (only if > 0)
