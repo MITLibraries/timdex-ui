@@ -129,6 +129,7 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `ORIGINS`: sets origins for CORS (currently used only for TACOS API calls).
 - `PLATFORM_NAME`: The value set is added to the header after the MIT Libraries logo. The logic and CSS for this comes from our theme gem.
 - `PRIMO_NDE_VID`: The Primo view ID for NDE Only required if `FEATURE_PRIMO_NDE_LINKS` is enabled. Ask Enterprise Systems for value.
+- `PRIMO_SKIP_DELIVERY`: default is `true`. Determines if `skipDelivery=true` or `skipDelivery=false` is added to Primo API calls. This affects performance and possibly responses.
 - `PRIMO_TIMEOUT`: The number of seconds before a Primo request times out (default 6).
 - `REQUESTS_PER_PERIOD` - number of requests that can be made for general throttles per `REQUEST_PERIOD`
 - `REQUEST_PERIOD` - time in minutes used along with `REQUESTS_PER_PERIOD`

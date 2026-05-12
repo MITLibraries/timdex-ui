@@ -114,7 +114,7 @@ class NormalizePrimoRecord
 
       parsed_string = parse_link_string(@record['pnx']['links']['linktopdf'].first)
 
-      if parsed_string['U'].present?
+      if parsed_string&.dig('U').present?
         links << { 'url' => parsed_string['U'],
                    'kind' => 'Get PDF' }
       end
@@ -125,7 +125,7 @@ class NormalizePrimoRecord
 
       parsed_string = parse_link_string(@record['pnx']['links']['linktohtml'].first)
 
-      if parsed_string['U'].present?
+      if parsed_string&.dig('U').present?
         links << { 'url' => parsed_string['U'],
                    'kind' => 'Read online' }
       end
@@ -323,6 +323,7 @@ class NormalizePrimoRecord
   end
 
   def other_availability
+    return unless @record['delivery']
     return unless @record['delivery']['bestlocation']
     return unless @record['delivery']['holding']
 
