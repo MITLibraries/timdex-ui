@@ -72,6 +72,17 @@ class QueryBuilder
 
     # Validate against allow list
     mode = 'keyword' unless VALID_QUERY_MODES.include?(mode)
+
+    # Override mode based on numeric tuning parameter if specific values present
+    if enhanced_query[:queryTuning]
+      Rails.logger.debug 'Query Tuning parameter present - checking for override'
+      Rails.logger.debug "queryTuning is #{enhanced_query[:queryTuning]}"
+      mode = 'keyword' if enhanced_query[:queryTuning].to_f == 0.0
+      mode = 'hybrid' if (enhanced_query[:queryTuning].to_f - 0.5).abs < Float::EPSILON
+      mode = 'semantic' if (enhanced_query[:queryTuning].to_f - 1.0).abs < Float::EPSILON
+      Rails.logger.debug "Query mode set to #{mode}"
+    end
+
     @query['queryMode'] = mode
   end
 end
