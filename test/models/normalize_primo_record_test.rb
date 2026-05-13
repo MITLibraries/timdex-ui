@@ -84,6 +84,18 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_empty normalized[:links]
   end
 
+  test 'handles non-$$ formatted pdf and html link strings without raising' do
+    record = full_record.deep_dup
+    record['pnx']['links']['linktopdf'] = ['https://example.com/plain-url.pdf']
+    record['pnx']['links']['linktohtml'] = ['https://example.com/plain-url.html']
+
+    assert_nothing_raised { NormalizePrimoRecord.new(record, 'test').normalize }
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    link_kinds = normalized[:links].map { |l| l['kind'] }
+    assert_not_includes link_kinds, 'Get PDF'
+    assert_not_includes link_kinds, 'Read online'
+  end
+
   test 'parse_link_string creates expected data structure' do
     # Strings that don't start with $$ should not be processed
     link_string = 'https://example.com?param1=value1&param2=value2'
