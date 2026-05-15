@@ -41,7 +41,7 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
   test 'libkey for non-existent identifier inserts openalex setup when oa_always is false' do
     # Libkey responds here, so we have a cassette - but the response is empty
     VCR.use_cassette('libkey nonexistent') do
-      get '/libkey?type=doi&identifier=foobar'
+      get '/libkey?type=doi&identifier=foobar&format=Article'
 
       assert_response :success
       assert_select '.openalex-container', { count: 1 }
@@ -52,11 +52,21 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
     ClimateControl.modify(FEATURE_OA_ALWAYS: 'true') do
       # Libkey responds here, so we have a cassette - but the response is empty
       VCR.use_cassette('libkey nonexistent') do
-        get '/libkey?type=doi&identifier=foobar'
+        get '/libkey?type=doi&identifier=foobar&format=Article'
 
         assert_response :success
         assert response.body.blank?
       end
+    end
+  end
+
+  test 'libkey for non-existent identifier does not insert OpenAlex setup for non-article formats' do
+    # OpenAlex should only appear for articles
+    VCR.use_cassette('libkey nonexistent') do
+      get '/libkey?type=doi&identifier=foobar&format=Book'
+
+      assert_response :success
+      assert_select '.openalex-container', { count: 0 }
     end
   end
 

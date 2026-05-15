@@ -7,6 +7,7 @@ class ThirdironController < ApplicationController
     @libkey = Libkey.lookup(type: params[:type], identifier: params[:identifier])
     @doi = params[:type] == 'doi' ? params[:identifier] : nil
     @pmid = params[:type] == 'pmid' ? params[:identifier] : nil
+    @format = params[:format]
   end
 
   def browzine

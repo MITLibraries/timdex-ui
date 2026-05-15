@@ -90,4 +90,37 @@ class ResultsHelperTest < ActionView::TestCase
     assert link.start_with?('https://mit.on.worldcat.org/search?')
     assert_includes link, 'queryString=climate+change'
   end
+
+  test 'article? returns true for Article format' do
+    assert article?('Article')
+    assert article?('Journal Article')
+    assert article?('Newspaper Article')
+  end
+
+  test 'article? returns true for lowercase article formats' do
+    assert article?('article')
+    assert article?('journal article')
+    assert article?('newspaper article')
+  end
+
+  test 'article? returns true for mixed case article formats' do
+    assert article?('ARTICLE')
+    assert article?('Article')
+    assert article?('JoUrNaL ArTiClE')
+  end
+
+  test 'article? returns false for non-article formats' do
+    assert_not article?('Journal')
+    assert_not article?('eBook')
+    assert_not article?('Book Chapter')
+    assert_not article?('Conference Proceeding')
+    assert_not article?('Reference Entry')
+    assert_not article?('Research Database')
+    assert_not article?('Dataset')
+  end
+
+  test 'article? returns false for blank or nil format' do
+    assert_not article?(nil)
+    assert_not article?('')
+  end
 end

@@ -1,6 +1,8 @@
 <% return unless ThirdIron.enabled? %>
 
-<% data_url = "/libkey?type=#{kind}&identifier=#{identifier}" %>
+<% query_params = { type: kind, identifier: identifier } %>
+<% query_params[:format] = format if format.present? %>
+<% data_url = "/libkey?#{query_params.to_query}" %>
 
 <span class="libkey-container"
      data-controller="content-loader"
