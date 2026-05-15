@@ -1,7 +1,7 @@
 <li class="result use" data-record-id="<%= result[:identifier] %>" data-matomo-seen="Results, Result Seen, Tab: {{getActiveTabName}}" data-track-content data-content-name="Result">
   <div class="result-content">
-    <% if multi_source_tab? && result[:eyebrow].present? %>
-      <p class="eyebrow"><%= result[:eyebrow] %></p>
+    <% if result[:content_type].present? %>
+      <p class="eyebrow"><%= result[:content_type] %></p>
     <% end %>
     <h3 class="record-title">
       <%= link_to_result(result) %>
@@ -10,8 +10,6 @@
     <div class="result-metadata">
 
       <p class="pub-info">
-        <span><%= result[:content_type] %></span>
-
         <span>
           <% if result[:date_range].present? %>
             <%= result[:date_range] %>
@@ -32,6 +30,8 @@
           <%= render partial: 'shared/contributors', locals: { contributors: result[:contributors] } %>
         </ul>
       <% end %>
+
+      <p class="result-source"><strong>Source: </strong><%= result[:eyebrow] %></p>
 
       <%# Primo displays citation here. TIMDEX citations probably need work to be useful here %>
 
