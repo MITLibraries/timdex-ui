@@ -70,4 +70,14 @@ module ResultsHelper
 
     'https://mit.on.worldcat.org/search?' + worldcat_params
   end
+
+  # Determines if a format value represents an article type
+  #
+  # @param format [String] The format value to check (e.g., 'Article', 'Magazine Article')
+  # @return [Boolean] True if format contains 'article' as a whole word (case-insensitive), false otherwise
+  def article?(format)
+    return false if format.blank?
+
+    format.match?(/\barticle\b/i)
+  end
 end

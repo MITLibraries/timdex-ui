@@ -86,13 +86,14 @@
 
         <%# LibKey links are our preferred links so we call the API when possible to get these preferred links %>
         <% if ThirdIron.enabled? && result[:doi].present? %>
-          <%= render(partial: 'trigger_libkey', locals: { kind: 'doi', identifier: result[:doi] }) %>
+          <%= render(partial: 'trigger_libkey', locals: { kind: 'doi', identifier: result[:doi], format: result[:format] }) %>
         <% elsif ThirdIron.enabled? && result[:pmid].present? %>
-          <%= render(partial: 'trigger_libkey', locals: { kind: 'pmid', identifier: result[:pmid] }) %>
+          <%= render(partial: 'trigger_libkey', locals: { kind: 'pmid', identifier: result[:pmid], format: result[:format] }) %>
         <% end %>
 
         <%# OpenAccess Links: If OA_ALWAYS is enabled, include them when available. If not we'll trigger when we have a DOI/PMID but LibKey does not return data. See app/views/thirdiron/libkey.html.erb %>
-        <% if Feature.enabled?(:oa_always) %>
+        <%# Only show OpenAccess links for articles %>
+        <% if Feature.enabled?(:oa_always) && article?(result[:format]) %>
           <%= render(partial: 'trigger_openalex_setup', locals: { doi: result[:doi], pmid: result[:pmid] }) %>
         <% end %>
 
