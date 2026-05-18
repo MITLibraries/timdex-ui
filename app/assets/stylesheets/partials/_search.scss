@@ -65,12 +65,46 @@
         border: none;
         width: 100%;
         padding-left: 46px;
+        padding-right: 48px;
+      }
+
+      #clear-search {
+        display: none;
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        height: 32px;
+        width: 32px;        
+        background: none;
+        color: $color-icon-primary;
+        font-size: 0;
+        padding: 2px;
+        border-radius: 100%;
+        border: 1px solid $color-border-default;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $color-blue-25;
+          color: $color-blue-500;
+          border-color: $color-blue-500;
+          outline: none;
+        }
+
+        &::before {
+          content: '\f00d';
+          font-family: FontAwesome;
+          font-size: 16px;
+        }
       }
     } 
     
     button {
       background-color: $color-red-600;
       border: none;
+    }
+
+    @media (max-width: $bp-screen-xs) {
+      flex-direction: column;
     }
 
   }
