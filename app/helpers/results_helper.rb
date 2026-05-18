@@ -1,27 +1,39 @@
 module ResultsHelper
+  # Descriptions for each tab. HTML entries use raw anchor tags (all URLs are
+  # hardcoded external links, so no XSS risk) and must be marked html_safe.
+  TAB_DESCRIPTIONS = {
+    'all' => 'Search across all MIT Libraries systems',
+    'cdi' => 'Articles, reviews, book chapters, and more from ' \
+             '<a href="https://mit.primo.exlibrisgroup.com/discovery/search?vid=01MIT_INST:MIT&lang=en">' \
+             'Articles, Books & More</a>'.html_safe,
+    'alma' => 'Books, e-books, journals, streaming and physical media, and more from ' \
+              '<a href="https://mit.primo.exlibrisgroup.com/discovery/search?vid=01MIT_INST:MIT&lang=en">' \
+              'Articles, Books & More</a>'.html_safe,
+    'timdex_alma' => 'Books, e-books, journals, streaming and physical media, and more',
+    'primo' => 'Articles, books, chapters, streaming and physical media, and more',
+    'aspace' => 'Finding aids for archival and unique primary source materials at MIT from ' \
+                '<a href="https://archivesspace.mit.edu">Archives & Manuscripts</a>'.html_safe,
+    'timdex' => 'Digital collections, images, documents, and more from MIT Libraries',
+    'website' => 'Events, news, services, and research guides from the ' \
+                 '<a href="https://libraries.mit.edu">Library Website</a> and ' \
+                 '<a href="https://libraries.mit.edu/experts/">Research Guides</a>'.html_safe,
+    'dspace' => 'Peer-reviewed articles, theses and dissertations, technical reports, and more from ' \
+                '<a href="https://dspace.mit.edu">MIT Open Scholarship</a> '.html_safe,
+    'geodata' => 'Shape files, raster data, and more from ' \
+                 '<a href="https://geodata.libraries.mit.edu">MIT Geospatial Data</a>'.html_safe,
+    'databases' => 'Indexes, full-text archives, data sources, and other specialized search tools from ' \
+                   '<a href="https://libguides.mit.edu/az/databases">Research Databases</a>'.html_safe
+  }.freeze
+
   def results_summary(hits)
     hits.to_i >= 10_000 ? '10,000+ results' : "#{number_with_delimiter(hits)} results"
   end
 
   # Provides a description for the current tab in search results.
   def tab_description
-    case params[:tab]
-    when 'all'
-      'All MIT Libraries sources'
-    when 'cdi'
-      'Journal and newspaper articles, book reviews, book chapters, and more'
-    when 'alma', 'timdex_alma'
-      'Books, e-books, journals, streaming and physical media, and more'
-    when 'primo'
-      'Articles, books, chapters, streaming and physical media, and more'
-    when 'aspace'
-      'Archives, manuscripts, and other unique materials related to MIT'
-    when 'timdex'
-      'Digital collections, images, documents, and more from MIT Libraries'
-    when 'website'
-      'Information about the library: events, news, services, and more'
-    else
+    TAB_DESCRIPTIONS.fetch(params[:tab]) do
       Rails.logger.error "Unknown tab parameter in `tab_description` helper: #{params[:tab]}"
+      ''
     end
   end
 
