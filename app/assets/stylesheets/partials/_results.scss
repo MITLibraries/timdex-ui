@@ -413,7 +413,7 @@
 
   .results-context-description {
     color: $color-text-secondary;
-    margin-bottom: 40px;
+    margin-bottom: 12px;
   }
 
   #results-section {
@@ -565,6 +565,38 @@
       .core-sidebar-items {
         flex-direction: column;
       }      
+    }
+  }
+}
+
+// RESULTS LIST NLS ALERT
+aside.nls-alert {
+  margin-bottom: 40px;
+
+  p {
+    font-weight: $fw-medium;
+
+    &::before {
+      display: inline-block;
+      height: 16px;
+      width: 16px;        
+      color: $color-icon-primary;
+      font: var(--fa-font-regular);
+      content: '\f06a';
+      margin-right: 6px;
+      color: $color-magenta-500;
+    }
+
+    a {
+      padding-left: 8px;
+      font-weight: $fw-normal;
+      font-size: 1.4rem;
+      color: $color-text-secondary;
+      text-decoration-color: $color-gray-300;
+
+      &:hover {
+        text-decoration-color: $color-text-secondary;
+      }
     }
   }
 }
