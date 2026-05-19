@@ -289,12 +289,12 @@
       @include searchUnderlinedLinks();
 
       &::before {
-        background-color: $color-gray-900;
+        background-color: $color-gray-800;
         color: $color-text-oncolor;
-        font-size: 1rem;
-        font-weight: $fw-medium;
+        font-size: 1.1rem;
+        font-weight: $fw-bold;
         letter-spacing: 0.08em;
-        padding: 4px 6px;
+        padding: 5px 8px;
         border-radius: 4px;
         display: inline-block;
         margin-right: 8px;
