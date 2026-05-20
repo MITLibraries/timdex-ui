@@ -280,20 +280,16 @@ function getCurrentResultsPage() {
 // Returns an empty string if the toggle element is not found.
 // ---------------------------------------------------------------------------
 function getToggleState(el) {
-  if (!el) return "";
+  // Walk up from the triggered element to find the semantic-search-toggle container,
+  // then select the button inside it. Optional chaining (?.) ensures safe traversal.
+  const button = el?.closest('.semantic-search-toggle')?.querySelector('button');
   
-  // Find the nearest ancestor with .semantic-search-toggle class
-  const toggleContainer = el.closest('.semantic-search-toggle');
-  if (!toggleContainer) return "";
+  // Extract content property from the ::before pseudo-element's computed styles.
+  // CSS content values include quotes (e.g., "ON"), so we default to empty string if no button.
+  const beforeContent = button ? window.getComputedStyle(button, '::before').content : '';
   
-  // Get the button element inside the toggle container
-  const button = toggleContainer.querySelector('button');
-  if (!button) return "";
-  
-  // Read computed style of the ::before pseudo-element
-  const beforeContent = window.getComputedStyle(button, '::before').content;
-  
-  // Remove quotes and whitespace: "ON" → ON
+  // Remove surrounding quotes (both " and ') and trim whitespace.
+  // Result: "ON" becomes ON, "OFF" becomes OFF, '' stays ''.
   return beforeContent.replace(/["']/g, '').trim();
 }
 
