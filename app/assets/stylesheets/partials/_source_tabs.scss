@@ -46,7 +46,7 @@
     }
 
     &.active {
-      background-color: $color-white;
+      background-color: $color-gray-25;
       color: $color-text-primary;
       text-decoration: none;
 
@@ -104,4 +104,18 @@
     display: block;
   }
 
+}
+
+/* ============================== */
+/* Tab description bar below tabs */
+/* ============================== */
+div.tab-description {
+  background-color: $color-gray-25;
+  border-bottom: 1px solid $color-gray-200;
+  color: $color-text-secondary;
+
+  .wrap-content {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
 }
