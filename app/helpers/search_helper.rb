@@ -42,7 +42,7 @@ module SearchHelper
       link_to tab_label, results_path(params.permit(:q, :per_page, :booleanType, :tab, :queryMode).merge(tab: clean_target)),
               class: 'tab-link',
               role: 'button',
-              data: { turbo_frame: 'search-results', turbo_action: 'advance' }
+              data: { turbo_frame: '_top', turbo_action: 'advance' }
     end
   end
 

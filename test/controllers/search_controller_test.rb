@@ -871,8 +871,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=test&tab=primo'
     assert_response :success
     assert_select '.results-context', text: /10 results/
-    assert_select '.results-context-description', count: 1
-    assert_select '.results-context-description',
+    assert_select '.tab-description', count: 1
+    assert_select '.tab-description .wrap-content',
                   text: /Articles, books, chapters, streaming and physical media, and more/
   end
 

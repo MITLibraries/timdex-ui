@@ -408,12 +408,7 @@
   .results-context {
     padding-left: 0;
     margin-top: 0;
-    margin-bottom: 4px;
-  }
-
-  .results-context-description {
-    color: $color-text-secondary;
-    margin-bottom: 12px;
+    margin-bottom: 24px;
   }
 
   #results-section {
@@ -565,6 +560,35 @@
       .core-sidebar-items {
         flex-direction: column;
       }      
+    }
+  }
+}
+
+// RESULTS LIST NLS ALERT
+aside.nls-alert {
+  margin-bottom: 40px;
+  display: flex;
+  gap: 6px;
+
+  i {
+    color: $color-magenta-500;
+    margin-top: 2px;
+  }
+
+  p {
+    font-weight: $fw-medium;
+    line-height: 1.35;
+
+    a {
+      padding-left: 8px;
+      font-weight: $fw-normal;
+      font-size: 1.4rem;
+      color: $color-text-secondary;
+      text-decoration-color: $color-gray-300;
+
+      &:hover {
+        text-decoration-color: $color-text-secondary;
+      }
     }
   }
 }
