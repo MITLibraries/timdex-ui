@@ -271,9 +271,66 @@
   padding-top: 16px;
   padding-bottom: 8px;
   display: flex;
+  justify-content: space-between;
   gap: 24px;
 
   a {
     @include searchUnderlinedLinks();
   }
+
+  .semantic-search-toggle {
+    display: flex;
+    gap: 6px;
+
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      @include searchUnderlinedLinks();
+
+      &::before {
+        background-color: $color-gray-800;
+        color: $color-text-oncolor;
+        font-size: 1.1rem;
+        font-weight: $fw-bold;
+        letter-spacing: 0.08em;
+        padding: 5px 8px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-right: 8px;
+    }
+    }
+    
+    a {
+      color: $color-gray-400;
+      font-weight: $fw-normal;
+      text-decoration-color: $color-gray-700;
+
+      &:hover {
+        color: $color-gray-300;
+        text-decoration-color: $color-gray-400;
+      }
+    }
+
+    &.toggled-on {
+      button::before {
+        background-color: $color-magenta-700;
+        content: "ON";
+      }
+    }
+
+    &.toggled-off {
+      button::before {
+        content: "OFF";
+      }
+    }    
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 12px;
+  }
 }
+
+
+

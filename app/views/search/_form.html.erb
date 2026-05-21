@@ -9,8 +9,12 @@
     <input id="tab-to-target" type="hidden" name="tab" value="<%= @active_tab %>">
     <button type="submit" class="btn button-primary">Search</button>
   </div>
-  <div class="search-actions"  data-matomo-click="Search, Advanced Search Engaged, Tab: {{getActiveTabName}}">
-    <a href="https://libraries.mit.edu/search-advanced">Advanced search</a>
+  <div class="search-actions">
+    <a href="https://libraries.mit.edu/search-advanced" data-matomo-click="Search, Advanced Search Engaged, Tab: {{getActiveTabName}}">Advanced search</a>
+    <div class="semantic-search-toggle toggled-off" data-matomo-seen="Semantic Search Toggle, Seen by user, Tab: {{getActiveTabName}}">
+      <button type="button" data-matomo-click="Semantic Search Toggle, Toggle Clicked, Was: {{getToggleState}}">Natural language search</button>
+      <a href="#" data-matomo-click="Semantic Search Toggle, Learn more Clicked, Tab: {{getActiveTabName}}">Learn more</a>
+    </div>
   </div>
 </form>
 

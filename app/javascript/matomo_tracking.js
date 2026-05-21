@@ -275,6 +275,25 @@ function getCurrentResultsPage() {
 }
 
 // ---------------------------------------------------------------------------
+// Get the toggle state from the nearest .semantic-search-toggle ancestor.
+// Reads the ::before pseudo-element content and returns "ON" or "OFF".
+// Returns an empty string if the toggle element is not found.
+// ---------------------------------------------------------------------------
+function getToggleState(el) {
+  // Walk up from the triggered element to find the semantic-search-toggle container,
+  // then select the button inside it. Optional chaining (?.) ensures safe traversal.
+  const button = el?.closest('.semantic-search-toggle')?.querySelector('button');
+  
+  // Extract content property from the ::before pseudo-element's computed styles.
+  // CSS content values include quotes (e.g., "ON"), so we default to empty string if no button.
+  const beforeContent = button ? window.getComputedStyle(button, '::before').content : '';
+  
+  // Remove surrounding quotes (both " and ') and trim whitespace.
+  // Result: "ON" becomes ON, "OFF" becomes OFF, '' stays ''.
+  return beforeContent.replace(/["']/g, '').trim();
+}
+
+// ---------------------------------------------------------------------------
 // Register helpers on window.MatomoHelpers so they can be referenced with the
 // {{functionName}} syntax in data-matomo-seen and data-matomo-click attributes.
 // Add new helpers here as needed.
@@ -283,4 +302,5 @@ window.MatomoHelpers = {
   getActiveTabName,
   getElementText,
   getCurrentResultsPage,
+  getToggleState,
 };
