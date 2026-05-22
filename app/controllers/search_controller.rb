@@ -16,7 +16,7 @@ class SearchController < ApplicationController
     # inject session preference for boolean type if it is present
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
-    # inject queryMode from cookie if not provided in URL params
+    # inject hybrid queryMode if opted-in and no queryMode param provided
     params[:queryMode] = 'hybrid' if params[:queryMode].blank? && cookies[:natural_language_search_optin] == 'true'
 
     @enhanced_query = Enhancer.new(params).enhanced_query

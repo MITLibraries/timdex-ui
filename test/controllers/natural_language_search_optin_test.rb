@@ -85,6 +85,12 @@ class NaturalLanguageSearchOptinTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
+  test 'external URLs redirect to route' do
+    get '/natural_language_search_optin?natural_language_search_optin=true&return_to=https://example.com/evil'
+    assert_response :redirect
+    assert_redirected_to root_path
+  end
+
   test 'toggle shows toggled-off by default (no cookie)' do
     mock_timdex_success
     get '/results?q=test&tab=timdex'
@@ -240,7 +246,7 @@ class NaturalLanguageSearchOptinTest < ActionDispatch::IntegrationTest
     assert_select 'aside.nls-alert', count: 0
   end
 
-  test 'warning does not show on articles tab when opted-out' do
+  test 'warning does not show on cdi tab when opted-out' do
     get '/natural_language_search_optin?natural_language_search_optin=false'
 
     mock_primo_success
@@ -250,7 +256,7 @@ class NaturalLanguageSearchOptinTest < ActionDispatch::IntegrationTest
     assert_select 'aside.nls-alert', count: 0
   end
 
-  test 'warning does not show on articles tab with no opt-in cookie' do
+  test 'warning does not show on cdi tab with no opt-in cookie' do
     mock_primo_success
     get '/results?q=test&tab=cdi'
 
