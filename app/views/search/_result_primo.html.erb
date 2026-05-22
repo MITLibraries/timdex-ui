@@ -1,7 +1,7 @@
 <li class="result primo" data-record-id="<%= result[:identifier] %>" data-matomo-seen="Results, Result Seen, Tab: {{getActiveTabName}}" data-track-content data-content-name="Result">
   <div class="result-content">
-    <% if result[:format].present? %>
-      <p class="eyebrow"><%= result[:format] %></p>
+    <% if result[:eyebrow].present? %>
+      <p class="eyebrow"><%= result[:eyebrow] %></p>
     <% end %>
     <h3 class="record-title">
       <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
@@ -43,7 +43,7 @@
           </ul>
         <% end %>
 
-        <p class="result-source"><strong>Source: </strong><%= result[:eyebrow] %></p>
+        <p class="result-source">Source: <%= result[:source] %></p>
 
         <% if result[:citation].present? %>
           <div class="result-container">

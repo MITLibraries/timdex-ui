@@ -43,7 +43,9 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
   test 'normalizes source' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    assert_equal 'Primo', normalized[:source]
+    url = 'https://mit.primo.exlibrisgroup.com/discovery/search?vid=01MIT_INST:MIT&lang=en'
+    expected = "<a href=\"#{url}\">Articles, Books & More</a>"
+    assert_equal expected, normalized[:source]
   end
 
   test 'normalizes year' do
@@ -500,15 +502,15 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
   end
 
   # Test eyebrow mapping
-  test 'sets eyebrow to MIT Libraries Catalog for Alma records' do
+  test 'sets eyebrow to book for books' do
     normalized = NormalizePrimoRecord.new(alma_record, 'test').normalize
-    assert_equal 'MIT Libraries Catalog', normalized[:eyebrow]
+    assert_equal 'Book', normalized[:eyebrow]
     assert_includes normalized.keys, :eyebrow
   end
 
-  test 'sets eyebrow to MIT Libraries Catalog: Articles for CDI records' do
+  test 'sets eyebrow to article for articles' do
     normalized = NormalizePrimoRecord.new(cdi_record, 'test').normalize
-    assert_equal 'MIT Libraries Catalog: Articles', normalized[:eyebrow]
+    assert_equal 'Article', normalized[:eyebrow]
     assert_includes normalized.keys, :eyebrow
   end
 
@@ -517,7 +519,7 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     record = minimal_record.dup
     record.delete('recordid')
     normalized = NormalizePrimoRecord.new(record, 'test').normalize
-    assert_equal 'MIT Libraries Catalog: Articles', normalized[:eyebrow]
+    assert_equal 'Unknown format', normalized[:eyebrow]
     assert_includes normalized.keys, :eyebrow
   end
 end

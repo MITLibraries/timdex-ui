@@ -66,26 +66,30 @@ class NormalizeTimdexRecord
       .map { |creator| { 'value' => creator['value'], 'link' => nil } }
   end
 
-  # Maps sources to user friendly strings
   def eyebrow
-    case source
-    when 'DSpace@MIT'
-      'DSpace@MIT (MIT Research)'
-    when 'LibGuides'
-      'MIT Libraries Website: Guides'
-    when 'OpenGeoMetadata GIS Resources'
-      'Non-MIT GeoSpatial Data'
-    when 'MIT GIS Resources'
-      'MIT GeoSpatial Data'
-    else
-      source
-    end
+    format
   end
 
+  # Maps sources to user friendly strings with links to source systems
   def source
     return 'Unknown source' unless @record['source']
 
-    @record['source']
+    case @record['source']
+    when 'DSpace@MIT'
+      '<a href="https://dspace.mit.edu/">MIT Open Scholarship (DSpace@MIT)</a>'.html_safe
+    when 'LibGuides'
+      '<a href="https://libguides.mit.edu/">Research Guides</a>'.html_safe
+    when 'OpenGeoMetadata GIS Resources'
+      '<a href="https://opengeometadata.org/">Open Geospatial Consortium</a>'.html_safe
+    when 'MIT GIS Resources'
+      '<a href="https://geodata.libraries.mit.edu/">MIT Geospatial Data</a>'.html_safe
+    when 'Research Databases'
+      '<a href="https://libguides.mit.edu/az/databases">Research Databases</a>'.html_safe
+    when 'MIT Libraries Website'
+      '<a href="https://libraries.mit.edu/">Library Website</a>'.html_safe
+    else
+      @record['source']
+    end
   end
 
   def year
@@ -104,7 +108,7 @@ class NormalizeTimdexRecord
 
   # This is the same as the content_type field below.
   def format
-    return '' unless @record['contentType']
+    return 'Unknown format' unless @record['contentType']
 
     @record['contentType']&.map { |term| Vocabularies::Format.lookup(term) }&.join(' ; ')
   end

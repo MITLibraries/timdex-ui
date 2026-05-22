@@ -94,7 +94,7 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
     record_without_format = minimal_record.dup
     record_without_format.delete('contentType')
     normalized = NormalizeTimdexRecord.new(record_without_format, 'test').normalize
-    assert_empty normalized[:format]
+    assert_equal 'Unknown format', normalized[:format]
   end
 
   test 'normalizes links from source link' do
@@ -240,43 +240,60 @@ class NormalizeTimdexRecordTest < ActiveSupport::TestCase
   end
 
   # Test eyebrow mapping
-  test 'maps DSpace@MIT source to eyebrow label' do
+  test 'maps DSpace@MIT source to source' do
     record = full_record.dup
     record['source'] = 'DSpace@MIT'
     normalized = NormalizeTimdexRecord.new(record, 'test').normalize
-    assert_equal 'DSpace@MIT (MIT Research)', normalized[:eyebrow]
+    assert_equal '<a href="https://dspace.mit.edu/">MIT Open Scholarship (DSpace@MIT)</a>', normalized[:source]
     assert_includes normalized.keys, :eyebrow
   end
 
-  test 'maps LibGuides source to eyebrow label' do
+  test 'maps LibGuides source to source' do
     record = full_record.dup
     record['source'] = 'LibGuides'
     normalized = NormalizeTimdexRecord.new(record, 'test').normalize
-    assert_equal 'MIT Libraries Website: Guides', normalized[:eyebrow]
+    assert_equal '<a href="https://libguides.mit.edu/">Research Guides</a>', normalized[:source]
     assert_includes normalized.keys, :eyebrow
   end
 
-  test 'maps OpenGeoMetadata GIS Resources source to eyebrow label' do
+  test 'maps research databases source to source' do
     record = full_record.dup
-    record['source'] = 'OpenGeoMetadata GIS Resources'
+    record['source'] = 'Research Databases'
     normalized = NormalizeTimdexRecord.new(record, 'test').normalize
-    assert_equal 'Non-MIT GeoSpatial Data', normalized[:eyebrow]
+    assert_equal '<a href="https://libguides.mit.edu/az/databases">Research Databases</a>', normalized[:source]
     assert_includes normalized.keys, :eyebrow
   end
 
-  test 'maps MIT GIS Resources source to eyebrow label' do
+  test 'maps website source to source' do
+    record = full_record.dup
+    record['source'] = 'MIT Libraries Website'
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal '<a href="https://libraries.mit.edu/">Library Website</a>', normalized[:source]
+    assert_includes normalized.keys, :eyebrow
+  end
+
+  test 'maps content_type to eyebrow label' do
+    record = full_record.dup
+    record['contentType'] = ['Lines, Polygons, and Points']
+    normalized = NormalizeTimdexRecord.new(record, 'test').normalize
+    assert_equal 'Lines, polygons, and points', normalized[:eyebrow]
+    assert_includes normalized.keys, :eyebrow
+  end
+
+  test 'maps MIT GIS Resources source to source' do
     record = full_record.dup
     record['source'] = 'MIT GIS Resources'
     normalized = NormalizeTimdexRecord.new(record, 'test').normalize
-    assert_equal 'MIT GeoSpatial Data', normalized[:eyebrow]
+    assert_equal '<a href="https://geodata.libraries.mit.edu/">MIT Geospatial Data</a>',
+                 normalized[:source]
     assert_includes normalized.keys, :eyebrow
   end
 
-  test 'uses source value as eyebrow for unmapped sources' do
+  test 'uses Unknown format as eyebrow for empty contentType' do
     record = full_record.dup
-    record['source'] = 'Custom Repository'
+    record['contentType'] = nil
     normalized = NormalizeTimdexRecord.new(record, 'test').normalize
-    assert_equal 'Custom Repository', normalized[:eyebrow]
+    assert_equal 'Unknown format', normalized[:eyebrow]
     assert_includes normalized.keys, :eyebrow
   end
 end
