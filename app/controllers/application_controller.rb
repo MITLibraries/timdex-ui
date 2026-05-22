@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   helper Mitlibraries::Theme::Engine.helpers
 
+  before_action :set_natural_language_search_optin
+
   # Set active tab based on params (no persistent cookie). This intentionally
   # avoids storing the user's last-used tab in a cookie per UXWS request.
   def set_active_tab
@@ -30,5 +32,9 @@ class ApplicationController < ActionController::Base
 
   def valid_tab?(tab)
     all_tabs.include?(tab)
+  end
+
+  def set_natural_language_search_optin
+    @natural_language_search_optin = cookies[:natural_language_search_optin] == 'true'
   end
 end

@@ -16,7 +16,11 @@ class SearchController < ApplicationController
     # inject session preference for boolean type if it is present
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
+    # inject hybrid queryMode if opted-in and no queryMode param provided
+    params[:queryMode] = 'hybrid' if params[:queryMode].blank? && cookies[:natural_language_search_optin] == 'true'
+
     @enhanced_query = Enhancer.new(params).enhanced_query
+    @show_nls_warning = show_nls_warning?
 
     # Load GeoData results if applicable
     if Feature.enabled?(:geodata)
@@ -441,5 +445,11 @@ class SearchController < ApplicationController
     return true if ActiveSupport::SecurityUtils.secure_compare(params[:format_token], ENV.fetch('FORMAT_TOKEN', ''))
 
     false
+  end
+
+  # show_nls_warning? determines if the user should see a warning that results are not using natural language search.
+  # Shows when: user is opted-in AND viewing a Primo-only tab (which only supports keyword search).
+  def show_nls_warning?
+    @natural_language_search_optin && primo_tabs.include?(@active_tab)
   end
 end

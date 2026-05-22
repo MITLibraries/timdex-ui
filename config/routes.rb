@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get 'style-guide', to: 'static#style_guide'
 
   get 'boolpref', to: 'static#boolpref'
+  get 'natural_language_search_optin', to: 'static#natural_language_search_optin'
 
   get 'robots.txt', to: 'robots#robots'
 end
