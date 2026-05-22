@@ -43,7 +43,13 @@
           </ul>
         <% end %>
 
-        <p class="result-source">Source: <%= result[:source] %></p>
+        <p class="result-source">Source:
+          <% if result[:source_url].present? %>
+            <%= link_to result[:source], result[:source_url] %>
+          <% else %>
+            <%= result[:source] %>
+          <% end %>
+        </p>
 
         <% if result[:citation].present? %>
           <div class="result-container">

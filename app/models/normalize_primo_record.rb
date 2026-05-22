@@ -13,6 +13,7 @@ class NormalizePrimoRecord
       creators:,
       eyebrow:,
       source:,
+      source_url:,
       year:,
       format:,
       links:,
@@ -72,10 +73,13 @@ class NormalizePrimoRecord
     format || 'Unknown format'
   end
 
-  # Provides user friendly string based and link into Primo UI
+  # Provides user friendly label and link into Primo UI
   def source
-    url = 'https://mit.primo.exlibrisgroup.com/discovery/search?vid=01MIT_INST:MIT&lang=en'
-    "<a href=\"#{url}\">Articles, Books & More</a>".html_safe
+    'Articles, Books & More'
+  end
+
+  def source_url
+    "#{ENV.fetch('MIT_PRIMO_URL')}/discovery/search?vid=#{ENV.fetch('PRIMO_VID')}&lang=en"
   end
 
   def year

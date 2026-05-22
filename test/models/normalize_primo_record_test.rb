@@ -43,9 +43,9 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
 
   test 'normalizes source' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    url = 'https://mit.primo.exlibrisgroup.com/discovery/search?vid=01MIT_INST:MIT&lang=en'
-    expected = "<a href=\"#{url}\">Articles, Books & More</a>"
-    assert_equal expected, normalized[:source]
+    assert_equal 'Articles, Books & More', normalized[:source]
+    expected_url = "#{ENV.fetch('MIT_PRIMO_URL')}/discovery/search?vid=#{ENV.fetch('PRIMO_VID')}&lang=en"
+    assert_equal expected_url, normalized[:source_url]
   end
 
   test 'normalizes year' do
@@ -515,9 +515,8 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
   end
 
   # This really should never happen, but this test confirms things don't break if it does
-  test 'sets eyebrow to MIT Libraries Catalog: Articles when identifier is missing' do
+  test 'missing pnx.display.type results in Unknown format' do
     record = minimal_record.dup
-    record.delete('recordid')
     normalized = NormalizePrimoRecord.new(record, 'test').normalize
     assert_equal 'Unknown format', normalized[:eyebrow]
     assert_includes normalized.keys, :eyebrow

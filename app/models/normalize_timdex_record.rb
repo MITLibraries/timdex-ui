@@ -1,5 +1,19 @@
 # Transforms a TIMDEX result into a normalized record.
 class NormalizeTimdexRecord
+  # Maps raw TIMDEX source names to [display_name, url] pairs.
+  # Add new sources here — both fields stay in sync automatically.
+  SOURCES = {
+    'DSpace@MIT' => ['MIT Open Scholarship (DSpace@MIT)', 'https://dspace.mit.edu/'],
+    'LibGuides' => ['Research Guides', 'https://libguides.mit.edu/'],
+    'MIT ArchivesSpace' => ['Archives & Manuscripts', 'https://archivesspace.mit.edu'],
+    'OpenGeoMetadata GIS Resources' => ['Open Geospatial Consortium', 'https://opengeometadata.org/'],
+    'MIT GIS Resources' => ['MIT Geospatial Data', 'https://geodata.libraries.mit.edu/'],
+    'Research Databases' => ['Research Databases', 'https://libguides.mit.edu/az/databases'],
+    'MIT Libraries Website' => ['Library Website', 'https://libraries.mit.edu/'],
+    'MIT Alma' => ['MIT Libraries Catalog',
+                   "#{ENV.fetch('MIT_PRIMO_URL')}/discovery/search?vid=#{ENV.fetch('PRIMO_VID')}&lang=en"]
+  }.freeze
+
   def initialize(record, query)
     @record = record
     @query = query
@@ -13,6 +27,7 @@ class NormalizeTimdexRecord
       creators:,
       eyebrow:,
       source:,
+      source_url:,
       year:,
       format:,
       links:,
@@ -38,7 +53,7 @@ class NormalizeTimdexRecord
     title = @record['title'] || 'Unknown title'
 
     # The collection identifier is important for ASpace records so we append it to the title
-    return title unless source == 'MIT ArchivesSpace'
+    return title unless @record['source'] == 'MIT ArchivesSpace'
 
     title += " (#{aspace_collection(@record['identifiers'])})"
   end
@@ -70,26 +85,16 @@ class NormalizeTimdexRecord
     format
   end
 
-  # Maps sources to user friendly strings with links to source systems
+  # Maps sources to user friendly display names
   def source
     return 'Unknown source' unless @record['source']
 
-    case @record['source']
-    when 'DSpace@MIT'
-      '<a href="https://dspace.mit.edu/">MIT Open Scholarship (DSpace@MIT)</a>'.html_safe
-    when 'LibGuides'
-      '<a href="https://libguides.mit.edu/">Research Guides</a>'.html_safe
-    when 'OpenGeoMetadata GIS Resources'
-      '<a href="https://opengeometadata.org/">Open Geospatial Consortium</a>'.html_safe
-    when 'MIT GIS Resources'
-      '<a href="https://geodata.libraries.mit.edu/">MIT Geospatial Data</a>'.html_safe
-    when 'Research Databases'
-      '<a href="https://libguides.mit.edu/az/databases">Research Databases</a>'.html_safe
-    when 'MIT Libraries Website'
-      '<a href="https://libraries.mit.edu/">Library Website</a>'.html_safe
-    else
-      @record['source']
-    end
+    SOURCES.fetch(@record['source'], [@record['source']]).first
+  end
+
+  # Returns the URL for the source system, or nil if not mapped
+  def source_url
+    SOURCES[@record['source']]&.last
   end
 
   def year
@@ -106,7 +111,8 @@ class NormalizeTimdexRecord
     end
   end
 
-  # This is the same as the content_type field below.
+  # This is used in eyebrows and is similar to content_type but returns a default string if contentType is missing.
+  # This difference allows us to always have an eyebrow.
   def format
     return 'Unknown format' unless @record['contentType']
 
@@ -164,7 +170,7 @@ class NormalizeTimdexRecord
 
   # TIMDEX-specific methods
 
-  # This is the same as the format field above.
+  # This is similar to the format field above, but does not return a default string if contentType is missing.
   def content_type
     @record['contentType']&.map { |term| Vocabularies::Format.lookup(term) }&.join(' ; ')
   end
