@@ -7,6 +7,7 @@ module Vocabularies
       'bkse' => 'eBook',
       'book_chapter' => 'Book Chapter',
       'conference_proceeding' => 'Conference Proceeding',
+      'libguide' => 'Research Guide',
       'magazinearticle' => 'Magazine Article',
       'newsletterarticle' => 'Newsletter Article',
       'reference_entry' => 'Reference Entry',

@@ -13,6 +13,7 @@ class NormalizePrimoRecord
       creators:,
       eyebrow:,
       source:,
+      source_url:,
       year:,
       format:,
       links:,
@@ -68,17 +69,17 @@ class NormalizePrimoRecord
     author_list.uniq
   end
 
-  # Provides user friendly string based on whether the record is Alma or not-Alma (CDI)
   def eyebrow
-    if alma_record?
-      'MIT Libraries Catalog'
-    else
-      'MIT Libraries Catalog: Articles'
-    end
+    format || 'Unknown format'
   end
 
+  # Provides user friendly label and link into Primo UI
   def source
-    'Primo'
+    'Articles, Books & More'
+  end
+
+  def source_url
+    "#{ENV.fetch('MIT_PRIMO_URL')}/discovery/search?vid=#{ENV.fetch('PRIMO_VID')}&lang=en"
   end
 
   def year
