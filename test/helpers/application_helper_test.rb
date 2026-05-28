@@ -81,7 +81,7 @@ class ApplicationHelperTest < ActionView::TestCase
     ClimateControl.modify PLATFORM_NAME: 'GeoData' do
       query = { q: 'foo' }
       record = { 'title' => 'bar' }
-      assert_equal 'Search GeoData | MIT Libraries', index_page_title
+      assert_equal 'GeoData', index_page_title
       assert_equal 'foo | GeoData | MIT Libraries', results_page_title(query)
       assert_equal 'bar | GeoData | MIT Libraries', record_page_title(record)
     end

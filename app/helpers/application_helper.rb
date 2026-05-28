@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def index_page_title
-    ENV.fetch('PLATFORM_NAME', nil) ? "Search #{ENV.fetch('PLATFORM_NAME')} | MIT Libraries" : 'Search | MIT Libraries'
+    ENV.fetch('PLATFORM_NAME', nil) ? ENV.fetch('PLATFORM_NAME') : 'Search | MIT Libraries'
   end
 
   def results_page_title(query, character_limit = 50)
