@@ -12,11 +12,12 @@ http_interactions:
         String!, $geodistanceLatitude: Float!, $geodistanceLongitude: Float!, $contentTypeFilter:
         [String!], $contributorsFilter: [String!], $formatFilter: [String!], $languagesFilter:
         [String!], $literaryFormFilter: String, $sourceFilter: [String!], $subjectsFilter:
-        [String!]) {\n  search(searchterm: $q, citation: $citation, contributors:
-        $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
-        locations: $locations, subjects: $subjects, title: $title, index: $index,
-        from: $from, booleanType: $booleanType, geodistance: {distance: $geodistanceDistance,
-        latitude: $geodistanceLatitude, longitude: $geodistanceLongitude}, accessToFilesFilter:
+        [String!], $useGlobalScoring: Boolean) {\n  search(searchterm: $q, citation:
+        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
+        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
+        $title, index: $index, from: $from, booleanType: $booleanType, useGlobalScoring:
+        $useGlobalScoring, geodistance: {distance: $geodistanceDistance, latitude:
+        $geodistanceLatitude, longitude: $geodistanceLongitude}, accessToFilesFilter:
         $accessToFilesFilter, contentTypeFilter: $contentTypeFilter, contributorsFilter:
         $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
         literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter:
@@ -29,7 +30,7 @@ http_interactions:
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
         {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
         {\n        key\n        docCount\n      }\n      source {\n        key\n        docCount\n      }\n      subjects
-        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geodistance":"true","booleanType":"AND","geodistanceLatitude":-90.0,"geodistanceLongitude":-43.33,"geodistanceDistance":"50mi","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__GeodistanceQuery"}'
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geodistance":"true","booleanType":"AND","geodistanceLatitude":-90.0,"geodistanceLongitude":-43.33,"geodistanceDistance":"50mi","index":"FAKE_TIMDEX_INDEX","useGlobalScoring":false},"operationName":"TimdexSearch__GeodistanceQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -57,9 +58,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=vRGcK1zgODBH8CY0smRldQUg2%2Bx0RsZubqw9W97pYP8%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765382453"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=h7iX%2Fr8cAWnfZNHy08nJE27s1edufto8q%2FtWFKPj5Eo%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1779971819"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=vRGcK1zgODBH8CY0smRldQUg2%2Bx0RsZubqw9W97pYP8%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765382453"
+      - heroku-nel="https://nel.heroku.com/reports?s=h7iX%2Fr8cAWnfZNHy08nJE27s1edufto8q%2FtWFKPj5Eo%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1779971819"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -75,13 +76,13 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 826e56b5-55d4-afb6-1078-5188dab157e1
+      - dbf3a025-acf8-467e-6fd9-9c70b1147d57
       X-Runtime:
-      - '0.131928'
+      - '0.093749'
       X-Xss-Protection:
       - '0'
       Date:
-      - Wed, 10 Dec 2025 16:00:53 GMT
+      - Thu, 28 May 2026 12:36:59 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":1682,"records":[{"timdexRecordId":"gisogm:edu.stanford.purl:9f63065f1c9e","title":"Points
@@ -499,5 +500,5 @@ http_interactions:
         gis resources","docCount":1667},{"key":"mit gis resources","docCount":15}],"subjects":[{"key":"datasets","docCount":1391},{"key":"earth
         (planet)","docCount":1243},{"key":"imagery and base maps","docCount":1130},{"key":"farming","docCount":1099},{"key":"crop
         yields","docCount":572},{"key":"harvesting","docCount":525},{"key":"census","docCount":351},{"key":"boundaries","docCount":286},{"key":"society","docCount":214},{"key":"other","docCount":200}]}}}}'
-  recorded_at: Wed, 10 Dec 2025 16:00:53 GMT
-recorded_with: VCR 6.3.1
+  recorded_at: Thu, 28 May 2026 12:36:59 GMT
+recorded_with: VCR 6.4.0

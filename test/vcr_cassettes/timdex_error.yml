@@ -12,7 +12,7 @@ http_interactions:
         Int, $accessToFilesFilter: [String!], $contentTypeFilter: [String!], $contributorsFilter:
         [String!], $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
         String, $placesFilter: [String!], $sourceFilter: [String!], $subjectsFilter:
-        [String!]) {\n  search(searchterm: $q, citation: $citation, contributors:
+        [String!], $useGlobalScoring: Boolean) {\n  search(searchterm: $q, citation: $citation, contributors:
         $contributors, fundingInformation: $fundingInformation, identifiers: $identifiers,
         locations: $locations, subjects: $subjects, title: $title, index: $index,
         from: $from, booleanType: $booleanType, queryMode: $queryMode, fulltext: $fulltext,
@@ -20,7 +20,7 @@ http_interactions:
         $contentTypeFilter, contributorsFilter: $contributorsFilter, formatFilter:
         $formatFilter, languagesFilter: $languagesFilter, literaryFormFilter: $literaryFormFilter,
         placesFilter: $placesFilter, sourceFilter: $sourceFilter, subjectsFilter:
-        $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      identifiers
+        $subjectsFilter, useGlobalScoring: $useGlobalScoring) {\n    hits\n    records {\n      timdexRecordId\n      identifiers
         {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n        range {\n          gte\n          lte\n        }\n      }\n      links
@@ -32,7 +32,7 @@ http_interactions:
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
         {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
         {\n        key\n        docCount\n      }\n      places {\n        key\n        docCount\n      }\n      source
-        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"poverty","booleanType":"AND","queryMode":"keyword","index":"FAKE_TIMDEX_INDEX","perPage":20,"fulltext":true},"operationName":"TimdexSearch__BaseQuery"}'
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"poverty","booleanType":"AND","queryMode":"keyword","index":"FAKE_TIMDEX_INDEX","perPage":20,"fulltext":true,"useGlobalScoring":false},"operationName":"TimdexSearch__BaseQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3

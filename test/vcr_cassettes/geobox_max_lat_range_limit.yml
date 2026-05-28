@@ -12,16 +12,17 @@ http_interactions:
         Float!, $geoboxMaxLatitude: Float!, $geoboxMaxLongitude: Float!, $accessToFilesFilter:
         [String!], $contentTypeFilter: [String!], $contributorsFilter: [String!],
         $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
-        String, $sourceFilter: [String!], $subjectsFilter: [String!]) {\n  search(searchterm:
-        $q, citation: $citation, contributors: $contributors, fundingInformation:
-        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
-        $subjects, title: $title, index: $index, from: $from, booleanType: $booleanType,
-        geobox: {minLongitude: $geoboxMinLongitude, minLatitude: $geoboxMinLatitude,
-        maxLongitude: $geoboxMaxLongitude, maxLatitude: $geoboxMaxLatitude}, accessToFilesFilter:
-        $accessToFilesFilter, contentTypeFilter: $contentTypeFilter, contributorsFilter:
-        $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
-        literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter:
-        $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      source\n      contentType\n      contributors
+        String, $sourceFilter: [String!], $subjectsFilter: [String!], $useGlobalScoring:
+        Boolean) {\n  search(searchterm: $q, citation: $citation, contributors: $contributors,
+        fundingInformation: $fundingInformation, identifiers: $identifiers, locations:
+        $locations, subjects: $subjects, title: $title, index: $index, from: $from,
+        booleanType: $booleanType, useGlobalScoring: $useGlobalScoring, geobox: {minLongitude:
+        $geoboxMinLongitude, minLatitude: $geoboxMinLatitude, maxLongitude: $geoboxMaxLongitude,
+        maxLatitude: $geoboxMaxLatitude}, accessToFilesFilter: $accessToFilesFilter,
+        contentTypeFilter: $contentTypeFilter, contributorsFilter: $contributorsFilter,
+        formatFilter: $formatFilter, languagesFilter: $languagesFilter, literaryFormFilter:
+        $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter)
+        {\n    hits\n    records {\n      timdexRecordId\n      title\n      source\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      links {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
         {\n        kind\n        value\n      }\n      highlight {\n        matchedField\n        matchedPhrases\n      }\n      provider\n      rights
@@ -30,7 +31,7 @@ http_interactions:
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
         {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
         {\n        key\n        docCount\n      }\n      source {\n        key\n        docCount\n      }\n      subjects
-        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geobox":"true","booleanType":"AND","geoboxMinLongitude":45.0,"geoboxMinLatitude":40.024,"geoboxMaxLongitude":23.997,"geoboxMaxLatitude":90.0,"index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__GeoboxQuery"}'
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geobox":"true","booleanType":"AND","geoboxMinLongitude":45.0,"geoboxMinLatitude":40.024,"geoboxMaxLongitude":23.997,"geoboxMaxLatitude":90.0,"index":"FAKE_TIMDEX_INDEX","useGlobalScoring":false},"operationName":"TimdexSearch__GeoboxQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -48,19 +49,19 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       Content-Length:
-      - '33513'
+      - '32557'
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"764a94f998ec596e65e351ca32195741"
+      - W/"67c975c78564c7359f6d28321ad555ea"
       Nel:
       - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=1wmW7kvayeIRae45weNeMZoz%2BfcpLFPXEDfeGa2fUHA%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765382451"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=RQfXKTE99IsMNtktn7326sLz32Buvsko%2FtWEgBY2osE%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1779971821"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=1wmW7kvayeIRae45weNeMZoz%2BfcpLFPXEDfeGa2fUHA%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765382451"
+      - heroku-nel="https://nel.heroku.com/reports?s=RQfXKTE99IsMNtktn7326sLz32Buvsko%2FtWEgBY2osE%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1779971821"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -76,13 +77,13 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - a3e92735-e7b6-b360-c56a-d73218a8ff23
+      - 03d07523-cf22-341c-45e6-a9a2b229bdbe
       X-Runtime:
-      - '0.441717'
+      - '0.469131'
       X-Xss-Protection:
       - '0'
       Date:
-      - Wed, 10 Dec 2025 16:00:51 GMT
+      - Thu, 28 May 2026 12:37:01 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":10000,"records":[{"timdexRecordId":"gisogm:edu.stanford.purl:0ef27ac20958","title":"Heat
@@ -291,82 +292,70 @@ http_interactions:
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
         to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/41E0C8A6-FEE1-416C-BB6A-653A5BCBAE48","summary":["This
         data layer represents future land use for Walworth County, Wisconsin, to the
-        year 2035."]},{"timdexRecordId":"gisogm:edu.wisc:e65442aabb4f","title":"Addresses
-        Polk County, WI 2025","source":"OpenGeoMetadata GIS Resources","contentType":["Point
-        data"],"contributors":[{"kind":"Creator","value":"Polk County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2025"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/POLK_ADDRESSES_2025.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/C36B39B9-F093-4CB6-BFFB-822627E7EE71"}],"notes":null,"highlight":null,"provider":"University
+        year 2035."]},{"timdexRecordId":"gisogm:edu.wisc:435eefaef3e4","title":"Addresses
+        Barron County, WI 2026","source":"OpenGeoMetadata GIS Resources","contentType":["Point
+        data"],"contributors":[{"kind":"Creator","value":"Barron County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2026"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/BARRON_ADDRESSES_2026.zip
+        "},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/0B91C015-F2BC-4237-9C2A-A8F801E490D5"}],"notes":null,"highlight":null,"provider":"University
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
-        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/C36B39B9-F093-4CB6-BFFB-822627E7EE71","summary":["This
-        data represents addresses for Polk County, Wisconsin in 2025."]},{"timdexRecordId":"gisogm:edu.wisc:84c329c46085","title":"Hydro
-        (Polygon and Line) Polk County, WI 2025","source":"OpenGeoMetadata GIS Resources","contentType":["Mixed"],"contributors":[{"kind":"Creator","value":"Polk
-        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2025"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/POLK_HYDRO_2025.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/9123B160-939E-4860-86E1-A74D05F85499"}],"notes":null,"highlight":null,"provider":"University
+        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/0B91C015-F2BC-4237-9C2A-A8F801E490D5","summary":["This
+        data layer represents addresses for Barron County, Wisconsin in 2026."]},{"timdexRecordId":"gisogm:edu.wisc:8f37819c806a","title":"PLSS
+        Barron County, WI 2026","source":"OpenGeoMetadata GIS Resources","contentType":["Point
+        data"],"contributors":[{"kind":"Creator","value":"Barron County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2026"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/BARRON_PLSS_2026.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/3750573B-4D6A-4419-A1D2-847B306B77B0"}],"notes":null,"highlight":null,"provider":"University
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
-        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/9123B160-939E-4860-86E1-A74D05F85499","summary":["This
-        data represents hydrography for Polk County, Wisconsin in 2025 and includes
-        the layers ''POLK_HYDRO_LINE_2025'' and ''POLK_HYDRO_POLY_2025''."]},{"timdexRecordId":"gisogm:edu.wisc:be432f4c9519","title":"Parks
-        Polk County, WI 2025","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
-        data"],"contributors":[{"kind":"Creator","value":"Polk County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2025"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/POLK_PARKS_2025.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/0D6126C6-ADB9-4F1B-93BC-FF1F1C1D1C6E"}],"notes":null,"highlight":null,"provider":"University
+        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/3750573B-4D6A-4419-A1D2-847B306B77B0","summary":["This
+        data layer represents public land survey system (PLSS) corners for Barron
+        County, Wisconsin in 2026."]},{"timdexRecordId":"gisogm:edu.wisc:a6ecfd0ec022","title":"Roads
+        and ROW Barron County, WI 2026","source":"OpenGeoMetadata GIS Resources","contentType":["Mixed"],"contributors":[{"kind":"Creator","value":"Barron
+        County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2026"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/BARRON_ROADS_ROW_2026.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/EC554084-3CDB-4E5C-A00C-0DDC7EBFCC69"}],"notes":null,"highlight":null,"provider":"University
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
-        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/0D6126C6-ADB9-4F1B-93BC-FF1F1C1D1C6E","summary":["This
-        data layer represents parks for Polk County, Wisconsin in 2025."]},{"timdexRecordId":"gisogm:edu.wisc:c80485011016","title":"PLSS
-        Polk County, WI 2025","source":"OpenGeoMetadata GIS Resources","contentType":["Point
-        data"],"contributors":[{"kind":"Creator","value":"Polk County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2025"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/POLK_PLSS_2025.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/FF04AAF9-6EDB-41CD-B7C4-6E73BFB163C0"}],"notes":null,"highlight":null,"provider":"University
+        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/EC554084-3CDB-4E5C-A00C-0DDC7EBFCC69","summary":["This
+        data represents roads and Right Of Ways (ROW) for Barron County, Wisconsin
+        in 2026."]},{"timdexRecordId":"gisogm:edu.wisc:dcb5a3284368","title":"Zoning
+        (General) Barron County, WI 2026","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
+        data"],"contributors":[{"kind":"Creator","value":"Barron County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2026"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/BARRON_ZONING_2026.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/B8AB1BA9-4D15-4187-BE58-73E5854B4F34"}],"notes":null,"highlight":null,"provider":"University
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
-        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/FF04AAF9-6EDB-41CD-B7C4-6E73BFB163C0","summary":["This
-        data layer represents public land survey system (PLSS) corners for Polk County,
-        Wisconsin in 2025."]},{"timdexRecordId":"gisogm:edu.wisc:a853584a4a7a","title":"Recreation
-        Polk County, WI 2025","source":"OpenGeoMetadata GIS Resources","contentType":["Point
-        data"],"contributors":[{"kind":"Creator","value":"Polk County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2025"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/POLK_RECREATION_2025.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/FF9406A4-CB01-4E68-9B61-BC47B7D601C1"}],"notes":null,"highlight":null,"provider":"University
+        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/B8AB1BA9-4D15-4187-BE58-73E5854B4F34","summary":["This
+        data layer represents general zoning for Barron County, Wisconsin in 2026."]},{"timdexRecordId":"gisogm:edu.wisc:3d4c12e4db31","title":"Addresses
+        Forest County, WI 2026","source":"OpenGeoMetadata GIS Resources","contentType":["Point
+        data"],"contributors":[{"kind":"Creator","value":"Forest County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2026"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/FOREST_ADDRESSES_2026.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/107F853F-D760-4224-B3EF-E84CE8533130"}],"notes":null,"highlight":null,"provider":"University
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
-        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/FF9406A4-CB01-4E68-9B61-BC47B7D601C1","summary":["This
-        data represents recreation for Polk County, Wisconsin in 2025. [Location of
-        Recreation Amenities in Polk County, Wisconsin.]"]},{"timdexRecordId":"gisogm:edu.wisc:0bc5dedc4fd8","title":"Roads
-        Polk County, WI 2025","source":"OpenGeoMetadata GIS Resources","contentType":["Line
-        data"],"contributors":[{"kind":"Creator","value":"Polk County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2025"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/POLK_ROADS_2025.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/722CE966-3F73-46F6-9734-301C207FA623"}],"notes":null,"highlight":null,"provider":"University
+        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/107F853F-D760-4224-B3EF-E84CE8533130","summary":["This
+        data represents addresses for Forest County, Wisconsin in 2026."]},{"timdexRecordId":"gisogm:edu.wisc:d5611e8cf00a","title":"Building
+        Footprints Forest County, WI 2026","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
+        data"],"contributors":[{"kind":"Creator","value":"Forest County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2026"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/FOREST_BUILDINGS_2026.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/593729D6-3E65-40A1-B858-554D25637A7B"}],"notes":null,"highlight":null,"provider":"University
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
-        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/722CE966-3F73-46F6-9734-301C207FA623","summary":["This
-        data represents roads for Polk County, Wisconsin in 2025. [Centerline map
-        features of the roads within the County of Polk, Wisconsin. Each segment of
-        the road includes the road name, road type, road direction (if applicable),
-        address ranges, road code, postal community name, and zip code.The creation
-        of the Polk County RURAL NUMBERING SYSTEM (POLK COUNTY FIRE NUMBER ADDRESS
-        SYSTEM) was adopted by the Board of Supervisors of Polk County, Wisconsin
-        in 1978. Each of the 24 Towns in Polk County participates in the address and
-        road system. Each of the 12 cities and villages, within the geographic boundary
-        of Polk County, has their own address and road system.The road centerline
-        file includes address ranges per the adopted POLK COUNTY UNIFORM RURAL ADDRESSING
-        AND ROAD NUMBERING ORDINANCE and the address and road system adopted by each
-        City and Village in Polk County, Wisconsin.]"]},{"timdexRecordId":"gisogm:edu.wisc:1aac48152cd4","title":"Trails
-        Polk County, WI 2025","source":"OpenGeoMetadata GIS Resources","contentType":["Line
-        data"],"contributors":[{"kind":"Creator","value":"Polk County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2025"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/POLK_TRAILS_2025.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/F6E98013-1346-485E-882D-9D207E97A938"}],"notes":null,"highlight":null,"provider":"University
+        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/593729D6-3E65-40A1-B858-554D25637A7B","summary":["This
+        data represents building footprints for Forest County, Wisconsin in 2026."]},{"timdexRecordId":"gisogm:edu.wisc:c1ffa20685a9","title":"Roads
+        Forest County, WI 2026","source":"OpenGeoMetadata GIS Resources","contentType":["Line
+        data"],"contributors":[{"kind":"Creator","value":"Forest County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2026"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/FOREST_ROADS_2026.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/8E2B3BAF-5FEB-402D-BA47-ADC756D96628"}],"notes":null,"highlight":null,"provider":"University
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
-        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/F6E98013-1346-485E-882D-9D207E97A938","summary":["This
-        data represents trails for Polk County, Wisconsin in 2025. [To identify the
-        geographic locations of recreational trails throughout Polk County, Wisconsin.]"]},{"timdexRecordId":"gisogm:edu.wisc:006f559cbf13","title":"Zoning
-        Polk County, WI 2025","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
-        data"],"contributors":[{"kind":"Creator","value":"Polk County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2025"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/POLK_ZONING_2025.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/21684736-6F87-4A41-B7C9-E88F38147E79"}],"notes":null,"highlight":null,"provider":"University
+        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/8E2B3BAF-5FEB-402D-BA47-ADC756D96628","summary":["This
+        data represents roads for Forest County, Wisconsin in 2026."]},{"timdexRecordId":"gisogm:edu.wisc:a37f4e714d3b","title":"Zoning
+        (General) Forest County, WI 2026","source":"OpenGeoMetadata GIS Resources","contentType":["Polygon
+        data"],"contributors":[{"kind":"Creator","value":"Forest County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2026"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/FOREST_ZONING_2026.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/300A6E69-D62D-4C17-9893-B1155C4C822B"}],"notes":null,"highlight":null,"provider":"University
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
-        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/21684736-6F87-4A41-B7C9-E88F38147E79","summary":["This
-        data represents zoning for Polk County, Wisconsin in 2025 and includes the
-        layers ''POLK_GENERAL_2025'' and ''POLK_SHORELAND_2025."]},{"timdexRecordId":"gisogm:edu.wisc:92463cba6810","title":"Addresses
-        Adams County, WI 2025","source":"OpenGeoMetadata GIS Resources","contentType":["Point
-        data"],"contributors":[{"kind":"Creator","value":"Adams County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2025"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/ADAMS_ADDRESSES_2025.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/EFAD9BEF-639F-43E4-A057-A8C04F7E0CE9"}],"notes":null,"highlight":null,"provider":"University
+        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/300A6E69-D62D-4C17-9893-B1155C4C822B","summary":["This
+        data represents general zoning for Forest County, Wisconsin in 2026."]},{"timdexRecordId":"gisogm:edu.wisc:868dc611e721","title":"Addresses
+        Juneau County, WI 2026","source":"OpenGeoMetadata GIS Resources","contentType":["Point
+        data"],"contributors":[{"kind":"Creator","value":"Juneau County"}],"publicationInformation":null,"dates":[{"kind":"Coverage","value":"2026"}],"links":[{"kind":"Download","restrictions":null,"text":"Data","url":"https://web.s3.wisc.edu/rml-gisdata/JUNEAU_ADDRESSES_2026.zip"},{"kind":"Website","restrictions":null,"text":"Website","url":"https://geodata.wisc.edu/catalog/73FF1E56-A60B-409F-9AA9-AF1228C1F5A3"}],"notes":null,"highlight":null,"provider":"University
         of Wisconsin-Madison","rights":[{"kind":"Access rights","description":"Public","uri":null},{"kind":"Access
-        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/EFAD9BEF-639F-43E4-A057-A8C04F7E0CE9","summary":["This
-        data represents addresses for Adams County, Wisconsin in 2025."]}],"aggregations":{"accessToFiles":[{"key":"unknown:
-        check with owning institution","docCount":74186},{"key":"MIT authentication
+        to files","description":"unknown: check with owning institution","uri":null}],"sourceLink":"https://geodata.wisc.edu/catalog/73FF1E56-A60B-409F-9AA9-AF1228C1F5A3","summary":["This
+        data represents addresses for Juneau County, Wisconsin in 2026."]}],"aggregations":{"accessToFiles":[{"key":"unknown:
+        check with owning institution","docCount":73255},{"key":"MIT authentication
         required","docCount":770},{"key":"no authentication required","docCount":519}],"contentType":[{"key":"polygon
-        data","docCount":17703},{"key":"not specified","docCount":11143},{"key":"fire
-        insurance maps","docCount":9308},{"key":"image data","docCount":8858},{"key":"raster
-        data","docCount":8854},{"key":"point data","docCount":5513},{"key":"line data","docCount":4887},{"key":"topographic
-        maps","docCount":4449},{"key":"military maps","docCount":4072},{"key":"atlases","docCount":1263}],"contributors":[{"key":"sanborn
+        data","docCount":17819},{"key":"not specified","docCount":11143},{"key":"fire
+        insurance maps","docCount":9308},{"key":"image data","docCount":8852},{"key":"raster
+        data","docCount":7577},{"key":"point data","docCount":5637},{"key":"line data","docCount":4940},{"key":"topographic
+        maps","docCount":4476},{"key":"military maps","docCount":4072},{"key":"atlases","docCount":1263}],"contributors":[{"key":"sanborn
         fire insurance company","docCount":5607},{"key":"sanborn map company","docCount":5082},{"key":"arctic
         climate system (acsys)","docCount":3349},{"key":"united states general land
-        office","docCount":2524},{"key":"columbia university. libraries. reaseach
+        office","docCount":2518},{"key":"columbia university. libraries. reaseach
         data services.","docCount":2000},{"key":"u.s. department of commerce, bureau
         of the census, geography division","docCount":2000},{"key":"harvard map collection,
         harvard college library","docCount":1781},{"key":"boundary solutions, inc.","docCount":1514},{"key":"collins
-        bartholomew ltd","docCount":1322},{"key":"u.s. department of agriculture","docCount":1212}],"format":[{"key":"shapefile","docCount":27442},{"key":"jpeg","docCount":13632},{"key":"geotiff","docCount":12733},{"key":"pdf","docCount":8032},{"key":"tiff","docCount":7880},{"key":"mixed","docCount":1962},{"key":"mrsid","docCount":1232},{"key":"jpeg2000","docCount":342},{"key":"arcgrid","docCount":186},{"key":"las","docCount":148}],"languages":[{"key":"eng","docCount":28830},{"key":"english","docCount":27808},{"key":"rus","docCount":4085},{"key":"fra","docCount":657},{"key":"deu","docCount":498},{"key":"lat","docCount":464},{"key":"fre","docCount":221},{"key":"ita","docCount":117},{"key":"dan","docCount":115},{"key":"und","docCount":101}],"literaryForm":[],"source":[{"key":"opengeometadata
-        gis resources","docCount":74186},{"key":"mit gis resources","docCount":1289}],"subjects":[{"key":"datasets","docCount":35111},{"key":"maps","docCount":30058},{"key":"boundaries","docCount":14655},{"key":"other","docCount":12756},{"key":"transportation","docCount":11562},{"key":"oceans","docCount":7839},{"key":"society","docCount":6906},{"key":"indiana","docCount":6805},{"key":"planning
-        and cadastral","docCount":6333},{"key":"new jersey","docCount":4825}]}}}}'
-  recorded_at: Wed, 10 Dec 2025 16:00:51 GMT
-recorded_with: VCR 6.3.1
+        bartholomew ltd","docCount":1322},{"key":"university of minnesota. institute
+        on the environment","docCount":1099}],"format":[{"key":"shapefile","docCount":27765},{"key":"jpeg","docCount":13632},{"key":"geotiff","docCount":12725},{"key":"pdf","docCount":8032},{"key":"tiff","docCount":7874},{"key":"mixed","docCount":1962},{"key":"jpeg2000","docCount":271},{"key":"arcgrid","docCount":186},{"key":"las","docCount":148},{"key":"laz","docCount":103}],"languages":[{"key":"eng","docCount":28836},{"key":"english","docCount":26848},{"key":"rus","docCount":4085},{"key":"fra","docCount":662},{"key":"deu","docCount":498},{"key":"lat","docCount":464},{"key":"fre","docCount":221},{"key":"ita","docCount":117},{"key":"dan","docCount":115},{"key":"und","docCount":101}],"literaryForm":[],"source":[{"key":"opengeometadata
+        gis resources","docCount":73255},{"key":"mit gis resources","docCount":1289}],"subjects":[{"key":"datasets","docCount":34157},{"key":"maps","docCount":30087},{"key":"boundaries","docCount":14693},{"key":"other","docCount":12750},{"key":"transportation","docCount":11676},{"key":"oceans","docCount":7839},{"key":"society","docCount":7004},{"key":"indiana","docCount":6805},{"key":"planning
+        and cadastral","docCount":6438},{"key":"new jersey","docCount":4825}]}}}}'
+  recorded_at: Thu, 28 May 2026 12:37:01 GMT
+recorded_with: VCR 6.4.0
