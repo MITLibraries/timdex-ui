@@ -13,7 +13,7 @@
     <a href="https://libraries.mit.edu/search-advanced" data-matomo-click="Search, Advanced Search Engaged, Tab: {{getActiveTabName}}">Advanced search</a>
     <div class="semantic-search-toggle <%= @natural_language_search_optin ? 'toggled-on' : 'toggled-off' %>" data-controller="natural-language-search-toggle" data-matomo-seen="Semantic Search Toggle, Seen by user, Tab: {{getActiveTabName}}">
       <button type="button" aria-pressed="<%= @natural_language_search_optin %>" data-action="click->natural-language-search-toggle#toggle" data-matomo-click="Semantic Search Toggle, Toggle Clicked, Was: {{getToggleState}}">Natural language search</button>
-      <a href="#" data-matomo-click="Semantic Search Toggle, Learn more Clicked, Tab: {{getActiveTabName}}">Learn more</a>
+      <%= link_to "Learn more", about_natural_language_search_path, data: { matomo_click: "Semantic Search Toggle, Learn more Clicked, Tab: {{getActiveTabName}}" } %>
     </div>
   </div>
 </form>
