@@ -11,7 +11,7 @@ class NormalizeTimdexRecord
     'Research Databases' => ['Research Databases', 'https://libguides.mit.edu/az/databases'],
     'MIT Libraries Website' => ['Library Website', 'https://libraries.mit.edu/'],
     'MIT Alma' => ['MIT Libraries Catalog',
-                   "#{ENV.fetch('MIT_PRIMO_URL')}/discovery/search?vid=#{ENV.fetch('PRIMO_VID')}&lang=en"]
+                   "#{ENV.fetch('MIT_PRIMO_URL', nil)}/discovery/search?vid=#{ENV.fetch('PRIMO_VID', nil)}&lang=en"]
   }.freeze
 
   def initialize(record, query)
