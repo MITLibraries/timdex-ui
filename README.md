@@ -100,6 +100,7 @@ See `Optional Environment Variables` for more information.
 - `FEATURE_GEODATA`: Enables features related to geospatial data discovery. Setting this variable to `true` will trigger geodata
 mode. Note that this is currently intended _only_ for the geodata app and
 may have unexpected consequences if applied to other TIMDEX UI apps.
+- `FEATURE_GLOBAL_SCORING`: Pass `useGlobalScoring: true` to all TIMDEX GraphQL search queries; defaults to false
 - `FEATURE_OA_ALWAYS`: Enables OpenAccess links from OpenAlex whenever they are available, not just when LibKey does not return data. `OPENALEX_EMAIL` must also be set.
 - `FEATURE_RECORD_LINK`: Display the 'View full record' link below each record.
 - `FEATURE_SIMULATE_SEARCH_LATENCY`: DO NOT SET IN PRODUCTION. Set to ensure a minimum of a one second delay in returning search results. Useful to see spinners/loaders. Only introduces delay for results that take less than one second to complete.

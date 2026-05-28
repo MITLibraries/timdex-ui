@@ -191,6 +191,7 @@ class SearchController < ApplicationController
     query[:sourceFilter] = ['DSpace@MIT'] if @active_tab == 'dspace'
     query[:sourceFilter] = ['Research Databases'] if @active_tab == 'databases'
     query[:sourceFilter] = ['OpenGeoMetadata GIS Resources', 'MIT GIS Resources'] if @active_tab == 'geodata'
+    query[:useGlobalScoring] = Feature.enabled?(:global_scoring)
 
     # We generate unique cache keys to avoid naming collisions.
     cache_key = CacheKeyGenerator.call(query)
