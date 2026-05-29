@@ -259,6 +259,30 @@
   }
 }
 
+/* ABOUT NLS PAGE */
+.about-nls {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  max-width: 760px;
+
+  h2 {
+    margin-bottom: 32px;
+  }
+  
+  h3 {
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+
+  p {line-height: $lh-loose;}
+
+  a {
+    @include underlinedLinks;
+    font-weight: $fw-medium;
+  }
+}
+
+
 .tab-link {
   color: #fff;
 }

@@ -16,11 +16,12 @@
         <%= render partial: 'search/primo_continuation' %>
 
       <% elsif @results.present? && @errors.blank? %>
-
-        <h2 class="results-context" data-matomo-seen="Search, Results Found, Tab: {{getActiveTabName}}"><%= results_summary(@pagination[:hits]) %></h2>
-        <% if @show_nls_warning %>
-          <%= render partial: 'search/nls_alert' %>
-        <% end %>
+        <div class="results-header">
+          <h2 class="results-context" data-matomo-seen="Search, Results Found, Tab: {{getActiveTabName}}"><%= results_summary(@pagination[:hits]) %></h2>
+          <% if @show_nls_warning %>
+            <%= render partial: 'search/nls_alert' %>
+          <% end %>
+        </div>
         <div id="results-layout-wrapper">
           <main id="results">
             <ol class="results-list use" data-matomo-click="Results, Link Engaged, Link: {{getElementText}}; Tab: {{getActiveTabName}}" start="<%= @pagination[:start] %>">

@@ -24,7 +24,7 @@
   .no-results + .ask-us {
     margin-top: 0rem;
   }
-  
+
   .results-context {
     margin-top: -15px;
     padding-left: 2.5rem;
@@ -409,10 +409,14 @@
   padding-top: 12px;
   padding-bottom: 44px;
 
+  .results-header {
+    margin-bottom: 40px;
+  }
+
   .results-context {
     padding-left: 0;
     margin-top: 0;
-    margin-bottom: 24px;
+    margin-bottom: 8px;
   }
 
   #results-section {
@@ -599,7 +603,6 @@ aside.nls-alert {
 
 // RESULTS LIST NLS ALERT
 aside.nls-alert {
-  margin-bottom: 40px;
   display: flex;
   gap: 6px;
 
