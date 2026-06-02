@@ -20,6 +20,7 @@ This file highlights the important, discoverable conventions and workflows an AI
   |------|----------|
   | `FEATURE_BOOLEAN_PICKER` | Allow users to choose AND/OR boolean logic in searches |
   | `FEATURE_GEODATA` | Enable geospatial search (bounding box and radius-based queries); defaults to false |
+  | `FEATURE_GLOBAL_SCORING` | Pass `useGlobalScoring: true` to all TIMDEX GraphQL search queries; defaults to false |
   | `FEATURE_OA_ALWAYS` | Always do OpenAlex lookups when DOI or PMID is detected rather than only when LibKey does not return data |
   | `FEATURE_RECORD_LINK` | Show "View full record" link in search results |
   | `FEATURE_SIMULATE_SEARCH_LATENCY` | Add 1s minimum delay to search results for testing UX behavior |

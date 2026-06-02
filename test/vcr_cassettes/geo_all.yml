@@ -12,16 +12,17 @@ http_interactions:
         Float!, $geoboxMaxLatitude: Float!, $geoboxMaxLongitude: Float!, $accessToFilesFilter:
         [String!], $contentTypeFilter: [String!], $contributorsFilter: [String!],
         $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
-        String, $sourceFilter: [String!], $subjectsFilter: [String!]) {\n  search(searchterm:
-        $q, citation: $citation, contributors: $contributors, fundingInformation:
-        $fundingInformation, identifiers: $identifiers, locations: $locations, subjects:
-        $subjects, title: $title, index: $index, from: $from, booleanType: $booleanType,
-        geobox: {minLongitude: $geoboxMinLongitude, minLatitude: $geoboxMinLatitude,
-        maxLongitude: $geoboxMaxLongitude, maxLatitude: $geoboxMaxLatitude}, accessToFilesFilter:
-        $accessToFilesFilter, contentTypeFilter: $contentTypeFilter, contributorsFilter:
-        $contributorsFilter, formatFilter: $formatFilter, languagesFilter: $languagesFilter,
-        literaryFormFilter: $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter:
-        $subjectsFilter) {\n    hits\n    records {\n      timdexRecordId\n      title\n      source\n      contentType\n      contributors
+        String, $sourceFilter: [String!], $subjectsFilter: [String!], $useGlobalScoring:
+        Boolean) {\n  search(searchterm: $q, citation: $citation, contributors: $contributors,
+        fundingInformation: $fundingInformation, identifiers: $identifiers, locations:
+        $locations, subjects: $subjects, title: $title, index: $index, from: $from,
+        booleanType: $booleanType, useGlobalScoring: $useGlobalScoring, geobox: {minLongitude:
+        $geoboxMinLongitude, minLatitude: $geoboxMinLatitude, maxLongitude: $geoboxMaxLongitude,
+        maxLatitude: $geoboxMaxLatitude}, accessToFilesFilter: $accessToFilesFilter,
+        contentTypeFilter: $contentTypeFilter, contributorsFilter: $contributorsFilter,
+        formatFilter: $formatFilter, languagesFilter: $languagesFilter, literaryFormFilter:
+        $literaryFormFilter, sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter)
+        {\n    hits\n    records {\n      timdexRecordId\n      title\n      source\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n      }\n      links {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
         {\n        kind\n        value\n      }\n      highlight {\n        matchedField\n        matchedPhrases\n      }\n      provider\n      rights
@@ -30,7 +31,7 @@ http_interactions:
         {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
         {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
         {\n        key\n        docCount\n      }\n      source {\n        key\n        docCount\n      }\n      subjects
-        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geobox":"true","geodistance":"true","q":"hi","citation":"hello","title":"hey","booleanType":"AND","geoboxMinLongitude":40.5,"geoboxMinLatitude":60.0,"geoboxMaxLongitude":78.2,"geoboxMaxLatitude":80.0,"geodistanceLatitude":36.1,"geodistanceLongitude":62.6,"geodistanceDistance":"50mi","index":"FAKE_TIMDEX_INDEX"},"operationName":"TimdexSearch__GeoboxQuery"}'
+        {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","geobox":"true","geodistance":"true","q":"hi","citation":"hello","title":"hey","booleanType":"AND","geoboxMinLongitude":40.5,"geoboxMinLatitude":60.0,"geoboxMaxLongitude":78.2,"geoboxMaxLatitude":80.0,"geodistanceLatitude":36.1,"geodistanceLongitude":62.6,"geodistanceDistance":"50mi","index":"FAKE_TIMDEX_INDEX","useGlobalScoring":false},"operationName":"TimdexSearch__GeoboxQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -58,9 +59,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=YjYKzxkNBo6cP81PFM3dtUHriR1ydnFQ2YftEBVZeOw%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1765382456"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=VfKonCSVEY5ygQTmUw35jkLDt7vYhTWXkzUz4UJn%2F1A%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1779971820"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=YjYKzxkNBo6cP81PFM3dtUHriR1ydnFQ2YftEBVZeOw%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1765382456"
+      - heroku-nel="https://nel.heroku.com/reports?s=VfKonCSVEY5ygQTmUw35jkLDt7vYhTWXkzUz4UJn%2F1A%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1779971820"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -76,15 +77,15 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - bc2c2f35-82d8-5b3f-1edc-aefccea9dcc1
+      - ec8c7694-50d6-0b1f-cfb8-2c0e69dd43d8
       X-Runtime:
-      - '0.115561'
+      - '0.125195'
       X-Xss-Protection:
       - '0'
       Date:
-      - Wed, 10 Dec 2025 16:00:56 GMT
+      - Thu, 28 May 2026 12:37:00 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"accessToFiles":[],"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Wed, 10 Dec 2025 16:00:56 GMT
-recorded_with: VCR 6.3.1
+  recorded_at: Thu, 28 May 2026 12:37:00 GMT
+recorded_with: VCR 6.4.0

@@ -63,6 +63,10 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   def mock_primo_search_with_hits(total_hits)
+    # Use when the test needs to control the simulated Primo hit count, e.g., pagination
+    # boundary tests or UI behavior that reacts to total result numbers. Always returns
+    # 10 sample documents regardless of `total_hits`; only the reported total varies.
+    # For tests that don't care about hit counts, prefer `mock_primo_search_success`.
     sample_docs = (1..10).map do |i|
       {
         title: "Sample Primo Document Title #{i}",
@@ -86,11 +90,13 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   def mock_timdex_search_success
-    # Mock the TIMDEX GraphQL client to avoid external API calls (single call)
+    # Use for standard single-tab TIMDEX tests that don't inspect the query variables
+    # passed to the GraphQL client. Sets `expects(:query)` without `.with(...)`, so
+    # Mocha only verifies the call count, not the arguments.
     #
-    # NOTE: As with Primo, this helper assumes a single TIMDEX invocation.
-    # Tests exercising the 'all' tab should use `mock_timdex_search_all_tab`
-    # which allows multiple calls.
+    # - For the 'all' tab (multiple TIMDEX calls): use `mock_timdex_search_all_tab`.
+    # - For tests asserting on query variables (e.g., feature flags): use
+    #   `build_timdex_mock_response` and set the expectation with `.with(...)` yourself.
     sample_result = {
       'api' => 'timdex',
       'title' => 'Sample TIMDEX Document Title',
@@ -134,11 +140,10 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   def mock_timdex_search_all_tab
-    # Mock the TIMDEX GraphQL client for the all tab (multiple calls)
-    #
-    # This helper is intentionally separate from `mock_timdex_search_success`
-    # because the merged-search orchestration can invoke TIMDEX multiple
-    # times. The helper therefore uses `at_least_once` on the expectation.
+    # Use for tests exercising the 'all' tab, where `MergedSearchService` may invoke
+    # TIMDEX multiple times. Relaxes the expectation to `at_least_once` to accommodate
+    # that orchestration. For single-tab TIMDEX tests, prefer `mock_timdex_search_success`
+    # so unexpected extra calls cause a failure rather than passing silently.
     sample_result = {
       'api' => 'timdex',
       'title' => 'Sample TIMDEX Document Title',
@@ -182,6 +187,11 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   def mock_timdex_search_with_hits(total_hits)
+    # Use when the test needs to control the simulated TIMDEX hit count, e.g., pagination
+    # threshold or no-results-message tests. Always returns 10 sample documents regardless
+    # of `total_hits`; only the reported total varies. Unlike the other TIMDEX helpers,
+    # this one also mocks `NormalizeTimdexResults` explicitly. For tests that don't care
+    # about hit counts, prefer `mock_timdex_search_success`.
     sample_results = (1..10).map do |i|
       {
         'title' => "Sample TIMDEX Document Title #{i}",
@@ -223,6 +233,54 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     mock_normalizer = mock('normalizer')
     mock_normalizer.expects(:normalize).returns(normalized_results).at_least_once
     NormalizeTimdexResults.expects(:new).returns(mock_normalizer).at_least_once
+  end
+
+  def build_timdex_mock_response
+    # Use when a test needs to assert on the variables passed to `TimdexBase::Client.query`
+    # (e.g., verifying a feature flag sets the correct query variable). Returns a fully
+    # stubbed response object but intentionally does NOT set any expectation on
+    # `TimdexBase::Client`. The caller is responsible for setting the expectation:
+    #
+    #   mock_response = build_timdex_mock_response
+    #   TimdexBase::Client.expects(:query).with(TimdexSearch::BaseQuery,
+    #     has_entry(:variables, has_entry(:someVar, expected_value))).returns(mock_response)
+    #
+    # The other TIMDEX helpers (`mock_timdex_search_success`, etc.) set the expectation
+    # themselves without `.with(...)`, so they cannot be used when argument assertions
+    # are needed — Mocha would end up with two conflicting expectations on the same method.
+    sample_result = {
+      'api' => 'timdex',
+      'title' => 'Sample TIMDEX Document Title',
+      'timdexRecordId' => 'sample-record-123',
+      'contentType' => ['Article'],
+      'dates' => [{ 'kind' => 'Publication date', 'value' => '2023' }],
+      'contributors' => [{ 'value' => 'Foo Barston', 'kind' => 'Creator' }],
+      'sourceLink' => 'https://example.com/record'
+    }
+
+    mock_response = mock('timdex_response')
+    mock_errors = mock('timdex_errors')
+    mock_errors.stubs(:details).returns({})
+    mock_errors.stubs(:to_h).returns({})
+    mock_response.stubs(:errors).returns(mock_errors)
+
+    mock_data = mock('timdex_data')
+    mock_search = mock('timdex_search')
+    mock_search.stubs(:to_h).returns({
+                                       'hits' => 1,
+                                       'aggregations' => {},
+                                       'records' => [sample_result]
+                                     })
+    mock_data.stubs(:search).returns(mock_search)
+    mock_data.stubs(:to_h).returns({
+                                     'search' => {
+                                       'hits' => 1,
+                                       'aggregations' => {},
+                                       'records' => [sample_result]
+                                     }
+                                   })
+    mock_response.stubs(:data).returns(mock_data)
+    mock_response
   end
 
   test 'index shows basic search form by default' do
@@ -1219,5 +1277,30 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     # Should not be redirected to Turnstile (doesn't hit SearchController)
     assert_response :success
+  end
+
+  # FEATURE_GLOBAL_SCORING tests
+  test 'timdex query passes useGlobalScoring: false when FEATURE_GLOBAL_SCORING is disabled' do
+    mock_response = build_timdex_mock_response
+    TimdexBase::Client.expects(:query).with(
+      TimdexSearch::BaseQuery,
+      has_entry(:variables, has_entry(:useGlobalScoring, false))
+    ).returns(mock_response)
+
+    get '/results?q=data&tab=timdex'
+    assert_response :success
+  end
+
+  test 'timdex query passes useGlobalScoring: true when FEATURE_GLOBAL_SCORING is enabled' do
+    mock_response = build_timdex_mock_response
+    ClimateControl.modify(FEATURE_GLOBAL_SCORING: 'true') do
+      TimdexBase::Client.expects(:query).with(
+        TimdexSearch::BaseQuery,
+        has_entry(:variables, has_entry(:useGlobalScoring, true))
+      ).returns(mock_response)
+
+      get '/results?q=data&tab=timdex'
+      assert_response :success
+    end
   end
 end

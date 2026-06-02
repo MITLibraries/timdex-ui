@@ -4,6 +4,7 @@ class FeatureTest < ActiveSupport::TestCase
   test 'defined features default to false' do
     refute Feature.enabled?(:geodata)
     refute Feature.enabled?(:boolean_picker)
+    refute Feature.enabled?(:global_scoring)
   end
 
   test 'undefined features return false' do

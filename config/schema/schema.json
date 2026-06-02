@@ -1362,13 +1362,23 @@
                 },
                 {
                   "name": "queryMode",
-                  "description": "Search mode to use. Defaults to \"lexical\". Options include: \"lexical\", \"semantic\"",
+                  "description": "Search mode: \"keyword\" (lexical search), \"semantic\" (vector search), or \"hybrid\" (both)",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "\"lexical\""
+                  "defaultValue": "\"keyword\""
+                },
+                {
+                  "name": "useGlobalScoring",
+                  "description": "Calculate relevance scores globally across all shards instead of per-shard. Defaults to false.",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": "false"
                 },
                 {
                   "name": "accessToFilesFilter",
@@ -2864,6 +2874,12 @@
               "deprecationReason": null
             },
             {
+              "name": "VARIABLE_DEFINITION",
+              "description": "Location adjacent to a variable definition.",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "SCHEMA",
               "description": "Location adjacent to a schema definition.",
               "isDeprecated": false,
@@ -2926,12 +2942,6 @@
             {
               "name": "INPUT_FIELD_DEFINITION",
               "description": "Location adjacent to an input object field definition.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "VARIABLE_DEFINITION",
-              "description": "Location adjacent to a variable definition.",
               "isDeprecated": false,
               "deprecationReason": null
             }

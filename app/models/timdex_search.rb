@@ -27,6 +27,7 @@ class TimdexSearch < TimdexBase
       $placesFilter: [String!]
       $sourceFilter: [String!]
       $subjectsFilter: [String!]
+      $useGlobalScoring: Boolean
     ) {
       search(
         searchterm: $q
@@ -52,6 +53,7 @@ class TimdexSearch < TimdexBase
         placesFilter: $placesFilter
         sourceFilter: $sourceFilter
         subjectsFilter: $subjectsFilter
+        useGlobalScoring: $useGlobalScoring
       ) {
         hits
         records {
@@ -171,6 +173,7 @@ class TimdexSearch < TimdexBase
       $literaryFormFilter: String
       $sourceFilter: [String!]
       $subjectsFilter: [String!]
+      $useGlobalScoring: Boolean
     ) {
       search(
         searchterm: $q
@@ -184,6 +187,7 @@ class TimdexSearch < TimdexBase
         index: $index
         from: $from
         booleanType: $booleanType
+        useGlobalScoring: $useGlobalScoring
         geobox: {
           minLongitude: $geoboxMinLongitude,
           minLatitude: $geoboxMinLatitude,
@@ -299,6 +303,7 @@ class TimdexSearch < TimdexBase
       $literaryFormFilter: String
       $sourceFilter: [String!]
       $subjectsFilter: [String!]
+      $useGlobalScoring: Boolean
     ) {
       search(
         searchterm: $q
@@ -312,6 +317,7 @@ class TimdexSearch < TimdexBase
         index: $index
         from: $from
         booleanType: $booleanType
+        useGlobalScoring: $useGlobalScoring
         geodistance: {
           distance: $geodistanceDistance,
           latitude: $geodistanceLatitude,
@@ -430,6 +436,7 @@ class TimdexSearch < TimdexBase
       $literaryFormFilter: String
       $sourceFilter: [String!]
       $subjectsFilter: [String!]
+      $useGlobalScoring: Boolean
     ) {
       search(
         searchterm: $q
@@ -462,6 +469,7 @@ class TimdexSearch < TimdexBase
         literaryFormFilter: $literaryFormFilter
         sourceFilter: $sourceFilter
         subjectsFilter: $subjectsFilter
+        useGlobalScoring: $useGlobalScoring
       ) {
         hits
         records {
