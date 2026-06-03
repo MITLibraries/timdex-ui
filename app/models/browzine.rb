@@ -40,7 +40,7 @@ class Browzine < ThirdIron
 
     {
       link: json_response['data'][0]['browzineWebLink'],
-      text: 'View journal contents'
+      text: 'Browse journal'
     }
   end
 
