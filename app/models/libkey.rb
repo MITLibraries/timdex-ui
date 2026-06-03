@@ -76,7 +76,7 @@ class Libkey < ThirdIron
 
     {
       link: external_data['data']['browzineWebLink'],
-      text: 'Browse journal issue'
+      text: 'Browse journal'
     }
   end
 
