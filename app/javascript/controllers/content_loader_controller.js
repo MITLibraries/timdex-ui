@@ -7,13 +7,25 @@ export default class extends Controller {
     this.load()
   }
 
+  stripHtmlComments(input) {
+    let previous
+    let output = input
+
+    do {
+      previous = output
+      output = output.replace(/<!--[\s\S]*?-->/g, '')
+    } while (output !== previous)
+
+    return output
+  }
+
   load() {
     fetch(this.urlValue)
       .then(response => response.text())
       .then(html => {
         const parentElement = this.element.parentElement;
         // Strip HTML comments and trim whitespace
-        const cleanedHtml = html.replace(/<!--[\s\S]*?-->/g, '').trim();
+        const cleanedHtml = this.stripHtmlComments(html).trim();
         // Replace the entire element with the fetched HTML, or remove if empty
         if (cleanedHtml) {
           this.element.outerHTML = cleanedHtml;
