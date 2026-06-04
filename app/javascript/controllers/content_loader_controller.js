@@ -23,24 +23,24 @@ export default class extends Controller {
     fetch(this.urlValue)
       .then(response => response.text())
       .then(html => {
-        const parentElement = this.element.parentElement;
+        const parentElement = this.element.parentElement
         // Strip HTML comments and trim whitespace
-        const cleanedHtml = this.stripHtmlComments(html).trim();
+        const cleanedHtml = this.stripHtmlComments(html).trim()
         // Replace the entire element with the fetched HTML, or remove if empty
         if (cleanedHtml) {
-          this.element.outerHTML = cleanedHtml;
+          this.element.outerHTML = cleanedHtml
           // Hide primo links if libkey link is present
           if (parentElement.querySelector('.libkey-link')) {
-            const resultGet = parentElement.closest('.result-get');
+            const resultGet = parentElement.closest('.result-get')
             if (resultGet) {
-              const primoLinks = resultGet.querySelectorAll('.primo-link');
+              const primoLinks = resultGet.querySelectorAll('.primo-link')
               // removing instead of hiding to avoid layout issues when selecting which link to highlight
-              primoLinks.forEach(link => link.remove());
+              primoLinks.forEach(link => link.remove())
             }
           }
         } else {
           // Remove result-get container (no fulfillment links)
-          parentElement.remove();
+          parentElement.remove()
         }
       })
   }
