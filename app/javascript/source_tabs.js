@@ -11,7 +11,6 @@ const initTabs = () => {
   if (container.classList.contains('has-js')) return // Already initialized
 
   const primary = container.querySelector('.primary')
-  const primaryItems = container.querySelectorAll('.primary > li:not(.-more)')
 
   // Add a class to turn off graceful degradation style
   container.classList.add('has-js')
@@ -28,7 +27,6 @@ const initTabs = () => {
     </li>
   `)
   const secondary = container.querySelector('.-secondary')
-  const secondaryItems = secondary.querySelectorAll('li')
   const allItems = container.querySelectorAll('li')
   const moreLi = primary.querySelector('.-more')
   const moreBtn = moreLi.querySelector('button')
@@ -188,7 +186,10 @@ const initTabs = () => {
 
 // Initialize on page load and after Turbo navigates
 // turbo:load fires on both initial page load and subsequent Turbo navigations
-document.addEventListener('turbo:load', initTabs)
+ if (!window.__timdexSourceTabsTurboListenerAdded) {
+   window.__timdexSourceTabsTurboListenerAdded = true
+   document.addEventListener('turbo:load', initTabs)
+ }
 
 // Run immediately in case turbo:load already fired before this script loaded
 // (happens on first search when Turbo Drive loads the page containing this script)
