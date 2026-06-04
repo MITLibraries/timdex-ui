@@ -189,3 +189,7 @@ const initTabs = () => {
 // Initialize on page load and after Turbo navigates
 // turbo:load fires on both initial page load and subsequent Turbo navigations
 document.addEventListener('turbo:load', initTabs)
+
+// Run immediately in case turbo:load already fired before this script loaded
+// (happens on first search when Turbo Drive loads the page containing this script)
+initTabs()
