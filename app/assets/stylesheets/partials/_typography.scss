@@ -22,6 +22,19 @@
   }
 }
 
+/* Shared link styling */
+@mixin headerUnderlinedLinks {
+  color: $color-text-oncolor;
+  font-weight: $fw-medium;
+  text-decoration: underline;
+  text-decoration-color: $color-red-500;
+  text-underline-offset: 0.5rem;  
+
+  &:hover {
+    color: $color-red-400;
+  }
+}
+
 // Override fonts from the theme gem, done temporarily for USE UI
 body {
   font-family: $base-font;
