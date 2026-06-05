@@ -7,28 +7,14 @@ export default class extends Controller {
     this.load()
   }
 
-  stripHtmlComments(input) {
-    let previous
-    let output = input
-
-    do {
-      previous = output
-      output = output.replace(/<!--[\s\S]*?-->/g, '')
-    } while (output !== previous)
-
-    return output
-  }
-
   load() {
     fetch(this.urlValue)
       .then(response => response.text())
       .then(html => {
         const parentElement = this.element.parentElement
-        // Strip HTML comments and trim whitespace
-        const cleanedHtml = this.stripHtmlComments(html).trim()
         // Replace the entire element with the fetched HTML, or remove if empty
-        if (cleanedHtml) {
-          this.element.outerHTML = cleanedHtml
+        if (html.trim()) {
+          this.element.outerHTML = html
           // Hide primo links if libkey link is present
           if (parentElement.querySelector('.libkey-link')) {
             const resultGet = parentElement.closest('.result-get')
@@ -39,11 +25,9 @@ export default class extends Controller {
             }
           }
         } else {
-          // Remove only this loader element
-          this.element.remove();
-          // Remove result-get container if it's now empty (no fulfillment links and no other content)
+          this.element.remove()
           if (!parentElement.textContent.trim()) {
-            parentElement.remove();
+            parentElement.remove()
           }
         }
       })
