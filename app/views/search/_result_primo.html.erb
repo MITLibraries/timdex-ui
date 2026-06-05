@@ -75,6 +75,8 @@
         <% end %>
       </div>
 
+
+      <% if result_get?(result) %>
       <div class="result-get">
         <% if result[:links].present? %>
           <% result[:links].each do |link| %>
@@ -120,6 +122,7 @@
           <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn] }) %>
         <% end %>
       </div>
+      <% end %>
     <% end %>
   </div>
 </li>

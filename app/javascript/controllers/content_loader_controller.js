@@ -25,7 +25,10 @@ export default class extends Controller {
             }
           }
         } else {
+          // Remove empty loader
           this.element.remove()
+
+          // Remove parent empty container, confirming first that it's empty
           if (!parentElement.textContent.trim()) {
             parentElement.remove()
           }
