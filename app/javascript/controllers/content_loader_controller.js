@@ -39,8 +39,12 @@ export default class extends Controller {
             }
           }
         } else {
-          // Remove result-get container (no fulfillment links)
-          parentElement.remove()
+          // Remove only this loader element
+          this.element.remove();
+          // Remove result-get container if it's now empty (no fulfillment links and no other content)
+          if (!parentElement.textContent.trim()) {
+            parentElement.remove();
+          }
         }
       })
   }
