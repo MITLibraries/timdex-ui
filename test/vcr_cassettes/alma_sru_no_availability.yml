@@ -1,0 +1,286 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://mit.alma.exlibrisgroup.com/view/sru/01MIT_INST?operation=searchRetrieve&query=alma.all_for_ui=9935053423706761&recordSchema=marcxml&version=1.2
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - Keep-Alive
+      Host:
+      - mit.alma.exlibrisgroup.com
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Request-Id:
+      - xwR864Y1xM
+      P3p:
+      - CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+      Set-Cookie:
+      - JSESSIONID=C3DDF913D7252F92452F5696B50F815B.app04.na06.prod.alma.dc01.hosted.exlibrisgroup.com:1801;
+        Path=/; HttpOnly; SameSite=None; Secure
+      - __Secure-UqZBpD3n3naPR20-9Fvn5i-TQ-tFoshbYtbA9YCEpg3UXgo_=v1tuoKgw__f1o; Expires=Thu,
+        05-Jun-2036 20:28:17 GMT; Path=/; Secure; SameSite=None
+      - urm_se=1780951097055; Path=/; SameSite=None; Secure
+      - urm_st=1780950497055; Path=/; SameSite=None; Secure
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - "*"
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - 'object-src blob: ''self'' *.exlibrisgroup.com *.exlibrisgroup.com.cn www.google-analytics.com
+        stats.g.doubleclick.net s3.amazonaws.com www.youtube.com youtube.com *.contentdm.oclc.org
+        iiif.nlm.nih.gov ;worker-src blob: ''self'' *.exlibrisgroup.com *.exlibrisgroup.com.cn
+        www.google-analytics.com stats.g.doubleclick.net s3.amazonaws.com www.youtube.com
+        youtube.com artic.contentdm.oclc.org ;upgrade-insecure-requests; report-uri
+        /infra/CSPReportEndpoint.jsp; report-to csp-report-endpoint; '
+      Report-To:
+      - '{"max_age":10886400,"endpoints":[{"url":"https://na06.alma.exlibrisgroup.com/infra/CSPReportEndpoint.jsp"}],"group":"csp-report-endpoint"}'
+      X-Content-Type-Options:
+      - nosniff
+      Vary:
+      - accept-encoding
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 08 Jun 2026 20:28:17 GMT
+      Keep-Alive:
+      - timeout=20
+      Connection:
+      - keep-alive
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?><searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+          <version>1.2</version>
+          <numberOfRecords>1</numberOfRecords>
+          <records>
+            <record>
+              <recordSchema>marcxml</recordSchema>
+              <recordPacking>xml</recordPacking>
+              <recordData>
+                <record xmlns="http://www.loc.gov/MARC21/slim">
+                  <leader>03192 am a2200565   4500</leader>
+                  <controlfield tag="001">9935053423706761</controlfield>
+                  <controlfield tag="005">20170117</controlfield>
+                  <controlfield tag="006">m     o  d</controlfield>
+                  <controlfield tag="007">cu ||||||m||||</controlfield>
+                  <controlfield tag="008">171205e2017||||xx |||||o|||||||||0|fre|d</controlfield>
+                  <datafield ind1=" " ind2=" " tag="020">
+                    <subfield code="a">2-917902-69-8</subfield>
+                  </datafield>
+                  <datafield ind1="7" ind2=" " tag="024">
+                    <subfield code="a">10.4000/books.inha.12276</subfield>
+                    <subfield code="2">doi</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="035">
+                    <subfield code="a">(CKB)4100000009914036</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="035">
+                    <subfield code="a">(FrMaCLE)OB-inha-12276</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="035">
+                    <subfield code="a">(oapen)https://directory.doabooks.org/handle/20.500.12854/45032</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="035">
+                    <subfield code="a">(FrMaCLE)OB-inha-7185</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="035">
+                    <subfield code="a">(PPN)24129181X</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="035">
+                    <subfield code="a">(oapen)doab45032</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="035">
+                    <subfield code="a">(EXLCZ)994100000009914036</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="040">
+                    <subfield code="a">FR-FrMaCLE</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="041">
+                    <subfield code="a">fre</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="100">
+                    <subfield code="a">Awad, Alaa</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2="0" tag="245">
+                    <subfield code="a">Dialogues artistiques avec les passés de l'Égypte :</subfield>
+                    <subfield code="b">Une perspective transnationale et transmédiale /</subfield>
+                    <subfield code="c">Mercedes Volait, Emmanuelle Perrin.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="260">
+                    <subfield code="a">Paris :</subfield>
+                    <subfield code="b">Publications de l’Institut national d’histoire de l’art,</subfield>
+                    <subfield code="c">2017.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="300">
+                    <subfield code="a">1 online resource (235 p.)</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="336">
+                    <subfield code="a">text</subfield>
+                    <subfield code="b">txt</subfield>
+                    <subfield code="2">rdacontent</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="337">
+                    <subfield code="a">computer</subfield>
+                    <subfield code="b">c</subfield>
+                    <subfield code="2">rdamedia</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="338">
+                    <subfield code="a">online resource</subfield>
+                    <subfield code="b">cr</subfield>
+                    <subfield code="2">rdacarrier</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="520">
+                    <subfield code="a">Suez, Abou Simbel, Le Caire, Alger, Casablanca, Istanbul... Pour la première fois, des historiens de l'architecture et des conservateurs d'archives nous permettent d'accéder à un patrimoine culturel européen exceptionnel et méconnu : les archives produites par les entreprises du bâtiment et des travaux publics actives au sud de la Méditerranée, entre 1860 et 1970. Ouvrages d'art en acier ou béton armé, cités pour ouvriers et cadres expatriés, bâtiments publics mais aussi mobilier, décors, ouvrages effectués par des artisans d'art... Toutes ces réalisations témoignent d'une époque d'intenses échanges humains, techniques, et artistiques entre l'Europe et l'arc sud-est de la Méditerranée. Photographies anciennes destinées à promouvoir le travail des entrepreneurs, photographies de chantier, dessins d'architectes, croquis et carnets documentant les innovations techniques, plaquettes publicitaires... le livre est illustré par plus de 200 dessins et photographies provenant directement des fonds d'archives des constructeurs. Cet ouvrage est le résultat du projet de coopération transnationale "ARCHING : ARchives d'INGénierie européenne" (2010-2012) conduit dans le cadre du programme Culture 2007-2013 de la Commission européenne, auquel ont participé cinq institutions : l'Ecomusée du Bois-du-Luc (Belgique), la Cité de l'architecture et du patrimoine (France), InVisu (CNRS-INHA) (France), le Dipartimento di Architettura disegno-storia-progetto de l'université de Florence (Italie), Archmuseum (Turquie).  Suez, Abu Simbel, Cairo, Algiers, Casablanca, Istanbul... This work of pioneering research by architectural historians and archivists gives us access to an exceptional field of European cultural heritage: the records of buildings and public works contractors active on the southern shores of the Mediterranean between 1860 and 1970. It covers all the construction trades, from steel or reinforced concrete bridges and dams, housing for laborers and expats, and public buildings,…</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="540">
+                    <subfield code="a">OpenEdition Books License</subfield>
+                    <subfield code="u">https://www.openedition.org/12554</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="546">
+                    <subfield code="a">French</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="4" tag="650">
+                    <subfield code="a">Architecture</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="4" tag="650">
+                    <subfield code="a">architecte</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="4" tag="650">
+                    <subfield code="a">entreprises de la construction</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="4" tag="650">
+                    <subfield code="a">architecture</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="4" tag="650">
+                    <subfield code="a">construction companies</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="653">
+                    <subfield code="a">egyptomania</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="653">
+                    <subfield code="a">historicism</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="653">
+                    <subfield code="a">painting</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="653">
+                    <subfield code="a">theater</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="653">
+                    <subfield code="a">decorative arts</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="653">
+                    <subfield code="a">heritage</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="653">
+                    <subfield code="a">architecture</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Bardaouil, Sam</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Bishop, Elizabeth</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Chauffour, Sébastien</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">el-Wakil, Leïla</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Fathy, Hassan</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Garnier, Bénédicte</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Humbert, Jean-Marcel</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Khachab, Walid El</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Ormos, István</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Radwan, Nadia</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Volait, Mercedes</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Volait, Mercedes</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="700">
+                    <subfield code="a">Perrin, Emmanuelle</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="720">
+                    <subfield code="a">Mercedes Volait</subfield>
+                    <subfield code="4">aut</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="720">
+                    <subfield code="a">Emmanuelle Perrin</subfield>
+                    <subfield code="4">aut</subfield>
+                  </datafield>
+                  <datafield ind1="0" ind2="8" tag="776">
+                    <subfield code="z">2-918371-12-2</subfield>
+                  </datafield>
+                  <datafield ind1="0" ind2="8" tag="776">
+                    <subfield code="z">979-1-0973-1500-9</subfield>
+                  </datafield>
+                  <datafield ind1="0" ind2=" " tag="793">
+                    <subfield code="a">DOAB Library.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="906">
+                    <subfield code="a">BOOK</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="946">
+                    <subfield code="z">RTCTFebook</subfield>
+                    <subfield code="m">CollConsol2026</subfield>
+                    <subfield code="9">local</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="AVE">
+                    <subfield code="8">53650867050006761</subfield>
+                    <subfield code="c">61535080440006761</subfield>
+                    <subfield code="e">Available</subfield>
+                    <subfield code="m">DOAB Directory of Open Access Books</subfield>
+                    <subfield code="t">DOAB Directory of Open Access Books</subfield>
+                    <subfield code="a">01MIT_INST</subfield>
+                    <subfield code="0">9935053423706761</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="AVE">
+                    <subfield code="8">53542422790006761</subfield>
+                    <subfield code="c">61535080440006761</subfield>
+                    <subfield code="e">Available</subfield>
+                    <subfield code="m">DOAB Directory of Open Access Books</subfield>
+                    <subfield code="t">DOAB Directory of Open Access Books</subfield>
+                    <subfield code="a">01MIT_INST</subfield>
+                    <subfield code="0">9935053423706761</subfield>
+                  </datafield>
+                </record>
+              </recordData>
+              <recordIdentifier>9935053423706761</recordIdentifier>
+              <recordPosition>1</recordPosition>
+            </record>
+          </records>
+          <extraResponseData xmlns:xb="http://www.exlibris.com/repository/search/xmlbeans/">
+            <xb:exact>true</xb:exact>
+            <xb:responseDate>2026-06-08T16:28:17-0400</xb:responseDate>
+          </extraResponseData>
+        </searchRetrieveResponse>
+  recorded_at: Mon, 08 Jun 2026 20:28:17 GMT
+recorded_with: VCR 6.4.0
