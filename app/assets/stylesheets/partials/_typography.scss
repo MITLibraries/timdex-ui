@@ -11,6 +11,17 @@
   }
 }
 
+@mixin underlinedSecondaryLinks {
+  @include underlinedLinks;
+  text-decoration-color: $color-gray-400;
+  text-underline-offset: 0.4rem;
+
+  &:hover {
+    color: $color-blue-500;
+    text-decoration-color: $color-blue-500;
+  }
+}
+
 // Override fonts from the theme gem, done temporarily for USE UI
 body {
   font-family: $base-font;
