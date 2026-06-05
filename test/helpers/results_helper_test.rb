@@ -184,11 +184,11 @@ class ResultsHelperTest < ActionView::TestCase
   test 'result_get? returns true when result has both full record and PDF links even if record_link feature is disabled' do
     ClimateControl.modify(FEATURE_RECORD_LINK: nil, THIRDIRON_ID: nil, THIRDIRON_KEY: nil, FEATURE_OA_ALWAYS: nil) do
       assert result_get?({
-        links: [
-          { 'kind' => 'Full Record', 'url' => 'https://example.com' },
-          { 'kind' => 'PDF', 'url' => 'https://pdf.example.com' }
-        ]
-      })
+                           links: [
+                             { 'kind' => 'Full Record', 'url' => 'https://example.com' },
+                             { 'kind' => 'PDF', 'url' => 'https://pdf.example.com' }
+                           ]
+                         })
     end
   end
 end

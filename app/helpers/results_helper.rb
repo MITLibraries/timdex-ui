@@ -86,15 +86,15 @@ module ResultsHelper
   # @param result [Hash] A normalized Primo result hash
   # @return [Boolean] True if the result has links, availability, or ThirdIron/OpenAlex triggers
   def result_get?(result)
-    has_renderable_links?(result) ||
+    renderable_links?(result) ||
       result[:availability].present? ||
       (Feature.enabled?(:oa_always) && article?(result[:format])) ||
-      has_thirdiron_content?(result)
+      thirdiron_content?(result)
   end
 
   private
 
-  def has_renderable_links?(result)
+  def renderable_links?(result)
     return false unless result[:links].present?
     return true if Feature.enabled?(:record_link)
 
@@ -102,7 +102,7 @@ module ResultsHelper
     result[:links].any? { |link| link['kind'].downcase != 'full record' }
   end
 
-  def has_thirdiron_content?(result)
+  def thirdiron_content?(result)
     ThirdIron.enabled? && (
       result[:doi].present? ||
       result[:pmid].present? ||
