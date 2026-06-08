@@ -92,11 +92,7 @@
             font-size: 1.8rem;
             font-weight: $fw-medium;
             @include text-decoration-animation;
-
-            &:hover {
-                text-decoration: underline;
-                color: $color-white;
-            }            
+            @include headerUnderlinedLinks;       
         }
     }
 }

@@ -37,7 +37,7 @@
     border-bottom: 0;  
     white-space: nowrap;
 
-    @include searchUnderlinedLinks;
+    @include headerUnderlinedLinks;
 
     &:hover {
       border-color: $color-gray-700;
@@ -87,7 +87,7 @@
         width: 100%;
 
         &.active {
-          @include searchUnderlinedLinks;
+          @include headerUnderlinedLinks;
         }
 
         &:hover {
