@@ -111,4 +111,84 @@ class ResultsHelperTest < ActionView::TestCase
     assert_not article?(nil)
     assert_not article?('')
   end
+
+  test 'result_get? returns true when result has links' do
+    assert result_get?({ links: [{ 'kind' => 'PDF', 'url' => 'https://example.com' }] })
+  end
+
+  test 'result_get? returns true when result has availability' do
+    assert result_get?({ availability: 'Available' })
+  end
+
+  test 'result_get? returns true when ThirdIron enabled and result has doi' do
+    ClimateControl.modify(THIRDIRON_ID: '123', THIRDIRON_KEY: 'abc') do
+      assert result_get?({ doi: '10.1234/test' })
+    end
+  end
+
+  test 'result_get? returns true when ThirdIron enabled and result has pmid' do
+    ClimateControl.modify(THIRDIRON_ID: '123', THIRDIRON_KEY: 'abc') do
+      assert result_get?({ pmid: '12345678' })
+    end
+  end
+
+  test 'result_get? returns true when ThirdIron enabled and result is a journal with issn' do
+    ClimateControl.modify(THIRDIRON_ID: '123', THIRDIRON_KEY: 'abc') do
+      assert result_get?({ format: 'Journal', issn: '1234-5678' })
+    end
+  end
+
+  test 'result_get? returns true when oa_always enabled and result is an article' do
+    ClimateControl.modify(FEATURE_OA_ALWAYS: 'true') do
+      assert result_get?({ format: 'Article' })
+    end
+  end
+
+  test 'result_get? returns false when result has no fulfillment content' do
+    ClimateControl.modify(THIRDIRON_ID: nil, THIRDIRON_KEY: nil, FEATURE_OA_ALWAYS: nil) do
+      assert_not result_get?({})
+      assert_not result_get?({ format: 'Book' })
+    end
+  end
+
+  test 'result_get? returns false when ThirdIron disabled even with doi' do
+    ClimateControl.modify(THIRDIRON_ID: nil, THIRDIRON_KEY: nil) do
+      assert_not result_get?({ doi: '10.1234/test' })
+    end
+  end
+
+  test 'result_get? returns false when oa_always disabled and result has no links' do
+    ClimateControl.modify(FEATURE_OA_ALWAYS: nil, THIRDIRON_ID: nil, THIRDIRON_KEY: nil) do
+      assert_not result_get?({ format: 'Article' })
+    end
+  end
+
+  test 'result_get? returns false when result has only full record link and feature is disabled' do
+    ClimateControl.modify(FEATURE_RECORD_LINK: nil, THIRDIRON_ID: nil, THIRDIRON_KEY: nil, FEATURE_OA_ALWAYS: nil) do
+      assert_not result_get?({ links: [{ 'kind' => 'Full Record', 'url' => 'https://example.com' }] })
+    end
+  end
+
+  test 'result_get? returns true when result has only full record link and feature is enabled' do
+    ClimateControl.modify(FEATURE_RECORD_LINK: 'true', THIRDIRON_ID: nil, THIRDIRON_KEY: nil, FEATURE_OA_ALWAYS: nil) do
+      assert result_get?({ links: [{ 'kind' => 'Full Record', 'url' => 'https://example.com' }] })
+    end
+  end
+
+  test 'result_get? returns true when result has PDF link even if record_link feature is disabled' do
+    ClimateControl.modify(FEATURE_RECORD_LINK: nil, THIRDIRON_ID: nil, THIRDIRON_KEY: nil, FEATURE_OA_ALWAYS: nil) do
+      assert result_get?({ links: [{ 'kind' => 'PDF', 'url' => 'https://example.com' }] })
+    end
+  end
+
+  test 'result_get? returns true when result has both full record and PDF links even if record_link feature is disabled' do
+    ClimateControl.modify(FEATURE_RECORD_LINK: nil, THIRDIRON_ID: nil, THIRDIRON_KEY: nil, FEATURE_OA_ALWAYS: nil) do
+      assert result_get?({
+                           links: [
+                             { 'kind' => 'Full Record', 'url' => 'https://example.com' },
+                             { 'kind' => 'PDF', 'url' => 'https://pdf.example.com' }
+                           ]
+                         })
+    end
+  end
 end

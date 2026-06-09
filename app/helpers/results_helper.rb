@@ -80,4 +80,33 @@ module ResultsHelper
 
     format.match?(/\barticle\b/i)
   end
+
+  # Determines if a result has any fulfillment links to render
+  #
+  # @param result [Hash] A normalized Primo result hash
+  # @return [Boolean] True if the result has links, availability, or ThirdIron/OpenAlex triggers
+  def result_get?(result)
+    renderable_links?(result) ||
+      result[:availability].present? ||
+      (Feature.enabled?(:oa_always) && article?(result[:format])) ||
+      thirdiron_content?(result)
+  end
+
+  private
+
+  def renderable_links?(result)
+    return false unless result[:links].present?
+    return true if Feature.enabled?(:record_link)
+
+    # If record_link is disabled, exclude results that have ONLY "full record" links
+    result[:links].any? { |link| link['kind'].downcase != 'full record' }
+  end
+
+  def thirdiron_content?(result)
+    ThirdIron.enabled? && (
+      result[:doi].present? ||
+      result[:pmid].present? ||
+      (result[:format]&.downcase == 'journal' && result[:issn].present?)
+    )
+  end
 end
