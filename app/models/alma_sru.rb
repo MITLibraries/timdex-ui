@@ -24,7 +24,7 @@ class AlmaSru
   #
   # It accepts an "alma_client" argument for use when testing, but this is not used in normal operations.
   def self.lookup(raw_identifier, alma_client: nil)
-    return [] unless alma_base_url
+    return [] unless alma_sru_enabled?
 
     # Validate the raw identifier received. This will raise an InvalidAlmaId if validation fails.
     identifier = validate_alma_id(raw_identifier)
@@ -73,7 +73,7 @@ class AlmaSru
 
   # validate_alma_id ensures we are only submitting valid Alma IDs to the SRU endpoint.
   #
-  # It needs to do two thigns:
+  # It needs to do two things:
   # 1. Remove the "alma" prefix if one is present. Otherwise, no manipulation of the submitted value should occur.
   # 2. Enforce the formatting requirements for a valid alma identifier (start with "99", and end with "6761").
   def self.validate_alma_id(raw)
@@ -129,10 +129,20 @@ class AlmaSru
     ENV.fetch('MIT_ALMA_URL', nil)
   end
 
+  def self.alma_sru_enabled?
+    return false if alma_base_url.to_s.empty? || exl_inst_id.to_s.empty?
+
+    true
+  end
+
   def self.alma_sru_url(identifier)
-    # example identifier: 990000959610106761
-    "#{alma_base_url}/view/sru/#{ENV.fetch('EXL_INST_ID')}?version=1.2&operation=searchRetrieve&recordSchema=marcxml" \
+    # example identifier: 9935177389906761
+    "#{alma_base_url}/view/sru/#{exl_inst_id}?version=1.2&operation=searchRetrieve&recordSchema=marcxml" \
       "&query=alma.all_for_ui=#{identifier}"
+  end
+
+  def self.exl_inst_id
+    ENV.fetch('EXL_INST_ID', nil)
   end
 
   def self.setup(url, alma_client)

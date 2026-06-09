@@ -67,28 +67,50 @@ class AlmaSruTest < ActiveSupport::TestCase
 
   test 'lookup returns empty list for non-existent records' do
     output = StringIO.new
+    original_logger = Rails.logger
     Rails.logger = Logger.new(output)
 
-    VCR.use_cassette('alma sru nonexistent record') do
-      needle = 'alma9900000000006761'
+    begin
+      VCR.use_cassette('alma sru nonexistent record') do
+        needle = 'alma9900000000006761'
 
-      result = AlmaSru.lookup(needle)
+        result = AlmaSru.lookup(needle)
 
-      assert_equal(result, [])
+        assert_equal(result, [])
 
-      # This condition gets logged for local investigation due to control field mismatch
-      assert_match('Alma lookup failure: Control field mismatch', output.string)
+        # This condition gets logged for local investigation due to control field mismatch
+        assert_match('Alma lookup failure: Control field mismatch', output.string)
+      end
+    ensure
+      Rails.logger = original_logger
     end
   end
 
-  test 'lookup returns nil if env not set' do
-    needle = '990002935920106761'
+  test 'lookup returns empty list if alma URL not set' do
+    needle = 'alma990014651640106761'
+
+    VCR.use_cassette('alma sru single record') do
+      assert_equal(1, AlmaSru.lookup(needle).length)
+    end
+
     ClimateControl.modify(MIT_ALMA_URL: nil) do
       assert_equal([], AlmaSru.lookup(needle))
     end
   end
 
-  test 'lookup returns nil with non-complying ID' do
+  test 'lookup returns empty list if exl_inst_id not set' do
+    needle = 'alma990014651640106761'
+
+    VCR.use_cassette('alma sru single record') do
+      assert_equal(1, AlmaSru.lookup(needle).length)
+    end
+
+    ClimateControl.modify(EXL_INST_ID: nil) do
+      assert_equal([], AlmaSru.lookup(needle))
+    end
+  end
+
+  test 'lookup returns empty list with non-complying ID' do
     needle = 'foo'
 
     result = AlmaSru.lookup(needle)
@@ -99,34 +121,44 @@ class AlmaSruTest < ActiveSupport::TestCase
   test 'lookup survives failing to connect to Alma SRU' do
     alma_client = AlmaConnectionError.new
     output = StringIO.new
+    original_logger = Rails.logger
     Rails.logger = Logger.new(output)
 
     needle = 'alma990014651640106761'
 
-    assert_nothing_raised do
-      result = AlmaSru.lookup(needle, alma_client: alma_client)
+    begin
+      assert_nothing_raised do
+        result = AlmaSru.lookup(needle, alma_client: alma_client)
 
-      assert_equal([], result)
+        assert_equal([], result)
 
-      # This condition gets logged for local investigation
-      assert_match('Alma SRU connection error', output.string)
+        # This condition gets logged for local investigation
+        assert_match('Alma SRU connection error', output.string)
+      end
+    ensure
+      Rails.logger = original_logger
     end
   end
 
   test 'lookup survives Alma SRU errors' do
     alma_client = AlmaErrorResponse.new
     output = StringIO.new
+    original_logger = Rails.logger
     Rails.logger = Logger.new(output)
 
     needle = 'alma990014651640106761'
 
-    assert_nothing_raised do
-      result = AlmaSru.lookup(needle, alma_client: alma_client)
+    begin
+      assert_nothing_raised do
+        result = AlmaSru.lookup(needle, alma_client: alma_client)
 
-      assert_equal(result, [])
+        assert_equal(result, [])
 
-      # This condition gets logged for local investigation
-      assert_match('Alma lookup failure: 500', output.string)
+        # This condition gets logged for local investigation
+        assert_match('Alma lookup failure: 500', output.string)
+      end
+    ensure
+      Rails.logger = original_logger
     end
   end
 
