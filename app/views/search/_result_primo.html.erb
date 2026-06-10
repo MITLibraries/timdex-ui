@@ -1,6 +1,7 @@
 <li class="result primo" data-record-id="<%= result[:identifier] %>" data-matomo-seen="Results, Result Seen, Tab: {{getActiveTabName}}" data-track-content data-content-name="Result">
   <div class="result-content">
     <div class="title-lockup">
+      <%# NOTE: the order of the two items in this lockup are being swapped visually with CSS. The markup is ordered to make the screen reading experience more logical %>
       <h3 class="record-title">
         <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
           <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url'], data: { content_piece: 'Result Title' }) %>
