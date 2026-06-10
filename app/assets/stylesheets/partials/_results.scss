@@ -178,6 +178,12 @@
     background-color: transparent;
   }
 
+  // Trim bottom margin on last div to ensure consistent visual spacing between results
+  .result-content > div:last-child,
+  .result-metadata > div:last-child {
+    margin-bottom: 0;
+  }
+
   .eyebrow {
     color: $color-text-secondary;
     font-size: 1.3rem;
