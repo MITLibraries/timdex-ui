@@ -1,11 +1,13 @@
 <% highlights = trim_highlights(result) %>
 <% return unless highlights&.any? %>
 
-<h4 class="inner-heading">Search term found in:</h4>
-<ul class="list-unbulleted truncate-list">
-  <% highlights.each do |h| %>
-    <% h['matchedPhrases'].each do |phrase| %>
-      <li><strong><%= format_highlight_label(h['matchedField']) %>:</strong> <%= sanitize(phrase, tags: ['span']) %></li>
+<div class="result-highlights use">
+  <h4 class="inner-heading">Search term found in:</h4>
+  <ul class="list-unbulleted truncate-list">
+    <% highlights.each do |h| %>
+      <% h['matchedPhrases'].each do |phrase| %>
+        <li><strong><%= format_highlight_label(h['matchedField']) %>:</strong> <%= sanitize(phrase, tags: ['span']) %></li>
+      <% end %>
     <% end %>
-  <% end %>
-</ul>
+  </ul>
+</div>
