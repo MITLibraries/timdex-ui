@@ -77,14 +77,13 @@ class AlmaSru
   # 1. Remove the "alma" prefix if one is present. Otherwise, no manipulation of the submitted value should occur.
   # 2. Enforce the formatting requirements for a valid alma identifier (start with "99", and end with "6761").
   def self.validate_alma_id(raw)
-    parsed = if raw.start_with?('alma')
+    parsed = if raw.to_s.start_with?('alma')
                raw.delete_prefix('alma')
              else
                raw
              end
 
-    raise InvalidAlmaId unless parsed.to_s.start_with?('99')
-    raise InvalidAlmaId unless parsed.to_s.end_with?('6761')
+    raise InvalidAlmaId unless parsed.present? && parsed.match?(/\A99\d+6761\z/)
 
     parsed
   end
@@ -115,14 +114,28 @@ class AlmaSru
 
   # fetch_controlfield receives a parsed XML document (Nokogiri::XML::Document)
   # and returns the controlfield with an 001 tag, if one exists.
+  #
+  # This allows us to confirm that we've received the expected record back from
+  # the API, and not either a blank response or some other unexpected document.
   def self.fetch_controlfield(parsed_xml)
     parsed_xml.xpath("//holding:controlfield[@tag='001']", NAMESPACE)&.text
   end
 
   # format_availability receives a hash representing a single availability
-  # statement, and formats it for human readability.
+  # statement, and formats it for human readability. Values for "e" and "q" are
+  # required, while "c" and "d" are optional.
+  #
+  # A Sentry exception is captured if those required parameters are missing.
   def self.format_availability(availability)
-    "#{availability['e']&.humanize} at #{availability['q']} #{availability['c']} (#{availability['d']})"
+    if availability['e'].blank? || availability['q'].blank?
+      Sentry.capture_message('Missing required availability data')
+      return ''
+    end
+
+    phrase = "#{availability['e']&.humanize} at #{availability['q']} #{availability['c']}".squish
+    phrase += " (#{availability['d']})" if availability['d'].present?
+
+    phrase
   end
 
   def self.alma_base_url
@@ -130,7 +143,10 @@ class AlmaSru
   end
 
   def self.alma_sru_enabled?
-    return false if alma_base_url.to_s.empty? || exl_inst_id.to_s.empty?
+    if alma_base_url.to_s.empty? || exl_inst_id.to_s.empty?
+      Sentry.capture_message('Alma SRU not enabled')
+      return false
+    end
 
     true
   end
