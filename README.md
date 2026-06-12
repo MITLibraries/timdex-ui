@@ -76,6 +76,8 @@ See `Optional Environment Variables` for more information.
 ### Required Environment Variables
 
 - `ALMA_OPENURL`: The base URL for Alma openurls found in CDI records.
+- `EXL_INST_ID`: The Ex Libris Institution ID. Used for constructing URLs.
+- `MIT_ALMA_URL`: The base URL for MIT Libraries' Alma instance (used to generate SRU API lookups).
 - `MIT_PRIMO_URL`: The base URL for MIT Libraries' Primo instance (used to generate record links).
 - `PRIMO_API_KEY`: The Primo Search API key.
 - `PRIMO_API_URL`: The Primo Search API base URL.

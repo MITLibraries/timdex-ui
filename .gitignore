@@ -11,6 +11,9 @@
 .env
 .env.development
 
+# qlty
+.qlty
+
 ## Environment normalization:
 /.bundle
 /vendor/bundle
