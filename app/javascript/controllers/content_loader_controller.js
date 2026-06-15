@@ -1,10 +1,28 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = { url: String }
+  static values = { url: String, lazyLoading: Boolean }
 
   connect() {
-    this.load()
+    if (this.lazyLoadingValue) {
+      // The content loader included a lazy loading directive.
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            this.load()
+            this.observer.disconnect()
+          }
+        }
+      )
+      this.observer.observe(this.element)
+    } else {
+      // Load the content immediately.
+      this.load()
+    }
+  }
+
+  disconnect() {
+    this.observer?.disconnect()
   }
 
   load() {
