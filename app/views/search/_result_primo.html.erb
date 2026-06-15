@@ -109,6 +109,10 @@
           <%= render(partial: 'trigger_openalex_setup', locals: { doi: result[:doi], pmid: result[:pmid] }) %>
         <% end %>
 
+        <% if AlmaSru.enabled? %>
+          <%= render(partial: 'trigger_almasru', locals: { doc_id: result[:identifier] }) %>
+        <% end %>
+
         <% if result[:availability].present? %>
           <div class="availability">
           <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
