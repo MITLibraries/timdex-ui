@@ -1,0 +1,7 @@
+<% if AlmaSru.enabled? && @availability.present? %>
+  <div class="availability">
+    <% @availability.each do |statement| %>
+      <%= link_to(statement, '#', data: {content_piece: 'Availability Link' }) %><br>
+    <% end %>
+  </div>
+<% end %>
