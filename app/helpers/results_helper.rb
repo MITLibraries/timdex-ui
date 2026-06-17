@@ -81,6 +81,16 @@ module ResultsHelper
     format.match?(/\barticle\b/i)
   end
 
+  # Extracts the full record URL from a result's links
+  #
+  # @param result [Hash] A normalized result hash with :links
+  # @return [String, nil] The URL of the 'full record' link, or nil if not found
+  def full_record_url(result)
+    return unless result.is_a?(Hash)
+
+    result[:links]&.find { |link| link['kind'] == 'full record' }&.dig('url')
+  end
+
   # Determines if a result has any fulfillment links to render
   #
   # @param result [Hash] A normalized Primo result hash

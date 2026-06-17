@@ -1,6 +1,8 @@
 <% return unless ThirdIron.enabled? %>
 
-<% data_url = "/browzine?issn=#{issn}" %>
+<% query_params = { issn: issn } %>
+<% query_params[:full_record_url] = full_record_url if full_record_url.present? %>
+<% data_url = "/browzine?#{query_params.to_query}" %>
 
 <span class="libkey-container"
      data-controller="content-loader"
