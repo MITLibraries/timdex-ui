@@ -109,7 +109,7 @@
           <%= render(partial: 'trigger_openalex_setup', locals: { doi: result[:doi], pmid: result[:pmid] }) %>
         <% end %>
 
-        <% if AlmaSru.enabled? %>
+        <% if AlmaSru.enabled? && AlmaSru.valid_alma_id?(result[:identifier]) %>
           <%= render(partial: 'trigger_almasru', locals: { doc_id: result[:identifier] }) %>
         <% end %>
 

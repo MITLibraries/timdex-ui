@@ -148,59 +148,32 @@ class AlmaSruTest < ActiveSupport::TestCase
     end
   end
 
-  # validate_alma_id method
-  test 'validate_alma_id succeeds with valid numeric input' do
-    needle = '990002935920106761'
-    assert_nothing_raised do
-      AlmaSru.validate_alma_id(needle)
+  # valid_alma_id? method
+  test 'valid_alma_id? returns true for valid inputs' do
+    needles = [
+      990002935920106761,
+      '990002935920106761',
+      'alma990002935920106761'
+    ]
+
+    needles.each do |needle|
+      assert_equal(true, AlmaSru.valid_alma_id?(needle))
     end
   end
 
-  test 'validate_alma_id succeeds despite an "alma" prefix' do
-    needle = 'alma990002935920106761'
-    assert_nothing_raised do
-      AlmaSru.validate_alma_id(needle)
-    end
-  end
+  test 'valid_alma_id? returns false for invalid inputs' do
+    needles = [
+      nil,
+      'cdi_econis_primary_1902984668',   # wildly nonconforming
+      '99000293foo5920106761',           # non-numeric internals
+      '0002935920106761',                # missing start sequence
+      'alma0002935920106761',            # missing start sequence
+      '99000293592010',                  # missing end sequence
+      'alma99000293592010'               # missing end sequence
+    ]
 
-  test 'validate_alma_id raises InvalidAlmaId with non-numeric id' do
-    needle = '99000293foo5920106761'
-
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id(needle)
-    end
-  end
-
-  test 'validate_alma_id raises InvalidAlmaId with a nil input' do
-    needle = nil
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id(needle)
-    end
-  end
-
-  test 'validate_alma_id raises InvalidAlmaId without required start sequence' do
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('0002935920106761')
-    end
-
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('alma0002935920106761')
-    end
-  end
-
-  test 'validate_alma_id raises InvalidAlmaId without required end sequence' do
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('99000293592010')
-    end
-
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('alma99000293592010')
-    end
-  end
-
-  test 'validate_alma_id raises InvalidAlmaId with wildly invalid input' do
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('foo')
+    needles.each do |needle|
+      assert_equal(false, AlmaSru.valid_alma_id?(needle))
     end
   end
 
