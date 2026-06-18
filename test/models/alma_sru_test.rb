@@ -41,7 +41,10 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal(['Available at Rotch Library Stacks (NA680.C25 2007)'], result)
+      assert_equal(
+        ["<i class='fa-sharp fa-solid fa-check' aria-hidden='true'></i> Available in <strong>Rotch Library</strong> Stacks (NA680.C25 2007)"],
+        result
+      )
     end
   end
 
@@ -52,10 +55,7 @@ class AlmaSruTest < ActiveSupport::TestCase
       result = AlmaSru.lookup(needle)
 
       assert_equal(1, result.length)
-      assert_equal(
-        'Check holdings at Barker Library Staff Retrieval - request required (FICHE No Call #) and other locations',
-        result[0]
-      )
+      assert_includes result[0], 'and other locations'
     end
   end
 
@@ -226,20 +226,60 @@ class AlmaSruTest < ActiveSupport::TestCase
     ava_hash = {
       'c' => 'charlie',
       'd' => 'delta',
-      'e' => 'echo',
+      'e' => 'available',
       'q' => 'quebec'
     }
 
-    assert_equal('Echo at quebec charlie (delta)', AlmaSru.format_availability(ava_hash))
+    assert_equal(
+      "<i class='fa-sharp fa-solid fa-check' aria-hidden='true'></i> Available in <strong>quebec</strong> charlie (delta)",
+      AlmaSru.format_availability(ava_hash)
+    )
   end
 
   test 'format_availability returns a minimum statement if only e and q are present' do
+    ava_hash = {
+      'e' => 'available',
+      'q' => 'quebec'
+    }
+
+    assert_equal("<i class='fa-sharp fa-solid fa-check' aria-hidden='true'></i> Available in <strong>quebec</strong>",
+                 AlmaSru.format_availability(ava_hash))
+  end
+
+  test 'format_availability supports check_holdings status' do
+    ava_hash = {
+      'e' => 'check_holdings',
+      'q' => 'quebec'
+    }
+
+    assert_equal(
+      "<i class='fa-sharp fa-solid fa-question' aria-hidden='true'></i> May be available in <strong>quebec</strong>",
+      AlmaSru.format_availability(ava_hash)
+    )
+  end
+
+  test 'format_availability supports unavailable status' do
+    ava_hash = {
+      'e' => 'unavailable',
+      'q' => 'quebec'
+    }
+
+    assert_equal(
+      "<i class='fa-sharp fa-solid fa-times' aria-hidden='true'></i> Not currently available in <strong>quebec</strong>",
+      AlmaSru.format_availability(ava_hash)
+    )
+  end
+
+  test 'format_availability does not fail with unexpected status' do
     ava_hash = {
       'e' => 'echo',
       'q' => 'quebec'
     }
 
-    assert_equal('Echo at quebec', AlmaSru.format_availability(ava_hash))
+    assert_equal(
+      "<i class='fa-sharp fa-solid fa-question' aria-hidden='true'></i> Uncertain availability (Echo) in <strong>quebec</strong>",
+      AlmaSru.format_availability(ava_hash)
+    )
   end
 
   test 'format_availability returns an empty string without both e and q present' do

@@ -123,10 +123,27 @@ class AlmaSru
       return ''
     end
 
-    phrase = "#{availability['e']&.humanize} at #{availability['q']} #{availability['c']}".squish
+    phrase = "#{_phrase_start(availability['e'])} <strong>#{availability['q']}</strong> #{availability['c']}".squish
     phrase += " (#{availability['d']})" if availability['d'].present?
-
     phrase
+  end
+
+  def self._phrase_start(status)
+    case status
+    when 'available'
+      "#{_icon('check')} Available in "
+    when 'check_holdings'
+      "#{_icon('question')} May be available in "
+    when 'unavailable'
+      "#{_icon('times')} Not currently available in "
+    else
+      Rails.logger.error("Unhandled availability status: #{status}")
+      "#{_icon('question')} Uncertain availability (#{status.humanize}) in "
+    end
+  end
+
+  def self._icon(icon, collection = 'fa-sharp fa-solid')
+    "<i class='#{collection} fa-#{icon}' aria-hidden='true'></i>"
   end
 
   def self.alma_base_url
