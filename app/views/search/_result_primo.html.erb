@@ -113,16 +113,6 @@
           <%= render(partial: 'trigger_almasru', locals: { doc_id: result[:identifier] }) %>
         <% end %>
 
-        <% if result[:availability].present? %>
-          <div class="availability">
-          <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
-            <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url'], data: { content_piece: 'Availability Link' }) %>
-          <% else %>
-            <%= availability(result[:availability], result[:location], result[:other_availability]) %>
-          <% end %>
-          </div>
-        <% end %>
-
         <%# Trigger BrowZine lookup (render inside result-get so injected HTML
             is part of the flex `.result-get` area and receives expected styles) %>
         <% if ThirdIron.enabled? && result[:format].downcase == 'journal' && result[:issn].present? %>
