@@ -71,7 +71,12 @@ class AlmaSru
     # Look up all AVA tags
     parsed_availabilities = fetch_availabilities(parsed)
 
-    parsed_availabilities.map(&method(:format_availability))
+    # Format list of entries
+    results = parsed_availabilities.map(&method(:format_availability))
+
+    # Reduce list to a single item if multiples exist
+    results[0] += ' and other locations' if results.length > 1
+    results.first(1)
   end
 
   # ava_to_hash takes an XML element that represents a single availability record

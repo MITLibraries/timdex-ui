@@ -33,16 +33,18 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
 
       assert :success
       assert_select 'div.availability a', { count: 1 }
+      refute_includes response.body, 'and other locations'
     end
   end
 
-  test 'alma sru route returns multiple statements with multiple AVA' do
+  test 'alma sru route returns one statement including "and other locations" with multiple AVA' do
     VCR.use_cassette('alma sru multiple records') do
       needle = 'alma990002935920106761'
       get almasru_path(doc_id: needle)
 
       assert :success
-      assert_select 'div.availability a', { count: 2 }
+      assert_select 'div.availability a', { count: 1 }
+      assert_includes response.body, 'and other locations'
     end
   end
 

@@ -45,14 +45,17 @@ class AlmaSruTest < ActiveSupport::TestCase
     end
   end
 
-  test 'lookup returns self-service locations first if multiples exist' do
+  test 'lookup returns a single entry, prioritizing self-service locations first, if multiples exist' do
     VCR.use_cassette('alma sru multiple records') do
       needle = '990002935920106761'
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal('Check holdings at Barker Library Staff Retrieval - request required (FICHE No Call #)', result[0])
-      assert_equal('Available at Library Storage Annex Journal Collection (LSA4) (TA.J86.H437)', result[1])
+      assert_equal(1, result.length)
+      assert_equal(
+        'Check holdings at Barker Library Staff Retrieval - request required (FICHE No Call #) and other locations',
+        result[0]
+      )
     end
   end
 
@@ -150,11 +153,13 @@ class AlmaSruTest < ActiveSupport::TestCase
 
   # valid_alma_id? method
   test 'valid_alma_id? returns true for valid inputs' do
+    # rubocop:disable Style/NumericLiterals
     needles = [
       990002935920106761,
       '990002935920106761',
       'alma990002935920106761'
     ]
+    # rubocop:enable Style/NumericLiterals
 
     needles.each do |needle|
       assert_equal(true, AlmaSru.valid_alma_id?(needle))
