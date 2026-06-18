@@ -24,7 +24,7 @@ class AlmaSru
   #
   # It accepts an "alma_client" argument for use when testing, but this is not used in normal operations.
   def self.lookup(raw_identifier, alma_client: nil)
-    return [] unless alma_sru_enabled?
+    return [] unless enabled?
 
     # Validate the raw identifier received. This will raise an InvalidAlmaId if validation fails.
     identifier = validate_alma_id(raw_identifier)
@@ -142,7 +142,7 @@ class AlmaSru
     ENV.fetch('MIT_ALMA_URL', nil)
   end
 
-  def self.alma_sru_enabled?
+  def self.enabled?
     if alma_base_url.to_s.empty? || exl_inst_id.to_s.empty?
       Sentry.capture_message('Alma SRU not enabled')
       return false
