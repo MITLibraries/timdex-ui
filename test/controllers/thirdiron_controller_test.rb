@@ -27,14 +27,14 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
       get '/libkey?type=doi&identifier=10.1038/s41567-023-02305-y'
 
       assert_response :success
-      assert_select 'a.button', { count: 3 }
+      assert_select 'a.libkey-link', { count: 3 }
     end
 
     VCR.use_cassette('libkey pmid') do
       get '/libkey?type=pmid&identifier=22110403'
 
       assert_response :success
-      assert_select 'a.button', { count: 3 }
+      assert_select 'a.libkey-link', { count: 3 }
     end
   end
 
@@ -111,7 +111,35 @@ class ThirdironControllerTest < ActionDispatch::IntegrationTest
       get '/browzine?issn=1546170X'
 
       assert_response :success
+
+      # Only browzine link, no button since no full_record_url provided
+      assert_select 'a.button', { count: 0 }
+      assert_select 'a.libkey-link', { count: 1 }
+    end
+  end
+
+  test 'browzine route with full_record_url returns both links' do
+    VCR.use_cassette('browzine issn') do
+      get '/browzine?issn=1546170X&full_record_url=https://example.com/full-record'
+
+      assert_response :success
+
+      # Button (Full-text options) and browzine link both have libkey-link class
       assert_select 'a.button', { count: 1 }
+      assert_select 'a.button[href="https://example.com/full-record"]'
+      assert_select 'a.libkey-link', { count: 2 }
+    end
+  end
+
+  test 'browzine route ignores unsafe full_record_url values' do
+    VCR.use_cassette('browzine issn') do
+      get '/browzine?issn=1546170X&full_record_url=javascript:alert(1)'
+
+      assert_response :success
+
+      # Unsafe URL should not produce a "Full-text options" button
+      assert_select 'a.button', { count: 0 }
+      assert_select 'a.libkey-link', { count: 1 }
     end
   end
 
