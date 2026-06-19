@@ -360,7 +360,7 @@ class RecordHelperTest < ActionView::TestCase
   end
 
   test 'icon helper generates properly formatted HTML' do
-    expected = "<i class='fa-sharp fa-solid fa-question' aria-hidden='true''></i>"
+    expected = "<i class='fa-sharp fa-solid fa-question' aria-hidden='true'></i>"
     assert_equal expected, icon('question')
   end
 end

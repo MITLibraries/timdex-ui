@@ -147,7 +147,7 @@ module RecordHelper
   # purely for decoration. If an icon is used in a more meaningful way, we should extend this helper
   # to allow passing in additional aria attributes rather than always hiding.
   def icon(fa, collection = 'fa-sharp fa-solid')
-    "<i class='#{collection} fa-#{fa}' aria-hidden='true''></i>"
+    "<i class='#{collection} fa-#{fa}' aria-hidden='true'></i>"
   end
 
   private
