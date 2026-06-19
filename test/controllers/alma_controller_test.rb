@@ -4,7 +4,7 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
   test 'alma sru route exists with no content' do
     get almasru_path
 
-    assert :success
+    assert_response :success
     assert response.body.blank?
   end
 
@@ -12,7 +12,7 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
     needle = 'foo'
     get almasru_path(doc_id: needle)
 
-    assert :success
+    assert_response :success
     assert response.body.blank?
   end
 
@@ -21,7 +21,7 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
       needle = 'alma9935053423706761'
       get almasru_path(doc_id: needle)
 
-      assert :success
+      assert_response :success
       assert response.body.blank?
     end
   end
@@ -31,7 +31,7 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
       needle = 'alma990014651640106761'
       get almasru_path(doc_id: needle)
 
-      assert :success
+      assert_response :success
       assert_select 'div.availability a', { count: 1 }
       refute_includes response.body, 'and other locations'
     end
@@ -42,7 +42,7 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
       needle = 'alma990002935920106761'
       get almasru_path(doc_id: needle)
 
-      assert :success
+      assert_response :success
       assert_select 'div.availability a', { count: 1 }
       assert_includes response.body, 'and other locations'
     end
@@ -53,13 +53,13 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
       needle = 'alma990014651640106761'
       get almasru_path(doc_id: needle)
 
-      assert :success
+      assert_response :success
       refute response.body.blank?
 
       ClimateControl.modify(MIT_ALMA_URL: nil) do
         get almasru_path(doc_id: needle)
 
-        assert :success
+        assert_response :success
         assert response.body.blank?
       end
     end

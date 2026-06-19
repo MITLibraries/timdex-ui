@@ -97,7 +97,7 @@ module ResultsHelper
   # @return [Boolean] True if the result has links, availability, or ThirdIron/OpenAlex triggers
   def result_get?(result)
     renderable_links?(result) ||
-      result[:availability].present? ||
+      AlmaSru.valid_alma_id?(result[:identifier]) ||
       (Feature.enabled?(:oa_always) && article?(result[:format])) ||
       thirdiron_content?(result)
   end

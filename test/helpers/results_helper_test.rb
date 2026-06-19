@@ -116,8 +116,8 @@ class ResultsHelperTest < ActionView::TestCase
     assert result_get?({ links: [{ 'kind' => 'PDF', 'url' => 'https://example.com' }] })
   end
 
-  test 'result_get? returns true when result has availability' do
-    assert result_get?({ availability: 'Available' })
+  test 'result_get? returns true when result has a valid Alma ID' do
+    assert result_get?({ identifier: 'alma9912346761' })
   end
 
   test 'result_get? returns true when ThirdIron enabled and result has doi' do

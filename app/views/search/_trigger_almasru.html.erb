@@ -1,6 +1,6 @@
 <% return unless AlmaSru.enabled? %>
 
-<% data_url = "/almasru?doc_id=#{doc_id}" %>
+<% data_url = almasru_path(doc_id: doc_id) %>
 
 <span class="availability-container"
   data-controller="content-loader"

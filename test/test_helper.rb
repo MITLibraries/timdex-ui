@@ -66,6 +66,10 @@ class ActiveSupport::TestCase
   setup do
     Rails.cache.clear
   end
+
+  def teardown
+    AlmaSru.remove_instance_variable(:@enabled) if AlmaSru.instance_variable_defined?(:@enabled)
+  end
 end
 
 # Helper factory to create simple stub fetchers for `MergedSearchService` tests.

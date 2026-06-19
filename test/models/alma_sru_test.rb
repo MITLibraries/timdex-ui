@@ -99,6 +99,8 @@ class AlmaSruTest < ActiveSupport::TestCase
     end
 
     ClimateControl.modify(EXL_INST_ID: nil) do
+      AlmaSru.remove_instance_variable(:@enabled)
+
       assert_equal([], AlmaSru.lookup(needle))
     end
   end

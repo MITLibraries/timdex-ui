@@ -1,7 +1,9 @@
 <% if AlmaSru.enabled? && @availability.present? %>
   <div class="availability">
     <% @availability.each do |statement| %>
-      <%= link_to(statement.html_safe, "#{PrimoLinkBuilder.new(record_id: params[:doc_id], context: 'L').full_record_link}#getit_link1_0", data: {content_piece: 'Availability Link' }) %><br>
+      <%= link_to(sanitize(statement, tags: %w[i strong], attributes: %w[class aria-hidden]),
+                  "#{PrimoLinkBuilder.new(record_id: params[:doc_id], context: 'L').full_record_link}#getit_link1_0",
+                  data: {content_piece: 'Availability Link' }) %><br>
     <% end %>
   </div>
 <% end %>

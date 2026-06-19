@@ -123,8 +123,9 @@ class AlmaSru
       return ''
     end
 
-    phrase = "#{_phrase_start(availability['e'])} <strong>#{availability['q']}</strong> #{availability['c']}".squish
-    phrase += " (#{availability['d']})" if availability['d'].present?
+    phrase = "#{_phrase_start(ERB::Util.html_escape(availability['e'].to_s))} <strong>#{ERB::Util.html_escape(availability['q'].to_s)}</strong> " \
+             "#{ERB::Util.html_escape(availability['c'].to_s)}".squish
+    phrase += " (#{ERB::Util.html_escape(availability['d'].to_s)})" if availability['d'].present?
     phrase
   end
 
@@ -151,12 +152,12 @@ class AlmaSru
   end
 
   def self.enabled?
-    if alma_base_url.to_s.empty? || exl_inst_id.to_s.empty?
-      Sentry.capture_message('Alma SRU not enabled')
-      return false
-    end
+    return @enabled if instance_variable_defined?(:@enabled)
 
-    true
+    @enabled = alma_base_url.to_s.present? && exl_inst_id.to_s.present?
+    Sentry.capture_message('Alma SRU not enabled') unless @enabled
+
+    @enabled
   end
 
   # extract_alma_id receives a hypothetical document ID that references an alma
