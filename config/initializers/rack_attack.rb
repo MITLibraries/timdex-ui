@@ -37,6 +37,7 @@ class Rack::Attack
   throttle('req/ip/results',
           limit: (ENV.fetch('RESULTS_THROTTLE_LIMIT') { 10 }).to_i,
           period: (ENV.fetch('RESULTS_THROTTLE_PERIOD') { 1 }).to_i.minutes) do |req|
+    Rails.logger.info("[Rack::Attack] Throttle block for req/ip/results - Path: #{req.path}")
     req.ip if req.path.start_with?('/results') || req.path.start_with?('/record')
   end
 
