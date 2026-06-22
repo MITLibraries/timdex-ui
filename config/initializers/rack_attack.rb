@@ -135,7 +135,7 @@ class Rack::Attack
   # exemptions, so redirecting would create an infinite loop.
   #
   # For throttles without grace period support, return 429 instead.
-  self.throttled_responder = lambda do |env|
+  self.throttled_response = lambda do |env|
     request = Rack::Request.new(env)
     matched_throttle = env['rack.attack.matched']
 
