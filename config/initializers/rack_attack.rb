@@ -27,6 +27,20 @@ class Rack::Attack
   # counted by rack-attack and this throttle may be activated too
   # quickly. If so, enable the condition to exclude them from tracking.
 
+  # Global rate limit for /results and /record endpoints to protect against
+  # distributed botnet volume attacks. Even with per-IP throttling, a botnet
+  # with 1000+ IPs each making 1 request can overwhelm the backend.
+  # This global limit prevents that by throttling ALL requests if they exceed
+  # the threshold, regardless of source IP.
+  #
+  # Default: 30 requests per second across all IPs
+  throttle('results/global',
+          limit: (ENV.fetch('RESULTS_GLOBAL_LIMIT_PER_SEC') { 30 }).to_i,
+          period: 1.second) do |req|
+    # Use a constant key so this is a true global limit, not per-IP
+    'results' if req.path.start_with?('/results') || req.path.start_with?('/record')
+  end
+
   # Throttle /results requests more aggressively (default is 10 requests per minute)
   # /results and /record endpoints are expensive and are common targets for botnet
   # attacks using distributed IPs. This throttle is much stricter than the general
