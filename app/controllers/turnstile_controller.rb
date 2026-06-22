@@ -9,6 +9,13 @@ class TurnstileController < ApplicationController
 
   def verify
     session[:passed_turnstile] = true
+
+    # Whitelist this IP from throttling for 15 minutes after passing Turnstile
+    # This prevents users from being repeatedly challenged after solving once
+    cache_key = "turnstile_verified:#{request.ip}"
+    grace_period = ENV.fetch('TURNSTILE_GRACE_PERIOD') { 15 }.to_i.minutes
+    Rails.cache.write(cache_key, true, expires_in: grace_period)
+
     redirect_to safe_return_path
   end
 

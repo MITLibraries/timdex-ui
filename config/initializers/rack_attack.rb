@@ -33,11 +33,20 @@ class Rack::Attack
   # throttle to defend against distributed bot attacks that stay under per-IP limits
   # by rotating through many IPs.
   #
+  # However, after a user passes Turnstile verification, we whitelist them for a grace
+  # period (default 15 minutes) to avoid re-challenging them repeatedly.
+  #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip/results:#{req.ip}"
   throttle('req/ip/results',
           limit: (ENV.fetch('RESULTS_THROTTLE_LIMIT') { 10 }).to_i,
           period: (ENV.fetch('RESULTS_THROTTLE_PERIOD') { 1 }).to_i.minutes) do |req|
-    Rails.logger.info("[Rack::Attack] Throttle block for req/ip/results - Path: #{req.path}")
+    # Skip throttling if this IP recently passed Turnstile verification
+    # Cache key format: "turnstile_verified:#{ip}"
+    cache_key = "turnstile_verified:#{req.ip}"
+    if Rails.cache.read(cache_key)
+      next nil
+    end
+
     req.ip if req.path.start_with?('/results') || req.path.start_with?('/record')
   end
 
