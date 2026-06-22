@@ -27,21 +27,28 @@ class Rack::Attack
   # counted by rack-attack and this throttle may be activated too
   # quickly. If so, enable the condition to exclude them from tracking.
 
-  # Global rate limit for /results and /record endpoints to protect against
-  # distributed botnet volume attacks. Even with per-IP throttling, a botnet
-  # with 1000+ IPs each making 1 request can overwhelm the backend.
-  # This global limit prevents that by throttling ALL requests if they exceed
-  # the threshold, regardless of source IP.
+   # Global rate limit for /results and /record endpoints (excluding any Rack::Attack safelisted IPs)
+   # to protect against distributed volume attacks. Per-IP throttling can be bypassed by rotating
+   # through many IPs; this shared counter caps total throughput for all non-safelisted traffic.
   #
-  # Default: 30 requests per second across all IPs
+  # However, after a user passes Turnstile verification, we whitelist them for a grace
+  # period (same as per-IP throttle) to avoid redirect loops during sustained attacks.
+  #
+  # Default: 30 requests per second across all non-safelisted IPs
   throttle('results/global',
           limit: (ENV.fetch('RESULTS_GLOBAL_LIMIT_PER_SEC') { 30 }).to_i,
           period: 1.second) do |req|
+    # Skip throttling if this IP recently passed Turnstile verification
+    cache_key = "turnstile_verified:#{req.ip}"
+    if Rails.cache.read(cache_key)
+      next nil
+    end
+
     # Use a constant key so this is a true global limit, not per-IP
     'results' if req.path.start_with?('/results') || req.path.start_with?('/record')
   end
 
-  # Throttle /results requests more aggressively (default is 10 requests per minute)
+  # Throttle /results and /record requests more aggressively (default is 10 requests per minute)
   # /results and /record endpoints are expensive and are common targets for botnet
   # attacks using distributed IPs. This throttle is much stricter than the general
   # throttle to defend against distributed bot attacks that stay under per-IP limits
