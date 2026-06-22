@@ -38,14 +38,15 @@ class Rack::Attack
   throttle('results/global',
           limit: (ENV.fetch('RESULTS_GLOBAL_LIMIT_PER_SEC') { 30 }).to_i,
           period: 1.second) do |req|
+    # Only apply to /results and /record endpoints
+    next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
+
     # Skip throttling if this IP recently passed Turnstile verification
     cache_key = "turnstile_verified:#{req.ip}"
-    if Rails.cache.read(cache_key)
-      next nil
-    end
+    next nil if Rails.cache.read(cache_key)
 
     # Use a constant key so this is a true global limit, not per-IP
-    'results' if req.path.start_with?('/results') || req.path.start_with?('/record')
+    'results'
   end
 
   # Throttle /results and /record requests more aggressively (default is 10 requests per minute)
@@ -61,24 +62,15 @@ class Rack::Attack
   throttle('req/ip/results',
           limit: (ENV.fetch('RESULTS_THROTTLE_LIMIT') { 10 }).to_i,
           period: (ENV.fetch('RESULTS_THROTTLE_PERIOD') { 1 }).to_i.minutes) do |req|
+    # Only apply to /results and /record endpoints
+    next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
+
     # Skip throttling if this IP recently passed Turnstile verification
     # Cache key format: "turnstile_verified:#{ip}"
     cache_key = "turnstile_verified:#{req.ip}"
-    if Rails.cache.read(cache_key)
-      next nil
-    end
+    next nil if Rails.cache.read(cache_key)
 
-    req.ip if req.path.start_with?('/results') || req.path.start_with?('/record')
-  end
-
-  # Throttle all requests by IP (default is 100 requests per 10 minutes)
-  #
-  # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
-  throttle('req/ip',
-          limit: (ENV.fetch('REQUESTS_PER_PERIOD') { 100 }).to_i,
-          period: (ENV.fetch('REQUEST_PERIOD') { 10 }).to_i.minutes) do |req|
-    # don't include assets as requests
-    req.ip unless req.path.start_with?('/assets')
+    req.ip
   end
 
   # Throttle redirects by IP (default is 5 per 10 minutes)
