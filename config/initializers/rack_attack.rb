@@ -36,7 +36,7 @@ class Rack::Attack
   #
   # Default: 30 requests per second across all non-safelisted IPs
   throttle('results/global',
-          limit: (ENV.fetch('RESULTS_GLOBAL_LIMIT_PER_SEC') { 30 }).to_i,
+          limit: (ENV.fetch('RESULTS_GLOBAL_LIMIT_PER_SEC', 30)).to_i,
           period: 1.second) do |req|
     # Only apply to /results and /record endpoints
     next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
@@ -60,8 +60,8 @@ class Rack::Attack
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip/results:#{req.ip}"
   throttle('req/ip/results',
-          limit: (ENV.fetch('RESULTS_THROTTLE_LIMIT') { 10 }).to_i,
-          period: (ENV.fetch('RESULTS_THROTTLE_PERIOD') { 1 }).to_i.minutes) do |req|
+          limit: (ENV.fetch('RESULTS_THROTTLE_LIMIT', 10)).to_i,
+          period: (ENV.fetch('RESULTS_THROTTLE_PERIOD', 1)).to_i.minutes) do |req|
     # Only apply to /results and /record endpoints
     next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
 
@@ -73,12 +73,22 @@ class Rack::Attack
     req.ip
   end
 
+  # Throttle all requests by IP (default is 100 requests per 10 minutes)
+  #
+  # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
+  throttle('req/ip',
+          limit: (ENV.fetch('REQUESTS_PER_PERIOD', 100)).to_i,
+          period: (ENV.fetch('REQUEST_PERIOD', 10)).to_i.minutes) do |req|
+    # don't include assets as requests
+    req.ip unless req.path.start_with?('/assets')
+  end
+
   # Throttle redirects by IP (default is 5 per 10 minutes)
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip/redirects:#{req.ip}"
   throttle('req/ip/redirects',
-          limit: (ENV.fetch('REDIRECT_REQUESTS_PER_PERIOD') { 5 }).to_i,
-          period: (ENV.fetch('REDIRECT_REQUEST_PERIOD') { 10 }).to_i.minutes) do |req|
+          limit: (ENV.fetch('REDIRECT_REQUESTS_PER_PERIOD', 5)).to_i,
+          period: (ENV.fetch('REDIRECT_REQUEST_PERIOD', 10)).to_i.minutes) do |req|
     req.ip if req.query_string.start_with?('geoweb-redirect')
   end
 
