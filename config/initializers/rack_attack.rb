@@ -130,17 +130,25 @@ class Rack::Attack
   # hard-blocked. This is more user-friendly for tuning since we can't perfectly
   # distinguish bots from heavy legitimate usage.
   #
-  # For other throttles, return 429 as normal.
-  self.throttled_response = lambda do |env|
+  # IMPORTANT: Only redirect if the matched throttle is one that has a grace period cache check
+  # (results/global or req/ip/results). Other throttles (req/ip, etc.) don't have grace period
+  # exemptions, so redirecting would create an infinite loop.
+  #
+  # For throttles without grace period support, return 429 instead.
+  self.throttled_responder = lambda do |env|
     request = Rack::Request.new(env)
-    if request.path.start_with?('/results') || request.path.start_with?('/record')
+    matched_throttle = env['rack.attack.matched']
+
+    # Only redirect to Turnstile for /results and /record if it's a throttle with grace period support
+    if (request.path.start_with?('/results') || request.path.start_with?('/record')) &&
+       (matched_throttle == 'results/global' || matched_throttle == 'req/ip/results')
       # Redirect to Turnstile challenge
       return_to = "#{request.path_info}?#{request.query_string}".gsub(/\?$/, '')
       [ 302,
         { 'Location' => "/turnstile?return_to=#{ERB::Util.url_encode(return_to)}" },
         [''] ]
     else
-      # Default 429 for other throttled paths
+      # Default 429 for other throttled paths or throttles without grace period support
       [ 429,
         { 'Content-Type' => 'text/plain' },
         ['Too Many Requests'] ]

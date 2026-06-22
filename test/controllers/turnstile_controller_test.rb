@@ -61,7 +61,7 @@ class TurnstileControllerTest < ActionDispatch::IntegrationTest
   test 'verify grace period duration respects TURNSTILE_GRACE_PERIOD env var' do
     with_bot_detection_enabled do
       ip = '192.168.1.2'
-      grace_period_minutes = 5
+      grace_period_minutes = 1 # Use 1 minute for practical testing
 
       ClimateControl.modify(TURNSTILE_GRACE_PERIOD: grace_period_minutes.to_s) do
         post turnstile_verify_path,
@@ -69,7 +69,13 @@ class TurnstileControllerTest < ActionDispatch::IntegrationTest
              headers: { 'REMOTE_ADDR' => ip }
 
         cache_key = "turnstile_verified:#{ip}"
-        assert Rails.cache.read(cache_key), 'Cache key should be set'
+        assert Rails.cache.read(cache_key), 'Cache key should be set immediately after verification'
+        assert_redirected_to '/results?q=test'
+
+        # Travel forward in time past the grace period expiration
+        travel_to Time.current + grace_period_minutes.minutes + 1.second do
+          assert_nil Rails.cache.read(cache_key), 'Cache key should expire after grace period'
+        end
       end
     end
   end
@@ -77,6 +83,7 @@ class TurnstileControllerTest < ActionDispatch::IntegrationTest
   test 'verify applies default grace period when TURNSTILE_GRACE_PERIOD env var not set' do
     with_bot_detection_enabled do
       ip = '192.168.1.3'
+      default_grace_period = 15 # minutes (the default from the controller)
 
       # Explicitly ensure env var is not set
       ClimateControl.modify(TURNSTILE_GRACE_PERIOD: nil) do
@@ -86,6 +93,12 @@ class TurnstileControllerTest < ActionDispatch::IntegrationTest
 
         cache_key = "turnstile_verified:#{ip}"
         assert Rails.cache.read(cache_key), 'Cache key should be set with default grace period'
+
+        # Travel forward in time past the default grace period expiration
+        travel_to Time.current + default_grace_period.minutes + 1.second do
+          assert_nil Rails.cache.read(cache_key),
+                     "Cache key should expire after default grace period (#{default_grace_period} minutes)"
+        end
       end
     end
   end
