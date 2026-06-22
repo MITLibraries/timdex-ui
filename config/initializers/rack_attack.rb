@@ -27,6 +27,19 @@ class Rack::Attack
   # counted by rack-attack and this throttle may be activated too
   # quickly. If so, enable the condition to exclude them from tracking.
 
+  # Throttle /results requests more aggressively (default is 10 requests per minute)
+  # /results and /record endpoints are expensive and are common targets for botnet
+  # attacks using distributed IPs. This throttle is much stricter than the general
+  # throttle to defend against distributed bot attacks that stay under per-IP limits
+  # by rotating through many IPs.
+  #
+  # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip/results:#{req.ip}"
+  throttle('req/ip/results',
+          limit: (ENV.fetch('RESULTS_THROTTLE_LIMIT') { 10 }).to_i,
+          period: (ENV.fetch('RESULTS_THROTTLE_PERIOD') { 1 }).to_i.minutes) do |req|
+    req.ip if req.path.start_with?('/results') || req.path.start_with?('/record')
+  end
+
   # Throttle all requests by IP (default is 100 requests per 10 minutes)
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
@@ -81,17 +94,27 @@ class Rack::Attack
 
   ### Custom Throttle Response ###
 
-  # By default, Rack::Attack returns an HTTP 429 for throttled responses,
-  # which is just fine.
+  # Redirect /results and /record throttles to Turnstile challenge instead of 429.
+  # This allows real users to solve a CAPTCHA and continue, rather than getting
+  # hard-blocked. This is more user-friendly for tuning since we can't perfectly
+  # distinguish bots from heavy legitimate usage.
   #
-  # If you want to return 503 so that the attacker might be fooled into
-  # believing that they've successfully broken your app (or you just want to
-  # customize the response), then uncomment these lines.
-  # self.throttled_response = lambda do |env|
-  #  [ 503,  # status
-  #    {},   # headers
-  #    ['']] # body
-  # end
+  # For other throttles, return 429 as normal.
+  self.throttled_response = lambda do |env|
+    request = Rack::Request.new(env)
+    if request.path.start_with?('/results') || request.path.start_with?('/record')
+      # Redirect to Turnstile challenge
+      return_to = "#{request.path_info}?#{request.query_string}".gsub(/\?$/, '')
+      [ 302,
+        { 'Location' => "/turnstile?return_to=#{ERB::Util.url_encode(return_to)}" },
+        [''] ]
+    else
+      # Default 429 for other throttled paths
+      [ 429,
+        { 'Content-Type' => 'text/plain' },
+        ['Too Many Requests'] ]
+    end
+  end
 
   # Block suspicious requests for '/etc/password' or wordpress specific paths.
   # After 3 blocked requests in 10 minutes, block all requests from that IP for 5 minutes.
