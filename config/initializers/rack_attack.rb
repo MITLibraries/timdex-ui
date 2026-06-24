@@ -103,13 +103,14 @@ class Rack::Attack
   end
 
   # Throttle all requests by IP (default is 100 requests per 10 minutes)
+  # Excludes /assets and /turnstile paths (users need to access Turnstile to verify and bypass throttles)
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
   throttle('req/ip',
           limit: (ENV.fetch('REQUESTS_PER_PERIOD', 100)).to_i,
           period: (ENV.fetch('REQUEST_PERIOD', 10)).to_i.minutes) do |req|
-    # don't include assets as requests
-    req.ip unless req.path.start_with?('/assets')
+    # don't include assets or turnstile verification paths as requests
+    req.ip unless req.path.start_with?('/assets') || req.path.start_with?('/turnstile')
   end
 
   # Throttle redirects by IP (default is 5 per 10 minutes)
