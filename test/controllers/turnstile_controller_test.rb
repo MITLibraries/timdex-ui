@@ -45,99 +45,75 @@ class TurnstileControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'verify writes turnstile_verified cache key for grace period' do
+  test 'verify sets turnstile_verified_at encrypted cookie for grace period' do
     with_bot_detection_enabled do
-      ip = '192.168.1.1'
       post turnstile_verify_path,
-           params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test' },
-           headers: { 'REMOTE_ADDR' => ip }
+           params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test' }
 
-      # Check that cache key was written
-      cache_key = "turnstile_verified:#{ip}"
-      assert Rails.cache.read(cache_key), "Cache key #{cache_key} should be set after Turnstile verification"
+      # Check that the Set-Cookie header includes turnstile_verified_at
+      assert_match(/turnstile_verified_at/, response.headers['Set-Cookie'].to_s,
+                   'Response should set turnstile_verified_at cookie')
     end
   end
 
   test 'verify grace period duration respects TURNSTILE_GRACE_PERIOD env var' do
     with_bot_detection_enabled do
-      ip = '192.168.1.2'
-      grace_period_minutes = 1 # Use 1 minute for practical testing
+      grace_period_minutes = 5
 
       ClimateControl.modify(TURNSTILE_GRACE_PERIOD: grace_period_minutes.to_s) do
         post turnstile_verify_path,
-             params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test' },
-             headers: { 'REMOTE_ADDR' => ip }
+             params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test' }
 
-        cache_key = "turnstile_verified:#{ip}"
-        assert Rails.cache.read(cache_key), 'Cache key should be set immediately after verification'
+        # Check that the Set-Cookie header includes turnstile_verified_at
+        assert_match(/turnstile_verified_at/, response.headers['Set-Cookie'].to_s,
+                     'Response should set turnstile_verified_at cookie with custom grace period')
         assert_redirected_to '/results?q=test'
-
-        # Travel forward in time past the grace period expiration
-        travel_to Time.current + grace_period_minutes.minutes + 1.second do
-          assert_nil Rails.cache.read(cache_key), 'Cache key should expire after grace period'
-        end
       end
     end
   end
 
   test 'verify applies default grace period when TURNSTILE_GRACE_PERIOD env var not set' do
     with_bot_detection_enabled do
-      ip = '192.168.1.3'
       default_grace_period = 15 # minutes (the default from the controller)
 
       # Explicitly ensure env var is not set
       ClimateControl.modify(TURNSTILE_GRACE_PERIOD: nil) do
         post turnstile_verify_path,
-             params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test' },
-             headers: { 'REMOTE_ADDR' => ip }
+             params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test' }
 
-        cache_key = "turnstile_verified:#{ip}"
-        assert Rails.cache.read(cache_key), 'Cache key should be set with default grace period'
-
-        # Travel forward in time past the default grace period expiration
-        travel_to Time.current + default_grace_period.minutes + 1.second do
-          assert_nil Rails.cache.read(cache_key),
-                     "Cache key should expire after default grace period (#{default_grace_period} minutes)"
-        end
+        # Check that the Set-Cookie header includes turnstile_verified_at
+        assert_match(/turnstile_verified_at/, response.headers['Set-Cookie'].to_s,
+                     'Response should set turnstile_verified_at cookie with default grace period')
       end
     end
   end
 
-  test 'different IPs get separate cache keys' do
+  test 'different requests both set turnstile_verified_at cookie' do
     with_bot_detection_enabled do
-      ip1 = '192.168.1.4'
-      ip2 = '192.168.1.5'
-
-      # First IP solves Turnstile
+      # First request
       post turnstile_verify_path,
-           params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test' },
-           headers: { 'REMOTE_ADDR' => ip1 }
+           params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test1' }
+      assert_match(/turnstile_verified_at/, response.headers['Set-Cookie'].to_s,
+                   'Response should set turnstile_verified_at cookie after first verification')
 
-      # Second IP solves Turnstile
+      # Second request
       post turnstile_verify_path,
-           params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test' },
-           headers: { 'REMOTE_ADDR' => ip2 }
-
-      # Both should have their own cache keys
-      cache_key1 = "turnstile_verified:#{ip1}"
-      cache_key2 = "turnstile_verified:#{ip2}"
-      assert Rails.cache.read(cache_key1), 'Cache key for IP1 should be set'
-      assert Rails.cache.read(cache_key2), 'Cache key for IP2 should be set'
+           params: { 'cf-turnstile-response' => 'mocked', return_to: '/results?q=test2' }
+      assert_match(/turnstile_verified_at/, response.headers['Set-Cookie'].to_s,
+                   'Response should set turnstile_verified_at cookie after second verification')
     end
   end
 
-  test 'failed Turnstile verification does not write cache key' do
+  test 'failed Turnstile verification does not set cookie' do
     with_bot_detection_enabled do
-      ip = '192.168.1.6'
-
       # Attempt to verify without valid token
       post turnstile_verify_path,
-           params: { return_to: '/results?q=test' },
-           headers: { 'REMOTE_ADDR' => ip }
+           params: { return_to: '/results?q=test' }
 
-      # Cache key should NOT be written on failed verification
-      cache_key = "turnstile_verified:#{ip}"
-      assert_nil Rails.cache.read(cache_key), 'Cache key should not be set when Turnstile verification fails'
+      # Cookie should NOT be set on failed verification (no Set-Cookie header for turnstile_verified_at)
+      cookie_header = response.headers['Set-Cookie'].to_s
+      assert_no_match(/turnstile_verified_at/, cookie_header,
+                      'Cookie turnstile_verified_at should not be set when Turnstile verification fails')
     end
   end
 end

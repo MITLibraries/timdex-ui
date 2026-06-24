@@ -17,6 +17,22 @@ class Rack::Attack
   # This also affects bot_challenge_page logic which uses rack_attack under the hood
   Rack::Attack.safelist_ip("18.0.0.0/11")
 
+  ### Blocklist Suspicious User Agents ###
+
+  # Hard-block requests with user agents commonly associated with botnets or spoofed crawlers.
+  # These are immediately rejected with a 403 Forbidden response (much cheaper than throttling).
+  #
+  # Configure via BLOCKED_USER_AGENTS env var (comma-separated list).
+  # Example: "Sogou web spider,BadBot/2.0"
+  #
+  # Default includes "Sogou web spider" which was responsible for 76.94k attack requests
+  # originating from non-Chinese IPs with spoofed user agents.
+  blocked_agents = ENV.fetch('BLOCKED_USER_AGENTS', 'Sogou web spider').split(',').map(&:strip)
+
+  Rack::Attack.blocklist('user_agent/blocked') do |req|
+    blocked_agents.any? { |agent| req.user_agent&.include?(agent) }
+  end
+
   ### Throttle Spammy Clients ###
 
   # If any single client IP is making tons of requests, then they're
@@ -31,8 +47,9 @@ class Rack::Attack
    # to protect against distributed volume attacks. Per-IP throttling can be bypassed by rotating
    # through many IPs; this shared counter caps total throughput for all non-safelisted traffic.
   #
-  # However, after a user passes Turnstile verification, we whitelist them for a grace
-  # period (same as per-IP throttle) to avoid redirect loops during sustained attacks.
+  # However, after a user passes Turnstile verification, we skip throttling for the grace period
+  # (default 15 minutes) to avoid repeated challenges during normal usage.
+  # Grace period is verified via an encrypted, tamper-proof cookie set by the Turnstile controller.
   #
   # Default: 30 requests per second across all non-safelisted IPs
   throttle('results/global',
@@ -41,9 +58,13 @@ class Rack::Attack
     # Only apply to /results and /record endpoints
     next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
 
-    # Skip throttling if this IP recently passed Turnstile verification
-    cache_key = "turnstile_verified:#{req.ip}"
-    next nil if Rails.cache.read(cache_key)
+    # Skip throttling if this IP recently passed Turnstile verification.
+    # Grace period is stored in an encrypted cookie that survives Redis eviction.
+    cookie_value = req.cookies['turnstile_verified_at']
+    if cookie_value.present?
+      expiration_timestamp = cookie_value.to_i
+      next nil if expiration_timestamp > Time.current.to_i
+    end
 
     # Use a constant key so this is a true global limit, not per-IP
     'results'
@@ -55,8 +76,9 @@ class Rack::Attack
   # throttle to defend against distributed bot attacks that stay under per-IP limits
   # by rotating through many IPs.
   #
-  # However, after a user passes Turnstile verification, we whitelist them for a grace
-  # period (default 15 minutes) to avoid re-challenging them repeatedly.
+  # However, after a user passes Turnstile verification, we skip throttling for the grace period
+  # (default 15 minutes) to avoid repeated challenges during normal usage.
+  # Grace period is verified via an encrypted, tamper-proof cookie set by the Turnstile controller.
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip/results:#{req.ip}"
   throttle('req/ip/results',
@@ -65,10 +87,13 @@ class Rack::Attack
     # Only apply to /results and /record endpoints
     next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
 
-    # Skip throttling if this IP recently passed Turnstile verification
-    # Cache key format: "turnstile_verified:#{ip}"
-    cache_key = "turnstile_verified:#{req.ip}"
-    next nil if Rails.cache.read(cache_key)
+    # Skip throttling if this IP recently passed Turnstile verification.
+    # Grace period is stored in an encrypted cookie that survives Redis eviction.
+    cookie_value = req.cookies['turnstile_verified_at']
+    if cookie_value.present?
+      expiration_timestamp = cookie_value.to_i
+      next nil if expiration_timestamp > Time.current.to_i
+    end
 
     req.ip
   end
