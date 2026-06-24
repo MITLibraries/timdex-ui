@@ -31,8 +31,6 @@ class NormalizePrimoRecord
       numbering:,
       chapter_numbering:,
       thumbnail:,
-      availability:,
-      other_availability:,
       dedup_record: dedup_url.present?
     }
   end
@@ -315,20 +313,6 @@ class NormalizePrimoRecord
 
     subs = @record['pnx']['display']['subject']
     subs.flat_map { |sub| sub.split(' ;  ') }
-  end
-
-  def availability
-    return unless location
-
-    @record['delivery']['bestlocation']['availabilityStatus']
-  end
-
-  def other_availability
-    return unless @record['delivery']
-    return unless @record['delivery']['bestlocation']
-    return unless @record['delivery']['holding']
-
-    @record['delivery']['holding'].length > 1
   end
 
   # FRBR Group check based on:

@@ -24,10 +24,13 @@ class AlmaSru
   #
   # It accepts an "alma_client" argument for use when testing, but this is not used in normal operations.
   def self.lookup(raw_identifier, alma_client: nil)
-    return [] unless alma_sru_enabled?
+    return [] unless enabled?
 
     # Validate the raw identifier received. This will raise an InvalidAlmaId if validation fails.
-    identifier = validate_alma_id(raw_identifier)
+    raise InvalidAlmaId unless valid_alma_id?(raw_identifier)
+
+    # Extract numeric portion from provided raw identifier
+    identifier = extract_alma_id(raw_identifier)
 
     # Build URL
     url = alma_sru_url(identifier)
@@ -68,24 +71,12 @@ class AlmaSru
     # Look up all AVA tags
     parsed_availabilities = fetch_availabilities(parsed)
 
-    parsed_availabilities.map(&method(:format_availability))
-  end
+    # Format list of entries
+    results = parsed_availabilities.map(&method(:format_availability))
 
-  # validate_alma_id ensures we are only submitting valid Alma IDs to the SRU endpoint.
-  #
-  # It needs to do two things:
-  # 1. Remove the "alma" prefix if one is present. Otherwise, no manipulation of the submitted value should occur.
-  # 2. Enforce the formatting requirements for a valid alma identifier (start with "99", and end with "6761").
-  def self.validate_alma_id(raw)
-    parsed = if raw.to_s.start_with?('alma')
-               raw.delete_prefix('alma')
-             else
-               raw
-             end
-
-    raise InvalidAlmaId unless parsed.present? && parsed.match?(/\A99\d+6761\z/)
-
-    parsed
+    # Reduce list to a single item if multiples exist
+    results[0] += ' and other locations' if results.length > 1
+    results.first(1)
   end
 
   # ava_to_hash takes an XML element that represents a single availability record
@@ -132,23 +123,72 @@ class AlmaSru
       return ''
     end
 
-    phrase = "#{availability['e']&.humanize} at #{availability['q']} #{availability['c']}".squish
-    phrase += " (#{availability['d']})" if availability['d'].present?
-
+    phrase = "#{_phrase_start(ERB::Util.html_escape(availability['e'].to_s))} <strong>#{ERB::Util.html_escape(availability['q'].to_s)}</strong> " \
+             "#{ERB::Util.html_escape(availability['c'].to_s)}".squish
+    phrase += " (#{ERB::Util.html_escape(availability['d'].to_s)})" if availability['d'].present?
     phrase
+  end
+
+  def self._phrase_start(status)
+    case status
+    when 'available'
+      "#{_icon('check')} Available in "
+    when 'check_holdings'
+      "#{_icon('question')} May be available in "
+    when 'unavailable'
+      "#{_icon('times')} Not currently available in "
+    else
+      Rails.logger.error("Unhandled availability status: #{status}")
+      "#{_icon('question')} Uncertain availability (#{status.humanize}) in "
+    end
+  end
+
+  def self._icon(icon, collection = 'fa-sharp fa-solid')
+    "<i class='#{collection} fa-#{icon}' aria-hidden='true'></i>"
   end
 
   def self.alma_base_url
     ENV.fetch('MIT_ALMA_URL', nil)
   end
 
-  def self.alma_sru_enabled?
-    if alma_base_url.to_s.empty? || exl_inst_id.to_s.empty?
-      Sentry.capture_message('Alma SRU not enabled')
-      return false
-    end
+  def self.enabled?
+    return @enabled if instance_variable_defined?(:@enabled)
 
-    true
+    @enabled = alma_base_url.to_s.present? && exl_inst_id.to_s.present?
+    Sentry.capture_message('Alma SRU not enabled') unless @enabled
+
+    @enabled
+  end
+
+  # extract_alma_id receives a hypothetical document ID that references an alma
+  # record, and strips out any `alma` prefix which _may_ exist. This is a
+  # compensating strategy for our discovery environment attaching this prefix to
+  # flag the record as coming from alma, rather than other collections.
+  def self.extract_alma_id(raw)
+    if raw.to_s.start_with?('alma')
+      raw.to_s.delete_prefix('alma')
+    else
+      raw.to_s
+    end
+  end
+
+  # valid_alma_id? receives a document identifier and attempts to determine
+  # whether it is a reference to an alma document. This involves using a regular
+  # expression to confirm five attributes:
+  # 1. The identifier can be converted to a string
+  # 2. The identifier may begin with "alma"
+  # 3. After any "alma" prefix, the next two characters must be "99"
+  # 4. Following this must be a sequence of only digits
+  # 5. The identifier must end with "6761"
+  #
+  # The method returns "true" if all of these conditions are met, otherwise it
+  # returns "false". No further action is taken for failing results, as this
+  # method is called for a wide range of identifiers.
+  def self.valid_alma_id?(raw)
+    return false unless raw.present?
+    return true if raw.to_s.match?(/\A(alma)?99\d+6761\z/)
+
+    false
   end
 
   def self.alma_sru_url(identifier)

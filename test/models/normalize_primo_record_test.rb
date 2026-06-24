@@ -272,26 +272,6 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_empty normalized[:subjects]
   end
 
-  test 'returns availability status' do
-    normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    assert_equal 'available', normalized[:availability]
-  end
-
-  test 'handles missing availability' do
-    normalized = NormalizePrimoRecord.new(minimal_record, 'test').normalize
-    assert_nil normalized[:availability]
-  end
-
-  test 'detects other availability when multiple holdings exist' do
-    normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
-    assert normalized[:other_availability]
-  end
-
-  test 'handles missing other availability' do
-    normalized = NormalizePrimoRecord.new(minimal_record, 'test').normalize
-    assert_nil normalized[:other_availability]
-  end
-
   test 'uses dedup URL as full record link for frbrized records' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
     full_record_link = normalized[:links].find { |link| link['kind'] == 'full record' }

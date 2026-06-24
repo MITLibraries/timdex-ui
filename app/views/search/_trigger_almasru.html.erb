@@ -1,0 +1,10 @@
+<% return unless AlmaSru.enabled? %>
+
+<% data_url = almasru_path(doc_id: doc_id) %>
+
+<span class="availability-container"
+  data-controller="content-loader"
+  data-content-loader-url-value="<%= data_url %>"
+  data-content-loader-lazy-loading-value="">
+    <span class="skeleton-loader">&nbsp;</span>
+</span>

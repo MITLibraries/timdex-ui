@@ -3,8 +3,9 @@ Rails.application.routes.draw do
 
   get 'analyze', to: 'tacos#analyze'
 
-  get 'libkey', to: 'thirdiron#libkey'
+  get 'almasru', to: 'alma#sru'
   get 'browzine', to: 'thirdiron#browzine'
+  get 'libkey', to: 'thirdiron#libkey'
   get 'oa_work', to: 'openalex#work'
 
   get 'record/(:id)',

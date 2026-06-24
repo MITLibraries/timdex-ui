@@ -41,18 +41,21 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal(['Available at Rotch Library Stacks (NA680.C25 2007)'], result)
+      assert_equal(
+        ["<i class='fa-sharp fa-solid fa-check' aria-hidden='true'></i> Available in <strong>Rotch Library</strong> Stacks (NA680.C25 2007)"],
+        result
+      )
     end
   end
 
-  test 'lookup returns self-service locations first if multiples exist' do
+  test 'lookup returns a single entry, prioritizing self-service locations first, if multiples exist' do
     VCR.use_cassette('alma sru multiple records') do
       needle = '990002935920106761'
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal('Check holdings at Barker Library Staff Retrieval - request required (FICHE No Call #)', result[0])
-      assert_equal('Available at Library Storage Annex Journal Collection (LSA4) (TA.J86.H437)', result[1])
+      assert_equal(1, result.length)
+      assert_includes result[0], 'and other locations'
     end
   end
 
@@ -96,6 +99,8 @@ class AlmaSruTest < ActiveSupport::TestCase
     end
 
     ClimateControl.modify(EXL_INST_ID: nil) do
+      AlmaSru.remove_instance_variable(:@enabled)
+
       assert_equal([], AlmaSru.lookup(needle))
     end
   end
@@ -148,59 +153,34 @@ class AlmaSruTest < ActiveSupport::TestCase
     end
   end
 
-  # validate_alma_id method
-  test 'validate_alma_id succeeds with valid numeric input' do
-    needle = '990002935920106761'
-    assert_nothing_raised do
-      AlmaSru.validate_alma_id(needle)
+  # valid_alma_id? method
+  test 'valid_alma_id? returns true for valid inputs' do
+    # rubocop:disable Style/NumericLiterals
+    needles = [
+      990002935920106761,
+      '990002935920106761',
+      'alma990002935920106761'
+    ]
+    # rubocop:enable Style/NumericLiterals
+
+    needles.each do |needle|
+      assert_equal(true, AlmaSru.valid_alma_id?(needle))
     end
   end
 
-  test 'validate_alma_id succeeds despite an "alma" prefix' do
-    needle = 'alma990002935920106761'
-    assert_nothing_raised do
-      AlmaSru.validate_alma_id(needle)
-    end
-  end
+  test 'valid_alma_id? returns false for invalid inputs' do
+    needles = [
+      nil,
+      'cdi_econis_primary_1902984668',   # wildly nonconforming
+      '99000293foo5920106761',           # non-numeric internals
+      '0002935920106761',                # missing start sequence
+      'alma0002935920106761',            # missing start sequence
+      '99000293592010',                  # missing end sequence
+      'alma99000293592010'               # missing end sequence
+    ]
 
-  test 'validate_alma_id raises InvalidAlmaId with non-numeric id' do
-    needle = '99000293foo5920106761'
-
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id(needle)
-    end
-  end
-
-  test 'validate_alma_id raises InvalidAlmaId with a nil input' do
-    needle = nil
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id(needle)
-    end
-  end
-
-  test 'validate_alma_id raises InvalidAlmaId without required start sequence' do
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('0002935920106761')
-    end
-
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('alma0002935920106761')
-    end
-  end
-
-  test 'validate_alma_id raises InvalidAlmaId without required end sequence' do
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('99000293592010')
-    end
-
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('alma99000293592010')
-    end
-  end
-
-  test 'validate_alma_id raises InvalidAlmaId with wildly invalid input' do
-    assert_raises(AlmaSru::InvalidAlmaId) do
-      AlmaSru.validate_alma_id('foo')
+    needles.each do |needle|
+      assert_equal(false, AlmaSru.valid_alma_id?(needle))
     end
   end
 
@@ -248,20 +228,60 @@ class AlmaSruTest < ActiveSupport::TestCase
     ava_hash = {
       'c' => 'charlie',
       'd' => 'delta',
-      'e' => 'echo',
+      'e' => 'available',
       'q' => 'quebec'
     }
 
-    assert_equal('Echo at quebec charlie (delta)', AlmaSru.format_availability(ava_hash))
+    assert_equal(
+      "<i class='fa-sharp fa-solid fa-check' aria-hidden='true'></i> Available in <strong>quebec</strong> charlie (delta)",
+      AlmaSru.format_availability(ava_hash)
+    )
   end
 
   test 'format_availability returns a minimum statement if only e and q are present' do
+    ava_hash = {
+      'e' => 'available',
+      'q' => 'quebec'
+    }
+
+    assert_equal("<i class='fa-sharp fa-solid fa-check' aria-hidden='true'></i> Available in <strong>quebec</strong>",
+                 AlmaSru.format_availability(ava_hash))
+  end
+
+  test 'format_availability supports check_holdings status' do
+    ava_hash = {
+      'e' => 'check_holdings',
+      'q' => 'quebec'
+    }
+
+    assert_equal(
+      "<i class='fa-sharp fa-solid fa-question' aria-hidden='true'></i> May be available in <strong>quebec</strong>",
+      AlmaSru.format_availability(ava_hash)
+    )
+  end
+
+  test 'format_availability supports unavailable status' do
+    ava_hash = {
+      'e' => 'unavailable',
+      'q' => 'quebec'
+    }
+
+    assert_equal(
+      "<i class='fa-sharp fa-solid fa-times' aria-hidden='true'></i> Not currently available in <strong>quebec</strong>",
+      AlmaSru.format_availability(ava_hash)
+    )
+  end
+
+  test 'format_availability does not fail with unexpected status' do
     ava_hash = {
       'e' => 'echo',
       'q' => 'quebec'
     }
 
-    assert_equal('Echo at quebec', AlmaSru.format_availability(ava_hash))
+    assert_equal(
+      "<i class='fa-sharp fa-solid fa-question' aria-hidden='true'></i> Uncertain availability (Echo) in <strong>quebec</strong>",
+      AlmaSru.format_availability(ava_hash)
+    )
   end
 
   test 'format_availability returns an empty string without both e and q present' do

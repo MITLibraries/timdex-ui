@@ -78,6 +78,9 @@
         <% end %>
       </div>
 
+      <% if AlmaSru.enabled? && AlmaSru.valid_alma_id?(result[:identifier]) %>
+        <%= render(partial: 'trigger_almasru', locals: { doc_id: result[:identifier] }) %>
+      <% end %>
 
       <% if result_get?(result) %>
       <div class="result-get">
@@ -107,16 +110,6 @@
         <%# Only show OpenAccess links for articles %>
         <% if Feature.enabled?(:oa_always) && article?(result[:format]) %>
           <%= render(partial: 'trigger_openalex_setup', locals: { doi: result[:doi], pmid: result[:pmid] }) %>
-        <% end %>
-
-        <% if result[:availability].present? %>
-          <div class="availability">
-          <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
-            <%= link_to(availability(result[:availability], result[:location], result[:other_availability]), result[:links].find { |link| link['kind'] == 'full record' }['url'], data: { content_piece: 'Availability Link' }) %>
-          <% else %>
-            <%= availability(result[:availability], result[:location], result[:other_availability]) %>
-          <% end %>
-          </div>
         <% end %>
 
         <%# Trigger BrowZine lookup (render inside result-get so injected HTML
