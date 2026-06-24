@@ -30,7 +30,11 @@ class Rack::Attack
   blocked_agents = ENV.fetch('BLOCKED_USER_AGENTS', 'Sogou web spider').split(',').map(&:strip)
 
   Rack::Attack.blocklist('user_agent/blocked') do |req|
-    blocked_agents.any? { |agent| req.user_agent&.include?(agent) }
+    is_blocked = blocked_agents.any? { |agent| req.user_agent&.include?(agent) }
+    if is_blocked
+      Rails.logger.warn("BLOCKED_USER_AGENT: #{req.user_agent} | IP: #{req.ip} | Path: #{req.path}")
+    end
+    is_blocked
   end
 
   ### Throttle Spammy Clients ###
@@ -165,6 +169,9 @@ class Rack::Attack
   self.throttled_response = lambda do |env|
     request = Rack::Request.new(env)
     matched_throttle = env['rack.attack.matched']
+
+    # Log all throttled requests to understand traffic patterns
+    Rails.logger.warn("THROTTLED_REQUEST: UA=#{request.user_agent} | IP=#{request.ip} | Path=#{request.path} | Throttle=#{matched_throttle}")
 
     # Only redirect to Turnstile for /results and /record if it's a throttle with grace period support
     if (request.path.start_with?('/results') || request.path.start_with?('/record')) &&
