@@ -62,9 +62,7 @@
       <% end %>
     </div>
 
-    <div class="result-highlights use">
-      <%= render partial: 'search/highlights', locals: { result: result } %>
-    </div>
+    <%= render partial: 'search/highlights', locals: { result: result } %>
 
     <% if Feature.enabled?(:record_link) %>
       <div class="result-get">

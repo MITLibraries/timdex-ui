@@ -156,10 +156,12 @@
 // --------------------------------------
 
 .result.use, .result.primo {
-  padding: 32px 0 32px;
+  padding: 28px 0 28px;
   margin: 0;
-  border-bottom: 1px solid $color-gray-200;
   border-top: none;
+  border-bottom: 1px solid $color-gray-200;
+
+  @media (max-width: $bp-screen-sm2) { padding: 24px 0 24px; }
 
   a:link, a:visited {
     color: $color-text-primary;
@@ -178,6 +180,13 @@
     background-color: transparent;
   }
 
+  // Trim bottom margin on last div to ensure consistent visual spacing between results
+  .result-content > div:last-child,
+  .result-metadata > div:last-child {
+    margin-bottom: 0;
+  }  
+  
+  // Reverse the markup order of the eyebrow and title (which was set for screen readers)
   .title-lockup {
     display: flex;
     gap: 12px;
@@ -423,8 +432,11 @@
   padding-top: 12px;
   padding-bottom: 44px;
 
+  @media (max-width: $bp-screen-sm2) { padding-top: 0; }
+
+
   .results-header {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   .results-context {
@@ -434,7 +446,7 @@
   }
 
   #results-section {
-    padding: 16px 0 0 0;
+    padding: 8px 0 0 0;
   }
 
   #results-layout-wrapper {
@@ -588,7 +600,6 @@
 
 // RESULTS LIST NLS ALERT
 aside.nls-alert {
-  margin-bottom: 40px;
   display: flex;
   gap: 6px;
 
