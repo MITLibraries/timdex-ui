@@ -32,6 +32,16 @@ VCR.configure do |config|
   config.filter_sensitive_data('FAKE_THIRDIRON_ID') { ENV.fetch('THIRDIRON_ID').to_s }
   config.filter_sensitive_data('FAKE_THIRDIRON_KEY') { ENV.fetch('THIRDIRON_KEY').to_s }
   config.filter_sensitive_data('FAKE_OPENALEX_EMAIL') { ENV.fetch('OPENALEX_EMAIL').to_s }
+  # Filter cookie contents
+  config.before_record do |interaction|
+    cookies = interaction.response&.headers&.fetch('Set-Cookie', nil)
+    next unless cookies
+
+    interaction.response.headers['Set-Cookie'] = cookies.map do |cookie|
+      name = cookie.split('=', 2).first
+      "#{name}=<FILTERED_COOKIE>"
+    end
+  end
 end
 
 module ActiveSupport

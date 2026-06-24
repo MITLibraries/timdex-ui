@@ -1,7 +1,14 @@
-<% if ThirdIron.enabled? && @browzine.present? %>
-  <% if @browzine[:browzine_link].present? %>
-    <div class="libkey-actions">
-      <%= link_to @browzine[:browzine_link][:text], @browzine[:browzine_link][:link], class: 'button libkey-link', data: { matomo_seen: "Results, Browzine Link Seen, Tab: {{getActiveTabName}}", matomo_click: "Results, Browzine Link Engaged, Link: {{getElementText}}", content_piece: @browzine[:browzine_link][:text] } %>
-    </div>
+<%# Dedicated Browzine endpoint response for journal records.
+    Rendered when: A Primo journal result with ISSN triggers a Browzine API lookup via /browzine?issn=X&full_record_url=Y
+    Use case: Primary fulfillment source for journal articles (via trigger_browzine partial from _result_primo.html.erb)
+    Returns: Browzine link + optional "Full-text options" button (links to Primo record)
+%>
+<% if ThirdIron.enabled? && @browzine.present? && @browzine[:browzine_link].present? %>
+  <% if @full_record_url.present? %>
+    <%= link_to 'Full-text options', @full_record_url, class: 'button libkey-link', data: { matomo_seen: "Results, Full-text Options Link Seen, Tab: {{getActiveTabName}}", matomo_click: "Results, Full-text Options Link Engaged, Link: {{getElementText}}", content_piece: 'Full-text options' } %>
   <% end %>
+
+  <div class="libkey-actions">
+    <%= link_to @browzine[:browzine_link][:text], @browzine[:browzine_link][:link], class: 'libkey-link', data: { matomo_seen: "Results, Browzine Link Seen, Tab: {{getActiveTabName}}", matomo_click: "Results, Browzine Link Engaged, Link: {{getElementText}}", content_piece: @browzine[:browzine_link][:text] } %>
+  </div>
 <% end %>

@@ -13,10 +13,16 @@
     <%= link_to( @libkey[:best_integrator_link][:text], @libkey[:best_integrator_link][:link], class: 'button libkey-link', data: { matomo_seen: "Results, LibKey Link Seen, Tab: {{getActiveTabName}}", matomo_click: "Results, LibKey Link Engaged, Link: {{getElementText}}", content_piece: @libkey[:best_integrator_link][:text] } ) %>
   <% end %>
 
+  <%# Browzine link returned as part of LibKey fulfillment response.
+      Rendered when: LibKey API includes a browzine_link in its response
+      Use case: Secondary fulfillment option alongside PDF, HTML, or other direct links from LibKey
+      Note: Different from dedicated browzine.html.erb which is called directly for journals.
+            LibKey Browzine link appears when looking up DOI/PMID fulfillment (articles, etc.)
+  %>
   <%# Display browzine link if available. This should always display if we have it regardless of other links. %>
   <% if @libkey[:browzine_link].present? %>
     <div class="libkey-actions">
-      <%= link_to @libkey[:browzine_link][:text], @libkey[:browzine_link][:link], class: 'button libkey-link', data: { matomo_seen: "Results, Browzine Link Seen, Tab: {{getActiveTabName}}", matomo_click: "Results, Browzine Link Engaged, Link: {{getElementText}}", content_piece: @libkey[:browzine_link][:text] } %>
+      <%= link_to @libkey[:browzine_link][:text], @libkey[:browzine_link][:link], class: 'libkey-link', data: { matomo_seen: "Results, Browzine Link Seen, Tab: {{getActiveTabName}}", matomo_click: "Results, Browzine Link Engaged, Link: {{getElementText}}", content_piece: @libkey[:browzine_link][:text] } %>
     </div>
   <% end %>
 

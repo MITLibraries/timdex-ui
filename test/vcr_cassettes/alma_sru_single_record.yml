@@ -1,0 +1,294 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://mit.alma.exlibrisgroup.com/view/sru/01MIT_INST?operation=searchRetrieve&query=alma.all_for_ui=990014651640106761&recordSchema=marcxml&version=1.2
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - Keep-Alive
+      Host:
+      - mit.alma.exlibrisgroup.com
+      User-Agent:
+      - http.rb/5.3.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Request-Id:
+      - soQ4UmfGM7
+      P3p:
+      - CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+      Set-Cookie:
+      - JSESSIONID=<FILTERED_COOKIE>
+      - __Secure-UqZBpD3n3naPR20-9Fvn5i-TQ-tFoshbYtbA9YCEpg3UXgo_=<FILTERED_COOKIE>
+      - urm_se=<FILTERED_COOKIE>
+      - urm_st=<FILTERED_COOKIE>
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Allow-Headers:
+      - "*"
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - 'object-src blob: ''self'' *.exlibrisgroup.com *.exlibrisgroup.com.cn www.google-analytics.com
+        stats.g.doubleclick.net s3.amazonaws.com www.youtube.com youtube.com *.contentdm.oclc.org
+        iiif.nlm.nih.gov ;worker-src blob: ''self'' *.exlibrisgroup.com *.exlibrisgroup.com.cn
+        www.google-analytics.com stats.g.doubleclick.net s3.amazonaws.com www.youtube.com
+        youtube.com artic.contentdm.oclc.org ;upgrade-insecure-requests; report-uri
+        /infra/CSPReportEndpoint.jsp; report-to csp-report-endpoint; '
+      Report-To:
+      - '{"max_age":10886400,"endpoints":[{"url":"https://na06.alma.exlibrisgroup.com/infra/CSPReportEndpoint.jsp"}],"group":"csp-report-endpoint"}'
+      X-Content-Type-Options:
+      - nosniff
+      Vary:
+      - accept-encoding
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Tue, 09 Jun 2026 15:59:03 GMT
+      Keep-Alive:
+      - timeout=20
+      Connection:
+      - keep-alive
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?><searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+          <version>1.2</version>
+          <numberOfRecords>1</numberOfRecords>
+          <records>
+            <record>
+              <recordSchema>marcxml</recordSchema>
+              <recordPacking>xml</recordPacking>
+              <recordData>
+                <record xmlns="http://www.loc.gov/MARC21/slim">
+                  <leader>02275cam  22005654a 4500</leader>
+                  <controlfield tag="001">990014651640106761</controlfield>
+                  <controlfield tag="005">20241127214106.0</controlfield>
+                  <controlfield tag="008">060915s2007    mauae    b    000 0deng^^</controlfield>
+                  <datafield ind1=" " ind2=" " tag="010">
+                    <subfield code="a">2006030939</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="015">
+                    <subfield code="a">GBA724048</subfield>
+                    <subfield code="2">bnb</subfield>
+                  </datafield>
+                  <datafield ind1="7" ind2=" " tag="016">
+                    <subfield code="a">013704232</subfield>
+                    <subfield code="2">Uk</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="020">
+                    <subfield code="a">9780262532914 (pbk. : alk. paper)</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="020">
+                    <subfield code="a">0262532913 (pbk. : alk. paper)</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="035">
+                    <subfield code="a">(MCM)001465164MIT01</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="035">
+                    <subfield code="a">(OCoLC)71427217</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="040">
+                    <subfield code="a">DLC</subfield>
+                    <subfield code="c">DLC</subfield>
+                    <subfield code="d">BAKER</subfield>
+                    <subfield code="d">UKM</subfield>
+                    <subfield code="d">BTCTA</subfield>
+                    <subfield code="d">C#P</subfield>
+                    <subfield code="d">YDXCP</subfield>
+                    <subfield code="d">MYG</subfield>
+                    <subfield code="d">OrLoB-B</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="049">
+                    <subfield code="a">MYGG</subfield>
+                  </datafield>
+                  <datafield ind1="0" ind2="0" tag="050">
+                    <subfield code="a">NA680.C25 2007</subfield>
+                  </datafield>
+                  <datafield ind1="0" ind2="0" tag="082">
+                    <subfield code="a">724/.6</subfield>
+                    <subfield code="2">22</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="100">
+                    <subfield code="a">Cadwell, Mike,</subfield>
+                    <subfield code="d">1952-</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2="0" tag="245">
+                    <subfield code="a">Strange details /</subfield>
+                    <subfield code="c">Michael Cadwell.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="260">
+                    <subfield code="a">Cambridge, Mass. :</subfield>
+                    <subfield code="b">MIT Press,</subfield>
+                    <subfield code="c">c2007.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="300">
+                    <subfield code="a">xxi, 183 p. :</subfield>
+                    <subfield code="b">ill., plans ;</subfield>
+                    <subfield code="c">21 cm.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="336">
+                    <subfield code="a">text</subfield>
+                    <subfield code="b">txt</subfield>
+                    <subfield code="2">rdacontent</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="337">
+                    <subfield code="a">unmediated</subfield>
+                    <subfield code="b">n</subfield>
+                    <subfield code="2">rdamedia</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="338">
+                    <subfield code="a">volume</subfield>
+                    <subfield code="b">nc</subfield>
+                    <subfield code="2">rdacarrier</subfield>
+                  </datafield>
+                  <datafield ind1="1" ind2=" " tag="490">
+                    <subfield code="a">Writing architecture</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="504">
+                    <subfield code="a">Includes bibliographical references.</subfield>
+                  </datafield>
+                  <datafield ind1="0" ind2="0" tag="505">
+                    <subfield code="t">Introduction : "making strange" --</subfield>
+                    <subfield code="g">1.</subfield>
+                    <subfield code="t">Swimming at the Querini Stampali Foundation --</subfield>
+                    <subfield code="g">2.</subfield>
+                    <subfield code="t">The Jacobs House, Burning Fields --</subfield>
+                    <subfield code="g">3.</subfield>
+                    <subfield code="t">Flooded at the Farnsworth House --</subfield>
+                    <subfield code="g">4.</subfield>
+                    <subfield code="t">The Yale Center for British Art, yellow light and blue shadow.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="0" tag="650">
+                    <subfield code="a">Architecture, Modern</subfield>
+                    <subfield code="y">20th century</subfield>
+                    <subfield code="v">Case studies.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="0" tag="650">
+                    <subfield code="a">Building</subfield>
+                    <subfield code="v">Case studies.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="7" tag="650">
+                    <subfield code="a">Building.</subfield>
+                    <subfield code="2">fast</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="7" tag="650">
+                    <subfield code="a">Architecture, Modern.</subfield>
+                    <subfield code="2">fast</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="7" tag="655">
+                    <subfield code="a">Case studies.</subfield>
+                    <subfield code="2">lcgft</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="7" tag="655">
+                    <subfield code="a">Case studies.</subfield>
+                    <subfield code="2">fast</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="7" tag="648">
+                    <subfield code="a">20th century</subfield>
+                    <subfield code="2">fast</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="7" tag="648">
+                    <subfield code="a">20th century.</subfield>
+                    <subfield code="2">fast</subfield>
+                  </datafield>
+                  <datafield ind1="4" ind2="2" tag="856">
+                    <subfield code="3">Table of contents only</subfield>
+                    <subfield code="u">http://www.loc.gov/catdir/toc/ecip071/2006030939.html</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="0" tag="830">
+                    <subfield code="a">Writing architecture.</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="910">
+                    <subfield code="a">pj070719</subfield>
+                    <subfield code="i">pj</subfield>
+                    <subfield code="d">070719</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="910">
+                    <subfield code="a">MARCIVEAUT</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="910">
+                    <subfield code="a">MARCIVEAUT221103</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="910">
+                    <subfield code="a">MARCIVEAUT231208</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="910">
+                    <subfield code="a">MARCIVEAUT241113</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2="0" tag="949">
+                    <subfield code="4">IP</subfield>
+                    <subfield code="a">r</subfield>
+                    <subfield code="b">RTC</subfield>
+                    <subfield code="c">STACK</subfield>
+                    <subfield code="o">0</subfield>
+                    <subfield code="p">39080032070994</subfield>
+                    <subfield code="x">01</subfield>
+                    <subfield code="h">NA680.C25 2007</subfield>
+                  </datafield>
+                  <datafield ind1="4" ind2="0" tag="956">
+                    <subfield code="u">http://catalog.hathitrust.org/api/volumes/oclc/71427217.html</subfield>
+                    <subfield code="3">Hathi Trust</subfield>
+                    <subfield code="x">HathiETAS</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="961">
+                    <subfield code="a">Cambridge, Mass. : MIT Press,</subfield>
+                    <subfield code="a">2007</subfield>
+                    <subfield code="a">mau</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="969">
+                    <subfield code="a">724/.6</subfield>
+                    <subfield code="a">NA680.C25 2007</subfield>
+                    <subfield code="a">71427217</subfield>
+                    <subfield code="a">2006030939</subfield>
+                    <subfield code="a">9780262532914 (pbk. : alk. paper)</subfield>
+                    <subfield code="a">0262532913 (pbk. : alk. paper)</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="983">
+                    <subfield code="a">digitized</subfield>
+                    <subfield code="c">20230810</subfield>
+                    <subfield code="k">HathiTrust</subfield>
+                    <subfield code="u">005575003</subfield>
+                    <subfield code="x">ic</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="994">
+                    <subfield code="a">02</subfield>
+                    <subfield code="b">MYG</subfield>
+                  </datafield>
+                  <datafield ind1=" " ind2=" " tag="AVA">
+                    <subfield code="0">990014651640106761</subfield>
+                    <subfield code="8">22500544240006761</subfield>
+                    <subfield code="a">01MIT_INST</subfield>
+                    <subfield code="b">RTC</subfield>
+                    <subfield code="c">Stacks</subfield>
+                    <subfield code="d">NA680.C25 2007</subfield>
+                    <subfield code="e">available</subfield>
+                    <subfield code="f">1</subfield>
+                    <subfield code="g">0</subfield>
+                    <subfield code="j">STACK</subfield>
+                    <subfield code="k">0</subfield>
+                    <subfield code="p">1</subfield>
+                    <subfield code="q">Rotch Library</subfield>
+                  </datafield>
+                </record>
+              </recordData>
+              <recordIdentifier>990014651640106761</recordIdentifier>
+              <recordPosition>1</recordPosition>
+            </record>
+          </records>
+          <extraResponseData xmlns:xb="http://www.exlibris.com/repository/search/xmlbeans/">
+            <xb:exact>true</xb:exact>
+            <xb:responseDate>2026-06-09T11:59:03-0400</xb:responseDate>
+          </extraResponseData>
+        </searchRetrieveResponse>
+  recorded_at: Tue, 09 Jun 2026 15:59:03 GMT
+recorded_with: VCR 6.4.0

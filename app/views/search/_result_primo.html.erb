@@ -1,15 +1,18 @@
 <li class="result primo" data-record-id="<%= result[:identifier] %>" data-matomo-seen="Results, Result Seen, Tab: {{getActiveTabName}}" data-track-content data-content-name="Result">
   <div class="result-content">
-    <% if result[:eyebrow].present? %>
-      <p class="eyebrow"><%= result[:eyebrow] %></p>
-    <% end %>
-    <h3 class="record-title">
-      <% if result[:links]&.find { |link| link['kind'] == 'full record' } %>
-        <%= link_to(result[:title], result[:links].find { |link| link['kind'] == 'full record' }['url'], data: { content_piece: 'Result Title' }) %>
-      <% else %>
-        <%= result[:title] %>
+    <div class="title-lockup">
+      <%# NOTE: the order of the two items in this lockup are being swapped visually with CSS. The markup is ordered to make the screen reading experience more logical %>
+      <h3 class="record-title">
+        <% if full_record_url(result) %>
+          <%= link_to(result[:title], full_record_url(result), data: { content_piece: 'Result Title' }) %>
+        <% else %>
+          <%= result[:title] %>
+        <% end %>
+      </h3>
+      <% if result[:eyebrow].present? %>
+        <p class="eyebrow"><%= result[:eyebrow] %></p>
       <% end %>
-    </h3>
+    </div>
 
     <%# FRBR indicator: show a small callout and link to the Primo record %>
     <% if result[:dedup_record] %>
@@ -119,7 +122,7 @@
         <%# Trigger BrowZine lookup (render inside result-get so injected HTML
             is part of the flex `.result-get` area and receives expected styles) %>
         <% if ThirdIron.enabled? && result[:format].downcase == 'journal' && result[:issn].present? %>
-          <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn] }) %>
+          <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn], full_record_url: full_record_url(result) }) %>
         <% end %>
       </div>
       <% end %>

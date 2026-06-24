@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+  <version>1.2</version>
+  <numberOfRecords>1</numberOfRecords>
+  <records>
+    <record>
+      <recordSchema>marcxml</recordSchema>
+      <recordPacking>xml</recordPacking>
+      <recordData>
+        <record xmlns="http://www.loc.gov/MARC21/slim">
+          <leader>03917cas  2200889 a 4500</leader>
+          <controlfield tag="001">990002935920106761</controlfield>
+          <datafield ind1=" " ind2=" " tag="AVA">
+            <subfield code="0">990002935920106761</subfield>
+            <subfield code="8">22477267920006761</subfield>
+            <subfield code="a">01MIT_INST</subfield>
+            <subfield code="b">LSA</subfield>
+            <subfield code="c">Journal Collection (LSA4)</subfield>
+            <subfield code="d">TA.J86.H437</subfield>
+            <subfield code="e">available</subfield>
+            <subfield code="f">63</subfield>
+            <subfield code="g">0</subfield>
+            <subfield code="j">LSA4</subfield>
+            <subfield code="k">Hfcl</subfield>
+            <subfield code="p">1</subfield>
+            <subfield code="q">Library Storage Annex</subfield>
+            <subfield code="t">v.81 (1959)-v.131:no.1-6 (2009)</subfield>
+          </datafield>
+          <datafield ind1=" " ind2=" " tag="AVA">
+            <subfield code="0">990002935920106761</subfield>
+            <subfield code="8">22477267070006761</subfield>
+            <subfield code="a">01MIT_INST</subfield>
+            <subfield code="b">ENG</subfield>
+            <subfield code="c">Staff Retrieval - request required</subfield>
+            <subfield code="d">FICHE No Call #</subfield>
+            <subfield code="e">check_holdings</subfield>
+            <subfield code="j">MFORM</subfield>
+            <subfield code="k">8</subfield>
+            <subfield code="p">2</subfield>
+            <subfield code="q">Barker Library</subfield>
+            <subfield code="t">v.92 (1970)-v.95 (1973),v.97 (1975)-v.119 (1997)</subfield>
+          </datafield>
+        </record>
+      </recordData>
+      <recordIdentifier>990002935920106761</recordIdentifier>
+      <recordPosition>1</recordPosition>
+    </record>
+  </records>
+  <extraResponseData xmlns:xb="http://www.exlibris.com/repository/search/xmlbeans/">
+    <xb:exact>true</xb:exact>
+    <xb:responseDate>2026-06-05T14:51:17-0400</xb:responseDate>
+  </extraResponseData>
+</searchRetrieveResponse>

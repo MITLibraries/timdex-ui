@@ -191,4 +191,38 @@ class ResultsHelperTest < ActionView::TestCase
                          })
     end
   end
+
+  test 'full_record_url returns the URL when result has a full record link' do
+    result = {
+      links: [
+        { 'kind' => 'PDF', 'url' => 'https://pdf.example.com' },
+        { 'kind' => 'full record', 'url' => 'https://primo.example.com/record' }
+      ]
+    }
+    assert_equal 'https://primo.example.com/record', full_record_url(result)
+  end
+
+  test 'full_record_url returns nil when result has no links' do
+    result = {}
+    assert_nil full_record_url(result)
+  end
+
+  test 'full_record_url returns nil when result has links but no full record link' do
+    result = {
+      links: [
+        { 'kind' => 'PDF', 'url' => 'https://pdf.example.com' },
+        { 'kind' => 'HTML', 'url' => 'https://html.example.com' }
+      ]
+    }
+    assert_nil full_record_url(result)
+  end
+
+  test 'full_record_url returns nil when result is nil' do
+    assert_nil full_record_url(nil)
+  end
+
+  test 'full_record_url returns nil when result[:links] is nil' do
+    result = { links: nil }
+    assert_nil full_record_url(result)
+  end
 end
