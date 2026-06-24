@@ -59,7 +59,7 @@ class Rack::Attack
     next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
 
     # Skip throttling if this IP recently passed Turnstile verification.
-    # Grace period is stored in an encrypted cookie that survives Redis eviction.
+    # Grace period is stored in a plain cookie that survives Redis eviction.
     cookie_value = req.cookies['turnstile_verified_at']
     if cookie_value.present?
       expiration_timestamp = cookie_value.to_i
@@ -88,7 +88,7 @@ class Rack::Attack
     next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
 
     # Skip throttling if this IP recently passed Turnstile verification.
-    # Grace period is stored in an encrypted cookie that survives Redis eviction.
+    # Grace period is stored in a plain cookie (not encrypted) that survives Redis eviction.
     cookie_value = req.cookies['turnstile_verified_at']
     if cookie_value.present?
       expiration_timestamp = cookie_value.to_i
