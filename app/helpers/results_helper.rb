@@ -75,7 +75,7 @@ module ResultsHelper
   def search_worldcat_link_with_book_filter
     worldcat_params = URI.encode_www_form({
                                             queryString: params[:q],
-                                            dblist: '638'
+                                            format: 'book'
                                           })
 
     "https://mit.on.worldcat.org/search?#{worldcat_params}"
@@ -85,7 +85,7 @@ module ResultsHelper
   def search_dspace_link
     return 'https://dspace.mit.edu' if params[:q].blank?
 
-    "https://dspace.mit.edu/discover?query=#{URI.encode_www_form_component(params[:q])}"
+    "https://dspace.mit.edu/search?query=#{URI.encode_www_form_component(params[:q])}"
   end
 
   # Creates Research Databases link based on current search term
@@ -99,7 +99,7 @@ module ResultsHelper
   def search_geodata_link
     return 'https://geodata.libraries.mit.edu' if params[:q].blank?
 
-    "https://geodata.libraries.mit.edu/search?query=#{URI.encode_www_form_component(params[:q])}"
+    "https://geodata.libraries.mit.edu/results?q=#{URI.encode_www_form_component(params[:q])}"
   end
 
   # Determines if a format value represents an article type

@@ -230,14 +230,14 @@ class ResultsHelperTest < ActionView::TestCase
     params[:q] = 'climate change'
     link = search_worldcat_link_with_book_filter
 
-    assert_equal 'https://mit.on.worldcat.org/search?queryString=climate+change&dblist=638', link
+    assert_equal 'https://mit.on.worldcat.org/search?queryString=climate+change&format=book', link
   end
 
   test 'search_dspace_link returns a valid MIT Open Scholarship search URL' do
     params[:q] = 'MIT research'
     link = search_dspace_link
 
-    assert_equal 'https://dspace.mit.edu/discover?query=MIT+research', link
+    assert_equal 'https://dspace.mit.edu/search?query=MIT+research', link
   end
 
   test 'search_dspace_link returns landing page when no search term' do
@@ -265,7 +265,7 @@ class ResultsHelperTest < ActionView::TestCase
     params[:q] = 'boston area'
     link = search_geodata_link
 
-    assert_equal 'https://geodata.libraries.mit.edu/search?query=boston+area', link
+    assert_equal 'https://geodata.libraries.mit.edu/results?q=boston+area', link
   end
 
   test 'search_geodata_link returns landing page when no search term' do
