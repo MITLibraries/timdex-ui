@@ -1,20 +1,41 @@
 <div class="callout-wrapper" data-track-content data-content-name="Search Suggestions" data-matomo-seen="Search Suggestions, Search Suggestions Seen, Tab: {{getActiveTabName}}" data-matomo-click="Search Suggestions, Search Suggestions Engaged, Link: {{getElementText}}">
-  <% if ['cdi', 'alma', 'all'].include?(@active_tab) %>
+  <!-- ALL TAB -->
+  <% if @active_tab == 'all' %>
     <%= render partial: "results_callout_component", locals: {
       fa_name: 'magnifying-glass',
-      heading: 'Refine your search',
+      heading: 'Advanced search for articles & books',
       blurb: 'Use advanced search features to expand or filter your search.',
       link_url: search_primo_link,
-      link_text: 'Search the catalog' } %>
+      link_text: 'Run advanced search' } %>
+  <% end %>
+
+  <!-- CDI / ARTICLES TAB -->
+  <% if @active_tab == 'cdi' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'magnifying-glass',
+      heading: 'Advanced search for articles & books',
+      blurb: 'Use advanced search features to expand or filter your search.',
+      link_url: search_primo_link,
+      link_text: 'Run advanced search' } %>
+  <% end %>
+
+  <!-- ALMA / BOOKS & MEDIA TAB -->
+  <% if @active_tab == 'alma' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'magnifying-glass',
+      heading: 'Advanced search for articles & books',
+      blurb: 'Use advanced search features to expand or filter your search.',
+      link_url: search_primo_link,
+      link_text: 'Run advanced search' } %>
   <% end %>
 
   <% if @active_tab == 'all' %>
     <%= render partial: "results_callout_component", locals: {
       fa_name: 'file-xmark',
-      heading: 'Can’t find what you are looking for?',
-      blurb: 'Use specialized search tools for books, articles, databases, and more',
-      link_url: 'http://libraries.mit.edu/search',
-      link_text: 'More search options' } %>
+      heading: "Can't find what you are looking for?",
+      blurb: 'Get help to find, request, and get the materials you need',
+      link_url: 'https://libraries.mit.edu/research-support/get-materials-via-the-libraries/',
+      link_text: 'Get materials via the MIT Libraries' } %>
   <% end %>
 
   <% if @active_tab == 'cdi' %>
@@ -29,19 +50,20 @@
   <% if @active_tab == 'alma' %>
     <%= render partial: "results_callout_component", locals: {
       fa_name: 'book',
-      heading: 'Can’t find a book?',
-      blurb: 'If we don’t own it you can often request it from another library.',
-      link_url: search_worldcat_link,
-      link_text: 'Search WorldCat' } %>
+      heading: "Can't find a book?",
+      blurb: "If we don't own it you can request it from another library.",
+      link_url: search_worldcat_link_with_book_filter,
+      link_text: "Can't find a book?" } %>
   <% end %>
 
+  <!-- ASPACE / MIT ARCHIVES TAB -->
   <% if @active_tab == 'aspace' %>
     <%= render partial: "results_callout_component", locals: {
       fa_name: 'magnifying-glass',
-      heading: 'Refine your search',
-      blurb: 'Use advanced search features to expand or filter your search.',
+      heading: 'Expand your search',
+      blurb: 'Find more content and use advanced features to filter your search.',
       link_url: search_aspace_link,
-      link_text: 'Search ArchivesSpace' } %>
+      link_text: 'Run search in Archives & Manuscripts' } %>
   <% end %>
 
   <% if @active_tab == 'aspace' %>
@@ -53,6 +75,64 @@
       link_text: 'Ask Distinctive Collections' } %>
   <% end %>
 
+  <!-- DSPACE / MIT SCHOLARSHIP TAB -->
+  <% if @active_tab == 'dspace' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'magnifying-glass',
+      heading: 'Refine your search',
+      blurb: 'Use advanced search features to expand or filter your search.',
+      link_url: search_dspace_link,
+      link_text: 'Run search in MIT Open Scholarship' } %>
+  <% end %>
+
+  <% if @active_tab == 'dspace' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'bell-concierge',
+      heading: 'Need help?',
+      blurb: 'Our staff can help you',
+      link_url: 'https://libanswers.mit.edu/ask-dspace',
+      link_text: 'Ask us! MIT Open Scholarship' } %>
+  <% end %>
+
+  <!-- DATABASES / RESEARCH DATABASES TAB -->
+  <% if @active_tab == 'databases' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'magnifying-glass',
+      heading: 'Refine your search',
+      blurb: 'Use advanced search features to expand or filter your search.',
+      link_url: search_databases_link,
+      link_text: 'Run search in Research Databases' } %>
+  <% end %>
+
+  <% if @active_tab == 'databases' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'messages',
+      heading: 'Want to talk to us?',
+      blurb: 'Get help, give us feedback, use the staff directory.',
+      link_url: 'https://libguides.mit.edu/directory',
+      link_text: 'Contact us' } %>
+  <% end %>
+
+  <!-- GEODATA / GEOSPATIAL DATA TAB -->
+  <% if @active_tab == 'geodata' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'magnifying-glass',
+      heading: 'Refine your search',
+      blurb: 'Use advanced search features to expand or filter your search.',
+      link_url: search_geodata_link,
+      link_text: 'Run search in Geospatial Data' } %>
+  <% end %>
+
+  <% if @active_tab == 'geodata' %>
+    <%= render partial: "results_callout_component", locals: {
+      fa_name: 'bell-concierge',
+      heading: 'Need help?',
+      blurb: 'Our staff can help you',
+      link_url: 'https://libanswers.mit.edu/ask-gis/',
+      link_text: 'Ask GIS' } %>
+  <% end %>
+
+  <!-- WEBSITE TAB -->
   <% if @active_tab == 'website' %>
     <%= render partial: "results_callout_component", locals: {
       fa_name: 'messages',

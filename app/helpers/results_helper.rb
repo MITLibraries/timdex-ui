@@ -59,7 +59,7 @@ module ResultsHelper
                                           'op[]': ''
                                         })
 
-    'https://archivesspace.mit.edu/search?' + aspace_params
+    "https://archivesspace.mit.edu/search?#{aspace_params}"
   end
 
   # Creates WorldCat links based on current search term
@@ -68,7 +68,38 @@ module ResultsHelper
                                             queryString: params[:q]
                                           })
 
-    'https://mit.on.worldcat.org/search?' + worldcat_params
+    "https://mit.on.worldcat.org/search?#{worldcat_params}"
+  end
+
+  # Creates WorldCat links with book filter based on current search term
+  def search_worldcat_link_with_book_filter
+    worldcat_params = URI.encode_www_form({
+                                            queryString: params[:q],
+                                            dblist: '638'
+                                          })
+
+    "https://mit.on.worldcat.org/search?#{worldcat_params}"
+  end
+
+  # Creates DSpace@MIT search links based on current search term
+  def search_dspace_link
+    return 'https://dspace.mit.edu' if params[:q].blank?
+
+    "https://dspace.mit.edu/discover?query=#{URI.encode_www_form_component(params[:q])}"
+  end
+
+  # Creates Research Databases link based on current search term
+  def search_databases_link
+    return 'https://libguides.mit.edu/az/databases' if params[:q].blank?
+
+    "https://libguides.mit.edu/az/databases?q=#{URI.encode_www_form_component(params[:q])}"
+  end
+
+  # Creates MIT Geospatial Data search links based on current search term
+  def search_geodata_link
+    return 'https://geodata.libraries.mit.edu' if params[:q].blank?
+
+    "https://geodata.libraries.mit.edu/search?query=#{URI.encode_www_form_component(params[:q])}"
   end
 
   # Determines if a format value represents an article type

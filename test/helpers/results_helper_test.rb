@@ -225,4 +225,53 @@ class ResultsHelperTest < ActionView::TestCase
     result = { links: nil }
     assert_nil full_record_url(result)
   end
+
+  test 'search_worldcat_link_with_book_filter returns a valid worldcat search URL with book filter' do
+    params[:q] = 'climate change'
+    link = search_worldcat_link_with_book_filter
+
+    assert_equal 'https://mit.on.worldcat.org/search?queryString=climate+change&dblist=638', link
+  end
+
+  test 'search_dspace_link returns a valid MIT Open Scholarship search URL' do
+    params[:q] = 'MIT research'
+    link = search_dspace_link
+
+    assert_equal 'https://dspace.mit.edu/discover?query=MIT+research', link
+  end
+
+  test 'search_dspace_link returns landing page when no search term' do
+    params[:q] = nil
+    link = search_dspace_link
+
+    assert_equal 'https://dspace.mit.edu', link
+  end
+
+  test 'search_databases_link returns a valid research databases URL with query' do
+    params[:q] = 'climate databases'
+    link = search_databases_link
+
+    assert_equal 'https://libguides.mit.edu/az/databases?q=climate+databases', link
+  end
+
+  test 'search_databases_link returns landing page when no search term' do
+    params[:q] = nil
+    link = search_databases_link
+
+    assert_equal 'https://libguides.mit.edu/az/databases', link
+  end
+
+  test 'search_geodata_link returns a valid MIT Geospatial Data search URL' do
+    params[:q] = 'boston area'
+    link = search_geodata_link
+
+    assert_equal 'https://geodata.libraries.mit.edu/search?query=boston+area', link
+  end
+
+  test 'search_geodata_link returns landing page when no search term' do
+    params[:q] = nil
+    link = search_geodata_link
+
+    assert_equal 'https://geodata.libraries.mit.edu', link
+  end
 end
