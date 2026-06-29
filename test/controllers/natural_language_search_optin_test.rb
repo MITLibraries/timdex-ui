@@ -53,24 +53,24 @@ class NaturalLanguageSearchOptinTest < ActionDispatch::IntegrationTest
   test 'route with natural_language_search_optin=true sets cookie' do
     get '/natural_language_search_optin?natural_language_search_optin=true'
     assert_response :redirect
-    assert_equal cookies['natural_language_search_optin'], 'true'
+    assert_equal cookies['nls_enabled'], 'true'
   end
 
   test 'route with natural_language_search_optin=false sets cookie to false' do
     get '/natural_language_search_optin?natural_language_search_optin=false'
     assert_response :redirect
-    assert_equal cookies['natural_language_search_optin'], 'false'
+    assert_equal cookies['nls_enabled'], 'false'
   end
 
   test 'route with no parameter deletes cookie' do
     get '/natural_language_search_optin?natural_language_search_optin=true'
-    assert_equal cookies['natural_language_search_optin'], 'true'
+    assert_equal cookies['nls_enabled'], 'true'
 
     get '/natural_language_search_optin'
     assert_response :redirect
 
     # Rails sets cookies to empty string when deleted via cookies.delete
-    assert(cookies['natural_language_search_optin'].blank?)
+    assert(cookies['nls_enabled'].blank?)
   end
 
   test 'route redirects to return_to when provided' do
@@ -162,24 +162,24 @@ class NaturalLanguageSearchOptinTest < ActionDispatch::IntegrationTest
 
   test 'URL param queryMode overrides cookie' do
     get '/natural_language_search_optin?natural_language_search_optin=true'
-    assert_equal cookies['natural_language_search_optin'], 'true'
+    assert_equal cookies['nls_enabled'], 'true'
 
     mock_timdex_success
     get '/results?q=test&tab=timdex&queryMode=keyword'
 
     assert_response :success
-    assert_equal cookies['natural_language_search_optin'], 'true'
+    assert_equal cookies['nls_enabled'], 'true'
   end
 
   test 'cookie unchanged after search with URL param override' do
     get '/natural_language_search_optin?natural_language_search_optin=false'
-    assert_equal cookies['natural_language_search_optin'], 'false'
+    assert_equal cookies['nls_enabled'], 'false'
 
     mock_timdex_success
     get '/results?q=test&tab=timdex&queryMode=hybrid'
 
     assert_response :success
-    assert_equal cookies['natural_language_search_optin'], 'false'
+    assert_equal cookies['nls_enabled'], 'false'
   end
 
   test 'cookie=true, no param: user is opted-in' do
@@ -312,5 +312,25 @@ class NaturalLanguageSearchOptinTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_equal controller.view_context.assigns['show_nls_warning'], false
+  end
+
+  test 'cookie is set with domain option on libraries.mit.edu' do
+    host! 'search.libraries.mit.edu'
+    get '/natural_language_search_optin?natural_language_search_optin=true'
+
+    # Check the Set-Cookie header includes domain=
+    set_cookie_header = response.headers['Set-Cookie']
+    assert_includes set_cookie_header, 'domain='
+    assert_equal cookies['nls_enabled'], 'true'
+  end
+
+  test 'cookie is set without domain option on non-MIT host' do
+    host! 'example.herokuapp.com'
+    get '/natural_language_search_optin?natural_language_search_optin=true'
+
+    # Check the Set-Cookie header does NOT include domain=
+    set_cookie_header = response.headers['Set-Cookie']
+    assert_not_includes set_cookie_header, 'domain='
+    assert_equal cookies['nls_enabled'], 'true'
   end
 end
