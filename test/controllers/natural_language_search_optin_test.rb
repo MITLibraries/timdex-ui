@@ -318,9 +318,9 @@ class NaturalLanguageSearchOptinTest < ActionDispatch::IntegrationTest
     host! 'search.libraries.mit.edu'
     get '/natural_language_search_optin?natural_language_search_optin=true'
 
-    # Check the Set-Cookie header includes domain=
+    # Check the Set-Cookie header includes domain=libraries.mit.edu
     set_cookie_header = response.headers['Set-Cookie']
-    assert_includes set_cookie_header, 'domain='
+    assert_includes set_cookie_header, 'domain=.libraries.mit.edu'
     assert_equal cookies['nls_enabled'], 'true'
   end
 

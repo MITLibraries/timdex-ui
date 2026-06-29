@@ -18,10 +18,14 @@ class StaticController < ApplicationController
   def natural_language_search_optin
     optin = params[:natural_language_search_optin]
     if %w[true false].include?(optin)
-      nls_cookie_options = use_domain_cookies? ? { value: optin, domain: :all } : optin
+      nls_cookie_options = if use_domain_cookies?
+                             { value: optin, domain: '.libraries.mit.edu', expires: 1.year.from_now }
+                           else
+                             { value: optin, expires: 1.year.from_now }
+                           end
       cookies[:nls_enabled] = nls_cookie_options
     else
-      cookies.delete :nls_enabled, domain: :all if use_domain_cookies?
+      cookies.delete :nls_enabled, domain: '.libraries.mit.edu' if use_domain_cookies?
       cookies.delete :nls_enabled unless use_domain_cookies?
     end
 
