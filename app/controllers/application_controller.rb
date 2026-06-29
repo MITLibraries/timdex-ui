@@ -35,6 +35,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_natural_language_search_optin
-    @natural_language_search_optin = cookies[:natural_language_search_optin] == 'true'
+    @natural_language_search_optin = cookies[:nls_enabled] == 'true'
   end
 end
