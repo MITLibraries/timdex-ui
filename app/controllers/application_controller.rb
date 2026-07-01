@@ -43,9 +43,9 @@ class ApplicationController < ActionController::Base
   #
   # Returns the value from the current STYXKEY_nls_enabled cookie, or falls back to
   # the old nls_enabled cookie for backward compatibility during the transition period.
-  # Max future date we need this fall back is 2027-07-01, when all old cookies will have expired.
-  # All previous cookie names were session cookies, so we no longer support them at all.
+  # Max future date we need this fallback is 2027-07-01, when all legacy nls_enabled cookies will have expired.
+  # All other previous cookie names were session cookies, so we no longer support them at all.
   def nls_enabled_value
-    cookies['STYXKEY_nls_enabled'] || cookies[:nls_enabled]
+    cookies['STYXKEY_nls_enabled'].presence || cookies[:nls_enabled].presence
   end
 end

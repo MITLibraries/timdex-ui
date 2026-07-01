@@ -208,6 +208,55 @@ class NaturalLanguageSearchOptinTest < ActionDispatch::IntegrationTest
     assert_equal controller.view_context.assigns['natural_language_search_optin'], false
   end
 
+  # Backward compatibility tests for legacy nls_enabled cookie
+  # These verify that existing users with the old cookie are still honored during transition
+
+  test 'legacy nls_enabled cookie=true is honored' do
+    # Manually set legacy cookie without going through the opt-in route
+    cookies['nls_enabled'] = 'true'
+
+    mock_timdex_success
+    get '/results?q=test&tab=timdex'
+
+    assert_response :success
+    assert_equal controller.view_context.assigns['natural_language_search_optin'], true
+  end
+
+  test 'legacy nls_enabled cookie=false is honored' do
+    # Manually set legacy cookie without going through the opt-in route
+    cookies['nls_enabled'] = 'false'
+
+    mock_timdex_success
+    get '/results?q=test&tab=timdex'
+
+    assert_response :success
+    assert_equal controller.view_context.assigns['natural_language_search_optin'], false
+  end
+
+  test 'legacy nls_enabled cookie shows toggled-on state' do
+    # Manually set legacy cookie without going through the opt-in route
+    cookies['nls_enabled'] = 'true'
+
+    mock_timdex_success
+    get '/results?q=test&tab=timdex'
+
+    assert_response :success
+    assert_select 'div.semantic-search-toggle.toggled-on'
+  end
+
+  test 'new STYXKEY_nls_enabled cookie takes precedence over legacy' do
+    # Set both cookies: new should take precedence
+    cookies['STYXKEY_nls_enabled'] = 'true'
+    cookies['nls_enabled'] = 'false'
+
+    mock_timdex_success
+    get '/results?q=test&tab=timdex'
+
+    assert_response :success
+    # Should honor the new cookie value of true
+    assert_equal controller.view_context.assigns['natural_language_search_optin'], true
+  end
+
   test 'cookie-driven queryMode works on timdex tab' do
     get '/natural_language_search_optin?natural_language_search_optin=true'
     mock_timdex_success
