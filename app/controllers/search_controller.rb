@@ -17,7 +17,7 @@ class SearchController < ApplicationController
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
     # inject hybrid queryMode if opted-in and no queryMode param provided
-    params[:queryMode] = 'hybrid' if params[:queryMode].blank? && cookies[:nls_enabled] == 'true'
+    params[:queryMode] = 'hybrid' if params[:queryMode].blank? && nls_enabled_value == 'true'
 
     @enhanced_query = Enhancer.new(params).enhanced_query
     @show_nls_warning = show_nls_warning?
