@@ -5,6 +5,8 @@ class StaticController < ApplicationController
 
   def about_natural_language_search; end
 
+  def about; end
+
   def boolpref
     if params[:boolean_type].present?
       cookies[:boolean_type] = params[:boolean_type]
