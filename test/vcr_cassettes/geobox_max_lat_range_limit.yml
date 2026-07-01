@@ -59,9 +59,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=RQfXKTE99IsMNtktn7326sLz32Buvsko%2FtWEgBY2osE%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1779971821"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=10GgeNgcVjGmmDa0roz8IBa4je9WsUGeV6Kts82%2BH3A%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1783368199"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=RQfXKTE99IsMNtktn7326sLz32Buvsko%2FtWEgBY2osE%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1779971821"
+      - heroku-nel="https://nel.heroku.com/reports?s=10GgeNgcVjGmmDa0roz8IBa4je9WsUGeV6Kts82%2BH3A%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1783368199"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -77,13 +77,13 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 03d07523-cf22-341c-45e6-a9a2b229bdbe
+      - 2b753915-6c53-4a20-e7d1-c3f0ed6dbb90
       X-Runtime:
-      - '0.469131'
+      - '0.317813'
       X-Xss-Protection:
       - '0'
       Date:
-      - Thu, 28 May 2026 12:37:01 GMT
+      - Mon, 06 Jul 2026 20:03:20 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":10000,"records":[{"timdexRecordId":"gisogm:edu.stanford.purl:0ef27ac20958","title":"Heat
@@ -357,5 +357,5 @@ http_interactions:
         on the environment","docCount":1099}],"format":[{"key":"shapefile","docCount":27765},{"key":"jpeg","docCount":13632},{"key":"geotiff","docCount":12725},{"key":"pdf","docCount":8032},{"key":"tiff","docCount":7874},{"key":"mixed","docCount":1962},{"key":"jpeg2000","docCount":271},{"key":"arcgrid","docCount":186},{"key":"las","docCount":148},{"key":"laz","docCount":103}],"languages":[{"key":"eng","docCount":28836},{"key":"english","docCount":26848},{"key":"rus","docCount":4085},{"key":"fra","docCount":662},{"key":"deu","docCount":498},{"key":"lat","docCount":464},{"key":"fre","docCount":221},{"key":"ita","docCount":117},{"key":"dan","docCount":115},{"key":"und","docCount":101}],"literaryForm":[],"source":[{"key":"opengeometadata
         gis resources","docCount":73255},{"key":"mit gis resources","docCount":1289}],"subjects":[{"key":"datasets","docCount":34157},{"key":"maps","docCount":30087},{"key":"boundaries","docCount":14693},{"key":"other","docCount":12750},{"key":"transportation","docCount":11676},{"key":"oceans","docCount":7839},{"key":"society","docCount":7004},{"key":"indiana","docCount":6805},{"key":"planning
         and cadastral","docCount":6438},{"key":"new jersey","docCount":4825}]}}}}'
-  recorded_at: Thu, 28 May 2026 12:37:01 GMT
+  recorded_at: Mon, 06 Jul 2026 20:03:20 GMT
 recorded_with: VCR 6.4.0

@@ -58,9 +58,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=h7iX%2Fr8cAWnfZNHy08nJE27s1edufto8q%2FtWFKPj5Eo%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1779971819"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=10GgeNgcVjGmmDa0roz8IBa4je9WsUGeV6Kts82%2BH3A%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1783368199"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=h7iX%2Fr8cAWnfZNHy08nJE27s1edufto8q%2FtWFKPj5Eo%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1779971819"
+      - heroku-nel="https://nel.heroku.com/reports?s=10GgeNgcVjGmmDa0roz8IBa4je9WsUGeV6Kts82%2BH3A%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1783368199"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -76,13 +76,13 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - dbf3a025-acf8-467e-6fd9-9c70b1147d57
+      - 6a7d2b3b-704b-6e13-1763-1e555b08962b
       X-Runtime:
-      - '0.093749'
+      - '0.251739'
       X-Xss-Protection:
       - '0'
       Date:
-      - Thu, 28 May 2026 12:36:59 GMT
+      - Mon, 06 Jul 2026 20:03:19 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":1682,"records":[{"timdexRecordId":"gisogm:edu.stanford.purl:9f63065f1c9e","title":"Points
@@ -500,5 +500,5 @@ http_interactions:
         gis resources","docCount":1667},{"key":"mit gis resources","docCount":15}],"subjects":[{"key":"datasets","docCount":1391},{"key":"earth
         (planet)","docCount":1243},{"key":"imagery and base maps","docCount":1130},{"key":"farming","docCount":1099},{"key":"crop
         yields","docCount":572},{"key":"harvesting","docCount":525},{"key":"census","docCount":351},{"key":"boundaries","docCount":286},{"key":"society","docCount":214},{"key":"other","docCount":200}]}}}}'
-  recorded_at: Thu, 28 May 2026 12:36:59 GMT
+  recorded_at: Mon, 06 Jul 2026 20:03:19 GMT
 recorded_with: VCR 6.4.0

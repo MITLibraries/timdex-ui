@@ -37,6 +37,7 @@ class NormalizeTimdexRecord
       publisher:,
       location:,
       subjects:,
+      score:,
       # TIMDEX-specific fields
       content_type:,
       date_range:,
@@ -162,6 +163,10 @@ class NormalizeTimdexRecord
     return [] unless @record['subjects']
 
     @record['subjects'].flat_map { |subject| subject['value'] }
+  end
+
+  def score
+    @record['score'] || 0
   end
 
   def identifier
