@@ -34,7 +34,18 @@ class ApplicationController < ActionController::Base
     all_tabs.include?(tab)
   end
 
+  # Set the natural language search opt-in state for the current request.
   def set_natural_language_search_optin
-    @natural_language_search_optin = cookies[:nls_enabled] == 'true'
+    @natural_language_search_optin = nls_enabled_value == 'true'
+  end
+
+  # Get the natural language search opt-in value with fallback support.
+  #
+  # Returns the value from the current STYXKEY_nls_enabled cookie, or falls back to
+  # the old nls_enabled cookie for backward compatibility during the transition period.
+  # Max future date we need this fall back is 2027-07-01, when all old cookies will have expired.
+  # All previous cookie names were session cookies, so we no longer support them at all.
+  def nls_enabled_value
+    cookies['STYXKEY_nls_enabled'] || cookies[:nls_enabled]
   end
 end

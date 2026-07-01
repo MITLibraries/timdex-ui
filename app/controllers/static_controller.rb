@@ -23,15 +23,16 @@ class StaticController < ApplicationController
                            else
                              { value: optin, expires: 1.year.from_now }
                            end
-      cookies[:nls_enabled] = nls_cookie_options
+      cookies['STYXKEY_nls_enabled'] = nls_cookie_options
     else
-      cookies.delete :nls_enabled, domain: '.libraries.mit.edu' if use_domain_cookies?
-      cookies.delete :nls_enabled unless use_domain_cookies?
+      cookies.delete 'STYXKEY_nls_enabled', domain: '.libraries.mit.edu' if use_domain_cookies?
+      cookies.delete 'STYXKEY_nls_enabled' unless use_domain_cookies?
     end
 
-    # Clean up old cookie name for users migrating to domain cookies
-    # Note: delete this in a future release after users have had time to migrate
-    cookies.delete :natural_language_search_optin
+    # Clean up old cookie names no longer in use
+    # Note: max date nls_enabled will be needed is 2027-07-01, when all old cookies will have expired.
+    cookies.delete :nls_enabled, domain: '.libraries.mit.edu' if use_domain_cookies?
+    cookies.delete :nls_enabled unless use_domain_cookies?
 
     # Redirect to return_to param if it's a safe local path, otherwise root
     return_to = params[:return_to].presence
