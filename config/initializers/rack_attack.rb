@@ -17,6 +17,26 @@ class Rack::Attack
   # This also affects bot_challenge_page logic which uses rack_attack under the hood
   Rack::Attack.safelist_ip("18.0.0.0/11")
 
+  ### Blocklist Suspicious User Agents ###
+
+  # Hard-block requests with user agents commonly associated with botnets or spoofed crawlers.
+  # These are immediately rejected with a 403 Forbidden response (much cheaper than throttling).
+  #
+  # Configure via BLOCKED_USER_AGENTS env var (comma-separated list).
+  # Example: "Sogou web spider,BadBot/2.0"
+  #
+  # Default includes "Sogou web spider" which was responsible for 76.94k attack requests
+  # originating from non-Chinese IPs with spoofed user agents.
+  blocked_agents = ENV.fetch('BLOCKED_USER_AGENTS', 'Sogou web spider').split(',').map(&:strip)
+
+  Rack::Attack.blocklist('user_agent/blocked') do |req|
+    is_blocked = blocked_agents.any? { |agent| req.user_agent&.include?(agent) }
+    if is_blocked
+      Rails.logger.warn("BLOCKED_USER_AGENT: #{req.user_agent} | IP: #{req.ip} | Path: #{req.path}")
+    end
+    is_blocked
+  end
+
   ### Throttle Spammy Clients ###
 
   # If any single client IP is making tons of requests, then they're
@@ -27,22 +47,78 @@ class Rack::Attack
   # counted by rack-attack and this throttle may be activated too
   # quickly. If so, enable the condition to exclude them from tracking.
 
+   # Global rate limit for /results and /record endpoints (excluding any Rack::Attack safelisted IPs)
+   # to protect against distributed volume attacks. Per-IP throttling can be bypassed by rotating
+   # through many IPs; this shared counter caps total throughput for all non-safelisted traffic.
+  #
+  # However, after a user passes Turnstile verification, we skip throttling for the grace period
+  # (default 15 minutes) to avoid repeated challenges during normal usage.
+  # Grace period is verified via an encrypted, tamper-proof cookie set by the Turnstile controller.
+  #
+  # Default: 30 requests per second across all non-safelisted IPs
+  throttle('results/global',
+          limit: (ENV.fetch('RESULTS_GLOBAL_LIMIT_PER_SEC', 30)).to_i,
+          period: 1.second) do |req|
+    # Only apply to /results and /record endpoints
+    next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
+
+    # Skip throttling if this IP recently passed Turnstile verification.
+    # Grace period is stored in a plain cookie that survives Redis eviction.
+    cookie_value = req.cookies['turnstile_verified_at']
+    if cookie_value.present?
+      expiration_timestamp = cookie_value.to_i
+      next nil if expiration_timestamp > Time.current.to_i
+    end
+
+    # Use a constant key so this is a true global limit, not per-IP
+    'results'
+  end
+
+  # Throttle /results and /record requests more aggressively (default is 10 requests per minute)
+  # /results and /record endpoints are expensive and are common targets for botnet
+  # attacks using distributed IPs. This throttle is much stricter than the general
+  # throttle to defend against distributed bot attacks that stay under per-IP limits
+  # by rotating through many IPs.
+  #
+  # However, after a user passes Turnstile verification, we skip throttling for the grace period
+  # (default 15 minutes) to avoid repeated challenges during normal usage.
+  # Grace period is verified via an encrypted, tamper-proof cookie set by the Turnstile controller.
+  #
+  # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip/results:#{req.ip}"
+  throttle('req/ip/results',
+          limit: (ENV.fetch('RESULTS_THROTTLE_LIMIT', 10)).to_i,
+          period: (ENV.fetch('RESULTS_THROTTLE_PERIOD', 1)).to_i.minutes) do |req|
+    # Only apply to /results and /record endpoints
+    next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
+
+    # Skip throttling if this IP recently passed Turnstile verification.
+    # Grace period is stored in a plain cookie (not encrypted) that survives Redis eviction.
+    cookie_value = req.cookies['turnstile_verified_at']
+    if cookie_value.present?
+      expiration_timestamp = cookie_value.to_i
+      next nil if expiration_timestamp > Time.current.to_i
+    end
+
+    req.ip
+  end
+
   # Throttle all requests by IP (default is 100 requests per 10 minutes)
+  # Excludes /assets and /turnstile paths (users need to access Turnstile to verify and bypass throttles)
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
   throttle('req/ip',
-          limit: (ENV.fetch('REQUESTS_PER_PERIOD') { 100 }).to_i,
-          period: (ENV.fetch('REQUEST_PERIOD') { 10 }).to_i.minutes) do |req|
-    # don't include assets as requests
-    req.ip unless req.path.start_with?('/assets')
+          limit: (ENV.fetch('REQUESTS_PER_PERIOD', 100)).to_i,
+          period: (ENV.fetch('REQUEST_PERIOD', 10)).to_i.minutes) do |req|
+    # don't include assets or turnstile verification paths as requests
+    req.ip unless req.path.start_with?('/assets') || req.path.start_with?('/turnstile')
   end
 
   # Throttle redirects by IP (default is 5 per 10 minutes)
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip/redirects:#{req.ip}"
   throttle('req/ip/redirects',
-          limit: (ENV.fetch('REDIRECT_REQUESTS_PER_PERIOD') { 5 }).to_i,
-          period: (ENV.fetch('REDIRECT_REQUEST_PERIOD') { 10 }).to_i.minutes) do |req|
+          limit: (ENV.fetch('REDIRECT_REQUESTS_PER_PERIOD', 5)).to_i,
+          period: (ENV.fetch('REDIRECT_REQUEST_PERIOD', 10)).to_i.minutes) do |req|
     req.ip if req.query_string.start_with?('geoweb-redirect')
   end
 
@@ -81,17 +157,38 @@ class Rack::Attack
 
   ### Custom Throttle Response ###
 
-  # By default, Rack::Attack returns an HTTP 429 for throttled responses,
-  # which is just fine.
+  # Redirect /results and /record throttles to Turnstile challenge instead of 429.
+  # This allows real users to solve a CAPTCHA and continue, rather than getting
+  # hard-blocked. This is more user-friendly for tuning since we can't perfectly
+  # distinguish bots from heavy legitimate usage.
   #
-  # If you want to return 503 so that the attacker might be fooled into
-  # believing that they've successfully broken your app (or you just want to
-  # customize the response), then uncomment these lines.
-  # self.throttled_response = lambda do |env|
-  #  [ 503,  # status
-  #    {},   # headers
-  #    ['']] # body
-  # end
+  # IMPORTANT: Only redirect if the matched throttle is one that has a grace period cache check
+  # (results/global or req/ip/results). Other throttles (req/ip, etc.) don't have grace period
+  # exemptions, so redirecting would create an infinite loop.
+  #
+  # For throttles without grace period support, return 429 instead.
+  self.throttled_response = lambda do |env|
+    request = Rack::Request.new(env)
+    matched_throttle = env['rack.attack.matched']
+
+    # Log all throttled requests to understand traffic patterns
+    Rails.logger.warn("THROTTLED_REQUEST: UA=#{request.user_agent} | IP=#{request.ip} | Path=#{request.path} | Throttle=#{matched_throttle}")
+
+    # Only redirect to Turnstile for /results and /record if it's a throttle with grace period support
+    if (request.path.start_with?('/results') || request.path.start_with?('/record')) &&
+       (matched_throttle == 'results/global' || matched_throttle == 'req/ip/results')
+      # Redirect to Turnstile challenge
+      return_to = "#{request.path_info}?#{request.query_string}".gsub(/\?$/, '')
+      [ 302,
+        { 'Location' => "/turnstile?return_to=#{ERB::Util.url_encode(return_to)}" },
+        [''] ]
+    else
+      # Default 429 for other throttled paths or throttles without grace period support
+      [ 429,
+        { 'Content-Type' => 'text/plain' },
+        ['Too Many Requests'] ]
+    end
+  end
 
   # Block suspicious requests for '/etc/password' or wordpress specific paths.
   # After 3 blocked requests in 10 minutes, block all requests from that IP for 5 minutes.

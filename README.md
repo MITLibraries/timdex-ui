@@ -136,6 +136,11 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `PRIMO_TIMEOUT`: The number of seconds before a Primo request times out (default 6).
 - `REQUESTS_PER_PERIOD` - number of requests that can be made for general throttles per `REQUEST_PERIOD`
 - `REQUEST_PERIOD` - time in minutes used along with `REQUESTS_PER_PERIOD`
+- `RESULTS_GLOBAL_LIMIT_PER_SEC` - maximum requests per second to `/results` and `/record` endpoints across all **non-safelisted** IPs (default 30). This protects against distributed botnet volume attacks by limiting total throughput regardless of source IP. When exceeded, requests are redirected to Turnstile. Must be used alongside per-IP throttling.
+- `RESULTS_THROTTLE_LIMIT` - number of requests to `/results` and `/record` endpoints per `RESULTS_THROTTLE_PERIOD` (default 10). This is much stricter than the general throttle to defend against distributed botnet attacks. When this limit is exceeded, requests are redirected to Turnstile for challenge verification rather than returning a hard 429 error, allowing legitimate users to prove they're human.
+- `RESULTS_THROTTLE_PERIOD` - time in minutes for `/results` and `/record` endpoint throttle (default 1 minute). Throttled requests are redirected to Turnstile for verification.
+- `TURNSTILE_GRACE_PERIOD` - time in minutes that an IP is whitelisted from throttling after successfully passing Turnstile verification (default 15 minutes). This prevents users from being re-challenged repeatedly.
+- `BLOCKED_USER_AGENTS` - comma-separated list of user agent strings to hard-block with 403 Forbidden responses (bypasses throttling; much cheaper). Default blocks `Sogou web spider` which was responsible for 76.94k spoofed attack requests from non-Chinese IPs. Example: `"Sogou web spider,BadBot/2.0"`
 - `REDIRECT_REQUESTS_PER_PERIOD`- number of requests that can be made that the query string starts with our legacy redirect parameter to throttle per `REQUEST_PERIOD`
 - `REDIRECT_REQUEST_PERIOD`- time in minutes used along with `REDIRECT_REQUEST_PERIOD`
 - `RESULTS_PER_PAGE`: The number of results to display per page. Use an even number to avoid peculiarities. Defaults to 20 if unset.
