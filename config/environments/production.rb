@@ -54,18 +54,21 @@ Rails.application.configure do
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
-  # Log to STDOUT by default
-  config.logger = ActiveSupport::Logger.new(STDOUT)
-    .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
-    .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
-
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = { request_id: :request_id }
 
   # "info" includes generic and useful information about system operation, but avoids logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII). If you
   # want to log everything, set the level to "debug".
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
+
+  # Configure Rails Semantic Logger to log to STDOUT in plain text format
+  # Using plain text formatter at this time, but we will switch to JSON formatter in the future for better log
+  # aggregation and analysis once our downstream systems are ready.
+  SemanticLogger.application = ENV.fetch("RAILS_APP_NAME", "timdex-ui")
+  config.rails_semantic_logger.appenders do |appenders|
+    appenders.add(io: $stdout, formatter: :default)
+  end
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store

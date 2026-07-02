@@ -15,8 +15,9 @@ gem 'openssl'
 gem 'puma'
 gem 'rack-attack'
 gem 'rack-timeout'
-gem 'rails_cloudflare_turnstile'
 gem 'rails', '~> 7.2.0'
+gem 'rails_cloudflare_turnstile'
+gem 'rails_semantic_logger'
 gem 'redis'
 gem 'scout_apm'
 gem 'sentry-rails'
@@ -37,6 +38,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'amazing_print'
   gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'
