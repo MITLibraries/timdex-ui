@@ -41,7 +41,10 @@ class SearchController < ApplicationController
 
     # Render the response in HTML or JSON format
     respond_to do |format|
-      format.json { render json: { results: @results, pagination: @pagination, errors: @errors } }
+      format.json do
+        render json: { results: @results, pagination: @pagination, errors: @errors,
+                       incomplete_results: @incomplete_results }
+      end
       format.html { render :results }
     end
   end
@@ -74,6 +77,7 @@ class SearchController < ApplicationController
 
     # Handle errors
     @errors = extract_errors(response)
+    @incomplete_results = nil
     return unless @errors.nil?
 
     hits = response.dig(:data, 'search', 'hits') || 0
@@ -89,6 +93,7 @@ class SearchController < ApplicationController
     @pagination = data[:pagination]
     @errors = data[:errors]
     @show_primo_continuation = data[:show_continuation]
+    @incomplete_results = nil
   end
 
   def load_timdex_results
@@ -96,6 +101,7 @@ class SearchController < ApplicationController
     @results = data[:results]
     @pagination = data[:pagination]
     @errors = data[:errors]
+    @incomplete_results = nil
   end
 
   def load_all_results
@@ -118,6 +124,7 @@ class SearchController < ApplicationController
     @errors = data[:errors]
     @pagination = data[:pagination]
     @show_primo_continuation = data[:show_primo_continuation]
+    @incomplete_results = data[:incomplete_results]
   end
 
   def fetch_primo_data(offset: nil, per_page: nil)
@@ -156,6 +163,8 @@ class SearchController < ApplicationController
 
     { results: results, pagination: pagination, errors: errors, show_continuation: show_continuation,
       hits: hits }
+  rescue HTTP::TimeoutError
+    { results: [], pagination: {}, errors: nil, show_continuation: false, hits: 0, timed_out: true }
   rescue StandardError => e
     { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false, hits: 0 }
   end
@@ -178,6 +187,8 @@ class SearchController < ApplicationController
     else
       { results: [], pagination: {}, errors: errors, hits: 0 }
     end
+  rescue Net::ReadTimeout
+    { results: [], pagination: {}, errors: nil, hits: 0, timed_out: true }
   end
 
   def active_filters

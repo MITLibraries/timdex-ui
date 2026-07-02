@@ -13,6 +13,8 @@
 
   <%= render(partial: 'shared/error', collection: @errors) %>
 
+  <%= render(partial: 'search/incomplete_results_warning', locals: { incomplete_results: @incomplete_results }) %>
+
   <div class="<%= @filters.present? ? 'layout-1q3q' : 'layout-3q1q' %> layout-band top-space">
     <% if @filters.present? %>
       <aside id="filters" class="col1q">
