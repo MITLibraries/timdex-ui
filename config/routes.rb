@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   post 'turnstile/verify', to: 'turnstile#verify', as: 'turnstile_verify'
   get 'style-guide', to: 'static#style_guide'
   get 'about-natural-language-search', to: 'static#about_natural_language_search'
+  get 'about', to: 'static#about'
 
   get 'boolpref', to: 'static#boolpref'
   get 'natural_language_search_optin', to: 'static#natural_language_search_optin'

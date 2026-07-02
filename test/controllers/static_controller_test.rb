@@ -7,6 +7,12 @@ class StaticControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'about page returns success' do
+    get about_path
+
+    assert_response :success
+  end
+
   test 'style guide page returns success' do
     get style_guide_path
 
