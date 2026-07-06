@@ -99,25 +99,18 @@ class SearchController < ApplicationController
   end
 
   def load_all_results
-    current_page = @enhanced_query[:page] || 1
-    per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
-
-    # Inject wrapper fetchers instead of using the service defaults. We use lambdas here so the
-    # service can call back into this controller's instance methods while preserving request-scoped
-    # context (for example `@enhanced_query`) and the controller's caching/normalization behavior.
-    # Using lambdas keeps the service decoupled from controller internals.
+    # Inject wrapper fetchers so the service can call back into this controller's
+    # instance methods while preserving request-scoped context and caching behavior.
     merge_service = MergedSearchService.new(
       enhanced_query: @enhanced_query,
       active_tab: @active_tab,
       primo_fetcher: ->(offset:, per_page:, query: nil) { fetch_primo_data(offset: offset, per_page: per_page) },
       timdex_fetcher: ->(offset:, per_page:, query: nil) { fetch_timdex_data(offset: offset, per_page: per_page) }
     )
-    data = merge_service.fetch(page: current_page, per_page: per_page)
+    data = merge_service.fetch
 
     @results = data[:results]
     @errors = data[:errors]
-    @pagination = data[:pagination]
-    @show_primo_continuation = data[:show_primo_continuation]
   end
 
   def fetch_primo_data(offset: nil, per_page: nil)
