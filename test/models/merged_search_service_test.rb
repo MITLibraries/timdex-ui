@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'ostruct'
 
 class MergedSearchServiceTest < ActiveSupport::TestCase
   test 'page 1 writes totals to cache' do
@@ -59,45 +58,25 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     end
   end
 
-  test 'falls back to summary and writes cache when totals are missing' do
+  test 'fetch calls both fetchers at offset 0 with configured per_source' do
     q = { q: 'test' }
 
+
     calls = []
-    primo_fetcher = lambda do |offset:, per_page:, query:|
-      calls << [:primo, offset, per_page]
-      if per_page == 1
-        { results: [], hits: 7, errors: nil, show_continuation: false }
-      else
-        { results: ['foo'], hits: 7, errors: nil, show_continuation: false }
-      end
+    fetcher = lambda do |offset:, per_page:, query: nil|
+      calls << [offset, per_page]
+      { results: [], hits: 0, errors: nil, show_continuation: false }
     end
 
-    timdex_fetcher = lambda do |offset:, per_page:, query:|
-      calls << [:timdex, offset, per_page]
-      if per_page == 1
-        { results: [], hits: 3, errors: nil }
-      else
-        { results: ['bar'], hits: 3, errors: nil }
-      end
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all',
+                                  primo_fetcher: fetcher, timdex_fetcher: fetcher)
+    ClimateControl.modify(ALL_TAB_RESULTS_PER_SOURCE: '25') { svc.fetch }
+
+    assert_equal 2, calls.length
+    calls.each do |offset, per_page|
+      assert_equal 0, offset
+      assert_equal 25, per_page
     end
-
-    svc = MergedSearchService.new(enhanced_query: q, active_tab: 'all', primo_fetcher: primo_fetcher,
-                                  timdex_fetcher: timdex_fetcher)
-
-    res = svc.fetch(page: 2, per_page: 20)
-
-    # summary calls should have been made with per_page == 1
-    assert_includes calls, [:primo, 0, 1]
-    assert_includes calls, [:timdex, 0, 1]
-
-    # totals cached
-    key = svc.send(:totals_cache_key)
-    totals = Rails.cache.read(key)
-    refute_nil totals
-    assert_equal 7, totals[:primo]
-    assert_equal 3, totals[:timdex]
-
-    assert res[:results].is_a?(Array)
   end
 
   test 'all tab cold cache deeper page calls timdex twice' do
@@ -136,25 +115,76 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
       { results: [], hits: 0, errors: nil }
     }
 
-    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all',
+
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all',
                                   primo_fetcher: primo_fetcher, timdex_fetcher: timdex_fetcher)
+    result = svc.fetch
 
-    paginator = OpenStruct.new(
-      merge_plan: %i[primo primo],
-      api_offsets: [10, 0],
-      primo_total: 5,
-      timdex_total: 0
-    )
+    assert_equal 2, result[:results].length
+    titles = result[:results].map { |r| r[:title] }
+    assert_includes titles, 'P1'
+    assert_includes titles, 'T1'
+  end
 
-    primo_data, timdex_data = svc.send(:fetch_all_tab_page_chunks, paginator)
-    assert primo_data[:results].is_a?(Array)
-    assert timdex_data[:results].is_a?(Array)
-    assert_equal 0, timdex_data[:hits]
+  test 'fetch defaults to 50 results per source when env var is not set' do
+    per_page_seen = []
+    fetcher = lambda do |offset:, per_page:, query: nil|
+      per_page_seen << per_page
+      { results: [], hits: 0, errors: nil }
+    end
+
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all',
+                                  primo_fetcher: fetcher, timdex_fetcher: fetcher)
+    ClimateControl.modify(ALL_TAB_RESULTS_PER_SOURCE: nil) { svc.fetch }
+
+    assert_equal [50, 50], per_page_seen
+  end
+
+  test 'configured_scorer returns ZscoreScorer by default' do
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all',
+                                  primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
+    ClimateControl.modify(ALL_TAB_SCORER: nil) do
+      assert_instance_of Reranker::ZscoreScorer, svc.send(:configured_scorer)
+    end
+  end
+
+  test 'configured_scorer maps ALL_TAB_SCORER env var to correct scorer class' do
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all',
+                                  primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
+
+    {
+      'zscore' => Reranker::ZscoreScorer,
+      'zipper' => Reranker::ZipperMergeScorer,
+      'simple' => Reranker::SimpleScorer,
+      'random' => Reranker::RandomScorer
+    }.each do |scorer_name, scorer_class|
+      ClimateControl.modify(ALL_TAB_SCORER: scorer_name) do
+        assert_instance_of scorer_class, svc.send(:configured_scorer),
+                           "Expected #{scorer_class} for ALL_TAB_SCORER=#{scorer_name}"
+      end
+    end
+  end
+
+  test 'fetch combines errors from both sources' do
+    primo_fetcher = fake_fetcher(errors: [{ 'message' => 'Primo error' }])
+    timdex_fetcher = fake_fetcher(errors: [{ 'message' => 'TIMDEX error' }])
+
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all',
+                                  primo_fetcher: primo_fetcher, timdex_fetcher: timdex_fetcher)
+    result = svc.fetch
+
+    assert_equal 2, result[:errors].length
+  end
+
+  test 'fetch returns nil errors when both sources have no errors' do
+    svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all',
+                                  primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
+    assert_nil svc.fetch[:errors]
   end
 
   test 'combine_errors merges arrays or returns nil' do
-    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                                  timdex_fetcher: fake_fetcher)
+    svc = MergedSearchService.new(enhanced_query: { q: 'foo' }, active_tab: 'all',
+                                  primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
     assert_nil svc.send(:combine_errors, nil, [])
     merged = svc.send(:combine_errors, [{ 'message' => 'a' }], [{ 'message' => 'b' }])
     assert_equal 2, merged.length
@@ -217,4 +247,5 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     expected = %w[P1 T1 P2 T2 P3 T3 P4 T4 P5 T5 P6 T6 P7 T7 T8 T9 T10 T11]
     assert_equal expected, merged
   end
+
 end
