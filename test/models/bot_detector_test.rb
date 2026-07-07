@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'ostruct'
 
 class BotDetectorTest < ActiveSupport::TestCase
   # Helper method to instantiate request objects.
