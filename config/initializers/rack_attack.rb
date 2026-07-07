@@ -181,8 +181,10 @@ class Rack::Attack
   #
   # For throttles without grace period support, return 429 instead.
   self.throttled_responder = lambda do |env|
-    request = Rack::Request.new(env)
-    matched_throttle = env['rack.attack.matched']
+    # Handle both Hash env and Rack::Request objects
+    env_hash = env.is_a?(Hash) ? env : env.env
+    request = env.is_a?(Hash) ? Rack::Request.new(env) : env
+    matched_throttle = env_hash['rack.attack.matched']
 
     # Log all throttled requests to understand traffic patterns
     Rails.logger.warn("THROTTLED_REQUEST: UA=#{request.user_agent.inspect} | IP=#{request.ip} | Path=#{request.path.inspect} | Throttle=#{matched_throttle.inspect}")
@@ -219,13 +221,16 @@ class Rack::Attack
   end
 
   # Log when throttles are triggered
-  ActiveSupport::Notifications.subscribe("throttle.rack_attack") do |name, start, finish, request_id, payload|
-    @@rack_logger ||= ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
-    @@rack_logger.info{[
-      "[#{payload[:request].env['rack.attack.match_type']}]",
-      "[#{payload[:request].env['rack.attack.matched']}]",
-      "[#{payload[:request].env['rack.attack.match_discriminator']}]",
-      "[#{payload[:request].env['rack.attack.throttle_data']}]",
-      ].join(' ') }
+  # Set RACK_ATTACK_VERBOSE_LOGGING=false to disable (useful for quieter test output)
+  if ENV.fetch('RACK_ATTACK_VERBOSE_LOGGING', 'true') == 'true'
+    ActiveSupport::Notifications.subscribe("throttle.rack_attack") do |name, start, finish, request_id, payload|
+      @@rack_logger ||= ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+      @@rack_logger.info{[
+        "[#{payload[:request].env['rack.attack.match_type']}]",
+        "[#{payload[:request].env['rack.attack.matched']}]",
+        "[#{payload[:request].env['rack.attack.match_discriminator']}]",
+        "[#{payload[:request].env['rack.attack.throttle_data']}]",
+        ].join(' ') }
+    end
   end
 end
