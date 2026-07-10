@@ -426,6 +426,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  addressable
   amazing_print
   annotate
   better_errors
