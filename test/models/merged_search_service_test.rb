@@ -31,7 +31,7 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     query = { q: 'test' }
 
     service = MergedSearchService.new(enhanced_query: query, active_tab: 'all',
-                      primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
+                                      primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
 
     # populate cache so service uses it instead of summary calls
     Rails.cache.write(service.send(:totals_cache_key), { primo: 50, timdex: 50 })
@@ -100,6 +100,31 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert res[:results].is_a?(Array)
   end
 
+  test 'all tab cold cache deeper page calls timdex twice' do
+    timdex_calls = []
+
+    fake_timdex = fake_fetcher(results: %w[t1 t2 t3 t4 t5], hits: 150, calls: timdex_calls)
+    fake_primo = fake_fetcher(results: %w[p1 p2 p3], hits: 100)
+    service = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all',
+                                      primo_fetcher: fake_primo, timdex_fetcher: fake_timdex)
+
+    # Verify cache is cold
+    assert_nil Rails.cache.read(service.send(:totals_cache_key))
+
+    # Fetch page 7, verify TIMDEX was called twice
+    service.fetch(page: 7, per_page: 10)
+    assert_equal 2, timdex_calls.length
+
+    # First call: summary (offset=0, per_page=1)
+    assert_equal({ offset: 0, per_page: 1 }, timdex_calls[0])
+
+    # Second call: page data (offset/per_page computed by MergedSearchPaginator)
+    paginator = MergedSearchPaginator.new(primo_total: 100, timdex_total: 150, current_page: 7, per_page: 10)
+    expected_offset = paginator.api_offsets[1]
+    expected_count = paginator.merge_plan.count(:timdex)
+    assert_equal({ offset: expected_offset, per_page: expected_count }, timdex_calls[1])
+  end
+
   test 'fetch_all_tab_page_chunks handles zero-count branches' do
     called = []
     primo_fetcher = lambda { |offset:, per_page:, query:|
@@ -145,7 +170,7 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     primo_results = %w[P1 P2 P3]
     timdex_results = %w[T1 T2 T3 T4 T5]
     svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
+                                  timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     expected = %w[P1 T1 P2 T2 P3 T3 T4 T5]
     assert_equal expected, merged
@@ -155,7 +180,7 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     primo_results = %w[P1 P2 P3 P4 P5]
     timdex_results = %w[T1 T2 T3]
     svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
+                                  timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     expected = %w[P1 T1 P2 T2 P3 T3 P4 P5]
     assert_equal expected, merged
@@ -165,7 +190,7 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     primo_results = (1..15).map { |i| "P#{i}" }
     timdex_results = (1..15).map { |i| "T#{i}" }
     svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
+                                  timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     assert_equal 20, merged.length
     assert_equal 'P1', merged[0]
@@ -178,7 +203,7 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     primo_results = []
     timdex_results = %w[T1 T2 T3]
     svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
+                                  timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     assert_equal %w[T1 T2 T3], merged
 
@@ -187,7 +212,7 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     primo_results = (1..7).map { |i| "P#{i}" }
     timdex_results = (1..11).map { |i| "T#{i}" }
     svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-            timdex_fetcher: fake_fetcher)
+                                  timdex_fetcher: fake_fetcher)
     merged = svc.send(:merge_results, paginator, primo_results, timdex_results)
     expected = %w[P1 T1 P2 T2 P3 T3 P4 T4 P5 T5 P6 T6 P7 T7 T8 T9 T10 T11]
     assert_equal expected, merged
