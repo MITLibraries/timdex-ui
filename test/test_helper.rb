@@ -74,8 +74,16 @@ end
 
 # Helper factory to create simple stub fetchers for `MergedSearchService` tests.
 # Returns a lambda matching the fetcher signature: `(offset:, per_page:, query: nil)`.
-def fake_fetcher(results: [], hits: 0, errors: nil, show_continuation: false)
+#
+# @param results [Array] the results to return on each call (duplicated)
+# @param hits [Integer] the total hit count to return
+# @param errors [nil, Array] any errors to return
+# @param show_continuation [Boolean] set to true if the API has exhausted its practical offset limit
+# @param calls [Array, nil] optional array to track number of invocations. If provided, each call
+#        appends {offset:, per_page:}
+def fake_fetcher(results: [], hits: 0, errors: nil, show_continuation: false, calls: nil)
   lambda do |offset:, per_page:, query: nil|
+    calls << { offset:, per_page: } if calls
     { results: results.dup, hits: hits, errors: errors, show_continuation: show_continuation }
   end
 end
