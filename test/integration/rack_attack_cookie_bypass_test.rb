@@ -69,14 +69,43 @@ class RackAttackCookieBypassTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def turnstile_cookie(expiration_time)
+    Rails.application.message_verifier(:turnstile_grace).generate(expiration_time.to_i)
+  end
+
+  def rack_request_with_turnstile_cookie(cookie_value = nil)
+    cookie_header = cookie_value ? "turnstile_verified_at=#{cookie_value}" : nil
+    Rack::Request.new('HTTP_COOKIE' => cookie_header)
+  end
+
+  test 'turnstile_grace_cookie_valid? validates signed future expiration cookie' do
+    refute Rack::Attack.turnstile_grace_cookie_valid?(rack_request_with_turnstile_cookie)
+    refute Rack::Attack.turnstile_grace_cookie_valid?(rack_request_with_turnstile_cookie('tampered-value'))
+    refute Rack::Attack.turnstile_grace_cookie_valid?(rack_request_with_turnstile_cookie(turnstile_cookie(Time.current - 1.minute)))
+
+    assert Rack::Attack.turnstile_grace_cookie_valid?(rack_request_with_turnstile_cookie(turnstile_cookie(Time.current + 15.minutes)))
+  end
+
+  test 'req_ip_free_path? identifies cheap paths excluded from general request throttle' do
+    assert Rack::Attack.req_ip_free_path?('/')
+    assert Rack::Attack.req_ip_free_path?('/assets/application.css')
+    assert Rack::Attack.req_ip_free_path?('/turnstile/verify')
+    assert Rack::Attack.req_ip_free_path?('/about')
+    assert Rack::Attack.req_ip_free_path?('/about-natural-language-search')
+
+    refute Rack::Attack.req_ip_free_path?('/results')
+    refute Rack::Attack.req_ip_free_path?('/record/test-id')
+    refute Rack::Attack.req_ip_free_path?('/style-guide')
+    refute Rack::Attack.req_ip_free_path?('/aboutness')
+  end
+
   test 'valid grace period cookie bypasses throttle when throttle is active' do
     # Get the throttle limit from environment or use default
     limit = ENV.fetch('RESULTS_GLOBAL_LIMIT_PER_SEC', 30).to_i
 
     # Create a valid, non-expired cookie
     future_timestamp = (Time.current + 15.minutes).to_i
-    verifier = Rails.application.message_verifier(:turnstile_grace)
-    valid_cookie = verifier.generate(future_timestamp)
+    valid_cookie = turnstile_cookie(future_timestamp)
 
     # Make requests WITHOUT cookie to build up throttle counter
     trigger_throttle_via_requests('/results', limit + 5, params: { q: 'test', tab: 'primo' })
@@ -113,8 +142,7 @@ class RackAttackCookieBypassTest < ActionDispatch::IntegrationTest
 
     # Create a validly-signed but expired cookie
     past_timestamp = (Time.current - 1.minute).to_i
-    verifier = Rails.application.message_verifier(:turnstile_grace)
-    expired_cookie = verifier.generate(past_timestamp)
+    expired_cookie = turnstile_cookie(past_timestamp)
 
     # Build up throttle counter
     trigger_throttle_via_requests('/results', limit + 5, params: { q: 'test', tab: 'primo' })
@@ -166,8 +194,7 @@ class RackAttackCookieBypassTest < ActionDispatch::IntegrationTest
     limit = ENV.fetch('RESULTS_THROTTLE_LIMIT', 10).to_i
 
     future_timestamp = (Time.current + 15.minutes).to_i
-    verifier = Rails.application.message_verifier(:turnstile_grace)
-    valid_cookie = verifier.generate(future_timestamp)
+    valid_cookie = turnstile_cookie(future_timestamp)
 
     # Build up throttle counter for /record endpoint
     trigger_throttle_via_requests('/record/test-id', limit + 5, params: {})
@@ -177,5 +204,39 @@ class RackAttackCookieBypassTest < ActionDispatch::IntegrationTest
 
     # Should NOT be throttled
     assert_response :success, 'Valid grace period cookie should bypass throttle on /record'
+  end
+
+  test 'valid cookie bypasses general req/ip throttle' do
+    limit = ENV.fetch('REQUESTS_PER_PERIOD', 100).to_i
+    valid_cookie = turnstile_cookie(Time.current + 15.minutes)
+
+    trigger_throttle_via_requests('/style-guide', limit + 5, params: {})
+
+    get '/style-guide', headers: { 'HTTP_COOKIE' => "turnstile_verified_at=#{valid_cookie}" }
+
+    assert_response :success, 'Valid grace period cookie should bypass the general req/ip throttle'
+  end
+
+  test 'invalid cookie does not bypass general req/ip throttle and redirects to Turnstile' do
+    limit = ENV.fetch('REQUESTS_PER_PERIOD', 100).to_i
+
+    trigger_throttle_via_requests('/style-guide', limit + 5, params: {})
+
+    get '/style-guide', headers: { 'HTTP_COOKIE' => 'turnstile_verified_at=tampered-value' }
+
+    assert_equal 302, status, 'Invalid cookie should not bypass the general req/ip throttle'
+    assert response.location.include?('/turnstile'), 'Should redirect to Turnstile on throttle'
+  end
+
+  test 'free paths do not count against general req/ip throttle' do
+    limit = ENV.fetch('REQUESTS_PER_PERIOD', 100).to_i
+
+    [ '/', '/about', '/about-natural-language-search' ].each do |path|
+      trigger_throttle_via_requests(path, limit + 5, params: {})
+    end
+
+    get '/style-guide'
+
+    assert_response :success, 'Cheap/free paths should not increment the general req/ip throttle counter'
   end
 end

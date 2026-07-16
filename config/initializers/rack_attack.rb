@@ -1,4 +1,34 @@
 class Rack::Attack
+  # List of throttles that honor the Turnstile grace cookie. These throttles will redirect to the Turnstile challenge
+  # page instead of returning 429, allowing verified users to continue during the grace period without increasing
+  # limits for unverified traffic.
+  TURNSTILE_CHALLENGE_THROTTLES = %w[results/global req/ip/results req/ip].freeze
+
+  # List of paths that are cheap/free to serve and should not count against the per-IP throttle limit.
+  REQ_IP_FREE_PATHS = %w[/ /assets /turnstile /about /about-natural-language-search].freeze
+
+  # Returns true when the request includes the plain Turnstile grace cookie set after
+  # a successful challenge, and that cookie has a valid Rails signature with a future
+  # expiration timestamp. Rack::Attack runs before Rails controller/session handling,
+  # so recoverable throttles use this middleware-readable proof to let verified users
+  # continue during the grace period without increasing limits for unverified traffic.
+  def self.turnstile_grace_cookie_valid?(req)
+    cookie_value = req.cookies['turnstile_verified_at']
+    return false if cookie_value.blank?
+
+    expiration_timestamp = Rails.application.message_verifier(:turnstile_grace).verify(cookie_value)
+    expiration_timestamp > Time.current.to_i
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    false
+  end
+
+  # Returns true if the request path is in the list of cheap/free paths that should not count against the per-IP
+  # throttle limit.
+  def self.req_ip_free_path?(path)
+    REQ_IP_FREE_PATHS.any? do |free_path|
+      path == free_path || (free_path != '/' && path.start_with?("#{free_path}/"))
+    end
+  end
 
   ### Configure Cache ###
 
@@ -62,21 +92,12 @@ class Rack::Attack
   throttle('results/global',
           limit: (ENV.fetch('RESULTS_GLOBAL_LIMIT_PER_SEC', 30)).to_i,
           period: 1.second) do |req|
+
     # Only apply to /results and /record endpoints
     next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
 
-    # Skip throttling if this IP recently passed Turnstile verification.
-    # Grace period is stored in a signed cookie that survives Redis eviction.
-    # The signature prevents clients from forging a far-future timestamp to bypass throttles.
-    cookie_value = req.cookies['turnstile_verified_at']
-    if cookie_value.present?
-      begin
-        expiration_timestamp = Rails.application.message_verifier(:turnstile_grace).verify(cookie_value)
-        next nil if expiration_timestamp > Time.current.to_i
-      rescue ActiveSupport::MessageVerifier::InvalidSignature
-        # Tampered or invalid cookie — proceed with throttling
-      end
-    end
+    # Skip throttling if the user has a valid Turnstile grace cookie
+    next nil if Rack::Attack.turnstile_grace_cookie_valid?(req)
 
     # Use a constant key so this is a true global limit, not per-IP
     'results'
@@ -99,31 +120,25 @@ class Rack::Attack
     # Only apply to /results and /record endpoints
     next nil unless req.path.start_with?('/results') || req.path.start_with?('/record')
 
-    # Skip throttling if this IP recently passed Turnstile verification.
-    # Grace period is stored in a signed cookie that survives Redis eviction.
-    # The signature prevents clients from forging a far-future timestamp to bypass throttles.
-    cookie_value = req.cookies['turnstile_verified_at']
-    if cookie_value.present?
-      begin
-        expiration_timestamp = Rails.application.message_verifier(:turnstile_grace).verify(cookie_value)
-        next nil if expiration_timestamp > Time.current.to_i
-      rescue ActiveSupport::MessageVerifier::InvalidSignature
-        # Tampered or invalid cookie — proceed with throttling
-      end
-    end
+    # Skip throttling if the user has a valid Turnstile grace cookie
+    next nil if Rack::Attack.turnstile_grace_cookie_valid?(req)
 
     req.ip
   end
 
-  # Throttle all requests by IP (default is 100 requests per 10 minutes)
-  # Excludes /assets and /turnstile paths (users need to access Turnstile to verify and bypass throttles)
+  # Throttle all requests by IP (default is 100 requests per 10 minutes).
+  # Excludes cheap/free paths, and skips users with a valid Turnstile grace cookie.
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
   throttle('req/ip',
           limit: (ENV.fetch('REQUESTS_PER_PERIOD', 100)).to_i,
           period: (ENV.fetch('REQUEST_PERIOD', 10)).to_i.minutes) do |req|
-    # don't include assets or turnstile verification paths as requests
-    req.ip unless req.path.start_with?('/assets') || req.path.start_with?('/turnstile')
+
+    # Skip throttling if the user has a valid Turnstile grace cookie
+    next nil if Rack::Attack.turnstile_grace_cookie_valid?(req)
+
+    # don't include cheap static pages or turnstile verification paths as requests
+    req.ip unless Rack::Attack.req_ip_free_path?(req.path)
   end
 
   # Throttle redirects by IP (default is 5 per 10 minutes)
@@ -170,14 +185,14 @@ class Rack::Attack
 
   ### Custom Throttle Response ###
 
-  # Redirect /results and /record throttles to Turnstile challenge instead of 429.
+  # Redirect user-recoverable throttles to Turnstile challenge instead of 429.
   # This allows real users to solve a CAPTCHA and continue, rather than getting
   # hard-blocked. This is more user-friendly for tuning since we can't perfectly
   # distinguish bots from heavy legitimate usage.
   #
-  # IMPORTANT: Only redirect if the matched throttle is one that has a grace period cache check
-  # (results/global or req/ip/results). Other throttles (req/ip, etc.) don't have grace period
-  # exemptions, so redirecting would create an infinite loop.
+  # IMPORTANT: Only redirect throttles that honor the Turnstile grace cookie. Other throttles
+  # return 429 because passing Turnstile would not bypass them. Turnstile throttles are set
+  # via TURNSTILE_CHALLENGE_THROTTLES constant at the top of this file.
   #
   # For throttles without grace period support, return 429 instead.
   self.throttled_responder = lambda do |env|
@@ -189,9 +204,7 @@ class Rack::Attack
     # Log all throttled requests to understand traffic patterns
     Rails.logger.warn("THROTTLED_REQUEST: UA=#{request.user_agent.inspect} | IP=#{request.ip} | Path=#{request.path.inspect} | Throttle=#{matched_throttle.inspect}")
 
-    # Only redirect to Turnstile for /results and /record if it's a throttle with grace period support
-    if (request.path.start_with?('/results') || request.path.start_with?('/record')) &&
-       (matched_throttle == 'results/global' || matched_throttle == 'req/ip/results')
+    if TURNSTILE_CHALLENGE_THROTTLES.include?(matched_throttle)
       # Redirect to Turnstile challenge
       return_to = "#{request.path_info}?#{request.query_string}".gsub(/\?$/, '')
       [ 302,
