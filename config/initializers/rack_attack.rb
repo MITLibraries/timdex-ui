@@ -30,6 +30,18 @@ class Rack::Attack
     end
   end
 
+  # Returns true when the request includes a valid format token that matches the FORMAT_TOKEN environment variable.
+  # This allows programmatic API requests (with valid tokens) to bypass throttling.
+  def self.valid_format_token?(req)
+    format_token_env = ENV.fetch('FORMAT_TOKEN', '')
+    return false if format_token_env.blank?
+
+    format_token_param = req.params['format_token']
+    return false if format_token_param.blank?
+
+    ActiveSupport::SecurityUtils.secure_compare(format_token_param, format_token_env)
+  end
+
   ### Configure Cache ###
 
   # If you don't want to use Rails.cache (Rack::Attack's default), then
@@ -99,6 +111,9 @@ class Rack::Attack
     # Skip throttling if the user has a valid Turnstile grace cookie
     next nil if Rack::Attack.turnstile_grace_cookie_valid?(req)
 
+    # Skip throttling if the request has a valid format token
+    next nil if Rack::Attack.valid_format_token?(req)
+
     # Use a constant key so this is a true global limit, not per-IP
     'results'
   end
@@ -123,6 +138,9 @@ class Rack::Attack
     # Skip throttling if the user has a valid Turnstile grace cookie
     next nil if Rack::Attack.turnstile_grace_cookie_valid?(req)
 
+    # Skip throttling if the request has a valid format token
+    next nil if Rack::Attack.valid_format_token?(req)
+
     req.ip
   end
 
@@ -136,6 +154,9 @@ class Rack::Attack
 
     # Skip throttling if the user has a valid Turnstile grace cookie
     next nil if Rack::Attack.turnstile_grace_cookie_valid?(req)
+
+    # Skip throttling if the request has a valid format token
+    next nil if Rack::Attack.valid_format_token?(req)
 
     # don't include cheap static pages or turnstile verification paths as requests
     req.ip unless Rack::Attack.req_ip_free_path?(req.path)
