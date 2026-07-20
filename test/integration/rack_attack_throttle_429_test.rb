@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class RackAttackThrottle429Test < ActionDispatch::IntegrationTest
-  # Test that throttles without grace period support (req/ip, req/ip/redirects)
-  # return a 429 response instead of redirecting to Turnstile.
+  # Test that throttles with grace period support redirect to Turnstile, while
+  # throttles without grace period support return a 429 response.
   #
   # Note: These tests use mocking to simulate Rack::Attack throttle conditions
   # because env vars are read at class load time, not request time. We test the
@@ -21,15 +21,14 @@ class RackAttackThrottle429Test < ActionDispatch::IntegrationTest
     }
   end
 
-  test 'req/ip throttle returns 429 (not Turnstile redirect)' do
-    # The req/ip throttle has no grace period, so it should return 429
+  test 'req/ip throttle redirects to Turnstile' do
     env = build_mock_env(path: '/about', matched_throttle: 'req/ip')
 
-    status, headers, body = Rack::Attack.throttled_responder.call(env)
+    status, headers, _body = Rack::Attack.throttled_responder.call(env)
 
-    assert_equal 429, status
-    assert_equal 'text/plain', headers['Content-Type']
-    assert_equal ['Too Many Requests'], body
+    assert_equal 302, status
+    assert headers['Location'].include?('/turnstile')
+    assert headers['Location'].include?('return_to=')
   end
 
   test 'req/ip/redirects throttle returns 429 (not Turnstile redirect)' do
@@ -84,7 +83,7 @@ class RackAttackThrottle429Test < ActionDispatch::IntegrationTest
 
   test '429 response includes plain text content type and body' do
     # Verify the exact response format for 429 errors
-    env = build_mock_env(path: '/api/endpoint', matched_throttle: 'req/ip')
+    env = build_mock_env(path: '/api/endpoint', matched_throttle: 'unknown/throttle')
 
     status, headers, body = Rack::Attack.throttled_responder.call(env)
 
