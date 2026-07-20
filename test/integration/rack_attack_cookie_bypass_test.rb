@@ -6,9 +6,6 @@ class RackAttackCookieBypassTest < ActionDispatch::IntegrationTest
   # then tests if valid/invalid cookies bypass throttles accordingly.
 
   def setup
-    # Clear cache before each test
-    Rails.cache.clear
-
     # Stub PrimoSearch to avoid external API calls
     stub_primo_search
 
@@ -231,7 +228,7 @@ class RackAttackCookieBypassTest < ActionDispatch::IntegrationTest
   test 'free paths do not count against general req/ip throttle' do
     limit = ENV.fetch('REQUESTS_PER_PERIOD', 100).to_i
 
-    [ '/', '/about', '/about-natural-language-search' ].each do |path|
+    ['/', '/about', '/about-natural-language-search'].each do |path|
       trigger_throttle_via_requests(path, limit + 5, params: {})
     end
 
