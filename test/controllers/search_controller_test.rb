@@ -1183,6 +1183,26 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select '.pagination-container .current', text: /21 - 40 of 800/
   end
 
+  # test 'results can include tuning parameters' do
+  #   query = 'optical networks in space'
+  #   must_default = 0.7
+  #   drop_default = 0.1
+  #   must_alt = 0.9
+  #   drop_alt = 0.4
+
+  #   VCR.use_cassette('default tuning for stock query') do
+  #     get "/results?q=#{query}&semanticMustBoostThreshold=#{must_default}&semanticDropBoostThreshold=#{drop_default}&tab=timdex"
+  #     assert_response :success
+  #   end
+
+  #   VCR.use_cassette('alternate tuning for stock query') do
+  #     get "/results?q=#{query}&semanticMustBoostThreshold=#{must_alt}&semanticDropBoostThreshold=#{drop_alt}&tab=timdex"
+  #     assert_response :success
+  #   end
+
+  #   # Assert result counts are different
+  # end
+
   test 'results can be returned in JSON format when env is set and valid token is provided' do
     secret_value = 'sooper_sekret'
     quepid_ua = 'Quepid/1.0 (Web Scraper)'

@@ -7,6 +7,7 @@ class QueryBuilder
   GEO_PARAMS = %w[geoboxMinLongitude geoboxMinLatitude geoboxMaxLongitude geoboxMaxLatitude geodistanceLatitude
                   geodistanceLongitude geodistanceDistance].freeze
   VALID_QUERY_MODES = %w[keyword semantic hybrid].freeze
+  TOKENIZATION_PARAMS = %w[semanticDropBoostThreshold semanticMustBoostThreshold semanticShortQueryMaxTokens].freeze
 
   def initialize(enhanced_query)
     @query = {}
@@ -22,6 +23,7 @@ class QueryBuilder
     extract_geosearch(enhanced_query)
     extract_filters(enhanced_query)
     evaluate_query_mode(enhanced_query)
+    extract_tokenization_params(enhanced_query)
     @query['index'] = ENV.fetch('TIMDEX_INDEX', nil)
     @query['booleanType'] = enhanced_query[:booleanType]
     @query.compact!
@@ -59,9 +61,20 @@ class QueryBuilder
     end
   end
 
-  # The GraphQL API requires that lat/long in geospatial fields be floats
-  def coerce_to_float?(geo_param)
-    geo_param.to_s.include?('Longitude') || geo_param.to_s.include?('Latitude')
+  # We treat the tokenization parameters separately because we need to ensure that floats and integers are formatted
+  # correctly.
+  def extract_tokenization_params(enhanced_query)
+    TOKENIZATION_PARAMS.each do |tp|
+      next unless enhanced_query[tp.to_sym].present?
+
+      @query[tp] = coerce_to_float?(tp) ? enhanced_query[tp.to_sym]&.strip.to_f : enhanced_query[tp.to_sym]&.strip.to_i
+    end
+  end
+
+  # The GraphQL API requires that some parameters - lat/long in geospatial fields and boost thresholds for tuning - be
+  # floats.
+  def coerce_to_float?(param)
+    param.to_s.include?('Longitude') || param.to_s.include?('Latitude') || param.to_s.include?('BoostThreshold')
   end
 
   # Determine the query mode from URL parameter or config, with fallback to 'keyword'

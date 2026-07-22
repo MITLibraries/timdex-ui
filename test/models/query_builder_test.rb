@@ -123,6 +123,7 @@ class QueryBuilderTest < ActiveSupport::TestCase
     assert_equal expected, QueryBuilder.new(search).query
   end
 
+  # Query mode behavior
   test 'query builder defaults to keyword queryMode' do
     search = { q: 'blah' }
     assert_equal('keyword', QueryBuilder.new(search).query['queryMode'])
@@ -184,5 +185,29 @@ class QueryBuilderTest < ActiveSupport::TestCase
   test 'query builder handles queryMode with whitespace' do
     search = { q: 'blah', queryMode: '  semantic  ' }
     assert_equal('semantic', QueryBuilder.new(search).query['queryMode'])
+  end
+
+  # Tuning parameter behavior
+  test 'query builder handles tuning parameters' do
+    expected = { 'from' => '0', 'q' => 'blah', 'queryMode' => 'keyword', 'index' => 'FAKE_TIMDEX_INDEX',
+                 'semanticDropBoostThreshold' => 0.1, 'semanticMustBoostThreshold' => 0.7,
+                 'semanticShortQueryMaxTokens' => 5 }
+    search = { q: 'blah', semanticDropBoostThreshold: '0.1', semanticMustBoostThreshold: '0.7',
+               semanticShortQueryMaxTokens: '5' }
+    assert_equal(expected, QueryBuilder.new(search).query)
+  end
+
+  test 'query builder converts semanticShortQueryMaxTokens to integer' do
+    expected = { 'from' => '0', 'q' => 'blah', 'queryMode' => 'keyword', 'index' => 'FAKE_TIMDEX_INDEX',
+                 'semanticShortQueryMaxTokens' => 5 }
+    search = { q: 'blah', semanticShortQueryMaxTokens: '5.0' }
+    assert_equal(expected, QueryBuilder.new(search).query)
+  end
+
+  test 'query builder converts drop and boost thresholds to floats' do
+    expected = { 'from' => '0', 'q' => 'blah', 'queryMode' => 'keyword', 'index' => 'FAKE_TIMDEX_INDEX',
+                 'semanticDropBoostThreshold' => 0.0, 'semanticMustBoostThreshold' => 1.0 }
+    search = { q: 'blah', semanticDropBoostThreshold: '0', semanticMustBoostThreshold: '1' }
+    assert_equal(expected, QueryBuilder.new(search).query)
   end
 end

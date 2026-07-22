@@ -201,16 +201,16 @@ class SearchController < ApplicationController
     Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
       raw = if Feature.enabled?(:geodata)
               execute_geospatial_query(query)
+            elsif tuning_request?(query)
+              execute_tuning_query(query)
             else
               TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
             end
 
-      # The response type is a GraphQL::Client::Response, which is not directly serializable, so we
-      # convert it to a hash.
-      {
-        data: raw.data.to_h,
-        errors: raw.errors.details.to_h
-      }
+      # The response is either a GraphQL::Client::Response (for most queries), which is not directly serializable, or
+      # it is already a hash (for tuning queries). These two formats are standardized into a common shape in
+      # process_timdex_response.
+      process_timdex_response(raw, query)
     end
   end
 
@@ -226,7 +226,8 @@ class SearchController < ApplicationController
   end
 
   def execute_geospatial_query(query)
-    query = query.except('queryMode')
+    query = query.except('queryMode', 'semanticDropBoostThreshold', 'semanticMustBoostThreshold',
+                         'semanticShortQueryMaxTokens')
 
     if query['geobox'] == 'true' && query[:geodistance] == 'true'
       TimdexBase::Client.query(TimdexSearch::AllQuery, variables: query)
@@ -237,6 +238,29 @@ class SearchController < ApplicationController
     else
       TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
     end
+  end
+
+  # The parameters we use for measuring relevance while tuning the platform are not included in the public schema, so
+  # we cannot rely on the graphql-client gem (which validates queries based on that schema) while using those
+  # parameters. As a result, we rely on a fallback method of querying the API via Net::HTTP for these queries.
+  def execute_tuning_query(query_vars)
+    uri = URI(ENV.fetch('TIMDEX_GRAPHQL', ''))
+
+    req = Net::HTTP::Post.new(uri)
+    req['Content-Type'] = 'application/json'
+    req['Accept'] = 'application/json'
+    req['User-Agent'] = 'MIT Libraries Client'
+
+    req.body = JSON.generate(
+      query: TimdexTuning::TUNING_QUERY,
+      variables: query_vars
+    )
+
+    res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      http.request(req)
+    end
+
+    JSON.parse(res.body)
   end
 
   def extract_errors(response)
@@ -453,5 +477,25 @@ class SearchController < ApplicationController
   # Shows when: user is opted-in AND viewing a Primo-only tab (which only supports keyword search).
   def show_nls_warning?
     @natural_language_search_optin && primo_tabs.include?(@active_tab)
+  end
+
+  def tuning_request?(query)
+    tuning_params = %w[semanticMustBoostThreshold semanticDropBoostThreshold semanticShortQueryMaxTokens]
+
+    tuning_params.intersect?(query.keys)
+  end
+
+  def process_timdex_response(raw, query)
+    if tuning_request?(query)
+      {
+        data: (raw['data'].nil? ? {} : raw['data']),
+        errors: (raw['errors'].nil? ? {} : { 'data' => raw['errors'] })
+      }
+    else
+      {
+        data: raw.data.to_h,
+        errors: raw.errors.details.to_h
+      }
+    end
   end
 end
