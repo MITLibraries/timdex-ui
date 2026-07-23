@@ -28,6 +28,11 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
 
+# Processes count, allows better CPU utilization when executing Ruby code.
+# Recommended to always run in at least one process so `rack-timeout` RACK_TERM_ON_TIMEOUT=1 can be used
+# https://devcenter.heroku.com/articles/h12-request-timeout-in-ruby-mri
+workers(ENV.fetch('WEB_CONCURRENCY') { 2 })
+
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 port ENV.fetch("PORT", 3000)
 
