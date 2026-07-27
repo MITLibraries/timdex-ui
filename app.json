@@ -1,6 +1,6 @@
 {
   "name": "timdex-ui",
-  "stack": "heroku-22",
+  "stack": "heroku-26",
   "addons": [
     "heroku-redis"
   ],
