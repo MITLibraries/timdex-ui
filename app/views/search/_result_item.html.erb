@@ -1,0 +1,8 @@
+<%# Renders one normalized result regardless of source API. Keeping this branch in
+    one partial lets full-page HTML and Turbo Stream append responses use exactly
+    the same result markup. %>
+<% if result[:api] == 'primo' %>
+  <%= render(partial: 'search/result_primo', locals: { result: result }) %>
+<% elsif result[:api] == 'timdex' %>
+  <%= render(partial: 'search/result', locals: { result: result }) %>
+<% end %>
