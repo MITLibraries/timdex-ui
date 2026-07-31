@@ -144,9 +144,10 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `BLOCKED_USER_AGENTS` - comma-separated list of user agent strings to hard-block with 403 Forbidden responses (bypasses throttling; much cheaper). Default blocks `Sogou web spider` which was responsible for 76.94k spoofed attack requests from non-Chinese IPs. Example: `"Sogou web spider,BadBot/2.0"`
 - `REDIRECT_REQUESTS_PER_PERIOD`- number of requests that can be made that the query string starts with our legacy redirect parameter to throttle per `REQUEST_PERIOD`
 - `REDIRECT_REQUEST_PERIOD`- time in minutes used along with `REDIRECT_REQUESTS_PER_PERIOD`
-- `ALL_TAB_RESULTS_PER_SOURCE`: Number of results to fetch from each API (Primo and TIMDEX) for the combined all tab. These results are then merged and reranked. Defaults to 50 if unset. Keep below 960 to avoid hitting Primo's offset limit.
+- `ALL_TAB_RESULTS_PER_SOURCE`: Number of candidate results to fetch from each API (Primo and TIMDEX) when the combined all tab needs to grow its cached reranked pool. Defaults to 50 if unset. This is not the number of results shown per click; use `RESULTS_PER_PAGE` for that. Keep below 960 to avoid hitting Primo's offset limit.
 - `ALL_TAB_SCORER`: Scorer to use when merging results on the combined all tab. Valid values: `zscore` (default), `zipper`, `simple`, `random`. See the [reranker gem](https://github.com/MITLibraries/reranker) for details.
-- `RESULTS_PER_PAGE`: The number of results to display per page. Use an even number to avoid peculiarities. Defaults to 20 if unset.
+- `LOAD_MORE_MAX_RESULTS`: Maximum number of results that can be shown through load-more requests for a single results tab. Defaults to 200 if unset. This guards against accidental oversized all-tab reranking requests.
+- `RESULTS_PER_PAGE`: The number of results shown in the initial batch and added by each "Load more results" click. For source-specific tabs this also remains the underlying API page size. Defaults to 20 if unset.
 - `ROBOTS_ENV`: Determines which version of `robots.txt` is used. This is read by the Robots controller. Any value other than `production` results in the non-production version being used.
 - `SCOUT_AUTO_INSTRUMENTS`: default is `false`. Recommended setting is `true` unless we add manual instrumentation in the future.
 - `SCOUT_DEV_TRACE`: only set in dev. Enables local, in-browser traces (does not send to ScoutAPM service. Other SCOUT ENV should not be set when using this)

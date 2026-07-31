@@ -25,7 +25,10 @@ class SearchController < ApplicationController
     # Load GeoData results if applicable
     if Feature.enabled?(:geodata)
       load_geodata_results
-      render 'results_geo'
+      respond_to do |format|
+        format.turbo_stream { render :results_geo }
+        format.html { render 'results_geo' }
+      end
       return
     end
 
@@ -42,6 +45,7 @@ class SearchController < ApplicationController
     # Render the response in HTML or JSON format
     respond_to do |format|
       format.json { render json: { results: @results, pagination: @pagination, errors: @errors } }
+      format.turbo_stream { render :results }
       format.html { render :results }
     end
   end
@@ -81,6 +85,8 @@ class SearchController < ApplicationController
     raw_results = extract_results(response)
     @results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
     @filters = extract_filters(response)
+    @append_results = @results
+    @load_more = load_more_from_pagination(@pagination)
   end
 
   def load_primo_results
@@ -89,6 +95,8 @@ class SearchController < ApplicationController
     @pagination = data[:pagination]
     @errors = data[:errors]
     @show_primo_continuation = data[:show_continuation]
+    @append_results = @results
+    @load_more = load_more_from_pagination(@pagination)
   end
 
   def load_timdex_results
@@ -96,6 +104,8 @@ class SearchController < ApplicationController
     @results = data[:results]
     @pagination = data[:pagination]
     @errors = data[:errors]
+    @append_results = @results
+    @load_more = load_more_from_pagination(@pagination)
   end
 
   def load_all_results
@@ -107,10 +117,46 @@ class SearchController < ApplicationController
       primo_fetcher: ->(offset:, per_page:, query: nil) { fetch_primo_data(offset: offset, per_page: per_page) },
       timdex_fetcher: ->(offset:, per_page:, query: nil) { fetch_timdex_data(offset: offset, per_page: per_page) }
     )
-    data = merge_service.fetch
+    display_count = sanitized_load_count
+    stable_count = [display_count - load_more_batch_size, 0].max
+    data = merge_service.fetch(display_count: display_count, stable_count: stable_count)
 
     @results = data[:results]
+    @append_results = data[:append_results]
     @errors = data[:errors]
+    @load_more = data[:load_more]
+  end
+
+  # Builds the shared load-more view model for source-specific tabs that still
+  # use traditional page/offset mechanics internally. The UI presents one
+  # growing list, while the next request simply fetches the next existing page.
+  def load_more_from_pagination(pagination)
+    return nil if pagination.blank?
+
+    {
+      display_count: pagination[:end],
+      next_page: pagination[:next],
+      has_more: pagination[:next].present?,
+      total_hits: pagination[:hits]
+    }
+  end
+
+  # Returns the visible all-tab result count requested by the browser. This is
+  # intentionally separate from `page`: source-specific tabs keep using page for
+  # API offsets, while the all tab uses a display count to grow a stable reranked
+  # result list.
+  def sanitized_load_count
+    requested = params[:load_count].to_i
+    requested = load_more_batch_size if requested < 1
+    [requested, max_load_count].min
+  end
+
+  def load_more_batch_size
+    ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+  end
+
+  def max_load_count
+    ENV.fetch('LOAD_MORE_MAX_RESULTS', '200').to_i
   end
 
   def fetch_primo_data(offset: nil, per_page: nil)

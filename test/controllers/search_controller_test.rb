@@ -449,18 +449,18 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'primo results with valid query has div for pagination' do
+  test 'primo results with valid query has load more control' do
     mock_primo_search_success
     get '/results?q=data&tab=primo'
     assert_response :success
-    assert_select '#pagination'
+    assert_select '#load-more'
   end
 
-  test 'timdex results with valid query has div for pagination' do
+  test 'timdex results with valid query has load more control' do
     mock_timdex_search_success
     get '/results?q=data&tab=timdex'
     assert_response :success
-    assert_select '#pagination'
+    assert_select '#load-more'
   end
 
   test 'primo results with valid query has div for results which is populated' do
@@ -1060,6 +1060,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=test&tab=all'
     assert_response :success
     assert_select '#pagination', count: 0
+    assert_select '#load-more'
   end
 
   test 'results can be returned in JSON format when env is set and valid token is provided' do

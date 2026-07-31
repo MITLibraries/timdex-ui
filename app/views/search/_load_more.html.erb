@@ -1,0 +1,22 @@
+<%# Shared load-more control. The UI is consistent across tabs, while the
+    backing params differ: all tab grows by visible result count; source tabs
+    keep using page internally to request the next API offset. %>
+<% if @load_more&.[](:has_more) %>
+  <% params_copy = @enhanced_query.dup %>
+  <% params_copy[:tab] = @active_tab if @active_tab.present? %>
+  <% if @active_tab == 'all' %>
+    <% params_copy.delete(:page) %>
+    <% params_copy[:load_count] = @load_more[:next_count] %>
+  <% else %>
+    <% params_copy[:page] = @load_more[:next_page] %>
+  <% end %>
+
+  <div id="load-more" class="load-more">
+    <%= link_to results_path(params_copy), class: 'btn button-secondary load-more-link',
+                                      data: { turbo_stream: true }, rel: 'nofollow' do %>
+      Load more results
+    <% end %>
+  </div>
+<% else %>
+  <div id="load-more" class="load-more" aria-live="polite"></div>
+<% end %>
