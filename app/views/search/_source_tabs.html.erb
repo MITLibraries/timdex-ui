@@ -12,6 +12,10 @@
       <li><%= link_to_tab("Website") %></li>
 
       <%# Experimental tabs %>
+      <% if Feature.enabled?(:tab_digital_collections) %>
+        <li><%= link_to_tab("digital_collections", "Digital Collections") %></li>
+      <% end %>
+
       <% if Feature.enabled?(:tab_primo_all) %>
         <li><%= link_to_tab("Primo", "Articles and Catalog") %></li>
       <% end %>

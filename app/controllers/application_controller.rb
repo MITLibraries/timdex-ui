@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def timdex_tabs
-    %w[aspace databases dspace geodata timdex timdex_alma website]
+    %w[aspace databases digital_collections dspace geodata timdex timdex_alma website]
   end
 
   def all_tabs
