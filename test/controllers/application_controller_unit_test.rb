@@ -10,7 +10,10 @@ class ApplicationControllerUnitTest < ActionController::TestCase
   end
 
   test '#timdex_tabs returns expected tabs' do
-    assert_equal %w[aspace databases digital_collections dspace geodata timdex timdex_alma website], @controller.timdex_tabs
+    assert_equal(
+      %w[aspace databases digital_collections dspace geodata timdex timdex_alma website],
+      @controller.timdex_tabs
+    )
   end
 
   test '#all_tabs includes both primo and timdex tabs as well as all tab' do
