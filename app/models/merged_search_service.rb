@@ -130,12 +130,14 @@ class MergedSearchService
     state[results_key] = dedupe_records(state[results_key] + incoming)
 
     exhaustion_reason = exhaustion_reason(data, incoming, requested_offset, per_page, state[hits_key])
+    return unless exhaustion_reason
+
     mark_exhausted!(state, source, reason: exhaustion_reason, offset: requested_offset,
-                                     returned: incoming.length, hits: state[hits_key]) if exhaustion_reason
+                                   returned: incoming.length, hits: state[hits_key])
   end
 
   def mark_exhausted!(state, source, reason:, offset: nil, returned: nil, hits: nil)
-    state["#{source}_exhausted".to_sym] = true
+    state[:"#{source}_exhausted"] = true
     Rails.logger.debug do
       details = { source: source, reason: reason, offset: offset, returned: returned, hits: hits }.compact
       "All-tab load more exhausted source: #{details}"
@@ -196,11 +198,11 @@ class MergedSearchService
   end
 
   # Instantiate the scorer based on the ALL_TAB_SCORER env var.
-  # Defaults to ZscoreScorer.
+  # Defaults to ZipperMergeScorer.
   #
   # @return [Reranker::Scorer]
   def configured_scorer
-    case ENV.fetch('ALL_TAB_SCORER', 'zscore').downcase
+    case ENV.fetch('ALL_TAB_SCORER', 'zipper').downcase
     when 'zscore'  then Reranker::ZscoreScorer.new
     when 'zipper'  then Reranker::ZipperMergeScorer.new
     when 'simple'  then Reranker::SimpleScorer.new
@@ -236,11 +238,11 @@ class MergedSearchService
   end
 
   def source_results_key(source)
-    "#{source}_results".to_sym
+    :"#{source}_results"
   end
 
   def source_hits_key(source)
-    "#{source}_hits".to_sym
+    :"#{source}_hits"
   end
 
   def records_for_keys(keys, state)

@@ -163,11 +163,11 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert_equal [50, 50], per_page_seen
   end
 
-  test 'configured_scorer returns ZscoreScorer by default' do
+  test 'configured_scorer returns Zipper by default' do
     svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all',
                                   primo_fetcher: fake_fetcher, timdex_fetcher: fake_fetcher)
     ClimateControl.modify(ALL_TAB_SCORER: nil) do
-      assert_instance_of Reranker::ZscoreScorer, svc.send(:configured_scorer)
+      assert_instance_of Reranker::ZipperMergeScorer, svc.send(:configured_scorer)
     end
   end
 
@@ -237,5 +237,4 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     ids = result[:results].map { |record| record[:identifier] }.sort
     assert_equal %w[p1 p2 p3 t1 t2 t3 t4 t5], ids
   end
-
 end
