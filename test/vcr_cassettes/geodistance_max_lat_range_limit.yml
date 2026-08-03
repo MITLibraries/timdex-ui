@@ -58,9 +58,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=WODjQEb2JcWcPV440IbMtnynWLIQ5cua4JlXpBz3VjE%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1779971823"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=zItAmirbFyEG2E%2BUv96gr6AWhLA033wRiBHfPHtLPz4%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1783368202"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=WODjQEb2JcWcPV440IbMtnynWLIQ5cua4JlXpBz3VjE%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1779971823"
+      - heroku-nel="https://nel.heroku.com/reports?s=zItAmirbFyEG2E%2BUv96gr6AWhLA033wRiBHfPHtLPz4%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1783368202"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -76,13 +76,13 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 41b196fd-73ee-f9de-e9f6-3b33efa91e23
+      - 1bc25f4b-85ad-48bd-a787-6b2f2a30609d
       X-Runtime:
-      - '0.182432'
+      - '0.130859'
       X-Xss-Protection:
       - '0'
       Date:
-      - Thu, 28 May 2026 12:37:03 GMT
+      - Mon, 06 Jul 2026 20:03:22 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":2396,"records":[{"timdexRecordId":"gisogm:edu.stanford.purl:2b7b00054980","title":"LandScan
@@ -555,5 +555,5 @@ http_interactions:
         (planet)","docCount":1172},{"key":"imagery and base maps","docCount":1115},{"key":"farming","docCount":1099},{"key":"climatology,
         meteorology and atmosphere","docCount":876},{"key":"arctic ocean","docCount":873},{"key":"sea
         ice","docCount":870},{"key":"crop yields","docCount":572},{"key":"harvesting","docCount":525}]}}}}'
-  recorded_at: Thu, 28 May 2026 12:37:03 GMT
+  recorded_at: Mon, 06 Jul 2026 20:03:22 GMT
 recorded_with: VCR 6.4.0

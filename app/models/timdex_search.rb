@@ -98,6 +98,7 @@ class TimdexSearch < TimdexBase
             description
             uri
           }
+          score
           sourceLink
           summary
           subjects {

@@ -59,9 +59,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=VfKonCSVEY5ygQTmUw35jkLDt7vYhTWXkzUz4UJn%2F1A%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1779971820"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=rSIDoEA%2F5y7kSsjf%2F5B1GkdrHoMyrQDH%2BXDjgosxuNg%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1783368200"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=VfKonCSVEY5ygQTmUw35jkLDt7vYhTWXkzUz4UJn%2F1A%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1779971820"
+      - heroku-nel="https://nel.heroku.com/reports?s=rSIDoEA%2F5y7kSsjf%2F5B1GkdrHoMyrQDH%2BXDjgosxuNg%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1783368200"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -77,15 +77,15 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - ec8c7694-50d6-0b1f-cfb8-2c0e69dd43d8
+      - 83953711-ba97-6942-e59a-c86bb5022058
       X-Runtime:
-      - '0.125195'
+      - '0.102119'
       X-Xss-Protection:
       - '0'
       Date:
-      - Thu, 28 May 2026 12:37:00 GMT
+      - Mon, 06 Jul 2026 20:03:20 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"accessToFiles":[],"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Thu, 28 May 2026 12:37:00 GMT
+  recorded_at: Mon, 06 Jul 2026 20:03:20 GMT
 recorded_with: VCR 6.4.0

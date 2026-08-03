@@ -26,6 +26,7 @@ class NormalizePrimoRecord
       publisher:,
       location:,
       subjects:,
+      score:,
       # Primo-specific fields
       container:,
       numbering:,
@@ -313,6 +314,12 @@ class NormalizePrimoRecord
 
     subs = @record['pnx']['display']['subject']
     subs.flat_map { |sub| sub.split(' ;  ') }
+  end
+
+  def score
+    return 0 unless @record['pnx']['control']['score']
+
+    @record['pnx']['control']['score']&.first
   end
 
   # FRBR Group check based on:
