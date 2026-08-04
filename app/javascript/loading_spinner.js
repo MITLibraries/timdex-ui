@@ -65,7 +65,7 @@ document.addEventListener('click', function(event) {
   // Handle load-more clicks. Results append in place, so do not scroll users
   // back to the top or move focus away from their current reading position.
   if (loadMoreLink) {
-    document.getElementById('search-results').classList.add('spinner');
+    document.getElementById('search-results')?.classList.add('spinner');
     window.pendingFocusAction = 'load-more';
     return;
   }
@@ -73,7 +73,7 @@ document.addEventListener('click', function(event) {
   // Handle pagination clicks
   if (clickedElement.matches('.first a, .previous a, .next a')) {
     // Throw the spinner on the search results immediately
-    document.getElementById('search-results').classList.add('spinner');
+    document.getElementById('search-results')?.classList.add('spinner');
 
     // Position the window at the top of the results
     window.scrollTo({ top: 0, behavior: 'smooth' });

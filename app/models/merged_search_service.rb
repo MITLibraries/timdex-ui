@@ -214,7 +214,7 @@ class MergedSearchService
   def state_cache_key
     query = @enhanced_query.except(:page).merge(
       tab: @active_tab,
-      scorer: ENV.fetch('ALL_TAB_SCORER', 'zscore'),
+      scorer: ENV.fetch('ALL_TAB_SCORER', 'zipper'),
       boost_sources: ENV.fetch('ALL_TAB_BOOST_SOURCES', ''),
       per_source: ENV.fetch('ALL_TAB_RESULTS_PER_SOURCE', '50')
     )
