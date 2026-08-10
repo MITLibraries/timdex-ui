@@ -267,17 +267,18 @@ class NormalizePrimoRecord
     authors.map { |author| author.strip.gsub(/\$\$Q.*$/, '') }
   end
 
+  # This is the link structure that Primo NDE currently expects for advanced queries.
   def author_link(author)
     [ENV.fetch('MIT_PRIMO_URL'),
-     '/discovery/search?query=creator,exact,',
-     encode_author(author),
-     '&tab=', ENV.fetch('PRIMO_TAB'),
-     '&search_scope=all&vid=',
-     ENV.fetch('PRIMO_VID')].join
-  end
-
-  def encode_author(author)
-    URI.encode_uri_component(author)
+     '/nde/search?vid=',
+     ENV.fetch('PRIMO_NDE_VID'),
+     '&search_scope=all',
+     '&mode=advanced',
+     '&tab=all',
+     '&query=creator,exact,',
+     URI.encode_uri_component(author),
+     '&offset=0',
+     '&lang=en'].join
   end
 
   def thumbnail
