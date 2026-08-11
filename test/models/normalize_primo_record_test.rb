@@ -323,7 +323,7 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
   test 'constructs author search links' do
     normalized = NormalizePrimoRecord.new(full_record, 'test').normalize
     creator_link = normalized[:creators].first[:link]
-    assert_match 'nde/search?vid=01MIT_INST:NDE&search_scope=all&mode=advanced&tab=all&query=creator,exact,Smith%2C%20John%20A.&offset=0&lang=en',
+    assert_match 'nde/search?vid=01MIT_INST:NDE&search_scope=all&mode=advanced&tab=all&query=creator,exact,Smith%E2%94%80%20John%20A.&offset=0&lang=en',
                  creator_link
   end
 
