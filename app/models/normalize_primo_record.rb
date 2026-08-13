@@ -132,10 +132,11 @@ class NormalizePrimoRecord
     end
 
     # Add Full-text options if pnx['links'] is nil and record has Alma-E (electronic availability)
-    if @record['pnx']['links'].nil? &&
-       @record['delivery']['deliveryCategory']&.include?('Alma-E') &&
-       record_link.present?
-      links << { 'url' => "#{record_link}#nui.getit.service_viewit", 'kind' => 'Full-text options' }
+    full_record_link = record_link
+    if @record.dig('pnx', 'links').nil? &&
+       @record.dig('delivery', 'deliveryCategory')&.include?('Alma-E') &&
+       full_record_link.present?
+      links << { 'url' => "#{full_record_link}#nui.getit.service_viewit", 'kind' => 'Full-text options' }
     end
 
     # Return links if we found any
