@@ -458,6 +458,60 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_not normalized[:dedup_record]
   end
 
+  test 'includes Full-text options link when pnx[links] is nil and both Alma-P and Alma-E present' do
+    record = alma_record.deep_dup
+
+    # Ensure no direct links
+    record['pnx']['links'] = nil
+
+    # Add delivery category with both physical and electronic
+    record['delivery']['deliveryCategory'] = %w[Alma-P Alma-E]
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
+    assert_not_nil full_text_link
+    assert_match %r{/discovery/fulldisplay\?}, full_text_link['url']
+    assert_match(/#nui\.getit\.service_viewit$/, full_text_link['url'])
+  end
+
+  test 'excludes Full-text options link when pnx[links] is present' do
+    record = full_record.deep_dup
+
+    # Add delivery category with electronic
+    record['delivery']['deliveryCategory'] = %w[Alma-E]
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
+    assert_nil full_text_link
+  end
+
+  test 'excludes Full-text options link when only Alma-P present' do
+    record = alma_record.deep_dup
+    record['pnx']['links'] = nil
+    record['delivery']['deliveryCategory'] = ['Alma-P']
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
+    assert_nil full_text_link
+  end
+
+  test 'includes Full-text options link when only Alma-E present' do
+    record = alma_record.deep_dup
+    record['pnx']['links'] = nil
+    record['delivery']['deliveryCategory'] = ['Alma-E']
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
+    assert_not_nil full_text_link
+    assert_match %r{/discovery/fulldisplay\?}, full_text_link['url']
+    assert_match(/#nui\.getit\.service_viewit$/, full_text_link['url'])
+  end
+
+  test 'excludes Full-text options link when no delivery category present' do
+    record = alma_record.deep_dup
+    record['pnx']['links'] = nil
+    record['delivery']['deliveryCategory'] = nil
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
+    assert_nil full_text_link
+  end
+
   test 'dedup_url requires both frbrized and alma_record conditions' do
     # CDI record that is frbrized - should return nil
     normalizer = NormalizePrimoRecord.new(cdi_record, 'test')

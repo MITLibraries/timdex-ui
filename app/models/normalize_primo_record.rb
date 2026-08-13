@@ -131,6 +131,13 @@ class NormalizePrimoRecord
       end
     end
 
+    # Add Full-text options if pnx['links'] is nil and record has Alma-E (electronic availability)
+    if @record['pnx']['links'].nil? &&
+       @record['delivery']['deliveryCategory']&.include?('Alma-E') &&
+       record_link.present?
+      links << { 'url' => "#{record_link}#nui.getit.service_viewit", 'kind' => 'Full-text options' }
+    end
+
     # Return links if we found any
     links.any? ? links : []
   end
@@ -327,8 +334,8 @@ class NormalizePrimoRecord
   # FRBR Group check based on:
   # https://knowledge.exlibrisgroup.com/Primo/Knowledge_Articles/Primo_Search_API_-_how_to_get_FRBR_Group_members_after_a_search
   def frbrized?
-    return unless @record['pnx']['facets']
-    return unless @record['pnx']['facets']['frbrtype']
+    return false unless @record['pnx']['facets']
+    return false unless @record['pnx']['facets']['frbrtype']
 
     @record['pnx']['facets']['frbrtype'].join == '5'
   end
