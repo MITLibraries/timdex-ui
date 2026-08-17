@@ -277,9 +277,16 @@ class NormalizePrimoRecord
      '&tab=',
      ENV.fetch('PRIMO_TAB'),
      '&query=creator,exact,',
-     URI.encode_uri_component(author),
+     encode_author(author),
      '&offset=0',
      '&lang=en'].join
+  end
+
+  # Replace commas with box drawings light horizontal characters (Unicode U+2500) to avoid them
+  # being parsed as query separators.
+  def encode_author(author)
+    author_with_commas_replaced = author.gsub(',', '─')
+    URI.encode_uri_component(author_with_commas_replaced)
   end
 
   def thumbnail
