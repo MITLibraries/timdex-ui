@@ -53,6 +53,10 @@
         width: 100%;
         padding-left: 46px;
         padding-right: 48px;
+
+        &::placeholder {
+          font-weight: $fw-normal;
+        }
       }
 
       #clear-search {
