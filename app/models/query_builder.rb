@@ -7,6 +7,7 @@ class QueryBuilder
   GEO_PARAMS = %w[geoboxMinLongitude geoboxMinLatitude geoboxMaxLongitude geoboxMaxLatitude geodistanceLatitude
                   geodistanceLongitude geodistanceDistance].freeze
   VALID_QUERY_MODES = %w[keyword semantic hybrid].freeze
+  # Tokenization parameters are treated separately because they must be floats or integers, and never strings.
   TOKENIZATION_PARAMS = %w[semanticDropBoostThreshold semanticMustBoostThreshold semanticShortQueryMaxTokens].freeze
 
   def initialize(enhanced_query)
@@ -62,7 +63,8 @@ class QueryBuilder
   end
 
   # We treat the tokenization parameters separately because we need to ensure that floats and integers are formatted
-  # correctly.
+  # correctly. The coerce_to_float? method will claim which are made into floats, while everything else is made into an
+  # integer.
   def extract_tokenization_params(enhanced_query)
     TOKENIZATION_PARAMS.each do |tp|
       next unless enhanced_query[tp.to_sym].present?

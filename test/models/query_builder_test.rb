@@ -210,4 +210,13 @@ class QueryBuilderTest < ActiveSupport::TestCase
     search = { q: 'blah', semanticDropBoostThreshold: '0', semanticMustBoostThreshold: '1' }
     assert_equal(expected, QueryBuilder.new(search).query)
   end
+
+  test 'query builder converts strings in tuning parameters to zeros' do
+    expected = { 'from' => '0', 'q' => 'blah', 'queryMode' => 'keyword', 'index' => 'FAKE_TIMDEX_INDEX',
+                 'semanticDropBoostThreshold' => 0.0, 'semanticMustBoostThreshold' => 0.0,
+                 'semanticShortQueryMaxTokens' => 0 }
+    search = { q: 'blah', semanticDropBoostThreshold: 'foo', semanticMustBoostThreshold: 'bar',
+               semanticShortQueryMaxTokens: 'none' }
+    assert_equal(expected, QueryBuilder.new(search).query)
+  end
 end

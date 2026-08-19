@@ -28,6 +28,9 @@ class TimdexSearch < TimdexBase
       $sourceFilter: [String!]
       $subjectsFilter: [String!]
       $useGlobalScoring: Boolean
+      $semanticDropBoostThreshold: Float
+      $semanticMustBoostThreshold: Float
+      $semanticShortQueryMaxTokens: Int
     ) {
       search(
         searchterm: $q
@@ -54,6 +57,11 @@ class TimdexSearch < TimdexBase
         sourceFilter: $sourceFilter
         subjectsFilter: $subjectsFilter
         useGlobalScoring: $useGlobalScoring
+        tuningParametersInput: {
+          dropBoostThreshold: $semanticDropBoostThreshold
+          mustBoostThreshold: $semanticMustBoostThreshold
+          shortQueryMaxTokens: $semanticShortQueryMaxTokens
+        }
       ) {
         hits
         records {

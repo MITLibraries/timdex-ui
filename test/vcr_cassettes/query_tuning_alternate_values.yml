@@ -1,0 +1,213 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://FAKE_TIMDEX_HOST/graphql
+    body:
+      encoding: UTF-8
+      string: '{"query":"query TimdexSearch__BaseQuery($q: String, $citation: String,
+        $contributors: String, $fundingInformation: String, $identifiers: String,
+        $locations: String, $subjects: String, $title: String, $index: String, $from:
+        String, $booleanType: String, $queryMode: String, $fulltext: Boolean, $perPage:
+        Int, $accessToFilesFilter: [String!], $contentTypeFilter: [String!], $contributorsFilter:
+        [String!], $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
+        String, $placesFilter: [String!], $sourceFilter: [String!], $subjectsFilter:
+        [String!], $FAKE_TIMDEX_INDEXGlobalScoring: Boolean, $semanticDropBoostThreshold:
+        Float, $semanticMustBoostThreshold: Float, $semanticShortQueryMaxTokens: Int)
+        {\n  search(searchterm: $q, citation: $citation, contributors: $contributors,
+        fundingInformation: $fundingInformation, identifiers: $identifiers, locations:
+        $locations, subjects: $subjects, title: $title, index: $index, from: $from,
+        booleanType: $booleanType, queryMode: $queryMode, fulltext: $fulltext, perPage:
+        $perPage, accessToFilesFilter: $accessToFilesFilter, contentTypeFilter: $contentTypeFilter,
+        contributorsFilter: $contributorsFilter, formatFilter: $formatFilter, languagesFilter:
+        $languagesFilter, literaryFormFilter: $literaryFormFilter, placesFilter: $placesFilter,
+        sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter, FAKE_TIMDEX_INDEXGlobalScoring:
+        $FAKE_TIMDEX_INDEXGlobalScoring, tuningParametersInput: {dropBoostThreshold:
+        $semanticDropBoostThreshold, mustBoostThreshold: $semanticMustBoostThreshold,
+        shortQueryMaxTokens: $semanticShortQueryMaxTokens}) {\n    hits\n    records
+        {\n      timdexRecordId\n      identifiers {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
+        {\n        kind\n        value\n      }\n      publicationInformation\n      dates
+        {\n        kind\n        value\n        range {\n          gte\n          lte\n        }\n      }\n      links
+        {\n        kind\n        restrictions\n        text\n        url\n      }\n      notes
+        {\n        kind\n        value\n      }\n      highlight {\n        matchedField\n        matchedPhrases\n      }\n      provider\n      rights
+        {\n        kind\n        description\n        uri\n      }\n      score\n      sourceLink\n      summary\n      subjects
+        {\n        kind\n        value\n      }\n      citation\n    }\n    aggregations
+        {\n      accessToFiles {\n        key\n        docCount\n      }\n      contentType
+        {\n        key\n        docCount\n      }\n      contributors {\n        key\n        docCount\n      }\n      format
+        {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
+        {\n        key\n        docCount\n      }\n      places {\n        key\n        docCount\n      }\n      source
+        {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"fda
+        regulation history medical devices","booleanType":"AND","queryMode":"hybrid","semanticDropBoostThreshold":0.2,"semanticMustBoostThreshold":0.5,"index":"FAKE_TIMDEX_INDEX","perPage":20,"fulltext":true,"FAKE_TIMDEX_INDEXGlobalScoring":false},"operationName":"TimdexSearch__BaseQuery"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - MIT Libraries Client
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Length:
+      - '10330'
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"e88dd5d21724f9101b04c5fa8ca31ba1"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=k2HKPDGpJAqb9AYA8aRI08MJBQmb7E%2BrvSJngoeJ184%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1787346916"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=k2HKPDGpJAqb9AYA8aRI08MJBQmb7E%2BrvSJngoeJ184%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1787346916"
+      Server:
+      - Heroku
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Vary:
+      - Accept, Origin
+      Via:
+      - 1.1 heroku-router
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 81873906-6f2c-a1cc-0f69-5c477e17368f
+      X-Runtime:
+      - '0.204804'
+      X-Xss-Protection:
+      - '0'
+      Date:
+      - Fri, 21 Aug 2026 21:15:17 GMT
+    body:
+      encoding: UTF-8
+      string: '{"data":{"search":{"hits":2,"records":[{"timdexRecordId":"dspace:1721.1-68465","identifiers":[{"kind":"uri","value":"http://hdl.handle.net/1721.1/68465"},{"kind":"oclc","value":"769906879"}],"title":"Evaluation
+        of the medical device approval lag between the United States and the European
+        Union","source":"DSpace@MIT","contentType":["Thesis"],"contributors":[{"kind":"advisor","value":"Ernst
+        Berndt."},{"kind":"author","value":"Dhavale, Todd V"},{"kind":"other","value":"Harvard
+        University--MIT Division of Health Sciences and Technology."},{"kind":"department","value":"Harvard
+        University--MIT Division of Health Sciences and Technology"}],"publicationInformation":null,"dates":[{"kind":"Publication
+        date","value":"2011","range":null}],"links":[{"kind":"Digital object URL","restrictions":null,"text":"Digital
+        object URL","url":"http://hdl.handle.net/1721.1/68465"}],"notes":null,"highlight":[{"matchedField":"summary","matchedPhrases":["The
+        United States is the world leader in development and manufacture of <span
+        class=\"highlight\">medical</span> <span class=\"highlight\">devices</span>.","This
+        delay in approval of new <span class=\"highlight\">devices</span> between
+        the EU and US is referred to as the \"device lag.\"","However, the extent
+        or <span class=\"highlight\">history</span> of this lag over time and for
+        different device types has not been examined","US and EU regulatory approval
+        data for 135 <span class=\"highlight\">medical</span> <span class=\"highlight\">devices</span>
+        in three innovative <span class=\"highlight\">medical</span> device segments","were
+        collected and analyzed to evaluate the extent and <span class=\"highlight\">history</span>
+        of the approval lag between the European"]},{"matchedField":"citation","matchedPhrases":["Dhavale,
+        Todd V (2011): Evaluation of the <span class=\"highlight\">medical</span>
+        device approval lag between the United States and the"]},{"matchedField":"title","matchedPhrases":["Evaluation
+        of the <span class=\"highlight\">medical</span> device approval lag between
+        the United States and the European Union"]}],"provider":null,"rights":[{"kind":"FAKE_TIMDEX_INDEXAndReproduction","description":"M.I.T.
+        theses are protected by \ncopyright. They may be viewed from this source for
+        any purpose, but \nreproduction or distribution in any format is prohibited
+        without written \npermission. See provided URL for inquiries about permission.","uri":null}],"score":"18.393524","sourceLink":"https://dspace.mit.edu/handle/1721.1/68465","summary":["The
+        United States is the world leader in development and manufacture of medical
+        devices. Even with this leadership position, there is evidence that the US
+        is often not the first country to have new medical technology approved for
+        patient FAKE_TIMDEX_INDEX. In many cases, the European Union is the first
+        geographic region to approve a new medical technology for sale, with US approval
+        coming later. This delay in approval of new devices between the EU and US
+        is referred to as the \"device lag.\" However, the extent or history of this
+        lag over time and for different device types has not been examined. This thesis
+        evaluated if a device approval lag has developed between US and EU at any
+        time over the past 20 years and whether a device lag continues to exist today.
+        US and EU regulatory approval data for 135 medical devices in three innovative
+        medical device segments were collected and analyzed to evaluate the extent
+        and history of the approval lag between the European Union and the United
+        States. The collected approval data revealed a consistent approval lag between
+        the US and EU in each of the three medical device segments explored in this
+        study. Throughout the entire 20+ years of study, the United States had an
+        average approval lag to the European Union in each of the three device segments,
+        and an average lag for all devices of 21 months or almost 2 years (Ho: p.
+        = 0, p = 8.2E-12). Furthermore, the device lag in these three segments has
+        grown in recent years. These data are striking becaFAKE_TIMDEX_INDEX they
+        show, perhaps for the first time, that an approval lag has existed for medical
+        devices between the US and EU for the past 20 years - since the beginning
+        of the pan-European device regulatory system in the mid-1990s. The device
+        lag is a FAKE_TIMDEX_INDEXful metric for comparing the attractiveness of two
+        markets for medical technology and may signal important changes in the medical
+        technology industry. Furthermore, the existence of a persistent device approval
+        lag in the United States may have significant implications for patients and
+        their caregivers."],"subjects":[{"kind":"Subject scheme not provided","value":["Harvard
+        University--MIT Division of Health Sciences and Technology."]}],"citation":"Dhavale,
+        Todd V (2011): Evaluation of the medical device approval lag between the United
+        States and the European Union. Thesis. https://dspace.mit.edu/handle/1721.1/68465"},{"timdexRecordId":"dspace:1721.1-112018","identifiers":[{"kind":"uri","value":"http://hdl.handle.net/1721.1/112018"},{"kind":"oclc","value":"1006378077"}],"title":"Sparking
+        controversy : the contested FAKE_TIMDEX_INDEX of noninvasive brain stimulation","source":"DSpace@MIT","contentType":["Thesis"],"contributors":[{"kind":"advisor","value":"Susan
+        S. Silbey."},{"kind":"author","value":"Wexler, Anna (Anna M.)"},{"kind":"other","value":"MassachFAKE_TIMDEX_INDEXtts
+        Institute of Technology. Program in Science, Technology and Society."},{"kind":"department","value":"MassachFAKE_TIMDEX_INDEXtts
+        Institute of Technology. Program in Science, Technology and Society"}],"publicationInformation":null,"dates":[{"kind":"Publication
+        date","value":"2017","range":null}],"links":[{"kind":"Digital object URL","restrictions":null,"text":"Digital
+        object URL","url":"http://hdl.handle.net/1721.1/112018"}],"notes":null,"highlight":[{"matchedField":"summary","matchedPhrases":["fifteen
+        years, in late 2011 a movement arose wherein \"lay\" individuals began constructing
+        their own tDCS <span class=\"highlight\">devices</span>",", or purchasing
+        consumer <span class=\"highlight\">devices</span>, to stimulate their brains
+        outside of academic or <span class=\"highlight\">medical</span> settings for","The
+        fourth chapter addresses regulatory issues surrounding consumer tDCS <span
+        class=\"highlight\">devices</span>, providing a comprehensive","covers historical
+        precedents for the home FAKE_TIMDEX_INDEX of electrical stimulation, with
+        a focus on FAKE_TIMDEX_INDEXs of the <span class=\"highlight\">medical</span>","In
+        the sixth chapter, I compare the <span class=\"highlight\">medical</span>
+        battery to tDCS, arguing that the controversy over the home"]}],"provider":null,"rights":[{"kind":"FAKE_TIMDEX_INDEXAndReproduction","description":"MIT
+        theses are protected by copyright. They may be viewed, downloaded, or printed
+        from this source but further reproduction or distribution in any format is
+        prohibited without written permission.","uri":null}],"score":"13.577772","sourceLink":"https://dspace.mit.edu/handle/1721.1/112018","summary":["My
+        dissertation examines the controversy over transcranial direct current stimulation
+        (tDCS), a noninvasive form of brain stimulation that is thought to provide
+        a constant low level of electrical current to the brain. Although scientists
+        have been experimenting with tDCS in both healthy and clinical populations
+        for the last fifteen years, in late 2011 a movement arose wherein \"lay\"
+        individuals began constructing their own tDCS devices, or purchasing consumer
+        devices, to stimulate their brains outside of academic or medical settings
+        for self-improvement purposes. Not surprisingly, the lay FAKE_TIMDEX_INDEX
+        of tDCS has not been well received by researchers, who have termed it \"fringe\"
+        or \"unorthodox.\" This work studies the conflict over tDCS: what is tDCS,
+        who gets to FAKE_TIMDEX_INDEX it, and who studies it? What are the multiple
+        social worlds that tDCS inhabits, how is the technology interpreted and utilized
+        in each, and how does each group authorize or discredit the other''s FAKE_TIMDEX_INDEX?
+        My dissertation incorporates interviews, observations, an online survey, archival
+        research, and legal analyses to probe aspects of the controversy from different
+        angles. The first chapter introduces tDCS technology and chronicles the rise
+        of the do-it-yourself movement and the subsequent emergence of direct-to-consumer
+        devices. In the second chapter, I present an in-depth qualitative study of
+        the practices of home FAKE_TIMDEX_INDEXrs of tDCS; the third chapter offers
+        a quantitative look at those who have purchased a consumer tDCS device, based
+        on the results of an online survey. The fourth chapter addresses regulatory
+        issues surrounding consumer tDCS devices, providing a comprehensive analysis
+        of relevant legal doctrines and laws. The fifth chapter covers historical
+        precedents for the home FAKE_TIMDEX_INDEX of electrical stimulation, with
+        a focus on FAKE_TIMDEX_INDEXs of the medical battery between 1870 and 1920
+        in the United States. In the sixth chapter, I compare the medical battery
+        to tDCS, arguing that the controversy over the home FAKE_TIMDEX_INDEX of tDCS
+        is not novel or even surprising, but rather the latest wave in a series of
+        ongoing attempts by lay individuals to utilize electricity for therapeutic
+        purposes."],"subjects":[{"kind":"Subject scheme not provided","value":["Program
+        in Science, Technology and Society."]}],"citation":"Wexler, Anna (Anna M.)
+        (2017): Sparking controversy : the contested FAKE_TIMDEX_INDEX of noninvasive
+        brain stimulation. Thesis. https://dspace.mit.edu/handle/1721.1/112018"}],"aggregations":{"accessToFiles":[],"contentType":[{"key":"thesis","docCount":2}],"contributors":[{"key":"dhavale,
+        todd v","docCount":1},{"key":"ernst berndt.","docCount":1},{"key":"harvard
+        university--mit division of health sciences and technology","docCount":1},{"key":"harvard
+        university--mit division of health sciences and technology.","docCount":1},{"key":"massachFAKE_TIMDEX_INDEXtts
+        institute of technology. program in science, technology and society","docCount":1},{"key":"massachFAKE_TIMDEX_INDEXtts
+        institute of technology. program in science, technology and society.","docCount":1},{"key":"susan
+        s. silbey.","docCount":1},{"key":"wexler, anna (anna m.)","docCount":1}],"format":[{"key":"electronic
+        resource","docCount":2}],"languages":[{"key":"eng","docCount":2}],"literaryForm":[],"places":[],"source":[{"key":"dspace@mit","docCount":2}],"subjects":[{"key":"harvard
+        university--mit division of health sciences and technology.","docCount":1},{"key":"program
+        in science, technology and society.","docCount":1}]}}}}'
+  recorded_at: Fri, 21 Aug 2026 21:15:17 GMT
+recorded_with: VCR 6.4.0

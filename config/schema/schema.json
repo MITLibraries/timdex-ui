@@ -1533,6 +1533,16 @@
                     }
                   },
                   "defaultValue": "null"
+                },
+                {
+                  "name": "tuningParametersInput",
+                  "description": "Experimental tuning parameters for semantic search. Not recommended for use.",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "TuningParametersInput",
+                    "ofType": null
+                  },
+                  "defaultValue": "null"
                 }
               ],
               "type": {
@@ -2603,6 +2613,47 @@
           ],
           "inputFields": null,
           "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "TuningParametersInput",
+          "description": "Experimental tuning parameters for semantic search. Not recommended for use.",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "mustBoostThreshold",
+              "description": "Not recommended for use. Range: 0.0 to 1.0",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              },
+              "defaultValue": "null"
+            },
+            {
+              "name": "dropBoostThreshold",
+              "description": "Not recommended for use. Range: 0.0 to 1.0",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              },
+              "defaultValue": "null"
+            },
+            {
+              "name": "shortQueryMaxTokens",
+              "description": "Not recommended for use. Must be greater than 0",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": "null"
+            }
+          ],
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
