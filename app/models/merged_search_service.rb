@@ -369,7 +369,7 @@ class MergedSearchService
     when 'zipper' then Reranker::ZipperMergeScorer.new
     when 'simple' then Reranker::SimpleScorer.new
     when 'random' then Reranker::RandomScorer.new
-    else Reranker::ZscoreScorer.new
+    else Reranker::ZipperMergeScorer.new
     end
   end
 
