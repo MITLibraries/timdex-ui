@@ -47,6 +47,16 @@ class MergedSearchService
 
   # Load-more mode implementation.
   #
+  # @param display_count [Integer, nil] number of ordered results the caller
+  #   wants visible after this request.
+  # @param stable_count [Integer] number of leading results already displayed in
+  #   the browser. Those records retain their relative order even if the expanded
+  #   candidate pool would rerank them differently.
+  # @param per_source [Integer, nil] number of results to request from each API
+  #   per source fetch; defaults to ALL_TAB_RESULTS_PER_SOURCE or 50.
+  # @return [Hash] :results, :append_results, :errors, :load_more where
+  #   :load_more includes :display_count, :next_count, :has_more, and :total_hits.
+  #
   # Maintains per-query state in cache, fetches additional source chunks as
   # needed, reranks globally, and returns only the newly appended slice.
   def fetch_load_more(display_count:, stable_count:, per_source:)
@@ -54,11 +64,12 @@ class MergedSearchService
     display_count = (display_count || ENV.fetch('RESULTS_PER_PAGE', '20')).to_i
     display_count = [display_count, 1].max
     stable_count = [stable_count.to_i, 0].max
+    cache_key = state_cache_key(per_source: per_source)
 
-    state = Rails.cache.read(state_cache_key) || empty_state
+    state = Rails.cache.read(cache_key) || empty_state
     state = ensure_ordered_results(state, display_count: display_count, stable_count: stable_count,
                                           per_source: per_source)
-    Rails.cache.write(state_cache_key, state, expires_in: TTL)
+    Rails.cache.write(cache_key, state, expires_in: TTL)
 
     ordered_results = records_for_keys(state[:ordered_keys], state).first(display_count)
     append_results = ordered_results[stable_count...display_count] || []
@@ -79,6 +90,10 @@ class MergedSearchService
 
   # Legacy all-tab merged pagination based on page/per_page. This keeps the
   # original behavior available while the load-more mode is feature flagged.
+  #
+  # @param page [Integer, nil] legacy page number for traditional pagination.
+  # @param per_page [Integer, nil] legacy page size.
+  # @return [Hash] :results, :errors, :pagination, :show_primo_continuation.
   #
   # Returns the historical merged-page payload expected by legacy templates.
   def fetch_legacy(page:, per_page:)
@@ -358,12 +373,12 @@ class MergedSearchService
     end
   end
 
-  def state_cache_key
+  def state_cache_key(per_source:)
     query = @enhanced_query.except(:page).merge(
       tab: @active_tab,
       scorer: ENV.fetch('ALL_TAB_SCORER', 'zipper'),
       boost_sources: ENV.fetch('ALL_TAB_BOOST_SOURCES', ''),
-      per_source: ENV.fetch('ALL_TAB_RESULTS_PER_SOURCE', '50')
+      per_source: per_source.to_i
     )
     "#{CacheKeyGenerator.call(query)}/all-tab-load-more"
   end

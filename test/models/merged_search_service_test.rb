@@ -20,7 +20,7 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert_equal 2, res[:results].length
 
     # Verify cache written
-    key = service.send(:state_cache_key)
+    key = service.send(:state_cache_key, per_source: ENV.fetch('ALL_TAB_RESULTS_PER_SOURCE', '50').to_i)
     cached = Rails.cache.read(key)
     refute_nil cached
     assert_equal 42, cached[:primo_hits]
@@ -53,7 +53,8 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
       timdex_exhausted: false,
       errors: nil
     }
-    Rails.cache.write(service.send(:state_cache_key), cached_state)
+    Rails.cache.write(service.send(:state_cache_key, per_source: ENV.fetch('ALL_TAB_RESULTS_PER_SOURCE', '50').to_i),
+                      cached_state)
 
     # Should not raise
     assert_nothing_raised do
