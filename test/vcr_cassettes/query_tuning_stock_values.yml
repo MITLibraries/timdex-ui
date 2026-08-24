@@ -12,7 +12,7 @@ http_interactions:
         Int, $accessToFilesFilter: [String!], $contentTypeFilter: [String!], $contributorsFilter:
         [String!], $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
         String, $placesFilter: [String!], $sourceFilter: [String!], $subjectsFilter:
-        [String!], $FAKE_TIMDEX_INDEXGlobalScoring: Boolean, $semanticDropBoostThreshold:
+        [String!], $useGlobalScoring: Boolean, $semanticDropBoostThreshold:
         Float, $semanticMustBoostThreshold: Float, $semanticShortQueryMaxTokens: Int)
         {\n  search(searchterm: $q, citation: $citation, contributors: $contributors,
         fundingInformation: $fundingInformation, identifiers: $identifiers, locations:
@@ -21,8 +21,8 @@ http_interactions:
         $perPage, accessToFilesFilter: $accessToFilesFilter, contentTypeFilter: $contentTypeFilter,
         contributorsFilter: $contributorsFilter, formatFilter: $formatFilter, languagesFilter:
         $languagesFilter, literaryFormFilter: $literaryFormFilter, placesFilter: $placesFilter,
-        sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter, FAKE_TIMDEX_INDEXGlobalScoring:
-        $FAKE_TIMDEX_INDEXGlobalScoring, tuningParametersInput: {dropBoostThreshold:
+        sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter, useGlobalScoring:
+        $useGlobalScoring, tuningParametersInput: {dropBoostThreshold:
         $semanticDropBoostThreshold, mustBoostThreshold: $semanticMustBoostThreshold,
         shortQueryMaxTokens: $semanticShortQueryMaxTokens}) {\n    hits\n    records
         {\n      timdexRecordId\n      identifiers {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
@@ -37,7 +37,7 @@ http_interactions:
         {\n        key\n        docCount\n      }\n      languages {\n        key\n        docCount\n      }\n      literaryForm
         {\n        key\n        docCount\n      }\n      places {\n        key\n        docCount\n      }\n      source
         {\n        key\n        docCount\n      }\n      subjects {\n        key\n        docCount\n      }\n    }\n  }\n}","variables":{"from":"0","q":"fda
-        regulation history medical devices","booleanType":"AND","queryMode":"hybrid","semanticDropBoostThreshold":0.0,"semanticMustBoostThreshold":0.99,"index":"FAKE_TIMDEX_INDEX","perPage":20,"fulltext":true,"FAKE_TIMDEX_INDEXGlobalScoring":false},"operationName":"TimdexSearch__BaseQuery"}'
+        regulation history medical devices","booleanType":"AND","queryMode":"hybrid","semanticDropBoostThreshold":0.0,"semanticMustBoostThreshold":0.99,"index":"FAKE_TIMDEX_INDEX","perPage":20,"fulltext":true,"useGlobalScoring":false},"operationName":"TimdexSearch__BaseQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
