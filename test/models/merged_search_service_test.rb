@@ -147,7 +147,99 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     result = svc.fetch(display_count: 5, stable_count: 0, per_source: 1)
 
     assert_equal 1, result[:results].length
+    assert_equal false, result[:load_more][:has_more]
     assert_operator calls.length, :<=, 2
+  end
+
+  test 'fetch keeps has_more true when one source is exhausted but the other can still grow' do
+    primo_fetcher = lambda do |offset:, per_page:, query: nil|
+      record = { title: 'P1', score: 0.9, api: 'primo', identifier: 'p1' }
+      { results: [record], hits: 100, errors: nil, show_continuation: false }
+    end
+    timdex_fetcher = lambda do |offset:, per_page:, query: nil|
+      records = [
+        { title: 'T1', score: 0.95, api: 'timdex', identifier: 't1' },
+        { title: 'T2', score: 0.85, api: 'timdex', identifier: 't2' },
+        { title: 'T3', score: 0.75, api: 'timdex', identifier: 't3' }
+      ]
+      { results: records.slice(offset, per_page) || [], hits: 3, errors: nil }
+    end
+
+    svc = MergedSearchService.new(enhanced_query: { q: 'test-one-source-still-growable' }, active_tab: 'all',
+                                  primo_fetcher: primo_fetcher, timdex_fetcher: timdex_fetcher)
+    result = svc.fetch(display_count: 3, stable_count: 0, per_source: 1)
+
+    assert_equal 3, result[:results].length
+    assert_equal true, result[:load_more][:has_more]
+    assert_includes result[:results].map { |record| record[:identifier] }, 't2'
+  end
+
+  test 'fetch follow-up marks has_more false when additional chunks are duplicate-only' do
+    primo_calls = []
+    timdex_calls = []
+    primo_fetcher = lambda do |offset:, per_page:, query: nil|
+      primo_calls << offset
+      if offset.zero?
+        { results: [{ title: 'P1', score: 0.9, api: 'primo', identifier: 'p1' }], hits: 100, errors: nil,
+          show_continuation: false }
+      else
+        { results: [{ title: 'P1', score: 0.9, api: 'primo', identifier: 'p1' }], hits: 100, errors: nil,
+          show_continuation: false }
+      end
+    end
+    timdex_fetcher = lambda do |offset:, per_page:, query: nil|
+      timdex_calls << offset
+      if offset.zero?
+        { results: [{ title: 'T1', score: 0.95, api: 'timdex', identifier: 't1' }], hits: 100, errors: nil }
+      else
+        { results: [{ title: 'T1', score: 0.95, api: 'timdex', identifier: 't1' }], hits: 100, errors: nil }
+      end
+    end
+
+    svc = MergedSearchService.new(enhanced_query: { q: 'test-duplicate-follow-up' }, active_tab: 'all',
+                                  primo_fetcher: primo_fetcher, timdex_fetcher: timdex_fetcher)
+
+    first = svc.fetch(display_count: 2, stable_count: 0, per_source: 1)
+    second = svc.fetch(display_count: 3, stable_count: 2, per_source: 1)
+
+    assert_equal 2, first[:results].length
+    assert_equal 2, second[:results].length
+    assert_equal [], second[:append_results]
+    assert_equal false, second[:load_more][:has_more]
+    assert_equal [0, 1], primo_calls
+    assert_equal [0, 1], timdex_calls
+  end
+
+  test 'fetch isolates cached state by per_source value' do
+    primo_records = (1..4).map { |i| { title: "P#{i}", score: 1.0 - (i * 0.01), api: 'primo', identifier: "p#{i}" } }
+    timdex_records = (1..4).map { |i| { title: "T#{i}", score: 1.0 - (i * 0.01), api: 'timdex', identifier: "t#{i}" } }
+
+    primo_fetcher = lambda do |offset:, per_page:, query: nil|
+      { results: primo_records.slice(offset, per_page) || [], hits: primo_records.length, errors: nil,
+        show_continuation: false }
+    end
+    timdex_fetcher = lambda do |offset:, per_page:, query: nil|
+      { results: timdex_records.slice(offset, per_page) || [], hits: timdex_records.length, errors: nil }
+    end
+
+    svc = MergedSearchService.new(enhanced_query: { q: 'test-per-source-cache-partition' }, active_tab: 'all',
+                                  primo_fetcher: primo_fetcher, timdex_fetcher: timdex_fetcher)
+
+    svc.fetch(display_count: 2, stable_count: 0, per_source: 1)
+    svc.fetch(display_count: 4, stable_count: 0, per_source: 2)
+
+    key_per_source_1 = svc.send(:state_cache_key, per_source: 1)
+    key_per_source_2 = svc.send(:state_cache_key, per_source: 2)
+    state_per_source_1 = Rails.cache.read(key_per_source_1)
+    state_per_source_2 = Rails.cache.read(key_per_source_2)
+
+    refute_equal key_per_source_1, key_per_source_2
+    refute_nil state_per_source_1
+    refute_nil state_per_source_2
+    assert_equal 1, state_per_source_1[:primo_results].length
+    assert_equal 1, state_per_source_1[:timdex_results].length
+    assert_equal 2, state_per_source_2[:primo_results].length
+    assert_equal 2, state_per_source_2[:timdex_results].length
   end
 
   test 'fetch defaults to 50 results per source when env var is not set' do

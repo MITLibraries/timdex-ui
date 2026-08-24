@@ -280,16 +280,23 @@ class MergedSearchService
 
   # Merges a source response into the cached state and records whether that
   # source appears exhausted. A source is exhausted when it returns fewer records
-  # than requested, reports no more total hits, or Primo signals continuation.
+  # than requested, reports no more total hits, contributes only previously seen
+  # records, or Primo signals continuation.
   def update_state_from_source!(state, source, data, requested_offset:, per_page:)
     return mark_exhausted!(state, source, reason: 'fetch skipped') if data.nil?
 
     results_key = source_results_key(source)
     hits_key = source_hits_key(source)
     incoming = Array(data[:results])
+    previous_length = state[results_key].length
 
     state[hits_key] = data[:hits].to_i
     state[results_key] = dedupe_records(state[results_key] + incoming)
+
+    if incoming.any? && state[results_key].length == previous_length
+      return mark_exhausted!(state, source, reason: 'duplicate-only response', offset: requested_offset,
+                                            returned: incoming.length, hits: state[hits_key])
+    end
 
     exhaustion_reason = exhaustion_reason(data, incoming, requested_offset, per_page, state[hits_key])
     return unless exhaustion_reason
