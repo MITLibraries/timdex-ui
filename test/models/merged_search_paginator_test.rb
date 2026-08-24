@@ -23,8 +23,8 @@ class MergedSearchPaginatorTest < ActiveSupport::TestCase
     primo = %w[P1 P2]
     timdex = %w[T1 T2]
     svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
-    assert_equal(%w[P1 T1 P2 T2], svc.send(:merge_results, paginator, primo, timdex))
+                                  timdex_fetcher: fake_fetcher)
+    assert_equal(%w[P1 T1 P2 T2], svc.send(:merge_results_legacy, paginator, primo, timdex))
   end
 
   test 'merge_results with shorter array' do
@@ -32,8 +32,8 @@ class MergedSearchPaginatorTest < ActiveSupport::TestCase
     primo = %w[P1 P2 P3]
     timdex = %w[T1]
     svc = MergedSearchService.new(enhanced_query: { q: 'test' }, active_tab: 'all', primo_fetcher: fake_fetcher,
-                    timdex_fetcher: fake_fetcher)
-    assert_equal(%w[P1 T1 P2 P3], svc.send(:merge_results, paginator, primo, timdex))
+                                  timdex_fetcher: fake_fetcher)
+    assert_equal(%w[P1 T1 P2 P3], svc.send(:merge_results_legacy, paginator, primo, timdex))
   end
 
   test 'api_offsets breaks when start_index exceeds totals' do

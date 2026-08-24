@@ -104,6 +104,7 @@ mode. Note that this is currently intended _only_ for the geodata app and
 may have unexpected consequences if applied to other TIMDEX UI apps.
 - `FEATURE_GLOBAL_SCORING`: Pass `useGlobalScoring: true` to all TIMDEX GraphQL search queries; defaults to false
 - `FEATURE_OA_ALWAYS`: Enables OpenAccess links from OpenAlex whenever they are available, not just when LibKey does not return data. `OPENALEX_EMAIL` must also be set.
+- `FEATURE_PAGINATION_LOAD_MORE`: Enables load-more pagination mode across results pages. When disabled, the app uses traditional previous/next pagination.
 - `FEATURE_RECORD_LINK`: Display the 'View full record' link below each record.
 - `FEATURE_SIMULATE_SEARCH_LATENCY`: DO NOT SET IN PRODUCTION. Set to ensure a minimum of a one second delay in returning search results. Useful to see spinners/loaders. Only introduces delay for results that take less than one second to complete.
 - `FEATURE_TAB_PRIMO_ALL`: Display a tab for displaying the combined Primo data (CDI + Alma)
@@ -144,7 +145,10 @@ may have unexpected consequences if applied to other TIMDEX UI apps.
 - `BLOCKED_USER_AGENTS` - comma-separated list of user agent strings to hard-block with 403 Forbidden responses (bypasses throttling; much cheaper). Default blocks `Sogou web spider` which was responsible for 76.94k spoofed attack requests from non-Chinese IPs. Example: `"Sogou web spider,BadBot/2.0"`
 - `REDIRECT_REQUESTS_PER_PERIOD`- number of requests that can be made that the query string starts with our legacy redirect parameter to throttle per `REQUEST_PERIOD`
 - `REDIRECT_REQUEST_PERIOD`- time in minutes used along with `REDIRECT_REQUESTS_PER_PERIOD`
-- `RESULTS_PER_PAGE`: The number of results to display per page. Use an even number to avoid peculiarities. Defaults to 20 if unset.
+- `ALL_TAB_RESULTS_PER_SOURCE`: Number of candidate results to fetch from each API (Primo and TIMDEX) when the combined all tab needs to grow its cached reranked pool. Defaults to 50 if unset. This is not the number of results shown per click; use `RESULTS_PER_PAGE` for that. Keep below 960 to avoid hitting Primo's offset limit.
+- `ALL_TAB_SCORER`: Scorer to use when merging results on the combined all tab. Valid values: `zipper` (default), `zscore`, `simple`, `random`. See the [reranker gem](https://github.com/MITLibraries/reranker) for details.
+- `LOAD_MORE_MAX_RESULTS`: Maximum number of results that can be shown through load-more requests for a single results tab. Defaults to 200 if unset. This guards against accidental oversized all-tab reranking requests.
+- `RESULTS_PER_PAGE`: The number of results shown in the initial batch and added by each "Load more results" click. For source-specific tabs this also remains the underlying API page size. Defaults to 20 if unset.
 - `ROBOTS_ENV`: Determines which version of `robots.txt` is used. This is read by the Robots controller. Any value other than `production` results in the non-production version being used.
 - `SCOUT_AUTO_INSTRUMENTS`: default is `false`. Recommended setting is `true` unless we add manual instrumentation in the future.
 - `SCOUT_DEV_TRACE`: only set in dev. Enables local, in-browser traces (does not send to ScoutAPM service. Other SCOUT ENV should not be set when using this)

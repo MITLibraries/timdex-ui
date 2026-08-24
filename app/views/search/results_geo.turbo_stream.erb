@@ -1,0 +1,7 @@
+<%= turbo_stream.append 'results-list' do %>
+  <%= render partial: 'search/result_geo', collection: @append_results, as: :result_geo %>
+<% end %>
+
+<%= turbo_stream.replace 'load-more' do %>
+  <%= render partial: 'search/load_more' %>
+<% end %>

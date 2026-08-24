@@ -14,7 +14,7 @@ function swapTabs(new_target) {
   }
 }
 
-// Loading spinner behavior for pagination (Turbo Frame updates)
+// Loading spinner behavior for frame and stream updates
 document.addEventListener('turbo:frame-render', function(event) {
   if (window.pendingFocusAction === 'pagination') {
     // Focus on first result for pagination
@@ -51,13 +51,29 @@ document.addEventListener('turbo:frame-render', function(event) {
   };
 });
 
+document.addEventListener('turbo:before-stream-render', function(event) {
+  if (window.pendingFocusAction === 'load-more') {
+    document.getElementById('search-results')?.classList.remove('spinner');
+    window.pendingFocusAction = null;
+  }
+});
+
 document.addEventListener('click', function(event) {
   const clickedElement = event.target;
+  const loadMoreLink = clickedElement.closest('.load-more-link');
+
+  // Handle load-more clicks. Results append in place, so do not scroll users
+  // back to the top or move focus away from their current reading position.
+  if (loadMoreLink) {
+    document.getElementById('search-results')?.classList.add('spinner');
+    window.pendingFocusAction = 'load-more';
+    return;
+  }
 
   // Handle pagination clicks
   if (clickedElement.matches('.first a, .previous a, .next a')) {
     // Throw the spinner on the search results immediately
-    document.getElementById('search-results').classList.add('spinner');
+    document.getElementById('search-results')?.classList.add('spinner');
 
     // Position the window at the top of the results
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -99,5 +115,4 @@ document.addEventListener('turbo:load', function(event) {
     // console.log(`Updated search input value to: ${queryParam}`);
   }
 });
-
 
