@@ -1185,9 +1185,9 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
   test 'results can include tuning parameters' do
     query = 'fda regulation history medical devices'
-    queryMode = 'hybrid'
+    query_mode = 'hybrid'
     tab = 'timdex' # We test the TIMDEX tab because that's the only source that responds to these parameters. Primo will
-                   # always return the same things.
+    # always return the same things.
     default_must = 0.99
     default_drop = 0.0
     alt_must = 0.5
@@ -1199,7 +1199,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     alt_titles = nil
 
     VCR.use_cassette('query tuning stock values') do
-      get "/results?q=#{query}&semanticMustBoostThreshold=#{default_must}&semanticDropBoostThreshold=#{default_drop}&tab=#{tab}&queryMode=#{queryMode}"
+      get "/results?q=#{query}&semanticMustBoostThreshold=#{default_must}&semanticDropBoostThreshold=#{default_drop}" \
+          "&tab=#{tab}&queryMode=#{query_mode}"
       assert_response :success
 
       default_summary = css_select('.results-context').first&.text.to_s
@@ -1207,7 +1208,8 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
 
     VCR.use_cassette('query tuning alternate values') do
-      get "/results?q=#{query}&semanticMustBoostThreshold=#{alt_must}&semanticDropBoostThreshold=#{alt_drop}&tab=#{tab}&queryMode=#{queryMode}"
+      get "/results?q=#{query}&semanticMustBoostThreshold=#{alt_must}&semanticDropBoostThreshold=#{alt_drop}" \
+          "&tab=#{tab}&queryMode=#{query_mode}"
 
       assert_response :success
 
@@ -1217,7 +1219,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     # Assert these responses were not the same
     assert(default_summary != alt_summary || default_titles != alt_titles,
-           "Expected tuning parameters to affect results, but counts and title orders are identical.")
+           'Expected tuning parameters to affect results, but counts and title orders are identical.')
   end
 
   test 'results can be returned in JSON format when env is set and valid token is provided' do
