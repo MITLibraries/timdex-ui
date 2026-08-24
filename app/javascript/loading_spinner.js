@@ -60,6 +60,7 @@ document.addEventListener('turbo:before-stream-render', function(event) {
 
 document.addEventListener('click', function(event) {
   const clickedElement = event.target;
+  if (!(clickedElement instanceof Element)) { return; }
   const loadMoreLink = clickedElement.closest('.load-more-link');
 
   // Handle load-more clicks. Results append in place, so do not scroll users
