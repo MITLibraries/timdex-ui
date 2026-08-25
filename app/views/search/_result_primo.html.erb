@@ -92,9 +92,11 @@
                 <%= link_to 'View full record', link['url'], class: 'button', data: { content_piece: 'View Full Record' } %>
               <% end %>
             <%# Primo supplies PDF and HTML links in addition to the OpenURL variant that may be useful. %>
-            <%# We hide links with the `primo-link` css class if LibKey returns results. %>
+            <%# We hide most links with the `primo-link` css class if LibKey returns results. Keep Full-text options visible when available. %>
             <% else %>
-              <%= link_to link['kind'], link['url'], class: 'button primo-link', data: { content_piece: link['kind'] } %>
+              <% link_classes = ['button', 'primo-link'] %>
+              <% link_classes << 'primo-link-preserve' if link['kind'] == 'Full-text options' %>
+              <%= link_to link['kind'], link['url'], class: link_classes.join(' '), data: { content_piece: link['kind'] } %>
             <% end %>
           <% end %>
         <% end %>
