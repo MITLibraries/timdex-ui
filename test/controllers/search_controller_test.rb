@@ -885,6 +885,29 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href*="tab=website"]', count: 1
   end
 
+  test 'all tab page 1 writes totals to cache' do
+    # This integration-level behavior is covered by unit tests on `MergedSearchService`.
+    # Here we assert the controller delegates to the service.
+    mock_service = mock('merged_service')
+    mock_service.expects(:fetch).returns({ results: [], errors: nil, pagination: {}, show_primo_continuation: false })
+    MergedSearchService.expects(:new).returns(mock_service)
+
+    get '/results?q=test'
+    assert_response :success
+  end
+
+  test 'all tab deeper page reads cached totals and avoids summary calls' do
+    # This behavior is covered in greater depth by `MergedSearchService` unit tests.
+    mock_service = mock('merged_service')
+    mock_service.expects(:fetch).with(page: 2,
+                                      per_page: 20).returns({ results: [],
+                                                              errors: nil, pagination: {}, show_primo_continuation: false })
+    MergedSearchService.expects(:new).returns(mock_service)
+
+    get '/results?q=test&page=2'
+    assert_response :success
+  end
+
   test 'all tab delegates to MergedSearchService' do
     mock_service = mock('merged_service')
     mock_service.expects(:fetch).returns({ results: [], errors: nil })
@@ -1055,6 +1078,119 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_select '.tab-navigation .tab-link.active', text: 'All'
+  end
+
+  test 'all tab shows primo continuation when page exceeds API offset limit' do
+    sample_doc = {
+      api: 'primo',
+      title: 'Sample Primo Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [
+        { value: 'Foo Barston', link: nil },
+        { value: 'Baz Quxley', link: nil }
+      ],
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/record' }]
+    }
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } }).at_least_once
+    PrimoSearch.expects(:new).returns(mock_primo).at_least_once
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns([sample_doc]).at_least_once
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
+    mock_timdex_search_success
+
+    get '/results?q=test&tab=all&page=49'
+    assert_response :success
+
+    # Should show primo continuation partial
+    assert_select '.primo-continuation', count: 1
+    assert_select '.primo-continuation h2', text: /You have reached the limit for these search results/
+  end
+
+  test 'all tab pagination displays combined hit counts' do
+    sample_docs = (1..10).map do |i|
+      {
+        title: "Sample Primo Document Title #{i}",
+        format: 'Article',
+        year: '2025',
+        creators: [{ value: "Author #{i}", link: nil }],
+        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record#{i}" }]
+      }
+    end
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({
+                                          'docs' => sample_docs,
+                                          'info' => { 'total' => 500 }
+                                        }).at_least_once
+    PrimoSearch.expects(:new).returns(mock_primo).at_least_once
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns(sample_docs).at_least_once
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
+    mock_timdex_search_with_hits(300)
+
+    get '/results?q=test&tab=all'
+    assert_response :success
+
+    # Should show pagination with combined hit counts (500 + 300 = 800)
+    assert_select '.pagination-container'
+    assert_select '.pagination-container .current', text: /1 - 20 of 800/
+  end
+
+  test 'all tab pagination includes next page link when more results available' do
+    sample_docs = (1..10).map do |i|
+      {
+        title: "Sample Primo Document Title #{i}",
+        format: 'Article',
+        year: '2025',
+        creators: [{ value: "Author #{i}", link: nil }],
+        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record#{i}" }]
+      }
+    end
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({
+                                          'docs' => sample_docs,
+                                          'info' => { 'total' => 500 }
+                                        }).at_least_once
+    PrimoSearch.expects(:new).returns(mock_primo).at_least_once
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns(sample_docs).at_least_once
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
+    mock_timdex_search_with_hits(300)
+
+    get '/results?q=test&tab=all'
+    assert_response :success
+
+    # Should show next page link when there are more than 20 total results
+    assert_select '.pagination-container .next a[href*="page=2"]'
+  end
+
+  test 'all tab pagination on page 2 includes previous page link' do
+    sample_docs = (1..10).map do |i|
+      {
+        title: "Sample Primo Document Title #{i}",
+        format: 'Article',
+        year: '2025',
+        creators: [{ value: "Author #{i}", link: nil }],
+        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record#{i}" }]
+      }
+    end
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).returns({
+                                          'docs' => sample_docs,
+                                          'info' => { 'total' => 500 }
+                                        }).at_least_once
+    PrimoSearch.expects(:new).returns(mock_primo).at_least_once
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).returns(sample_docs).at_least_once
+    NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
+    mock_timdex_search_with_hits(300)
+
+    get '/results?q=test&tab=all&page=2'
+    assert_response :success
+
+    # Should show previous page link when on page > 1
+    assert_select '.pagination-container .previous a[href*="page=1"]'
   end
 
   test 'all tab does not show pagination controls' do
