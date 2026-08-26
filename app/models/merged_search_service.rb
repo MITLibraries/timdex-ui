@@ -30,8 +30,8 @@ class MergedSearchService
   # @param display_count [Integer, nil] number of ordered results the caller
   #   wants visible after this request.
   # @param stable_count [Integer] number of leading results already displayed in
-  #   the browser. Those records retain their relative order even if the expanded
-  #   candidate pool would rerank them differently.
+  #   the browser. These results are preserved at the front of the display order
+  #   (excluded from reranking and concatenated before newly-reranked results).
   # @param per_source [Integer, nil] number of results to request from each API
   #   per source fetch; defaults to ALL_TAB_RESULTS_PER_SOURCE or 50.
   # @param page [Integer, nil] legacy page number for traditional pagination.
@@ -50,8 +50,8 @@ class MergedSearchService
   # @param display_count [Integer, nil] number of ordered results the caller
   #   wants visible after this request.
   # @param stable_count [Integer] number of leading results already displayed in
-  #   the browser. Those records retain their relative order even if the expanded
-  #   candidate pool would rerank them differently.
+  #   the browser. These results are preserved at the front of the display order
+  #   (excluded from reranking and concatenated before newly-reranked results).
   # @param per_source [Integer, nil] number of results to request from each API
   #   per source fetch; defaults to ALL_TAB_RESULTS_PER_SOURCE or 50.
   # @return [Hash] :results, :append_results, :errors, :load_more where
@@ -226,9 +226,6 @@ class MergedSearchService
   end
 
   # Returns an empty serializable cache state for a merged all-tab search.
-  # Source result arrays hold normalized records. `ordered_keys` is the stable
-  # display order, represented by deterministic record keys so duplicated
-  # records can be removed safely when additional source chunks arrive.
   def empty_state
     {
       primo_results: [],
