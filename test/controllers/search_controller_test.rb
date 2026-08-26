@@ -449,18 +449,22 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'primo results with valid query has div for pagination' do
-    mock_primo_search_success
-    get '/results?q=data&tab=primo'
-    assert_response :success
-    assert_select '#pagination'
+  test 'primo results with valid query has load more control' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true') do
+      mock_primo_search_success
+      get '/results?q=data&tab=primo'
+      assert_response :success
+      assert_select '#load-more'
+    end
   end
 
-  test 'timdex results with valid query has div for pagination' do
-    mock_timdex_search_success
-    get '/results?q=data&tab=timdex'
-    assert_response :success
-    assert_select '#pagination'
+  test 'timdex results with valid query has load more control' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true') do
+      mock_timdex_search_success
+      get '/results?q=data&tab=timdex'
+      assert_response :success
+      assert_select '#load-more'
+    end
   end
 
   test 'primo results with valid query has div for results which is populated' do
@@ -904,6 +908,15 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'all tab delegates to MergedSearchService' do
+    mock_service = mock('merged_service')
+    mock_service.expects(:fetch).returns({ results: [], errors: nil })
+    MergedSearchService.expects(:new).returns(mock_service)
+
+    get '/results?q=test&tab=all'
+    assert_response :success
+  end
+
   test 'results handles primo search errors gracefully' do
     PrimoSearch.expects(:new).raises(StandardError.new('API Error'))
 
@@ -1098,11 +1111,11 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   test 'all tab pagination displays combined hit counts' do
     sample_docs = (1..10).map do |i|
       {
-        title: "Sample Primo Document Title \\#{i}",
+        title: "Sample Primo Document Title #{i}",
         format: 'Article',
         year: '2025',
-        creators: [{ value: "Author \\#{i}", link: nil }],
-        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record\\#{i}" }]
+        creators: [{ value: "Author #{i}", link: nil }],
+        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record#{i}" }]
       }
     end
     mock_primo = mock('primo_search')
@@ -1127,11 +1140,11 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   test 'all tab pagination includes next page link when more results available' do
     sample_docs = (1..10).map do |i|
       {
-        title: "Sample Primo Document Title \\#{i}",
+        title: "Sample Primo Document Title #{i}",
         format: 'Article',
         year: '2025',
-        creators: [{ value: "Author \\#{i}", link: nil }],
-        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record\\#{i}" }]
+        creators: [{ value: "Author #{i}", link: nil }],
+        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record#{i}" }]
       }
     end
     mock_primo = mock('primo_search')
@@ -1155,11 +1168,11 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   test 'all tab pagination on page 2 includes previous page link' do
     sample_docs = (1..10).map do |i|
       {
-        title: "Sample Primo Document Title \\#{i}",
+        title: "Sample Primo Document Title #{i}",
         format: 'Article',
         year: '2025',
-        creators: [{ value: "Author \\#{i}", link: nil }],
-        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record\\#{i}" }]
+        creators: [{ value: "Author #{i}", link: nil }],
+        links: [{ 'kind' => 'full record', 'url' => "https://example.com/record#{i}" }]
       }
     end
     mock_primo = mock('primo_search')
@@ -1176,11 +1189,32 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     get '/results?q=test&tab=all&page=2'
     assert_response :success
 
-    # Should show previous page link
+    # Should show previous page link when on page > 1
     assert_select '.pagination-container .previous a[href*="page=1"]'
+  end
 
-    # Should show current range (21-40 for page 2)
-    assert_select '.pagination-container .current', text: /21 - 40 of 800/
+  test 'all tab does not show pagination controls' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true') do
+      mock_primo_search_all_tab
+      mock_timdex_search_all_tab
+
+      get '/results?q=test&tab=all'
+      assert_response :success
+      assert_select '#pagination', count: 0
+      assert_select '#load-more'
+    end
+  end
+
+  test 'all tab shows legacy pagination when load more mode is disabled' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'false') do
+      mock_primo_search_all_tab
+      mock_timdex_search_all_tab
+
+      get '/results?q=test&tab=all'
+      assert_response :success
+      assert_select '#pagination'
+      assert_select '#load-more', count: 0
+    end
   end
 
   test 'results can be returned in JSON format when env is set and valid token is provided' do

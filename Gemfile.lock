@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/MITLibraries/reranker.git
+  revision: 85b0d19c88c853c76f8de54786b4341ad2e43d4d
+  tag: v0.1.0
+  specs:
+    reranker (0.1.0)
+      enumerable-stats (>= 1.0, < 2.0)
+
+GIT
   remote: https://github.com/mitlibraries/mitlibraries-theme
   revision: 135390daff870937212f1d9020abb6aea53c87d9
   tag: v1.5
@@ -133,6 +141,7 @@ GEM
       dotenv (= 3.2.0)
       railties (>= 6.1)
     drb (2.2.3)
+    enumerable-stats (1.4.0)
     erb (6.0.7)
     erubi (1.13.1)
     faraday (2.14.3)
@@ -452,6 +461,7 @@ DEPENDENCIES
   rails_cloudflare_turnstile
   rails_semantic_logger
   redis
+  reranker!
   rubocop
   rubocop-rails
   scout_apm

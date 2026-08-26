@@ -36,7 +36,7 @@
     <main id="results" class="col3q wrap-results">
       <% if @results.present? && @errors.blank? %>
         <h2 class="hd-3 results-context"><%= results_summary(@pagination[:hits]) %> returned</h2>
-        <ol class="results-list" start="<%= @pagination[:start] %>">
+        <ol id="results-list" class="results-list" start="<%= @pagination_load_more_enabled ? 1 : (@pagination&.[](:start) || 1) %>">
           <%= render(partial: 'search/result_geo', collection: @results, as: :result_geo) %>
         </ol>
       <% elsif @errors.blank? %>
@@ -50,9 +50,11 @@
   <%= render partial: 'shared/ask', locals: { display: 'aside' } if @results.blank? %>
 
   <% if @results.present? %>
-    <div id="pagination">  
+    <% if @pagination_load_more_enabled %>
+      <%= render partial: "load_more" %>
+    <% else %>
       <%= render partial: "pagination" %>
-    </div>
+    <% end %>
     <%= render partial: 'shared/ask', locals: { display: 'view-md' } %>
   <% end %>
 </div>

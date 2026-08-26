@@ -36,7 +36,7 @@ class Feature
   VALID_FEATURES = %i[
     bot_detection geodata boolean_picker global_scoring oa_always primo_nde_links
     simulate_search_latency tab_digital_collections tab_primo_all tab_timdex_all
-    tab_timdex_alma record_link timdex_fulltext timdex_semantic_search
+    tab_timdex_alma record_link timdex_fulltext timdex_semantic_search pagination_load_more
   ].freeze
 
   # Check if a feature is enabled by name

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# MergedSearchPaginator encapsulates stateless merged pagination logic for combining two API result sets.
-# It calculates the merge plan, API offsets, and merges the results for a given page.
+# MergedSearchPaginator encapsulates stateless merged pagination logic for combining
+# two API result sets.
 class MergedSearchPaginator
   attr_reader :primo_total, :timdex_total, :current_page, :per_page
 
@@ -12,7 +12,7 @@ class MergedSearchPaginator
     @per_page = per_page
   end
 
-  # Returns an array of :primo and :timdex symbols for the merged result order on this page
+  # Returns an array of :primo and :timdex symbols for the merged result order on this page.
   def merge_plan
     total_results = primo_total + timdex_total
     start_index = (current_page - 1) * per_page
@@ -35,15 +35,8 @@ class MergedSearchPaginator
     plan
   end
 
-  # Returns [primo_offset, timdex_offset] for the start of this page
-  # Returns [primo_offset, timdex_offset] for the start of this page.
-  #
-  # If an API has been exhausted (the computed offset is greater-than-or-equal
-  # to that API's total), this method returns `nil` for that API to signal
-  # callers that no request should be made against that service for this page.
-  #
-  # This avoids unnecessary requests where the API would only return empty
-  # results when queried at an offset beyond its available records.
+  # Returns [primo_offset, timdex_offset] for the start of this page. If a source
+  # is exhausted, that source offset is nil so callers can skip the API call.
   def api_offsets
     start_index = (current_page - 1) * per_page
     primo_offset = 0
@@ -59,8 +52,7 @@ class MergedSearchPaginator
       end
       i += 1
     end
-    # If the computed offset reached or exceeded the total for a source,
-    # return nil for that source to indicate it is exhausted.
+
     primo_offset = nil if primo_offset >= primo_total
     timdex_offset = nil if timdex_offset >= timdex_total
 

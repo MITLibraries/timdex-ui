@@ -17,23 +17,21 @@
 
       <% elsif @results.present? && @errors.blank? %>
         <div class="results-header">
-          <h2 class="results-context" data-matomo-seen="Search, Results Found, Tab: {{getActiveTabName}}"><%= results_summary(@pagination[:hits]) %></h2>
+          <h2 class="results-context" data-matomo-seen="Search, Results Found, Tab: {{getActiveTabName}}"><%= results_summary(@pagination&.[](:hits) || @load_more&.[](:total_hits) || @results.length) %></h2>
           <% if @show_nls_warning %>
             <%= render partial: 'search/nls_alert' %>
           <% end %>
         </div>
         <div id="results-layout-wrapper">
           <main id="results">
-            <ol class="results-list use" data-matomo-click="Results, Link Engaged, Link: {{getElementText}}; Tab: {{getActiveTabName}}" start="<%= @pagination[:start] %>">
-              <% @results.each do |result| %>
-                  <% if result[:api] == 'primo' %>
-                    <%= render(partial: 'search/result_primo', locals: { result: result }) %>
-                  <% elsif result[:api] == 'timdex' %>
-                    <%= render(partial: 'search/result', locals: { result: result }) %>
-                  <% end %>
-                <% end %>
+            <ol id="results-list" class="results-list use" data-matomo-click="Results, Link Engaged, Link: {{getElementText}}; Tab: {{getActiveTabName}}" start="<%= @pagination_load_more_enabled ? 1 : (@pagination&.[](:start) || 1) %>">
+              <%= render partial: 'search/result_item', collection: @results, as: :result %>
             </ol>
-            <%= render partial: "pagination" %>
+            <% if @pagination_load_more_enabled %>
+              <%= render partial: "load_more" %>
+            <% else %>
+              <%= render partial: "pagination" %>
+            <% end %>
             <%# Note `results_callouts` is also displayed in no errors condition below %>
             <%= render partial: "results_callouts" %>
           </main>
