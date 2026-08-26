@@ -12,15 +12,19 @@ http_interactions:
         Int, $accessToFilesFilter: [String!], $contentTypeFilter: [String!], $contributorsFilter:
         [String!], $formatFilter: [String!], $languagesFilter: [String!], $literaryFormFilter:
         String, $placesFilter: [String!], $sourceFilter: [String!], $subjectsFilter:
-        [String!], $useGlobalScoring: Boolean) {\n  search(searchterm: $q, citation:
-        $citation, contributors: $contributors, fundingInformation: $fundingInformation,
-        identifiers: $identifiers, locations: $locations, subjects: $subjects, title:
-        $title, index: $index, from: $from, booleanType: $booleanType, queryMode:
-        $queryMode, fulltext: $fulltext, perPage: $perPage, accessToFilesFilter: $accessToFilesFilter,
-        contentTypeFilter: $contentTypeFilter, contributorsFilter: $contributorsFilter,
-        formatFilter: $formatFilter, languagesFilter: $languagesFilter, literaryFormFilter:
-        $literaryFormFilter, placesFilter: $placesFilter, sourceFilter: $sourceFilter,
-        subjectsFilter: $subjectsFilter, useGlobalScoring: $useGlobalScoring) {\n    hits\n    records
+        [String!], $useGlobalScoring: Boolean, $semanticDropBoostThreshold:
+        Float, $semanticMustBoostThreshold: Float, $semanticShortQueryMaxTokens: Int)
+        {\n  search(searchterm: $q, citation: $citation, contributors: $contributors,
+        fundingInformation: $fundingInformation, identifiers: $identifiers, locations:
+        $locations, subjects: $subjects, title: $title, index: $index, from: $from,
+        booleanType: $booleanType, queryMode: $queryMode, fulltext: $fulltext, perPage:
+        $perPage, accessToFilesFilter: $accessToFilesFilter, contentTypeFilter: $contentTypeFilter,
+        contributorsFilter: $contributorsFilter, formatFilter: $formatFilter, languagesFilter:
+        $languagesFilter, literaryFormFilter: $literaryFormFilter, placesFilter: $placesFilter,
+        sourceFilter: $sourceFilter, subjectsFilter: $subjectsFilter, useGlobalScoring:
+        $useGlobalScoring, tuningParametersInput: {dropBoostThreshold:
+        $semanticDropBoostThreshold, mustBoostThreshold: $semanticMustBoostThreshold,
+        shortQueryMaxTokens: $semanticShortQueryMaxTokens}) {\n    hits\n    records
         {\n      timdexRecordId\n      identifiers {\n        kind\n        value\n      }\n      title\n      source\n      contentType\n      contributors
         {\n        kind\n        value\n      }\n      publicationInformation\n      dates
         {\n        kind\n        value\n        range {\n          gte\n          lte\n        }\n      }\n      links
@@ -60,9 +64,9 @@ http_interactions:
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Report-To:
-      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=iV8mZ1VtWlp7FAvs%2FHSrvJW4DsQPI73GQv4kESMQj%2Bk%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1783368171"}],"max_age":3600}'
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=5QWnnaZApZpZojRWEsPFjQ2%2FUTYQHPG8MGTeUWxiK3s%3D\u0026sid=67ff5de4-ad2b-4112-9289-cf96be89efed\u0026ts=1787264022"}],"max_age":3600}'
       Reporting-Endpoints:
-      - heroku-nel="https://nel.heroku.com/reports?s=iV8mZ1VtWlp7FAvs%2FHSrvJW4DsQPI73GQv4kESMQj%2Bk%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1783368171"
+      - heroku-nel="https://nel.heroku.com/reports?s=5QWnnaZApZpZojRWEsPFjQ2%2FUTYQHPG8MGTeUWxiK3s%3D&sid=67ff5de4-ad2b-4112-9289-cf96be89efed&ts=1787264022"
       Server:
       - Heroku
       Strict-Transport-Security:
@@ -78,15 +82,15 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - c65898aa-ebfc-3e9a-cdda-95934dc0da73
+      - ae7452e9-ee5c-de7e-f205-f269c206cc8d
       X-Runtime:
-      - '0.133160'
+      - '0.095685'
       X-Xss-Protection:
       - '0'
       Date:
-      - Mon, 06 Jul 2026 20:02:51 GMT
+      - Thu, 20 Aug 2026 22:13:42 GMT
     body:
       encoding: UTF-8
       string: '{"data":{"search":{"hits":0,"records":[],"aggregations":{"accessToFiles":[],"contentType":[],"contributors":[],"format":[],"languages":[],"literaryForm":[],"places":[],"source":[],"subjects":[]}}}}'
-  recorded_at: Mon, 06 Jul 2026 20:02:51 GMT
+  recorded_at: Thu, 20 Aug 2026 22:13:42 GMT
 recorded_with: VCR 6.4.0

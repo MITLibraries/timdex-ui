@@ -54,6 +54,12 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal 'Search MIT Libraries', results_page_title(no_query)
   end
 
+  test 'results_page_title ignores tuning parameters' do
+    query = { q: 'National Parks Service', semanticDropBoostThreshold: '0.1', semanticMustBoostThreshold: '0.7',
+              semanticShortQueryMaxTokens: '5' }
+    assert_equal 'National Parks Service | Search MIT Libraries', results_page_title(query)
+  end
+
   test 'record_page_title includes record title' do
     record = { 'title' => 'The Waves' }
     assert_equal 'The Waves | Search MIT Libraries', record_page_title(record)
