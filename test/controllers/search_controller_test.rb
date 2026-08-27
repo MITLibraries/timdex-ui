@@ -1265,9 +1265,9 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_equal 'application/json; charset=utf-8', response.content_type
       response_json = JSON.parse(response.body)
-      assert_equal ['results', 'pagination', 'errors'], response_json.keys
-      assert_instance_of Array, response_json["results"]
-      assert_instance_of Integer, response_json["pagination"]["hits"]
+      assert_equal %w[results pagination errors], response_json.keys
+      assert_instance_of Array, response_json['results']
+      assert_instance_of Integer, response_json['pagination']['hits']
     end
   end
 
@@ -1281,9 +1281,9 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_equal 'application/json; charset=utf-8', response.content_type
       response_json = JSON.parse(response.body)
-      assert_equal ['results', 'pagination', 'errors'], response_json.keys
-      assert_instance_of Array, response_json["results"]
-      assert_instance_of Integer, response_json["pagination"]["hits"]
+      assert_equal %w[results pagination errors], response_json.keys
+      assert_instance_of Array, response_json['results']
+      assert_instance_of Integer, response_json['pagination']['hits']
     end
   end
 
@@ -1296,9 +1296,9 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_equal 'application/json; charset=utf-8', response.content_type
       response_json = JSON.parse(response.body)
-      assert_equal ['results', 'pagination', 'errors'], response_json.keys
-      assert_instance_of Array, response_json["results"]
-      assert_instance_of Integer, response_json["pagination"]["hits"]
+      assert_equal %w[results pagination errors], response_json.keys
+      assert_instance_of Array, response_json['results']
+      assert_instance_of Integer, response_json['pagination']['hits']
     end
   end
 
