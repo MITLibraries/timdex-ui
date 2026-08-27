@@ -1264,6 +1264,10 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       get "/results?q=test&format=json&format_token=#{secret_value}", headers: { 'HTTP_USER_AGENT' => quepid_ua }
       assert_response :success
       assert_equal 'application/json; charset=utf-8', response.content_type
+      response_json = JSON.parse(response.body)
+      assert_equal ['results', 'pagination', 'errors'], response_json.keys
+      assert_instance_of Array, response_json["results"]
+      assert_instance_of Integer, response_json["pagination"]["hits"]
     end
   end
 
@@ -1276,6 +1280,25 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       get "/results?q=test&format=json&format_token=#{secret_value}", headers: { 'HTTP_USER_AGENT' => quepid_ua }
       assert_response :success
       assert_equal 'application/json; charset=utf-8', response.content_type
+      response_json = JSON.parse(response.body)
+      assert_equal ['results', 'pagination', 'errors'], response_json.keys
+      assert_instance_of Array, response_json["results"]
+      assert_instance_of Integer, response_json["pagination"]["hits"]
+    end
+  end
+
+  test 'results can be returned in JSON format when env is set while load-more pagination is enabled' do
+    secret_value = 'sooper_sekret'
+    quepid_ua = 'Quepid/1.0 (Web Scraper)'
+    ClimateControl.modify(FORMAT_TOKEN: secret_value, FEATURE_PAGINATION_LOAD_MORE: 'true') do
+      mock_timdex_search_with_hits(10)
+      get "/results?q=test&format=json&format_token=#{secret_value}", headers: { 'HTTP_USER_AGENT' => quepid_ua }
+      assert_response :success
+      assert_equal 'application/json; charset=utf-8', response.content_type
+      response_json = JSON.parse(response.body)
+      assert_equal ['results', 'pagination', 'errors'], response_json.keys
+      assert_instance_of Array, response_json["results"]
+      assert_instance_of Integer, response_json["pagination"]["hits"]
     end
   end
 
