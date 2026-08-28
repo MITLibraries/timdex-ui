@@ -45,7 +45,7 @@ class SearchController < ApplicationController
 
     # Render the response in HTML or JSON format
     respond_to do |format|
-      format.json { render json: { results: @results, pagination: hit_count, errors: @errors } }
+      format.json { render json: { results: @results, hits: hit_count, errors: @errors } }
       format.turbo_stream { render :results }
       format.html { render :results }
     end
@@ -55,9 +55,11 @@ class SearchController < ApplicationController
 
   # This returns the total result count from whichever instance variable is present
   def hit_count
-    return @pagination unless pagination_load_more_enabled?
-
-    { hits: @load_more[:total_hits] }
+    if @pagination_load_more_enabled
+      @load_more&.[](:total_hits) || 0
+    else
+      @pagination&.[](:hits) || 0
+    end
   end
 
   # Sleep to simulate latency for testing loading indicators when responses are fast
