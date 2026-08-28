@@ -1271,6 +1271,30 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'results in JSON format will report zero hit count in the face of missing data' do
+    SearchController.any_instance.stubs(:load_timdex_results).returns(nil)
+    secret_value = 'sooper_sekret'
+    quepid_ua = 'Quepid/1.0 (Web Scraper)'
+    # Test @pagination pathway
+    ClimateControl.modify FORMAT_TOKEN: secret_value do
+      get "/results?q=test&tab=timdex&format=json&format_token=#{secret_value}",
+          headers: { 'HTTP_USER_AGENT' => quepid_ua }
+      assert_response :success
+      response_json = JSON.parse(response.body)
+      assert_equal %w[results hits errors], response_json.keys
+      assert_equal 0, response_json['hits']
+    end
+    # Test @load_more pathway
+    ClimateControl.modify(FORMAT_TOKEN: secret_value, FEATURE_PAGINATION_LOAD_MORE: 'true') do
+      get "/results?q=test&tab=timdex&format=json&format_token=#{secret_value}",
+          headers: { 'HTTP_USER_AGENT' => quepid_ua }
+      assert_response :success
+      response_json = JSON.parse(response.body)
+      assert_equal %w[results hits errors], response_json.keys
+      assert_equal 0, response_json['hits']
+    end
+  end
+
   test 'results can be returned in JSON format when env is set and valid token is provided even with bot challenge' do
     secret_value = 'sooper_sekret'
     quepid_ua = 'Quepid/1.0 (Web Scraper)'
