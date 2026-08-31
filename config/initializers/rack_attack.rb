@@ -1,4 +1,6 @@
 class Rack::Attack
+  Rails.logger.info "Rack Attack initializer loading"
+
   # List of throttles that honor the Turnstile grace cookie. These throttles will redirect to the Turnstile challenge
   # page instead of returning 429, allowing verified users to continue during the grace period without increasing
   # limits for unverified traffic.
@@ -52,6 +54,32 @@ class Rack::Attack
   # ActiveSupport::Cache::Store
 
   # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+
+  # If we have a dedicated Rack Attack cache, use it. Separate cache in prod allows us to ensure that throttling does
+  # not interfere with our core result caching.
+  #
+  # To provision a dedicated Redis for Rack Attack on Heroku, use:
+  #   heroku addons:create heroku-redis:mini --as RACK_ATTACK_REDIS
+  # Note: Heroku automatically appends "_URL" to the addon name, creating the RACK_ATTACK_REDIS_URL env var.
+  rack_attack_redis_url = ENV.fetch('RACK_ATTACK_REDIS_URL', '').presence
+  if rack_attack_redis_url
+    store = ActiveSupport::Cache::RedisCacheStore.new(
+      url: rack_attack_redis_url,
+      ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+    )
+    Rack::Attack.cache.store = store
+    # Verify the cache can be written to
+    begin
+      store.write('rack_attack_test', 'ok', expires_in: 1.second)
+      Rails.logger.info("Rack Attack Redis cache initialized successfully")
+    rescue => e
+      Rails.logger.error("Rack Attack Redis cache initialization failed: #{e.class} - #{e.message}")
+    end
+  # Otherwise fall back to the Rails.cache. Not recommended in production, but fine everywhere else
+  else
+    Rack::Attack.cache.store = Rails.cache
+    Rails.logger.info("Rack Attack using Rails.cache (consider setting RACK_ATTACK_REDIS_URL in production)")
+  end
 
   ### Safelist MIT IP addresses
   # http://kb.mit.edu/confluence/x/F4DCAg
