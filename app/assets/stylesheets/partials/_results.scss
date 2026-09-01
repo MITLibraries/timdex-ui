@@ -45,11 +45,24 @@
 }
 
 .results-list.use {
-  list-style-type: decimal;
-  list-style-position: outside;
-  padding: 0;
-  padding-left: 2.5rem;
-  margin-bottom: 0;
+  list-style-type: none;
+  padding-left: 0;
+  counter-reset: result-numbers;
+
+  > li {
+    counter-increment: result-numbers 1;
+    
+    p.eyebrow::before {
+      content: counter(result-numbers);
+      display: inline-block;
+      padding: 2px 6px;
+      background-color: $color-gray-200;
+      color: $color-text-secondary;
+      border-radius: 2px;
+      margin-right: 8px;
+    }
+  }
+
 }
 
 // --------------------------------------
