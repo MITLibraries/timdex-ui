@@ -1,8 +1,7 @@
-.pagination-container {
+.pagination-container, #load-more {
   clear: both;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
   padding-top: 1em;
   border-top: 1px solid $color-border-default;
   gap: 24px;
@@ -56,11 +55,6 @@
   }  
 }
 
-.load-more {
-  clear: both;
-  display: flex;
-  justify-content: center;
-  padding-top: 1em;
-  border-top: 1px solid $color-border-default;
-  margin-bottom: 48px;
+#load-more {
+  justify-content: start;
 }
