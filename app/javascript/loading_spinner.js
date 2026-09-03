@@ -52,10 +52,28 @@ document.addEventListener('turbo:frame-render', function(event) {
 });
 
 document.addEventListener('turbo:before-stream-render', function(event) {
-  if (window.pendingFocusAction === 'load-more') {
+  const stream = event.target;
+  if (window.pendingFocusAction !== 'load-more' ||
+      stream.getAttribute('action') !== 'append' ||
+      stream.getAttribute('target') !== 'results-list') {
+    return;
+  }
+
+  // Turbo has not appended the new results yet. Run the default renderer first,
+  // then focus the result immediately after the pre-request result count.
+  const render = event.detail.render;
+  event.detail.render = async function(streamElement) {
+    await render(streamElement);
+
+    const results = document.querySelectorAll('.results-list .result');
+    const firstNewResult = results[window.loadMoreResultCount];
+    const firstNewResultLink = firstNewResult?.querySelector('h3 a, .record-title a');
+    firstNewResultLink?.focus();
+
     document.getElementById('search-results')?.classList.remove('spinner');
     window.pendingFocusAction = null;
-  }
+    window.loadMoreResultCount = null;
+  };
 });
 
 document.addEventListener('click', function(event) {
@@ -63,10 +81,12 @@ document.addEventListener('click', function(event) {
   if (!(clickedElement instanceof Element)) { return; }
   const loadMoreLink = clickedElement.closest('.load-more-link');
 
-  // Handle load-more clicks. Results append in place, so do not scroll users
-  // back to the top or move focus away from their current reading position.
+  // Handle load-more clicks. Focus moves to the first appended result after
+  // Turbo renders the next batch.
   if (loadMoreLink) {
     document.getElementById('search-results')?.classList.add('spinner');
+    // Save the boundary between existing and newly appended results.
+    window.loadMoreResultCount = document.querySelectorAll('.results-list .result').length;
     window.pendingFocusAction = 'load-more';
     return;
   }
