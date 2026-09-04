@@ -2,6 +2,33 @@ require 'test_helper'
 
 # Geospatial search behavior
 class SearchControllerGeoTest < ActionDispatch::IntegrationTest
+  def build_geodata_timdex_mock_response
+    sample_result = {
+      'title' => 'Raw GeoData Document Title',
+      'timdexRecordId' => 'geodata-record-123',
+      'contentType' => ['Dataset'],
+      'dates' => [{ 'kind' => 'Publication date', 'value' => '2026' }],
+      'contributors' => [{ 'value' => 'Foo Barston', 'kind' => 'Creator' }],
+      'sourceLink' => 'https://example.com/geodata-record'
+    }
+
+    mock_response = mock('timdex_response')
+    mock_errors = mock('timdex_errors')
+    mock_errors.stubs(:details).returns({})
+    mock_response.stubs(:errors).returns(mock_errors)
+
+    mock_data = mock('timdex_data')
+    mock_data.stubs(:to_h).returns({
+                                     'search' => {
+                                       'hits' => 1,
+                                       'aggregations' => {},
+                                       'records' => [sample_result]
+                                     }
+                                   })
+    mock_response.stubs(:data).returns(mock_data)
+    mock_response
+  end
+
   test 'GeoData has specific advanced search fields' do
     ClimateControl.modify FEATURE_GEODATA: 'true' do
       get '/'
@@ -180,6 +207,40 @@ class SearchControllerGeoTest < ActionDispatch::IntegrationTest
         get "/results?#{query}"
         assert_response :success
         assert_nil flash[:error]
+      end
+    end
+  end
+
+  test 'geodata cache hit avoids external search and normalization' do
+    normalized_result = {
+      api: 'timdex',
+      title: 'Cached GeoData Document Title',
+      identifier: 'geodata-record-123',
+      content_type: ['Dataset'],
+      dates: [{ 'kind' => 'Publication date', 'value' => '2026' }],
+      creators: [{ value: 'Foo Barston', link: nil }],
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/geodata-record' }]
+    }
+
+    TimdexBase::Client.expects(:query).once.returns(build_geodata_timdex_mock_response)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([normalized_result])
+    NormalizeTimdexResults.expects(:new).once.returns(mock_normalizer)
+
+    ClimateControl.modify FEATURE_GEODATA: 'true' do
+      query = {
+        geobox: 'true',
+        geoboxMinLongitude: 40.5,
+        geoboxMinLatitude: 60.0,
+        geoboxMaxLongitude: 78.2,
+        geoboxMaxLatitude: 80.0
+      }.to_query
+
+      2.times do
+        get "/results?#{query}"
+        assert_response :success
+        assert_select '.record-title', text: /Cached GeoData Document Title/
       end
     end
   end
