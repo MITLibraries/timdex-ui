@@ -1,4 +1,10 @@
 class SearchController < ApplicationController
+  # Increment this namespace when the normalized search result payload changes in a way that
+  # makes existing cached values incomplete or incompatible, such as adding required fields,
+  # removing/renaming fields, changing key types, or changing error/continuation metadata shape.
+  SEARCH_RESULTS_CACHE_NAMESPACE = 'normalized-search-results/v1'
+  SEARCH_RESULTS_CACHE_TTL = 12.hours
+
   before_action :validate_q!, only: %i[results]
   before_action :authorized_request?, only: %i[results]
   before_action :set_active_tab, only: %i[results]
@@ -202,11 +208,40 @@ class SearchController < ApplicationController
       return { results: [], pagination: {}, errors: nil, show_continuation: true, hits: 0 }
     end
 
-    primo_response = query_primo(per_page, offset)
-    hits = primo_response.dig('info', 'total') || 0
-    results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
-    pagination = Analyzer.new(@enhanced_query, hits, :primo).pagination
+    cached = cached_primo_data(per_page, offset)
+    pagination = Analyzer.new(@enhanced_query, cached[:hits], :primo).pagination
 
+    cached.merge(pagination: pagination)
+  rescue StandardError => e
+    { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false, hits: 0 }
+  end
+
+  def fetch_timdex_data(offset: nil, per_page: nil)
+    query = QueryBuilder.new(@enhanced_query).query
+    query['from'] = offset.to_s if offset
+    query['perPage'] = per_page || ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+    query['fulltext'] = true if Feature.enabled?(:timdex_fulltext)
+
+    cached = cached_timdex_data(query)
+    return cached.merge(pagination: {}) if cached[:errors]
+
+    pagination = Analyzer.new(@enhanced_query, cached[:hits], :timdex).pagination
+    cached.merge(pagination: pagination)
+  end
+
+  def cached_primo_data(per_page, offset)
+    cache_key = CacheKeyGenerator.call(@enhanced_query.merge(per_page: per_page, offset: offset))
+
+    Rails.cache.fetch("#{SEARCH_RESULTS_CACHE_NAMESPACE}/#{cache_key}/primo", expires_in: SEARCH_RESULTS_CACHE_TTL) do
+      primo_response = query_primo(per_page, offset)
+      hits = primo_response.dig('info', 'total') || 0
+      results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
+
+      build_primo_cache_payload(primo_response, results, hits, offset)
+    end
+  end
+
+  def build_primo_cache_payload(primo_response, results, hits, offset)
     # Handle empty results from Primo API. Sometimes Primo will return no results at a given offset,
     # despite claiming in the initial query that more are available. This happens randomly and
     # seemingly for no reason (well below the recommended offset of 2,000). While the bug also
@@ -225,29 +260,26 @@ class SearchController < ApplicationController
       end
     end
 
-    { results: results, pagination: pagination, errors: errors, show_continuation: show_continuation,
-      hits: hits }
-  rescue StandardError => e
-    { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false, hits: 0 }
+    { results: results, errors: errors, show_continuation: show_continuation, hits: hits }
   end
 
-  def fetch_timdex_data(offset: nil, per_page: nil)
-    query = QueryBuilder.new(@enhanced_query).query
-    query['from'] = offset.to_s if offset
-    query['perPage'] = per_page || ENV.fetch('RESULTS_PER_PAGE', '20').to_i
-    query['fulltext'] = true if Feature.enabled?(:timdex_fulltext)
+  def cached_timdex_data(query)
+    prepare_timdex_query(query)
+    cache_key = CacheKeyGenerator.call(query)
 
-    response = query_timdex(query)
-    errors = extract_errors(response)
+    Rails.cache.fetch("#{SEARCH_RESULTS_CACHE_NAMESPACE}/#{cache_key}/#{@active_tab}",
+                      expires_in: SEARCH_RESULTS_CACHE_TTL) do
+      response = serialize_timdex_response(execute_timdex_query(query))
+      errors = extract_errors(response)
 
-    if errors.nil?
-      hits = response.dig(:data, 'search', 'hits') || 0
-      pagination = Analyzer.new(@enhanced_query, hits, :timdex).pagination
-      raw_results = extract_results(response)
-      results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
-      { results: results, pagination: pagination, errors: nil, hits: hits }
-    else
-      { results: [], pagination: {}, errors: errors, hits: 0 }
+      if errors.nil?
+        hits = response.dig(:data, 'search', 'hits') || 0
+        raw_results = extract_results(response)
+        results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
+        { results: results, errors: nil, hits: hits }
+      else
+        { results: [], errors: errors, hits: 0 }
+      end
     end
   end
 
@@ -256,6 +288,27 @@ class SearchController < ApplicationController
   end
 
   def query_timdex(query)
+    prepare_timdex_query(query)
+
+    # We generate unique cache keys to avoid naming collisions.
+    cache_key = CacheKeyGenerator.call(query)
+
+    # Builder hands off to wrapper which returns raw results here.
+    Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
+      serialize_timdex_response(execute_timdex_query(query))
+    end
+  end
+
+  def query_primo(per_page, offset)
+    Rails.logger.debug do
+      "External Primo search request: tab=#{@enhanced_query[:tab]}, offset=#{offset}, per_page=#{per_page}"
+    end
+
+    primo_search = PrimoSearch.new(@enhanced_query[:tab])
+    primo_search.search(@enhanced_query[:q], per_page, offset)
+  end
+
+  def prepare_timdex_query(query)
     query[:sourceFilter] = ['MIT Libraries Website', 'LibGuides'] if @active_tab == 'website'
     query[:sourceFilter] = ['MIT ArchivesSpace'] if @active_tab == 'aspace'
     query[:sourceFilter] = ['MIT Alma'] if @active_tab == 'timdex_alma'
@@ -265,35 +318,28 @@ class SearchController < ApplicationController
     query[:sourceFilter] = ['Digital Collections'] if @active_tab == 'digital_collections'
     query[:useGlobalScoring] = Feature.enabled?(:global_scoring)
 
-    # We generate unique cache keys to avoid naming collisions.
-    cache_key = CacheKeyGenerator.call(query)
+    query
+  end
 
-    # Builder hands off to wrapper which returns raw results here.
-    Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
-      raw = if Feature.enabled?(:geodata)
-              execute_geospatial_query(query)
-            else
-              TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
-            end
+  def execute_timdex_query(query)
+    Rails.logger.debug do
+      "External TIMDEX search request: tab=#{@active_tab}, from=#{query['from'] || 0}, per_page=#{query['perPage']}"
+    end
 
-      # The response type is a GraphQL::Client::Response, which is not directly serializable, so we
-      # convert it to a hash.
-      {
-        data: raw.data.to_h,
-        errors: raw.errors.details.to_h
-      }
+    if Feature.enabled?(:geodata)
+      execute_geospatial_query(query)
+    else
+      TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
     end
   end
 
-  def query_primo(per_page, offset)
-    # We generate unique cache keys to avoid naming collisions.
-    # Include per_page and offset in the cache key to ensure pagination works correctly.
-    cache_key = CacheKeyGenerator.call(@enhanced_query.merge(per_page: per_page, offset: offset))
-
-    Rails.cache.fetch("#{cache_key}/primo", expires_in: 12.hours) do
-      primo_search = PrimoSearch.new(@enhanced_query[:tab])
-      primo_search.search(@enhanced_query[:q], per_page, offset)
-    end
+  def serialize_timdex_response(raw)
+    # The response type is a GraphQL::Client::Response, which is not directly serializable, so we
+    # convert it to a hash.
+    {
+      data: raw.data.to_h,
+      errors: raw.errors.details.to_h
+    }
   end
 
   def execute_geospatial_query(query)

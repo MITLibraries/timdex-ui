@@ -870,6 +870,56 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'primo cache hit avoids external search and normalization' do
+    sample_doc = {
+      api: 'primo',
+      title: 'Cached Primo Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [{ value: 'Foo Barston', link: nil }],
+      identifier: 'primo-record-123',
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/primo-record' }]
+    }
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).once.returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } })
+    PrimoSearch.expects(:new).once.returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([sample_doc])
+    NormalizePrimoResults.expects(:new).once.returns(mock_normalizer)
+
+    2.times do
+      get '/results?q=test&tab=primo'
+      assert_response :success
+      assert_select '.record-title', text: /Cached Primo Document Title/
+    end
+  end
+
+  test 'timdex cache hit avoids external search and normalization' do
+    normalized_result = {
+      api: 'timdex',
+      title: 'Cached TIMDEX Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [{ value: 'Foo Barston', link: nil }],
+      identifier: 'timdex-record-123',
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/timdex-record' }]
+    }
+
+    TimdexBase::Client.expects(:query).once.returns(build_timdex_mock_response)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([normalized_result])
+    NormalizeTimdexResults.expects(:new).once.returns(mock_normalizer)
+
+    2.times do
+      get '/results?q=test&tab=timdex'
+      assert_response :success
+      assert_select '.record-title', text: /Cached TIMDEX Document Title/
+    end
+  end
+
   test 'results shows tab navigation when GeoData is disabled' do
     mock_primo_search_success
 
