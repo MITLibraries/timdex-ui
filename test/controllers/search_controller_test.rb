@@ -748,6 +748,18 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'active filters ignores blank env entries' do
+    controller = SearchController.new
+
+    ClimateControl.modify ACTIVE_FILTERS: 'contentType, , source, ' do
+      assert_equal %w[contentType source], controller.send(:active_filters)
+    end
+
+    ClimateControl.modify ACTIVE_FILTERS: '' do
+      assert_empty controller.send(:active_filters)
+    end
+  end
+
   test 'applications can customize the displayed filters via ENV' do
     skip('Filters not implemented in USE UI')
     VCR.use_cassette('data basic controller',
@@ -867,6 +879,98 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       get '/results?q=test&tab=timdex_alma'
       assert_response :success
       assert_select 'a.tab-link.active[href*="tab=timdex_alma"]', count: 1
+    end
+  end
+
+  test 'primo cache hit avoids external search and normalization' do
+    sample_doc = {
+      api: 'primo',
+      title: 'Cached Primo Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [{ value: 'Foo Barston', link: nil }],
+      identifier: 'primo-record-123',
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/primo-record' }]
+    }
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).once.returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } })
+    PrimoSearch.expects(:new).once.returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([sample_doc])
+    NormalizePrimoResults.expects(:new).once.returns(mock_normalizer)
+
+    2.times do
+      get '/results?q=test&tab=primo'
+      assert_response :success
+      assert_select '.record-title', text: /Cached Primo Document Title/
+    end
+  end
+
+  test 'primo cache key uses resolved active tab for default all requests' do
+    sample_doc = {
+      api: 'primo',
+      title: 'Cached Default All Primo Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [{ value: 'Foo Barston', link: nil }],
+      identifier: 'default-all-primo-record-123',
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/default-all-primo-record' }]
+    }
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).once.returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } })
+    PrimoSearch.expects(:new).once.returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([sample_doc])
+    NormalizePrimoResults.expects(:new).once.returns(mock_normalizer)
+
+    controller = SearchController.new
+    controller.instance_variable_set(:@active_tab, 'all')
+    controller.instance_variable_set(:@enhanced_query, { q: 'test' })
+    controller.send(:cached_primo_data, 20, 0)
+
+    controller.instance_variable_set(:@enhanced_query, { q: 'test', tab: 'all' })
+    cached = controller.send(:cached_primo_data, 20, 0)
+
+    assert_equal [sample_doc], cached[:results]
+  end
+
+  test 'primo query uses resolved active tab' do
+    controller = SearchController.new
+    controller.instance_variable_set(:@active_tab, 'all')
+    controller.instance_variable_set(:@enhanced_query, { q: 'test', tab: 'invalid_tab' })
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).with('test', 20, 0).returns({ 'docs' => [], 'info' => { 'total' => 0 } })
+    PrimoSearch.expects(:new).with('all').returns(mock_primo)
+
+    controller.send(:query_primo, 20, 0)
+  end
+
+  test 'timdex cache hit avoids external search and normalization' do
+    normalized_result = {
+      api: 'timdex',
+      title: 'Cached TIMDEX Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [{ value: 'Foo Barston', link: nil }],
+      identifier: 'timdex-record-123',
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/timdex-record' }]
+    }
+
+    TimdexBase::Client.expects(:query).once.returns(build_timdex_mock_response)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([normalized_result])
+    NormalizeTimdexResults.expects(:new).once.returns(mock_normalizer)
+
+    2.times do
+      get '/results?q=test&tab=timdex'
+      assert_response :success
+      assert_select '.record-title', text: /Cached TIMDEX Document Title/
     end
   end
 
