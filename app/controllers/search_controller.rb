@@ -2,7 +2,7 @@ class SearchController < ApplicationController
   # Increment this namespace when the normalized search result payload changes in a way that
   # makes existing cached values incomplete or incompatible, such as adding required fields,
   # removing/renaming fields, changing key types, or changing error/continuation metadata shape.
-  SEARCH_RESULTS_CACHE_NAMESPACE = 'normalized-search-results/v1'
+  SEARCH_RESULTS_CACHE_NAMESPACE = 'normalized-search-results/v1'.freeze
   SEARCH_RESULTS_CACHE_TTL = 12.hours
 
   before_action :validate_q!, only: %i[results]
