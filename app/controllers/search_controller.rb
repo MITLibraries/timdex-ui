@@ -283,7 +283,7 @@ class SearchController < ApplicationController
   end
 
   def active_filters
-    ENV.fetch('ACTIVE_FILTERS', '').split(',').map(&:strip)
+    ENV.fetch('ACTIVE_FILTERS', '').split(',').map(&:strip).reject(&:blank?)
   end
 
   def query_primo(per_page, offset)

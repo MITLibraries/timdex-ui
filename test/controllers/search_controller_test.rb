@@ -748,6 +748,18 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'active filters ignores blank env entries' do
+    controller = SearchController.new
+
+    ClimateControl.modify ACTIVE_FILTERS: 'contentType, , source, ' do
+      assert_equal %w[contentType source], controller.send(:active_filters)
+    end
+
+    ClimateControl.modify ACTIVE_FILTERS: '' do
+      assert_empty controller.send(:active_filters)
+    end
+  end
+
   test 'applications can customize the displayed filters via ENV' do
     skip('Filters not implemented in USE UI')
     VCR.use_cassette('data basic controller',
