@@ -938,6 +938,18 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_equal [sample_doc], cached[:results]
   end
 
+  test 'primo query uses resolved active tab' do
+    controller = SearchController.new
+    controller.instance_variable_set(:@active_tab, 'all')
+    controller.instance_variable_set(:@enhanced_query, { q: 'test', tab: 'invalid_tab' })
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).with('test', 20, 0).returns({ 'docs' => [], 'info' => { 'total' => 0 } })
+    PrimoSearch.expects(:new).with('all').returns(mock_primo)
+
+    controller.send(:query_primo, 20, 0)
+  end
+
   test 'timdex cache hit avoids external search and normalization' do
     normalized_result = {
       api: 'timdex',

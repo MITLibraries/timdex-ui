@@ -288,10 +288,10 @@ class SearchController < ApplicationController
 
   def query_primo(per_page, offset)
     Rails.logger.debug do
-      "External Primo search request: tab=#{@enhanced_query[:tab]}, offset=#{offset}, per_page=#{per_page}"
+      "External Primo search request: tab=#{@active_tab}, offset=#{offset}, per_page=#{per_page}"
     end
 
-    primo_search = PrimoSearch.new(@enhanced_query[:tab])
+    primo_search = PrimoSearch.new(@active_tab)
     primo_search.search(@enhanced_query[:q], per_page, offset)
   end
 
