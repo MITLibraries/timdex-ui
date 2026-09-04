@@ -89,18 +89,14 @@ class SearchController < ApplicationController
 
   def load_geodata_results
     query = QueryBuilder.new(@enhanced_query).query
+    cached = cached_timdex_data(query, include_filters: true)
 
-    response = query_timdex(query)
-
-    # Handle errors
-    @errors = extract_errors(response)
+    @errors = cached[:errors]
     return unless @errors.nil?
 
-    hits = response.dig(:data, 'search', 'hits') || 0
-    @pagination = Analyzer.new(@enhanced_query, hits, :timdex).pagination
-    raw_results = extract_results(response)
-    @results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
-    @filters = extract_filters(response)
+    @pagination = Analyzer.new(@enhanced_query, cached[:hits], :timdex).pagination
+    @results = cached[:results]
+    @filters = cached[:filters]
     return unless @pagination_load_more_enabled
 
     @append_results = @results
@@ -263,9 +259,10 @@ class SearchController < ApplicationController
     { results: results, errors: errors, show_continuation: show_continuation, hits: hits }
   end
 
-  def cached_timdex_data(query)
+  def cached_timdex_data(query, include_filters: false)
     prepare_timdex_query(query)
-    cache_key = CacheKeyGenerator.call(query)
+    cache_query = include_filters ? query.merge(active_filters: active_filters) : query
+    cache_key = CacheKeyGenerator.call(cache_query)
 
     Rails.cache.fetch("#{SEARCH_RESULTS_CACHE_NAMESPACE}/#{cache_key}/#{@active_tab}",
                       expires_in: SEARCH_RESULTS_CACHE_TTL) do
@@ -276,7 +273,9 @@ class SearchController < ApplicationController
         hits = response.dig(:data, 'search', 'hits') || 0
         raw_results = extract_results(response)
         results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
-        { results: results, errors: nil, hits: hits }
+        payload = { results: results, errors: nil, hits: hits }
+        payload[:filters] = extract_filters(response) if include_filters
+        payload
       else
         { results: [], errors: errors, hits: 0 }
       end
@@ -285,18 +284,6 @@ class SearchController < ApplicationController
 
   def active_filters
     ENV.fetch('ACTIVE_FILTERS', '').split(',').map(&:strip)
-  end
-
-  def query_timdex(query)
-    prepare_timdex_query(query)
-
-    # We generate unique cache keys to avoid naming collisions.
-    cache_key = CacheKeyGenerator.call(query)
-
-    # Builder hands off to wrapper which returns raw results here.
-    Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
-      serialize_timdex_response(execute_timdex_query(query))
-    end
   end
 
   def query_primo(per_page, offset)
