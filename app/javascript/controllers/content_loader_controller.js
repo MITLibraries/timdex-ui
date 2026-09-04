@@ -37,7 +37,7 @@ export default class extends Controller {
           if (parentElement.querySelector('.libkey-link')) {
             const resultGet = parentElement.closest('.result-get')
             if (resultGet) {
-              const primoLinks = resultGet.querySelectorAll('.primo-link')
+              const primoLinks = resultGet.querySelectorAll('.primo-link:not(.primo-link-preserve)')
               // removing instead of hiding to avoid layout issues when selecting which link to highlight
               primoLinks.forEach(link => link.remove())
             }

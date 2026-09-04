@@ -473,14 +473,25 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_match(/#nui\.getit\.service_viewit$/, full_text_link['url'])
   end
 
-  test 'excludes Full-text options link when pnx[links] is present' do
+  test 'excludes Full-text options link when direct Primo PDF or HTML links are present' do
     record = full_record.deep_dup
-
-    # Add delivery category with electronic
     record['delivery']['deliveryCategory'] = %w[Alma-E]
+
     normalized = NormalizePrimoRecord.new(record, 'test').normalize
     full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
     assert_nil full_text_link
+  end
+
+  test 'includes Full-text options link when pnx[links] is present but has no usable links' do
+    record = alma_record.deep_dup
+    record['pnx']['links'] = {}
+    record['delivery']['deliveryCategory'] = %w[Alma-E]
+
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
+    assert_not_nil full_text_link
+    assert_match %r{/discovery/fulldisplay\?}, full_text_link['url']
+    assert_match(/#nui\.getit\.service_viewit$/, full_text_link['url'])
   end
 
   test 'excludes Full-text options link when only Alma-P present' do
