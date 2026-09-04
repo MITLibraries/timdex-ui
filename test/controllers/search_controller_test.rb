@@ -896,6 +896,36 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'primo cache key uses resolved active tab for default all requests' do
+    sample_doc = {
+      api: 'primo',
+      title: 'Cached Default All Primo Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [{ value: 'Foo Barston', link: nil }],
+      identifier: 'default-all-primo-record-123',
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/default-all-primo-record' }]
+    }
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).once.returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } })
+    PrimoSearch.expects(:new).once.returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([sample_doc])
+    NormalizePrimoResults.expects(:new).once.returns(mock_normalizer)
+
+    controller = SearchController.new
+    controller.instance_variable_set(:@active_tab, 'all')
+    controller.instance_variable_set(:@enhanced_query, { q: 'test' })
+    controller.send(:cached_primo_data, 20, 0)
+
+    controller.instance_variable_set(:@enhanced_query, { q: 'test', tab: 'all' })
+    cached = controller.send(:cached_primo_data, 20, 0)
+
+    assert_equal [sample_doc], cached[:results]
+  end
+
   test 'timdex cache hit avoids external search and normalization' do
     normalized_result = {
       api: 'timdex',

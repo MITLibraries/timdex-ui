@@ -226,7 +226,7 @@ class SearchController < ApplicationController
   end
 
   def cached_primo_data(per_page, offset)
-    cache_key = CacheKeyGenerator.call(@enhanced_query.merge(per_page: per_page, offset: offset))
+    cache_key = CacheKeyGenerator.call(@enhanced_query.merge(tab: @active_tab, per_page: per_page, offset: offset))
 
     Rails.cache.fetch("#{SEARCH_RESULTS_CACHE_NAMESPACE}/#{cache_key}/primo", expires_in: SEARCH_RESULTS_CACHE_TTL) do
       primo_response = query_primo(per_page, offset)
