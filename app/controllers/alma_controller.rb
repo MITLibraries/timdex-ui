@@ -4,7 +4,9 @@ class AlmaController < ApplicationController
   def sru
     return unless AlmaSru.enabled? && expected_params?
 
-    @availability = AlmaSru.lookup(params[:doc_id])
+    result = AlmaSru.lookup(params[:doc_id])
+    @availability = result[:availability]
+    @alma_e = result[:alma_e]
   end
 
   private

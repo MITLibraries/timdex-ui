@@ -20,11 +20,15 @@ class AlmaSru
 
   # lookup is the primary method of interacting with this model.
   #
-  # It will receive an Alma ID, validate it, look it up in the Alma SRU, and return a formatted result.
+  # It will receive an Alma ID, validate it, look it up in the Alma SRU, and return availability info and Alma-E status.
   #
   # It accepts an "alma_client" argument for use when testing, but this is not used in normal operations.
+  #
+  # Returns a hash with:
+  #   - :availability => formatted availability statements array
+  #   - :alma_e => boolean indicating if record is Alma-E
   def self.lookup(raw_identifier, alma_client: nil)
-    return [] unless enabled?
+    return { availability: [], alma_e: false } unless enabled?
 
     # Validate the raw identifier received. This will raise an InvalidAlmaId if validation fails.
     raise InvalidAlmaId unless valid_alma_id?(raw_identifier)
@@ -41,24 +45,22 @@ class AlmaSru
     parse_response(alma_http.timeout(6).get(url), identifier)
   rescue InvalidAlmaId
     Rails.logger.debug("Invalid Alma ID: #{raw_identifier}")
-
-    []
+    { availability: [], alma_e: false }
   rescue LookupFailure => e
     Rails.logger.debug("Alma lookup failure: #{e}")
-
-    []
+    { availability: [], alma_e: false }
   rescue HTTP::Error
     Sentry.capture_message('Alma SRU connection failure')
     Rails.logger.error('Alma SRU connection error')
-
-    []
+    { availability: [], alma_e: false }
   end
 
   # parse_response receives the raw response from the Alma SRU endpoint.
   #
   # For any non-200 response, it raises a LookupFailure.
   #
-  # Other responses (in XML format) are parsed by Nokogiri, and we pluck content with an `AVA` tag.
+  # Other responses (in XML format) are parsed by Nokogiri to extract both AVA (holdings) and AVE (electronic) data.
+  # Returns a hash with :availability and :alma_e keys.
   def self.parse_response(raw_response, reference_identifier)
     raise LookupFailure, raw_response.status unless raw_response.status == 200
 
@@ -76,7 +78,15 @@ class AlmaSru
 
     # Reduce list to a single item if multiples exist
     results[0] += ' and other locations' if results.length > 1
-    results.first(1)
+    availability = results.first(1)
+
+    # Check for AVE tags to determine if record is Alma-E
+    alma_e = alma_e?(parsed)
+
+    {
+      availability: availability,
+      alma_e: alma_e
+    }
   end
 
   # ava_to_hash takes an XML element that represents a single availability record
@@ -110,6 +120,13 @@ class AlmaSru
   # the API, and not either a blank response or some other unexpected document.
   def self.fetch_controlfield(parsed_xml)
     parsed_xml.xpath("//holding:controlfield[@tag='001']", NAMESPACE)&.text
+  end
+
+  # alma_e? receives a parsed XML document (Nokogiri::XML::Document)
+  # and returns true if the record contains AVE (electronic) datafields, false otherwise.
+  # AVE presence indicates the record is Alma-E.
+  def self.alma_e?(parsed_xml)
+    parsed_xml.xpath("//holding:datafield[@tag='AVE']", NAMESPACE).any?
   end
 
   # format_availability receives a hash representing a single availability
