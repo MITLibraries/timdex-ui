@@ -44,7 +44,7 @@ Rails.application.configure do
   # aggregation and analysis once our downstream systems are ready.
   SemanticLogger.application = ENV.fetch("RAILS_APP_NAME", "timdex-ui")
   config.rails_semantic_logger.appenders do |appenders|
-    appenders.add(io: $stdout, formatter: :default)
+    appenders.add(io: $stdout, formatter: :json)
   end
 
   # Prevent health checks from clogging up the logs.
