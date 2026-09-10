@@ -122,11 +122,24 @@ class AlmaSru
     parsed_xml.xpath("//holding:controlfield[@tag='001']", NAMESPACE)&.text
   end
 
-  # alma_e? receives a parsed XML document (Nokogiri::XML::Document)
-  # and returns true if the record contains AVE (electronic) datafields, false otherwise.
-  # AVE presence indicates the record is Alma-E.
+  # alma_e? receives a parsed XML document (Nokogiri::XML::Document) and returns true if the record
+  # contains AVE (electronic) datafields. We fall back on the 959 subfield b for legacy records.
   def self.alma_e?(parsed_xml)
-    parsed_xml.xpath("//holding:datafield[@tag='AVE']", NAMESPACE).any?
+    return true if parsed_xml.xpath("//holding:datafield[@tag='AVE']", NAMESPACE).any?
+
+    legacy_net_access?(parsed_xml)
+  end
+
+  # Some records omit AVE but still indicate electronic access in local 959$b=NET. After consulting
+  # with Metadata and Enterprise Systems, we learned that this a deprecated practice from before the
+  # Alma migration.
+  # 
+  # It is still unclear whether Primo is determining electronic access from this subfield, but it's
+  # the only electronic access indicator we can find in the record other than AVE. We can revisit
+  # this approach if it proves ineffective.
+  def self.legacy_net_access?(parsed_xml)
+    parsed_xml.xpath("//holding:datafield[@tag='959']/holding:subfield[@code='b']", NAMESPACE)
+              .any? { |node| node.text.to_s.strip.casecmp('NET').zero? }
   end
 
   # format_availability receives a hash representing a single availability

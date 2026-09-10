@@ -92,6 +92,54 @@ class AlmaSruTest < ActiveSupport::TestCase
     end
   end
 
+  test 'alma_e? returns true when AVE is absent but 959 subfield b is NET' do
+    xml_content = <<~XML
+      <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+        <records>
+          <record>
+            <recordData>
+              <record xmlns="http://www.loc.gov/MARC21/slim">
+                <controlfield tag="001">990027661060106761</controlfield>
+                <datafield tag="959" ind1=" " ind2="1">
+                  <subfield code="1">MIT Access Only</subfield>
+                  <subfield code="a">n-mit</subfield>
+                  <subfield code="b">NET</subfield>
+                  <subfield code="h">**See URL(s)</subfield>
+                </datafield>
+              </record>
+            </recordData>
+          </record>
+        </records>
+      </searchRetrieveResponse>
+    XML
+
+    parsed = Nokogiri::XML(xml_content)
+    assert_equal true, AlmaSru.alma_e?(parsed)
+  end
+
+  test 'alma_e? returns false when AVE is absent and 959 subfield b is not NET' do
+    xml_content = <<~XML
+      <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+        <records>
+          <record>
+            <recordData>
+              <record xmlns="http://www.loc.gov/MARC21/slim">
+                <controlfield tag="001">990002941700106761</controlfield>
+                <datafield tag="959" ind1=" " ind2=" ">
+                  <subfield code="b">LSA</subfield>
+                  <subfield code="c">JRNAL</subfield>
+                </datafield>
+              </record>
+            </recordData>
+          </record>
+        </records>
+      </searchRetrieveResponse>
+    XML
+
+    parsed = Nokogiri::XML(xml_content)
+    assert_equal false, AlmaSru.alma_e?(parsed)
+  end
+
   test 'lookup returns empty list for non-existent records' do
     VCR.use_cassette('alma sru nonexistent record') do
       needle = 'alma9900000000006761'
