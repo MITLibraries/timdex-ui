@@ -133,7 +133,7 @@ class AlmaSru
   # Some records omit AVE but still indicate electronic access in local 959$b=NET. After consulting
   # with Metadata and Enterprise Systems, we learned that this a deprecated practice from before the
   # Alma migration.
-  # 
+  #
   # It is still unclear whether Primo is determining electronic access from this subfield, but it's
   # the only electronic access indicator we can find in the record other than AVE. We can revisit
   # this approach if it proves ineffective.
