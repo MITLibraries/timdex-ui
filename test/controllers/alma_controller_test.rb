@@ -16,9 +16,19 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
     assert response.body.blank?
   end
 
-  test 'alma sru route returns nothing if lookup returns content with no AVA' do
+  test 'alma sru route returns full-text options when Alma-E is true' do
     VCR.use_cassette('alma sru no availability') do
       needle = 'alma9935053423706761'
+      get almasru_path(doc_id: needle)
+
+      assert_response :success
+      assert_select 'a.button', { count: 1, text: 'Full-text options' }
+    end
+  end
+
+  test 'alma sru route returns nothing when lookup has no AVA and no Alma-E' do
+    VCR.use_cassette('alma sru nonexistent record') do
+      needle = 'alma9900000000006761'
       get almasru_path(doc_id: needle)
 
       assert_response :success
@@ -26,7 +36,7 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'alma sru route returns HTML for successful lookup' do
+  test 'alma sru route returns availability for successful lookup' do
     VCR.use_cassette('alma sru single record') do
       needle = 'alma990014651640106761'
       get almasru_path(doc_id: needle)

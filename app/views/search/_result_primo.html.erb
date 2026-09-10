@@ -78,11 +78,13 @@
         <% end %>
       </div>
 
-      <% if AlmaSru.enabled? && AlmaSru.valid_alma_id?(result[:identifier]) %>
+      <% should_render_almasru = AlmaSru.enabled? && AlmaSru.valid_alma_id?(result[:identifier]) %>
+
+      <% if should_render_almasru %>
         <%= render(partial: 'trigger_almasru', locals: { doc_id: result[:identifier] }) %>
       <% end %>
 
-      <% if result_get?(result) %>
+      <% if result_get?(result) || should_render_almasru %>
       <div class="result-get">
         <% if result[:links].present? %>
           <% result[:links].each do |link| %>
