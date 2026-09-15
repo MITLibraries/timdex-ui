@@ -478,6 +478,43 @@ class NormalizePrimoRecordTest < ActiveSupport::TestCase
     assert_nil full_text_link
   end
 
+  test 'includes Full-text options fallback for CDI when OpenURL exists and no direct online links' do
+    record = cdi_record.deep_dup
+    record['pnx']['links'] = { 'openurl' => ['$$Topenurl_article'] }
+
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
+
+    assert_not_nil full_text_link
+    assert_match '#nui.getit.service_viewit', full_text_link['url']
+  end
+
+  test 'includes CDI Full-text options fallback when only delivery almaOpenurl exists' do
+    record = cdi_record.deep_dup
+    record['pnx']['links'] = {}
+    record['delivery'] ||= {}
+    record['delivery']['almaOpenurl'] = 'https://example.com/openurl'
+
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
+
+    assert_not_nil full_text_link
+    assert_match '#nui.getit.service_viewit', full_text_link['url']
+  end
+
+  test 'excludes CDI Full-text options fallback when direct online link exists' do
+    record = cdi_record.deep_dup
+    record['pnx']['links'] = {
+      'openurl' => ['$$Topenurl_article'],
+      'linktohtml' => ['$$Uhttps://example.com/read$$EHTML']
+    }
+
+    normalized = NormalizePrimoRecord.new(record, 'test').normalize
+    full_text_link = normalized[:links].find { |link| link['kind'] == 'Full-text options' }
+
+    assert_nil full_text_link
+  end
+
   test 'dedup_url requires both frbrized and alma_record conditions' do
     # CDI record that is frbrized - should return nil
     normalizer = NormalizePrimoRecord.new(cdi_record, 'test')
