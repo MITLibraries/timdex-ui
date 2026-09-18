@@ -174,6 +174,25 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert_includes result[:results].map { |record| record[:identifier] }, 't2'
   end
 
+  test 'fetch stops load more at the configured result limit' do
+    ClimateControl.modify(LOAD_MORE_MAX_RESULTS: '3', RESULTS_PER_PAGE: '2') do
+      growable_fetcher = lambda do |offset:, per_page:, query: nil|
+        records = (offset...(offset + per_page)).map do |index|
+          { title: "Record #{index}", api: 'primo', identifier: "p#{index}" }
+        end
+        { results: records, hits: 100, errors: nil, show_continuation: false }
+      end
+      svc = MergedSearchService.new(enhanced_query: { q: 'test-result-limit' }, active_tab: 'all',
+                                    primo_fetcher: growable_fetcher,
+                                    timdex_fetcher: fake_fetcher(results: [], hits: 0))
+
+      result = svc.fetch(display_count: 3, stable_count: 2, per_source: 2)
+
+      assert_equal 3, result[:load_more][:next_count]
+      assert_equal false, result[:load_more][:has_more]
+    end
+  end
+
   test 'fetch follow-up marks has_more false when additional chunks are duplicate-only' do
     primo_calls = []
     timdex_calls = []
@@ -208,6 +227,34 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert_equal false, second[:load_more][:has_more]
     assert_equal [0, 1], primo_calls
     assert_equal [0, 1], timdex_calls
+  end
+
+  test 'fetch advances source offsets past partially duplicate chunks' do
+    primo_calls = []
+    primo_fetcher = lambda do |offset:, per_page:, query: nil|
+      primo_calls << offset
+      records = case offset
+                when 0
+                  %w[p1 p2]
+                when 2
+                  %w[p2 p3]
+                when 4
+                  %w[p4 p5]
+                else
+                  []
+                end
+      { results: records.map { |id| { title: id.upcase, api: 'primo', identifier: id } }, hits: 6, errors: nil,
+        show_continuation: false }
+    end
+
+    svc = MergedSearchService.new(enhanced_query: { q: 'test-partial-duplicates' }, active_tab: 'all',
+                                  primo_fetcher: primo_fetcher, timdex_fetcher: fake_fetcher(results: [], hits: 0))
+
+    result = svc.fetch(display_count: 5, stable_count: 0, per_source: 2)
+
+    assert_equal(%w[p1 p2 p3 p4 p5], result[:results].map { |record| record[:identifier] })
+    assert_equal [0, 2, 4], primo_calls
+    assert_equal false, result[:load_more][:has_more]
   end
 
   test 'fetch isolates cached state by per_source value' do
