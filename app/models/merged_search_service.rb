@@ -11,6 +11,7 @@
 # or `page`/`per_page` (legacy).
 class MergedSearchService
   TTL = 12.hours
+  LOAD_MORE_CACHE_NAMESPACE = 'all-tab-load-more/v2'.freeze
 
   # Initialize a new MergedSearchService.
   #
@@ -81,7 +82,7 @@ class MergedSearchService
       errors: state[:errors],
       load_more: {
         display_count: display_count,
-        next_count: display_count + visible_batch_size,
+        next_count: [display_count + visible_batch_size, max_display_count].min,
         has_more: has_more?(state, display_count),
         total_hits: total_hits
       },
@@ -233,6 +234,8 @@ class MergedSearchService
     {
       primo_results: [],
       timdex_results: [],
+      primo_offset: 0,
+      timdex_offset: 0,
       ordered_keys: [],
       primo_hits: 0,
       timdex_hits: 0,
@@ -258,12 +261,11 @@ class MergedSearchService
   end
 
   # Fetches the next chunk from each source that can still produce records. The
-  # source offset is simply the number of normalized records already cached for
-  # that source, which preserves each API's native offset semantics while the
-  # service manages display order separately.
+  # source offset tracks rows consumed from the API independently of the
+  # deduplicated normalized records retained for reranking.
   def fetch_next_source_chunks(state, per_source:)
-    primo_offset = state[:primo_results].length
-    timdex_offset = state[:timdex_results].length
+    primo_offset = state.fetch(:primo_offset, state[:primo_results].length)
+    timdex_offset = state.fetch(:timdex_offset, state[:timdex_results].length)
 
     primo_data, timdex_data = parallel_fetch(
       primo_offset: state[:primo_exhausted] || primo_offset >= Analyzer::PRIMO_MAX_OFFSET ? nil : primo_offset,
@@ -291,6 +293,7 @@ class MergedSearchService
     previous_length = state[results_key].length
 
     state[hits_key] = data[:hits].to_i
+    state[:"#{source}_offset"] = requested_offset + incoming.length
     state[results_key] = dedupe_records(state[results_key] + incoming)
 
     if incoming.any? && state[results_key].length == previous_length
@@ -387,11 +390,15 @@ class MergedSearchService
       boost_sources: ENV.fetch('ALL_TAB_BOOST_SOURCES', ''),
       per_source: per_source.to_i
     )
-    "#{CacheKeyGenerator.call(query)}/all-tab-load-more"
+    "#{CacheKeyGenerator.call(query)}/#{LOAD_MORE_CACHE_NAMESPACE}"
   end
 
   def visible_batch_size
     ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+  end
+
+  def max_display_count
+    ENV.fetch('LOAD_MORE_MAX_RESULTS', '200').to_i
   end
 
   def any_results?(state)
@@ -403,6 +410,8 @@ class MergedSearchService
   end
 
   def has_more?(state, display_count)
+    return false if display_count >= max_display_count
+
     state[:ordered_keys].length > display_count || sources_available?(state)
   end
 
