@@ -151,7 +151,7 @@ class NormalizePrimoRecord
     return false unless openurl_available?
 
     disallowed_kinds = ['Get PDF', 'Read online', 'Full-text options']
-    !links.any? { |link| disallowed_kinds.include?(link['kind']) }
+    links.none? { |link| disallowed_kinds.include?(link['kind']) }
   end
 
   def openurl_available?
