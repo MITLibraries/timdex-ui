@@ -366,6 +366,13 @@
     @include buttonSecondary;
   }
 
+  // Fallback for Alma SRU-injected Full-text options when stale/mismatched
+  // JS assets fail to relocate it into `.result-get` in some deployments.
+  // Keeps parity with the primary fulfillment button style.
+  a.button.alma-fulltext-options {
+    @include buttonSecondary;
+  }
+
   // Loading skeleton when a button isn't available
   span.skeleton-loader {
     @include skeleton-loader(112px);
