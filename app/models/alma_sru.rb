@@ -20,13 +20,15 @@ class AlmaSru
 
   # lookup is the primary method of interacting with this model.
   #
-  # It will receive an Alma ID, validate it, look it up in the Alma SRU, and return availability info and Alma-E status.
+  # It will receive an Alma ID, validate it, look it up in the Alma SRU, and return physical
+  # holdings and electronic availability info.
   #
   # It accepts an "alma_client" argument for use when testing, but this is not used in normal operations.
   #
   # Returns a hash with:
-  #   - :availability => formatted availability statements array
-  #   - :alma_e => boolean indicating if record is Alma-E
+  #   - :availability => array of physical holdings availability statements
+  #   - :alma_e => boolean indicating if record has electronic availability, determined via presence
+  #                of AVE/Alma-E tag
   def self.lookup(raw_identifier, alma_client: nil)
     return { availability: [], alma_e: false } unless enabled?
 
@@ -59,7 +61,8 @@ class AlmaSru
   #
   # For any non-200 response, it raises a LookupFailure.
   #
-  # Other responses (in XML format) are parsed by Nokogiri to extract both AVA (holdings) and AVE (electronic) data.
+  # Other responses (in XML format) are parsed by Nokogiri to extract both AVA (print holdings
+  # availability) and AVE (Alma-E/electronic availability) data.
   # Returns a hash with :availability and :alma_e keys.
   def self.parse_response(raw_response, reference_identifier)
     raise LookupFailure, raw_response.status unless raw_response.status == 200

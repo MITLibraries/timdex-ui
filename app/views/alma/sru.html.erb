@@ -1,13 +1,14 @@
 <% if AlmaSru.enabled? %>
-  <% if @alma_e %>
-    <% fulltext_url = PrimoLinkBuilder.new(record_id: params[:doc_id], context: 'L').full_record_link + '#nui.getit.service_viewit' %>
-    <%= link_to 'Full-text options', fulltext_url, class: 'button alma-fulltext-options', data: { content_piece: 'Full-text Options' } %>
+  <% full_record_link = PrimoLinkBuilder.new(record_id: params[:doc_id], context: 'L').full_record_link %>
+  <% if @alma_e && full_record_link.present? %>
+    <% fulltext_options_url = full_record_link + '#nui.getit.service_viewit' %>
+    <%= link_to 'Full-text options', fulltext_options_url, class: 'button primo-link alma-fulltext-options', data: { content_piece: 'Full-text Options' } %>
   <% end %>
-  <% if @availability.present? %>
+  <% if @availability.present? && full_record_link.present? %>
     <div class="availability">
       <% @availability.each do |statement| %>
         <p><%= link_to(sanitize(statement, tags: %w[i strong], attributes: %w[class aria-hidden]),
-                    "#{PrimoLinkBuilder.new(record_id: params[:doc_id], context: 'L').full_record_link}#getit_link1_0",
+                    "#{full_record_link}#getit_link1_0",
                     data: {content_piece: 'Availability Link' }) %></p>
       <% end %>
     </div>

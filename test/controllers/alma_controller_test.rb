@@ -23,6 +23,7 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_select 'a.button', { count: 1, text: 'Full-text options' }
+      assert_select 'a.button.primo-link.alma-fulltext-options', { count: 1, text: 'Full-text options' }
     end
   end
 
