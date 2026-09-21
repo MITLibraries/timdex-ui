@@ -470,6 +470,36 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'primo full HTML reload of a load-more continuation page shows cumulative results' do
+    # Simulates a full (non-Turbo-Stream) page load landing directly on a load-more
+    # continuation URL (e.g. after a bot-detection/Turnstile redirect). With load-more
+    # enabled, a plain `page=2` request has no prior results in the DOM to append to, so
+    # the controller must reconstruct the complete list by re-fetching every earlier page.
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '5') do
+      page_one_docs = (1..5).map do |i|
+        { api: 'primo', title: "Doc #{i}", format: 'Article', year: '2025', creators: [], links: [] }
+      end
+      page_two_docs = (6..10).map do |i|
+        { api: 'primo', title: "Doc #{i}", format: 'Article', year: '2025', creators: [], links: [] }
+      end
+
+      mock_primo = mock('primo_search')
+      mock_primo.expects(:search).with('data', 5, 0).returns({ 'docs' => page_one_docs, 'info' => { 'total' => 20 } })
+      mock_primo.expects(:search).with('data', 5, 5).returns({ 'docs' => page_two_docs, 'info' => { 'total' => 20 } })
+      PrimoSearch.expects(:new).returns(mock_primo).twice
+
+      normalizer_one = mock('normalizer_one')
+      normalizer_one.expects(:normalize).returns(page_one_docs)
+      normalizer_two = mock('normalizer_two')
+      normalizer_two.expects(:normalize).returns(page_two_docs)
+      NormalizePrimoResults.expects(:new).returns(normalizer_one, normalizer_two).twice
+
+      get '/results?q=data&tab=primo&page=2'
+      assert_response :success
+      assert_select '.results-list .result', count: 10
+    end
+  end
+
   test 'primo results with valid query has div for results which is populated' do
     mock_primo_search_success
     get '/results?q=data&tab=primo'

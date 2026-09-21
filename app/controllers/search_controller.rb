@@ -108,7 +108,7 @@ class SearchController < ApplicationController
   end
 
   def load_primo_results
-    data = fetch_primo_data
+    data = full_page_load_more_reload? ? fetch_primo_data_through_current_page : fetch_primo_data
     @results = data[:results]
     @pagination = data[:pagination]
     @errors = data[:errors]
@@ -121,7 +121,7 @@ class SearchController < ApplicationController
   end
 
   def load_timdex_results
-    data = fetch_timdex_data
+    data = full_page_load_more_reload? ? fetch_timdex_data_through_current_page : fetch_timdex_data
     @results = data[:results]
     @pagination = data[:pagination]
     @errors = data[:errors]
@@ -130,6 +130,52 @@ class SearchController < ApplicationController
 
     @append_results = @results
     @load_more = load_more_from_pagination(@pagination)
+  end
+
+  # Source-specific tabs fetch only a single page/offset of results per request; the load-more UI
+  # relies on Turbo Stream requests to append each new batch onto results already present in the DOM.
+  # If a load-more continuation URL (`page` > 1) is ever rendered as a full HTML document instead -
+  # e.g. after a bot-detection redirect to Turnstile bounces the user back mid-load-more - there is no
+  # existing DOM to append to, so only that single page would be shown instead of everything loaded
+  # so far. Detect that case so we can reconstruct the complete cumulative result list instead.
+  def full_page_load_more_reload?
+    return false unless @pagination_load_more_enabled
+    return false if request.format.turbo_stream?
+
+    (@enhanced_query[:page] || 1).to_i > 1
+  end
+
+  # Reconstructs the full cumulative Primo result list for a load-more continuation page rendered as a
+  # full HTML document, by re-fetching (and concatenating) every earlier page. Earlier pages are
+  # cheap to re-fetch since they're already cache-backed by `cached_primo_data`.
+  def fetch_primo_data_through_current_page
+    per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+    combined_results = []
+    last_data = nil
+
+    (1..(@enhanced_query[:page] || 1).to_i).each do |page|
+      last_data = fetch_primo_data(offset: (page - 1) * per_page, per_page: per_page)
+      combined_results.concat(last_data[:results])
+      break if last_data[:errors].present? || last_data[:show_continuation]
+    end
+
+    last_data.merge(results: combined_results)
+  end
+
+  # Reconstructs the full cumulative TIMDEX result list for a load-more continuation page rendered as
+  # a full HTML document. See `fetch_primo_data_through_current_page` for why this is necessary.
+  def fetch_timdex_data_through_current_page
+    per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+    combined_results = []
+    last_data = nil
+
+    (1..(@enhanced_query[:page] || 1).to_i).each do |page|
+      last_data = fetch_timdex_data(offset: (page - 1) * per_page, per_page: per_page)
+      combined_results.concat(last_data[:results])
+      break if last_data[:errors].present?
+    end
+
+    last_data.merge(results: combined_results)
   end
 
   def load_all_results
