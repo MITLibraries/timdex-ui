@@ -181,6 +181,13 @@ class ResultsHelperTest < ActionView::TestCase
     end
   end
 
+  test 'result_get? returns true when Full-text options is the only link and record_link feature is disabled' do
+    ClimateControl.modify(FEATURE_RECORD_LINK: nil, THIRDIRON_ID: nil, THIRDIRON_KEY: nil, FEATURE_OA_ALWAYS: nil) do
+      assert result_get?({ links: [{ 'kind' => 'Full-text options',
+                                     'url' => 'https://example.com#nui.getit.service_viewit' }] })
+    end
+  end
+
   test 'result_get? returns true when result has both full record and PDF links even if record_link feature is disabled' do
     ClimateControl.modify(FEATURE_RECORD_LINK: nil, THIRDIRON_ID: nil, THIRDIRON_KEY: nil, FEATURE_OA_ALWAYS: nil) do
       assert result_get?({

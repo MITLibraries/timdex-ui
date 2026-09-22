@@ -43,8 +43,9 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       assert_equal(
         ["<i class='fa-sharp fa-solid fa-check' aria-hidden='true'></i> Available in <strong>Rotch Library</strong> Stacks (NA680.C25 2007)"],
-        result
+        result[:availability]
       )
+      assert_equal false, result[:alma_e]
     end
   end
 
@@ -54,19 +55,89 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal(1, result.length)
-      assert_includes result[0], 'and other locations'
+      assert_equal(1, result[:availability].length)
+      assert_includes result[:availability][0], 'and other locations'
+      assert_equal false, result[:alma_e]
     end
   end
 
-  test 'lookup returns empty list if no availability' do
+  test 'lookup returns empty availability if no AVA' do
     VCR.use_cassette('alma sru no availability') do
       needle = 'alma9935053423706761'
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal([], result)
+      assert_equal([], result[:availability])
     end
+  end
+
+  test 'lookup returns true Alma-E if AVE is present' do
+    # This cassette was generated to demonstrate a record with no AVA, but it has an AVE
+    VCR.use_cassette('alma sru no availability') do
+      needle = 'alma9935053423706761'
+
+      result = AlmaSru.lookup(needle)
+
+      assert_equal true, result[:alma_e]
+    end
+  end
+
+  test 'lookup returns false Alma-E when AVE is absent' do
+    VCR.use_cassette('alma sru single record') do
+      needle = 'alma990014651640106761'
+
+      result = AlmaSru.lookup(needle)
+
+      assert_equal false, result[:alma_e]
+    end
+  end
+
+  test 'alma_e? returns true when AVE is absent but 959 subfield b is NET' do
+    xml_content = <<~XML
+      <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+        <records>
+          <record>
+            <recordData>
+              <record xmlns="http://www.loc.gov/MARC21/slim">
+                <controlfield tag="001">990027661060106761</controlfield>
+                <datafield tag="959" ind1=" " ind2="1">
+                  <subfield code="1">MIT Access Only</subfield>
+                  <subfield code="a">n-mit</subfield>
+                  <subfield code="b">NET</subfield>
+                  <subfield code="h">**See URL(s)</subfield>
+                </datafield>
+              </record>
+            </recordData>
+          </record>
+        </records>
+      </searchRetrieveResponse>
+    XML
+
+    parsed = Nokogiri::XML(xml_content)
+    assert_equal true, AlmaSru.alma_e?(parsed)
+  end
+
+  test 'alma_e? returns false when AVE is absent and 959 subfield b is not NET' do
+    xml_content = <<~XML
+      <searchRetrieveResponse xmlns="http://www.loc.gov/zing/srw/">
+        <records>
+          <record>
+            <recordData>
+              <record xmlns="http://www.loc.gov/MARC21/slim">
+                <controlfield tag="001">990002941700106761</controlfield>
+                <datafield tag="959" ind1=" " ind2=" ">
+                  <subfield code="b">LSA</subfield>
+                  <subfield code="c">JRNAL</subfield>
+                </datafield>
+              </record>
+            </recordData>
+          </record>
+        </records>
+      </searchRetrieveResponse>
+    XML
+
+    parsed = Nokogiri::XML(xml_content)
+    assert_equal false, AlmaSru.alma_e?(parsed)
   end
 
   test 'lookup returns empty list for non-existent records' do
@@ -75,58 +146,63 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal([], result)
+      assert_equal([], result[:availability])
+      assert_equal false, result[:alma_e]
     end
   end
 
-  test 'lookup returns empty list if alma URL not set' do
+  test 'lookup returns empty availability if alma URL not set' do
     needle = 'alma990014651640106761'
 
     VCR.use_cassette('alma sru single record') do
-      assert_equal(1, AlmaSru.lookup(needle).length)
+      result = AlmaSru.lookup(needle)
+      assert_equal(1, result[:availability].length)
     end
 
     ClimateControl.modify(MIT_ALMA_URL: nil) do
-      assert_equal([], AlmaSru.lookup(needle))
+      result = AlmaSru.lookup(needle)
+      assert_equal({ availability: [], alma_e: false }, result)
     end
   end
 
-  test 'lookup returns empty list if exl_inst_id not set' do
+  test 'lookup returns empty availability if exl_inst_id not set' do
     needle = 'alma990014651640106761'
 
     VCR.use_cassette('alma sru single record') do
-      assert_equal(1, AlmaSru.lookup(needle).length)
+      result = AlmaSru.lookup(needle)
+      assert_equal(1, result[:availability].length)
     end
 
     ClimateControl.modify(EXL_INST_ID: nil) do
       AlmaSru.remove_instance_variable(:@enabled)
 
-      assert_equal([], AlmaSru.lookup(needle))
+      result = AlmaSru.lookup(needle)
+      assert_equal({ availability: [], alma_e: false }, result)
     end
   end
 
-  test 'lookup returns empty list with non-complying ID' do
+  test 'lookup returns empty hash for non-complying ID' do
     needle = 'foo'
 
     result = AlmaSru.lookup(needle)
 
-    assert_equal([], result)
+    assert_equal({ availability: [], alma_e: false }, result)
   end
 
-  test 'lookup returns empty list with empty string' do
+  test 'lookup returns empty hash with empty string' do
     needle = ''
 
     result = AlmaSru.lookup(needle)
 
-    assert_equal([], result)
+    assert_equal({ availability: [], alma_e: false }, result)
   end
 
-  test 'lookup returns empty list with nil input' do
+  test 'lookup returns empty hash with nil input' do
     needle = nil
 
     result = AlmaSru.lookup(needle)
 
-    assert_equal([], result)
+    assert_equal({ availability: [], alma_e: false }, result)
   end
 
   test 'lookup survives failing to connect to Alma SRU' do
@@ -137,7 +213,7 @@ class AlmaSruTest < ActiveSupport::TestCase
     assert_nothing_raised do
       result = AlmaSru.lookup(needle, alma_client: alma_client)
 
-      assert_equal([], result)
+      assert_equal({ availability: [], alma_e: false }, result)
     end
   end
 
@@ -149,7 +225,7 @@ class AlmaSruTest < ActiveSupport::TestCase
     assert_nothing_raised do
       result = AlmaSru.lookup(needle, alma_client: alma_client)
 
-      assert_equal([], result)
+      assert_equal({ availability: [], alma_e: false }, result)
     end
   end
 

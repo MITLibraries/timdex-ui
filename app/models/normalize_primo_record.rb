@@ -131,16 +131,31 @@ class NormalizePrimoRecord
       end
     end
 
-    # Add Full-text options if pnx['links'] is nil and record has Alma-E (electronic availability)
-    full_record_link = record_link
-    if @record.dig('pnx', 'links').nil? &&
-       @record.dig('delivery', 'deliveryCategory')&.include?('Alma-E') &&
-       full_record_link.present?
-      links << { 'url' => "#{full_record_link}#nui.getit.service_viewit", 'kind' => 'Full-text options' }
+    # Some CDI records expose fulfillment through OpenURL only. In those cases,
+    # include a Full-text options link to the record page so users can reach
+    # Primo services such as ILL.
+    if include_full_text_options_fallback?(links)
+      links << {
+        'url' => "#{record_link}#nui.getit.service_viewit",
+        'kind' => 'Full-text options'
+      }
     end
 
     # Return links if we found any
     links.any? ? links : []
+  end
+
+  def include_full_text_options_fallback?(links)
+    return false unless cdi_record?
+    return false unless record_link.present?
+    return false unless openurl_available?
+
+    disallowed_kinds = ['Get PDF', 'Read online', 'Full-text options']
+    links.none? { |link| disallowed_kinds.include?(link['kind']) }
+  end
+
+  def openurl_available?
+    @record.dig('pnx', 'links', 'openurl').present? || @record.dig('delivery', 'almaOpenurl').present?
   end
 
   # Parses a link string into a hash of key-value pairs.
@@ -352,6 +367,12 @@ class NormalizePrimoRecord
     return false unless identifier
 
     identifier.start_with?('alma')
+  end
+
+  def cdi_record?
+    return false unless identifier
+
+    identifier.start_with?('cdi_')
   end
 
   def dedup_url
