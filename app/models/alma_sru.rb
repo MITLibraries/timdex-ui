@@ -26,11 +26,11 @@ class AlmaSru
   # It accepts an "alma_client" argument for use when testing, but this is not used in normal operations.
   #
   # Returns a hash with:
-  #   - :availability => array of physical holdings availability statements
-  #   - :alma_e => boolean indicating if record has electronic availability, determined via presence
-  #                of AVE/Alma-E tag
+  #   - :physical_availability => array of physical holdings availability statements
+  #   - :electronic_availability => boolean indicating if record has electronic availability,
+  #                                 determined via AVE, with a legacy 959$b=NET fallback
   def self.lookup(raw_identifier, alma_client: nil)
-    return { availability: [], alma_e: false } unless enabled?
+    return { physical_availability: [], electronic_availability: false } unless enabled?
 
     # Validate the raw identifier received. This will raise an InvalidAlmaId if validation fails.
     raise InvalidAlmaId unless valid_alma_id?(raw_identifier)
@@ -47,14 +47,14 @@ class AlmaSru
     parse_response(alma_http.timeout(6).get(url), identifier)
   rescue InvalidAlmaId
     Rails.logger.debug("Invalid Alma ID: #{raw_identifier}")
-    { availability: [], alma_e: false }
+    { physical_availability: [], electronic_availability: false }
   rescue LookupFailure => e
     Rails.logger.debug("Alma lookup failure: #{e}")
-    { availability: [], alma_e: false }
+    { physical_availability: [], electronic_availability: false }
   rescue HTTP::Error
     Sentry.capture_message('Alma SRU connection failure')
     Rails.logger.error('Alma SRU connection error')
-    { availability: [], alma_e: false }
+    { physical_availability: [], electronic_availability: false }
   end
 
   # parse_response receives the raw response from the Alma SRU endpoint.
@@ -63,7 +63,7 @@ class AlmaSru
   #
   # Other responses (in XML format) are parsed by Nokogiri to extract both AVA (print holdings
   # availability) and AVE (Alma-E/electronic availability) data.
-  # Returns a hash with :availability and :alma_e keys.
+  # Returns a hash with :physical_availability and :electronic_availability keys.
   def self.parse_response(raw_response, reference_identifier)
     raise LookupFailure, raw_response.status unless raw_response.status == 200
 
@@ -81,14 +81,14 @@ class AlmaSru
 
     # Reduce list to a single item if multiples exist
     results[0] += ' and other locations' if results.length > 1
-    availability = results.first(1)
+    physical_availability = results.first(1)
 
     # Check for AVE tags to determine if record is Alma-E
-    alma_e = alma_e?(parsed)
+    electronic_availability = alma_e?(parsed)
 
     {
-      availability: availability,
-      alma_e: alma_e
+      physical_availability: physical_availability,
+      electronic_availability: electronic_availability
     }
   end
 

@@ -102,47 +102,36 @@ class NormalizePrimoRecord
   def links
     links = []
 
-    # Use dedup URL as the full record link if available, otherwise use record link
-    if dedup_url.present?
-      links << { 'url' => dedup_url, 'kind' => 'full record' }
-    elsif record_link.present?
-      links << { 'url' => record_link, 'kind' => 'full record' }
-    end
+    add_full_record_link(links)
+    add_parsed_online_link(links, 'linktopdf', 'Get PDF')
+    add_parsed_online_link(links, 'linktohtml', 'Read online')
+    add_full_text_options_fallback_link(links)
 
-    # Add PDF if available
-    if @record['pnx']['links'] && @record['pnx']['links']['linktopdf']
+    links
+  end
 
-      parsed_string = parse_link_string(@record['pnx']['links']['linktopdf'].first)
+  def add_full_record_link(links)
+    full_record_url = dedup_url.presence || record_link
+    return unless full_record_url.present?
 
-      if parsed_string&.dig('U').present?
-        links << { 'url' => parsed_string['U'],
-                   'kind' => 'Get PDF' }
-      end
-    end
+    links << { 'url' => full_record_url, 'kind' => 'full record' }
+  end
 
-    # Add HTML if available
-    if @record['pnx']['links'] && @record['pnx']['links']['linktohtml']
+  def add_parsed_online_link(links, source_key, kind)
+    link_value = @record.dig('pnx', 'links', source_key)&.first
+    parsed_string = parse_link_string(link_value.to_s)
+    return unless parsed_string&.dig('U').present?
 
-      parsed_string = parse_link_string(@record['pnx']['links']['linktohtml'].first)
+    links << { 'url' => parsed_string['U'], 'kind' => kind }
+  end
 
-      if parsed_string&.dig('U').present?
-        links << { 'url' => parsed_string['U'],
-                   'kind' => 'Read online' }
-      end
-    end
+  def add_full_text_options_fallback_link(links)
+    return unless include_full_text_options_fallback?(links)
 
-    # Some CDI records expose fulfillment through OpenURL only. In those cases,
-    # include a Full-text options link to the record page so users can reach
-    # Primo services such as ILL.
-    if include_full_text_options_fallback?(links)
-      links << {
-        'url' => "#{record_link}#nui.getit.service_viewit",
-        'kind' => 'Full-text options'
-      }
-    end
-
-    # Return links if we found any
-    links.any? ? links : []
+    links << {
+      'url' => "#{record_link}#nui.getit.service_viewit",
+      'kind' => 'Full-text options'
+    }
   end
 
   def include_full_text_options_fallback?(links)
