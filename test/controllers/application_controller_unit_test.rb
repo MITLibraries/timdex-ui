@@ -32,6 +32,24 @@ class ApplicationControllerUnitTest < ActionController::TestCase
     refute @controller.send(:valid_tab?, '')
   end
 
+  test 'append info to payload adds sml ui mode by default' do
+    payload = {}
+
+    @controller.send(:append_info_to_payload, payload)
+
+    assert_equal 'sml', payload[:ui_mode]
+  end
+
+  test 'append info to payload adds geodata ui mode when geodata is enabled' do
+    ClimateControl.modify(FEATURE_GEODATA: 'true') do
+      payload = {}
+
+      @controller.send(:append_info_to_payload, payload)
+
+      assert_equal 'geodata', payload[:ui_mode]
+    end
+  end
+
   test 'set_active_tab defaults @active_tab to all when no params are set' do
     @controller.stubs(:params).returns({})
     @controller.set_active_tab
