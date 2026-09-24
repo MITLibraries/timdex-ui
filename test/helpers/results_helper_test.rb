@@ -21,6 +21,9 @@ class ResultsHelperTest < ActionView::TestCase
   end
 
   test 'result helper handles tab descriptions for tabs based on params hash' do
+    params[:controller] = 'search'
+    params[:action] = 'results'
+
     ResultsHelper::TAB_DESCRIPTIONS.each do |tab, expected|
       params[:tab] = tab
       assert_equal expected, tab_description, "Expected description for tab '#{tab}' to match TAB_DESCRIPTIONS"
@@ -28,18 +31,51 @@ class ResultsHelperTest < ActionView::TestCase
   end
 
   test 'tab_description returns empty string for unknown tabs' do
+    params[:controller] = 'search'
+    params[:action] = 'results'
     params[:tab] = 'unknown_tab'
     assert_equal '', tab_description
   end
 
   test 'tab_description returns empty string for nil tab' do
+    params[:controller] = 'search'
+    params[:action] = 'results'
     params[:tab] = nil
     assert_equal '', tab_description
   end
 
   test 'tab_description returns empty string for empty tab' do
+    params[:controller] = 'search'
+    params[:action] = 'results'
     params[:tab] = ''
     assert_equal '', tab_description
+  end
+
+  test 'tab_description returns empty string on non-results pages regardless of tab param' do
+    params[:controller] = 'basic_search'
+    params[:action] = 'index'
+    params[:tab] = 'all'
+    assert_equal '', tab_description
+  end
+
+  test 'tab_description logs and falls back to sanitized @active_tab when raw tab param is invalid' do
+    params[:controller] = 'search'
+    params[:action] = 'results'
+    params[:tab] = 'asdf'
+    @active_tab = 'all'
+
+    Rails.logger.expects(:error).with('Unknown tab parameter in `tab_description` helper: asdf')
+    assert_equal ResultsHelper::TAB_DESCRIPTIONS['all'], tab_description
+  end
+
+  test 'tab_description does not log when @active_tab matches a valid raw tab param' do
+    params[:controller] = 'search'
+    params[:action] = 'results'
+    params[:tab] = 'cdi'
+    @active_tab = 'cdi'
+
+    Rails.logger.expects(:error).never
+    assert_equal ResultsHelper::TAB_DESCRIPTIONS['cdi'], tab_description
   end
 
   test 'search_primo_link includes encoded search query and correct path' do
