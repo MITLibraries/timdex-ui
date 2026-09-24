@@ -76,9 +76,21 @@ Rails.application.configure do
 
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "debug")
 
+  # Tag every log line for a request info from request object. We use this approach rather than
+  # ApplicationController when we want to ensure consistent request context, including those outside
+  # controller actions, have consistent request context.
+  SemanticLogger.application = ENV.fetch("RAILS_APP_NAME", "timdex-ui")
+  config.log_tags = { ip: ->(request) { request.remote_ip.presence || "unknown" },
+                      user_agent: ->(request) { request.user_agent.presence || "unknown" },
+                      bot_detected: :is_crawler?,
+                      bot_name: ->(request) { request.crawler_name.presence || "unknown" }}
+
   # Configure Rails Semantic Logger
   config.rails_semantic_logger.appenders do |appenders|
     # appenders.add(file_name: "log/#{Rails.env}.log", formatter: :color) # uncomment to log to file
-    appenders.add(io: $stdout, formatter: :color)
+    multiline = ENV.fetch("SEMANTIC_LOGGER_MULTILINE", "true").downcase == "true"
+    appenders.add_server(
+      formatter: {color: {ap: {multiline: multiline}}}
+    )
   end
 end

@@ -39,6 +39,15 @@ Rails.application.configure do
   # Change to "debug" to log everything (including potentially personally-identifiable information!).
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
+  # Tag every log line for a request info from request object. We use this approach rather than
+  # ApplicationController when we want to ensure consistent request context, including those outside
+  # controller actions, have consistent request context.
+  SemanticLogger.application = ENV.fetch("RAILS_APP_NAME", "timdex-ui")
+  config.log_tags = { ip: ->(request) { request.remote_ip.presence || "unknown" },
+                      user_agent: ->(request) { request.user_agent.presence || "unknown" },
+                      bot_detected: :is_crawler?,
+                      bot_name: ->(request) { request.crawler_name.presence || "unknown" }}
+
   # Configure Rails Semantic Logger to log to STDOUT in plain text format
   # Using plain text formatter at this time, but we will switch to JSON formatter in the future for better log
   # aggregation and analysis once our downstream systems are ready.
