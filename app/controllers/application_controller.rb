@@ -30,6 +30,20 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # Adds app-wide fields to Rails' existing request log payload. Rails calls
+  # this during process_action instrumentation, so these keys appear on the
+  # automatic request log line instead of creating separate log entries.
+  def append_info_to_payload(payload)
+    super
+    payload[:ui_mode] = ui_mode
+  end
+
+  # Identifies which search interface handled the request so cross-app
+  # analytics can distinguish the standard search UI from the GeoData UI.
+  def ui_mode
+    Feature.enabled?(:geodata) ? 'geodata' : 'sml'
+  end
+
   def valid_tab?(tab)
     all_tabs.include?(tab)
   end
