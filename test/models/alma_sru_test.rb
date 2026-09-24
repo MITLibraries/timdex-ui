@@ -43,9 +43,9 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       assert_equal(
         ["<i class='fa-sharp fa-solid fa-check' aria-hidden='true'></i> Available in <strong>Rotch Library</strong> Stacks (NA680.C25 2007)"],
-        result[:availability]
+        result[:physical_availability]
       )
-      assert_equal false, result[:alma_e]
+      assert_equal false, result[:electronic_availability]
     end
   end
 
@@ -55,9 +55,9 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal(1, result[:availability].length)
-      assert_includes result[:availability][0], 'and other locations'
-      assert_equal false, result[:alma_e]
+      assert_equal(1, result[:physical_availability].length)
+      assert_includes result[:physical_availability][0], 'and other locations'
+      assert_equal false, result[:electronic_availability]
     end
   end
 
@@ -67,7 +67,7 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal([], result[:availability])
+      assert_equal([], result[:physical_availability])
     end
   end
 
@@ -78,7 +78,7 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal true, result[:alma_e]
+      assert_equal true, result[:electronic_availability]
     end
   end
 
@@ -88,7 +88,7 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal false, result[:alma_e]
+      assert_equal false, result[:electronic_availability]
     end
   end
 
@@ -146,8 +146,8 @@ class AlmaSruTest < ActiveSupport::TestCase
 
       result = AlmaSru.lookup(needle)
 
-      assert_equal([], result[:availability])
-      assert_equal false, result[:alma_e]
+      assert_equal([], result[:physical_availability])
+      assert_equal false, result[:electronic_availability]
     end
   end
 
@@ -156,12 +156,12 @@ class AlmaSruTest < ActiveSupport::TestCase
 
     VCR.use_cassette('alma sru single record') do
       result = AlmaSru.lookup(needle)
-      assert_equal(1, result[:availability].length)
+      assert_equal(1, result[:physical_availability].length)
     end
 
     ClimateControl.modify(MIT_ALMA_URL: nil) do
       result = AlmaSru.lookup(needle)
-      assert_equal({ availability: [], alma_e: false }, result)
+      assert_equal({ physical_availability: [], electronic_availability: false }, result)
     end
   end
 
@@ -170,14 +170,14 @@ class AlmaSruTest < ActiveSupport::TestCase
 
     VCR.use_cassette('alma sru single record') do
       result = AlmaSru.lookup(needle)
-      assert_equal(1, result[:availability].length)
+      assert_equal(1, result[:physical_availability].length)
     end
 
     ClimateControl.modify(EXL_INST_ID: nil) do
       AlmaSru.remove_instance_variable(:@enabled)
 
       result = AlmaSru.lookup(needle)
-      assert_equal({ availability: [], alma_e: false }, result)
+      assert_equal({ physical_availability: [], electronic_availability: false }, result)
     end
   end
 
@@ -186,7 +186,7 @@ class AlmaSruTest < ActiveSupport::TestCase
 
     result = AlmaSru.lookup(needle)
 
-    assert_equal({ availability: [], alma_e: false }, result)
+    assert_equal({ physical_availability: [], electronic_availability: false }, result)
   end
 
   test 'lookup returns empty hash with empty string' do
@@ -194,7 +194,7 @@ class AlmaSruTest < ActiveSupport::TestCase
 
     result = AlmaSru.lookup(needle)
 
-    assert_equal({ availability: [], alma_e: false }, result)
+    assert_equal({ physical_availability: [], electronic_availability: false }, result)
   end
 
   test 'lookup returns empty hash with nil input' do
@@ -202,7 +202,7 @@ class AlmaSruTest < ActiveSupport::TestCase
 
     result = AlmaSru.lookup(needle)
 
-    assert_equal({ availability: [], alma_e: false }, result)
+    assert_equal({ physical_availability: [], electronic_availability: false }, result)
   end
 
   test 'lookup survives failing to connect to Alma SRU' do
@@ -213,7 +213,7 @@ class AlmaSruTest < ActiveSupport::TestCase
     assert_nothing_raised do
       result = AlmaSru.lookup(needle, alma_client: alma_client)
 
-      assert_equal({ availability: [], alma_e: false }, result)
+      assert_equal({ physical_availability: [], electronic_availability: false }, result)
     end
   end
 
@@ -225,7 +225,7 @@ class AlmaSruTest < ActiveSupport::TestCase
     assert_nothing_raised do
       result = AlmaSru.lookup(needle, alma_client: alma_client)
 
-      assert_equal({ availability: [], alma_e: false }, result)
+      assert_equal({ physical_availability: [], electronic_availability: false }, result)
     end
   end
 
