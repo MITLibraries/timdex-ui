@@ -48,9 +48,7 @@ Rails.application.configure do
                       bot_detected: :is_crawler?,
                       bot_name: ->(request) { request.crawler_name.presence || "unknown" }}
 
-  # Configure Rails Semantic Logger to log to STDOUT in plain text format
-  # Using plain text formatter at this time, but we will switch to JSON formatter in the future for better log
-  # aggregation and analysis once our downstream systems are ready.
+  # Configure Rails Semantic Logger to log to STDOUT in JSON format
   SemanticLogger.application = ENV.fetch("RAILS_APP_NAME", "timdex-ui")
   config.rails_semantic_logger.appenders do |appenders|
     appenders.add(io: $stdout, formatter: :json)
