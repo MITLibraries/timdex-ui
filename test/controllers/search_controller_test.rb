@@ -1217,6 +1217,81 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'append info to payload adds search result context for sml results' do
+    controller = SearchController.new
+    controller.stubs(:action_name).returns('results')
+    controller.instance_variable_set(:@active_tab, 'all')
+    controller.instance_variable_set(:@enhanced_query, { q: 'test', queryMode: 'semantic' })
+    controller.instance_variable_set(:@primo_result_count, 12)
+    controller.instance_variable_set(:@timdex_result_count, 34)
+    payload = {}
+
+    controller.send(:append_info_to_payload, payload)
+
+    assert_equal({
+                   search_tab: 'all',
+                   primo_result_count: 12,
+                   timdex_result_count: 34,
+                   searchterm: 'test',
+                   query_mode: 'semantic',
+                   ui_mode: 'sml'
+                 }, payload.slice(:search_tab, :primo_result_count, :timdex_result_count, :searchterm, :query_mode, :ui_mode))
+  end
+
+  test 'append info to payload adds geodata ui mode for geodata results' do
+    ClimateControl.modify(FEATURE_GEODATA: 'true') do
+      controller = SearchController.new
+      controller.stubs(:action_name).returns('results')
+      controller.instance_variable_set(:@active_tab, nil)
+      controller.instance_variable_set(:@enhanced_query, { q: 'parcels', queryMode: 'hybrid' })
+      controller.instance_variable_set(:@primo_result_count, 0)
+      controller.instance_variable_set(:@timdex_result_count, 56)
+      payload = {}
+
+      controller.send(:append_info_to_payload, payload)
+
+      assert_equal({
+                     search_tab: 'geodata',
+                     primo_result_count: 0,
+                     timdex_result_count: 56,
+                     searchterm: 'parcels',
+                     query_mode: 'hybrid',
+                     ui_mode: 'geodata'
+                   }, payload.slice(:search_tab, :primo_result_count, :timdex_result_count, :searchterm, :query_mode, :ui_mode))
+    end
+  end
+
+  test 'append info to payload adds only ui mode outside results action' do
+    controller = SearchController.new
+    controller.stubs(:action_name).returns('show')
+    controller.instance_variable_set(:@enhanced_query, { q: 'test', queryMode: 'semantic' })
+    payload = {}
+
+    controller.send(:append_info_to_payload, payload)
+
+    assert_equal 'sml', payload[:ui_mode]
+    assert_nil payload[:search_tab]
+    assert_nil payload[:primo_result_count]
+    assert_nil payload[:timdex_result_count]
+    assert_nil payload[:searchterm]
+    assert_nil payload[:query_mode]
+  end
+
+  test 'append info to payload skips result context before enhanced query is built' do
+    controller = SearchController.new
+    controller.stubs(:action_name).returns('results')
+    payload = {}
+
+    controller.send(:append_info_to_payload, payload)
+
+    assert_equal 'sml', payload[:ui_mode]
+    assert_nil payload[:search_tab]
+    assert_nil payload[:primo_result_count]
+    assert_nil payload[:timdex_result_count]
+    assert_nil payload[:searchterm]
+    assert_nil payload[:query_mode]
+  end
+
   test 'results can include tuning parameters' do
     query = 'fda regulation history medical devices'
     query_mode = 'hybrid'

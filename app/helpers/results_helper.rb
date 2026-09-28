@@ -29,12 +29,19 @@ module ResultsHelper
     hits.to_i >= 10_000 ? '10,000+ results' : "#{number_with_delimiter(hits)} results"
   end
 
-  # Provides a description for the current tab in search results.
+  # Provides a description for the current tab in search results. The _tab_description partial is
+  # rendered on every page via the layout, but only the search results page has a tab to describe -
+  # other pages (e.g. root/basic_search) also default @active_tab to "all", so we can't rely on its
+  # presence alone to detect a results page. We log against the raw params[:tab] (not @active_tab)
+  # since set_active_tab already silently sanitizes an invalid tab param back to "all".
   def tab_description
-    TAB_DESCRIPTIONS.fetch(params[:tab]) do
+    return '' unless params[:controller] == 'search' && params[:action] == 'results'
+
+    if params[:tab].present? && !TAB_DESCRIPTIONS.key?(params[:tab])
       Rails.logger.error "Unknown tab parameter in `tab_description` helper: #{params[:tab]}"
-      ''
     end
+
+    TAB_DESCRIPTIONS.fetch(@active_tab || params[:tab], '')
   end
 
   # Creates Primo UI links based on current search term

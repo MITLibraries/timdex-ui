@@ -84,7 +84,9 @@ class MergedSearchService
         next_count: display_count + visible_batch_size,
         has_more: has_more?(state, display_count),
         total_hits: total_hits
-      }
+      },
+      primo_hits: state[:primo_hits].to_i,
+      timdex_hits: state[:timdex_hits].to_i
     }
   end
 
@@ -201,7 +203,8 @@ class MergedSearchService
                                 primo_data[:show_continuation]
                               end
 
-    { results: merged, errors: errors, pagination: pagination, show_primo_continuation: show_primo_continuation }
+    { results: merged, errors: errors, pagination: pagination, show_primo_continuation: show_primo_continuation,
+      primo_hits: primo_total, timdex_hits: timdex_total }
   end
 
   def build_paginator_from_totals_legacy(totals, current_page, per_page)

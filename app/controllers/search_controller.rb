@@ -13,6 +13,9 @@ class SearchController < ApplicationController
   before_action :validate_geodistance_units!, only: %i[results]
 
   def results
+    @primo_result_count = 0
+    @timdex_result_count = 0
+
     # inject session preference for boolean type if it is present
     params[:booleanType] = cookies[:boolean_type] || 'AND'
 
@@ -91,6 +94,7 @@ class SearchController < ApplicationController
     return unless @errors.nil?
 
     hits = response.dig(:data, 'search', 'hits') || 0
+    @timdex_result_count = hits
     @pagination = Analyzer.new(@enhanced_query, hits, :timdex).pagination
     raw_results = extract_results(response)
     @results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
@@ -107,6 +111,7 @@ class SearchController < ApplicationController
     @pagination = data[:pagination]
     @errors = data[:errors]
     @show_primo_continuation = data[:show_continuation]
+    @primo_result_count = data[:hits].to_i
     return unless @pagination_load_more_enabled
 
     @append_results = @results
@@ -118,6 +123,7 @@ class SearchController < ApplicationController
     @results = data[:results]
     @pagination = data[:pagination]
     @errors = data[:errors]
+    @timdex_result_count = data[:hits].to_i
     return unless @pagination_load_more_enabled
 
     @append_results = @results
@@ -142,6 +148,8 @@ class SearchController < ApplicationController
       @append_results = data[:append_results]
       @errors = data[:errors]
       @load_more = data[:load_more]
+      @primo_result_count = data[:primo_hits].to_i
+      @timdex_result_count = data[:timdex_hits].to_i
       return
     end
 
@@ -153,6 +161,52 @@ class SearchController < ApplicationController
     @errors = data[:errors]
     @pagination = data[:pagination]
     @show_primo_continuation = data[:show_primo_continuation]
+    @primo_result_count = data[:primo_hits].to_i
+    @timdex_result_count = data[:timdex_hits].to_i
+  end
+
+  # Adds SearchController result fields to Rails' existing request log payload.
+  # App-wide log fields are added by ApplicationController.
+  def append_info_to_payload(payload)
+    super
+    payload.merge!(search_results_log_payload) if search_results_log_payload_available?
+  end
+
+  # Result-specific log fields are only available after the results action has
+  # built its enhanced query.
+  def search_results_log_payload_available?
+    action_name == 'results' && instance_variable_defined?(:@enhanced_query)
+  end
+
+  # Builds the results-only search fields for the request log payload. These
+  # values depend on the results action having parsed the query and loaded data
+  # from Primo, TIMDEX, or both.
+  def search_results_log_payload
+    {
+      search_tab: search_results_log_search_tab,
+      primo_result_count: @primo_result_count.to_i,
+      timdex_result_count: @timdex_result_count.to_i,
+      searchterm: @enhanced_query[:q].to_s,
+      query_mode: search_results_log_query_mode
+    }
+  end
+
+  # Normalizes the active tab for search result logging. GeoData bypasses the
+  # normal tab system, so it gets an explicit synthetic tab value.
+  def search_results_log_search_tab
+    return 'geodata' if Feature.enabled?(:geodata)
+
+    @active_tab.presence || @enhanced_query[:tab].presence || 'all'
+  end
+
+  # Normalizes query mode for search result logging, matching QueryBuilder's
+  # accepted values and fallback behavior so logs reflect the executed search.
+  def search_results_log_query_mode
+    mode = @enhanced_query[:queryMode].presence || ENV.fetch('DEFAULT_QUERY_MODE', 'keyword')
+    mode = mode.to_s.downcase.strip
+    return mode if QueryBuilder::VALID_QUERY_MODES.include?(mode)
+
+    'keyword'
   end
 
   # Builds the shared load-more view model for source-specific tabs that still
