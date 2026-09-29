@@ -58,6 +58,7 @@ class TurnstileController < ApplicationController
   # Handles Turnstile rejecting token submission due to invalid token, network issue, etc.
   def handle_forbidden
     flash.now[:error] = "We couldn't complete the verification. Please try again."
+    @return_to = safe_return_path
     render :show, status: :unprocessable_entity
   end
 

@@ -15,6 +15,17 @@ class TurnstileControllerTest < ActionDispatch::IntegrationTest
     with_bot_detection_enabled do
       get turnstile_path
       assert_response :success
+      assert_select 'meta[name="turbo-visit-control"][content="reload"]'
+      assert_select 'form[data-turbo="false"]'
+    end
+  end
+
+  test 'challenge reached from a Turbo frame requires a full page visit' do
+    with_bot_detection_enabled do
+      get turnstile_path(return_to: '/results?q=ocean'), headers: { 'Turbo-Frame' => 'search-results' }
+
+      assert_response :success
+      assert_select 'meta[name="turbo-visit-control"][content="reload"]'
     end
   end
 
@@ -29,10 +40,11 @@ class TurnstileControllerTest < ActionDispatch::IntegrationTest
 
   test 'verify re-renders on failed validation' do
     with_bot_detection_enabled do
-      post turnstile_verify_path
+      post turnstile_verify_path, params: { return_to: '/results?q=ocean' }
 
       assert_response :unprocessable_entity
       assert_match "We couldn't complete the verification", response.body
+      assert_select 'input[name="return_to"][value="/results?q=ocean"]'
       refute session[:passed_turnstile]
     end
   end
