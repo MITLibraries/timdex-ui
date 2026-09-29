@@ -1,3 +1,4 @@
+<% turbo_page_requires_reload %>
 <%= cloudflare_turnstile_script_tag %>
 
 <section class="turnstile-challenge">
@@ -7,7 +8,7 @@
       Sorry to require this extra step, but you’ve somehow landed on our bot challenge page and we need to be sure. Thanks!
     </p>
 
-    <%= form_with url: turnstile_verify_path, method: :post, local: true do %>
+    <%= form_with url: turnstile_verify_path, method: :post, local: true, data: { turbo: false } do %>
       <%= hidden_field_tag :return_to, @return_to %>
 
       <div class="turnstile-widget">
