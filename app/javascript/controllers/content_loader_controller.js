@@ -55,7 +55,7 @@ export default class extends Controller {
           // - Alma loader is outside `.result-get`
           const hasPrimoOverrideAction = resultContent.querySelector("[data-overrides-primo='true']")
           if (hasPrimoOverrideAction && resultGet) {
-            const primoLinks = resultGet.querySelectorAll("[data-action-source='primo'][data-action-type='primo_link'], [data-action-source='primo'][data-action-type='full_text_options']")
+            const primoLinks = resultGet.querySelectorAll("[data-action-source='primo'][data-action-type='primo_link'], [data-action-source='primo'][data-action-type='full_text_options'], [data-action-source='alma'][data-action-type='full_text_options']")
             // Removing instead of hiding avoids layout issues when selecting which link to highlight.
             primoLinks.forEach(link => link.remove())
           }
