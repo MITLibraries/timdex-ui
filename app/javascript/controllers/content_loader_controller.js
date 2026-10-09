@@ -37,19 +37,42 @@ export default class extends Controller {
           // Keep Alma availability in `.result-content` but place “Full-text options”
           // with fulfillment links in the descendant `.result-get` container.
           const resultContent = parentElement.closest('.result-content') || parentElement
-          const almaFulltextOptions = resultContent.querySelector('.alma-fulltext-options')
+          const almaFulltextOptions = resultContent.querySelector("[data-action-source='alma'][data-action-type='full_text_options']")
           const resultGet = resultContent.querySelector('.result-get')
           if (almaFulltextOptions && resultGet) {
-            resultGet.appendChild(almaFulltextOptions)
+            const firstLibkeyActions = resultGet.querySelector('.libkey-actions')
+            if (firstLibkeyActions) {
+              resultGet.insertBefore(almaFulltextOptions, firstLibkeyActions)
+            } else {
+              resultGet.prepend(almaFulltextOptions)
+            }
           }
 
-          // Hide primo links if libkey link is present
-          if (parentElement.querySelector('.libkey-link')) {
-            const resultGet = parentElement.closest('.result-get')
-            if (resultGet) {
-              const primoLinks = resultGet.querySelectorAll('.primo-link')
-              // removing instead of hiding to avoid layout issues when selecting which link to highlight
-              primoLinks.forEach(link => link.remove())
+          // Hide primo links when a fulfillment action explicitly declares it
+          // should override Primo fallback actions.
+          // Use the result content root so this works for both loaders:
+          // - Browzine loader is inside `.result-get`
+          // - Alma loader is outside `.result-get`
+          const hasPrimoOverrideAction = resultContent.querySelector("[data-overrides-primo='true']")
+          if (hasPrimoOverrideAction && resultGet) {
+            const primoLinks = resultGet.querySelectorAll("[data-action-source='primo'][data-action-type='primo_link'], [data-action-source='primo'][data-action-type='full_text_options'], [data-action-source='alma'][data-action-type='full_text_options']")
+            // Removing instead of hiding avoids layout issues when selecting which link to highlight.
+            primoLinks.forEach(link => link.remove())
+          }
+
+          // Keep only one full-text options action in the result-get area.
+          if (resultGet) {
+            const fullTextOptionActions = Array.from(resultGet.querySelectorAll("[data-action-type='full_text_options']"))
+
+            if (fullTextOptionActions.length > 1) {
+              const preferredAction = fullTextOptionActions.find((action) => action.dataset.overridesPrimo === 'true') ||
+                fullTextOptionActions[0]
+
+              fullTextOptionActions.forEach((action) => {
+                if (action !== preferredAction) {
+                  action.remove()
+                }
+              })
             }
           }
         } else {

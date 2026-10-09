@@ -78,7 +78,11 @@
         <% end %>
       </div>
 
+      <%# Primo supplies various fulfillment links, which may overlap with LibKey/Browzine/etc. %>
+      <%# The logic to determine which links to render lives in FulfillmentPolicy. %>
       <% should_render_almasru = AlmaSru.enabled? && AlmaSru.valid_alma_id?(result[:identifier]) %>
+      <% fulfillment_policy = FulfillmentPolicy.new(result: result) %>
+      <% primo_actions = fulfillment_policy.primo_actions(record_link_enabled: Feature.enabled?(:record_link)) %>
 
       <% if should_render_almasru %>
         <%= render(partial: 'trigger_almasru', locals: { doc_id: result[:identifier] }) %>
@@ -86,19 +90,8 @@
 
       <% if result_get?(result) || should_render_almasru %>
       <div class="result-get">
-        <% if result[:links].present? %>
-          <% result[:links].each do |link| %>
-            <% if link['kind'].downcase == 'full record' %>
-              <%# Full record link button uses the same link as the title link %>
-              <% if Feature.enabled?(:record_link) %>
-                <%= link_to 'View full record', link['url'], class: 'button', data: { content_piece: 'View Full Record' } %>
-              <% end %>
-            <%# Primo supplies PDF and HTML links in addition to the OpenURL variant that may be useful. %>
-            <%# We hide links with the `primo-link` css class if LibKey returns results. %>
-            <% else %>
-              <%= link_to link['kind'], link['url'], class: 'button primo-link', data: { content_piece: link['kind'] } %>
-            <% end %>
-          <% end %>
+        <% primo_actions.each do |action| %>
+          <%= link_to action[:label], action[:url], class: action[:classes], data: action[:data] %>
         <% end %>
 
         <%# LibKey links are our preferred links so we call the API when possible to get these preferred links %>
@@ -117,7 +110,7 @@
         <%# Trigger BrowZine lookup (render inside result-get so injected HTML
             is part of the flex `.result-get` area and receives expected styles) %>
         <% if ThirdIron.enabled? && result[:format].downcase == 'journal' && result[:issn].present? %>
-          <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn], full_record_url: full_record_url(result) }) %>
+          <%= render(partial: 'trigger_browzine', locals: { issn: result[:issn], full_record_url: fulfillment_policy.browzine_full_record_url }) %>
         <% end %>
       </div>
       <% end %>
