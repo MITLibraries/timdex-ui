@@ -78,10 +78,9 @@
         <% end %>
       </div>
 
-      <%# Primo supplies various fulfillment links, which may overlap with LibKey/Browzine/etc. %>
-      <%# The logic to determine which links to render lives in FulfillmentPolicy. %>
+      <%# Primo-originated link actions are shaped by PrimoFulfillmentPolicy and may overlap with async provider actions (LibKey/Browzine/OpenAlex). %>
       <% should_render_almasru = AlmaSru.enabled? && AlmaSru.valid_alma_id?(result[:identifier]) %>
-      <% fulfillment_policy = FulfillmentPolicy.new(result: result) %>
+      <% fulfillment_policy = PrimoFulfillmentPolicy.new(result: result) %>
       <% primo_actions = fulfillment_policy.primo_actions(record_link_enabled: Feature.enabled?(:record_link)) %>
 
       <% if should_render_almasru %>

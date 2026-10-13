@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FulfillmentPolicyTest < ActiveSupport::TestCase
+class PrimoFulfillmentPolicyTest < ActiveSupport::TestCase
   test 'primo_actions includes full record action when record links enabled' do
     result = {
       links: [
@@ -10,7 +10,7 @@ class FulfillmentPolicyTest < ActiveSupport::TestCase
       ]
     }
 
-    policy = FulfillmentPolicy.new(result: result)
+    policy = PrimoFulfillmentPolicy.new(result: result)
     actions = policy.primo_actions(record_link_enabled: true)
 
     assert_equal 3, actions.length
@@ -30,7 +30,7 @@ class FulfillmentPolicyTest < ActiveSupport::TestCase
       ]
     }
 
-    policy = FulfillmentPolicy.new(result: result)
+    policy = PrimoFulfillmentPolicy.new(result: result)
     actions = policy.primo_actions(record_link_enabled: false)
 
     assert_equal 1, actions.length
@@ -46,7 +46,7 @@ class FulfillmentPolicyTest < ActiveSupport::TestCase
       ]
     }
 
-    policy = FulfillmentPolicy.new(result: result)
+    policy = PrimoFulfillmentPolicy.new(result: result)
 
     assert_equal 'https://example.com/full-record', policy.browzine_full_record_url
     assert_not policy.send(:existing_full_text_options?)
@@ -60,7 +60,7 @@ class FulfillmentPolicyTest < ActiveSupport::TestCase
       ]
     }
 
-    policy = FulfillmentPolicy.new(result: result)
+    policy = PrimoFulfillmentPolicy.new(result: result)
 
     assert_nil policy.browzine_full_record_url
     assert policy.send(:existing_full_text_options?)
@@ -73,7 +73,7 @@ class FulfillmentPolicyTest < ActiveSupport::TestCase
       ]
     }
 
-    policy = FulfillmentPolicy.new(result: result)
+    policy = PrimoFulfillmentPolicy.new(result: result)
 
     assert_nil policy.browzine_full_record_url
   end
