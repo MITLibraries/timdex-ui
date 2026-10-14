@@ -5,7 +5,8 @@
 %>
 <% if ThirdIron.enabled? && @browzine.present? && @browzine[:browzine_link].present? %>
   <% if @full_record_url.present? %>
-    <%= link_to 'Full-text options', @full_record_url, class: 'button libkey-link', data: { matomo_seen: "Results, Full-text Options Link Seen, Tab: {{getActiveTabName}}", matomo_click: "Results, Full-text Options Link Engaged, Link: {{getElementText}}", content_piece: 'Full-text options', action_type: 'full_text_options', action_source: 'browzine', overrides_primo: true } %>
+    <%# This full-text options link was originally requested by UXWS in USE-614. %>
+    <%= link_to 'Full-text options', @full_record_url, class: 'button libkey-link', data: { matomo_seen: "Results, Full-text Options Link Seen, Tab: {{getActiveTabName}}", matomo_click: "Results, Full-text Options Link Engaged, Link: {{getElementText}}", content_piece: 'Full-text options', action_type: 'full_text_options', action_source: 'browzine' } %>
   <% end %>
 
   <div class="libkey-actions">

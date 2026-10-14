@@ -40,24 +40,12 @@ export default class extends Controller {
           const almaFulltextOptions = resultContent.querySelector("[data-action-source='alma'][data-action-type='full_text_options']")
           const resultGet = resultContent.querySelector('.result-get')
           if (almaFulltextOptions && resultGet) {
-            const firstLibkeyActions = resultGet.querySelector('.libkey-actions')
-            if (firstLibkeyActions) {
-              resultGet.insertBefore(almaFulltextOptions, firstLibkeyActions)
+            const libkeyActionsContainer = resultGet.querySelector('.libkey-actions')
+            if (libkeyActionsContainer) {
+              resultGet.insertBefore(almaFulltextOptions, libkeyActionsContainer)
             } else {
               resultGet.prepend(almaFulltextOptions)
             }
-          }
-
-          // Hide primo links when a fulfillment action explicitly declares it
-          // should override Primo fallback actions.
-          // Use the result content root so this works for both loaders:
-          // - Browzine loader is inside `.result-get`
-          // - Alma loader is outside `.result-get`
-          const hasPrimoOverrideAction = resultContent.querySelector("[data-overrides-primo='true']")
-          if (hasPrimoOverrideAction && resultGet) {
-            const primoLinks = resultGet.querySelectorAll("[data-action-source='primo'][data-action-type='primo_link'], [data-action-source='primo'][data-action-type='full_text_options'], [data-action-source='alma'][data-action-type='full_text_options']")
-            // Removing instead of hiding avoids layout issues when selecting which link to highlight.
-            primoLinks.forEach(link => link.remove())
           }
 
           // Keep only one full-text options action in the result-get area.
@@ -65,7 +53,11 @@ export default class extends Controller {
             const fullTextOptionActions = Array.from(resultGet.querySelectorAll("[data-action-type='full_text_options']"))
 
             if (fullTextOptionActions.length > 1) {
-              const preferredAction = fullTextOptionActions.find((action) => action.dataset.overridesPrimo === 'true') ||
+              // Prefer Alma SRU full-text when available, then Primo full-text,
+              // then any remaining provider action as a final fallback.
+              const preferredAction =
+                fullTextOptionActions.find((action) => action.dataset.actionSource === 'alma') ||
+                fullTextOptionActions.find((action) => action.dataset.actionSource === 'primo') ||
                 fullTextOptionActions[0]
 
               fullTextOptionActions.forEach((action) => {

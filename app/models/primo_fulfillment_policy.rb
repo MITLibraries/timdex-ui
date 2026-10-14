@@ -7,8 +7,9 @@
 #   policies may be needed later.
 # - It does not model all provider behaviors end-to-end (for example, LibKey,
 #   OpenAlex, or TIMDEX result rendering paths).
-# - It includes one Browzine interoperability helper to avoid duplicate
-#   "Full-text options" actions when Primo already provides one.
+# - It includes one Browzine helper for a 'Full-text options' link that points
+#   to Primo's full-record URL. This is a fallback when the Primo normalizer
+#   does not provide such a link.
 #
 # Why this exists:
 # - The result partial previously had nested branching to decide which Primo
@@ -75,14 +76,12 @@ class PrimoFulfillmentPolicy
 
   private
 
-  attr_reader :result
-
   def existing_full_text_options?
     links.any? { |link| full_text_options_kind?(link['kind'].to_s) }
   end
 
   def links
-    result[:links] || []
+    @result[:links] || []
   end
 
   def full_record_url
