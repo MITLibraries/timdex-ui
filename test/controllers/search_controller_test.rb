@@ -31,6 +31,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     PrimoSearch.expects(:new).returns(mock_primo)
 
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns([sample_doc])
     NormalizePrimoResults.expects(:new).returns(mock_normalizer)
   end
@@ -58,6 +59,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     PrimoSearch.expects(:new).returns(mock_primo).at_least_once
 
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns([sample_doc]).at_least_once
     NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
   end
@@ -85,6 +87,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     PrimoSearch.expects(:new).returns(mock_primo)
 
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns(sample_docs)
     NormalizePrimoResults.expects(:new).returns(mock_normalizer)
   end
@@ -972,6 +975,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     PrimoSearch.expects(:new).returns(mock_primo)
 
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns([])
     NormalizePrimoResults.expects(:new).returns(mock_normalizer)
 
@@ -986,6 +990,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     PrimoSearch.expects(:new).returns(mock_primo)
 
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns([])
     NormalizePrimoResults.expects(:new).returns(mock_normalizer)
 
@@ -1001,6 +1006,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     PrimoSearch.expects(:new).returns(mock_primo)
 
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns([])
     NormalizePrimoResults.expects(:new).returns(mock_normalizer)
 
@@ -1096,6 +1102,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     mock_primo.expects(:search).returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } }).at_least_once
     PrimoSearch.expects(:new).returns(mock_primo).at_least_once
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns([sample_doc]).at_least_once
     NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
     mock_timdex_search_success
@@ -1125,6 +1132,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
                                         }).at_least_once
     PrimoSearch.expects(:new).returns(mock_primo).at_least_once
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns(sample_docs).at_least_once
     NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
     mock_timdex_search_with_hits(300)
@@ -1154,6 +1162,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
                                         }).at_least_once
     PrimoSearch.expects(:new).returns(mock_primo).at_least_once
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns(sample_docs).at_least_once
     NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
     mock_timdex_search_with_hits(300)
@@ -1182,6 +1191,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
                                         }).at_least_once
     PrimoSearch.expects(:new).returns(mock_primo).at_least_once
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns(sample_docs).at_least_once
     NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
     mock_timdex_search_with_hits(300)
@@ -1224,6 +1234,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     controller.instance_variable_set(:@enhanced_query, { q: 'test', queryMode: 'semantic' })
     controller.instance_variable_set(:@primo_result_count, 12)
     controller.instance_variable_set(:@timdex_result_count, 34)
+    controller.instance_variable_set(:@frbr_group_ids, %w[group-b group-a])
     payload = {}
 
     controller.send(:append_info_to_payload, payload)
@@ -1234,8 +1245,10 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
                    timdex_result_count: 34,
                    searchterm: 'test',
                    query_mode: 'semantic',
+                   frbr_group_ids: %w[group-a group-b],
                    ui_mode: 'sml'
-                 }, payload.slice(:search_tab, :primo_result_count, :timdex_result_count, :searchterm, :query_mode, :ui_mode))
+                 }, payload.slice(:search_tab, :primo_result_count, :timdex_result_count, :searchterm, :query_mode,
+                                  :frbr_group_ids, :ui_mode))
   end
 
   test 'append info to payload adds geodata ui mode for geodata results' do
@@ -1257,7 +1270,9 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
                      searchterm: 'parcels',
                      query_mode: 'hybrid',
                      ui_mode: 'geodata'
-                   }, payload.slice(:search_tab, :primo_result_count, :timdex_result_count, :searchterm, :query_mode, :ui_mode))
+                   }, payload.slice(:search_tab, :primo_result_count, :timdex_result_count, :searchterm, :query_mode,
+                                    :ui_mode))
+      assert_nil payload[:frbr_group_ids]
     end
   end
 
@@ -1275,6 +1290,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_nil payload[:timdex_result_count]
     assert_nil payload[:searchterm]
     assert_nil payload[:query_mode]
+    assert_nil payload[:frbr_group_ids]
   end
 
   test 'append info to payload skips result context before enhanced query is built' do
@@ -1290,6 +1306,25 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_nil payload[:timdex_result_count]
     assert_nil payload[:searchterm]
     assert_nil payload[:query_mode]
+    assert_nil payload[:frbr_group_ids]
+  end
+
+  test 'collect_frbr_group_ids appends non-blank ids' do
+    controller = SearchController.new
+
+    controller.send(:collect_frbr_group_ids, ['group-a'])
+    controller.send(:collect_frbr_group_ids, %w[group-b group-c])
+
+    assert_equal %w[group-a group-b group-c], controller.instance_variable_get(:@frbr_group_ids)
+  end
+
+  test 'collect_frbr_group_ids ignores blank inputs' do
+    controller = SearchController.new
+
+    controller.send(:collect_frbr_group_ids, nil)
+    controller.send(:collect_frbr_group_ids, [])
+
+    assert_nil controller.instance_variable_get(:@frbr_group_ids)
   end
 
   test 'results can include tuning parameters' do

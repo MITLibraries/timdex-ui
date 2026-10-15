@@ -46,6 +46,7 @@ class NaturalLanguageSearchOptinTest < ActionDispatch::IntegrationTest
     PrimoSearch.stubs(:new).returns(mock_primo)
 
     mock_normalizer = mock('normalizer')
+    mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.stubs(:normalize).returns([sample_doc])
     NormalizePrimoResults.stubs(:new).returns(mock_normalizer)
   end
