@@ -182,13 +182,17 @@ class SearchController < ApplicationController
   # values depend on the results action having parsed the query and loaded data
   # from Primo, TIMDEX, or both.
   def search_results_log_payload
-    {
+    payload = {
       search_tab: search_results_log_search_tab,
       primo_result_count: @primo_result_count.to_i,
       timdex_result_count: @timdex_result_count.to_i,
       searchterm: @enhanced_query[:q].to_s,
       query_mode: search_results_log_query_mode
     }
+
+    frbr_group_ids = @frbr_group_ids&.uniq&.sort
+    payload[:frbr_group_ids] = frbr_group_ids if frbr_group_ids.present?
+    payload
   end
 
   # Normalizes the active tab for search result logging. GeoData bypasses the
@@ -258,7 +262,9 @@ class SearchController < ApplicationController
 
     primo_response = query_primo(per_page, offset)
     hits = primo_response.dig('info', 'total') || 0
-    results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
+    normalizer = NormalizePrimoResults.new(primo_response, @enhanced_query[:q])
+    results = normalizer.normalize
+    collect_frbr_group_ids(normalizer.frbr_group_ids)
     pagination = Analyzer.new(@enhanced_query, hits, :primo).pagination
 
     # Handle empty results from Primo API. Sometimes Primo will return no results at a given offset,
@@ -303,6 +309,14 @@ class SearchController < ApplicationController
     else
       { results: [], pagination: {}, errors: errors, hits: 0 }
     end
+  end
+
+  # Collects FRBR group IDs found in Primo normalization to add to the log payload.
+  def collect_frbr_group_ids(group_ids)
+    return if group_ids.blank?
+
+    @frbr_group_ids ||= []
+    @frbr_group_ids.concat(group_ids)
   end
 
   def active_filters

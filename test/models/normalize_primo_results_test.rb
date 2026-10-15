@@ -76,4 +76,23 @@ class NormalizePrimoResultsTest < ActiveSupport::TestCase
       assert_equal 'primo', result[:api]
     end
   end
+
+  test 'collects frbr group ids encountered during normalization' do
+    normalizer = NormalizePrimoResults.new(sample_results, 'test query')
+    normalizer.normalize
+
+    assert_equal ['12345'], normalizer.frbr_group_ids
+  end
+
+  test 'does not collect frbr group ids for non-frbrized records' do
+    record = JSON.parse(File.read(Rails.root.join('test/fixtures/primo/full_record.json')))
+    record['pnx']['facets']['frbrtype'] = ['3']
+    record['pnx']['facets']['frbrgroupid'] = ['should_not_log']
+    results = { 'docs' => [record], 'info' => { 'total' => 1 } }
+
+    normalizer = NormalizePrimoResults.new(results, 'test query')
+    normalizer.normalize
+
+    assert_empty normalizer.frbr_group_ids
+  end
 end
