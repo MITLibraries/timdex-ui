@@ -37,19 +37,34 @@ export default class extends Controller {
           // Keep Alma availability in `.result-content` but place “Full-text options”
           // with fulfillment links in the descendant `.result-get` container.
           const resultContent = parentElement.closest('.result-content') || parentElement
-          const almaFulltextOptions = resultContent.querySelector('.alma-fulltext-options')
+          const almaFulltextOptions = resultContent.querySelector("[data-action-source='alma'][data-action-type='full_text_options']")
           const resultGet = resultContent.querySelector('.result-get')
           if (almaFulltextOptions && resultGet) {
-            resultGet.appendChild(almaFulltextOptions)
+            const libkeyActionsContainer = resultGet.querySelector('.libkey-actions')
+            if (libkeyActionsContainer) {
+              resultGet.insertBefore(almaFulltextOptions, libkeyActionsContainer)
+            } else {
+              resultGet.prepend(almaFulltextOptions)
+            }
           }
 
-          // Hide primo links if libkey link is present
-          if (parentElement.querySelector('.libkey-link')) {
-            const resultGet = parentElement.closest('.result-get')
-            if (resultGet) {
-              const primoLinks = resultGet.querySelectorAll('.primo-link')
-              // removing instead of hiding to avoid layout issues when selecting which link to highlight
-              primoLinks.forEach(link => link.remove())
+          // Keep only one full-text options action in the result-get area.
+          if (resultGet) {
+            const fullTextOptionActions = Array.from(resultGet.querySelectorAll("[data-action-type='full_text_options']"))
+
+            if (fullTextOptionActions.length > 1) {
+              // Prefer Alma SRU full-text when available, then Primo full-text,
+              // then any remaining provider action as a final fallback.
+              const preferredAction =
+                fullTextOptionActions.find((action) => action.dataset.actionSource === 'alma') ||
+                fullTextOptionActions.find((action) => action.dataset.actionSource === 'primo') ||
+                fullTextOptionActions[0]
+
+              fullTextOptionActions.forEach((action) => {
+                if (action !== preferredAction) {
+                  action.remove()
+                }
+              })
             }
           }
         } else {
