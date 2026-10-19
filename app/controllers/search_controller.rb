@@ -168,14 +168,24 @@ class SearchController < ApplicationController
     per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
     combined_results = []
     last_data = nil
+    last_result_page = 1
 
     (1..(@enhanced_query[:page] || 1).to_i).each do |page|
       last_data = fetch_timdex_data(offset: (page - 1) * per_page, per_page: per_page)
       combined_results.concat(last_data[:results])
-      break if last_data[:errors].present?
+      last_result_page = page if last_data[:results].any?
+      break if last_data[:errors].present? || last_data[:results].empty? || page * per_page >= last_data[:hits].to_i
     end
 
-    last_data.merge(results: combined_results)
+    return last_data.merge(results: combined_results) if last_data[:errors].present?
+
+    # A stale continuation URL may be beyond the final page. Describe the
+    # results we actually reconstructed, and stop navigation after an empty page.
+    pagination = Analyzer.new(@enhanced_query.merge(page: last_result_page), last_data[:hits], :timdex,
+                              nil, per_page).pagination
+    pagination[:end] = combined_results.length
+    pagination[:next] = nil if last_data[:results].empty?
+    last_data.merge(results: combined_results, pagination: pagination)
   end
 
   def load_all_results
@@ -340,7 +350,9 @@ class SearchController < ApplicationController
   end
 
   def cached_primo_data(per_page, offset)
-    cache_key = CacheKeyGenerator.call(@enhanced_query.merge(tab: @active_tab, per_page: per_page, offset: offset))
+    cache_key = CacheKeyGenerator.call(
+      @enhanced_query.except(:page).merge(tab: @active_tab, per_page: per_page, offset: offset)
+    )
 
     Rails.cache.fetch("#{SEARCH_RESULTS_CACHE_NAMESPACE}/#{cache_key}/primo", expires_in: SEARCH_RESULTS_CACHE_TTL) do
       primo_response = query_primo(per_page, offset)
