@@ -496,11 +496,76 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       normalizer_two.stubs(:frbr_group_ids).returns(['page-two-group'])
       NormalizePrimoResults.expects(:new).returns(normalizer_one, normalizer_two).twice
 
+      get '/results?q=data&tab=primo'
+      assert_response :success
+      assert_select '.results-list .result', count: 5
+
+      get '/results?q=data&tab=primo&page=2', headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+      assert_response :success
+
       get '/results?q=data&tab=primo&page=2'
       assert_response :success
       assert_select '.results-list .result', count: 10
       assert_equal %w[page-one-group page-two-group],
                    @controller.send(:search_results_log_payload)[:frbr_group_ids]
+    end
+  end
+
+  test 'timdex cumulative reload stops at the reported final page' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 1000000 })
+      controller.expects(:fetch_timdex_data).with(offset: 0, per_page: 5).once.returns(
+        { results: [{ identifier: 'only-record' }], hits: 1, errors: nil }
+      )
+
+      data = controller.send(:fetch_timdex_data_through_current_page)
+
+      assert_equal ['only-record'], data[:results].pluck(:identifier)
+      assert_equal 1, data[:pagination][:start]
+      assert_equal 1, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+    end
+  end
+
+  test 'timdex cumulative reload stops on an empty page despite overreported hits' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 1000000 })
+      records = Array.new(5) { |i| { identifier: "t#{i}" } }
+      controller.expects(:fetch_timdex_data).with(offset: 0, per_page: 5).once.returns(
+        { results: records, hits: 1000, errors: nil }
+      )
+      controller.expects(:fetch_timdex_data).with(offset: 5, per_page: 5).once.returns(
+        { results: [], hits: 1000, errors: nil }
+      )
+
+      data = controller.send(:fetch_timdex_data_through_current_page)
+
+      assert_equal records, data[:results]
+      assert_equal 5, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+    end
+  end
+
+  test 'timdex cumulative reload preserves the next page when more results exist' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 2 })
+      first_page = Array.new(5) { |i| { identifier: "t#{i}" } }
+      second_page = Array.new(5) { |i| { identifier: "t#{i + 5}" } }
+      controller.expects(:fetch_timdex_data).with(offset: 0, per_page: 5).once.returns(
+        { results: first_page, hits: 20, errors: nil }
+      )
+      controller.expects(:fetch_timdex_data).with(offset: 5, per_page: 5).once.returns(
+        { results: second_page, hits: 20, errors: nil }
+      )
+
+      data = controller.send(:fetch_timdex_data_through_current_page)
+
+      assert_equal first_page + second_page, data[:results]
+      assert_equal 10, data[:pagination][:end]
+      assert_equal 3, data[:pagination][:next]
     end
   end
 
@@ -1320,7 +1385,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       links: [{ 'kind' => 'full record', 'url' => 'https://example.com/record' }]
     }
     mock_primo = mock('primo_search')
-    mock_primo.expects(:search).with('test', 1, 0).twice.returns(
+    mock_primo.expects(:search).with('test', 1, 0).once.returns(
       { 'docs' => [sample_doc], 'info' => { 'total' => 10000 } }
     )
     PrimoSearch.expects(:new).returns(mock_primo).at_least_once
