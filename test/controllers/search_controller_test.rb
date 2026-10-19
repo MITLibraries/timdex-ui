@@ -945,6 +945,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
         controller.instance_variable_set(:@enhanced_query, { q: 'merged-frbr-cache-test' })
         controller.instance_variable_set(:@pagination_load_more_enabled, true)
         controller.stubs(:sanitized_load_count).returns(1)
+        controller.stubs(:params).returns(ActionController::Parameters.new)
         if attempt.zero?
           controller.expects(:fetch_primo_data).once.returns(
             { results: [{ api: 'primo', identifier: 'p1', title: 'Test' }],
@@ -1225,6 +1226,41 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select '.no-results', count: 1
     assert_select '.no-results h2', text: /No results were found/
     refute_select '.primo-continuation'
+  end
+
+  test 'all tab final capped load more batch appends only unseen records' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '20',
+                          LOAD_MORE_MAX_RESULTS: '45', ALL_TAB_SCORER: 'zipper') do
+      records = (1..50).map do |i|
+        { api: 'primo', identifier: "p#{i}", title: "Record #{i}", creators: [], links: [] }
+      end
+      SearchController.any_instance.expects(:fetch_primo_data).once.returns({ results: records, hits: 100 })
+      SearchController.any_instance.expects(:fetch_timdex_data).once.returns({ results: [], hits: 0 })
+
+      get '/results?q=capped-batch&tab=all'
+      assert_response :success
+      seen_ids = css_select('#results-list .result').map { |node| node['data-record-id'] }
+      assert_equal 20, seen_ids.length
+      next_url = css_select('#load-more a').first['href']
+
+      [20, 5].each do |expected_count|
+        get next_url, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+        assert_response :success
+        document = Nokogiri::HTML(response.body)
+        appended_ids = document.css('turbo-stream[action="append"] .result').map { |node| node['data-record-id'] }
+        assert_equal expected_count, appended_ids.length
+        assert_empty seen_ids & appended_ids
+        seen_ids.concat(appended_ids)
+        next_url = document.at_css('#load-more a')&.[]('href')
+      end
+
+      assert_equal 45, seen_ids.length
+      assert_nil next_url
+
+      get '/results?q=capped-batch&tab=all&load_count=45&load_previous_count=40'
+      assert_response :success
+      assert_select '#results-list .result', count: 45
+    end
   end
 
   test 'all tab displays results from both TIMDEX and Primo' do

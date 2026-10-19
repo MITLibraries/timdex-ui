@@ -8,6 +8,7 @@
   <% if @active_tab == 'all' %>
     <% params_copy.delete(:page) %>
     <% params_copy[:load_count] = @load_more[:next_count] %>
+    <% params_copy[:load_previous_count] = @load_more[:display_count] %>
   <% else %>
     <% params_copy[:page] = @load_more[:next_page] %>
   <% end %>
