@@ -511,6 +511,55 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'stale Primo reload keeps results visible when hits fit on the first page' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '5') do
+      records = Array.new(3) do |i|
+        { api: 'primo', identifier: "p#{i}", title: "Record #{i}", creators: [], links: [] }
+      end
+      primo = mock('primo_search')
+      primo.expects(:search).with('data', 5, 0).once.returns(
+        { 'docs' => records, 'info' => { 'total' => 3 } }
+      )
+      PrimoSearch.expects(:new).once.returns(primo)
+      normalizer = mock('normalizer')
+      normalizer.expects(:normalize).once.returns(records)
+      normalizer.stubs(:frbr_group_ids).returns([])
+      NormalizePrimoResults.expects(:new).once.returns(normalizer)
+
+      get '/results?q=data&tab=primo&page=2'
+
+      assert_response :success
+      assert_select '#results-list .result', count: 3
+      assert_select '.primo-continuation', count: 0
+      assert_select '#load-more a', count: 0
+      pagination = @controller.instance_variable_get(:@pagination)
+      assert_equal 1, pagination[:start]
+      assert_equal 3, pagination[:end]
+      assert_nil pagination[:next]
+    end
+  end
+
+  test 'Primo cumulative reload stops after a full final page' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 100 })
+      2.times do |page|
+        records = Array.new(5) { |i| { identifier: "p#{page * 5 + i}" } }
+        controller.expects(:fetch_primo_data).with(offset: page * 5, per_page: 5).once.returns(
+          { results: records, hits: 10, errors: nil, show_continuation: false }
+        )
+      end
+
+      data = controller.send(:fetch_primo_data_through_current_page)
+
+      assert_equal 10, data[:results].length
+      assert_equal 6, data[:pagination][:start]
+      assert_equal 10, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+      assert_not data[:show_continuation]
+    end
+  end
+
   test 'timdex cumulative reload stops at the reported final page' do
     ClimateControl.modify(RESULTS_PER_PAGE: '5') do
       controller = SearchController.new
