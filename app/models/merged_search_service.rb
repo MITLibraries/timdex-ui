@@ -135,7 +135,7 @@ class MergedSearchService
     paginator = build_paginator_from_totals_legacy(totals, current_page, per_page)
     primo_data, timdex_data = fetch_all_tab_page_chunks_legacy(paginator)
 
-    assemble_all_tab_result_legacy(paginator, primo_data, timdex_data, current_page, per_page, deeper: true)
+    assemble_all_tab_result_legacy(paginator, primo_data, timdex_data, current_page, per_page)
   end
 
   def totals_cache_key_legacy
@@ -188,22 +188,19 @@ class MergedSearchService
     [primo_data, timdex_data]
   end
 
-  def assemble_all_tab_result_legacy(paginator, primo_data, timdex_data, current_page, per_page, deeper: false)
-    primo_total = primo_data[:hits] || 0
-    timdex_total = timdex_data[:hits] || 0
+  def assemble_all_tab_result_legacy(paginator, primo_data, timdex_data, current_page, per_page)
+    primo_total = paginator.primo_total
+    timdex_total = paginator.timdex_total
 
     merged = merge_results_legacy(paginator, primo_data[:results] || [], timdex_data[:results] || [])
     errors = combine_errors(primo_data[:errors], timdex_data[:errors])
-    pagination = Analyzer.new(@enhanced_query, timdex_total, :all, primo_total, per_page).pagination
+    pagination = Analyzer.new(@enhanced_query.merge(page: current_page), timdex_total, :all,
+                              paginator.accessible_primo_total, per_page).pagination
+    # Navigation stops at the accessible total, while hit counts describe all matches.
+    pagination[:hits] = primo_total + timdex_total
+    pagination[:accessible_hits] = paginator.accessible_primo_total + timdex_total
 
-    show_primo_continuation = if deeper
-                                primo_api_offset, = paginator.api_offsets
-                                primo_data[:show_continuation] ||
-                                  (primo_api_offset && primo_api_offset >= Analyzer::PRIMO_MAX_OFFSET) ||
-                                  (primo_api_offset.nil? && ((current_page - 1) * per_page) >= Analyzer::PRIMO_MAX_OFFSET)
-                              else
-                                primo_data[:show_continuation]
-                              end
+    show_primo_continuation = primo_data[:show_continuation] || paginator.primo_limit_reached?
 
     { results: merged, errors: errors, pagination: pagination, show_primo_continuation: show_primo_continuation,
       primo_hits: primo_total, timdex_hits: timdex_total }

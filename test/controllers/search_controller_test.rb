@@ -1307,7 +1307,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select '.tab-navigation .tab-link.active', text: 'All'
   end
 
-  test 'all tab shows primo continuation when page exceeds API offset limit' do
+  test 'all tab shows TIMDEX results and pagination alongside Primo continuation' do
     sample_doc = {
       api: 'primo',
       title: 'Sample Primo Document Title',
@@ -1320,20 +1320,45 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       links: [{ 'kind' => 'full record', 'url' => 'https://example.com/record' }]
     }
     mock_primo = mock('primo_search')
-    mock_primo.expects(:search).returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } }).at_least_once
+    mock_primo.expects(:search).with('test', 1, 0).twice.returns(
+      { 'docs' => [sample_doc], 'info' => { 'total' => 10000 } }
+    )
     PrimoSearch.expects(:new).returns(mock_primo).at_least_once
     mock_normalizer = mock('normalizer')
     mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns([sample_doc]).at_least_once
     NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
-    mock_timdex_search_success
+    SearchController.any_instance.stubs(:fetch_timdex_data).returns(
+      { results: [{ api: 'timdex', identifier: 't1', title: 'TIMDEX result' }], hits: 1500 }
+    )
 
-    get '/results?q=test&tab=all&page=49'
+    get '/results?q=test&tab=all&page=100'
     assert_response :success
 
-    # Should show primo continuation partial
     assert_select '.primo-continuation', count: 1
-    assert_select '.primo-continuation h2', text: /You have reached the limit for these search results/
+    assert_select '.primo-continuation h2', text: /limit for Articles, Books & More results/
+    assert_select '#results-list .result.use', minimum: 1
+    assert_select '.pagination-container .current', text: /1981 - 2000 of 11,500/
+    assert_select '.pagination-container .next a[href*="page=101"]'
+
+    get '/results?q=test&tab=all&page=123'
+    assert_response :success
+    assert_select '#results-list .result.use', minimum: 1
+    assert_select '.pagination-container .current', text: /2441 - 2460 of 11,500/
+    assert_select '.pagination-container .next a', count: 0
+  end
+
+  test 'naturally exhausted Primo results do not show an API limit notice on all tab' do
+    mock_primo_search_all_tab
+    SearchController.any_instance.stubs(:fetch_timdex_data).returns(
+      { results: [{ api: 'timdex', identifier: 't1', title: 'TIMDEX result' }], hits: 1500 }
+    )
+
+    get '/results?q=test&tab=all&page=50'
+
+    assert_response :success
+    assert_select '#results-list .result.use', minimum: 1
+    assert_select '.primo-continuation', count: 0
   end
 
   test 'all tab pagination displays combined hit counts' do

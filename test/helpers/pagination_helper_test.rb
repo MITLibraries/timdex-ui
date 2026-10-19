@@ -3,6 +3,16 @@ require 'test_helper'
 class PaginationHelperTest < ActionView::TestCase
   include PaginationHelper
 
+  test 'Next links stop at accessible hits while preserving reported totals' do
+    @pagination = { next: 99, per_page: 25, hits: 11500, accessible_hits: 2460, end: 2450 }
+    assert_includes next_url(q: 'test', page: 98), 'Next 10 results'
+
+    @pagination[:next] = nil
+    @pagination[:end] = 2460
+    assert_equal "<span role='link' aria-disabled='true' tabindex='-1'>Next 0 results</span>",
+                 next_url(q: 'test', page: 99)
+  end
+
   test 'Next links for basic search' do
     @pagination = { prev: 11, next: 13, per_page: 20, hits: 1000, end: 260 }
     query_params = { q: 'popcorn', page: 12 }
