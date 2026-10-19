@@ -1,6 +1,28 @@
 require 'test_helper'
 
 class MergedSearchServiceTest < ActiveSupport::TestCase
+  test 'load more accumulates frbr ids across source chunks and cached requests' do
+    primo_fetcher = lambda do |offset:, **|
+      { results: [{ api: 'primo', identifier: "p#{offset}", title: 'Test' }], hits: 3,
+        frbr_group_ids: ['shared-group', "group-#{offset}"] }
+    end
+    service = MergedSearchService.new(
+      enhanced_query: { q: 'frbr-chunks' }, active_tab: 'all',
+      primo_fetcher: primo_fetcher, timdex_fetcher: ->(**) { { results: [], hits: 0 } }
+    )
+
+    service.fetch(display_count: 1, per_source: 1)
+    result = service.fetch(display_count: 2, per_source: 1)
+    assert_equal %w[shared-group group-0 group-1], result[:frbr_group_ids]
+
+    service = MergedSearchService.new(
+      enhanced_query: { q: 'frbr-chunks' }, active_tab: 'all',
+      primo_fetcher: ->(**) { flunk 'Unexpected Primo fetch' },
+      timdex_fetcher: ->(**) { flunk 'Unexpected TIMDEX fetch' }
+    )
+    assert_equal result[:frbr_group_ids], service.fetch(display_count: 2, per_source: 1)[:frbr_group_ids]
+  end
+
   test 'fetch writes state cache with source hit totals' do
     query = { q: 'test' }
 

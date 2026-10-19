@@ -490,13 +490,17 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
       normalizer_one = mock('normalizer_one')
       normalizer_one.expects(:normalize).returns(page_one_docs)
+      normalizer_one.stubs(:frbr_group_ids).returns(['page-one-group'])
       normalizer_two = mock('normalizer_two')
       normalizer_two.expects(:normalize).returns(page_two_docs)
+      normalizer_two.stubs(:frbr_group_ids).returns(['page-two-group'])
       NormalizePrimoResults.expects(:new).returns(normalizer_one, normalizer_two).twice
 
       get '/results?q=data&tab=primo&page=2'
       assert_response :success
       assert_select '.results-list .result', count: 10
+      assert_equal %w[page-one-group page-two-group],
+                   @controller.send(:search_results_log_payload)[:frbr_group_ids]
     end
   end
 
@@ -915,6 +919,50 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'primo normalization logs only Alma frbr ids on cache misses and hits' do
+    record = JSON.parse(File.read(Rails.root.join('test/fixtures/primo/full_record.json')))
+    cdi_record = JSON.parse(File.read(Rails.root.join('test/fixtures/primo/cdi_record.json')))
+    NormalizePrimoRecord.any_instance.stubs(:normalize).returns({ api: 'primo', identifier: 'test' })
+    PrimoSearch.any_instance.expects(:search).once.returns(
+      { 'docs' => [record, cdi_record], 'info' => { 'total' => 2 } }
+    )
+
+    2.times do
+      controller = SearchController.new
+      controller.instance_variable_set(:@active_tab, 'primo')
+      controller.instance_variable_set(:@enhanced_query, { q: 'frbr-cache-test' })
+      controller.send(:fetch_primo_data)
+
+      assert_equal ['12345'], controller.send(:search_results_log_payload)[:frbr_group_ids]
+    end
+  end
+
+  test 'all tab restores frbr ids from merged load more cache' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true') do
+      2.times do |attempt|
+        controller = SearchController.new
+        controller.instance_variable_set(:@active_tab, 'all')
+        controller.instance_variable_set(:@enhanced_query, { q: 'merged-frbr-cache-test' })
+        controller.instance_variable_set(:@pagination_load_more_enabled, true)
+        controller.stubs(:sanitized_load_count).returns(1)
+        if attempt.zero?
+          controller.expects(:fetch_primo_data).once.returns(
+            { results: [{ api: 'primo', identifier: 'p1', title: 'Test' }],
+              hits: 1, frbr_group_ids: ['merged-group'] }
+          )
+          controller.expects(:fetch_timdex_data).once.returns({ results: [], hits: 0 })
+        else
+          controller.expects(:fetch_primo_data).never
+          controller.expects(:fetch_timdex_data).never
+        end
+
+        controller.send(:load_all_results)
+
+        assert_equal ['merged-group'], controller.send(:search_results_log_payload)[:frbr_group_ids]
+      end
+    end
+  end
+
   test 'primo cache hit avoids external search and normalization' do
     sample_doc = {
       api: 'primo',
@@ -932,12 +980,14 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     mock_normalizer = mock('normalizer')
     mock_normalizer.expects(:normalize).once.returns([sample_doc])
+    mock_normalizer.stubs(:frbr_group_ids).returns(['cached-group'])
     NormalizePrimoResults.expects(:new).once.returns(mock_normalizer)
 
     2.times do
       get '/results?q=test&tab=primo'
       assert_response :success
       assert_select '.record-title', text: /Cached Primo Document Title/
+      assert_equal ['cached-group'], @controller.send(:search_results_log_payload)[:frbr_group_ids]
     end
   end
 
@@ -958,6 +1008,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
 
     mock_normalizer = mock('normalizer')
     mock_normalizer.expects(:normalize).once.returns([sample_doc])
+    mock_normalizer.stubs(:frbr_group_ids).returns(['cached-group'])
     NormalizePrimoResults.expects(:new).once.returns(mock_normalizer)
 
     controller = SearchController.new
