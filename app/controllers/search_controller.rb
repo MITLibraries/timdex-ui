@@ -189,7 +189,7 @@ class SearchController < ApplicationController
     )
     if @pagination_load_more_enabled
       display_count = sanitized_load_count
-      stable_count = [display_count - load_more_batch_size, 0].max
+      stable_count = previous_load_count(display_count)
       data = merge_service.fetch(display_count: display_count, stable_count: stable_count)
       collect_frbr_group_ids(data[:frbr_group_ids])
 
@@ -288,6 +288,14 @@ class SearchController < ApplicationController
 
   def load_more_batch_size
     ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+  end
+
+  # Continuation links carry the actual previous count because the final batch
+  # may be smaller than RESULTS_PER_PAGE when capped by LOAD_MORE_MAX_RESULTS.
+  def previous_load_count(display_count)
+    previous = params[:load_previous_count]
+    previous = display_count - load_more_batch_size if previous.nil?
+    previous.to_i.clamp(0, display_count)
   end
 
   def max_load_count
