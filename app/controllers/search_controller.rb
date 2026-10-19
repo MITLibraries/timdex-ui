@@ -2,7 +2,7 @@ class SearchController < ApplicationController
   # Increment this namespace when the normalized search result payload changes in a way that
   # makes existing cached values incomplete or incompatible, such as adding required fields,
   # removing/renaming fields, changing key types, or changing error/continuation metadata shape.
-  SEARCH_RESULTS_CACHE_NAMESPACE = 'normalized-search-results/v1'.freeze
+  SEARCH_RESULTS_CACHE_NAMESPACE = 'normalized-search-results/v2'.freeze
   SEARCH_RESULTS_CACHE_TTL = 12.hours
 
   before_action :validate_q!, only: %i[results]
@@ -191,6 +191,7 @@ class SearchController < ApplicationController
       display_count = sanitized_load_count
       stable_count = [display_count - load_more_batch_size, 0].max
       data = merge_service.fetch(display_count: display_count, stable_count: stable_count)
+      collect_frbr_group_ids(data[:frbr_group_ids])
 
       @results = data[:results]
       @append_results = data[:append_results]
@@ -309,6 +310,7 @@ class SearchController < ApplicationController
     end
 
     cached = cached_primo_data(per_page, offset)
+    collect_frbr_group_ids(cached[:frbr_group_ids])
     pagination = Analyzer.new(@enhanced_query, cached[:hits], :primo).pagination
 
     cached.merge(pagination: pagination)
@@ -335,9 +337,10 @@ class SearchController < ApplicationController
     Rails.cache.fetch("#{SEARCH_RESULTS_CACHE_NAMESPACE}/#{cache_key}/primo", expires_in: SEARCH_RESULTS_CACHE_TTL) do
       primo_response = query_primo(per_page, offset)
       hits = primo_response.dig('info', 'total') || 0
-      results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
+      normalizer = NormalizePrimoResults.new(primo_response, @enhanced_query[:q])
+      results = normalizer.normalize
 
-      build_primo_cache_payload(primo_response, results, hits, offset)
+      build_primo_cache_payload(primo_response, results, hits, offset).merge(frbr_group_ids: normalizer.frbr_group_ids)
     end
   end
 

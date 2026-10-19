@@ -11,7 +11,7 @@
 # or `page`/`per_page` (legacy).
 class MergedSearchService
   TTL = 12.hours
-  LOAD_MORE_CACHE_NAMESPACE = 'all-tab-load-more/v2'.freeze
+  LOAD_MORE_CACHE_NAMESPACE = 'all-tab-load-more/v3'.freeze
 
   # Initialize a new MergedSearchService.
   #
@@ -79,6 +79,7 @@ class MergedSearchService
     {
       results: ordered_results,
       append_results: append_results,
+      frbr_group_ids: state[:frbr_group_ids],
       errors: state[:errors],
       load_more: {
         display_count: display_count,
@@ -233,6 +234,7 @@ class MergedSearchService
   def empty_state
     {
       primo_results: [],
+      frbr_group_ids: [],
       timdex_results: [],
       primo_offset: 0,
       timdex_offset: 0,
@@ -291,6 +293,10 @@ class MergedSearchService
     hits_key = source_hits_key(source)
     incoming = Array(data[:results])
     previous_length = state[results_key].length
+
+    if source == :primo
+      state[:frbr_group_ids] = (state[:frbr_group_ids] + Array(data[:frbr_group_ids])).uniq
+    end
 
     state[hits_key] = data[:hits].to_i
     state[:"#{source}_offset"] = requested_offset + incoming.length

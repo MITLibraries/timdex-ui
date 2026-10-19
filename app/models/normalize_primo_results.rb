@@ -31,6 +31,8 @@ class NormalizePrimoResults
   end
 
   def frbr_group_ids_for(doc)
+    return [] unless Array(doc&.dig('pnx', 'control', 'recordid')).join.start_with?('alma')
+
     facets = doc&.dig('pnx', 'facets')
     return [] unless frbrized?(facets)
 
