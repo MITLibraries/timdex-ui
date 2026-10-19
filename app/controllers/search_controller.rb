@@ -154,14 +154,25 @@ class SearchController < ApplicationController
     per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
     combined_results = []
     last_data = nil
+    last_result_page = 1
 
     (1..bounded_source_page).each do |page|
       last_data = fetch_primo_data(offset: (page - 1) * per_page, per_page: source_page_size(page))
       combined_results.concat(last_data[:results])
+      last_result_page = page if last_data[:results].any?
       break if last_data[:errors].present? || last_data[:show_continuation]
+      break if last_data[:results].empty? || page * per_page >= last_data[:hits].to_i
     end
 
-    last_data.merge(results: combined_results)
+    if last_data[:errors].present? || last_data[:show_continuation]
+      return last_data.merge(results: combined_results)
+    end
+
+    pagination = Analyzer.new(@enhanced_query.merge(page: last_result_page), last_data[:hits], :primo,
+                              nil, per_page).pagination
+    pagination[:end] = combined_results.length
+    pagination[:next] = nil if last_data[:results].empty? || combined_results.length >= max_load_count
+    last_data.merge(results: combined_results, pagination: pagination)
   end
 
   # Reconstructs the full cumulative TIMDEX result list for a load-more continuation page rendered as
