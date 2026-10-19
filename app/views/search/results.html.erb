@@ -11,7 +11,7 @@
   <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
     <div id="results-section" data-matomo-seen="Search, Search Performed, Tab: {{getActiveTabName}}">
 
-      <% if @show_primo_continuation && (@active_tab != 'all' || @results.blank?) %>
+      <% if @show_primo_continuation && @results.blank? %>
 
         <%= render partial: 'search/primo_continuation' %>
 

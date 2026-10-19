@@ -155,24 +155,29 @@ class SearchController < ApplicationController
     combined_results = []
     last_data = nil
     last_result_page = 1
+    last_result_hits = nil
 
     (1..bounded_source_page).each do |page|
       last_data = fetch_primo_data(offset: (page - 1) * per_page, per_page: source_page_size(page))
       combined_results.concat(last_data[:results])
-      last_result_page = page if last_data[:results].any?
+      if last_data[:results].any?
+        last_result_page = page
+        last_result_hits = last_data[:hits]
+      end
       break if last_data[:errors].present? || last_data[:show_continuation]
       break if last_data[:results].empty? || page * per_page >= last_data[:hits].to_i
     end
 
-    if last_data[:errors].present? || last_data[:show_continuation]
-      return last_data.merge(results: combined_results)
-    end
+    return last_data.merge(results: combined_results) if last_data[:errors].present?
 
-    pagination = Analyzer.new(@enhanced_query.merge(page: last_result_page), last_data[:hits], :primo,
+    hits = last_result_hits || last_data[:hits]
+    pagination = Analyzer.new(@enhanced_query.merge(page: last_result_page), hits, :primo,
                               nil, per_page).pagination
     pagination[:end] = combined_results.length
-    pagination[:next] = nil if last_data[:results].empty? || combined_results.length >= max_load_count
-    last_data.merge(results: combined_results, pagination: pagination)
+    if last_data[:show_continuation] || last_data[:results].empty? || combined_results.length >= max_load_count
+      pagination[:next] = nil
+    end
+    last_data.merge(results: combined_results, pagination: pagination, hits: hits)
   end
 
   # Reconstructs the full cumulative TIMDEX result list for a load-more continuation page rendered as

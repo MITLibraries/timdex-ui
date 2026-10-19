@@ -539,6 +539,38 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'Primo HTML reload retains earlier results alongside an empty-page continuation notice' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '5') do
+      records = Array.new(5) do |i|
+        { api: 'primo', identifier: "p#{i}", title: "Record #{i}", creators: [], links: [] }
+      end
+      primo = mock('primo_search')
+      primo.expects(:search).with('data', 5, 0).once.returns(
+        { 'docs' => records, 'info' => { 'total' => 20 } }
+      )
+      primo.expects(:search).with('data', 5, 5).once.returns(
+        { 'docs' => [], 'info' => { 'total' => 20 } }
+      )
+      PrimoSearch.expects(:new).twice.returns(primo)
+      normalizer = mock('normalizer')
+      normalizer.expects(:normalize).twice.returns(records, [])
+      normalizer.stubs(:frbr_group_ids).returns([])
+      NormalizePrimoResults.expects(:new).twice.returns(normalizer)
+
+      get '/results?q=data&tab=primo&page=2'
+
+      assert_response :success
+      assert_select '#results-list .result', count: 5
+      assert_select '#results .primo-continuation', count: 1
+      assert_select '#load-more a', count: 0
+      pagination = @controller.instance_variable_get(:@pagination)
+      assert_equal 1, pagination[:start]
+      assert_equal 5, pagination[:end]
+      assert_equal 20, pagination[:hits]
+      assert_nil pagination[:next]
+    end
+  end
+
   test 'Primo cumulative reload stops after a full final page' do
     ClimateControl.modify(RESULTS_PER_PAGE: '5') do
       controller = SearchController.new
@@ -557,6 +589,29 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       assert_equal 10, data[:pagination][:end]
       assert_nil data[:pagination][:next]
       assert_not data[:show_continuation]
+    end
+  end
+
+  test 'Primo reconstruction retains hit totals when continuation returns zero hits' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 2 })
+      records = Array.new(5) { |i| { identifier: "p#{i}" } }
+      controller.expects(:fetch_primo_data).with(offset: 0, per_page: 5).once.returns(
+        { results: records, hits: 100, errors: nil, show_continuation: false }
+      )
+      controller.expects(:fetch_primo_data).with(offset: 5, per_page: 5).once.returns(
+        { results: [], hits: 0, errors: nil, show_continuation: true }
+      )
+
+      data = controller.send(:fetch_primo_data_through_current_page)
+
+      assert_equal records, data[:results]
+      assert_equal 100, data[:hits]
+      assert_equal 100, data[:pagination][:hits]
+      assert_equal 5, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+      assert data[:show_continuation]
     end
   end
 
