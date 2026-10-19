@@ -560,6 +560,34 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  %w[primo timdex].each do |tab|
+    test "authenticated #{tab} JSON pagination remains independent of browser load more" do
+      ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '20',
+                            LOAD_MORE_MAX_RESULTS: '45', FORMAT_TOKEN: 'pagination-test-token') do
+        [2, 11].each do |page|
+          offset = (page - 1) * 20
+          records = Array.new(20) { |i| { api: tab, identifier: "r#{offset + i}" } }
+          data = { results: records, hits: 100000, errors: nil }
+          if tab == 'primo'
+            SearchController.any_instance.expects(:cached_primo_data).with(20, offset).once.returns(data)
+          else
+            SearchController.any_instance.expects(:cached_timdex_data)
+                            .with(has_entries('from' => offset.to_s, 'perPage' => 20)).once.returns(data)
+          end
+
+          get '/results', params: { q: 'pagination', tab: tab, page: page, format: 'json',
+                                    format_token: 'pagination-test-token' }
+
+          assert_response :success
+          json = response.parsed_body
+          assert_equal records.pluck(:identifier), json['results'].pluck('identifier')
+          assert_equal 100000, json['hits']
+          assert_nil json['errors']
+        end
+      end
+    end
+  end
+
   test 'timdex cumulative reload stops at the reported final page' do
     ClimateControl.modify(RESULTS_PER_PAGE: '5') do
       controller = SearchController.new
@@ -638,6 +666,31 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   %w[primo timdex].each do |tab|
+    test "#{tab} Turbo Stream page two fetches and appends only page two" do
+      ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '5') do
+        records = (6..10).map do |i|
+          { api: tab, identifier: "record-#{i}", title: "Record #{i}", creators: [], links: [] }
+        end
+
+        # Earlier records are already in the browser. Even with a cold cache,
+        # this request must never reconstruct or fetch page one (offset zero).
+        SearchController.any_instance.expects(:"fetch_#{tab}_data").with(offset: 0, per_page: 5).never
+        SearchController.any_instance.expects(:"fetch_#{tab}_data").with(offset: 5, per_page: 5).once.returns(
+          { results: records, hits: 20, errors: nil,
+            pagination: { end: 10, next: 3, hits: 20 } }
+        )
+
+        get "/results?q=stream-page&tab=#{tab}&page=2", headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+
+        assert_response :success
+        assert_equal 'text/vnd.turbo-stream.html', response.media_type
+        document = Nokogiri::HTML(response.body)
+        appends = document.css('turbo-stream[action="append"][target="results-list"]')
+        assert_equal 1, appends.length
+        assert_equal records.pluck(:identifier), appends.css('.result').map { |node| node['data-record-id'] }
+      end
+    end
+
     test "#{tab} load more and oversized reload respect a partial final batch budget" do
       ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '20',
                             LOAD_MORE_MAX_RESULTS: '45') do
