@@ -108,7 +108,7 @@ class SearchController < ApplicationController
   end
 
   def load_primo_results
-    options = @pagination_load_more_enabled ? source_load_more_options : {}
+    options = @pagination_load_more_enabled && !request.format.json? ? source_load_more_options : {}
     data = full_page_load_more_reload? ? fetch_primo_data_through_current_page : fetch_primo_data(**options)
     @results = data[:results]
     @pagination = data[:pagination]
@@ -122,7 +122,7 @@ class SearchController < ApplicationController
   end
 
   def load_timdex_results
-    options = @pagination_load_more_enabled ? source_load_more_options : {}
+    options = @pagination_load_more_enabled && !request.format.json? ? source_load_more_options : {}
     data = full_page_load_more_reload? ? fetch_timdex_data_through_current_page : fetch_timdex_data(**options)
     @results = data[:results]
     @pagination = data[:pagination]
@@ -142,7 +142,7 @@ class SearchController < ApplicationController
   # so far. Detect that case so we can reconstruct the complete cumulative result list instead.
   def full_page_load_more_reload?
     return false unless @pagination_load_more_enabled
-    return false if request.format.turbo_stream?
+    return false unless request.format == Mime[:html]
 
     (@enhanced_query[:page] || 1).to_i > 1
   end
