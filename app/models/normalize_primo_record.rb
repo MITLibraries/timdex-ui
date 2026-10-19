@@ -19,6 +19,7 @@ class NormalizePrimoRecord
       links:,
       citation:,
       identifier:,
+      frbr_group_id:,
       doi:,
       pmid:,
       issn:,
@@ -364,13 +365,19 @@ class NormalizePrimoRecord
     identifier.start_with?('cdi_')
   end
 
-  def dedup_url
-    return unless frbrized?
-    return unless alma_record? # FRBR links do not work for CDI records
-    return unless @record['pnx']['facets']['frbrgroupid'] &&
-                  @record['pnx']['facets']['frbrgroupid'].length == 1
+  # CDI grouping fields can describe dedup groups, so only expose Alma FRBR IDs.
+  def frbr_group_id
+    return unless alma_record? && frbrized?
 
-    frbr_group_id = @record['pnx']['facets']['frbrgroupid'].join
+    group_ids = Array(@record.dig('pnx', 'facets', 'frbrgroupid'))
+    return unless group_ids.length == 1
+
+    group_ids.first.to_s.strip.presence
+  end
+
+  def dedup_url
+    return unless frbr_group_id
+
     base = [ENV.fetch('MIT_PRIMO_URL', nil), '/discovery/search?'].join
 
     query = {

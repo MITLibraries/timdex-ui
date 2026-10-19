@@ -77,11 +77,12 @@ class NormalizePrimoResultsTest < ActiveSupport::TestCase
     end
   end
 
-  test 'collects frbr group ids encountered during normalization' do
+  test 'preserves frbr group ids on their normalized records' do
     normalizer = NormalizePrimoResults.new(sample_results, 'test query')
-    normalizer.normalize
+    normalized = normalizer.normalize
 
-    assert_equal ['12345'], normalizer.frbr_group_ids
+    assert_equal '12345', normalized.first[:frbr_group_id]
+    assert_nil normalized.second[:frbr_group_id]
   end
 
   test 'collects only Alma frbr groups from mixed results' do
@@ -89,18 +90,17 @@ class NormalizePrimoResultsTest < ActiveSupport::TestCase
       JSON.parse(File.read(Rails.root.join("test/fixtures/primo/#{fixture}.json")))
     end
     normalizer = NormalizePrimoResults.new({ 'docs' => docs }, 'test')
-    normalizer.normalize
+    normalized = normalizer.normalize
 
-    assert_equal ['alma12345'], normalizer.frbr_group_ids
+    assert_equal 'alma12345', normalized.first[:frbr_group_id]
+    assert_nil normalized.second[:frbr_group_id]
   end
 
   test 'does not collect frbr groups when record source is unknown' do
     record = JSON.parse(File.read(Rails.root.join('test/fixtures/primo/alma_record.json')))
     record['pnx']['control'].delete('recordid')
     normalizer = NormalizePrimoResults.new({ 'docs' => [record] }, 'test')
-    normalizer.normalize
-
-    assert_empty normalizer.frbr_group_ids
+    assert_nil normalizer.normalize.first[:frbr_group_id]
   end
 
   test 'does not collect frbr group ids for non-frbrized records' do
@@ -110,8 +110,40 @@ class NormalizePrimoResultsTest < ActiveSupport::TestCase
     results = { 'docs' => [record], 'info' => { 'total' => 1 } }
 
     normalizer = NormalizePrimoResults.new(results, 'test query')
-    normalizer.normalize
+    assert_nil normalizer.normalize.first[:frbr_group_id]
+  end
 
-    assert_empty normalizer.frbr_group_ids
+  test 'collects only Alma groups when CDI records have matching grouping fields' do
+    alma = sample_results['docs'].first
+    alma['pnx']['control']['recordid'] = ['alma123']
+    alma['pnx']['facets']['frbrtype'] = ['5']
+    alma['pnx']['facets']['frbrgroupid'] = ['alma-group']
+    cdi = alma.deep_dup
+    cdi['pnx']['control']['recordid'] = ['cdi_example_456']
+    cdi['pnx']['facets']['frbrgroupid'] = ['cdi-dedup-group']
+
+    normalizer = NormalizePrimoResults.new({ 'docs' => [alma, cdi] }, 'test query')
+    normalized = normalizer.normalize
+
+    assert_equal 2, normalized.length
+    assert_equal 'alma-group', normalized.first[:frbr_group_id]
+    assert_nil normalized.second[:frbr_group_id]
+  end
+
+  test 'does not collect groups without an Alma record identifier' do
+    record = sample_results['docs'].first
+    record['pnx']['control'].delete('recordid')
+    normalizer = NormalizePrimoResults.new({ 'docs' => [record] }, 'test query')
+    assert_nil normalizer.normalize.first[:frbr_group_id]
+  end
+
+  test 'omits blank or ambiguous FRBR group IDs' do
+    record = sample_results['docs'].first
+    [nil, [], [' '], %w[group-a group-b]].each do |group_ids|
+      record['pnx']['facets']['frbrgroupid'] = group_ids
+      normalized = NormalizePrimoResults.new({ 'docs' => [record] }, 'test query').normalize
+
+      assert_nil normalized.first[:frbr_group_id]
+    end
   end
 end
