@@ -569,6 +569,60 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'large TIMDEX searches cannot exceed the cumulative reconstruction budget' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '20', LOAD_MORE_MAX_RESULTS: '200') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 5000 })
+      10.times do |page|
+        records = Array.new(20) { |i| { identifier: "t#{page * 20 + i}" } }
+        controller.expects(:fetch_timdex_data).with(offset: page * 20, per_page: 20).once.returns(
+          { results: records, hits: 100000, errors: nil }
+        )
+      end
+
+      data = controller.send(:fetch_timdex_data_through_current_page)
+
+      assert_equal 200, data[:results].length
+      assert_equal 200, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+    end
+  end
+
+  %w[primo timdex].each do |tab|
+    test "#{tab} load more and oversized reload respect a partial final batch budget" do
+      ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '20',
+                            LOAD_MORE_MAX_RESULTS: '45') do
+        [[0, 20, 1], [20, 20, 2], [40, 5, 2]].each do |offset, count, requests|
+          records = Array.new(count) do |i|
+            { api: tab, identifier: "r#{offset + i}", title: "Record #{offset + i}", creators: [], links: [] }
+          end
+          SearchController.any_instance.expects(:"fetch_#{tab}_data").with(offset: offset, per_page: count)
+                          .times(requests).returns(
+                            { results: records, hits: 100000, errors: nil,
+                              pagination: { end: offset + count, next: offset / 20 + 2, hits: 100000 } }
+                          )
+        end
+
+        get "/results?q=budget&tab=#{tab}&page=2", headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+        assert_response :success
+        document = Nokogiri::HTML(response.body)
+        assert_equal 20, document.css('turbo-stream[action="append"] .result').length
+        next_url = document.at_css('#load-more a')['href']
+
+        get next_url, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+        assert_response :success
+        document = Nokogiri::HTML(response.body)
+        assert_equal 5, document.css('turbo-stream[action="append"] .result').length
+        assert_nil document.at_css('#load-more a')
+
+        get "/results?q=budget&tab=#{tab}&page=5000"
+        assert_response :success
+        assert_select '#results-list .result', count: 45
+        assert_select '#load-more a', count: 0
+      end
+    end
+  end
+
   test 'primo results with valid query has div for results which is populated' do
     mock_primo_search_success
     get '/results?q=data&tab=primo'
