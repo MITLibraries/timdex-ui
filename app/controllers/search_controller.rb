@@ -108,7 +108,8 @@ class SearchController < ApplicationController
   end
 
   def load_primo_results
-    data = full_page_load_more_reload? ? fetch_primo_data_through_current_page : fetch_primo_data
+    options = @pagination_load_more_enabled ? source_load_more_options : {}
+    data = full_page_load_more_reload? ? fetch_primo_data_through_current_page : fetch_primo_data(**options)
     @results = data[:results]
     @pagination = data[:pagination]
     @errors = data[:errors]
@@ -121,7 +122,8 @@ class SearchController < ApplicationController
   end
 
   def load_timdex_results
-    data = full_page_load_more_reload? ? fetch_timdex_data_through_current_page : fetch_timdex_data
+    options = @pagination_load_more_enabled ? source_load_more_options : {}
+    data = full_page_load_more_reload? ? fetch_timdex_data_through_current_page : fetch_timdex_data(**options)
     @results = data[:results]
     @pagination = data[:pagination]
     @errors = data[:errors]
@@ -153,8 +155,8 @@ class SearchController < ApplicationController
     combined_results = []
     last_data = nil
 
-    (1..(@enhanced_query[:page] || 1).to_i).each do |page|
-      last_data = fetch_primo_data(offset: (page - 1) * per_page, per_page: per_page)
+    (1..bounded_source_page).each do |page|
+      last_data = fetch_primo_data(offset: (page - 1) * per_page, per_page: source_page_size(page))
       combined_results.concat(last_data[:results])
       break if last_data[:errors].present? || last_data[:show_continuation]
     end
@@ -170,8 +172,8 @@ class SearchController < ApplicationController
     last_data = nil
     last_result_page = 1
 
-    (1..(@enhanced_query[:page] || 1).to_i).each do |page|
-      last_data = fetch_timdex_data(offset: (page - 1) * per_page, per_page: per_page)
+    (1..bounded_source_page).each do |page|
+      last_data = fetch_timdex_data(offset: (page - 1) * per_page, per_page: source_page_size(page))
       combined_results.concat(last_data[:results])
       last_result_page = page if last_data[:results].any?
       break if last_data[:errors].present? || last_data[:results].empty? || page * per_page >= last_data[:hits].to_i
@@ -184,7 +186,7 @@ class SearchController < ApplicationController
     pagination = Analyzer.new(@enhanced_query.merge(page: last_result_page), last_data[:hits], :timdex,
                               nil, per_page).pagination
     pagination[:end] = combined_results.length
-    pagination[:next] = nil if last_data[:results].empty?
+    pagination[:next] = nil if last_data[:results].empty? || combined_results.length >= max_load_count
     last_data.merge(results: combined_results, pagination: pagination)
   end
 
@@ -278,10 +280,17 @@ class SearchController < ApplicationController
   def load_more_from_pagination(pagination)
     return nil if pagination.blank?
 
+    next_page = pagination[:next]
+    display_count = pagination[:end]
+    unless Feature.enabled?(:geodata)
+      display_count = [display_count, max_load_count].min
+      next_page = nil if next_page && (next_page - 1) * load_more_batch_size >= max_load_count
+    end
+
     {
-      display_count: pagination[:end],
-      next_page: pagination[:next],
-      has_more: pagination[:next].present?,
+      display_count: display_count,
+      next_page: next_page,
+      has_more: next_page.present?,
       total_hits: pagination[:hits]
     }
   end
@@ -298,6 +307,22 @@ class SearchController < ApplicationController
 
   def load_more_batch_size
     ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+  end
+
+  # Bound both the reconstruction work and the records returned by the last batch.
+  def bounded_source_page
+    max_page = (max_load_count.to_f / load_more_batch_size).ceil
+    (@enhanced_query[:page] || 1).to_i.clamp(1, max_page)
+  end
+
+  def source_page_size(page)
+    [load_more_batch_size, max_load_count - (page - 1) * load_more_batch_size].min
+  end
+
+  def source_load_more_options
+    @enhanced_query[:page] = bounded_source_page
+    { offset: (@enhanced_query[:page] - 1) * load_more_batch_size,
+      per_page: source_page_size(@enhanced_query[:page]) }
   end
 
   # Continuation links carry the actual previous count because the final batch
