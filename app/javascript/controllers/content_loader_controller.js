@@ -48,6 +48,13 @@ export default class extends Controller {
             }
           }
 
+          // LibKey links are preferred for fulfillment. When they are present,
+          // remove Primo-originated links to avoid duplicate actions.
+          if (resultGet && resultGet.querySelector('.libkey-link')) {
+            const primoLinks = resultGet.querySelectorAll('.primo-link')
+            primoLinks.forEach((link) => link.remove())
+          }
+
           // Keep only one full-text options action in the result-get area.
           if (resultGet) {
             const fullTextOptionActions = Array.from(resultGet.querySelectorAll("[data-action-type='full_text_options']"))
