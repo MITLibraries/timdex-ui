@@ -84,6 +84,25 @@ class NormalizePrimoResultsTest < ActiveSupport::TestCase
     assert_equal ['12345'], normalizer.frbr_group_ids
   end
 
+  test 'collects only Alma frbr groups from mixed results' do
+    docs = %w[alma_record cdi_record].map do |fixture|
+      JSON.parse(File.read(Rails.root.join("test/fixtures/primo/#{fixture}.json")))
+    end
+    normalizer = NormalizePrimoResults.new({ 'docs' => docs }, 'test')
+    normalizer.normalize
+
+    assert_equal ['alma12345'], normalizer.frbr_group_ids
+  end
+
+  test 'does not collect frbr groups when record source is unknown' do
+    record = JSON.parse(File.read(Rails.root.join('test/fixtures/primo/alma_record.json')))
+    record['pnx']['control'].delete('recordid')
+    normalizer = NormalizePrimoResults.new({ 'docs' => [record] }, 'test')
+    normalizer.normalize
+
+    assert_empty normalizer.frbr_group_ids
+  end
+
   test 'does not collect frbr group ids for non-frbrized records' do
     record = JSON.parse(File.read(Rails.root.join('test/fixtures/primo/full_record.json')))
     record['pnx']['facets']['frbrtype'] = ['3']

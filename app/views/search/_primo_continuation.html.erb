@@ -1,5 +1,10 @@
 <div class="primo-continuation">
-  <h2>You have reached the limit for these search results</h2>
+  <% if @active_tab == 'all' && @results.present? %>
+    <h2>You have reached the limit for Articles, Books &amp; More results</h2>
+    <p>Available results are shown below.</p>
+  <% else %>
+    <h2>You have reached the limit for these search results</h2>
+  <% end %>
   <p>
     Use the links below for advanced search or browse options. <a href="https://libraries.mit.edu/ask/">Ask us</a> for help.
   </p>

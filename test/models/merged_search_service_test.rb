@@ -1,6 +1,28 @@
 require 'test_helper'
 
 class MergedSearchServiceTest < ActiveSupport::TestCase
+  test 'load more accumulates frbr ids across source chunks and cached requests' do
+    primo_fetcher = lambda do |offset:, **|
+      { results: [{ api: 'primo', identifier: "p#{offset}", title: 'Test' }], hits: 3,
+        frbr_group_ids: ['shared-group', "group-#{offset}"] }
+    end
+    service = MergedSearchService.new(
+      enhanced_query: { q: 'frbr-chunks' }, active_tab: 'all',
+      primo_fetcher: primo_fetcher, timdex_fetcher: ->(**) { { results: [], hits: 0 } }
+    )
+
+    service.fetch(display_count: 1, per_source: 1)
+    result = service.fetch(display_count: 2, per_source: 1)
+    assert_equal %w[shared-group group-0 group-1], result[:frbr_group_ids]
+
+    service = MergedSearchService.new(
+      enhanced_query: { q: 'frbr-chunks' }, active_tab: 'all',
+      primo_fetcher: ->(**) { flunk 'Unexpected Primo fetch' },
+      timdex_fetcher: ->(**) { flunk 'Unexpected TIMDEX fetch' }
+    )
+    assert_equal result[:frbr_group_ids], service.fetch(display_count: 2, per_source: 1)[:frbr_group_ids]
+  end
+
   test 'fetch writes state cache with source hit totals' do
     query = { q: 'test' }
 
@@ -174,6 +196,25 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert_includes result[:results].map { |record| record[:identifier] }, 't2'
   end
 
+  test 'fetch stops load more at the configured result limit' do
+    ClimateControl.modify(LOAD_MORE_MAX_RESULTS: '3', RESULTS_PER_PAGE: '2') do
+      growable_fetcher = lambda do |offset:, per_page:, query: nil|
+        records = (offset...(offset + per_page)).map do |index|
+          { title: "Record #{index}", api: 'primo', identifier: "p#{index}" }
+        end
+        { results: records, hits: 100, errors: nil, show_continuation: false }
+      end
+      svc = MergedSearchService.new(enhanced_query: { q: 'test-result-limit' }, active_tab: 'all',
+                                    primo_fetcher: growable_fetcher,
+                                    timdex_fetcher: fake_fetcher(results: [], hits: 0))
+
+      result = svc.fetch(display_count: 3, stable_count: 2, per_source: 2)
+
+      assert_equal 3, result[:load_more][:next_count]
+      assert_equal false, result[:load_more][:has_more]
+    end
+  end
+
   test 'fetch follow-up marks has_more false when additional chunks are duplicate-only' do
     primo_calls = []
     timdex_calls = []
@@ -208,6 +249,34 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert_equal false, second[:load_more][:has_more]
     assert_equal [0, 1], primo_calls
     assert_equal [0, 1], timdex_calls
+  end
+
+  test 'fetch advances source offsets past partially duplicate chunks' do
+    primo_calls = []
+    primo_fetcher = lambda do |offset:, per_page:, query: nil|
+      primo_calls << offset
+      records = case offset
+                when 0
+                  %w[p1 p2]
+                when 2
+                  %w[p2 p3]
+                when 4
+                  %w[p4 p5]
+                else
+                  []
+                end
+      { results: records.map { |id| { title: id.upcase, api: 'primo', identifier: id } }, hits: 6, errors: nil,
+        show_continuation: false }
+    end
+
+    svc = MergedSearchService.new(enhanced_query: { q: 'test-partial-duplicates' }, active_tab: 'all',
+                                  primo_fetcher: primo_fetcher, timdex_fetcher: fake_fetcher(results: [], hits: 0))
+
+    result = svc.fetch(display_count: 5, stable_count: 0, per_source: 2)
+
+    assert_equal(%w[p1 p2 p3 p4 p5], result[:results].map { |record| record[:identifier] })
+    assert_equal [0, 2, 4], primo_calls
+    assert_equal false, result[:load_more][:has_more]
   end
 
   test 'fetch isolates cached state by per_source value' do
@@ -309,6 +378,56 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert_equal 2, result[:results].length
     assert result[:pagination].present?
     assert_nil result[:load_more]
+  end
+
+  test 'legacy pagination keeps every accessible record after the Primo limit' do
+    primo_calls = []
+    primo_fetcher = lambda do |offset:, per_page:, **|
+      primo_calls << [offset, per_page]
+      { results: Array.new(per_page) { |i| { api: 'primo', identifier: "p#{offset + i}" } }, hits: 10000 }
+    end
+    timdex_fetcher = lambda do |offset:, per_page:, **|
+      { results: Array.new([per_page, 1500 - offset].min) do |i|
+          { api: 'timdex', identifier: "t#{offset + i}" }
+        end, hits: 1500 }
+    end
+    service = MergedSearchService.new(enhanced_query: { q: 'legacy-limit' }, active_tab: 'all',
+                                      primo_fetcher: primo_fetcher, timdex_fetcher: timdex_fetcher)
+    records = []
+    # A size of 25 also exercises the page straddling the Primo boundary.
+    (1..99).each do |page|
+      result = service.fetch(page: page, per_page: 25)
+      records.concat(result[:results])
+      assert_equal 11500, result[:pagination][:hits]
+      assert_equal 10000, result[:primo_hits]
+      if page < 99
+        assert_equal page + 1, result[:pagination][:next]
+      else
+        assert_nil result[:pagination][:next]
+      end
+      assert_equal [page * 25, 2460].min, result[:pagination][:end]
+    end
+
+    assert_equal 2460, records.length
+    assert_equal 2460, records.map { |record| record[:identifier] }.uniq.length
+    assert_equal 1500, records.count { |record| record[:api] == 'timdex' }
+    assert primo_calls.all? { |offset, count| offset < 960 && offset + count <= 960 }
+  end
+
+  test 'legacy final Primo page shows the limit notice even without TIMDEX results' do
+    primo_fetcher = lambda do |offset:, per_page:, **|
+      { results: Array.new(per_page) { |i| { api: 'primo', identifier: "p#{offset + i}" } }, hits: 10000 }
+    end
+    service = MergedSearchService.new(enhanced_query: { q: 'primo-only-limit' }, active_tab: 'all',
+                                      primo_fetcher: primo_fetcher,
+                                      timdex_fetcher: ->(**) { { results: [], hits: 0 } })
+
+    result = service.fetch(page: 48, per_page: 20)
+
+    assert_equal 20, result[:results].length
+    assert_equal 10000, result[:pagination][:hits]
+    assert_nil result[:pagination][:next]
+    assert result[:show_primo_continuation]
   end
 
   test 'combine_errors merges arrays or returns nil' do

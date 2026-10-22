@@ -27,8 +27,19 @@ export default class extends Controller {
 
   load() {
     fetch(this.urlValue)
-      .then(response => response.text())
+      .then(response => {
+        // If the request was redirected (e.g. a throttled request bounced to the Turnstile
+        // challenge page), the response body is a full unrelated HTML document rather than the
+        // small snippet this controller expects. Drop the loader instead of injecting it inline.
+        if (response.redirected) {
+          this.element.remove()
+          return null
+        }
+        return response.text()
+      })
       .then(html => {
+        if (html === null) { return }
+
         const parentElement = this.element.parentElement
         // Replace the entire element with the fetched HTML, or remove if empty
         if (html.trim()) {

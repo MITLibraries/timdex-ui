@@ -89,6 +89,10 @@ class RackAttackCookieBypassTest < ActionDispatch::IntegrationTest
     assert Rack::Attack.req_ip_free_path?('/turnstile/verify')
     assert Rack::Attack.req_ip_free_path?('/about')
     assert Rack::Attack.req_ip_free_path?('/about-natural-language-search')
+    assert Rack::Attack.req_ip_free_path?('/libkey')
+    assert Rack::Attack.req_ip_free_path?('/browzine')
+    assert Rack::Attack.req_ip_free_path?('/oa_work')
+    assert Rack::Attack.req_ip_free_path?('/almasru')
 
     refute Rack::Attack.req_ip_free_path?('/results')
     refute Rack::Attack.req_ip_free_path?('/record/test-id')
