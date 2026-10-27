@@ -1,9 +1,5 @@
 <% if AlmaSru.enabled? %>
   <% full_record_link = PrimoLinkBuilder.new(record_id: params[:doc_id], context: 'L').full_record_link %>
-  <% if @electronic_availability && full_record_link.present? %>
-    <% fulltext_options_url = full_record_link + '#nui.getit.service_viewit' %>
-    <%= link_to 'Full-text options', fulltext_options_url, class: 'button primo-link alma-fulltext-options', data: { content_piece: 'Full-text Options', action_type: 'full_text_options', action_source: 'alma' } %>
-  <% end %>
   <% if @physical_availability.present? && full_record_link.present? %>
     <div class="availability">
       <% @physical_availability.each do |statement| %>
@@ -12,5 +8,9 @@
                     data: {content_piece: 'Availability Link' }) %></p>
       <% end %>
     </div>
+  <% end %>
+  <% if @electronic_availability && full_record_link.present? %>
+    <% fulltext_options_url = full_record_link + '#nui.getit.service_viewit' %>
+    <%= link_to 'Full-text options', fulltext_options_url, class: 'button primo-link alma-fulltext-options', data: { content_piece: 'Full-text Options', action_type: 'full_text_options', action_source: 'alma' } %>
   <% end %>
 <% end %>
