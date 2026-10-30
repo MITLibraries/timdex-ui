@@ -33,6 +33,19 @@ class SearchResultsLoggingTest < ActiveSupport::TestCase
     ], payload[:returned_results]
   end
 
+  test 'records the algorithm selected by the combined search path' do
+    assert_nil log_payload[:merge_algorithm]
+    [true, false].each do |load_more|
+      ClimateControl.modify(ALL_TAB_SCORER: 'ZSCORE') do
+        @controller.instance_variable_set(:@pagination_load_more_enabled, load_more)
+        MergedSearchService.any_instance.stubs(:fetch).returns({ results: [], append_results: [] })
+        @controller.send(:load_all_results)
+
+        assert_equal(load_more ? 'zscore' : 'legacy_zipper', log_payload[:merge_algorithm])
+      end
+    end
+  end
+
   test 'combined Turbo response logs only appended records at their overall positions' do
     @controller.request.accept = 'text/vnd.turbo-stream.html'
     @controller.instance_variable_set(:@append_results, @results.last(2))

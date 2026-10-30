@@ -215,6 +215,7 @@ class SearchController < ApplicationController
       primo_fetcher: ->(offset:, per_page:, query: nil) { fetch_primo_data(offset: offset, per_page: per_page) },
       timdex_fetcher: ->(offset:, per_page:, query: nil) { fetch_timdex_data(offset: offset, per_page: per_page) }
     )
+    @merge_algorithm = @pagination_load_more_enabled ? MergedSearchService.scorer_name : 'legacy_zipper'
     if @pagination_load_more_enabled
       display_count = sanitized_load_count
       stable_count = previous_load_count(display_count)
@@ -279,6 +280,7 @@ class SearchController < ApplicationController
     returned_results = search_results_log_returned_results
     {
       event_type: 'search_results_response', event_version: 1,
+      merge_algorithm: @merge_algorithm,
       response_kind: search_log_format.turbo_stream? ? 'append' : 'initial',
       search_outcome: @errors.present? || search_log_http_error? ? 'error' : 'success',
       returned_results: returned_results, returned_results_count: returned_results.length

@@ -87,6 +87,9 @@ and `event_version: 1`. The payload includes the existing `searchterm`, `search_
 - `returned_results_count`: the number of entries with an ID in that array, distinct from total hits.
 - `response_kind`: `append` for Turbo Stream responses, otherwise `initial` (including paginated HTML/JSON).
 - `search_outcome`: `error` for backend errors or HTTP errors, otherwise `success`.
+- `merge_algorithm`: the effective all-tab scorer (`zipper`, `zscore`, `simple`, or `random`)
+  in load-more mode, or `legacy_zipper` for legacy combined pagination. Invalid scorer values
+  fall back to `zipper`. Null for source-specific and GeoData responses where no merge runs.
 
 Turbo responses log only the appended records; HTML and JSON log the records included in that
 response. HTML error/continuation views that suppress results log an empty array. Logging occurs

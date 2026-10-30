@@ -13,6 +13,13 @@ class MergedSearchService
   TTL = 12.hours
   LOAD_MORE_CACHE_NAMESPACE = 'all-tab-load-more/v4'.freeze
 
+  # Report the effective scorer, including the fallback used for invalid config.
+  # Shared by scorer construction and response logging so analytics matches execution.
+  def self.scorer_name
+    name = ENV.fetch('ALL_TAB_SCORER', 'zipper').downcase
+    %w[zscore zipper simple random].include?(name) ? name : 'zipper'
+  end
+
   # Initialize a new MergedSearchService.
   #
   # @param enhanced_query [Hash] query hash produced by `Enhancer`
@@ -371,7 +378,7 @@ class MergedSearchService
   #
   # @return [Reranker::Scorer]
   def configured_scorer
-    case ENV.fetch('ALL_TAB_SCORER', 'zipper').downcase
+    case self.class.scorer_name
     when 'zscore' then Reranker::ZscoreScorer.new
     when 'zipper' then Reranker::ZipperMergeScorer.new
     when 'simple' then Reranker::SimpleScorer.new

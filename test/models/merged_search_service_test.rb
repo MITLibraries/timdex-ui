@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class MergedSearchServiceTest < ActiveSupport::TestCase
+  test 'reported scorer name normalizes configuration and matches fallback execution' do
+    { nil => 'zipper', 'ZSCORE' => 'zscore', 'simple' => 'simple', 'random' => 'random',
+      'unknown' => 'zipper' }.each do |configured, expected|
+      ClimateControl.modify(ALL_TAB_SCORER: configured) do
+        assert_equal expected, MergedSearchService.scorer_name
+      end
+    end
+  end
+
   test 'load more accumulates frbr ids across source chunks and cached requests' do
     primo_fetcher = lambda do |offset:, **|
       { results: [{ api: 'primo', identifier: "p#{offset}", title: 'Test',
