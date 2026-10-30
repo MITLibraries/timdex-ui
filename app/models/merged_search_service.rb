@@ -11,7 +11,14 @@
 # or `page`/`per_page` (legacy).
 class MergedSearchService
   TTL = 12.hours
-  LOAD_MORE_CACHE_NAMESPACE = 'all-tab-load-more/v3'.freeze
+  LOAD_MORE_CACHE_NAMESPACE = 'all-tab-load-more/v4'.freeze
+
+  # Report the effective scorer, including the fallback used for invalid config.
+  # Shared by scorer construction and response logging so analytics matches execution.
+  def self.scorer_name
+    name = ENV.fetch('ALL_TAB_SCORER', 'zipper').downcase
+    %w[zscore zipper simple random].include?(name) ? name : 'zipper'
+  end
 
   # Initialize a new MergedSearchService.
   #
@@ -79,7 +86,6 @@ class MergedSearchService
     {
       results: ordered_results,
       append_results: append_results,
-      frbr_group_ids: state[:frbr_group_ids],
       errors: state[:errors],
       load_more: {
         display_count: display_count,
@@ -231,7 +237,6 @@ class MergedSearchService
   def empty_state
     {
       primo_results: [],
-      frbr_group_ids: [],
       timdex_results: [],
       primo_offset: 0,
       timdex_offset: 0,
@@ -290,10 +295,6 @@ class MergedSearchService
     hits_key = source_hits_key(source)
     incoming = Array(data[:results])
     previous_length = state[results_key].length
-
-    if source == :primo
-      state[:frbr_group_ids] = (state[:frbr_group_ids] + Array(data[:frbr_group_ids])).uniq
-    end
 
     state[hits_key] = data[:hits].to_i
     state[:"#{source}_offset"] = requested_offset + incoming.length
@@ -377,7 +378,7 @@ class MergedSearchService
   #
   # @return [Reranker::Scorer]
   def configured_scorer
-    case ENV.fetch('ALL_TAB_SCORER', 'zipper').downcase
+    case self.class.scorer_name
     when 'zscore' then Reranker::ZscoreScorer.new
     when 'zipper' then Reranker::ZipperMergeScorer.new
     when 'simple' then Reranker::SimpleScorer.new

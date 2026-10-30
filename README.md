@@ -73,6 +73,34 @@ This application uses [Rack Attack](https://github.com/rack/rack-attack).
 
 See `Optional Environment Variables` for more information.
 
+### Search result logging
+
+Search responses extend the existing structured request log with `event_type: search_results_response`
+and `event_version: 1`. The payload includes the existing `searchterm`, `search_tab`, `query_mode`,
+`ui_mode`, and backend hit totals, plus:
+
+- `returned_results`: an ordered array of `{api, record_id, position}` entries for Primo and TIMDEX.
+  IDs come from the normalized record's `identifier`; `api` distinguishes their namespaces.
+  Positions are one-based ranks in the combined result list, including records without IDs.
+  Grouped Primo Alma records also include an optional `frbr_group_id` on their entry;
+  CDI dedup groups are excluded. This replaces the separate `frbr_group_ids` log field.
+- `returned_results_count`: the number of entries with an ID in that array, distinct from total hits.
+- `response_kind`: `append` for Turbo Stream responses, otherwise `initial` (including paginated HTML/JSON).
+- `search_outcome`: `error` for backend errors or HTTP errors, otherwise `success`.
+- `merge_algorithm`: the effective all-tab scorer (`zipper`, `zscore`, `simple`, or `random`)
+  in load-more mode, or `legacy_zipper` for legacy combined pagination. Invalid scorer values
+  fall back to `zipper`. Null for source-specific and GeoData responses where no merge runs.
+
+Turbo responses log only the appended records; HTML and JSON log the records included in that
+response. HTML error/continuation views that suppress results log an empty array. Logging occurs
+after result selection, so cache hits are included and fetched-but-unused merge candidates are excluded.
+Missing IDs are omitted without changing the positions of subsequent records.
+
+These events measure returned records, not viewport visibility, clicks, or fulfillment. Production
+request logs also carry IP/User-Agent tags: downstream long-term exports must explicitly allowlist
+analytics fields and exclude those operational identifiers. The Rails change adds no export calls
+or separate per-record log lines.
+
 ### Required Environment Variables
 
 - `ALMA_OPENURL`: The base URL for Alma openurls found in CDI records.

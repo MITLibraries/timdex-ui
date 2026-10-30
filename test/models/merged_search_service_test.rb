@@ -1,10 +1,19 @@
 require 'test_helper'
 
 class MergedSearchServiceTest < ActiveSupport::TestCase
+  test 'reported scorer name normalizes configuration and matches fallback execution' do
+    { nil => 'zipper', 'ZSCORE' => 'zscore', 'simple' => 'simple', 'random' => 'random',
+      'unknown' => 'zipper' }.each do |configured, expected|
+      ClimateControl.modify(ALL_TAB_SCORER: configured) do
+        assert_equal expected, MergedSearchService.scorer_name
+      end
+    end
+  end
+
   test 'load more accumulates frbr ids across source chunks and cached requests' do
     primo_fetcher = lambda do |offset:, **|
-      { results: [{ api: 'primo', identifier: "p#{offset}", title: 'Test' }], hits: 3,
-        frbr_group_ids: ['shared-group', "group-#{offset}"] }
+      { results: [{ api: 'primo', identifier: "p#{offset}", title: 'Test',
+                    frbr_group_id: "group-#{offset}" }], hits: 3 }
     end
     service = MergedSearchService.new(
       enhanced_query: { q: 'frbr-chunks' }, active_tab: 'all',
@@ -13,14 +22,14 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
 
     service.fetch(display_count: 1, per_source: 1)
     result = service.fetch(display_count: 2, per_source: 1)
-    assert_equal %w[shared-group group-0 group-1], result[:frbr_group_ids]
+    assert_equal %w[group-0 group-1], result[:results].pluck(:frbr_group_id)
 
     service = MergedSearchService.new(
       enhanced_query: { q: 'frbr-chunks' }, active_tab: 'all',
       primo_fetcher: ->(**) { flunk 'Unexpected Primo fetch' },
       timdex_fetcher: ->(**) { flunk 'Unexpected TIMDEX fetch' }
     )
-    assert_equal result[:frbr_group_ids], service.fetch(display_count: 2, per_source: 1)[:frbr_group_ids]
+    assert_equal result[:results], service.fetch(display_count: 2, per_source: 1)[:results]
   end
 
   test 'fetch writes state cache with source hit totals' do
@@ -66,7 +75,7 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
                                       primo_fetcher: primo_fetcher, timdex_fetcher: timdex_fetcher)
 
     cached_state = {
-      primo_results: [{ title: 'P1', score: 0.9, api: 'primo', identifier: 'p1' }],
+      primo_results: [{ title: 'P1', score: 0.9, api: 'primo', identifier: 'p1', frbr_group_id: 'group-1' }],
       timdex_results: [{ title: 'T1', score: 0.8, api: 'timdex', identifier: 't1' }],
       ordered_keys: %w[primo:p1 timdex:t1],
       primo_hits: 50,
@@ -82,6 +91,8 @@ class MergedSearchServiceTest < ActiveSupport::TestCase
     assert_nothing_raised do
       res = service.fetch(display_count: 2, stable_count: 0)
       assert res[:results].is_a?(Array)
+      assert_equal 'group-1', res[:results].first[:frbr_group_id]
+      assert_equal 'group-1', res[:append_results].first[:frbr_group_id]
     end
   end
 

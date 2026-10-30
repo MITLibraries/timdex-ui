@@ -2,7 +2,7 @@ class SearchController < ApplicationController
   # Increment this namespace when the normalized search result payload changes in a way that
   # makes existing cached values incomplete or incompatible, such as adding required fields,
   # removing/renaming fields, changing key types, or changing error/continuation metadata shape.
-  SEARCH_RESULTS_CACHE_NAMESPACE = 'normalized-search-results/v2'.freeze
+  SEARCH_RESULTS_CACHE_NAMESPACE = 'normalized-search-results/v3'.freeze
   SEARCH_RESULTS_CACHE_TTL = 12.hours
 
   before_action :validate_q!, only: %i[results]
@@ -215,11 +215,11 @@ class SearchController < ApplicationController
       primo_fetcher: ->(offset:, per_page:, query: nil) { fetch_primo_data(offset: offset, per_page: per_page) },
       timdex_fetcher: ->(offset:, per_page:, query: nil) { fetch_timdex_data(offset: offset, per_page: per_page) }
     )
+    @merge_algorithm = @pagination_load_more_enabled ? MergedSearchService.scorer_name : 'legacy_zipper'
     if @pagination_load_more_enabled
       display_count = sanitized_load_count
       stable_count = previous_load_count(display_count)
       data = merge_service.fetch(display_count: display_count, stable_count: stable_count)
-      collect_frbr_group_ids(data[:frbr_group_ids])
 
       @results = data[:results]
       @append_results = data[:append_results]
@@ -266,10 +266,76 @@ class SearchController < ApplicationController
       searchterm: @enhanced_query[:q].to_s,
       query_mode: search_results_log_query_mode
     }
+    payload.merge!(search_response_log_payload)
 
-    frbr_group_ids = @frbr_group_ids&.uniq&.sort
-    payload[:frbr_group_ids] = frbr_group_ids if frbr_group_ids.present?
     payload
+  end
+
+  # Defines the versioned response event consumed by downstream analytics exports.
+  # Reuses the automatic request log rather than emitting one event per record.
+  # `initial` means a complete response, including later HTML/JSON pages; only
+  # Turbo responses are `append`. Backend errors can coexist with HTTP 200, so
+  # outcome considers both error sources. The count measures logged IDs, not hits.
+  def search_response_log_payload
+    returned_results = search_results_log_returned_results
+    {
+      event_type: 'search_results_response', event_version: 1,
+      merge_algorithm: @merge_algorithm,
+      response_kind: search_log_format.turbo_stream? ? 'append' : 'initial',
+      search_outcome: @errors.present? || search_log_http_error? ? 'error' : 'success',
+      returned_results: returned_results, returned_results_count: returned_results.length
+    }
+  end
+
+  # Uses the negotiated format to match the collection rendered by the response.
+  # Defaults to HTML when inspecting a controller without an attached request.
+  def search_log_format
+    request&.format || Mime[:html]
+  end
+
+  # HTTP failures must not claim returned records even if data was loaded before
+  # the failure. An unattached response has no failure status to report.
+  def search_log_http_error?
+    response&.status.to_i >= 400
+  end
+
+  # Measures records returned by this response, not viewport visibility or engagement.
+  # Keep this outside the fetch/cache paths: merged searches can fetch candidates
+  # that never reach the UI, and cached responses still represent new returns.
+  # HTML suppresses records on error/continuation pages. JSON and Turbo can still
+  # include records alongside backend errors, so they use their actual collections.
+  # Turbo sends only the append slice; HTML/JSON send the full response collection.
+  def search_results_log_returned_results
+    return [] if search_log_format.html? && (@errors.present? || @show_primo_continuation)
+    return [] if search_log_http_error?
+
+    results = search_log_format.turbo_stream? ? Array(@append_results) : Array(@results)
+    search_results_log_entries(results)
+  end
+
+  # Projects normalized records into compact log entries, preserving API namespaces
+  # and response order. Enumerate before skipping missing IDs so later positions
+  # remain accurate. An Alma FRBR group stays attached to its returned Primo record;
+  # normalization excludes CDI dedup groups, and absent group IDs are omitted.
+  def search_results_log_entries(results)
+    offset = search_results_log_offset(results)
+    results.each_with_index.filter_map do |result, index|
+      next unless %w[timdex primo].include?(result[:api]) && result[:identifier].present?
+
+      { api: result[:api], record_id: result[:identifier], position: offset + index + 1,
+        frbr_group_id: result[:frbr_group_id].presence }.compact
+    end
+  end
+
+  # Converts response-local indexes to one-based ranks in the overall result set.
+  # Combined load-more state includes the already-visible prefix in @results, so
+  # subtract the append slice to find its offset. Source-specific and legacy pages
+  # use Analyzer's pagination start; the first result defaults to position one.
+  def search_results_log_offset(results)
+    return Array(@results).length - results.length if search_log_format.turbo_stream? && @active_tab == 'all'
+    return 0 if @pagination_load_more_enabled && search_log_format.html?
+
+    (@pagination&.[](:start) || 1) - 1
   end
 
   # Normalizes the active tab for search result logging. GeoData bypasses the
@@ -369,7 +435,6 @@ class SearchController < ApplicationController
     end
 
     cached = cached_primo_data(per_page, offset)
-    collect_frbr_group_ids(cached[:frbr_group_ids])
     pagination = Analyzer.new(@enhanced_query, cached[:hits], :primo).pagination
 
     cached.merge(pagination: pagination)
@@ -398,10 +463,9 @@ class SearchController < ApplicationController
     Rails.cache.fetch("#{SEARCH_RESULTS_CACHE_NAMESPACE}/#{cache_key}/primo", expires_in: SEARCH_RESULTS_CACHE_TTL) do
       primo_response = query_primo(per_page, offset)
       hits = primo_response.dig('info', 'total') || 0
-      normalizer = NormalizePrimoResults.new(primo_response, @enhanced_query[:q])
-      results = normalizer.normalize
+      results = NormalizePrimoResults.new(primo_response, @enhanced_query[:q]).normalize
 
-      build_primo_cache_payload(primo_response, results, hits, offset).merge(frbr_group_ids: normalizer.frbr_group_ids)
+      build_primo_cache_payload(primo_response, results, hits, offset)
     end
   end
 
@@ -448,14 +512,6 @@ class SearchController < ApplicationController
         { results: [], errors: errors, hits: 0 }
       end
     end
-  end
-
-  # Collects FRBR group IDs found in Primo normalization to add to the log payload.
-  def collect_frbr_group_ids(group_ids)
-    return if group_ids.blank?
-
-    @frbr_group_ids ||= []
-    @frbr_group_ids.concat(group_ids)
   end
 
   def active_filters
