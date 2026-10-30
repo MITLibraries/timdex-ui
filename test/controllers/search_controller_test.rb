@@ -470,6 +470,316 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'primo full HTML reload of a load-more continuation page shows cumulative results' do
+    # Simulates a full (non-Turbo-Stream) page load landing directly on a load-more
+    # continuation URL (e.g. after a bot-detection/Turnstile redirect). With load-more
+    # enabled, a plain `page=2` request has no prior results in the DOM to append to, so
+    # the controller must reconstruct the complete list by re-fetching every earlier page.
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '5') do
+      page_one_docs = (1..5).map do |i|
+        { api: 'primo', title: "Doc #{i}", format: 'Article', year: '2025', creators: [], links: [] }
+      end
+      page_two_docs = (6..10).map do |i|
+        { api: 'primo', title: "Doc #{i}", format: 'Article', year: '2025', creators: [], links: [] }
+      end
+
+      mock_primo = mock('primo_search')
+      mock_primo.expects(:search).with('data', 5, 0).returns({ 'docs' => page_one_docs, 'info' => { 'total' => 20 } })
+      mock_primo.expects(:search).with('data', 5, 5).returns({ 'docs' => page_two_docs, 'info' => { 'total' => 20 } })
+      PrimoSearch.expects(:new).returns(mock_primo).twice
+
+      normalizer_one = mock('normalizer_one')
+      normalizer_one.expects(:normalize).returns(page_one_docs)
+      normalizer_one.stubs(:frbr_group_ids).returns(['page-one-group'])
+      normalizer_two = mock('normalizer_two')
+      normalizer_two.expects(:normalize).returns(page_two_docs)
+      normalizer_two.stubs(:frbr_group_ids).returns(['page-two-group'])
+      NormalizePrimoResults.expects(:new).returns(normalizer_one, normalizer_two).twice
+
+      get '/results?q=data&tab=primo'
+      assert_response :success
+      assert_select '.results-list .result', count: 5
+
+      get '/results?q=data&tab=primo&page=2', headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+      assert_response :success
+
+      get '/results?q=data&tab=primo&page=2'
+      assert_response :success
+      assert_select '.results-list .result', count: 10
+      assert_equal %w[page-one-group page-two-group],
+                   @controller.send(:search_results_log_payload)[:frbr_group_ids]
+    end
+  end
+
+  test 'stale Primo reload keeps results visible when hits fit on the first page' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '5') do
+      records = Array.new(3) do |i|
+        { api: 'primo', identifier: "p#{i}", title: "Record #{i}", creators: [], links: [] }
+      end
+      primo = mock('primo_search')
+      primo.expects(:search).with('data', 5, 0).once.returns(
+        { 'docs' => records, 'info' => { 'total' => 3 } }
+      )
+      PrimoSearch.expects(:new).once.returns(primo)
+      normalizer = mock('normalizer')
+      normalizer.expects(:normalize).once.returns(records)
+      normalizer.stubs(:frbr_group_ids).returns([])
+      NormalizePrimoResults.expects(:new).once.returns(normalizer)
+
+      get '/results?q=data&tab=primo&page=2'
+
+      assert_response :success
+      assert_select '#results-list .result', count: 3
+      assert_select '.primo-continuation', count: 0
+      assert_select '#load-more a', count: 0
+      pagination = @controller.instance_variable_get(:@pagination)
+      assert_equal 1, pagination[:start]
+      assert_equal 3, pagination[:end]
+      assert_nil pagination[:next]
+    end
+  end
+
+  test 'Primo HTML reload retains earlier results alongside an empty-page continuation notice' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '5') do
+      records = Array.new(5) do |i|
+        { api: 'primo', identifier: "p#{i}", title: "Record #{i}", creators: [], links: [] }
+      end
+      primo = mock('primo_search')
+      primo.expects(:search).with('data', 5, 0).once.returns(
+        { 'docs' => records, 'info' => { 'total' => 20 } }
+      )
+      primo.expects(:search).with('data', 5, 5).once.returns(
+        { 'docs' => [], 'info' => { 'total' => 20 } }
+      )
+      PrimoSearch.expects(:new).twice.returns(primo)
+      normalizer = mock('normalizer')
+      normalizer.expects(:normalize).twice.returns(records, [])
+      normalizer.stubs(:frbr_group_ids).returns([])
+      NormalizePrimoResults.expects(:new).twice.returns(normalizer)
+
+      get '/results?q=data&tab=primo&page=2'
+
+      assert_response :success
+      assert_select '#results-list .result', count: 5
+      assert_select '#results .primo-continuation', count: 1
+      assert_select '#load-more a', count: 0
+      pagination = @controller.instance_variable_get(:@pagination)
+      assert_equal 1, pagination[:start]
+      assert_equal 5, pagination[:end]
+      assert_equal 20, pagination[:hits]
+      assert_nil pagination[:next]
+    end
+  end
+
+  test 'Primo cumulative reload stops after a full final page' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 100 })
+      2.times do |page|
+        records = Array.new(5) { |i| { identifier: "p#{page * 5 + i}" } }
+        controller.expects(:fetch_primo_data).with(offset: page * 5, per_page: 5).once.returns(
+          { results: records, hits: 10, errors: nil, show_continuation: false }
+        )
+      end
+
+      data = controller.send(:fetch_primo_data_through_current_page)
+
+      assert_equal 10, data[:results].length
+      assert_equal 6, data[:pagination][:start]
+      assert_equal 10, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+      assert_not data[:show_continuation]
+    end
+  end
+
+  test 'Primo reconstruction retains hit totals when continuation returns zero hits' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 2 })
+      records = Array.new(5) { |i| { identifier: "p#{i}" } }
+      controller.expects(:fetch_primo_data).with(offset: 0, per_page: 5).once.returns(
+        { results: records, hits: 100, errors: nil, show_continuation: false }
+      )
+      controller.expects(:fetch_primo_data).with(offset: 5, per_page: 5).once.returns(
+        { results: [], hits: 0, errors: nil, show_continuation: true }
+      )
+
+      data = controller.send(:fetch_primo_data_through_current_page)
+
+      assert_equal records, data[:results]
+      assert_equal 100, data[:hits]
+      assert_equal 100, data[:pagination][:hits]
+      assert_equal 5, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+      assert data[:show_continuation]
+    end
+  end
+
+  %w[primo timdex].each do |tab|
+    test "authenticated #{tab} JSON pagination remains independent of browser load more" do
+      ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '20',
+                            LOAD_MORE_MAX_RESULTS: '45', FORMAT_TOKEN: 'pagination-test-token') do
+        [2, 11].each do |page|
+          offset = (page - 1) * 20
+          records = Array.new(20) { |i| { api: tab, identifier: "r#{offset + i}" } }
+          data = { results: records, hits: 100000, errors: nil }
+          if tab == 'primo'
+            SearchController.any_instance.expects(:cached_primo_data).with(20, offset).once.returns(data)
+          else
+            SearchController.any_instance.expects(:cached_timdex_data)
+                            .with(has_entries('from' => offset.to_s, 'perPage' => 20)).once.returns(data)
+          end
+
+          get '/results', params: { q: 'pagination', tab: tab, page: page, format: 'json',
+                                    format_token: 'pagination-test-token' }
+
+          assert_response :success
+          json = response.parsed_body
+          assert_equal records.pluck(:identifier), json['results'].pluck('identifier')
+          assert_equal 100000, json['hits']
+          assert_nil json['errors']
+        end
+      end
+    end
+  end
+
+  test 'timdex cumulative reload stops at the reported final page' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 1000000 })
+      controller.expects(:fetch_timdex_data).with(offset: 0, per_page: 5).once.returns(
+        { results: [{ identifier: 'only-record' }], hits: 1, errors: nil }
+      )
+
+      data = controller.send(:fetch_timdex_data_through_current_page)
+
+      assert_equal ['only-record'], data[:results].pluck(:identifier)
+      assert_equal 1, data[:pagination][:start]
+      assert_equal 1, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+    end
+  end
+
+  test 'timdex cumulative reload stops on an empty page despite overreported hits' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 1000000 })
+      records = Array.new(5) { |i| { identifier: "t#{i}" } }
+      controller.expects(:fetch_timdex_data).with(offset: 0, per_page: 5).once.returns(
+        { results: records, hits: 1000, errors: nil }
+      )
+      controller.expects(:fetch_timdex_data).with(offset: 5, per_page: 5).once.returns(
+        { results: [], hits: 1000, errors: nil }
+      )
+
+      data = controller.send(:fetch_timdex_data_through_current_page)
+
+      assert_equal records, data[:results]
+      assert_equal 5, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+    end
+  end
+
+  test 'timdex cumulative reload preserves the next page when more results exist' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '5') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 2 })
+      first_page = Array.new(5) { |i| { identifier: "t#{i}" } }
+      second_page = Array.new(5) { |i| { identifier: "t#{i + 5}" } }
+      controller.expects(:fetch_timdex_data).with(offset: 0, per_page: 5).once.returns(
+        { results: first_page, hits: 20, errors: nil }
+      )
+      controller.expects(:fetch_timdex_data).with(offset: 5, per_page: 5).once.returns(
+        { results: second_page, hits: 20, errors: nil }
+      )
+
+      data = controller.send(:fetch_timdex_data_through_current_page)
+
+      assert_equal first_page + second_page, data[:results]
+      assert_equal 10, data[:pagination][:end]
+      assert_equal 3, data[:pagination][:next]
+    end
+  end
+
+  test 'large TIMDEX searches cannot exceed the cumulative reconstruction budget' do
+    ClimateControl.modify(RESULTS_PER_PAGE: '20', LOAD_MORE_MAX_RESULTS: '200') do
+      controller = SearchController.new
+      controller.instance_variable_set(:@enhanced_query, { q: 'test', page: 5000 })
+      10.times do |page|
+        records = Array.new(20) { |i| { identifier: "t#{page * 20 + i}" } }
+        controller.expects(:fetch_timdex_data).with(offset: page * 20, per_page: 20).once.returns(
+          { results: records, hits: 100000, errors: nil }
+        )
+      end
+
+      data = controller.send(:fetch_timdex_data_through_current_page)
+
+      assert_equal 200, data[:results].length
+      assert_equal 200, data[:pagination][:end]
+      assert_nil data[:pagination][:next]
+    end
+  end
+
+  %w[primo timdex].each do |tab|
+    test "#{tab} Turbo Stream page two fetches and appends only page two" do
+      ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '5') do
+        records = (6..10).map do |i|
+          { api: tab, identifier: "record-#{i}", title: "Record #{i}", creators: [], links: [] }
+        end
+
+        # Earlier records are already in the browser. Even with a cold cache,
+        # this request must never reconstruct or fetch page one (offset zero).
+        SearchController.any_instance.expects(:"fetch_#{tab}_data").with(offset: 0, per_page: 5).never
+        SearchController.any_instance.expects(:"fetch_#{tab}_data").with(offset: 5, per_page: 5).once.returns(
+          { results: records, hits: 20, errors: nil,
+            pagination: { end: 10, next: 3, hits: 20 } }
+        )
+
+        get "/results?q=stream-page&tab=#{tab}&page=2", headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+
+        assert_response :success
+        assert_equal 'text/vnd.turbo-stream.html', response.media_type
+        document = Nokogiri::HTML(response.body)
+        appends = document.css('turbo-stream[action="append"][target="results-list"]')
+        assert_equal 1, appends.length
+        assert_equal records.pluck(:identifier), appends.css('.result').map { |node| node['data-record-id'] }
+      end
+    end
+
+    test "#{tab} load more and oversized reload respect a partial final batch budget" do
+      ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '20',
+                            LOAD_MORE_MAX_RESULTS: '45') do
+        [[0, 20, 1], [20, 20, 2], [40, 5, 2]].each do |offset, count, requests|
+          records = Array.new(count) do |i|
+            { api: tab, identifier: "r#{offset + i}", title: "Record #{offset + i}", creators: [], links: [] }
+          end
+          SearchController.any_instance.expects(:"fetch_#{tab}_data").with(offset: offset, per_page: count)
+                          .times(requests).returns(
+                            { results: records, hits: 100000, errors: nil,
+                              pagination: { end: offset + count, next: offset / 20 + 2, hits: 100000 } }
+                          )
+        end
+
+        get "/results?q=budget&tab=#{tab}&page=2", headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+        assert_response :success
+        document = Nokogiri::HTML(response.body)
+        assert_equal 20, document.css('turbo-stream[action="append"] .result').length
+        next_url = document.at_css('#load-more a')['href']
+
+        get next_url, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+        assert_response :success
+        document = Nokogiri::HTML(response.body)
+        assert_equal 5, document.css('turbo-stream[action="append"] .result').length
+        assert_nil document.at_css('#load-more a')
+
+        get "/results?q=budget&tab=#{tab}&page=5000"
+        assert_response :success
+        assert_select '#results-list .result', count: 45
+        assert_select '#load-more a', count: 0
+      end
+    end
+  end
+
   test 'primo results with valid query has div for results which is populated' do
     mock_primo_search_success
     get '/results?q=data&tab=primo'
@@ -751,6 +1061,18 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'active filters ignores blank env entries' do
+    controller = SearchController.new
+
+    ClimateControl.modify ACTIVE_FILTERS: 'contentType, , source, ' do
+      assert_equal %w[contentType source], controller.send(:active_filters)
+    end
+
+    ClimateControl.modify ACTIVE_FILTERS: '' do
+      assert_empty controller.send(:active_filters)
+    end
+  end
+
   test 'applications can customize the displayed filters via ENV' do
     skip('Filters not implemented in USE UI')
     VCR.use_cassette('data basic controller',
@@ -870,6 +1192,146 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       get '/results?q=test&tab=timdex_alma'
       assert_response :success
       assert_select 'a.tab-link.active[href*="tab=timdex_alma"]', count: 1
+    end
+  end
+
+  test 'primo normalization logs only Alma frbr ids on cache misses and hits' do
+    record = JSON.parse(File.read(Rails.root.join('test/fixtures/primo/full_record.json')))
+    cdi_record = JSON.parse(File.read(Rails.root.join('test/fixtures/primo/cdi_record.json')))
+    NormalizePrimoRecord.any_instance.stubs(:normalize).returns({ api: 'primo', identifier: 'test' })
+    PrimoSearch.any_instance.expects(:search).once.returns(
+      { 'docs' => [record, cdi_record], 'info' => { 'total' => 2 } }
+    )
+
+    2.times do
+      controller = SearchController.new
+      controller.instance_variable_set(:@active_tab, 'primo')
+      controller.instance_variable_set(:@enhanced_query, { q: 'frbr-cache-test' })
+      controller.send(:fetch_primo_data)
+
+      assert_equal ['12345'], controller.send(:search_results_log_payload)[:frbr_group_ids]
+    end
+  end
+
+  test 'all tab restores frbr ids from merged load more cache' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true') do
+      2.times do |attempt|
+        controller = SearchController.new
+        controller.instance_variable_set(:@active_tab, 'all')
+        controller.instance_variable_set(:@enhanced_query, { q: 'merged-frbr-cache-test' })
+        controller.instance_variable_set(:@pagination_load_more_enabled, true)
+        controller.stubs(:sanitized_load_count).returns(1)
+        controller.stubs(:params).returns(ActionController::Parameters.new)
+        if attempt.zero?
+          controller.expects(:fetch_primo_data).once.returns(
+            { results: [{ api: 'primo', identifier: 'p1', title: 'Test' }],
+              hits: 1, frbr_group_ids: ['merged-group'] }
+          )
+          controller.expects(:fetch_timdex_data).once.returns({ results: [], hits: 0 })
+        else
+          controller.expects(:fetch_primo_data).never
+          controller.expects(:fetch_timdex_data).never
+        end
+
+        controller.send(:load_all_results)
+
+        assert_equal ['merged-group'], controller.send(:search_results_log_payload)[:frbr_group_ids]
+      end
+    end
+  end
+
+  test 'primo cache hit avoids external search and normalization' do
+    sample_doc = {
+      api: 'primo',
+      title: 'Cached Primo Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [{ value: 'Foo Barston', link: nil }],
+      identifier: 'primo-record-123',
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/primo-record' }]
+    }
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).once.returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } })
+    PrimoSearch.expects(:new).once.returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([sample_doc])
+    mock_normalizer.stubs(:frbr_group_ids).returns(['cached-group'])
+    NormalizePrimoResults.expects(:new).once.returns(mock_normalizer)
+
+    2.times do
+      get '/results?q=test&tab=primo'
+      assert_response :success
+      assert_select '.record-title', text: /Cached Primo Document Title/
+      assert_equal ['cached-group'], @controller.send(:search_results_log_payload)[:frbr_group_ids]
+    end
+  end
+
+  test 'primo cache key uses resolved active tab for default all requests' do
+    sample_doc = {
+      api: 'primo',
+      title: 'Cached Default All Primo Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [{ value: 'Foo Barston', link: nil }],
+      identifier: 'default-all-primo-record-123',
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/default-all-primo-record' }]
+    }
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).once.returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } })
+    PrimoSearch.expects(:new).once.returns(mock_primo)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([sample_doc])
+    mock_normalizer.stubs(:frbr_group_ids).returns(['cached-group'])
+    NormalizePrimoResults.expects(:new).once.returns(mock_normalizer)
+
+    controller = SearchController.new
+    controller.instance_variable_set(:@active_tab, 'all')
+    controller.instance_variable_set(:@enhanced_query, { q: 'test' })
+    controller.send(:cached_primo_data, 20, 0)
+
+    controller.instance_variable_set(:@enhanced_query, { q: 'test', tab: 'all' })
+    cached = controller.send(:cached_primo_data, 20, 0)
+
+    assert_equal [sample_doc], cached[:results]
+  end
+
+  test 'primo query uses resolved active tab' do
+    controller = SearchController.new
+    controller.instance_variable_set(:@active_tab, 'all')
+    controller.instance_variable_set(:@enhanced_query, { q: 'test', tab: 'invalid_tab' })
+
+    mock_primo = mock('primo_search')
+    mock_primo.expects(:search).with('test', 20, 0).returns({ 'docs' => [], 'info' => { 'total' => 0 } })
+    PrimoSearch.expects(:new).with('all').returns(mock_primo)
+
+    controller.send(:query_primo, 20, 0)
+  end
+
+  test 'timdex cache hit avoids external search and normalization' do
+    normalized_result = {
+      api: 'timdex',
+      title: 'Cached TIMDEX Document Title',
+      format: 'Article',
+      year: '2025',
+      creators: [{ value: 'Foo Barston', link: nil }],
+      identifier: 'timdex-record-123',
+      links: [{ 'kind' => 'full record', 'url' => 'https://example.com/timdex-record' }]
+    }
+
+    TimdexBase::Client.expects(:query).once.returns(build_timdex_mock_response)
+
+    mock_normalizer = mock('normalizer')
+    mock_normalizer.expects(:normalize).once.returns([normalized_result])
+    NormalizeTimdexResults.expects(:new).once.returns(mock_normalizer)
+
+    2.times do
+      get '/results?q=test&tab=timdex'
+      assert_response :success
+      assert_select '.record-title', text: /Cached TIMDEX Document Title/
     end
   end
 
@@ -1042,6 +1504,41 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     refute_select '.primo-continuation'
   end
 
+  test 'all tab final capped load more batch appends only unseen records' do
+    ClimateControl.modify(FEATURE_PAGINATION_LOAD_MORE: 'true', RESULTS_PER_PAGE: '20',
+                          LOAD_MORE_MAX_RESULTS: '45', ALL_TAB_SCORER: 'zipper') do
+      records = (1..50).map do |i|
+        { api: 'primo', identifier: "p#{i}", title: "Record #{i}", creators: [], links: [] }
+      end
+      SearchController.any_instance.expects(:fetch_primo_data).once.returns({ results: records, hits: 100 })
+      SearchController.any_instance.expects(:fetch_timdex_data).once.returns({ results: [], hits: 0 })
+
+      get '/results?q=capped-batch&tab=all'
+      assert_response :success
+      seen_ids = css_select('#results-list .result').map { |node| node['data-record-id'] }
+      assert_equal 20, seen_ids.length
+      next_url = css_select('#load-more a').first['href']
+
+      [20, 5].each do |expected_count|
+        get next_url, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+        assert_response :success
+        document = Nokogiri::HTML(response.body)
+        appended_ids = document.css('turbo-stream[action="append"] .result').map { |node| node['data-record-id'] }
+        assert_equal expected_count, appended_ids.length
+        assert_empty seen_ids & appended_ids
+        seen_ids.concat(appended_ids)
+        next_url = document.at_css('#load-more a')&.[]('href')
+      end
+
+      assert_equal 45, seen_ids.length
+      assert_nil next_url
+
+      get '/results?q=capped-batch&tab=all&load_count=45&load_previous_count=40'
+      assert_response :success
+      assert_select '#results-list .result', count: 45
+    end
+  end
+
   test 'all tab displays results from both TIMDEX and Primo' do
     mock_primo_search_all_tab
     mock_timdex_search_all_tab
@@ -1086,7 +1583,7 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_select '.tab-navigation .tab-link.active', text: 'All'
   end
 
-  test 'all tab shows primo continuation when page exceeds API offset limit' do
+  test 'all tab shows TIMDEX results and pagination alongside Primo continuation' do
     sample_doc = {
       api: 'primo',
       title: 'Sample Primo Document Title',
@@ -1099,20 +1596,45 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       links: [{ 'kind' => 'full record', 'url' => 'https://example.com/record' }]
     }
     mock_primo = mock('primo_search')
-    mock_primo.expects(:search).returns({ 'docs' => [sample_doc], 'info' => { 'total' => 1 } }).at_least_once
+    mock_primo.expects(:search).with('test', 1, 0).once.returns(
+      { 'docs' => [sample_doc], 'info' => { 'total' => 10000 } }
+    )
     PrimoSearch.expects(:new).returns(mock_primo).at_least_once
     mock_normalizer = mock('normalizer')
     mock_normalizer.stubs(:frbr_group_ids).returns([])
     mock_normalizer.expects(:normalize).returns([sample_doc]).at_least_once
     NormalizePrimoResults.expects(:new).returns(mock_normalizer).at_least_once
-    mock_timdex_search_success
+    SearchController.any_instance.stubs(:fetch_timdex_data).returns(
+      { results: [{ api: 'timdex', identifier: 't1', title: 'TIMDEX result' }], hits: 1500 }
+    )
 
-    get '/results?q=test&tab=all&page=49'
+    get '/results?q=test&tab=all&page=100'
     assert_response :success
 
-    # Should show primo continuation partial
     assert_select '.primo-continuation', count: 1
-    assert_select '.primo-continuation h2', text: /You have reached the limit for these search results/
+    assert_select '.primo-continuation h2', text: /limit for Articles, Books & More results/
+    assert_select '#results-list .result.use', minimum: 1
+    assert_select '.pagination-container .current', text: /1981 - 2000 of 11,500/
+    assert_select '.pagination-container .next a[href*="page=101"]'
+
+    get '/results?q=test&tab=all&page=123'
+    assert_response :success
+    assert_select '#results-list .result.use', minimum: 1
+    assert_select '.pagination-container .current', text: /2441 - 2460 of 11,500/
+    assert_select '.pagination-container .next a', count: 0
+  end
+
+  test 'naturally exhausted Primo results do not show an API limit notice on all tab' do
+    mock_primo_search_all_tab
+    SearchController.any_instance.stubs(:fetch_timdex_data).returns(
+      { results: [{ api: 'timdex', identifier: 't1', title: 'TIMDEX result' }], hits: 1500 }
+    )
+
+    get '/results?q=test&tab=all&page=50'
+
+    assert_response :success
+    assert_select '#results-list .result.use', minimum: 1
+    assert_select '.primo-continuation', count: 0
   end
 
   test 'all tab pagination displays combined hit counts' do

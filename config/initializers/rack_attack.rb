@@ -7,7 +7,14 @@ class Rack::Attack
   TURNSTILE_CHALLENGE_THROTTLES = %w[results/global req/ip/results req/ip].freeze
 
   # List of paths that are cheap/free to serve and should not count against the per-IP throttle limit.
-  REQ_IP_FREE_PATHS = %w[/ /assets /turnstile /about /about-natural-language-search].freeze
+  # This includes fulfillment content-loader endpoints (libkey, browzine, oa_work, almasru): each
+  # results page automatically fires one of these per result, so counting them against the general
+  # per-IP quota causes normal browsing to trip the throttle. A throttled content-loader fetch is
+  # especially disruptive since it's plain JS `fetch()`, not a browser navigation - it silently
+  # follows the 302 redirect to the Turnstile challenge page and injects that whole HTML document
+  # into a small results snippet, rendering Turnstile "oddly" inline in the results list.
+  REQ_IP_FREE_PATHS = %w[/ /assets /turnstile /about /about-natural-language-search /libkey /browzine /oa_work
+                        /almasru].freeze
 
   # Returns true when the request includes the plain Turnstile grace cookie set after
   # a successful challenge, and that cookie has a valid Rails signature with a future

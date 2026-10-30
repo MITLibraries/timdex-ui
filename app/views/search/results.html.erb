@@ -11,7 +11,7 @@
   <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
     <div id="results-section" data-matomo-seen="Search, Search Performed, Tab: {{getActiveTabName}}">
 
-      <% if @show_primo_continuation %>
+      <% if @show_primo_continuation && @results.blank? %>
 
         <%= render partial: 'search/primo_continuation' %>
 
@@ -24,6 +24,7 @@
         </div>
         <div id="results-layout-wrapper">
           <main id="results">
+            <%= render partial: 'search/primo_continuation' if @show_primo_continuation %>
             <ol id="results-list" class="results-list use" data-matomo-click="Results, Link Engaged, Link: {{getElementText}}; Tab: {{getActiveTabName}}" start="<%= @pagination_load_more_enabled ? 1 : (@pagination&.[](:start) || 1) %>">
               <%= render partial: 'search/result_item', collection: @results, as: :result %>
             </ol>

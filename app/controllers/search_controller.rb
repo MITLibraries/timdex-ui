@@ -1,4 +1,10 @@
 class SearchController < ApplicationController
+  # Increment this namespace when the normalized search result payload changes in a way that
+  # makes existing cached values incomplete or incompatible, such as adding required fields,
+  # removing/renaming fields, changing key types, or changing error/continuation metadata shape.
+  SEARCH_RESULTS_CACHE_NAMESPACE = 'normalized-search-results/v2'.freeze
+  SEARCH_RESULTS_CACHE_TTL = 12.hours
+
   before_action :validate_q!, only: %i[results]
   before_action :authorized_request?, only: %i[results]
   before_action :set_active_tab, only: %i[results]
@@ -86,19 +92,15 @@ class SearchController < ApplicationController
 
   def load_geodata_results
     query = QueryBuilder.new(@enhanced_query).query
+    cached = cached_timdex_data(query, include_filters: true)
 
-    response = query_timdex(query)
-
-    # Handle errors
-    @errors = extract_errors(response)
+    @errors = cached[:errors]
     return unless @errors.nil?
 
-    hits = response.dig(:data, 'search', 'hits') || 0
-    @timdex_result_count = hits
-    @pagination = Analyzer.new(@enhanced_query, hits, :timdex).pagination
-    raw_results = extract_results(response)
-    @results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
-    @filters = extract_filters(response)
+    @timdex_result_count = cached[:hits]
+    @pagination = Analyzer.new(@enhanced_query, cached[:hits], :timdex).pagination
+    @results = cached[:results]
+    @filters = cached[:filters]
     return unless @pagination_load_more_enabled
 
     @append_results = @results
@@ -106,7 +108,8 @@ class SearchController < ApplicationController
   end
 
   def load_primo_results
-    data = fetch_primo_data
+    options = @pagination_load_more_enabled && !request.format.json? ? source_load_more_options : {}
+    data = full_page_load_more_reload? ? fetch_primo_data_through_current_page : fetch_primo_data(**options)
     @results = data[:results]
     @pagination = data[:pagination]
     @errors = data[:errors]
@@ -119,7 +122,8 @@ class SearchController < ApplicationController
   end
 
   def load_timdex_results
-    data = fetch_timdex_data
+    options = @pagination_load_more_enabled && !request.format.json? ? source_load_more_options : {}
+    data = full_page_load_more_reload? ? fetch_timdex_data_through_current_page : fetch_timdex_data(**options)
     @results = data[:results]
     @pagination = data[:pagination]
     @errors = data[:errors]
@@ -128,6 +132,78 @@ class SearchController < ApplicationController
 
     @append_results = @results
     @load_more = load_more_from_pagination(@pagination)
+  end
+
+  # Source-specific tabs fetch only a single page/offset of results per request; the load-more UI
+  # relies on Turbo Stream requests to append each new batch onto results already present in the DOM.
+  # If a load-more continuation URL (`page` > 1) is ever rendered as a full HTML document instead -
+  # e.g. after a bot-detection redirect to Turnstile bounces the user back mid-load-more - there is no
+  # existing DOM to append to, so only that single page would be shown instead of everything loaded
+  # so far. Detect that case so we can reconstruct the complete cumulative result list instead.
+  def full_page_load_more_reload?
+    return false unless @pagination_load_more_enabled
+    return false unless request.format == Mime[:html]
+
+    (@enhanced_query[:page] || 1).to_i > 1
+  end
+
+  # Reconstructs the full cumulative Primo result list for a load-more continuation page rendered as a
+  # full HTML document, by re-fetching (and concatenating) every earlier page. Earlier pages are
+  # cheap to re-fetch since they're already cache-backed by `cached_primo_data`.
+  def fetch_primo_data_through_current_page
+    per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+    combined_results = []
+    last_data = nil
+    last_result_page = 1
+    last_result_hits = nil
+
+    (1..bounded_source_page).each do |page|
+      last_data = fetch_primo_data(offset: (page - 1) * per_page, per_page: source_page_size(page))
+      combined_results.concat(last_data[:results])
+      if last_data[:results].any?
+        last_result_page = page
+        last_result_hits = last_data[:hits]
+      end
+      break if last_data[:errors].present? || last_data[:show_continuation]
+      break if last_data[:results].empty? || page * per_page >= last_data[:hits].to_i
+    end
+
+    return last_data.merge(results: combined_results) if last_data[:errors].present?
+
+    hits = last_result_hits || last_data[:hits]
+    pagination = Analyzer.new(@enhanced_query.merge(page: last_result_page), hits, :primo,
+                              nil, per_page).pagination
+    pagination[:end] = combined_results.length
+    if last_data[:show_continuation] || last_data[:results].empty? || combined_results.length >= max_load_count
+      pagination[:next] = nil
+    end
+    last_data.merge(results: combined_results, pagination: pagination, hits: hits)
+  end
+
+  # Reconstructs the full cumulative TIMDEX result list for a load-more continuation page rendered as
+  # a full HTML document. See `fetch_primo_data_through_current_page` for why this is necessary.
+  def fetch_timdex_data_through_current_page
+    per_page = ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+    combined_results = []
+    last_data = nil
+    last_result_page = 1
+
+    (1..bounded_source_page).each do |page|
+      last_data = fetch_timdex_data(offset: (page - 1) * per_page, per_page: source_page_size(page))
+      combined_results.concat(last_data[:results])
+      last_result_page = page if last_data[:results].any?
+      break if last_data[:errors].present? || last_data[:results].empty? || page * per_page >= last_data[:hits].to_i
+    end
+
+    return last_data.merge(results: combined_results) if last_data[:errors].present?
+
+    # A stale continuation URL may be beyond the final page. Describe the
+    # results we actually reconstructed, and stop navigation after an empty page.
+    pagination = Analyzer.new(@enhanced_query.merge(page: last_result_page), last_data[:hits], :timdex,
+                              nil, per_page).pagination
+    pagination[:end] = combined_results.length
+    pagination[:next] = nil if last_data[:results].empty? || combined_results.length >= max_load_count
+    last_data.merge(results: combined_results, pagination: pagination)
   end
 
   def load_all_results
@@ -141,8 +217,9 @@ class SearchController < ApplicationController
     )
     if @pagination_load_more_enabled
       display_count = sanitized_load_count
-      stable_count = [display_count - load_more_batch_size, 0].max
+      stable_count = previous_load_count(display_count)
       data = merge_service.fetch(display_count: display_count, stable_count: stable_count)
+      collect_frbr_group_ids(data[:frbr_group_ids])
 
       @results = data[:results]
       @append_results = data[:append_results]
@@ -219,10 +296,17 @@ class SearchController < ApplicationController
   def load_more_from_pagination(pagination)
     return nil if pagination.blank?
 
+    next_page = pagination[:next]
+    display_count = pagination[:end]
+    unless Feature.enabled?(:geodata)
+      display_count = [display_count, max_load_count].min
+      next_page = nil if next_page && (next_page - 1) * load_more_batch_size >= max_load_count
+    end
+
     {
-      display_count: pagination[:end],
-      next_page: pagination[:next],
-      has_more: pagination[:next].present?,
+      display_count: display_count,
+      next_page: next_page,
+      has_more: next_page.present?,
       total_hits: pagination[:hits]
     }
   end
@@ -239,6 +323,30 @@ class SearchController < ApplicationController
 
   def load_more_batch_size
     ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+  end
+
+  # Bound both the reconstruction work and the records returned by the last batch.
+  def bounded_source_page
+    max_page = (max_load_count.to_f / load_more_batch_size).ceil
+    (@enhanced_query[:page] || 1).to_i.clamp(1, max_page)
+  end
+
+  def source_page_size(page)
+    [load_more_batch_size, max_load_count - (page - 1) * load_more_batch_size].min
+  end
+
+  def source_load_more_options
+    @enhanced_query[:page] = bounded_source_page
+    { offset: (@enhanced_query[:page] - 1) * load_more_batch_size,
+      per_page: source_page_size(@enhanced_query[:page]) }
+  end
+
+  # Continuation links carry the actual previous count because the final batch
+  # may be smaller than RESULTS_PER_PAGE when capped by LOAD_MORE_MAX_RESULTS.
+  def previous_load_count(display_count)
+    previous = params[:load_previous_count]
+    previous = display_count - load_more_batch_size if previous.nil?
+    previous.to_i.clamp(0, display_count)
   end
 
   def max_load_count
@@ -260,13 +368,44 @@ class SearchController < ApplicationController
       return { results: [], pagination: {}, errors: nil, show_continuation: true, hits: 0 }
     end
 
-    primo_response = query_primo(per_page, offset)
-    hits = primo_response.dig('info', 'total') || 0
-    normalizer = NormalizePrimoResults.new(primo_response, @enhanced_query[:q])
-    results = normalizer.normalize
-    collect_frbr_group_ids(normalizer.frbr_group_ids)
-    pagination = Analyzer.new(@enhanced_query, hits, :primo).pagination
+    cached = cached_primo_data(per_page, offset)
+    collect_frbr_group_ids(cached[:frbr_group_ids])
+    pagination = Analyzer.new(@enhanced_query, cached[:hits], :primo).pagination
 
+    cached.merge(pagination: pagination)
+  rescue StandardError => e
+    { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false, hits: 0 }
+  end
+
+  def fetch_timdex_data(offset: nil, per_page: nil)
+    query = QueryBuilder.new(@enhanced_query).query
+    query['from'] = offset.to_s if offset
+    query['perPage'] = per_page || ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+    query['fulltext'] = true if Feature.enabled?(:timdex_fulltext)
+
+    cached = cached_timdex_data(query)
+    return cached.merge(pagination: {}) if cached[:errors]
+
+    pagination = Analyzer.new(@enhanced_query, cached[:hits], :timdex).pagination
+    cached.merge(pagination: pagination)
+  end
+
+  def cached_primo_data(per_page, offset)
+    cache_key = CacheKeyGenerator.call(
+      @enhanced_query.except(:page).merge(tab: @active_tab, per_page: per_page, offset: offset)
+    )
+
+    Rails.cache.fetch("#{SEARCH_RESULTS_CACHE_NAMESPACE}/#{cache_key}/primo", expires_in: SEARCH_RESULTS_CACHE_TTL) do
+      primo_response = query_primo(per_page, offset)
+      hits = primo_response.dig('info', 'total') || 0
+      normalizer = NormalizePrimoResults.new(primo_response, @enhanced_query[:q])
+      results = normalizer.normalize
+
+      build_primo_cache_payload(primo_response, results, hits, offset).merge(frbr_group_ids: normalizer.frbr_group_ids)
+    end
+  end
+
+  def build_primo_cache_payload(primo_response, results, hits, offset)
     # Handle empty results from Primo API. Sometimes Primo will return no results at a given offset,
     # despite claiming in the initial query that more are available. This happens randomly and
     # seemingly for no reason (well below the recommended offset of 2,000). While the bug also
@@ -285,29 +424,29 @@ class SearchController < ApplicationController
       end
     end
 
-    { results: results, pagination: pagination, errors: errors, show_continuation: show_continuation,
-      hits: hits }
-  rescue StandardError => e
-    { results: [], pagination: {}, errors: handle_primo_errors(e), show_continuation: false, hits: 0 }
+    { results: results, errors: errors, show_continuation: show_continuation, hits: hits }
   end
 
-  def fetch_timdex_data(offset: nil, per_page: nil)
-    query = QueryBuilder.new(@enhanced_query).query
-    query['from'] = offset.to_s if offset
-    query['perPage'] = per_page || ENV.fetch('RESULTS_PER_PAGE', '20').to_i
-    query['fulltext'] = true if Feature.enabled?(:timdex_fulltext)
+  def cached_timdex_data(query, include_filters: false)
+    prepare_timdex_query(query)
+    cache_query = include_filters ? query.merge(active_filters: active_filters) : query
+    cache_key = CacheKeyGenerator.call(cache_query)
 
-    response = query_timdex(query)
-    errors = extract_errors(response)
+    Rails.cache.fetch("#{SEARCH_RESULTS_CACHE_NAMESPACE}/#{cache_key}/#{@active_tab}",
+                      expires_in: SEARCH_RESULTS_CACHE_TTL) do
+      response = serialize_timdex_response(execute_timdex_query(query))
+      errors = extract_errors(response)
 
-    if errors.nil?
-      hits = response.dig(:data, 'search', 'hits') || 0
-      pagination = Analyzer.new(@enhanced_query, hits, :timdex).pagination
-      raw_results = extract_results(response)
-      results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
-      { results: results, pagination: pagination, errors: nil, hits: hits }
-    else
-      { results: [], pagination: {}, errors: errors, hits: 0 }
+      if errors.nil?
+        hits = response.dig(:data, 'search', 'hits') || 0
+        raw_results = extract_results(response)
+        results = NormalizeTimdexResults.new(raw_results, @enhanced_query[:q]).normalize
+        payload = { results: results, errors: nil, hits: hits }
+        payload[:filters] = extract_filters(response) if include_filters
+        payload
+      else
+        { results: [], errors: errors, hits: 0 }
+      end
     end
   end
 
@@ -320,10 +459,19 @@ class SearchController < ApplicationController
   end
 
   def active_filters
-    ENV.fetch('ACTIVE_FILTERS', '').split(',').map(&:strip)
+    ENV.fetch('ACTIVE_FILTERS', '').split(',').map(&:strip).reject(&:blank?)
   end
 
-  def query_timdex(query)
+  def query_primo(per_page, offset)
+    Rails.logger.debug do
+      "External Primo search request: tab=#{@active_tab}, offset=#{offset}, per_page=#{per_page}"
+    end
+
+    primo_search = PrimoSearch.new(@active_tab)
+    primo_search.search(@enhanced_query[:q], per_page, offset)
+  end
+
+  def prepare_timdex_query(query)
     query[:sourceFilter] = ['MIT Libraries Website', 'LibGuides'] if @active_tab == 'website'
     query[:sourceFilter] = ['MIT ArchivesSpace'] if @active_tab == 'aspace'
     query[:sourceFilter] = ['MIT Alma'] if @active_tab == 'timdex_alma'
@@ -333,35 +481,28 @@ class SearchController < ApplicationController
     query[:sourceFilter] = ['Digital Collections'] if @active_tab == 'digital_collections'
     query[:useGlobalScoring] = Feature.enabled?(:global_scoring)
 
-    # We generate unique cache keys to avoid naming collisions.
-    cache_key = CacheKeyGenerator.call(query)
+    query
+  end
 
-    # Builder hands off to wrapper which returns raw results here.
-    Rails.cache.fetch("#{cache_key}/#{@active_tab}", expires_in: 12.hours) do
-      raw = if Feature.enabled?(:geodata)
-              execute_geospatial_query(query)
-            else
-              TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
-            end
+  def execute_timdex_query(query)
+    Rails.logger.debug do
+      "External TIMDEX search request: tab=#{@active_tab}, from=#{query['from'] || 0}, per_page=#{query['perPage']}"
+    end
 
-      # The response type is a GraphQL::Client::Response, which is not directly serializable, so we
-      # convert it to a hash.
-      {
-        data: raw.data.to_h,
-        errors: raw.errors.details.to_h
-      }
+    if Feature.enabled?(:geodata)
+      execute_geospatial_query(query)
+    else
+      TimdexBase::Client.query(TimdexSearch::BaseQuery, variables: query)
     end
   end
 
-  def query_primo(per_page, offset)
-    # We generate unique cache keys to avoid naming collisions.
-    # Include per_page and offset in the cache key to ensure pagination works correctly.
-    cache_key = CacheKeyGenerator.call(@enhanced_query.merge(per_page: per_page, offset: offset))
-
-    Rails.cache.fetch("#{cache_key}/primo", expires_in: 12.hours) do
-      primo_search = PrimoSearch.new(@enhanced_query[:tab])
-      primo_search.search(@enhanced_query[:q], per_page, offset)
-    end
+  def serialize_timdex_response(raw)
+    # The response type is a GraphQL::Client::Response, which is not directly serializable, so we
+    # convert it to a hash.
+    {
+      data: raw.data.to_h,
+      errors: raw.errors.details.to_h
+    }
   end
 
   def execute_geospatial_query(query)

@@ -41,15 +41,11 @@ module PaginationHelper
 
   # Calculate how many results remain after the current end index
   def remaining_results
-    @pagination[:hits] - @pagination[:end]
+    (@pagination[:accessible_hits] || @pagination[:hits]) - @pagination[:end]
   end
 
   def next_page_label
-    label = if (@pagination[:end] + @pagination[:per_page]) < @pagination[:hits]
-              @pagination[:per_page]
-            else
-              remaining_results
-            end
+    label = [@pagination[:per_page], remaining_results].min
 
     "Next #{label} results"
   end

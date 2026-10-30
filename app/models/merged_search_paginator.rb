@@ -12,9 +12,22 @@ class MergedSearchPaginator
     @per_page = per_page
   end
 
+  # Primo reports more hits than its API can page through. Keep the reported
+  # total, but only reserve merge slots for records that can actually be fetched.
+  def accessible_primo_total
+    [primo_total, Analyzer::PRIMO_MAX_OFFSET].min
+  end
+
+  def primo_limit_reached?
+    return false if primo_total <= accessible_primo_total
+
+    offset = api_offsets.first
+    offset.nil? || offset + merge_plan.count(:primo) >= accessible_primo_total
+  end
+
   # Returns an array of :primo and :timdex symbols for the merged result order on this page.
   def merge_plan
-    total_results = primo_total + timdex_total
+    total_results = accessible_primo_total + timdex_total
     start_index = (current_page - 1) * per_page
     end_index = [start_index + per_page, total_results].min
     plan = []
@@ -22,7 +35,7 @@ class MergedSearchPaginator
     timdex_used = 0
     i = 0
     while i < end_index
-      if primo_used < primo_total && (timdex_used >= timdex_total || primo_used <= timdex_used)
+      if primo_used < accessible_primo_total && (timdex_used >= timdex_total || primo_used <= timdex_used)
         source = :primo
         primo_used += 1
       elsif timdex_used < timdex_total
@@ -43,7 +56,7 @@ class MergedSearchPaginator
     timdex_offset = 0
     i = 0
     while i < start_index
-      if primo_offset < primo_total && (timdex_offset >= timdex_total || primo_offset <= timdex_offset)
+      if primo_offset < accessible_primo_total && (timdex_offset >= timdex_total || primo_offset <= timdex_offset)
         primo_offset += 1
       elsif timdex_offset < timdex_total
         timdex_offset += 1
@@ -53,7 +66,7 @@ class MergedSearchPaginator
       i += 1
     end
 
-    primo_offset = nil if primo_offset >= primo_total
+    primo_offset = nil if primo_offset >= accessible_primo_total
     timdex_offset = nil if timdex_offset >= timdex_total
 
     [primo_offset, timdex_offset]

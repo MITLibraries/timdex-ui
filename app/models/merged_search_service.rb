@@ -11,6 +11,7 @@
 # or `page`/`per_page` (legacy).
 class MergedSearchService
   TTL = 12.hours
+  LOAD_MORE_CACHE_NAMESPACE = 'all-tab-load-more/v3'.freeze
 
   # Initialize a new MergedSearchService.
   #
@@ -78,10 +79,11 @@ class MergedSearchService
     {
       results: ordered_results,
       append_results: append_results,
+      frbr_group_ids: state[:frbr_group_ids],
       errors: state[:errors],
       load_more: {
         display_count: display_count,
-        next_count: display_count + visible_batch_size,
+        next_count: [display_count + visible_batch_size, max_display_count].min,
         has_more: has_more?(state, display_count),
         total_hits: total_hits
       },
@@ -133,7 +135,7 @@ class MergedSearchService
     paginator = build_paginator_from_totals_legacy(totals, current_page, per_page)
     primo_data, timdex_data = fetch_all_tab_page_chunks_legacy(paginator)
 
-    assemble_all_tab_result_legacy(paginator, primo_data, timdex_data, current_page, per_page, deeper: true)
+    assemble_all_tab_result_legacy(paginator, primo_data, timdex_data, current_page, per_page)
   end
 
   def totals_cache_key_legacy
@@ -186,22 +188,19 @@ class MergedSearchService
     [primo_data, timdex_data]
   end
 
-  def assemble_all_tab_result_legacy(paginator, primo_data, timdex_data, current_page, per_page, deeper: false)
-    primo_total = primo_data[:hits] || 0
-    timdex_total = timdex_data[:hits] || 0
+  def assemble_all_tab_result_legacy(paginator, primo_data, timdex_data, current_page, per_page)
+    primo_total = paginator.primo_total
+    timdex_total = paginator.timdex_total
 
     merged = merge_results_legacy(paginator, primo_data[:results] || [], timdex_data[:results] || [])
     errors = combine_errors(primo_data[:errors], timdex_data[:errors])
-    pagination = Analyzer.new(@enhanced_query, timdex_total, :all, primo_total, per_page).pagination
+    pagination = Analyzer.new(@enhanced_query.merge(page: current_page), timdex_total, :all,
+                              paginator.accessible_primo_total, per_page).pagination
+    # Navigation stops at the accessible total, while hit counts describe all matches.
+    pagination[:hits] = primo_total + timdex_total
+    pagination[:accessible_hits] = paginator.accessible_primo_total + timdex_total
 
-    show_primo_continuation = if deeper
-                                primo_api_offset, = paginator.api_offsets
-                                primo_data[:show_continuation] ||
-                                  (primo_api_offset && primo_api_offset >= Analyzer::PRIMO_MAX_OFFSET) ||
-                                  (primo_api_offset.nil? && ((current_page - 1) * per_page) >= Analyzer::PRIMO_MAX_OFFSET)
-                              else
-                                primo_data[:show_continuation]
-                              end
+    show_primo_continuation = primo_data[:show_continuation] || paginator.primo_limit_reached?
 
     { results: merged, errors: errors, pagination: pagination, show_primo_continuation: show_primo_continuation,
       primo_hits: primo_total, timdex_hits: timdex_total }
@@ -232,7 +231,10 @@ class MergedSearchService
   def empty_state
     {
       primo_results: [],
+      frbr_group_ids: [],
       timdex_results: [],
+      primo_offset: 0,
+      timdex_offset: 0,
       ordered_keys: [],
       primo_hits: 0,
       timdex_hits: 0,
@@ -258,12 +260,11 @@ class MergedSearchService
   end
 
   # Fetches the next chunk from each source that can still produce records. The
-  # source offset is simply the number of normalized records already cached for
-  # that source, which preserves each API's native offset semantics while the
-  # service manages display order separately.
+  # source offset tracks rows consumed from the API independently of the
+  # deduplicated normalized records retained for reranking.
   def fetch_next_source_chunks(state, per_source:)
-    primo_offset = state[:primo_results].length
-    timdex_offset = state[:timdex_results].length
+    primo_offset = state.fetch(:primo_offset, state[:primo_results].length)
+    timdex_offset = state.fetch(:timdex_offset, state[:timdex_results].length)
 
     primo_data, timdex_data = parallel_fetch(
       primo_offset: state[:primo_exhausted] || primo_offset >= Analyzer::PRIMO_MAX_OFFSET ? nil : primo_offset,
@@ -290,7 +291,12 @@ class MergedSearchService
     incoming = Array(data[:results])
     previous_length = state[results_key].length
 
+    if source == :primo
+      state[:frbr_group_ids] = (state[:frbr_group_ids] + Array(data[:frbr_group_ids])).uniq
+    end
+
     state[hits_key] = data[:hits].to_i
+    state[:"#{source}_offset"] = requested_offset + incoming.length
     state[results_key] = dedupe_records(state[results_key] + incoming)
 
     if incoming.any? && state[results_key].length == previous_length
@@ -387,11 +393,15 @@ class MergedSearchService
       boost_sources: ENV.fetch('ALL_TAB_BOOST_SOURCES', ''),
       per_source: per_source.to_i
     )
-    "#{CacheKeyGenerator.call(query)}/all-tab-load-more"
+    "#{CacheKeyGenerator.call(query)}/#{LOAD_MORE_CACHE_NAMESPACE}"
   end
 
   def visible_batch_size
     ENV.fetch('RESULTS_PER_PAGE', '20').to_i
+  end
+
+  def max_display_count
+    ENV.fetch('LOAD_MORE_MAX_RESULTS', '200').to_i
   end
 
   def any_results?(state)
@@ -403,6 +413,8 @@ class MergedSearchService
   end
 
   def has_more?(state, display_count)
+    return false if display_count >= max_display_count
+
     state[:ordered_keys].length > display_count || sources_available?(state)
   end
 
