@@ -716,15 +716,17 @@ class SearchController < ApplicationController
   # format_tokens_defined? confirms whether a format token is defined in both the environment and query params.
   # Returns a boolean.
   def format_tokens_defined?
-    return true if ENV.fetch('FORMAT_TOKEN', '').present? && params.key?(:format_token)
+    return false unless ENV.fetch('FORMAT_TOKEN', '').present?
 
-    false
+    request.headers.key?('HTTP_FORMAT_TOKEN') || params.key?(:format_token)
   end
 
   # valid_token? confirms whether the token received from the user matches the one defined in the environment. Returns
   # a boolean.
   def valid_token?
-    return true if ActiveSupport::SecurityUtils.secure_compare(params[:format_token], ENV.fetch('FORMAT_TOKEN', ''))
+    candidate = request.headers['HTTP_FORMAT_TOKEN'].presence || params[:format_token]
+
+    return true if ActiveSupport::SecurityUtils.secure_compare(candidate, ENV.fetch('FORMAT_TOKEN', ''))
 
     false
   end

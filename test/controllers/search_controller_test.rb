@@ -1888,12 +1888,27 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
            'Expected tuning parameters to affect results, but counts and title orders are identical.')
   end
 
-  test 'results can be returned in JSON format when env is set and valid token is provided' do
+  test 'results can be returned in JSON format when env is set and valid token is provided via param' do
     secret_value = 'sooper_sekret'
     quepid_ua = 'Quepid/1.0 (Web Scraper)'
     ClimateControl.modify FORMAT_TOKEN: secret_value do
       mock_timdex_search_with_hits(10)
       get "/results?q=test&format=json&format_token=#{secret_value}", headers: { 'HTTP_USER_AGENT' => quepid_ua }
+      assert_response :success
+      assert_equal 'application/json; charset=utf-8', response.content_type
+      response_json = JSON.parse(response.body)
+      assert_equal %w[results hits errors], response_json.keys
+      assert_instance_of Array, response_json['results']
+      assert_instance_of Integer, response_json['hits']
+    end
+  end
+
+  test 'results can be returned in JSON format when env is set and valid token is provided via header' do
+    secret_value = 'sooper_sekret'
+    quepid_ua = 'Quepid/1.0 (Web Scraper)'
+    ClimateControl.modify FORMAT_TOKEN: secret_value do
+      mock_timdex_search_with_hits(10)
+      get "/results?q=test&format=json", headers: { 'HTTP_USER_AGENT' => quepid_ua, 'HTTP_FORMAT_TOKEN' => secret_value }
       assert_response :success
       assert_equal 'application/json; charset=utf-8', response.content_type
       response_json = JSON.parse(response.body)
@@ -1971,7 +1986,12 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   test 'requests for JSON results when env var is not set generate an unauthorized error' do
     secret_value = 'irrelevant'
     ClimateControl.modify FORMAT_TOKEN: '' do
+      # via param
       get "/results?q=test&format=json&format_token=#{secret_value}"
+      assert_response :unauthorized
+
+      # via headers
+      get '/results?q=test&format=json', headers: { 'HTTP_FORMAT_TOKEN' => secret_value }
       assert_response :unauthorized
     end
   end
@@ -1983,7 +2003,12 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     refute_equal secret_value, wrong_secret
 
     ClimateControl.modify FORMAT_TOKEN: secret_value do
+      # via param
       get "/results?q=test&format=json&format_token=#{wrong_secret}"
+      assert_response :unauthorized
+
+      # via headers
+      get '/results?q=test&format=json', headers: { 'HTTP_FORMAT_TOKEN' => wrong_secret }
       assert_response :unauthorized
     end
   end
