@@ -1942,13 +1942,29 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'results can be returned in JSON format when env is set and valid token is provided even with bot challenge' do
+  test 'results returned in JSON format when valid token is provided via querystring even with bot challenge' do
     secret_value = 'sooper_sekret'
     quepid_ua = 'Quepid/1.0 (Web Scraper)'
 
     ClimateControl.modify(FORMAT_TOKEN: secret_value, FEATURE_BOT_DETECTION: 'true') do
       mock_timdex_search_with_hits(10)
       get "/results?q=test&format=json&format_token=#{secret_value}", headers: { 'HTTP_USER_AGENT' => quepid_ua }
+      assert_response :success
+      assert_equal 'application/json; charset=utf-8', response.content_type
+      response_json = JSON.parse(response.body)
+      assert_equal %w[results hits errors], response_json.keys
+      assert_instance_of Array, response_json['results']
+      assert_instance_of Integer, response_json['hits']
+    end
+  end
+
+  test 'results returned in JSON format when valid token is provided via headers even with bot challenge' do
+    secret_value = 'sooper_sekret'
+    quepid_ua = 'Quepid/1.0 (Web Scraper)'
+
+    ClimateControl.modify(FORMAT_TOKEN: secret_value, FEATURE_BOT_DETECTION: 'true') do
+      mock_timdex_search_with_hits(10)
+      get "/results?q=test&format=json", headers: { 'HTTP_FORMAT_TOKEN' => secret_value, 'HTTP_USER_AGENT' => quepid_ua }
       assert_response :success
       assert_equal 'application/json; charset=utf-8', response.content_type
       response_json = JSON.parse(response.body)
@@ -1983,6 +1999,20 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
   end
 
   # We don't mock anything here because the error prevents any external lookups
+  test 'requests for JSON results with an empty token generate an unauthorized error' do
+    secret_value = 'sooper_sekret'
+    ClimateControl.modify FORMAT_TOKEN: secret_value do
+      get '/results?q=test&format=json', headers: { 'HTTP_FORMAT_TOKEN' => '' }
+
+      assert_response :unauthorized
+
+      get '/results?q=test&format=json&format_token='
+
+      assert_response :unauthorized
+    end
+  end
+
+  # We don't mock anything here because the error prevents any external lookups
   test 'requests for JSON results when env var is not set generate an unauthorized error' do
     secret_value = 'irrelevant'
     ClimateControl.modify FORMAT_TOKEN: '' do
@@ -2010,6 +2040,23 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
       # via headers
       get '/results?q=test&format=json', headers: { 'HTTP_FORMAT_TOKEN' => wrong_secret }
       assert_response :unauthorized
+    end
+  end
+
+  test 'requests for JSON results assign precedence to request header over query params if both present' do
+    secret_value = 'sooper_sekret'
+    wrong_secret = 'something_else'
+    refute_equal secret_value, wrong_secret
+
+    ClimateControl.modify FORMAT_TOKEN: secret_value do
+      # wrong header, correct query params - results in an unauthorized request
+      get "/results?q=test&format=json&format_token=#{secret_value}", headers: { 'HTTP_FORMAT_TOKEN' => wrong_secret }
+      assert_response :unauthorized
+
+      # correct header, wrong query params - results in success. Mocked response because we just test for success.
+      mock_timdex_search_with_hits(10)
+      get "/results?q=test&format=json&format_token=#{wrong_secret}", headers: { 'HTTP_FORMAT_TOKEN' => secret_value }
+      assert_response :success
     end
   end
 

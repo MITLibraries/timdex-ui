@@ -718,7 +718,7 @@ class SearchController < ApplicationController
   def format_tokens_defined?
     return false unless ENV.fetch('FORMAT_TOKEN', '').present?
 
-    request.headers.key?('HTTP_FORMAT_TOKEN') || params.key?(:format_token)
+    request.headers['HTTP_FORMAT_TOKEN'].presence || params[:format_token].presence
   end
 
   # valid_token? confirms whether the token received from the user matches the one defined in the environment. Returns
