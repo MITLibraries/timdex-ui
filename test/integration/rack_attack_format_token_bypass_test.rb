@@ -31,6 +31,10 @@ class RackAttackFormatTokenBypassTest < ActionDispatch::IntegrationTest
     Rack::Request.new('QUERY_STRING' => params)
   end
 
+  def rack_request_with_format_token_via_header(token_value = nil)
+    Rack::Request.new('HTTP_FORMAT_TOKEN' => token_value)
+  end
+
   test 'valid_format_token? returns false when FORMAT_TOKEN env var is blank' do
     ClimateControl.modify(FORMAT_TOKEN: '') do
       refute Rack::Attack.valid_format_token?(rack_request_with_format_token('some-token'))
@@ -44,16 +48,48 @@ class RackAttackFormatTokenBypassTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'valid_format_token? returns false when token does not match' do
+  test 'valid_format_token? returns false when format_token header is missing' do
+    ClimateControl.modify(FORMAT_TOKEN: 'valid-token') do
+      refute Rack::Attack.valid_format_token?(rack_request_with_format_token_via_header)
+      refute Rack::Attack.valid_format_token?(rack_request_with_format_token_via_header(''))
+    end
+  end
+
+  test 'valid_format_token? returns false when token param does not match' do
     ClimateControl.modify(FORMAT_TOKEN: 'valid-token') do
       refute Rack::Attack.valid_format_token?(rack_request_with_format_token('wrong-token'))
       refute Rack::Attack.valid_format_token?(rack_request_with_format_token('tampered-token'))
     end
   end
 
-  test 'valid_format_token? returns true when token matches FORMAT_TOKEN env var' do
+  test 'valid_format_token? returns false when token header does not match' do
+    ClimateControl.modify(FORMAT_TOKEN: 'valid-token') do
+      refute Rack::Attack.valid_format_token?(rack_request_with_format_token_via_header('wrong-token'))
+      refute Rack::Attack.valid_format_token?(rack_request_with_format_token_via_header('tampered-token'))
+    end
+  end
+
+  test 'valid_format_token? returns true when querystring token matches FORMAT_TOKEN env var' do
     ClimateControl.modify(FORMAT_TOKEN: 'valid-token') do
       assert Rack::Attack.valid_format_token?(rack_request_with_format_token('valid-token'))
+    end
+  end
+
+  test 'valid_format_token? returns true when header token matches FORMAT_TOKEN env var' do
+    ClimateControl.modify(FORMAT_TOKEN: 'valid-token') do
+      assert Rack::Attack.valid_format_token?(rack_request_with_format_token_via_header('valid-token'))
+    end
+  end
+
+  test 'valid_format_token? assigns precedence to request header over query parameters' do
+    correct = 'valid-token'
+    incorrect = 'wrong-token'
+    ClimateControl.modify(FORMAT_TOKEN: correct) do
+      env = { 'HTTP_FORMAT_TOKEN' => correct, 'QUERY_STRING' => "format_token=#{incorrect}" }
+      assert Rack::Attack.valid_format_token?(Rack::Request.new(env))
+
+      env = { 'HTTP_FORMAT_TOKEN' => incorrect, 'QUERY_STRING' => "format_token=#{correct}" }
+      refute Rack::Attack.valid_format_token?(Rack::Request.new(env))
     end
   end
 
