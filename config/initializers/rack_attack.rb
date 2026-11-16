@@ -40,12 +40,13 @@ class Rack::Attack
   end
 
   # Returns true when the request includes a valid format token that matches the FORMAT_TOKEN environment variable.
-  # This allows programmatic API requests (with valid tokens) to bypass throttling.
+  # This supports tokens supplied via request header or via query parameter. This allows programmatic API requests (with
+  # valid tokens) to bypass throttling.
   def self.valid_format_token?(req)
     format_token_env = ENV.fetch('FORMAT_TOKEN', '')
     return false if format_token_env.blank?
 
-    format_token_param = req.params['format_token']
+    format_token_param = req.env['HTTP_FORMAT_TOKEN'].presence || req.params['format_token']
     return false if format_token_param.blank?
 
     ActiveSupport::SecurityUtils.secure_compare(format_token_param, format_token_env)
