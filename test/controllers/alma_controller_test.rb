@@ -43,7 +43,10 @@ class AlmaControllerTest < ActionDispatch::IntegrationTest
       get almasru_path(doc_id: needle)
 
       assert_response :success
-      assert_select 'div.availability a', { count: 1 }
+      assert_select 'div.availability a', { count: 1 } do |links|
+        link = URI.parse(links.first['href'])
+        assert_equal 'nde.getit.locations', link.fragment
+      end
       refute_includes response.body, 'and other locations'
     end
   end
