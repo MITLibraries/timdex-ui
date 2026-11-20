@@ -4,7 +4,7 @@
     <div class="availability">
       <% @physical_availability.each do |statement| %>
         <p><%= link_to(sanitize(statement, tags: %w[i strong], attributes: %w[class aria-hidden]),
-                    "#{full_record_link}#getit_link1_0",
+                    "#{full_record_link}#nde.getit.locations",
                     data: {content_piece: 'Availability Link' }) %></p>
       <% end %>
     </div>
